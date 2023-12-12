@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends libsqlite3-dev
 
 RUN groupadd -g 150 "skip"
-RUN useradd -m -g clamav -s /bin/false -u 150 "skip"
+RUN useradd -m -g skip -s /bin/false -u 150 "skip"
 USER 150
 
 # This should create the app dir as `node`.
