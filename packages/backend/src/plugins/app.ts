@@ -10,5 +10,6 @@ export default async function createPlugin(
     config: env.config,
     database: env.database,
     appPackageName: 'app',
+    disableConfigInjection: true, // TODO read from config file
   });
 }
