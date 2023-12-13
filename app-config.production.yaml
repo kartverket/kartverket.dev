@@ -1,6 +1,6 @@
 app:
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
-  baseUrl: http://localhost:7007
+  baseUrl: https://backstage.sandbox.skip.statkart.no
 
 backend:
   # Note that the baseUrl should be the URL that the browser and other clients
@@ -8,10 +8,12 @@ backend:
   # reachable not just from within the backend host, but from all of your
   # callers. When its value is "http://localhost:7007", it's strictly private
   # and can't be reached by others.
-  baseUrl: http://localhost:7007
+  baseUrl: https://backstage.sandbox.skip.statkart.no
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen: ':7007'
+  # Disable config injection, as this tries to write config - which does not work in a read-only container
+  disableConfigInjection: true
 
   # config options: https://node-postgres.com/api/client
   database:
