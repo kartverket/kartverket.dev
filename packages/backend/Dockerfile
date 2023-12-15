@@ -50,4 +50,7 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 COPY --chown=150:150 packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
-CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml"]
+# Make a local copy that we can use to copy from into a writable volume later
+RUN mkdir /dist && cp -r /app/packages/app/dist /dist
+
+CMD ["sh", "-c", "cp -r /dist /app/packages/app/dist && node packages/backend --config app-config.yaml --config app-config.production.yaml"]
