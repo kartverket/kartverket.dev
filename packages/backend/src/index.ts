@@ -50,6 +50,7 @@ function makeCreateEnv(config: Config) {
   });
 
   root.info(`Created UrlReader ${reader}`);
+  root.info(`Running with config ${config}`);
 
   return (plugin: string): PluginEnvironment => {
     const logger = root.child({ type: 'plugin', plugin });
