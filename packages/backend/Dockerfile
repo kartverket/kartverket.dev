@@ -51,6 +51,6 @@ COPY --chown=150:150 packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # Make a local copy that we can use to copy from into a writable volume later
-RUN mkdir /dist && cp -r /app/packages/app/dist /dist
+RUN mkdir /app/dist_copy && cp -r /app/packages/app/dist /app/dist_copy
 
-CMD ["sh", "-c", "cp -r /dist /app/packages/app/dist && node packages/backend --config app-config.yaml --config app-config.production.yaml"]
+CMD ["sh", "-c", "cp -r /app/dist_copy /app/packages/app/dist && node packages/backend --config app-config.yaml --config app-config.production.yaml"]
