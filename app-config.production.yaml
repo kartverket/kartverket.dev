@@ -12,8 +12,6 @@ backend:
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen: ':7007'
-  # Disable config injection, as this tries to write config - which does not work in a read-only container
-  disableConfigInjection: true
 
   # config options: https://node-postgres.com/api/client
   database:
