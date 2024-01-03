@@ -1,6 +1,6 @@
 app:
   title: Kartoteket
-  baseUrl: ${APP_BASE_URL}
+  baseUrl: http://localhost:3000
 
 organization:
   name: Kartverket
@@ -12,7 +12,7 @@ backend:
   # auth:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
-  baseUrl: ${BACKEND_BASE_URL}
+  baseUrl: http://localhost:7007
   listen:
     port: 7007
     # Uncomment the following host directive to bind to specific interfaces

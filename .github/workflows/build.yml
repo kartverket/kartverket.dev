@@ -46,7 +46,7 @@ jobs:
       
       # Build the backend, which bundles it all up into the packages/backend/dist folder.
       # The configuration files here should match the one you use inside the Dockerfile below.
-      - run: yarn build:backend --config ../../app-config.yaml
+      - run: yarn build:backend --config ../../app-config.yaml --config ../../app-config.production.yaml
   
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
