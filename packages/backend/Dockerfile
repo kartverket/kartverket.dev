@@ -47,7 +47,7 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
     yarn install --frozen-lockfile --production --network-timeout 300000
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
-COPY --chown=150:150 packages/backend/dist/bundle.tar.gz app-config*.yaml github-app/github-app-backstage-skip-credentials.yaml ./
+COPY --chown=150:150 packages/backend/dist/bundle.tar.gz app-config*.yaml github-secret/github-app-backstage-skip-credentials.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # Make a local copy that we can use to copy from into a writable volume later
