@@ -27,7 +27,6 @@ backend:
 
 To start the app, run:
 
-```yaml
 ```sh
 yarn install
 yarn dev
