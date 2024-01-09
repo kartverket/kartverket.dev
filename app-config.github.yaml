@@ -1,6 +1,0 @@
-integrations:
-  github:
-    - host: github.com
-      # In production we use an app for secure auth
-      apps:
-        - $include: github-secret/github-app-backstage-skip-credentials.yaml
