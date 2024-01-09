@@ -14,14 +14,15 @@ integrations:
 ```
 ### Persistent sqlite
 
-add this snippet to your app-config.local.yaml
+1. mkdir db
+2. add this snippet to your app-config.local.yaml
 
 ```yaml
 backend:
   database:
     client: better-sqlite3
     connection:
-      directory: /home/nygmar/Kildekode/utviklerportal/db
+      directory: /<absolute>/<path>/<to>/<repo>/db
 ```
 
 To start the app, run:
