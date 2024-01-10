@@ -63,9 +63,14 @@ auth:
   providers: {}
 
 scaffolder:
-  # see https://backstage.io/docs/features/software-templates/configuration for software template options
+  defaultAuthor:
+    name: 'Backstage'
+    email: 'martin.nygard@kartverket.no'
+  defaultCommitMessage: 'Test'
 
 catalog:
+  rules:
+    - allow: [ Component, API, Location, Template ]
   providers:
     github:
       providerId:

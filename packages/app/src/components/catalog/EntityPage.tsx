@@ -57,6 +57,7 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import { EntityLinguistCard } from '@backstage/plugin-linguist';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -130,7 +131,9 @@ const overviewContent = (
     <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-
+    <Grid item md={12}>
+      <EntityLinguistCard />
+    </Grid>
     <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
