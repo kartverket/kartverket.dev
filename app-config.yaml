@@ -108,3 +108,155 @@ explore:
       image: https://grafana.com/media/products/cloud/grafana/grafana-dashboard-english.png?w=900
       tags:
         - observability
+
+    - title: Argo CD dev
+      description: Declarative continuous delivery with a fully-loaded UI
+      url: https://argocd.dev.skip.statkart.no
+      image: https://raw.githubusercontent.com/argoproj/argo-cd/master/docs/assets/application-of-applications.png
+      tags:
+        - gitops
+        - deployment
+        - kubernetes
+
+    - title: Argo CD test
+      description: Declarative continuous delivery with a fully-loaded UI
+      url: https://argocd.test.skip.statkart.no
+      image: https://raw.githubusercontent.com/argoproj/argo-cd/master/docs/assets/application-of-applications.png
+      tags:
+        - gitops
+        - deployment
+        - kubernetes
+
+    - title: Argo CD production
+      description: Declarative continuous delivery with a fully-loaded UI
+      url: https://argocd.prod.skip.statkart.no
+      image: https://raw.githubusercontent.com/argoproj/argo-cd/master/docs/assets/application-of-applications.png
+      tags:
+        - gitops
+        - deployment
+        - kubernetes
+
+    - title: Just-In-Time Access
+      description: Grants you access to Google Cloud projects for a limited time
+      url: https://jit.skip.kartverket.no/
+      image: https://cloud.google.com/static/architecture/images/manage-just-in-time-privileged-access-to-projects-roles.png
+      tags:
+        - google-cloud
+        - security
+
+    - title: Vault
+      description: |
+        Vault is a tool for securely accessing secrets. A secret is anything
+        that you want to tightly control access to, such as API keys, passwords,
+        certificates, and more. Vault provides a unified interface to any
+        secret, while providing tight access control and recording a detailed
+        audit log.
+      url: https://vault.statkart.no/
+      image: https://www.datocms-assets.com/2885/1675117067-products-overview-vault-4.svg
+      tags:
+        - security
+        - secrets
+
+    - title: Scality S3 Admin
+      description: |
+        Scality S3 is a highly scalable, durable, and available S3-compatible
+        object storage service that can be used to store and retrieve any amount
+        of data, at any time, from anywhere.
+      url: https://s3-rin.statkart.no/_/console/login
+      image: https://www.scality.com/wp-content/uploads/2023/07/S3-Compatible-Storage-980x294.jpg
+      tags:
+        - storage
+
+    - title: Scality S3 Browser
+      description: |
+        Scality S3 is a highly scalable, durable, and available S3-compatible
+        object storage service that can be used to store and retrieve any amount
+        of data, at any time, from anywhere.
+      url: https://s3-rin.statkart.no/_/s3browser/connect
+      image: https://www.scality.com/wp-content/uploads/2023/07/S3-Compatible-Storage-980x294.jpg
+      tags:
+        - storage
+
+    - title: GitHub
+      description: |
+        GitHub is a Git repository hosting service which adds many additional
+        features. Storing code on GitHub is the main use for GitHub which has a powerful
+        graphical interface. It also provides builds, bug tracking, change requests,
+        collaboration features, such as a wikis and basic task management tools.
+      url: https://github.com/kartverket
+      image: https://github.githubassets.com/assets/illu-copilot-editor-6474457a5b19.png
+      tags:
+        - git
+        - collaboration
+
+    - title: Skiperator
+      description: |
+        Skiperator is an operator intended to make the setup of applications
+        simple from the users' point of view. When using the operator an
+        application developer can set up all associated resources for an optimal
+        deployment using a simple custom resource called Application.
+      url: https://github.com/kartverket/skiperator
+      image: https://skip.kartverket.no/img/skip.png
+      tags:
+        - kubernetes
+        - deployment
+
+    - title: Sysdig
+      description: |
+        Sysdig is a unified platform for container and microservices monitoring,
+        troubleshooting, security and forensics. Sysdig platform has been built
+        on top of Sysdig open source technologies, such as Falco, Sysdig, and
+        Sysdig Inspect.
+      url: https://eu1.app.sysdig.com/secure
+      image: https://sysdig.com/wp-content/uploads/activity-audit-styled-1170x785.png
+      tags:
+        - security
+
+    - title: ArgoKit
+      description: |
+        ArgoKit is a toolkit for Argo CD. It contains a set of tools that
+        makes it easier to work with Argo CD.
+      url: https://github.com/kartverket/argokit
+      image: https://github.com/kartverket/argokit/raw/main/logo.png
+      tags:
+        - gitops
+        - deployment
+
+    - title: Pharos
+      description: |
+        A GitHub action for running different Security Scans, that should be run before deploying to SKIP.
+        Currently the action contains two scans, TFSec and Trivy. To use Trivy, an image must be provided as an input.
+      url: https://github.com/kartverket/pharos
+      image: https://camo.githubusercontent.com/85184c913b9facebc8e93f944d792329c4ea401c2167f82059090c2475944c8c/68747470733a2f2f692e696d6775722e636f6d2f4c5553386657432e706e67
+      tags:
+        - security
+        - deployment
+
+    - title: Nacho SKIP
+      description: |
+        A composite GitHub Action for authenticating with GCP@Kartverket using Workload Identity Federation using cosign for image signing and verification.
+        As of the current version cosign is used only to sign and verify an image, but in the future there will hopefully be ways of attesting and attaching SBOMs to the image using the SLSA framework.
+      url: https://github.com/kartverket/nacho-skip
+      image: https://camo.githubusercontent.com/f6fa1121d2f192f8d39cc5ca23e6e1da5e40f981779e6a3b1d154bac6480f155/68747470733a2f2f692e696d6775722e636f6d2f366f495230667a2e706e67
+      tags:
+        - deployment
+        - google-cloud
+
+    - title: GitHub Workflows
+      description: |
+        Shared reusable workflows for GitHub Actions.
+      url: https://github.com/kartverket/github-workflows
+      image: https://skip.kartverket.no/img/skip.png
+      tags:
+        - deployment
+
+    - title: Tailscale
+      description: |
+        Tailscale is a zero config VPN for building secure networks. Remote
+        access from any network or physical location.
+      url: https://tailscale.com/
+      image: https://cdn.sanity.io/images/w77i7m8x/production/6d16dd6fac328a0575f3bf9d460cf6cb37f9044e-1360x725.svg?w=1920&q=75&fit=clip&auto=format
+      tags:
+        - security
+
+        
