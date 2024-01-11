@@ -1,6 +1,20 @@
 app:
-  title: Kartoteket
+  title: Kartverket.dev
   baseUrl: http://localhost:3000
+
+  support:
+    url: https://skip.kartverket.no # Used by common ErrorPage
+    items: # Used by common SupportButton component
+      - title: Documentation
+        icon: article
+        links:
+          - url: https://kartverket.atlassian.net/wiki/spaces/SKIPDOK/overview
+            title: Confluence - SKIPDOK
+      - title: Slack Channel
+        icon: chat
+        links:
+          - url: https://kartverketgroup.slack.com/archives/C028ZEED280
+            title: '#gen-skip'
 
 organization:
   name: Kartverket
@@ -85,3 +99,12 @@ catalog:
           frequency: { minutes: 30 }
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
+
+explore:
+  tools:
+    - title: Grafana – monitoring.kartverket.dev
+      description: Query, visualize, alert on, and understand your data no matter where it's stored. With Grafana you can create, explore, and share all of your data through beautiful, flexible dashboards.
+      url: https://monitoring.kartverket.dev
+      image: https://grafana.com/media/products/cloud/grafana/grafana-dashboard-english.png?w=900
+      tags:
+        - observability

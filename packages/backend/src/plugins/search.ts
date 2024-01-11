@@ -7,6 +7,7 @@ import {
 import { PluginEnvironment } from '../types';
 import { DefaultCatalogCollatorFactory } from '@backstage/plugin-search-backend-module-catalog';
 import { DefaultTechDocsCollatorFactory } from '@backstage/plugin-search-backend-module-techdocs';
+import { ToolDocumentCollatorFactory } from '@backstage/plugin-search-backend-module-explore';
 import { Router } from 'express';
 
 export default async function createPlugin(
@@ -46,6 +47,15 @@ export default async function createPlugin(
       discovery: env.discovery,
       logger: env.logger,
       tokenManager: env.tokenManager,
+    }),
+  });
+
+  // collator gathers entities from explore.
+  indexBuilder.addCollator({
+    schedule,
+    factory: ToolDocumentCollatorFactory.fromConfig(env.config, {
+      discovery: env.discovery,
+      logger: env.logger,
     }),
   });
 

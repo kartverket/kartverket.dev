@@ -2981,6 +2981,62 @@
   dependencies:
     "@backstage/backend-plugin-api" "^0.6.8"
 
+"@backstage/plugin-explore-backend@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-explore-backend/-/plugin-explore-backend-0.0.18.tgz#e3c0d39f0ab8b9b21c4fecc1e970cb43448596d2"
+  integrity sha512-9GWPTnv0/y+48w2a31ympsqXd8w2MFtlJB351EzSBTBnowqKYQOhHfhcAKwuIlO4UTNDPQjIWbSDWXhW5Urrlg==
+  dependencies:
+    "@backstage/backend-common" "^0.20.0"
+    "@backstage/config" "^1.1.1"
+    "@backstage/plugin-explore-common" "^0.0.2"
+    "@backstage/plugin-search-backend-module-explore" "^0.1.12"
+    "@backstage/plugin-search-common" "^1.2.9"
+    "@backstage/types" "^1.1.1"
+    "@types/express" "*"
+    express "^4.18.1"
+    express-promise-router "^4.1.0"
+    lodash "^4.17.21"
+    node-fetch "^2.6.7"
+    winston "^3.2.1"
+    yn "^4.0.0"
+
+"@backstage/plugin-explore-common@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-explore-common/-/plugin-explore-common-0.0.2.tgz#a8ac9cb781aafe30e3d4248f41053e955fc7a32e"
+  integrity sha512-6mpsNDUSauh0/7jnnVtbbaMOWvH1449zPNOUQRSdtwDDB42KbbAc7235zi1+x0ryvKxYVKIu+cBhyL0BLL12MA==
+
+"@backstage/plugin-explore-react@^0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-explore-react/-/plugin-explore-react-0.0.34.tgz#81f378ad74fa2c254cb219efc49ef6f1713b5ee8"
+  integrity sha512-ZAZb9af1S4ZH0C22XJO9LdLcs2R903YaJ2a20uhCq3YWvRPVXIon4QmEKlGF5hSoimnFdzq2ch420KoVOHs2wA==
+  dependencies:
+    "@backstage/core-plugin-api" "^1.8.1"
+    "@backstage/plugin-explore-common" "^0.0.2"
+
+"@backstage/plugin-explore@^0.4.14":
+  version "0.4.14"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-explore/-/plugin-explore-0.4.14.tgz#ffda657a3c80929be3d5b967b6e05489c95487a8"
+  integrity sha512-dHerE2AIxYGXrEZcl/6vt10F/t/Wm53RqemJaYet1WzwVNnZSq3UJ3fexSssI0r2sTCz0Ieh4GNb9WpMaK04dg==
+  dependencies:
+    "@backstage/catalog-model" "^1.4.3"
+    "@backstage/core-components" "^0.13.9"
+    "@backstage/core-plugin-api" "^1.8.1"
+    "@backstage/errors" "^1.2.3"
+    "@backstage/frontend-plugin-api" "^0.4.0"
+    "@backstage/plugin-catalog-react" "^1.9.2"
+    "@backstage/plugin-explore-common" "^0.0.2"
+    "@backstage/plugin-explore-react" "^0.0.34"
+    "@backstage/plugin-search-common" "^1.2.9"
+    "@backstage/plugin-search-react" "^1.7.4"
+    "@backstage/theme" "^0.5.0"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.61"
+    "@types/react" "^16.13.1 || ^17.0.0"
+    classnames "^2.2.6"
+    pluralize "^8.0.0"
+    react-use "^17.2.4"
+
 "@backstage/plugin-github-actions@^0.6.9":
   version "0.6.9"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-github-actions/-/plugin-github-actions-0.6.9.tgz#81e20a02ed676b18fb68e491fa9af0f6846f1579"
@@ -3390,6 +3446,21 @@
     "@backstage/plugin-permission-common" "^0.7.11"
     "@backstage/plugin-search-backend-node" "^1.2.12"
     "@backstage/plugin-search-common" "^1.2.9"
+
+"@backstage/plugin-search-backend-module-explore@^0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-search-backend-module-explore/-/plugin-search-backend-module-explore-0.1.12.tgz#01bdd7428dfb343b94a0126cbfe886f5eced387e"
+  integrity sha512-5MXFI6Cd6poXcmu5RgDHSAWsJexWUEfQPUl/pXtv7+J3pC596aVKAdENxjJmdHXgjEd6pA8AsIzyIl7t/i86hQ==
+  dependencies:
+    "@backstage/backend-common" "^0.20.0"
+    "@backstage/backend-plugin-api" "^0.6.8"
+    "@backstage/backend-tasks" "^0.5.13"
+    "@backstage/config" "^1.1.1"
+    "@backstage/plugin-explore-common" "^0.0.2"
+    "@backstage/plugin-search-backend-node" "^1.2.12"
+    "@backstage/plugin-search-common" "^1.2.9"
+    node-fetch "^2.6.7"
+    winston "^3.2.1"
 
 "@backstage/plugin-search-backend-module-pg@^0.5.17":
   version "0.5.17"
@@ -9219,6 +9290,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@backstage/plugin-catalog-graph" "^0.3.2"
     "@backstage/plugin-catalog-import" "^0.10.4"
     "@backstage/plugin-catalog-react" "^1.9.2"
+    "@backstage/plugin-explore" "^0.4.14"
     "@backstage/plugin-github-actions" "^0.6.9"
     "@backstage/plugin-linguist" "^0.1.13"
     "@backstage/plugin-org" "^0.6.18"
