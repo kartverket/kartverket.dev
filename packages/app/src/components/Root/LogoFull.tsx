@@ -1,4 +1,4 @@
-import KartverketLogoFull from './logo/kartverket-dev.png'
+import KartverketLogoFull from './logo/kartverket-dev.svg'
 import React from 'react';
 
 const LogoFull = () => {
