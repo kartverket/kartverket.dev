@@ -173,7 +173,7 @@ export const CardView = ({ pageId, status, reportUrl }: DenseTableProps) => {
     );
 };
 
-export const StatusCard = ({ pageId, reportUrl }: { pageId: string, reportUrl: string | undefined }) => {
+export const StatusCard = ({ pageId, reportUrl }: { pageId: string, reportUrl?: string }) => {
     const { value, loading, error } = useAsync(async (): Promise<Status> => {
         return fetch(`https://${pageId}.instatus.com/summary.json`).then(res => res.json());
     }, []);

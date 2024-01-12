@@ -5,7 +5,7 @@ import {
   HomePageStarredEntities,
   TemplateBackstageLogoIcon,
 } from '@backstage/plugin-home';
-import { Content, Page, InfoCard } from '@backstage/core-components';
+import { Content, Page } from '@backstage/core-components';
 import { HomePageSearchBar } from '@backstage/plugin-search';
 import {
   SearchContextProvider,
