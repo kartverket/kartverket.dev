@@ -31,6 +31,19 @@ backend:
       directory: /<absolute>/<path>/<to>/<repo>/db
 ```
 
+### Getting user data and orgs
+```yaml
+catalog:
+  rules:
+    - allow: [ Component, API, Location, Template, Group, User ]
+  locations:
+    - type: file
+      target: ../../test_data/org.yaml
+```
+
+To refresh the data, delete your local sqlites and sync with microsoft provider. 
+Then run the script `extract_entities.py` in `/test_data` 
+
 ### start the app
 
 ```sh

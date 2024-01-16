@@ -72,15 +72,12 @@ techdocs:
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
-auth:
-  # see https://backstage.io/docs/auth/ to learn about auth providers
-  providers: {}
-
 scaffolder:
   defaultAuthor:
     name: 'Backstage'
     email: 'martin.nygard@kartverket.no'
   defaultCommitMessage: 'Test'
+
 
 catalog:
   rules:
@@ -287,4 +284,4 @@ explore:
       tags:
         - security
 
-        
+

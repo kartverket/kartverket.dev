@@ -35,26 +35,45 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { ExplorePage } from '@backstage/plugin-explore';
+import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
+import { SignInPage } from '@backstage/core-components';
 
 const app = createApp({
-  apis,
-  bindRoutes({ bind }) {
-    bind(catalogPlugin.externalRoutes, {
-      createComponent: scaffolderPlugin.routes.root,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
-      createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
-    });
-    bind(apiDocsPlugin.externalRoutes, {
-      registerApi: catalogImportPlugin.routes.importPage,
-    });
-    bind(scaffolderPlugin.externalRoutes, {
-      registerComponent: catalogImportPlugin.routes.importPage,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
-    });
-    bind(orgPlugin.externalRoutes, {
-      catalogIndex: catalogPlugin.routes.catalogIndex,
-    });
-  },
+    components: {
+        SignInPage: props => (
+            <SignInPage
+                {...props}
+                auto
+                providers={[
+                    process.env.NODE_ENV === 'development' ? 'guest' :
+                    {
+                    id: 'microsoft',
+                    title: 'Microsoft',
+                    message: 'Sign in using Microsoft',
+                    apiRef: microsoftAuthApiRef,
+                    },
+                ]}
+            />
+        ),
+    },
+    apis,
+    bindRoutes({ bind }) {
+        bind(catalogPlugin.externalRoutes, {
+          createComponent: scaffolderPlugin.routes.root,
+          viewTechDoc: techdocsPlugin.routes.docRoot,
+          createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
+        });
+        bind(apiDocsPlugin.externalRoutes, {
+          registerApi: catalogImportPlugin.routes.importPage,
+        });
+        bind(scaffolderPlugin.externalRoutes, {
+          registerComponent: catalogImportPlugin.routes.importPage,
+          viewTechDoc: techdocsPlugin.routes.docRoot,
+        });
+        bind(orgPlugin.externalRoutes, {
+          catalogIndex: catalogPlugin.routes.catalogIndex,
+        });
+    }
 });
 
 const routes = (

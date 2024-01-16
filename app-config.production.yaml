@@ -35,3 +35,30 @@ integrations:
       # In production we use an app for secure auth
       apps:
         - $include: github-secrets/github-app-backstage-skip-credentials.yaml
+
+catalog:
+  providers:
+    microsoftGraphOrg:
+      default:
+        tenantId: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
+        queryMode: 'advanced'
+        user:
+          filter: accountEnabled eq true and userType eq 'member'
+        group:
+          filter: >
+            startswith(displayName, 'CLOUD_SK_TEAM')
+        schedule:
+          frequency: PT1H
+          timeout: PT50M
+        clientId: ${ENTRA_ID_SP_APP_ID}
+        clientSecret: ${ENTRA_ID_SP_CLIENT_SECRET}
+
+auth:
+  environment: production
+  providers:
+    microsoft:
+      production:
+        clientId: ${ENTRA_ID_WEB_APP_ID}
+        clientSecret: ${ENTRA_ID_WEB_CLIENT_SECRET}
+        tenantId: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
+        domainHint: Statens Kartverk

@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "18 || 20"
+    "node": "18"
   },
   "scripts": {
-    "dev": "concurrently \"yarn start\" \"yarn start-backend\"",
+    "dev": "NODE_ENV=development concurrently \"yarn start\" \"yarn start-backend\"",
     "start": "yarn workspace app start",
     "start-backend": "yarn workspace backend start",
     "build:backend": "yarn workspace backend build",
