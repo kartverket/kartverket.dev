@@ -3,6 +3,8 @@ import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-m
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { GithubEntityProvider } from '@backstage/plugin-catalog-backend-module-github';
+import { MicrosoftGraphOrgEntityProvider } from '@backstage/plugin-catalog-backend-module-msgraph';
+import {msGraphGroupTransformer} from "./transformers/msGraphTransformer";
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -13,6 +15,13 @@ export default async function createPlugin(
       GithubEntityProvider.fromConfig(env.config, {
         logger: env.logger,
         scheduler: env.scheduler,
+      }),
+  );
+  builder.addEntityProvider(
+      MicrosoftGraphOrgEntityProvider.fromConfig(env.config, {
+          logger: env.logger,
+          scheduler: env.scheduler,
+          groupTransformer: msGraphGroupTransformer,
       }),
   );
   const { processingEngine, router } = await builder.build();
