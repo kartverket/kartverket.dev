@@ -35,26 +35,16 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { ExplorePage } from '@backstage/plugin-explore';
-import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
-import { SignInPage } from '@backstage/core-components';
+import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
 
 const app = createApp({
     components: {
-        SignInPage: props => (
-            <SignInPage
-                {...props}
-                auto
-                providers={[
-                    process.env.NODE_ENV === 'development' ? 'guest' :
-                    {
-                    id: 'microsoft',
-                    title: 'Microsoft',
-                    message: 'Sign in using Microsoft',
-                    apiRef: microsoftAuthApiRef,
-                    },
-                ]}
-            />
-        ),
+        SignInPage: props => {
+            if (process.env.NODE_ENV === 'development') {
+                return <SignInPage {...props} auto providers={['guest']}/>;
+            }
+            return <ProxiedSignInPage {...props} provider="oauth2Proxy" />;
+        },
     },
     apis,
     bindRoutes({ bind }) {

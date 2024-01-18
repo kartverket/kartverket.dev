@@ -35,10 +35,18 @@ export default async function createPlugin(
       // your own, see the auth documentation for more details:
       //
       //   https://backstage.io/docs/auth/identity-resolver
-      microsoft: providers.microsoft.create({
+      oauth2Proxy: providers.oauth2Proxy.create({
         signIn: {
-          resolver: providers.microsoft.resolvers.emailMatchingUserEntityProfileEmail(),
-        },
+          async resolver({result}, ctx) {
+            const name = result.getHeader('x-forwarded-user');
+            if (!name) {
+              throw new Error('Request did not contain a user')
+            }
+            return ctx.signInWithCatalogUser({
+              entityRef: {name},
+            });
+          },
+        }
       }),
     },
   });

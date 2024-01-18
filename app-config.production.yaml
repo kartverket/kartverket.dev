@@ -8,7 +8,7 @@ backend:
   # reachable not just from within the backend host, but from all of your
   # callers. When its value is "http://localhost:7007", it's strictly private
   # and can't be reached by others.
-  baseUrl: ${BACKEND_BASE_URL}
+  baseUrl: https://backstage.sandbox.skip.statkart.no
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen: ':7007'
@@ -56,9 +56,8 @@ catalog:
 auth:
   environment: production
   providers:
-    microsoft:
-      production:
-        clientId: ${ENTRA_ID_WEB_APP_ID}
-        clientSecret: ${ENTRA_ID_WEB_CLIENT_SECRET}
-        tenantId: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
-        domainHint: Statens Kartverk
+    oauth2Proxy:
+      production: {}
+
+cors:
+  origin: https://backstage.sandbox.skip.statkart.no
