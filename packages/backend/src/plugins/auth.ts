@@ -39,7 +39,7 @@ export default async function createPlugin(
         signIn: {
           async resolver({result}, ctx) {
             console.log(result);
-            const email = result.getHeader('x-forwarded-user') || result.getHeader('x-auth-request-user');
+            const email = result.getHeader('x-auth-request-user');
             if (!email) {
               throw new Error('Request did not contain a email')
             }
