@@ -38,7 +38,8 @@ export default async function createPlugin(
       oauth2Proxy: providers.oauth2Proxy.create({
         signIn: {
           async resolver({result}, ctx) {
-            const email = result.getHeader('x-forwarded-email');
+            const email = result.getHeader('x-auth-request-email');
+            console.log(result)
             if (!email) {
               throw new Error('Request did not contain a email')
             }
