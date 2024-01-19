@@ -43,8 +43,8 @@ export default async function createPlugin(
               throw new Error('Request did not contain a email')
             }
             return ctx.signInWithCatalogUser({
-              annotations: {
-                'microsoft.com/email': email,
+              entityRef: {
+                name: "martin.nygard_kartverket.no"
               }
             })
           }
