@@ -43,9 +43,10 @@ export default async function createPlugin(
             if (!email) {
               throw new Error('Request did not contain a email')
             }
-            let name = email.split('@')[0].toLowerCase() + "_kartverket.no";
             return ctx.signInWithCatalogUser({
-              entityRef: { name }
+               annotations: {
+                 'microsoft.com/email': email,
+               }
             })
           }
         }
