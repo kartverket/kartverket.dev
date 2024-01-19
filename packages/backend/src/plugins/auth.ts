@@ -38,14 +38,16 @@ export default async function createPlugin(
       oauth2Proxy: providers.oauth2Proxy.create({
         signIn: {
           async resolver({result}, ctx) {
-            const name = result.getHeader('x-forwarded-user');
-            if (!name) {
-              throw new Error('Request did not contain a user')
+            const email = result.getHeader('x-auth-request-email');
+            if (!email) {
+              throw new Error('Request did not contain a email')
             }
             return ctx.signInWithCatalogUser({
-              entityRef: {name},
-            });
-          },
+              annotations: {
+                'microsoft.com/email': email,
+              }
+            })
+          }
         }
       }),
     },
