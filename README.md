@@ -44,6 +44,9 @@ catalog:
 To refresh the data, delete your local sqlites and sync with microsoft provider. 
 Then run the script `extract_entities.py` in `/test_data` 
 
+### Testing OAuth locally
+Check this [README](oauth2-proxy/README.md)
+
 ### start the app
 
 ```sh
