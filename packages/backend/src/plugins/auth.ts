@@ -5,6 +5,7 @@ import {
 } from '@backstage/plugin-auth-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
+import {ProfileInfo} from "@backstage/plugin-auth-node";
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -36,16 +37,37 @@ export default async function createPlugin(
       //
       //   https://backstage.io/docs/auth/identity-resolver
       oauth2Proxy: providers.oauth2Proxy.create({
+        authHandler: async (result, ctx) => {
+          const email = result.getHeader('x-auth-request-email');
+          if (!email) {
+            throw new Error('Request did not contain an email');
+          }
+          const user = await ctx.findCatalogUser({
+            annotations: {
+              'microsoft.com/email': email,
+            }
+          })
+          let profileInfo
+          if (typeof user.entity.spec?.profile != undefined) {
+            profileInfo = user.entity.spec?.profile as ProfileInfo
+          } else {
+            throw new Error('Profile is not available')
+          }
+          return {
+            profile: profileInfo,
+          };
+        },
         signIn: {
           async resolver({result}, ctx) {
-            const email = result.getHeader('x-auth-request-email');
+            const email = result.getHeader('x-auth-request-email')
             if (!email) {
-              throw new Error('Request did not contain a email')
+              throw new Error('Request did not contain an email');
             }
+
             return ctx.signInWithCatalogUser({
-               annotations: {
-                 'microsoft.com/email': email,
-               }
+              annotations: {
+                'microsoft.com/email': email,
+              }
             })
           }
         }

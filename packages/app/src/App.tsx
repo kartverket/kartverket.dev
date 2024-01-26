@@ -36,11 +36,13 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { ExplorePage } from '@backstage/plugin-explore';
 import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
+import {configApiRef, useApi} from "@backstage/core-plugin-api";
 
 const app = createApp({
     components: {
         SignInPage: props => {
-            if (process.env.NODE_ENV === 'development') {
+            const configApi = useApi(configApiRef)
+            if (!configApi.has('auth.environment')) {
                 return <SignInPage {...props} auto providers={['guest']}/>;
             }
             return <ProxiedSignInPage {...props} provider="oauth2Proxy" />;
