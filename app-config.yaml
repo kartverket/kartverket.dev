@@ -81,7 +81,7 @@ scaffolder:
 
 catalog:
   rules:
-    - allow: [ Component, API, Location, Template ]
+    - allow: [ Component, API, Location ]
   providers:
     github:
       providerId:
@@ -95,6 +95,15 @@ catalog:
           # supports cron, ISO duration, "human duration" as used in code
           frequency: { minutes: 30 }
           # supports ISO duration, "human duration" as used in code
+          timeout: { minutes: 3 }
+      templateProviderId:
+        organization: 'Kartverket'
+        catalogPath: '*/template.yaml'
+        filters:
+          repository: backstage-templates
+          branch: main
+        schedule:
+          frequency: { minutes: 30 }
           timeout: { minutes: 3 }
 
 explore:
