@@ -96,15 +96,11 @@ catalog:
           frequency: { minutes: 30 }
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
-      templateProviderId:
-        organization: 'Kartverket'
-        catalogPath: '*/template.yaml'
-        filters:
-          repository: backstage-templates
-          branch: main
-        schedule:
-          frequency: { minutes: 30 }
-          timeout: { minutes: 3 }
+  locations:
+    - type: url
+      target: https://github.com/kartverket/backstage-templates/blob/main/onboarding/template.yaml
+      rules:
+        - allow: [ Template ]
 
 explore:
   tools:
