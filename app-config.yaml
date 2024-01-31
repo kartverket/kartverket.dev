@@ -81,7 +81,7 @@ scaffolder:
 
 catalog:
   rules:
-    - allow: [ Component, Group, User, Resource, Location, System ]
+    - allow: [ Component, Group, User, Resource, Location, System, API ]
   providers:
     github:
       providerId:
