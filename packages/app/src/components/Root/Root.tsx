@@ -28,7 +28,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import LayersIcon from '@material-ui/icons/Layers';
 import CategoryIcon from '@material-ui/icons/Category';
-import { useTheme } from '@material-ui/core/styles';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
