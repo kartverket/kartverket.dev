@@ -36,36 +36,37 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { ExplorePage } from '@backstage/plugin-explore';
 import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
-import {configApiRef, useApi} from "@backstage/core-plugin-api";
+import { configApiRef, useApi } from "@backstage/core-plugin-api";
+import { VisitListener } from '@backstage/plugin-home';
 
 const app = createApp({
-    components: {
-        SignInPage: props => {
-            const configApi = useApi(configApiRef)
-            if (!configApi.has('auth.environment')) {
-                return <SignInPage {...props} auto providers={['guest']}/>;
-            }
-            return <ProxiedSignInPage {...props} provider="oauth2Proxy" />;
-        },
+  components: {
+    SignInPage: props => {
+      const configApi = useApi(configApiRef)
+      if (!configApi.has('auth.environment')) {
+        return <SignInPage {...props} auto providers={['guest']} />;
+      }
+      return <ProxiedSignInPage {...props} provider="oauth2Proxy" />;
     },
-    apis,
-    bindRoutes({ bind }) {
-        bind(catalogPlugin.externalRoutes, {
-          createComponent: scaffolderPlugin.routes.root,
-          viewTechDoc: techdocsPlugin.routes.docRoot,
-          createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
-        });
-        bind(apiDocsPlugin.externalRoutes, {
-          registerApi: catalogImportPlugin.routes.importPage,
-        });
-        bind(scaffolderPlugin.externalRoutes, {
-          registerComponent: catalogImportPlugin.routes.importPage,
-          viewTechDoc: techdocsPlugin.routes.docRoot,
-        });
-        bind(orgPlugin.externalRoutes, {
-          catalogIndex: catalogPlugin.routes.catalogIndex,
-        });
-    }
+  },
+  apis,
+  bindRoutes({ bind }) {
+    bind(catalogPlugin.externalRoutes, {
+      createComponent: scaffolderPlugin.routes.root,
+      viewTechDoc: techdocsPlugin.routes.docRoot,
+      createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
+    });
+    bind(apiDocsPlugin.externalRoutes, {
+      registerApi: catalogImportPlugin.routes.importPage,
+    });
+    bind(scaffolderPlugin.externalRoutes, {
+      registerComponent: catalogImportPlugin.routes.importPage,
+      viewTechDoc: techdocsPlugin.routes.docRoot,
+    });
+    bind(orgPlugin.externalRoutes, {
+      catalogIndex: catalogPlugin.routes.catalogIndex,
+    });
+  }
 });
 
 const routes = (
@@ -117,6 +118,7 @@ export default app.createRoot(
     <AlertDisplay />
     <OAuthRequestDialog />
     <AppRouter>
+      <VisitListener />
       <Root>{routes}</Root>
     </AppRouter>
   </>,

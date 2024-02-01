@@ -2,8 +2,9 @@ import React from 'react';
 import {
   HomePageToolkit,
   HomePageCompanyLogo,
-  HomePageStarredEntities,
   TemplateBackstageLogoIcon,
+  HomePageTopVisited,
+  HomePageRecentlyVisited,
 } from '@backstage/plugin-home';
 import { Content, Page } from '@backstage/core-components';
 import { HomePageSearchBar } from '@backstage/plugin-search';
@@ -12,6 +13,8 @@ import {
 } from '@backstage/plugin-search-react';
 import { Grid, makeStyles } from '@material-ui/core';
 import { StatusCard } from "@internal/plugin-instatus";
+import { XkcdComicCard } from 'backstage-plugin-xkcd';
+import { useTheme } from '@material-ui/core/styles';
 import LogoFull from '../Root/LogoFull';
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +48,8 @@ const useLogoStyles = makeStyles(theme => ({
 export const HomePage = () => {
   const classes = useStyles();
   const { svg, path, container } = useLogoStyles();
+  const theme = useTheme();
+  const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
 
   return (
     <SearchContextProvider>
@@ -53,19 +58,22 @@ export const HomePage = () => {
           <Grid container justifyContent="center" spacing={6}>
             <HomePageCompanyLogo
               className={container}
-              logo={<LogoFull className={`${svg} ${path}`} />}
+              logo={<LogoFull type={mode} className={`${svg} ${path}`} />}
             />
             <Grid container item xs={12} justifyContent='center'>
               <HomePageSearchBar
-                InputProps={{ classes: { root: classes.searchBarInput, notchedOutline: classes.searchBarOutline }}}
+                InputProps={{ classes: { root: classes.searchBarInput, notchedOutline: classes.searchBarOutline } }}
                 placeholder="Search"
               />
             </Grid>
             <Grid container item xs={12}>
               <Grid item xs={12} md={6}>
-                <HomePageStarredEntities />
+                <HomePageRecentlyVisited />
               </Grid>
               <Grid item xs={12} md={6}>
+                <HomePageTopVisited />
+              </Grid>
+              <Grid item xs={12}>
                 <HomePageToolkit
                   tools={[{
                     url: 'https://monitoring.kartverket.dev',
@@ -82,8 +90,25 @@ export const HomePage = () => {
                   }]}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
                 <StatusCard pageId='skip' reportUrl="https://kartverketgroup.slack.com/archives/C028ZEED280" />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <XkcdComicCard />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <iframe
+                  name="embed-feed"
+                  title="Viva Engage"
+                  src="https://web.yammer.com/embed/groups/eyJfdHlwZSI6Ikdyb3VwIiwiaWQiOiI2OTI3OTgyNTkyMCJ9?header=false&footer=false&theme=dark&includeFeedInformation=true"
+                  style={{
+                    "border": '0px',
+                    "overflow": 'hidden',
+                    "width": '100%',
+                    "height": '100%',
+                    "minHeight": '400px',
+                  }}
+                />
               </Grid>
             </Grid>
           </Grid>

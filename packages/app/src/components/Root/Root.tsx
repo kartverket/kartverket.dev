@@ -28,6 +28,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import LayersIcon from '@material-ui/icons/Layers';
 import CategoryIcon from '@material-ui/icons/Category';
+import { useTheme } from '@material-ui/core/styles';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -51,7 +52,7 @@ const SidebarLogo = () => {
   return (
     <div className={classes.root}>
       <Link to="/" underline="none" className={classes.link} aria-label="Home">
-        {isOpen ? <LogoFull /> : <LogoIcon />}
+        {isOpen ? <LogoFull type="light" /> : <LogoIcon />}
       </Link>
     </div>
   );
@@ -69,8 +70,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         {/* Global nav, not org-specific */}
         <SidebarItem icon={HomeIcon} to="/" text="Home" />
         <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
-        <SidebarItem icon={LayersIcon} to="explore" text="Explore" />
         <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+        <SidebarItem icon={LayersIcon} to="explore" text="Explore" />
         <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
         <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
         {/* End global nav */}
