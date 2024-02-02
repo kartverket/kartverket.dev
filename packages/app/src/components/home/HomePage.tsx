@@ -73,43 +73,6 @@ export const HomePage = () => {
               <Grid item xs={12} md={6}>
                 <HomePageTopVisited />
               </Grid>
-              <Grid item xs={12}>
-                <HomePageToolkit
-                  tools={[{
-                    url: 'https://monitoring.kartverket.dev',
-                    label: 'Grafana',
-                    icon: <TemplateBackstageLogoIcon />,
-                  }, {
-                    url: 'https://console.cloud.google.com',
-                    label: 'Google Cloud',
-                    icon: <TemplateBackstageLogoIcon />,
-                  }, {
-                    url: 'https://github.com/kartverket',
-                    label: 'GitHub',
-                    icon: <TemplateBackstageLogoIcon />,
-                  }]}
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <StatusCard pageId='skip' reportUrl="https://kartverketgroup.slack.com/archives/C028ZEED280" />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <XkcdComicCard />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <iframe
-                  name="embed-feed"
-                  title="Viva Engage"
-                  src="https://web.yammer.com/embed/groups/eyJfdHlwZSI6Ikdyb3VwIiwiaWQiOiI2OTI3OTgyNTkyMCJ9?header=false&footer=false&theme=dark&includeFeedInformation=true"
-                  style={{
-                    "border": '0px',
-                    "overflow": 'hidden',
-                    "width": '100%',
-                    "height": '100%',
-                    "minHeight": '400px',
-                  }}
-                />
-              </Grid>
             </Grid>
           </Grid>
         </Content>

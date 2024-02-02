@@ -102,6 +102,66 @@ catalog:
       rules:
         - allow: [ Template ]
 
+home:
+  recentVisits:
+    filterBy:
+      - field: pathname
+        operator: '!='
+        value: /
+      - field: pathname
+        operator: '!='
+        value: /catalog
+      - field: pathname
+        operator: '!='
+        value: /settings
+      - field: pathname
+        operator: '!='
+        value: /api-docs
+      - field: pathname
+        operator: '!='
+        value: /explore
+      - field: pathname
+        operator: '!='
+        value: /docs
+      - field: pathname
+        operator: '!='
+        value: /tech-radar
+      - field: pathname
+        operator: '!='
+        value: /search
+      - field: pathname
+        operator: '!='
+        value: /create
+  topVisits:
+    filterBy:
+      - field: pathname
+        operator: '!='
+        value: /
+      - field: pathname
+        operator: '!='
+        value: /catalog
+      - field: pathname
+        operator: '!='
+        value: /settings
+      - field: pathname
+        operator: '!='
+        value: /api-docs
+      - field: pathname
+        operator: '!='
+        value: /explore
+      - field: pathname
+        operator: '!='
+        value: /docs
+      - field: pathname
+        operator: '!='
+        value: /tech-radar
+      - field: pathname
+        operator: '!='
+        value: /search
+      - field: pathname
+        operator: '!='
+        value: /create
+
 explore:
   tools:
     - title: Google Cloud
