@@ -1,17 +1,21 @@
 name: Build
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
+    paths-ignore:
+      - README.md
+      - CONTRIBUTING.md
+      - CODEOWNERS
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - README.md
+      - CONTRIBUTING.md
+      - CODEOWNERS
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -38,16 +42,16 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
-          
+
       - run: yarn install --frozen-lockfile
-      
+
       # tsc outputs type definitions to dist-types/ in the repo root, which are then consumed by the build
       - run: yarn tsc
-      
+
       # Build the backend, which bundles it all up into the packages/backend/dist folder.
       # The configuration files here should match the one you use inside the Dockerfile below.
       - run: yarn build:backend --config ../../app-config.yaml --config ../../app-config.production.yaml
-  
+
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
@@ -79,6 +83,11 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            # Use sha for tags
+            type=sha,format=long
+            # set latest tag for default branch
+            type=raw,value=latest,enable={{is_default_branch}}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -108,3 +117,32 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+    outputs:
+      image_digest: ${{ steps.build-docker.outputs.digest }}
+
+  deploy-argo:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env:
+          - sandbox
+    steps:
+      - name: Checkout apps repo
+        uses: actions/checkout@v3
+        with:
+          repository: kartverket/skip-apps
+          token: ${{ secrets.ARGOCD_PAT }}
+
+      - name: Deploy to ${{ matrix.env }}
+        run: |
+          kubectl patch --local \
+            -f ./${{ matrix.env }}/backstage/patches/application.yaml \
+            -p '{"spec":{"image":"ghcr.io/kartverket/kartverket.dev@${{needs.build.outputs.image_digest}}"}}' \
+            -o yaml > ./${{ matrix.env }}/backstage/patches/application.yaml.new
+          mv ./${{ matrix.env }}/backstage/patches/application.yaml.new ./${{ matrix.env }}/backstage/patches/application.yaml
+          git config --global user.email "noreply@kartverket.no"
+          git config --global user.name "GitHub Actions"
+          git commit -am "Deploy ${{ matrix.env }} version ${{github.ref_name}}"
+          git push
