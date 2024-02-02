@@ -123,7 +123,7 @@ jobs:
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
     outputs:
-      image_digest: ${{ steps.build-docker.outputs.digest }}
+      image_digest: ${{ steps.build-and-push.outputs.digest }}
 
   deploy-argo:
     needs: build
