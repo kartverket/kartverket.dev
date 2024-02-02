@@ -23,6 +23,10 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -137,8 +141,7 @@ jobs:
 
       - name: Deploy to ${{ matrix.env }}
         run: |
-          kubectl patch --local \
-            --type=merge \
+          kubectl patch --type=merge --local \
             -f ./${{ matrix.env }}/backstage/patches/application.yaml \
             -p '{"spec":{"image":"ghcr.io/kartverket/kartverket.dev@${{needs.build.outputs.image_digest}}"}}' \
             -o yaml > ./${{ matrix.env }}/backstage/patches/application.yaml.new
