@@ -100,7 +100,7 @@ export const HomePage = () => {
             <Grid item xs={12} md={4}>
               <iframe
                 title="Powered by Fedifeed"
-                allowfullscreen
+                allowFullScreen
                 sandbox="allow-top-navigation allow-scripts"
                 src="https://fedifeed.com/api/v1/feed?user=kv_plattform&instance=https%3A%2F%2Fmastodon.social&instance_type=&theme=auto-dark&size=100&header=true&replies=true&boosts=true"
                 style={{
