@@ -38,6 +38,7 @@ import { ExplorePage } from '@backstage/plugin-explore';
 import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { VisitListener } from '@backstage/plugin-home';
+import { LighthousePage } from '@backstage/plugin-lighthouse';
 
 const app = createApp({
   components: {
@@ -110,6 +111,7 @@ const routes = (
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/explore" element={<ExplorePage />} />
+    <Route path="/lighthouse" element={<LighthousePage />} />
   </FlatRoutes>
 );
 
