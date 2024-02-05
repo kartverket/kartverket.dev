@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "RoleV1alpha1",
+  "description": "A Role describes a relationship between a user and a group",
+  "examples": [
+    {
+      "apiVersion": "kartverket.dev/v1alpha1",
+      "kind": "Role",
+      "metadata": {
+        "name": "ProductOwner"
+      },
+      "spec": {
+        "type": "product-owner",
+        "group": "skip",
+        "user": "espen.henriksen_kartverket.no"
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "$ref": "Entity"
+    },
+    {
+      "type": "object",
+      "required": ["spec"],
+      "properties": {
+        "apiVersion": {
+          "enum": ["kartverket.dev/v1alpha1"]
+        },
+        "kind": {
+          "enum": ["Role"]
+        },
+        "spec": {
+          "type": "object",
+          "required": ["type", "user", "group"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type of role.",
+              "examples": ["product-owner", "security-champion", "tech-lead", "team-lead"],
+              "minLength": 1
+            },
+            "group": {
+              "type": "string",
+              "description": "group name, must be valid group.",
+              "examples": ["skip"],
+              "minLength": 1
+            },
+            "user": {
+              "type": "string",
+              "description": "users backstage username, must be valid user.",
+              "examples": ["skip"],
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -5,12 +5,14 @@ import { PluginEnvironment } from '../types';
 import { GithubEntityProvider } from '@backstage/plugin-catalog-backend-module-github';
 import { MicrosoftGraphOrgEntityProvider } from '@backstage/plugin-catalog-backend-module-msgraph';
 import {msGraphGroupTransformer} from "./transformers/msGraphTransformer";
+import { RoleEntitiesProcessor } from '@internal/plugin-kind-role-common';
 
 export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
   const builder = await CatalogBuilder.create(env);
   builder.addProcessor(new ScaffolderEntitiesProcessor());
+  builder.addProcessor(new RoleEntitiesProcessor())
   builder.addEntityProvider(
       GithubEntityProvider.fromConfig(env.config, {
         logger: env.logger,

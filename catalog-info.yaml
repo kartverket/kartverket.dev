@@ -9,5 +9,14 @@ metadata:
   #   backstage.io/techdocs-ref: dir:.
 spec:
   type: website
-  owner: john@example.com
+  owner: SKIP
   lifecycle: experimental
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Role
+metadata:
+  name: skip-productowner
+spec:
+  type: product-owner
+  user: amber.martinez_kartverket.dev
+  group: SKIP
