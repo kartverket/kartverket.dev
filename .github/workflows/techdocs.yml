@@ -2,31 +2,27 @@ name: Publish TechDocs Site
 
 on:
   push:
-    paths:
-     - "docs/**"
-     - "mkdocs.yml"
+#    paths:
+#     - "docs/**"
+#     - "mkdocs.yml"
 
 jobs:
   publish-techdocs-site:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
     # The following secrets are required in your CI environment for publishing files to AWS S3.
     # e.g. You can use GitHub Organization secrets to set them for all existing and new repositories.
     env:
-<<<<<<< HEAD
-=======
-      WORKLOAD_IDENTITY_PROVIDER: projects/421909719843/locations/global/workloadIdentityPools/grafana-alerts-deploy-pool/providers/github-provider
-      SERVICE_ACCOUNT: grafana-alerts-deploy@skip-prod-bda1.iam.gserviceaccount.com
-      PROJECT_ID: skip-prod-bda1
->>>>>>> a1f3583 (Add tech docs)
       GCS_BUCKET_NAME: techdocs2019386
       ENTITY_NAMESPACE: 'default'
       ENTITY_KIND: 'Component'
-      ENTITY_NAME: 'my-doc-entity'
-<<<<<<< HEAD
-=======
-
->>>>>>> a1f3583 (Add tech docs)
+      ENTITY_NAME: 'backstage'
+      WORKLOAD_IDENTITY_PROVIDER: projects/833464919209/locations/global/workloadIdentityPools/utviklerportal-deploy-pool/providers/github-provider
+      SERVICE_ACCOUNT: utviklerportal-deploy@utviklerportal-sandbox-5af9.iam.gserviceaccount.com
+      PROJECT_ID: utviklerportal-sandbox-5af9
       # In a Software template, Scaffolder will replace {{cookiecutter.component_id | jsonify}}
       # with the correct entity name. This is same as metadata.name in the entity's catalog-info.yaml
       # ENTITY_NAME: '{{ cookiecutter.component_id | jsonify }}'
@@ -35,8 +31,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-<<<<<<< HEAD
-=======
       - id: 'auth'
         uses: google-github-actions/auth@v0.5.0
         with:
@@ -44,7 +38,6 @@ jobs:
           service_account: ${{ env.SERVICE_ACCOUNT }}
           project_id: ${{ env.PROJECT_ID }}
 
->>>>>>> a1f3583 (Add tech docs)
       - uses: actions/setup-node@v3
       - uses: actions/setup-python@v4
         with:
