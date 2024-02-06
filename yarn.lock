@@ -3162,6 +3162,22 @@
     react-use "^17.2.4"
     zod "^3.22.4"
 
+"@backstage/plugin-lighthouse-backend@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@backstage/plugin-lighthouse-backend/-/plugin-lighthouse-backend-0.4.1.tgz#868e363fd7664a080f627b8ba25a13866491ecf5"
+  integrity sha512-CqijP5XjxlXtbRmVWmH/vdBbRGIuC1KRFlvpN/8CqNQPS7isQRYP3ZTcWfF+RFEHfELQWA3csQtxtiBvQJMoRw==
+  dependencies:
+    "@backstage/backend-common" "^0.20.1"
+    "@backstage/backend-plugin-api" "^0.6.9"
+    "@backstage/backend-tasks" "^0.5.14"
+    "@backstage/catalog-client" "^1.5.2"
+    "@backstage/catalog-model" "^1.4.3"
+    "@backstage/config" "^1.1.1"
+    "@backstage/plugin-catalog-node" "^1.6.1"
+    "@backstage/plugin-lighthouse-common" "^0.1.4"
+    "@backstage/types" "^1.1.1"
+    winston "^3.2.1"
+
 "@backstage/plugin-lighthouse-common@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-lighthouse-common/-/plugin-lighthouse-common-0.1.4.tgz#269953672ff27176d9960744c6eac2c5d6671711"
@@ -8819,7 +8835,7 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.7.tgz#50ae4353eaaddc04044279812f52c8c65857dbcb"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
-"@types/react-dom@*", "@types/react-dom@<18.0.0":
+"@types/react-dom@*", "@types/react-dom@<18.0.0", "@types/react-dom@^17":
   version "17.0.25"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.25.tgz#e0e5b3571e1069625b3a3da2b279379aa33a0cb5"
   integrity sha512-urx7A7UxkZQmThYA4So0NelOVjx3V4rNFVJwp0WZlbIK5eM4rNJDiN3R/E9ix0MBh6kAEojk/9YL+Te6D9zHNA==
@@ -9716,6 +9732,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@backstage/plugin-explore" "^0.4.15"
     "@backstage/plugin-github-actions" "^0.6.10"
     "@backstage/plugin-home" "^0.6.1"
+    "@backstage/plugin-lighthouse" "^0.4.14"
     "@backstage/plugin-linguist" "^0.1.14"
     "@backstage/plugin-org" "^0.6.19"
     "@backstage/plugin-permission-react" "^0.4.19"

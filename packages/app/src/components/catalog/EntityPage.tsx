@@ -58,6 +58,7 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityLinguistCard } from '@backstage/plugin-linguist';
+import { EntityLighthouseContent } from '@backstage/plugin-lighthouse';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -204,6 +205,10 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/lighthouse" title="Lighthouse">
+      <EntityLighthouseContent />
     </EntityLayout.Route>
   </EntityLayout>
 );

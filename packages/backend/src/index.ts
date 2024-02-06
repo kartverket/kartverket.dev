@@ -33,6 +33,7 @@ import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
 import linguist from './plugins/linguist';
 import explore from './plugins/explore';
+import lighthouse from './plugins/lighthouse';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -90,6 +91,7 @@ async function main() {
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const linguistEnv = useHotMemoize(module, () => createEnv('linguist'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
+  const lighthouseEnv = useHotMemoize(module, () => createEnv('lighthouse'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -103,6 +105,8 @@ async function main() {
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());
+
+  await lighthouse(lighthouseEnv);
 
   const service = createServiceBuilder(module)
     .loadConfig(config)
