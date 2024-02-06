@@ -34,7 +34,8 @@ backend:
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     img-src: ["'self'", 'data:', 'imgs.xkcd.com']
-    frame-src: ['web.yammer.com', 'https://lighthouse-audit-service.sandbox.skip.statkart.no']
+    frame-src: ['web.yammer.com', 'lighthouse-audit-service.sandbox.skip.statkart.no', 'fedifeed.com']
+    script-src: ["'self'", 'skip.instatus.com']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
