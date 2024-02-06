@@ -60,6 +60,8 @@ export default async function createPlugin(
         signIn: {
           async resolver({result}, ctx) {
             const email = result.getHeader('x-auth-request-email')
+            console.log(email)
+            console.log(result)
             if (!email) {
               throw new Error('Request did not contain an email');
             }
