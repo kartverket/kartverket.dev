@@ -1,0 +1,14 @@
+site_name: Backstage
+site_description: 'Documentation for SKIPs Backstage'
+repo_url: https://github.com/kartverket/kartverket.dev
+edit_uri: edit/main/docs
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Overview:
+      - Identity: 'overview/identity.md'
+  - Getting Started:
+      - Onboarding a new service: 'getting-started/onboarding.md'
+      - Adding your documentation: 'getting-started/techdocs.md'

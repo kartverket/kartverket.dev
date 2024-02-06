@@ -10,12 +10,14 @@ on:
       - README.md
       - CONTRIBUTING.md
       - CODEOWNERS
+      - 'docs/**'
   pull_request:
     branches: [ "main" ]
     paths-ignore:
       - README.md
       - CONTRIBUTING.md
       - CODEOWNERS
+      - 'docs/**'
 
 env:
   # Use docker.io for Docker Hub if empty
