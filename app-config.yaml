@@ -65,18 +65,7 @@ proxy:
 lighthouse:
   baseUrl: https://lighthouse-audit-service.sandbox.skip.statkart.no
 
-# Reference documentation http://backstage.io/docs/features/techdocs/configuration
-# Note: After experimenting with basic setup, use CI/CD to generate docs
-# and an external cloud storage when deploying TechDocs for production use-case.
-# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
-techdocs:
-  builder: 'external'
-  publisher:
-    type: 'googleGcs'
-    googleGcs:
-      bucketName: techdocs2019386
-      projectId: utviklerportal-sandbox-5af9
-      credentials: ${GOOGLE_APPLICATION_CREDENTIALS}
+
 
 scaffolder:
   defaultAuthor:
