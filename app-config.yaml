@@ -76,8 +76,7 @@ techdocs:
     googleGcs:
       bucketName: techdocs2019386
       projectId: utviklerportal-sandbox-5af9
-      credentials:
-        $file: ${GOOGLE_APPLICATION_CREDENTIALS}
+      credentials: ${GOOGLE_APPLICATION_CREDENTIALS}
 
 scaffolder:
   defaultAuthor:
