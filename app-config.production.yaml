@@ -48,7 +48,7 @@ techdocs:
       bucketName: techdocs2019386
       projectId: utviklerportal-sandbox-5af9
       credentials:
-        $file: ${GOOGLE_APPLICATION_CREDENTIALS}
+        $file: /var/run/secrets/tokens/gcp-ksa/google-application-credentials.json
 
 catalog:
   providers:
