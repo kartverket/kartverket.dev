@@ -309,7 +309,7 @@ const groupPage = (
           <EntityOwnershipCard variant="gridItem" />
         </Grid>
         <Grid item xs={12}>
-          <EntityMembersListCard />
+          <EntityMembersListCard showAggregateMembersToggle={true}/>
         </Grid>
       </Grid>
     </EntityLayout.Route>
