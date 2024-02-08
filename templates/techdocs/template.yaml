@@ -1,0 +1,58 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+# some metadata about the template itself
+metadata:
+  name: techdocs-test
+  title: Template to add techdocs
+  description: Template to onboard techdocs
+
+spec:
+  owner: backstage/techdocs-core
+  type: service
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - kind
+        - repoUrl
+      properties:
+        kind:
+          title: Kind
+          type: string
+          default: component
+          enum:
+            - component
+            - api
+        repoUrl:
+          title: Repository URL
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+            allowedOwners:
+              - kartverket
+
+  # here's the steps that are executed in series in the scaffolder backend
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          kind: ${{parameters.kind}}
+          repoUrl: ${{parameters.repoUrl}}
+
+    - id: publish
+      name: Publish
+      action: publish:github:pull-request
+      input:
+        description: Onboard or updates repository for Backstage
+        repoUrl: ${{ parameters.repoUrl }}
+        commitMessage: "Backstage: Onboard ${{ parameters.name }}"
+        branchName: "backstage-onboard-${{ parameters.name }}"
+        update: true
+        title: "Backstage: Onboard ${{ parameters.name }}"
+        draft: true
+
