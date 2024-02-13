@@ -8,6 +8,6 @@ techdocs:
     type: 'googleGcs'
     googleGcs:
       bucketName: techdocsqu4l0mck5j
-      projectId: utviklerportal-sandbox-5af9
       credentials:
         $file: /var/run/secrets/tokens/gcp-ksa/google-application-credentials.json
+      projectId: utviklerportal-sandbox-5af9
