@@ -5,6 +5,7 @@ on:
     paths:
      - "docs/**"
      - "mkdocs.yml"
+     - ".github/workflows/techdocs.yml"
 
 jobs:
   publish-techdocs-site:

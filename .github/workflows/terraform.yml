@@ -1,0 +1,30 @@
+name: "Deploy to GCP"
+
+on:
+  push:
+    paths:
+        - "terraform/**"
+        - ".github/workflows/terraform.yml"
+
+jobs:
+  sandbox:
+    name: Deploy to sandbox
+    permissions:
+      # For logging on to Vault, GCP
+      id-token: write
+      # For writing comments on PR
+      pull-requests: write
+      # For fetching git repo
+      contents: read
+      # For accessing repository
+    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@v4.1.0
+    with:
+      runner: ubuntu-latest
+      environment: sandbox
+      terraform_workspace: sandbox
+      terraform_option_1: -var-file=sandbox.tfvars
+      terraform_init_option_1: -backend-config=backend-sandbox.hcl
+      working_directory: terraform
+      auth_project_number: "833464919209"
+      service_account: utviklerportal-deploy@utviklerportal-sandbox-5af9.iam.gserviceaccount.com
+      project_id: utviklerportal-sandbox-5af9

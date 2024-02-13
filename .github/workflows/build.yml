@@ -11,6 +11,8 @@ on:
       - CONTRIBUTING.md
       - CODEOWNERS
       - 'docs/**'
+      - 'terraform/**'
+      - '.gitignore'
   pull_request:
     branches: [ "main" ]
     paths-ignore:
@@ -18,6 +20,9 @@ on:
       - CONTRIBUTING.md
       - CODEOWNERS
       - 'docs/**'
+      - 'terraform/**'
+      - '.gitignore'
+
 
 env:
   # Use docker.io for Docker Hub if empty
