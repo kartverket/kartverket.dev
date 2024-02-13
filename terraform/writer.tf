@@ -15,7 +15,7 @@ resource "google_storage_bucket_iam_binding" "writer" {
 }
 
 resource "google_iam_workload_identity_pool" "backstage" {
-  workload_identity_pool_id = "backstage-pool"
+  workload_identity_pool_id = "backstage-techdocs-pool"
   description               = "pool to handle backstage service accounts"
 }
 
