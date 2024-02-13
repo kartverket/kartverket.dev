@@ -65,7 +65,10 @@ proxy:
 lighthouse:
   baseUrl: https://lighthouse-audit-service.sandbox.skip.statkart.no
 
-
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods: []
 
 scaffolder:
   defaultAuthor:
@@ -343,5 +346,3 @@ explore:
       lifecycle: Closed Beta
       tags:
         - security
-
-
