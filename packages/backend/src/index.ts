@@ -34,6 +34,7 @@ import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
 import linguist from './plugins/linguist';
 import explore from './plugins/explore';
 import lighthouse from './plugins/lighthouse';
+import kubernetes from './plugins/kubernetes';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -92,6 +93,7 @@ async function main() {
   const linguistEnv = useHotMemoize(module, () => createEnv('linguist'));
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
   const lighthouseEnv = useHotMemoize(module, () => createEnv('lighthouse'));
+  const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -102,6 +104,7 @@ async function main() {
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/linguist', await linguist(linguistEnv));
   apiRouter.use('/explore', await explore(exploreEnv));
+  apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

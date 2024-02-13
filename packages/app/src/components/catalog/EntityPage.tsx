@@ -59,6 +59,7 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityLinguistCard } from '@backstage/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage/plugin-lighthouse';
+import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -229,6 +230,10 @@ const defaultEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route path="/kubernetes" title="Kubernetes">
+      <EntityKubernetesContent refreshIntervalMs={30000} />
+    </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -309,7 +314,7 @@ const groupPage = (
           <EntityOwnershipCard variant="gridItem" />
         </Grid>
         <Grid item xs={12}>
-          <EntityMembersListCard showAggregateMembersToggle={true}/>
+          <EntityMembersListCard showAggregateMembersToggle={true} />
         </Grid>
       </Grid>
     </EntityLayout.Route>
