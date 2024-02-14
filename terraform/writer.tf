@@ -37,5 +37,5 @@ resource "google_iam_workload_identity_pool_provider" "backstage" {
 resource "google_service_account_iam_member" "wif_backstage_writer" {
   service_account_id = google_service_account.writer.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.backstage.name}/attribute.enteprise/kartverket"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.backstage.name}/attribute.enterprise/kartverket"
 }
