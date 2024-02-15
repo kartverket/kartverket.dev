@@ -14,6 +14,14 @@ resource "google_storage_bucket_iam_binding" "writer" {
   ]
 }
 
+resource "google_service_account_iam_binding" "writer_token" {
+  role               = "roles/iam.serviceAccountTokenCreator"
+  service_account_id = google_service_account.writer.name
+  members = [
+    "serviceAccount:${google_service_account.writer.email}"
+  ]
+}
+
 resource "google_iam_workload_identity_pool" "backstage" {
   workload_identity_pool_id = "backstage-techdocs-pool"
   description               = "pool to handle backstage service accounts"
