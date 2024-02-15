@@ -6,14 +6,6 @@ resource "google_service_account" "writer" {
   project      = var.gcp_project_id
 }
 
-resource "google_storage_bucket_iam_binding" "writer" {
-  bucket = google_storage_bucket.techdocs.name
-  role   = "roles/storage.admin"
-  members = [
-    "serviceAccount:${google_service_account.writer.email}",
-  ]
-}
-
 resource "google_service_account_iam_binding" "writer_token" {
   role               = "roles/iam.serviceAccountTokenCreator"
   service_account_id = google_service_account.writer.name

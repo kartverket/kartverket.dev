@@ -11,3 +11,12 @@ resource "google_storage_bucket" "techdocs" {
   project                     = var.gcp_project_id
   uniform_bucket_level_access = true
 }
+
+resource "google_storage_bucket_iam_binding" "service_accounts" {
+  bucket = google_storage_bucket.techdocs.name
+  role   = "roles/storage.admin"
+  members = [
+    "serviceAccount:${google_service_account.writer.email}",
+    "serviceAccount:${google_service_account.reader.email}",
+  ]
+}

@@ -6,14 +6,6 @@ resource "google_service_account" "reader" {
   project      = var.gcp_project_id
 }
 
-resource "google_storage_bucket_iam_binding" "reader" {
-  bucket = google_storage_bucket.techdocs.name
-  role   = "roles/storage.admin"
-  members = [
-    "serviceAccount:${google_service_account.reader.email}",
-  ]
-}
-
 resource "google_service_account_iam_binding" "kubernetes" {
   role               = "roles/iam.workloadIdentityUser"
   service_account_id = google_service_account.reader.name
