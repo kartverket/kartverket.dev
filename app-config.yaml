@@ -83,6 +83,7 @@ kubernetes:
         - url: https://34.88.245.88
           name: atgcp1-sandbox
           authProvider: 'serviceAccount'
+          skipTLSVerify: true # TODO Fix me
           serviceAccountToken: ${ATGCP1_SANDBOX_SERVICE_ACCOUNT_TOKEN}
           caData: ${ATGCP1_SANDBOX_CA_DATA}
 
