@@ -32,9 +32,9 @@ resource "google_iam_workload_identity_pool_provider" "backstage" {
   workload_identity_pool_provider_id = "github-provider"
   description                        = "Workload Identity Pool Provider managed by Terraform"
   attribute_mapping = {
-    "google.subject"       = "assertion.sub"
-    "attribute.actor"      = "assertion.actor"
-    "attribute.aud"        = "assertion.aud"
+    "google.subject"             = "assertion.sub"
+    "attribute.actor"            = "assertion.actor"
+    "attribute.aud"              = "assertion.aud"
     "attribute.repository_owner" = "assertion.repository_owner"
   }
   oidc {
