@@ -23,7 +23,7 @@ jobs:
         with:
           entity_kind: 'component'
           entity_name: 'backstage'
-          gcs_bucket_name: ${{vars.BACKSTAGE_TECHDOCS_GCS_BUCKET_NAME_SANDBOX}}
-          workload_identity_provider: ${{vars.BACKSTAGE_TECHDOCS_WIF_SANDBOX}}
-          service_account: ${{vars.BACKSTAGE_TECHDOCS_SERVICE_ACCOUNT_SANDBOX}}
+          gcs_bucket_name: ${{vars.BACKSTAGE_TECHDOCS_GCS_BUCKET_NAME}}
+          workload_identity_provider: ${{vars.BACKSTAGE_TECHDOCS_WIF}}
+          service_account: ${{vars.BACKSTAGE_TECHDOCS_SERVICE_ACCOUNT}}
           project_id: ${{vars.BACKSTAGE_TECHDOCS_PROJECT_ID}}

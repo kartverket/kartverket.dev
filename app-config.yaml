@@ -99,6 +99,10 @@ catalog:
       target: https://github.com/kartverket/backstage-templates/blob/main/onboarding/template.yaml
       rules:
         - allow: [ Template ]
+    - type: url
+      target: https://github.com/kartverket/backstage-templates/blob/main/techdocs-onboarding/template.yaml
+      rules:
+        - allow: [ Template ]
 
 home:
   recentVisits:

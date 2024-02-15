@@ -16,7 +16,23 @@ You can read more about Tech Docs in Backstages [official documentation](https:/
 
 ## Add it to your repo
 ### Use the template
-TBA
+
+[Add Techdocs](create/templates/default/add-techdocs) template.
+
+![Add Techdocs](../assets/add-techdocs.png)
+
+This will create a pull request in your repository that adds the necessary files for Tech Docs to work.
+
+Also consider adding paths-ignore to your other workflows, to avoid building the documentation every time you push to main.
+```yaml
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - 'mkdocs.yml'
+      - 'docs/**'
+```
+
 ### Add it manually
 (this is basically the same the [official guide](https://backstage.io/docs/features/techdocs/creating-and-publishing), with some extra tips).
 
