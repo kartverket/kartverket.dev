@@ -19,7 +19,11 @@ jobs:
 
     steps:
       - id: 'techdocs-action'
-        uses: kartverket/backstage-techdocs-action@v2
+        uses: kartverket/backstage-techdocs-action@v1
         with:
           entity_kind: 'component'
           entity_name: 'backstage'
+          gcs_bucket_name: ${{vars.BACKSTAGE_TECHDOCS_GCS_BUCKET_NAME}}
+          workload_identity_provider: ${{vars.BACKSTAGE_TECHDOCS_WIF}}
+          service_account: ${{vars.BACKSTAGE_TECHDOCS_SERVICE_ACCOUNT}}
+          project_id: ${{vars.BACKSTAGE_TECHDOCS_PROJECT_ID}}
