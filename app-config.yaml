@@ -71,7 +71,7 @@ kubernetes:
   clusterLocatorMethods:
     - type: 'config'
       clusters:
-        - url: https://kubernetes.default
+        - url: https://10.13.2.133
           name: local
           authProvider: 'serviceAccount'
           #dashboardUrl: http://127.0.0.1:64713 # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
@@ -90,10 +90,6 @@ kubernetes:
         #  dashboardApp: standard
         #  caData: ${K8S_CONFIG_CA_DATA}
         #  caFile: '' # local path to CA file
-        #  customResources:
-        #    - group: 'argoproj.io'
-        #      apiVersion: 'v1alpha1'
-        #      plural: 'rollouts'
 
 scaffolder:
   defaultAuthor:
