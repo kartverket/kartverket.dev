@@ -35,7 +35,7 @@ resource "google_iam_workload_identity_pool_provider" "backstage" {
     "google.subject"       = "assertion.sub"
     "attribute.actor"      = "assertion.actor"
     "attribute.aud"        = "assertion.aud"
-    "attribute.enterprise" = "assertion.repository_owner"
+    "attribute.repository_owner" = "assertion.repository_owner"
   }
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
