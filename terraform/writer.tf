@@ -35,7 +35,7 @@ resource "google_iam_workload_identity_pool_provider" "backstage" {
     "google.subject"       = "assertion.sub"
     "attribute.actor"      = "assertion.actor"
     "attribute.aud"        = "assertion.aud"
-    "attribute.enterprise" = "assertion.enterprise"
+    "attribute.enterprise" = "assertion.repository_owner"
   }
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
@@ -45,5 +45,5 @@ resource "google_iam_workload_identity_pool_provider" "backstage" {
 resource "google_service_account_iam_member" "wif_backstage_writer" {
   service_account_id = google_service_account.writer.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.backstage.name}/attribute.enterprise/kartverket"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.backstage.name}/attribute.repository_owner/kartverket"
 }
