@@ -80,7 +80,7 @@ kubernetes:
           #  - group: 'argoproj.io'
           #    apiVersion: 'v1alpha1'
           #    plural: 'rollouts'
-        - url: https://10.128.254.34
+        - url: https://kubernetes.atgcp1.cluster.kartverket.no
           name: atgcp1-sandbox
           authProvider: 'serviceAccount'
           serviceAccountToken: ${ATGCP1_SANDBOX_SERVICE_ACCOUNT_TOKEN}
