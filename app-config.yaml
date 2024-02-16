@@ -72,7 +72,7 @@ kubernetes:
     - type: 'config'
       clusters:
         - url: https://10.13.2.133
-          name: local
+          name: atkv1-sandbox
           authProvider: 'serviceAccount'
           #dashboardUrl: http://127.0.0.1:64713 # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
           #dashboardApp: standard
