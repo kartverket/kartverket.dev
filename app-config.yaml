@@ -113,7 +113,7 @@ catalog:
           timeout: { minutes: 3 }
   locations:
     - type: url
-      target: https://github.com/kartverket/backstage-templates/blob/main/onboarding/template.yaml
+      target: https://github.com/kartverket/backstage-templates/blob/main/catalog-onboarding/template.yaml
       rules:
         - allow: [ Template ]
     - type: url
