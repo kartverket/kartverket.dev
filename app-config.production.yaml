@@ -36,7 +36,14 @@ integrations:
       apps:
         - $include: github-secrets/github-app-backstage-skip-credentials.yaml
 
+proxy:
+  '/xkcd-proxy':
+    target: https://xkcd.com/
+  '/opencost':
+    target: "http://opencost.opencost.svc.cluster.local:9090"
 
+opencost:
+  baseUrl: /api/proxy/opencost/model
 
 catalog:
   providers:

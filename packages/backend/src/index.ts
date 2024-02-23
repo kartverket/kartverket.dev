@@ -35,6 +35,7 @@ import linguist from './plugins/linguist';
 import explore from './plugins/explore';
 import lighthouse from './plugins/lighthouse';
 import kubernetes from './plugins/kubernetes';
+import devTools from './plugins/devtools';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -94,6 +95,7 @@ async function main() {
   const exploreEnv = useHotMemoize(module, () => createEnv('explore'));
   const lighthouseEnv = useHotMemoize(module, () => createEnv('lighthouse'));
   const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
+  const devToolsEnv = useHotMemoize(module, () => createEnv('devtools'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -105,6 +107,7 @@ async function main() {
   apiRouter.use('/linguist', await linguist(linguistEnv));
   apiRouter.use('/explore', await explore(exploreEnv));
   apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
+  apiRouter.use('/devtools', await devTools(devToolsEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

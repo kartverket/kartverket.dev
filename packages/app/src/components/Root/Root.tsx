@@ -29,6 +29,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import LayersIcon from '@material-ui/icons/Layers';
 import CategoryIcon from '@material-ui/icons/Category';
+import MoneyIcon from '@material-ui/icons/MonetizationOn';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -78,6 +79,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarDivider />
         <SidebarScrollWrapper>
           <SidebarItem icon={SpeedIcon} to="lighthouse" text="Lighthouse" />
+        </SidebarScrollWrapper>
+        <SidebarScrollWrapper>
+            <SidebarItem icon={MoneyIcon} to="opencost" text="OpenCost" />
         </SidebarScrollWrapper>
         <SidebarScrollWrapper>
           <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />

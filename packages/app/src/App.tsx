@@ -40,6 +40,8 @@ import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
 import { configApiRef, useApi } from "@backstage/core-plugin-api";
 import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage/plugin-lighthouse';
+import { OpenCostPage } from '@backstage/plugin-opencost';
+import { DevToolsPage } from '@backstage/plugin-devtools';
 
 const app = createApp({
   components: {
@@ -115,6 +117,8 @@ const routes = (
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
+    <Route path="/opencost" element={<OpenCostPage />} />
+    <Route path="/devtools" element={<DevToolsPage />} />
   </FlatRoutes>
 );
 

@@ -61,6 +61,9 @@ integrations:
 proxy:
   '/xkcd-proxy':
     target: https://xkcd.com/
+  '/opencost':
+    # Uses cluster-local service in a kubernetes environment
+    target: https://opencost.dev.skip.statkart.no
 
 lighthouse:
   baseUrl: https://lighthouse-audit-service.sandbox.skip.statkart.no
@@ -120,6 +123,12 @@ catalog:
       target: https://github.com/kartverket/backstage-templates/blob/main/techdocs-onboarding/template.yaml
       rules:
         - allow: [ Template ]
+
+opencost:
+  baseUrl: http://localhost:7007/api/proxy/opencost/model
+
+techdocs: 
+  builder: local
 
 home:
   recentVisits:
