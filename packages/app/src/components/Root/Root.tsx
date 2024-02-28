@@ -81,7 +81,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
           <SidebarItem icon={SpeedIcon} to="lighthouse" text="Lighthouse" />
         </SidebarScrollWrapper>
         <SidebarScrollWrapper>
-            <SidebarItem icon={MoneyIcon} to="opencost" text="OpenCost" />
+            <SidebarItem icon={MoneyIcon} to="opencost?currency=NOK" text="OpenCost" />
         </SidebarScrollWrapper>
         <SidebarScrollWrapper>
           <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
