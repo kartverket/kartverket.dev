@@ -64,9 +64,11 @@ proxy:
   '/opencost':
     # Uses cluster-local service in a kubernetes environment
     target: https://opencost.dev.skip.statkart.no
+  '/lighthouse':
+    target: https://lighthouse-audit-service.sandbox.skip.statkart.no
 
 lighthouse:
-  baseUrl: https://lighthouse-audit-service.sandbox.skip.statkart.no
+  baseUrl: http://localhost:7007/api/proxy/lighthouse
 
 kubernetes:
   serviceLocatorMethod:
