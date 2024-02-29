@@ -1,8 +1,8 @@
-import SKIPIcon from './logo/skip-icon.png'
+import KVIcon from './logo/kv-icon.svg';
 import React from 'react';
 
 const LogoIcon = () => {
-  return <img src={SKIPIcon} alt="Skip Icon" width={31} />;
+  return <img src={KVIcon} alt="Skip Icon" width={45} />;
 };
 
 export default LogoIcon;
