@@ -60,6 +60,7 @@ import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityLinguistCard } from '@backstage/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage/plugin-lighthouse';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
+import { EntityGrafanaAlertsCard, EntityGrafanaDashboardsCard, EntityOverviewDashboardViewer, isAlertSelectorAvailable, isDashboardSelectorAvailable, isOverviewDashboardAvailable } from '@k-phoen/backstage-plugin-grafana';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -67,6 +68,32 @@ const techdocsContent = (
       <ReportIssue />
     </TechDocsAddons>
   </EntityTechdocsContent>
+);
+
+const grafanaContent = (
+  <>
+    <EntitySwitch>
+      <EntitySwitch.Case if={isAlertSelectorAvailable}>
+        <Grid item md={6}>
+          <EntityGrafanaAlertsCard showState />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+    <EntitySwitch>
+      <EntitySwitch.Case if={entity => Boolean(isDashboardSelectorAvailable(entity))}>
+        <Grid item md={6}>
+          <EntityGrafanaDashboardsCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+    <EntitySwitch>
+      <EntitySwitch.Case if={isOverviewDashboardAvailable}>
+        <Grid item md={12}>
+          <EntityOverviewDashboardViewer />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+  </>
 );
 
 const cicdContent = (
@@ -142,6 +169,7 @@ const overviewContent = (
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
+    {grafanaContent}
   </Grid>
 );
 
