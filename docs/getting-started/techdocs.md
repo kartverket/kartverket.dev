@@ -5,7 +5,7 @@ description: How to add documentation to your service
 ---
 
 ####  Prerequisites
-- Your repository exists in the [catalog](/catalog), if not see [Onboarding a new service](/docs/overview/onboarding).
+- Your repository exists in the [catalog](/catalog), if not see [Onboarding a new service](/docs/default/component/backstage/getting-started/using-the-catalog/).
 # What is Tech Docs?
 
 Tech Docs is a tool for generating documentation for your service. It is based on [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
@@ -17,7 +17,7 @@ You can read more about Tech Docs in Backstages [official documentation](https:/
 ## Add it to your repo
 ### Use the template
 
-[Add Techdocs](create/templates/default/add-techdocs) template.
+[Add Techdocs](/create/templates/default/add-techdocs) template.
 
 ![Add Techdocs](../assets/add-techdocs.png)
 
@@ -81,4 +81,3 @@ For inspiration you can look at how Backstage does it on their [demo site](https
 
 After pushing to main, your documentation will be available at https://kartverket.dev/docs.
 
-## Building your docs
