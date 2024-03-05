@@ -13,6 +13,7 @@ on:
       - 'docs/**'
       - 'terraform/**'
       - '.gitignore'
+      - 'mkdocs.yml'
   pull_request:
     branches: [ "main" ]
     paths-ignore:
@@ -22,6 +23,7 @@ on:
       - 'docs/**'
       - 'terraform/**'
       - '.gitignore'
+      - 'mkdocs.yml'
 
 
 env:
