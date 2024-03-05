@@ -26,6 +26,8 @@ Once your component is added to the catalog, you may want to add optional featur
 
 ### Lighthouse Insights
 
+![Lighthouse insights](../assets/lighthouse.png)
+
 Your application can opt in to being scanned by Lighthouse, an open-source,
 automated tool for improving the quality of web pages. Lighthouse has audits
 for performance, accessibility, progressive web apps, SEO, and more.
@@ -44,7 +46,11 @@ metadata:
 This will enable scanning of the website periodically. It should show up in the
 lighthouse module withing 24 hours.
 
+![Lighthouse history of scanning](../assets/lighthouse-2.png)
+
 ### Grafana alerts and dashboards
+
+![Grafana Alerts](../assets/grafana-alerts.png)
 
 A component will often have Grafana monitoring and dashboards, and you can
 reference these in your detail view. 
@@ -63,6 +69,11 @@ metadata:
 For details on how to write a dashboard selector see [this page](https://github.com/K-Phoen/backstage-plugin-grafana/blob/main/docs/dashboards-on-component-page.md).
 
 ### Kubernetes
+
+If your application is running on Kubernetes, you can add a label selector to
+your component to make the component show data from Kubernetes. Today this will
+show the number of pods and their status on the cluster, along with some metrics
+like CPU and memory usage.
 
 Adding this will enable us to add more features in the future that show data of
 your app on Kubernetes, for example showing exposed endpoints on your Skiperator
