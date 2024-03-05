@@ -41,10 +41,13 @@ metadata:
     lighthouse.com/website-url: # A single website url e.g. https://backstage.io/
 ```
 
-This will enable scanning of the website periodically.
+This will enable scanning of the website periodically. It should show up in the
+lighthouse module withing 24 hours.
 
 ### Grafana alerts and dashboards
 
+A component will often have Grafana monitoring and dashboards, and you can
+reference these in your detail view. 
 
 ```
 apiVersion: backstage.io/v1alpha1
@@ -53,9 +56,11 @@ metadata:
   # ...
   annotations:
     grafana/alert-label-selector: # An alert selector, for example source=skiperator
-    grafana/dashboard-selector: # A dashboard selector
+    grafana/dashboard-selector: title @> 'skiperator' # A dashboard selector
     grafana/overview-dashboard: # A dashboard URL, for example: 'https://monitoring.kartverket.dev/d/b48615bc-3801-4d0b-be37-858483dfb3d3/skiperator?orgId=1&kiosk'
 ```
+
+For details on how to write a dashboard selector see [this page](https://github.com/K-Phoen/backstage-plugin-grafana/blob/main/docs/dashboards-on-component-page.md).
 
 ### Kubernetes
 
