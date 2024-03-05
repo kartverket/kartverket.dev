@@ -35,7 +35,7 @@ backend:
     connect-src: ["'self'", 'http:', 'https:']
     img-src: ["'self'", 'data:', 'imgs.xkcd.com']
     frame-src: ['sandbox.kartverket.dev', 'fedifeed.com']
-    script-src: ["'self'", 'skip.instatus.com', "'unsafe-eval'"]
+    script-src: ["'self'", 'sandbox.kartverket.dev', 'skip.instatus.com', "'unsafe-eval'"]
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
