@@ -13,7 +13,7 @@ In practice it means that you write your documentation in Markdown in the same r
 You can read more about Tech Docs in Backstages [official documentation](https://backstage.io/docs/features/techdocs/).
 
 # How to use it
-
+ 
 ## Add it to your repo
 ### Use the template
 
