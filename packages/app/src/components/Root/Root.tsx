@@ -83,9 +83,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarScrollWrapper>
             <SidebarItem icon={MoneyIcon} to="opencost?currency=NOK" text="OpenCost" />
         </SidebarScrollWrapper>
-        <SidebarScrollWrapper>
-          <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
-        </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />
       <SidebarDivider />
