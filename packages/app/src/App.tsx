@@ -42,6 +42,7 @@ import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage/plugin-lighthouse';
 import { OpenCostPage } from '@backstage/plugin-opencost';
 import { DevToolsPage } from '@backstage/plugin-devtools';
+import { S3ViewerPage } from '@spreadshirt/backstage-plugin-s3-viewer';
 
 const app = createApp({
   components: {
@@ -119,6 +120,7 @@ const routes = (
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/opencost" element={<OpenCostPage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
+    <Route path="/s3-viewer" element={<S3ViewerPage />} />
   </FlatRoutes>
 );
 

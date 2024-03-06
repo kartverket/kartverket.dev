@@ -2,7 +2,6 @@ import React, { PropsWithChildren } from 'react';
 import { makeStyles } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import ExtensionIcon from '@material-ui/icons/Extension';
-import MapIcon from '@material-ui/icons/MyLocation';
 import SpeedIcon from '@material-ui/icons/Speed';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
@@ -25,6 +24,7 @@ import {
   useSidebarOpenState,
   Link,
 } from '@backstage/core-components';
+import DnsIcon from '@material-ui/icons/Dns';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import LayersIcon from '@material-ui/icons/Layers';
@@ -82,6 +82,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         </SidebarScrollWrapper>
         <SidebarScrollWrapper>
             <SidebarItem icon={MoneyIcon} to="opencost?currency=NOK" text="OpenCost" />
+        </SidebarScrollWrapper>
+        <SidebarScrollWrapper>
+            <SidebarItem icon={DnsIcon} to="s3-viewer" text="S3 Viewer" />   
         </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />

@@ -31,6 +31,7 @@ import search from './plugins/search';
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
+import s3 from './plugins/s3';
 import linguist from './plugins/linguist';
 import explore from './plugins/explore';
 import lighthouse from './plugins/lighthouse';
@@ -96,6 +97,7 @@ async function main() {
   const lighthouseEnv = useHotMemoize(module, () => createEnv('lighthouse'));
   const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
   const devToolsEnv = useHotMemoize(module, () => createEnv('devtools'));
+  const s3Env = useHotMemoize(module, () => createEnv('s3'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -108,6 +110,7 @@ async function main() {
   apiRouter.use('/explore', await explore(exploreEnv));
   apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
   apiRouter.use('/devtools', await devTools(devToolsEnv));
+  apiRouter.use('/s3-viewer', await s3(s3Env));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

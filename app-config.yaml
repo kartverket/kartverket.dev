@@ -148,6 +148,24 @@ grafana:
   # Optional. Default: false
   unifiedAlerting: true
 
+s3:
+  bucketLocatorMethods:
+    - type: config
+      platforms:
+        - endpoint: https://s3-rin.statkart.no
+          name: scality
+          region: global
+          accessKeyId: ${ENDPOINT_ONE_ACCESS_KEY}
+          secretAccessKey: ${ENDPOINT_ONE_SECRET_KEY}
+  allowedBuckets:
+    - platform: scality
+      buckets:
+        - dnl-directus
+  bucketRefreshSchedule:
+    frequency: { minutes: 30 }
+    timeout: { minutes: 1 }
+  permissionMiddleware: true
+
 home:
   recentVisits:
     filterBy:
