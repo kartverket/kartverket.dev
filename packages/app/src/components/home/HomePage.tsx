@@ -173,19 +173,6 @@ export const HomePage = () => {
                   minHeight: '400px',
                 }}
               />
-              {/*<iframe
-                name="embed-feed"
-                title="Viva Engage"
-                src="https://web.yammer.com/embed/groups/eyJfdHlwZSI6Ikdyb3VwIiwiaWQiOiI2OTI3OTgyNTkyMCJ9?header=false&footer=false&theme=dark&includeFeedInformation=true"
-                style={{
-                  "border": '0px',
-                  "overflow": 'hidden',
-                  "width": '100%',
-                  "height": '100%',
-                  "minHeight": '400px',
-                }}
-              />
-              */}
             </Grid>
           </Grid>
         </Content>
