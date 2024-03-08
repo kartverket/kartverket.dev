@@ -116,7 +116,6 @@ catalog:
         catalogPath: '/catalog-info.yaml' # string
         validateLocationsExist: true
         filters:
-          branch: 'main' # string
           repository: '.*' # Regex
         schedule: # same options as in TaskScheduleDefinition
           # supports cron, ISO duration, "human duration" as used in code
