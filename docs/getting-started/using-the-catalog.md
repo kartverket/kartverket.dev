@@ -70,6 +70,8 @@ For details on how to write a dashboard selector see [this page](https://github.
 
 ### Kubernetes
 
+![Kubernetes](../assets/kubernetes.png)
+
 If your application is running on Kubernetes, you can add a label selector to
 your component to make the component show data from Kubernetes. Today this will
 show the number of pods and their status on the cluster, along with some metrics
