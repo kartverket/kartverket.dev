@@ -34,7 +34,7 @@ backend:
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     img-src: ["'self'", 'data:', 'imgs.xkcd.com']
-    frame-src: ['sandbox.kartverket.dev', 'fedifeed.com']
+    frame-src: ['sandbox.kartverket.dev', 'kartverket.dev', 'fedifeed.com', 'monitoring.kartverket.dev']
     # unsafe-eval is required by backstage
     # unsafe-inline is required by the lighthouse iframe
     script-src: ["'self'", 'sandbox.kartverket.dev', 'skip.instatus.com', "'unsafe-eval'", "'unsafe-inline'"]
