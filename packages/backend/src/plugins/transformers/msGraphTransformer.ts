@@ -1,5 +1,5 @@
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-import { GroupEntity } from '@backstage/catalog-model';
+import {GroupEntity, GroupEntityV1alpha1} from '@backstage/catalog-model';
 import {defaultGroupTransformer} from "@backstage/plugin-catalog-backend-module-msgraph";
 
 export async function msGraphGroupTransformer(
@@ -9,8 +9,26 @@ export async function msGraphGroupTransformer(
     if (group.displayName?.includes('_leads')) {
         return undefined;
     }
-    if (group.displayName?.toLowerCase().includes('cloud_sk_team')) {
-        group.displayName = group.displayName!.split('_').slice(3).join('_');
+    let groupType = group.displayName?.split(' - ')[2];
+
+    if (group.displayName?.toLowerCase().includes('aad - tf')) {
+        group.displayName = group.displayName.split(' - ').slice(3).join(' - ');
     }
-    return await defaultGroupTransformer(group, groupPhoto);
+
+    let groupEntity: GroupEntityV1alpha1 | undefined = await defaultGroupTransformer(group, groupPhoto);
+
+    if (groupEntity === undefined) {
+        return undefined;
+    }
+    if (groupType != undefined && groupType.toLowerCase().includes('role')) {
+        groupEntity.spec.type = 'role';
+    }
+    if (groupType != undefined && groupType.toLowerCase().includes('business unit')) {
+        groupEntity.spec.type = 'business unit';
+    }
+    if (groupType != undefined && groupType.toLowerCase().includes('product area')) {
+        groupEntity.spec.type = 'product area';
+    }
+
+    return groupEntity;
 }
