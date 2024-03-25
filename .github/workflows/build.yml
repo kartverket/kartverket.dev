@@ -130,7 +130,7 @@ jobs:
 
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
-        run: cosign sign --yes ghrc.io/${{github.repository}}@${DIGEST}
+        run: cosign sign --yes ghrc.io/${{github.repository}}@${{env.DIGEST}}
 
     outputs:
       image_digest: ${{ steps.build-and-push.outputs.digest }}
