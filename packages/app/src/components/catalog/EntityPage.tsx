@@ -61,6 +61,7 @@ import { EntityLinguistCard } from '@backstage/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage/plugin-lighthouse';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import { EntityGrafanaAlertsCard, EntityGrafanaDashboardsCard, EntityOverviewDashboardViewer, isAlertSelectorAvailable, isDashboardSelectorAvailable, isOverviewDashboardAvailable } from '@k-phoen/backstage-plugin-grafana';
+import { RosPage } from '@bekk-spire/plugin-ros';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -208,6 +209,11 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route path="/ros" title="ROS">
+      <RosPage />
+    </EntityLayout.Route>
+
   </EntityLayout>
 );
 
@@ -239,6 +245,11 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/lighthouse" title="Lighthouse">
       <EntityLighthouseContent />
     </EntityLayout.Route>
+
+    <EntityLayout.Route path="/ros" title="ROS">
+      <RosPage />
+    </EntityLayout.Route>
+
   </EntityLayout>
 );
 
