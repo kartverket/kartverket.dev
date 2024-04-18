@@ -350,7 +350,17 @@ const groupPage = (
           <EntityGroupProfileCard variant="gridItem" />
         </Grid>
         <Grid item xs={12} md={6}>
-          <EntityOwnershipCard variant="gridItem" />
+          <EntityOwnershipCard
+              variant="gridItem"
+              entityFilterKind={[
+                  'Domain',
+                  'System',
+                  'Component',
+                  'API',
+                  'Template',
+                  'Resource',
+              ]}
+          />
         </Grid>
         <Grid item xs={12}>
           <EntityMembersListCard showAggregateMembersToggle={true} />
