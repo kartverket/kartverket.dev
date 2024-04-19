@@ -15,6 +15,7 @@ import { useTheme } from '@material-ui/core/styles';
 import LogoFull from '../Root/LogoFull';
 import grafanaLogo from './logos/Grafana.png';
 import argoLogo from './logos/Argo.png';
+import sysdigLogo from './logos/Sysdig.png';
 import googleCloudLogo from './logos/GoogleCloud.png';
 import googleLogo from './logos/Google.png';
 import databricksLogo from './logos/Databricks.png';
@@ -99,6 +100,13 @@ export const HomePage = () => {
                     label: 'Argo CD',
                     icon: (
                       <img src={argoLogo} alt="Logo of Argo CD" width={45} />
+                    ),
+                  },
+                  {
+                    url: 'https://eu1.app.sysdig.com/api/saml/kartverket?redirectRoute=/&product=SDS&companyName=kartverket',
+                    label: 'Sysdig Secure',
+                    icon: (
+                        <img src={sysdigLogo} alt="Logo of Sysdig" width={40} />
                     ),
                   },
                   {
