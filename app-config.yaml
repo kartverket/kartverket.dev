@@ -113,6 +113,13 @@ catalog:
   orphanStrategy: delete
   rules:
     - allow: [ Component, Group, User, Resource, Location, System, API, Domain ]
+    - apiVersion: backstage.io/v1alpha1
+      kind: Group
+      metadata:
+        name: security-champion-transformer
+      spec:
+        type: security_champion
+        transformer: ./transformers/SecurityChampionTransformer.ts
   providers:
     github:
       providerId:
