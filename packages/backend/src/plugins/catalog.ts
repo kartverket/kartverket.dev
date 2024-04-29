@@ -21,7 +21,7 @@ export default async function createPlugin(
       MicrosoftGraphOrgEntityProvider.fromConfig(env.config, {
           logger: env.logger,
           scheduler: env.scheduler,
-          groupTransformer: msGraphGroupTransformer,
+          groupTransformer: msGraphGroupTransformer(env),
       }),
   );
   const { processingEngine, router } = await builder.build();

@@ -1,14 +1,21 @@
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import {GroupEntity, GroupEntityV1alpha1} from '@backstage/catalog-model';
 import {defaultGroupTransformer} from "@backstage/plugin-catalog-backend-module-msgraph";
+import {PluginEnvironment} from "../../types";
 
-export async function msGraphGroupTransformer(
-    group: MicrosoftGraph.Group,
-    groupPhoto?: string,
-): Promise<GroupEntity | undefined> {
+export const msGraphGroupTransformer = (env: PluginEnvironment) =>
+    async (
+        group: MicrosoftGraph.Group,
+        groupPhoto?: string,
+): Promise<GroupEntity | undefined> => {
     if (group.displayName?.includes('_leads')) {
         return undefined;
     }
+
+    const entraIdCredentialsConfig = env.config.getConfig('catalog.providers.microsoftGraphOrg.default')
+    console.log(entraIdCredentialsConfig.getString('clientId'))
+    console.log(entraIdCredentialsConfig.getString('clientSecret'))
+
     let groupType = group.displayName?.split(' - ')[2];
 
     if (group.displayName?.toLowerCase().includes('aad - tf')) {
