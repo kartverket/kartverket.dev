@@ -110,8 +110,9 @@ scaffolder:
   defaultCommitMessage: 'Test'
 
 catalog:
+  orphanStrategy: delete
   rules:
-    - allow: [ Component, Group, User, Resource, Location, System, API ]
+    - allow: [ Component, Group, User, Resource, Location, System, API, Domain ]
   providers:
     github:
       providerId:
