@@ -31,7 +31,8 @@ metadata:
   namespace: default
   uid: 304a2204-e042-4670-9b2c-75c19fabdb62
 spec:
-  memberOf: []
+  memberOf:
+    - group:default/dba
   profile:
     displayName: Jason Rivers
     email: martin.nygard@kartverket.no

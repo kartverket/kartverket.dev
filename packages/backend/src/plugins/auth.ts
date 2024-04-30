@@ -1,15 +1,19 @@
 import {
   createRouter,
   providers,
-  defaultAuthProviderFactories,
+  defaultAuthProviderFactories, getDefaultOwnershipEntityRefs,
 } from '@backstage/plugin-auth-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import {ProfileInfo} from "@backstage/plugin-auth-node";
+import {stringifyEntityRef} from "@backstage/catalog-model";
+import {CatalogClient} from "@backstage/catalog-client";
 
 export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
+  const catalogApi = new CatalogClient({ discoveryApi: env.discovery })
+
   return await createRouter({
     logger: env.logger,
     config: env.config,
@@ -42,14 +46,14 @@ export default async function createPlugin(
           if (!email) {
             throw new Error('Request did not contain an email');
           }
-          const user = await ctx.findCatalogUser({
+          const { entity } = await ctx.findCatalogUser({
             annotations: {
               'microsoft.com/email': email,
             }
           })
           let profileInfo
-          if (typeof user.entity.spec?.profile != undefined) {
-            profileInfo = user.entity.spec?.profile as ProfileInfo
+          if (typeof entity.spec?.profile != undefined) {
+            profileInfo = entity.spec?.profile as ProfileInfo
           } else {
             throw new Error('Profile is not available')
           }
@@ -59,14 +63,34 @@ export default async function createPlugin(
         },
         signIn: {
           async resolver({result}, ctx) {
+            console.log("HALLO")
             const email = result.getHeader('x-auth-request-email')
             if (!email) {
               throw new Error('Request did not contain an email');
             }
 
-            return ctx.signInWithCatalogUser({
+            const { entity } = await ctx.findCatalogUser({
               annotations: {
                 'microsoft.com/email': email,
+              }
+            })
+
+            const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
+
+            // Add group display names as claim to the issued backstage token.
+            // This is used for DASKs onboarding plugin
+            const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs})
+            // @ts-ignore
+            const groupDisplayNames: string[] =
+                groupEntitiesUsingDisplayName.items
+                    .filter(e => e != undefined && e.spec && e.kind == 'Group' && e.spec.profile && e.spec.profile.displayName)
+                    .map(e => e!.spec!.profile!.displayName as string)
+
+            return ctx.issueToken({
+              claims: {
+                sub: stringifyEntityRef(entity),
+                ent: ownershipRefs,
+                groups: groupDisplayNames
               }
             })
           }
