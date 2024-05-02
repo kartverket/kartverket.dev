@@ -63,7 +63,6 @@ export default async function createPlugin(
         },
         signIn: {
           async resolver({result}, ctx) {
-            console.log("HALLO")
             const email = result.getHeader('x-auth-request-email')
             if (!email) {
               throw new Error('Request did not contain an email');
@@ -80,10 +79,11 @@ export default async function createPlugin(
             // Add group display names as claim to the issued backstage token.
             // This is used for DASKs onboarding plugin
             const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs})
-            // @ts-ignore
             const groupDisplayNames: string[] =
                 groupEntitiesUsingDisplayName.items
+                    // @ts-ignore
                     .filter(e => e != undefined && e.spec && e.kind == 'Group' && e.spec.profile && e.spec.profile.displayName)
+                    // @ts-ignore
                     .map(e => e!.spec!.profile!.displayName as string)
 
             return ctx.issueToken({
