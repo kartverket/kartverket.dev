@@ -6,6 +6,10 @@ The end result should be the same, as far as backstage is considered.
 You'll need to provide your own github client ID and secret and them to oauth2-proxy-alpha-config.yaml.    
 I couldn't get env variables to work with oauth2-proxy, so make sure you don't commit your secrets.
 
+Github app configuration:
+![github-app-config.png](assets%2Fgithub-app-config.png)
+
+
 To run oauth2-proxy with backstage, you need to add this to your app-config.local.yaml file:
 ```yaml
 backend:  
