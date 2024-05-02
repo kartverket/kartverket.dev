@@ -25,7 +25,7 @@ export default async function createPlugin(
           groupTransformer: msGraphGroupTransformer,
       }),
   );
-  builder.addProcessor(new SystemXReaderProcessor(env.reader))
+  builder.addProcessor(new SystemXReaderProcessor(env.config))
   const { processingEngine, router } = await builder.build();
   await processingEngine.start();
   return router;

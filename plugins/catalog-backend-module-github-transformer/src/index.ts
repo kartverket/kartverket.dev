@@ -5,4 +5,4 @@
  * @packageDocumentation
  */
 
-export { catalogModuleGithubTransformer as default, SystemXReaderProcessor } from './module';
+export { catalogModuleGithubTransformer as default, SecurityChampionGroupProcessor } from './module';
