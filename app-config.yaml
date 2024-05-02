@@ -77,6 +77,13 @@ proxy:
 lighthouse:
   baseUrl: http://localhost:7007/api/proxy/lighthouse
 
+auth:
+  providers:
+    google:
+      development:
+        clientId: ${GOOGLE_OAUTH_CLIENT_ID}
+        clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+
 riskAssessment:
   baseUrl: https://kv-ros-backend-245zlcbrnq-lz.a.run.app
   path: .sikkerhet/ros
