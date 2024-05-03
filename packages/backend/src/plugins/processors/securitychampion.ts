@@ -1,4 +1,3 @@
-import {coreServices, createBackendModule} from '@backstage/backend-plugin-api';
 import {
     processingResult,
     CatalogProcessor,
@@ -8,20 +7,6 @@ import {
 import {LocationSpec} from '@backstage/plugin-catalog-common';
 import {Entity} from "@backstage/catalog-model";
 import {Config} from "@backstage/config";
-
-export const catalogModuleGithubTransformer = createBackendModule({
-    pluginId: 'catalog',
-    moduleId: 'github-transformer',
-    register(reg) {
-        reg.registerInit({
-            deps: {logger: coreServices.logger},
-            async init({logger}) {
-                logger.info('Hello World!')
-            },
-        });
-    },
-});
-
 
 // A processor that reads KV-mails based on Security Champion GitHub handles.
 export class SecurityChampionGroupProcessor implements CatalogProcessor {
@@ -116,15 +101,18 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
     ): Promise<Entity> {
         const spec = entity.spec
         if (entity.kind === 'Group' && spec && spec.type === "security_champion") {
-            const entraIDToken = await this.getEntraIDToken(
-                this.config.getConfig("catalog.providers.microsoftGraphOrg.default"),
-                this.config.getConfig("sikkerhetsmetrikker")
-            )
+            //const entraIDToken = await this.getEntraIDToken(
+            //    this.config.getConfig("catalog.providers.microsoftGraphOrg.default"),
+            //    this.config.getConfig("sikkerhetsmetrikker")
+            //)
+            console.log(this.config.getConfig("sikkerhetsmetrikker").getString('clientId'))
+            console.log(this.config.getConfig("catalog.providers.microsoftGraphOrg.default").getString('clientId'))
+            console.log(this.config.getConfig("catalog.providers.microsoftGraphOrg.default").getString('clientSecret'))
             const members = spec.members
             if (members && Array.isArray(members) && members.length > 0 && typeof members[0] === 'string') {
-                const githubUser: string = members[0]
-                const email = await this.getEmailForGithubUser(entraIDToken, githubUser)
-                spec.members = [email]
+                //const githubUser: string = members[0]
+                //const email = await this.getEmailForGithubUser(entraIDToken, githubUser)
+                //spec.members = [email]
                 return entity
             }
         }

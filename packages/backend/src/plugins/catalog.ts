@@ -5,7 +5,7 @@ import { PluginEnvironment } from '../types';
 import { GithubEntityProvider } from '@backstage/plugin-catalog-backend-module-github';
 import { MicrosoftGraphOrgEntityProvider } from '@backstage/plugin-catalog-backend-module-msgraph';
 import {msGraphGroupTransformer} from "./transformers/msGraphTransformer";
-import { SecurityChampionGroupProcessor } from "./processors";
+import {SecurityChampionGroupProcessor} from "./processors/securitychampion";
 
 export default async function createPlugin(
   env: PluginEnvironment,
