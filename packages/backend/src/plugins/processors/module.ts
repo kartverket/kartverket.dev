@@ -118,7 +118,7 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
         if (entity.kind === 'Group' && spec && spec.type === "security_champion") {
             const entraIDToken = await this.getEntraIDToken(
                 this.config.getConfig("catalog.providers.microsoftGraphOrg.default"),
-                this.config.getConfig("catalog.providers.microsoftGraphOrg.default")
+                this.config.getConfig("sikkerhetsmetrikker")
             )
             const members = spec.members
             if (members && Array.isArray(members) && members.length > 0 && typeof members[0] === 'string') {
