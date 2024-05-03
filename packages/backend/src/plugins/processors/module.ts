@@ -23,13 +23,13 @@ export const catalogModuleGithubTransformer = createBackendModule({
 });
 
 
-// A processor that reads from the fictional System-X
+// A processor that reads KV-mails based on Security Champion GitHub handles.
 export class SecurityChampionGroupProcessor implements CatalogProcessor {
     constructor(private readonly config: Config) {
     }
 
     getProcessorName(): string {
-        return 'SystemXReaderProcessor';
+        return 'SecurityChampionGroupProcessor';
     }
 
     async readLocation(
@@ -95,7 +95,7 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
                 "Authorization": "Bearer " + entraIdToken,
             }
         }
-        return fetch("http://sikkerhetsmetrikker.dev.skip.statkart.no/api/securityChampion/workMail?gitHubUser=" + githubUser, getRequestOptions)
+        return fetch("http://localhost:8080/api/securityChampion/workMail?gitHubUser=" + githubUser, getRequestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.status.toString());
@@ -117,8 +117,8 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
         const spec = entity.spec
         if (entity.kind === 'Group' && spec && spec.type === "security_champion") {
             const entraIDToken = await this.getEntraIDToken(
-                this.config.getConfig("'catalog.providers.microsoftGraphOrg.default'"),
-                this.config.getConfig("'catalog.providers.microsoftGraphOrg.default'")
+                this.config.getConfig("catalog.providers.microsoftGraphOrg.default"),
+                this.config.getConfig("catalog.providers.microsoftGraphOrg.default")
             )
             const members = spec.members
             if (members && Array.isArray(members) && members.length > 0 && typeof members[0] === 'string') {
