@@ -22,18 +22,11 @@ injectResponseHeaders:
       - claim: email
 
 providers:
-  - id: azure
-    name: azure
+  - id: github
+    name: github
     clientID:
     clientSecret:
-    azureConfig:
-      tenant: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
     oidcConfig:
-      issuerURL: https://login.microsoftonline.com/7f74c8a2-43ce-46b2-b0e8-b6306cba73a3/v2.0
+      issuerURL: https://token.actions.githubusercontent.com
       emailClaim: email
-      groupsClaim: groups
-      userIDClaim: email
-      audienceClaims:
-        - aud
-    provider: azure
-    scope: "openid email profile"
+    provider: github
