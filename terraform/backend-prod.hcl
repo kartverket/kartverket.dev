@@ -1,0 +1,1 @@
+bucket="terraform_state_utviklerportal_e053"
