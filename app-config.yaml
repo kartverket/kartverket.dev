@@ -81,6 +81,10 @@ riskAssessment:
   baseUrl: https://kv-ros-backend-245zlcbrnq-lz.a.run.app
   path: .sikkerhet/ros
 
+sikkerhetsmetrikker:
+  baseUrl: https://sikkerhetsmetrikker.dev.skip.statkart.no
+  clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
+
 kubernetes:
   serviceLocatorMethod:
     type: 'multiTenant'
@@ -397,6 +401,3 @@ explore:
       lifecycle: Closed Beta
       tags:
         - security
-
-sikkerhetsmetrikker:
-  clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}

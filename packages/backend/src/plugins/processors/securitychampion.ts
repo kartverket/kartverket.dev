@@ -43,12 +43,12 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
         return true;
     }
 
-    async getEntraIDToken(entraIdCredentialsConfig: Config, sikkerhetsmetrikkerConfig: Config): Promise<string> {
+    async getEntraIDToken(config: Config): Promise<string> {
         const entraIDBody = {
             grant_type: "client_credentials",
-            client_id: entraIdCredentialsConfig.getString("clientId"),
-            client_secret: entraIdCredentialsConfig.getString("clientSecret"),
-            scope: sikkerhetsmetrikkerConfig.getString("clientId") + "/.default"
+            client_id: config.getConfig("catalog.providers.microsoftGraphOrg.default").getString("clientId"),
+            client_secret: config.getConfig("catalog.providers.microsoftGraphOrg.default").getString("clientSecret"),
+            scope: config.getConfig("sikkerhetsmetrikker").getString("clientId") + "/.default"
         }
         const postRequestOptions: RequestInit = {
             method: "POST",
@@ -57,7 +57,7 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
             },
             body: new URLSearchParams(entraIDBody).toString()
         }
-        return fetch("https://login.microsoftonline.com/7f74c8a2-43ce-46b2-b0e8-b6306cba73a3/oauth2/v2.0/token", postRequestOptions)
+        return fetch(config.getConfig("catalog.providers.microsoftGraphOrg.default").getString("tokenUrl"), postRequestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.status.toString())
@@ -73,14 +73,14 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
             });
     };
 
-    async getEmailForGithubUser(entraIdToken: string, githubUser: string): Promise<string> {
+    async getEmailForGithubUser(entraIdToken: string, githubUser: string, baseUrl: string): Promise<string> {
         const getRequestOptions: RequestInit = {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + entraIdToken,
             }
         }
-        return fetch("http://localhost:8080/api/securityChampion/workMail?gitHubUser=" + githubUser, getRequestOptions)
+        return fetch(baseUrl + "/api/securityChampion/workMail?gitHubUser=" + githubUser, getRequestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.status.toString());
@@ -101,18 +101,12 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
     ): Promise<Entity> {
         const spec = entity.spec
         if (entity.kind === 'Group' && spec && spec.type === "security_champion") {
-            //const entraIDToken = await this.getEntraIDToken(
-            //    this.config.getConfig("catalog.providers.microsoftGraphOrg.default"),
-            //    this.config.getConfig("sikkerhetsmetrikker")
-            //)
-            console.log(this.config.getConfig("sikkerhetsmetrikker").getString('clientId'))
-            console.log(this.config.getConfig("catalog.providers.microsoftGraphOrg.default").getString('clientId'))
-            console.log(this.config.getConfig("catalog.providers.microsoftGraphOrg.default").getString('clientSecret'))
             const members = spec.members
             if (members && Array.isArray(members) && members.length > 0 && typeof members[0] === 'string') {
-                //const githubUser: string = members[0]
-                //const email = await this.getEmailForGithubUser(entraIDToken, githubUser)
-                //spec.members = [email]
+                const githubUser: string = members[0]
+                const entraIDToken = await this.getEntraIDToken(this.config)
+                const email = await this.getEmailForGithubUser(entraIDToken, githubUser, this.config.getConfig("sikkerhetsmetrikker").getString("baseUrl"))
+                spec.members = [email]
                 return entity
             }
         }
