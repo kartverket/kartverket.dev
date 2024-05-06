@@ -73,7 +73,7 @@ auth:
     oauth2Proxy:
       production: {}
     google:
-      development:
+      production:
         clientId: ${GOOGLE_OAUTH_CLIENT_ID}
         clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
 
