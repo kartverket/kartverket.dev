@@ -57,7 +57,7 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
             },
             body: new URLSearchParams(entraIDBody).toString()
         }
-        return fetch(config.getConfig("catalog.providers.microsoftGraphOrg.default").getString("tokenUrl"), postRequestOptions)
+        return fetch("https://login.microsoftonline.com/7f74c8a2-43ce-46b2-b0e8-b6306cba73a3/oauth2/v2.0/token", postRequestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.status.toString())
