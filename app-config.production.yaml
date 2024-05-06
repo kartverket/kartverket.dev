@@ -72,6 +72,10 @@ auth:
   providers:
     oauth2Proxy:
       production: {}
+    google:
+      development:
+        clientId: ${GOOGLE_OAUTH_CLIENT_ID}
+        clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
 
 cors:
   origin: https://backstage.sandbox.skip.statkart.no
