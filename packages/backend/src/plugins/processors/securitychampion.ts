@@ -68,19 +68,19 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
                 return body["access_token"]
             })
             .catch(error => {
-                console.error('An error occurred when fetching Entra ID token:', error);
+                console.error('An error occurred when fetching Entra ID token: ', error);
                 throw error
             });
     };
 
-    async getEmailForGithubUser(entraIdToken: string, githubUser: string, baseUrl: string): Promise<string> {
+    async getEmailForGithubUser(entraIdToken: string, githubUser: string): Promise<string> {
         const getRequestOptions: RequestInit = {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + entraIdToken,
             }
         }
-        return fetch(baseUrl + "/api/securityChampion/workMail?gitHubUser=" + githubUser, getRequestOptions)
+        return fetch(this.config.getConfig("sikkerhetsmetrikker").getString("baseUrl") + "/api/securityChampion/workMail?gitHubUser=" + githubUser, getRequestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.status.toString());
@@ -91,7 +91,7 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
                 return email.replace('@', '_')
             })
             .catch(error => {
-                console.error('An error occurred when fetching email from Sikkerhetsmetrikker:', error);
+                console.error('An error occurred when fetching email from Sikkerhetsmetrikker: ', error);
                 throw error
             });
     }
@@ -105,7 +105,7 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
             if (members && Array.isArray(members) && members.length > 0 && typeof members[0] === 'string') {
                 const githubUser: string = members[0]
                 const entraIDToken = await this.getEntraIDToken(this.config)
-                const email = await this.getEmailForGithubUser(entraIDToken, githubUser, this.config.getConfig("sikkerhetsmetrikker").getString("baseUrl"))
+                const email = await this.getEmailForGithubUser(entraIDToken, githubUser)
                 spec.members = [email]
                 return entity
             }
