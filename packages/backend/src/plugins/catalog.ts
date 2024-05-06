@@ -1,10 +1,11 @@
-import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
+import {CatalogBuilder } from '@backstage/plugin-catalog-backend';
 import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { GithubEntityProvider } from '@backstage/plugin-catalog-backend-module-github';
 import { MicrosoftGraphOrgEntityProvider } from '@backstage/plugin-catalog-backend-module-msgraph';
 import {msGraphGroupTransformer} from "./transformers/msGraphTransformer";
+import {SecurityChampionGroupProcessor} from "./processors/securitychampion";
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -24,6 +25,7 @@ export default async function createPlugin(
           groupTransformer: msGraphGroupTransformer,
       }),
   );
+  builder.addProcessor(new SecurityChampionGroupProcessor(env.config))
   const { processingEngine, router } = await builder.build();
   await processingEngine.start();
   return router;
