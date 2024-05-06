@@ -5,9 +5,10 @@ import {
 } from '@backstage/plugin-auth-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
-import {ProfileInfo} from "@backstage/plugin-auth-node";
+import {commonSignInResolvers, ProfileInfo} from "@backstage/plugin-auth-node";
 import {stringifyEntityRef} from "@backstage/catalog-model";
 import {CatalogClient} from "@backstage/catalog-client";
+import emailMatchingUserEntityProfileEmail = commonSignInResolvers.emailMatchingUserEntityProfileEmail;
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -95,6 +96,11 @@ export default async function createPlugin(
             })
           }
         }
+      }),
+      google: providers.google.create({
+        signIn: {
+          resolver: emailMatchingUserEntityProfileEmail(),
+        },
       }),
     },
   });
