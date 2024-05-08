@@ -17,12 +17,10 @@ backend:
   database:
     client: pg
     connection:
-      database: backstage_plugin_catalog
       host: ${POSTGRES_HOST}
       port: ${POSTGRES_PORT}
       user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
-    ensureExists: false
     pluginDivisionMode: schema
 
 integrations:
