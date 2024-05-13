@@ -6685,6 +6685,39 @@
   resolved "https://registry.yarnpkg.com/@kamilkisiela/fast-url-parser/-/fast-url-parser-1.1.4.tgz#9d68877a489107411b953c54ea65d0658b515809"
   integrity sha512-gbkePEBupNydxCelHCESvFSFM8XPh1Zs/OAVRW/rKpEqPAl5PbOM90Si8mv9bvnR53uPD2s/FiRxdvSejpRJew==
 
+"@kartverket/backstage-plugin-dask-onboarding-backend@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding-backend/-/backstage-plugin-dask-onboarding-backend-0.1.3.tgz#7a8d8e32b3a8bab480d063b5b62cc2a15507bfd0"
+  integrity sha512-HsSBy+n3wR7kuOhHP2tHTB9hit+ok+GX8LF9ZvzEEiNcEmtAC8LTiQw8Ad0Tms3UQ2s7h9pn3USgSyae8ays7w==
+  dependencies:
+    "@backstage/backend-common" "^0.21.6"
+    "@backstage/config" "^1.2.0"
+    "@google-cloud/firestore" "^7.5.0"
+    "@google-cloud/pubsub" "^4.3.3"
+    "@google-cloud/secret-manager" "^5.1.0"
+    "@types/express" "*"
+    express "^4.17.1"
+    express-promise-router "^4.1.0"
+    jsonwebtoken "^9.0.2"
+    node-fetch "^2.6.7"
+    octokit "^3.1.2"
+    winston "^3.2.1"
+    yn "^4.0.0"
+
+"@kartverket/backstage-plugin-dask-onboarding@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding/-/backstage-plugin-dask-onboarding-0.1.3.tgz#cfc2a8ed594bb76ccc9345d4ac992ccc70123cad"
+  integrity sha512-VX01ZzGtG3tiART0ulacy0Fr9mQ6ZHfr8zWtcSFlNqcEDaHYAStgUlPoxt57mpncRTuDU51prcgJaPyStP4tOg==
+  dependencies:
+    "@backstage/core-components" "^0.14.3"
+    "@backstage/core-plugin-api" "^1.9.1"
+    "@backstage/theme" "^0.5.2"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.61"
+    react-use "^17.2.4"
+    styled-components "^6.1.8"
+
 "@keyv/memcache@^1.3.5":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@keyv/memcache/-/memcache-1.4.0.tgz#89108a5f0ec8ed301d77291f2b485afbd34a6bff"
@@ -11802,9 +11835,9 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@bekk-spire/plugin-ros" "^0.1.11"
     "@internal/plugin-instatus" "^0.1.0"
     "@k-phoen/backstage-plugin-grafana" "^0.1.22"
+    "@kartverket/backstage-plugin-dask-onboarding" "^0.1.3"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
-    backstage-plugin-dask-onboarding "^0.1.3"
     backstage-plugin-xkcd "^1.0.9"
     history "^5.0.0"
     posthog-js "^1.121.4"
@@ -12349,39 +12382,6 @@ babel-runtime@^6.26.0:
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.11.0"
-
-backstage-plugin-dask-onboarding-backend@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/backstage-plugin-dask-onboarding-backend/-/backstage-plugin-dask-onboarding-backend-0.1.3.tgz#ca3e2a83b56598b0dc12c53ff84f3a1c5bf34e32"
-  integrity sha512-5Q0byqsBPzMJy/o3hHfgLPZsWu80Ffy3uWkOElZ6lqM4gKnDCI8/lusBnRMcVHU+oo1SOPPVi/s2HNiCW8VIMA==
-  dependencies:
-    "@backstage/backend-common" "^0.21.6"
-    "@backstage/config" "^1.2.0"
-    "@google-cloud/firestore" "^7.5.0"
-    "@google-cloud/pubsub" "^4.3.3"
-    "@google-cloud/secret-manager" "^5.1.0"
-    "@types/express" "*"
-    express "^4.17.1"
-    express-promise-router "^4.1.0"
-    jsonwebtoken "^9.0.2"
-    node-fetch "^2.6.7"
-    octokit "^3.1.2"
-    winston "^3.2.1"
-    yn "^4.0.0"
-
-backstage-plugin-dask-onboarding@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/backstage-plugin-dask-onboarding/-/backstage-plugin-dask-onboarding-0.1.3.tgz#b95136424410b4864a0360bf2ad683c65262e368"
-  integrity sha512-LX4y6PnlQ9WXrgEtT98tHiNzayTlMPXlyhLITKpczSVegNkZRZWozR4SBpk1vlHr0s5av+Ofh0TsHyID2oeUXA==
-  dependencies:
-    "@backstage/core-components" "^0.14.3"
-    "@backstage/core-plugin-api" "^1.9.1"
-    "@backstage/theme" "^0.5.2"
-    "@material-ui/core" "^4.12.2"
-    "@material-ui/icons" "^4.9.1"
-    "@material-ui/lab" "4.0.0-alpha.61"
-    react-use "^17.2.4"
-    styled-components "^6.1.8"
 
 backstage-plugin-xkcd@^1.0.9:
   version "1.0.9"
