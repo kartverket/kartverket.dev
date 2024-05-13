@@ -1,4 +1,4 @@
-import { createRouter } from 'backstage-plugin-dask-onboarding-backend';
+import { createRouter } from '@kartverket/backstage-plugin-dask-onboarding-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 

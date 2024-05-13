@@ -42,7 +42,7 @@ import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage/plugin-lighthouse';
 import { OpenCostPage } from '@backstage/plugin-opencost';
 import { DevToolsPage } from '@backstage/plugin-devtools';
-import { DaskOnboardingPage } from 'backstage-plugin-dask-onboarding';
+import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 
 const app = createApp({
   components: {
