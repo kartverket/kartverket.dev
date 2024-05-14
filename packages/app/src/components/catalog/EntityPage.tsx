@@ -210,9 +210,9 @@ const serviceEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ros" title="ROS">
-      <RiScPage />
-    </EntityLayout.Route>
+  <EntityLayout.Route path="/risc" title="Risk Scorecard">
+      <RiScPage ></RiScPage>
+  </EntityLayout.Route>
 
   </EntityLayout>
 );
@@ -246,8 +246,8 @@ const websiteEntityPage = (
       <EntityLighthouseContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/ros" title="ROS">
-      <RiScPage />
+    <EntityLayout.Route path="/risc" title="Risk Scorecard">
+        <RiScPage />
     </EntityLayout.Route>
 
   </EntityLayout>
