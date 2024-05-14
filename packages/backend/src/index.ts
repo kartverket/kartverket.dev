@@ -36,6 +36,7 @@ import explore from './plugins/explore';
 import lighthouse from './plugins/lighthouse';
 import kubernetes from './plugins/kubernetes';
 import devTools from './plugins/devtools';
+import daskOnboarding from './plugins/dask-onboarding';
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -96,6 +97,7 @@ async function main() {
   const lighthouseEnv = useHotMemoize(module, () => createEnv('lighthouse'));
   const kubernetesEnv = useHotMemoize(module, () => createEnv('kubernetes'));
   const devToolsEnv = useHotMemoize(module, () => createEnv('devtools'));
+  const daskOnboardingEnv = useHotMemoize(module, () => createEnv('onboarding'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -108,6 +110,7 @@ async function main() {
   apiRouter.use('/explore', await explore(exploreEnv));
   apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
   apiRouter.use('/devtools', await devTools(devToolsEnv));
+  apiRouter.use('/dask-onboarding', await daskOnboarding(daskOnboardingEnv));
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());
