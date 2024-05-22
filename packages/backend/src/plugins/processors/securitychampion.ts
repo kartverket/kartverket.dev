@@ -99,6 +99,11 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
     async preProcessEntity(
         entity: Entity,
     ): Promise<Entity> {
+        const enableProcessor = this.config.has('sikkerhetsmetrikker.enable')
+        if (!enableProcessor) {
+            return entity
+        }
+
         const spec = entity.spec
         if (entity.kind === 'Group' && spec && spec.type === "security_champion") {
             const members = spec.members

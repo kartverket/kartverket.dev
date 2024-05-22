@@ -88,10 +88,6 @@ riskAssessment:
   baseUrl: https://ros-plugin.dev.skip.statkart.no
   path: .security/risc
 
-sikkerhetsmetrikker:
-  baseUrl: https://sikkerhetsmetrikker.dev.skip.statkart.no
-  clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
-
 kubernetes:
   serviceLocatorMethod:
     type: 'multiTenant'
