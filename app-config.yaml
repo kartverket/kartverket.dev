@@ -85,8 +85,8 @@ auth:
         clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
 
 riskAssessment:
-  baseUrl: https://kv-ros-backend-245zlcbrnq-lz.a.run.app
-  path: .sikkerhet/ros
+  baseUrl: https://ros-plugin.dev.skip.statkart.no
+  path: .security/risc
 
 sikkerhetsmetrikker:
   baseUrl: https://sikkerhetsmetrikker.dev.skip.statkart.no
