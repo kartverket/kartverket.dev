@@ -1,14 +1,15 @@
 import {
   createRouter,
   providers,
-  defaultAuthProviderFactories, getDefaultOwnershipEntityRefs,
+  defaultAuthProviderFactories, getDefaultOwnershipEntityRefs, OAuth2ProxyResult,
 } from '@backstage/plugin-auth-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
-import {commonSignInResolvers, ProfileInfo} from "@backstage/plugin-auth-node";
-import {stringifyEntityRef} from "@backstage/catalog-model";
+import {AuthResolverContext, commonSignInResolvers, ProfileInfo} from "@backstage/plugin-auth-node";
+import {Entity, stringifyEntityRef} from "@backstage/catalog-model";
 import {CatalogClient} from "@backstage/catalog-client";
 import emailMatchingUserEntityProfileEmail = commonSignInResolvers.emailMatchingUserEntityProfileEmail;
+import {jwtDecode, JwtPayload} from "jwt-decode";
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -41,17 +42,10 @@ export default async function createPlugin(
       // your own, see the auth documentation for more details:
       //
       //   https://backstage.io/docs/auth/identity-resolver
-      oauth2Proxy: providers.oauth2Proxy.create({
+
+      istio: providers.oauth2Proxy.create({
         authHandler: async (result, ctx) => {
-          const email = result.getHeader('x-auth-request-email');
-          if (!email) {
-            throw new Error('Request did not contain an email');
-          }
-          const { entity } = await ctx.findCatalogUser({
-            annotations: {
-              'microsoft.com/email': email,
-            }
-          })
+          const entity = await getUserFromResult(result, ctx);
           let profileInfo
           if (typeof entity.spec?.profile != undefined) {
             profileInfo = entity.spec?.profile as ProfileInfo
@@ -64,16 +58,7 @@ export default async function createPlugin(
         },
         signIn: {
           async resolver({result}, ctx) {
-            const email = result.getHeader('x-auth-request-email')
-            if (!email) {
-              throw new Error('Request did not contain an email');
-            }
-
-            const { entity } = await ctx.findCatalogUser({
-              annotations: {
-                'microsoft.com/email': email,
-              }
-            })
+            const entity = await getUserFromResult(result, ctx);
 
             const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
 
@@ -104,4 +89,27 @@ export default async function createPlugin(
       }),
     },
   });
+}
+
+async function getUserFromResult(result: OAuth2ProxyResult, ctx: AuthResolverContext): Promise<Entity> {
+  const authHeader= result.getHeader('authorization');
+
+  if (!authHeader) {
+    throw new Error('Request did not contain an authorization header');
+  }
+
+  const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
+  const email = <string>( token as any).upn
+
+  if (!email) {
+    throw new Error('Request did not contain an email');
+  }
+
+  const { entity } = await ctx.findCatalogUser({
+    annotations: {
+      'microsoft.com/email': email,
+    }
+  })
+
+  return entity;
 }

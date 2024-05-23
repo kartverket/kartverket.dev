@@ -51,7 +51,7 @@ const app = createApp({
       if (!configApi.has('auth.environment')) {
         return <SignInPage {...props} auto providers={['guest']} />;
       }
-      return <ProxiedSignInPage {...props} provider="oauth2Proxy" />;
+      return <ProxiedSignInPage {...props} provider={'istio'} />;
     },
   },
   apis,
