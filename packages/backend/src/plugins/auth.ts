@@ -86,9 +86,6 @@ export default async function createPlugin(
             if (!email) {
               throw new Error('Request did not contain an email');
             }
-            if (!email) {
-              throw new Error('Request did not contain an email');
-            }
 
             const { entity } = await ctx.findCatalogUser({
               annotations: {
