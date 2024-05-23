@@ -64,7 +64,7 @@ catalog:
 auth:
   environment: production
   providers:
-    oauth2Proxy:
+    istio:
       production: {}
     google:
       production:
