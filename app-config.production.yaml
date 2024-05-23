@@ -17,10 +17,11 @@ backend:
   database:
     client: pg
     connection:
-      password: ${POSTGRES_PASSWORD}
+      database: ${POSTGRES_DB}
       host: ${POSTGRES_HOST}
       port: ${POSTGRES_PORT}
       user: ${POSTGRES_USER}
+    pluginDivisionMode: schema
 
 integrations:
   github:
