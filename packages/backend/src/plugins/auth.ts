@@ -9,6 +9,7 @@ import {commonSignInResolvers, ProfileInfo} from "@backstage/plugin-auth-node";
 import {stringifyEntityRef} from "@backstage/catalog-model";
 import {CatalogClient} from "@backstage/catalog-client";
 import emailMatchingUserEntityProfileEmail = commonSignInResolvers.emailMatchingUserEntityProfileEmail;
+import {jwtDecode, JwtPayload} from "jwt-decode";
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -41,9 +42,18 @@ export default async function createPlugin(
       // your own, see the auth documentation for more details:
       //
       //   https://backstage.io/docs/auth/identity-resolver
-      oauth2Proxy: providers.oauth2Proxy.create({
+
+      istio: providers.oauth2Proxy.create({
         authHandler: async (result, ctx) => {
-          const email = result.getHeader('x-auth-request-email');
+          const authHeader= result.getHeader('authorization');
+
+          if (!authHeader) {
+            throw new Error('Request did not contain an authorization header');
+          }
+
+          const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
+          const email = <string>( token as any).upn
+
           if (!email) {
             throw new Error('Request did not contain an email');
           }
@@ -64,7 +74,18 @@ export default async function createPlugin(
         },
         signIn: {
           async resolver({result}, ctx) {
-            const email = result.getHeader('x-auth-request-email')
+            const authHeader= result.getHeader('authorization');
+
+            if (!authHeader) {
+              throw new Error('Request did not contain an authorization header');
+            }
+
+            const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
+            const email = <string>( token as any).upn
+
+            if (!email) {
+              throw new Error('Request did not contain an email');
+            }
             if (!email) {
               throw new Error('Request did not contain an email');
             }
