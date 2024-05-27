@@ -43,8 +43,13 @@ import { LighthousePage } from '@backstage/plugin-lighthouse';
 import { OpenCostPage } from '@backstage/plugin-opencost';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
+import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
 
 const app = createApp({
+  __experimentalTranslations: {
+    availableLanguages: ['en', 'no'],
+    resources: [pluginRiScNorwegianTranslation],
+  },
   components: {
     SignInPage: props => {
       const configApi = useApi(configApiRef)
