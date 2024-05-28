@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   HomePageToolkit,
   HomePageCompanyLogo,
@@ -26,6 +26,8 @@ import {
   catalogApiRef,
 } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
+import Cookies = require('js-cookie');
+import { jwtDecode } from 'jwt-decode';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -77,6 +79,41 @@ export const HomePage = () => {
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
+  // TODO: DASK WILL DELETE AFTER DEBUGGING
+  function getBearerToken() {
+    const token = Cookies.get('https://kartverket.dev');
+    if (token) {
+      console.log('Bearer Token:', token);
+      return token;
+    } else {
+      console.log('Token not found');
+      return null;
+    }
+  }
+  
+  function decodeToken(token) {
+    try {
+      const decoded = jwtDecode(token);
+      console.log('Decoded Token:', decoded);
+      return decoded;
+    } catch (error) {
+      console.error('Invalid token:', error);
+      return null;
+    }
+  }
+
+  const [bearerToken, setBearerToken] = useState(null);
+  const [decodedToken, setDecodedToken] = useState(null);
+
+  useEffect(() => {
+    const token = getBearerToken();
+    if (token) {
+      setBearerToken(token);
+      const decoded = decodeToken(token);
+      setDecodedToken(decoded);
+      console.log(decoded)
+    }
+  }, []);
 
   async function getGroups() {
     const catalogGroups = await catalogApi.getEntities({filter: {
