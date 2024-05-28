@@ -135,7 +135,7 @@ jobs:
     outputs:
       image_digest: ${{ steps.build-and-push.outputs.digest }}
 
-  deploy-sandbox:
+  deploy-argo:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
