@@ -26,7 +26,7 @@ import {
   catalogApiRef,
 } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import {jwtDecode, JwtPayload } from 'jwt-decode';
 
 const useStyles = makeStyles(theme => ({
@@ -123,7 +123,8 @@ export const HomePage = () => {
       setBearerToken(token);
       const decoded = decodeToken(token);
       setDecodedToken(decoded);
-      console.log(decoded)
+      console.log(bearerToken)
+      console.log(decodedToken)
     }
   }, []);
 
