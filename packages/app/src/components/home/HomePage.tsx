@@ -55,6 +55,14 @@ const useLogoStyles = makeStyles(theme => ({
   },
 }));
 
+type EntitySpec = {
+  parent: string;
+  profile: {
+    displayName: string;
+  };
+  children: string[];
+};
+
 export const HomePage = () => {
   const classes = useStyles();
   const catalogApi = useApi(catalogApiRef);
@@ -62,14 +70,35 @@ export const HomePage = () => {
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
-  async function getEntities() {
-    const catalogEntities = await catalogApi.getEntities({filter: {
+
+  async function getGroups() {
+    const catalogGroups = await catalogApi.getEntities({filter: {
       'kind':'Group',
     }});
-    console.log(catalogEntities)
+    const catalogSpec = catalogGroups.items.map((entity) => ({
+      entity: entity,
+      spec: entity.spec as EntitySpec,
+    }));
+    const relevantGroups = catalogSpec.filter((entity) => entity.spec.children.length > 0);
+    const areaGroupMap = relevantGroups.map((group) => {
+      return {
+        area: group.spec.parent.split('/')[1],
+        groups: group.spec.profile.displayName,
+      };
+    });
+    console.log(areaGroupMap)
   }
+
+  async function getUsers() {
+    const catalogUsers = await catalogApi.getEntities({filter: {
+      'kind':'User',
+    }});
+    console.log(catalogUsers)
+  }
+  
   useEffect(() => {
-    getEntities();
+    getGroups();
+    getUsers();
   }, []);
   return (
     <SearchContextProvider>
