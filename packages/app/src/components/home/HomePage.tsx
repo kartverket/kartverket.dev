@@ -58,7 +58,7 @@ const useLogoStyles = makeStyles(theme => ({
 export const HomePage = () => {
   const classes = useStyles();
   const catalogApi = useApi(catalogApiRef);
-  const catalogEntities = catalogApi.getEntities();
+  const catalogEntities = await catalogApi.getEntities();
   console.log(catalogEntities)
 
   const { svg, path, container } = useLogoStyles();
