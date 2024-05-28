@@ -81,6 +81,7 @@ export const HomePage = () => {
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   // TODO: DASK WILL DELETE AFTER DEBUGGING
   function getBearerToken(): string | null {
+    console.log('Checking cookies:', document.cookie);
     const cookie = Cookies.get('https://kartverket.dev');
     if (cookie) {
       try {
