@@ -123,7 +123,8 @@ export const HomePage = () => {
       setBearerToken(token);
       const decoded = decodeToken(token);
       setDecodedToken(decoded);
-      console.log(decoded)
+      console.log(bearerToken)
+      console.log(decodedToken)
     }
   }, []);
 
