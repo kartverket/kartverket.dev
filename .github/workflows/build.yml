@@ -143,6 +143,7 @@ jobs:
       matrix:
         env:
           - atgcp1-prod
+          - atgcp1-sandbox
     steps:
       - name: Checkout apps repo
         uses: actions/checkout@v3
