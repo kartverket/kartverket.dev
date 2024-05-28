@@ -26,8 +26,8 @@ import {
   catalogApiRef,
 } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
-import Cookies = require('js-cookie');
-import { jwtDecode } from 'jwt-decode';
+import * as Cookies from 'js-cookie';
+import {jwtDecode, JwtPayload } from 'jwt-decode';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -80,7 +80,7 @@ export const HomePage = () => {
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   // TODO: DASK WILL DELETE AFTER DEBUGGING
-  function getBearerToken() {
+  function getBearerToken(): string | null {
     const cookie = Cookies.get('https://kartverket.dev');
     if (cookie) {
       try {
@@ -103,9 +103,9 @@ export const HomePage = () => {
     }
   }
   
-  function decodeToken(token) {
+  function decodeToken(token: string): JwtPayload | null {
     try {
-      const decoded = jwtDecode(token);
+      const decoded = jwtDecode<JwtPayload>(token);
       console.log('Decoded Token:', decoded);
       return decoded;
     } catch (error) {
@@ -114,8 +114,8 @@ export const HomePage = () => {
     }
   }
 
-  const [bearerToken, setBearerToken] = useState(null);
-  const [decodedToken, setDecodedToken] = useState(null);
+  const [bearerToken, setBearerToken] = useState<string | null>(null);
+  const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
 
   useEffect(() => {
     const token = getBearerToken();
