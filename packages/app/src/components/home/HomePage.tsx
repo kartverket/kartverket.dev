@@ -108,7 +108,7 @@ export const HomePage = () => {
     const userGroupMap = relevantUsers.map((user) => {
       return {
         user: user.spec.profile.email,
-        groups: user.spec.memberOf.map((team) => team.split('/')[1]),
+        groups: user.spec.memberOf.map((team) => team.split('/')[1]?.split('_')[0]),
       };
     });
     console.log(userGroupMap)
