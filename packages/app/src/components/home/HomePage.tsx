@@ -63,7 +63,9 @@ export const HomePage = () => {
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   async function getEntities() {
-    const catalogEntities = await catalogApi.getEntities();
+    const catalogEntities = await catalogApi.getEntities({filter: {
+      'kind':'Group',
+    }});
     console.log(catalogEntities)
   }
   useEffect(() => {
