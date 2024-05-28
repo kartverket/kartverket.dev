@@ -26,7 +26,7 @@ import {
   catalogApiRef,
 } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import {jwtDecode, JwtPayload } from 'jwt-decode';
 
 const useStyles = makeStyles(theme => ({
