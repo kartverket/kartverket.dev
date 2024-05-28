@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   HomePageToolkit,
   HomePageCompanyLogo,
@@ -58,13 +58,17 @@ const useLogoStyles = makeStyles(theme => ({
 export const HomePage = () => {
   const classes = useStyles();
   const catalogApi = useApi(catalogApiRef);
-  const catalogEntities = await catalogApi.getEntities();
-  console.log(catalogEntities)
-
+  
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
-
+  async function getEntities() {
+    const catalogEntities = await catalogApi.getEntities();
+    console.log(catalogEntities)
+  }
+  useEffect(() => {
+    getEntities();
+  }, []);
   return (
     <SearchContextProvider>
       <Page themeId="home">
