@@ -22,6 +22,10 @@ import databricksLogo from './logos/Databricks.png';
 import githubLogo from './logos/Github.png';
 import daskLogo from './logos/DASK.png';
 import skipLogo from './logos/SKIP.png';
+import {
+  catalogApiRef,
+} from '@backstage/plugin-catalog-react';
+import { useApi } from '@backstage/core-plugin-api';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -53,6 +57,10 @@ const useLogoStyles = makeStyles(theme => ({
 
 export const HomePage = () => {
   const classes = useStyles();
+  const catalogApi = useApi(catalogApiRef);
+  const catalogEntities = catalogApi.getEntities();
+  console.log(catalogEntities)
+
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
