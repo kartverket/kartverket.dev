@@ -81,12 +81,24 @@ export const HomePage = () => {
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   // TODO: DASK WILL DELETE AFTER DEBUGGING
   function getBearerToken() {
-    const token = Cookies.get('https://kartverket.dev');
-    if (token) {
-      console.log('Bearer Token:', token);
-      return token;
+    const cookie = Cookies.get('https://kartverket.dev');
+    if (cookie) {
+      try {
+        const tokenData = JSON.parse(cookie);
+        const bearerToken = tokenData.BearerToken;
+        if (bearerToken) {
+          console.log('Bearer Token:', bearerToken);
+          return bearerToken;
+        } else {
+          console.log('Bearer Token not found');
+          return null;
+        }
+      } catch (error) {
+        console.error('Failed to parse cookie:', error);
+        return null;
+      }
     } else {
-      console.log('Token not found');
+      console.log('Cookie not found');
       return null;
     }
   }
