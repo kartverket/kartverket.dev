@@ -79,7 +79,7 @@ export const HomePage = () => {
       entity: entity,
       spec: entity.spec as EntitySpec,
     }));
-    const relevantGroups = catalogSpec.filter((entity) => entity.spec.children.length > 0 && entity.spec.profile?.displayName !== undefined);
+    const relevantGroups = catalogSpec.filter((entity) => entity?.spec?.children?.length > 0 && entity?.spec?.profile?.displayName !== undefined && entity?.spec?.parent !== undefined);
     const areaGroupMap = relevantGroups.map((group) => {
       return {
         area: group.spec.parent.split('/')[1],
