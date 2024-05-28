@@ -55,12 +55,19 @@ const useLogoStyles = makeStyles(theme => ({
   },
 }));
 
-type EntitySpec = {
+type GroupEntitySpec = {
   parent: string;
   profile: {
     displayName: string;
   };
   children: string[];
+};
+
+type UserEntitySpec = {
+  profile: {
+    email: string;
+  };
+  memberOf: string[];
 };
 
 export const HomePage = () => {
@@ -77,7 +84,7 @@ export const HomePage = () => {
     }});
     const catalogSpec = catalogGroups.items.map((entity) => ({
       entity: entity,
-      spec: entity.spec as EntitySpec,
+      spec: entity.spec as GroupEntitySpec,
     }));
     const relevantGroups = catalogSpec.filter((entity) => entity?.spec?.children?.length > 0 && entity?.spec?.profile?.displayName !== undefined && entity?.spec?.parent !== undefined);
     const areaGroupMap = relevantGroups.map((group) => {
@@ -93,7 +100,18 @@ export const HomePage = () => {
     const catalogUsers = await catalogApi.getEntities({filter: {
       'kind':'User',
     }});
-    console.log(catalogUsers)
+    const userSpec = catalogUsers.items.map((entity) => ({
+      entity: entity,
+      spec: entity.spec as UserEntitySpec,
+    }));
+    const relevantUsers = userSpec.filter((entity) => entity?.spec?.profile?.email !== undefined && entity?.spec?.memberOf !== undefined);
+    const userGroupMap = relevantUsers.map((user) => {
+      return {
+        user: user.spec.profile.email,
+        groups: user.spec.memberOf.forEach((team) => team.split('/')[1]),
+      };
+    });
+    console.log(userGroupMap)
   }
 
   useEffect(() => {
