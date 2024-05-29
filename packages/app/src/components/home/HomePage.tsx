@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   HomePageToolkit,
   HomePageCompanyLogo,
@@ -25,7 +25,7 @@ import skipLogo from './logos/SKIP.png';
 import {
   catalogApiRef,
 } from '@backstage/plugin-catalog-react';
-import { useApi } from '@backstage/core-plugin-api';
+import { useApi, identityApiRef } from '@backstage/core-plugin-api';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -73,12 +73,16 @@ type UserEntitySpec = {
 export const HomePage = () => {
   const classes = useStyles();
   const catalogApi = useApi(catalogApiRef);
+  const identityApi = useApi(identityApiRef);
   
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   // TODO: DASK WILL DELETE AFTER DEBUGGING
-
+  async function getIdentity() {
+    const token = await identityApi.getCredentials();
+    console.log(token)
+  }
   async function getGroups() {
     const catalogGroups = await catalogApi.getEntities({filter: {
       'kind':'Group',
@@ -118,6 +122,7 @@ export const HomePage = () => {
   useEffect(() => {
     getGroups();
     getUsers();
+    getIdentity();
   }, []);
   return (
     <SearchContextProvider>
