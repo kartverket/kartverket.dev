@@ -42,7 +42,6 @@ export default async function createPlugin(
       // your own, see the auth documentation for more details:
       //
       //   https://backstage.io/docs/auth/identity-resolver
-
       istio: providers.oauth2Proxy.create({
         authHandler: async (result, ctx) => {
           const entity = await getUserFromResult(result, ctx);
@@ -87,6 +86,36 @@ export default async function createPlugin(
           resolver: emailMatchingUserEntityProfileEmail(),
         },
       }),
+      github: providers.github.create({
+        signIn: {
+          async resolver({result}, ctx) {
+            const { entity } = await ctx.findCatalogUser({
+              annotations: {
+                'microsoft.com/email': result.fullProfile.username!,
+              }
+            })
+            const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
+
+            // Add group display names as claim to the issued backstage token.
+            // This is used for DASKs onboarding plugin
+            const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs})
+            const groupDisplayNames: string[] =
+                groupEntitiesUsingDisplayName.items
+                    // @ts-ignore
+                    .filter(e => e != undefined && e.spec && e.kind == 'Group' && e.spec.profile && e.spec.profile.displayName)
+                    // @ts-ignore
+                    .map(e => e!.spec!.profile!.displayName as string)
+
+            return ctx.issueToken({
+              claims: {
+                sub: stringifyEntityRef(entity),
+                ent: ownershipRefs,
+                groups: groupDisplayNames
+              }
+            })
+          }
+        }
+      })
     },
   });
 }
