@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   HomePageToolkit,
   HomePageCompanyLogo,
@@ -25,9 +25,7 @@ import skipLogo from './logos/SKIP.png';
 import {
   catalogApiRef,
 } from '@backstage/plugin-catalog-react';
-import { useApi } from '@backstage/core-plugin-api';
-import Cookies from 'js-cookie';
-import {jwtDecode, JwtPayload } from 'jwt-decode';
+import { useApi, identityApiRef } from '@backstage/core-plugin-api';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -75,60 +73,16 @@ type UserEntitySpec = {
 export const HomePage = () => {
   const classes = useStyles();
   const catalogApi = useApi(catalogApiRef);
+  const identityApi = useApi(identityApiRef);
   
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   // TODO: DASK WILL DELETE AFTER DEBUGGING
-  function getBearerToken(): string | null {
-    console.log('Checking cookies:', document.cookie);
-    const cookie = Cookies.get('https://kartverket.dev');
-    if (cookie) {
-      try {
-        const tokenData = JSON.parse(cookie);
-        const bearerToken = tokenData.BearerToken;
-        if (bearerToken) {
-          console.log('Bearer Token:', bearerToken);
-          return bearerToken;
-        } else {
-          console.log('Bearer Token not found');
-          return null;
-        }
-      } catch (error) {
-        console.error('Failed to parse cookie:', error);
-        return null;
-      }
-    } else {
-      console.log('Cookie not found');
-      return null;
-    }
+  async function getIdentity() {
+    const token = await identityApi.getCredentials();
+    console.log(token)
   }
-  
-  function decodeToken(token: string): JwtPayload | null {
-    try {
-      const decoded = jwtDecode<JwtPayload>(token);
-      console.log('Decoded Token:', decoded);
-      return decoded;
-    } catch (error) {
-      console.error('Invalid token:', error);
-      return null;
-    }
-  }
-
-  const [bearerToken, setBearerToken] = useState<string | null>(null);
-  const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
-
-  useEffect(() => {
-    const token = getBearerToken();
-    if (token) {
-      setBearerToken(token);
-      const decoded = decodeToken(token);
-      setDecodedToken(decoded);
-      console.log(bearerToken)
-      console.log(decodedToken)
-    }
-  }, []);
-
   async function getGroups() {
     const catalogGroups = await catalogApi.getEntities({filter: {
       'kind':'Group',
@@ -168,6 +122,7 @@ export const HomePage = () => {
   useEffect(() => {
     getGroups();
     getUsers();
+    getIdentity();
   }, []);
   return (
     <SearchContextProvider>
