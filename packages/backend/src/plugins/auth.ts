@@ -7,7 +7,7 @@ import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import {AuthResolverContext, commonSignInResolvers, ProfileInfo} from "@backstage/plugin-auth-node";
 import {Entity, stringifyEntityRef} from "@backstage/catalog-model";
-import {CatalogClient} from "@backstage/catalog-client";
+import {CatalogApi, CatalogClient} from "@backstage/catalog-client";
 import emailMatchingUserEntityProfileEmail = commonSignInResolvers.emailMatchingUserEntityProfileEmail;
 import {jwtDecode, JwtPayload} from "jwt-decode";
 
@@ -58,24 +58,13 @@ export default async function createPlugin(
         signIn: {
           async resolver({result}, ctx) {
             const entity = await getUserFromResult(result, ctx);
-
             const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
-
-            // Add group display names as claim to the issued backstage token.
-            // This is used for DASKs onboarding plugin
-            const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs})
-            const groupDisplayNames: string[] =
-                groupEntitiesUsingDisplayName.items
-                    // @ts-ignore
-                    .filter(e => e != undefined && e.spec && e.kind == 'Group' && e.spec.profile && e.spec.profile.displayName)
-                    // @ts-ignore
-                    .map(e => e!.spec!.profile!.displayName as string)
 
             return ctx.issueToken({
               claims: {
                 sub: stringifyEntityRef(entity),
                 ent: ownershipRefs,
-                groups: groupDisplayNames
+                groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi)
               }
             })
           }
@@ -96,21 +85,11 @@ export default async function createPlugin(
             })
             const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
 
-            // Add group display names as claim to the issued backstage token.
-            // This is used for DASKs onboarding plugin
-            const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs})
-            const groupDisplayNames: string[] =
-                groupEntitiesUsingDisplayName.items
-                    // @ts-ignore
-                    .filter(e => e != undefined && e.spec && e.kind == 'Group' && e.spec.profile && e.spec.profile.displayName)
-                    // @ts-ignore
-                    .map(e => e!.spec!.profile!.displayName as string)
-
             return ctx.issueToken({
               claims: {
                 sub: stringifyEntityRef(entity),
                 ent: ownershipRefs,
-                groups: groupDisplayNames
+                groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi)
               }
             })
           }
@@ -142,3 +121,33 @@ async function getUserFromResult(result: OAuth2ProxyResult, ctx: AuthResolverCon
 
   return entity;
 }
+
+// Add group display names as claim to the issued backstage token.
+// This is used for DASKs onboarding plugin
+async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi: CatalogApi): Promise<string[]> {
+  const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs});
+
+  const groupDisplayNames: string[] = await Promise.all(
+      groupEntitiesUsingDisplayName.items
+          //@ts-ignore
+          .filter(e => e != undefined && e.spec && e.kind == 'Group' && e.spec.profile && e.spec.profile.displayName)
+          .map(async e => {
+            let parentGroup: Entity | undefined;
+            if (e!.spec!.parent) {
+              parentGroup = await catalogApi.getEntityByRef(e!.spec!.parent as string);
+            }
+            let groupName;
+            if (parentGroup) {
+              //@ts-ignore
+              groupName = `${parentGroup!.spec!.profile!.displayName}:${e!.spec!.profile!.displayName}`;
+            } else {
+              //@ts-ignore
+              groupName = e!.spec!.profile!.displayName;
+            }
+            return groupName;
+          })
+  );
+  return groupDisplayNames;
+}
+
+
