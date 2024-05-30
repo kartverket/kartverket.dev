@@ -93,8 +93,10 @@ export const HomePage = () => {
       if (result.token) {
         const decoded = decodeToken(result.token);        
         if (decoded?.groups) {
+          console.log(decoded.groups)
           const groupsMap = decoded.groups.map((group: string) => {
             const [area, role] = group.split(':');
+            console.log(area, role);
             return { area, role };
           });
           setGroupAreaMap(groupsMap);
