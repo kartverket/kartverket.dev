@@ -99,7 +99,7 @@ export class SecurityChampionGroupProcessor implements CatalogProcessor {
     async preProcessEntity(
         entity: Entity,
     ): Promise<Entity> {
-        const enableProcessor = this.config.has('sikkerhetsmetrikker.enable')
+        const enableProcessor = this.config.getOptionalBoolean('sikkerhetsmetrikker.enable')
         if (!enableProcessor) {
             return entity
         }

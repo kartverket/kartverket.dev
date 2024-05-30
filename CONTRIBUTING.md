@@ -90,8 +90,41 @@ catalog:
 
 ### Testing OAuth locally
 
-Check this [README](oauth2-proxy/README.md)
+We run with azure on kubernetes, but for local testing create your own [github app](https://github.com/settings/developers).    
+The end result should be the same, as far as backstage is considered.
 
+In your Oauth Application configure homepage Url to  `http://localhost:3000` and callback url to `http://localhost:7007/api/auth/github/handler/frame`
+
+Configure github auth in `app-config.local.yaml`: 
+```yaml
+auth:
+  environment: development
+  providers:
+    github:
+      development:
+        clientId: x
+        clientSecret: x
+```
+
+To login you NEED to use the anonymized data from Kartverket in `test_data/org.yaml`
+
+Find a user in `test_data/org.yaml` and replace the `annotations.microsoft/email` with your github username.
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    microsoft.com/email: YOUR-GITHUB-USERNAME
+  name: Lynn.Villanueva_kartverket.dev
+  namespace: default
+  uid: 40cdf86d-90a1-44b8-830a-db920aadac82
+spec:
+  memberOf: []
+  profile:
+    displayName: Lynn Villanueva
+    email: Lynn.Villanueva@kartverket.dev
+    picture: https://i.imgur.com/zcal7OY.jpeg
+```
 ### start the app
 
 ```sh

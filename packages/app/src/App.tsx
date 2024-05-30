@@ -37,7 +37,7 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { ExplorePage } from '@backstage/plugin-explore';
 import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
-import { configApiRef, useApi } from "@backstage/core-plugin-api";
+import {configApiRef, githubAuthApiRef, useApi} from "@backstage/core-plugin-api";
 import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage/plugin-lighthouse';
 import { OpenCostPage } from '@backstage/plugin-opencost';
@@ -52,8 +52,16 @@ const app = createApp({
   },
   components: {
     SignInPage: props => {
-      const configApi = useApi(configApiRef)
-      if (!configApi.has('auth.environment')) {
+      const configApi = useApi(configApiRef);
+      if (configApi.has('auth.providers.github')) {
+        return <SignInPage {...props} auto provider={{
+            id: 'github-auth-provider',
+            title: 'GitHub',
+            message: 'Sign in using GitHub',
+            apiRef: githubAuthApiRef,
+        }} />;
+      }
+      if (!configApi.has('auth.providers.istio')) {
         return <SignInPage {...props} auto providers={['guest']} />;
       }
       return <ProxiedSignInPage {...props} provider={'istio'} />;

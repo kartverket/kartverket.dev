@@ -142,7 +142,9 @@ jobs:
     strategy:
       matrix:
         env:
+          - atgcp1-sandbox
           - atgcp1-prod
+
     steps:
       - name: Checkout apps repo
         uses: actions/checkout@v3
@@ -157,7 +159,11 @@ jobs:
             -p '{"spec":{"image":"ghcr.io/kartverket/kartverket.dev@${{needs.build.outputs.image_digest}}"}}' \
             -o yaml > ./env/${{ matrix.env }}/backstage/patches/application.yaml.new
           mv ./env/${{ matrix.env }}/backstage/patches/application.yaml.new ./env/${{ matrix.env }}/backstage/patches/application.yaml
+          git add ./env/${{ matrix.env }}/backstage/patches/application.yaml
           git config --global user.email "noreply@kartverket.no"
           git config --global user.name "GitHub Actions"
-          git commit -am "Deploy ${{ matrix.env }} version ${{github.ref_name}}"
+          git commit -m "Deploy ${{ matrix.env }} version ${{github.ref_name}}"
+          git fetch origin
+          git rebase origin/main
           git push
+

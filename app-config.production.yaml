@@ -75,6 +75,6 @@ cors:
   origin: ${APP_CONFIG_app_baseUrl}
 
 sikkerhetsmetrikker:
-  enable: true
+  enable: false
   baseUrl: https://sikkerhetsmetrikker.dev.skip.statkart.no
   clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
