@@ -93,21 +93,21 @@ export const HomePage = () => {
       if (result.token) {
         const decoded = decodeToken(result.token);        
         if (decoded?.groups) {
-          console.log('Decoded groups:', decoded.groups)
           const groupsMap = decoded.groups.map((group: string) => {
             const [area, role] = group.split(':');
-            console.log('Split groups:',area, role);
             return { area, role };
           });
           setGroupAreaMap(groupsMap);
-          console.log(groupAreaMap);
-          console.log(groupsMap);
         }
       }
     };
 
     fetchToken();
   }, []);
+
+  useEffect(() => {
+    console.log('Updated groupAreaMap:', groupAreaMap);
+  }, [groupAreaMap]);
 
   return (
     <SearchContextProvider>
