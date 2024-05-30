@@ -22,9 +22,6 @@ import databricksLogo from './logos/Databricks.png';
 import githubLogo from './logos/Github.png';
 import daskLogo from './logos/DASK.png';
 import skipLogo from './logos/SKIP.png';
-import {
-  catalogApiRef,
-} from '@backstage/plugin-catalog-react';
 import { useApi, identityApiRef } from '@backstage/core-plugin-api';
 
 const useStyles = makeStyles(theme => ({
@@ -55,24 +52,8 @@ const useLogoStyles = makeStyles(theme => ({
   },
 }));
 
-type GroupEntitySpec = {
-  parent: string;
-  profile: {
-    displayName: string;
-  };
-  children: string[];
-};
-
-type UserEntitySpec = {
-  profile: {
-    email: string;
-  };
-  memberOf: string[];
-};
-
 export const HomePage = () => {
   const classes = useStyles();
-  const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
   
   const { svg, path, container } = useLogoStyles();
@@ -83,45 +64,8 @@ export const HomePage = () => {
     const token = await identityApi.getCredentials();
     console.log(token)
   }
-  async function getGroups() {
-    const catalogGroups = await catalogApi.getEntities({filter: {
-      'kind':'Group',
-    }});
-    const catalogSpec = catalogGroups.items.map((entity) => ({
-      entity: entity,
-      spec: entity.spec as GroupEntitySpec,
-    }));
-    const relevantGroups = catalogSpec.filter((entity) => entity?.spec?.children?.length > 0 && entity?.spec?.profile?.displayName !== undefined && entity?.spec?.parent !== undefined);
-    const areaGroupMap = relevantGroups.map((group) => {
-      return {
-        area: group.spec.parent.split('/')[1],
-        groups: group.spec.profile.displayName,
-      };
-    });
-    console.log(areaGroupMap)
-  }
-
-  async function getUsers() {
-    const catalogUsers = await catalogApi.getEntities({filter: {
-      'kind':'User',
-    }});
-    const userSpec = catalogUsers.items.map((entity) => ({
-      entity: entity,
-      spec: entity.spec as UserEntitySpec,
-    }));
-    const relevantUsers = userSpec.filter((entity) => entity?.spec?.profile?.email !== undefined && entity?.spec?.memberOf !== undefined);
-    const userGroupMap = relevantUsers.map((user) => {
-      return {
-        user: user.spec.profile.email,
-        groups: user.spec.memberOf.map((team) => team.split('/')[1]?.split('_')[0]),
-      };
-    });
-    console.log(userGroupMap)
-  }
 
   useEffect(() => {
-    getGroups();
-    getUsers();
     getIdentity();
   }, []);
   return (
