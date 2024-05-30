@@ -101,6 +101,7 @@ export const HomePage = () => {
           });
           setGroupAreaMap(groupsMap);
           console.log(groupAreaMap);
+          console.log(groupsMap);
         }
       }
     };
