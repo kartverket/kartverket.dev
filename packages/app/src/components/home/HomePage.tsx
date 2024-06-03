@@ -90,6 +90,7 @@ export const HomePage = () => {
   useEffect(() => {
     const fetchToken = async () => {
       const result = await getIdentity();
+      console.log('Token:', result.token)
       if (result.token) {
         const decoded = decodeToken(result.token);        
         if (decoded?.groups) {
