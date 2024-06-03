@@ -6697,10 +6697,10 @@
     react-use "^17.2.4"
     styled-components "^6.1.8"
 
-"@kartverket/backstage-plugin-risk-scorecard@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-risk-scorecard/-/backstage-plugin-risk-scorecard-1.0.7.tgz#85609edd8596764e10af6e397d2f0877e695eec8"
-  integrity sha512-9l1UwJ+NJLkuFlQk8cmMcugSEEwuaaV8lk1pfce6pYxI+M6WbybhUG7A+Vpf08Q8aZ4OTt1+miMfsiQk5cINPg==
+"@kartverket/backstage-plugin-risk-scorecard@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-risk-scorecard/-/backstage-plugin-risk-scorecard-1.0.8.tgz#f2b236f31a2a8b3c6c5e17621837212a1a3bcf08"
+  integrity sha512-5UgcTST9nSVIsqx4+oezg+hIX4Ry1D/Mqk4wLcOqcr74xW+hVOSuTnym6x8KTspIaiBfBt9k4yZKL7mfouuJNw==
   dependencies:
     "@backstage/core-components" "^0.13.9"
     "@backstage/core-plugin-api" "^1.8.1"
@@ -11835,7 +11835,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@internal/plugin-instatus" "^0.1.0"
     "@k-phoen/backstage-plugin-grafana" "^0.1.22"
     "@kartverket/backstage-plugin-dask-onboarding" "^0.1.3"
-    "@kartverket/backstage-plugin-risk-scorecard" "^1.0.7"
+    "@kartverket/backstage-plugin-risk-scorecard" "^1.0.8"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
     backstage-plugin-xkcd "^1.0.9"
