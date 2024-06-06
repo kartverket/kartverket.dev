@@ -21,7 +21,7 @@ resource "google_storage_bucket_iam_binding" "service_accounts" {
   ]
 }
 
-resource "google_storage_bucket_iam_binding" "service_accounts" {
+resource "google_storage_bucket_iam_binding" "service_accounts_admin" {
   bucket = google_storage_bucket.techdocs.name
   role   = "roles/storage.admin"
   members = [
