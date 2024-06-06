@@ -14,7 +14,7 @@ resource "google_storage_bucket" "techdocs" {
 
 resource "google_storage_bucket_iam_binding" "service_accounts" {
   bucket = google_storage_bucket.techdocs.name
-  role   = "roles/storage.admin"
+  role   = "roles/storage.objectAdmin"
   members = [
     "serviceAccount:${google_service_account.writer.email}",
     "serviceAccount:${google_service_account.backstage.email}",
