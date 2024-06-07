@@ -6,7 +6,7 @@ description: Introduction to Kartverket.dev
 
 # Kartverket.dev
 
-Some example text here
+Welcome to the docs for Kartverket.dev!
 
 You can read more about backstage [here](https://backstage.io/docs/overview/what-is-backstage).
 
