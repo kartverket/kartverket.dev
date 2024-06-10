@@ -53,7 +53,7 @@ const app = createApp({
   components: {
     SignInPage: props => {
       const configApi = useApi(configApiRef);
-      if (configApi.has('auth.providers.github')) {
+      if (configApi.has('auth.providers.github') && configApi.getOptionalString('auth.environment') === 'development') {
         return <SignInPage {...props} auto provider={{
             id: 'github-auth-provider',
             title: 'GitHub',
