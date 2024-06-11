@@ -85,7 +85,7 @@ auth:
         clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
 
 riskAssessment:
-  baseUrl: https://ros-plugin.dev.skip.statkart.no
+  baseUrl: https://ros-plugin.atgcp1-dev.kartverket-intern.cloud
   path: .security/risc
 
 kubernetes:
