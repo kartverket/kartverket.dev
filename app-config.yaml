@@ -130,7 +130,7 @@ catalog:
           repository: '.*' # Regex
         schedule: # same options as in TaskScheduleDefinition
           # supports cron, ISO duration, "human duration" as used in code
-          frequency: { minutes: 30 }
+          frequency: { minutes: 70 }
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
   locations:

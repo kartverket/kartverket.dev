@@ -1,4 +1,9 @@
-import {BackendModuleRegistrationPoints, coreServices, createBackendModule} from "@backstage/backend-plugin-api";
+import {
+    AuthService,
+    BackendModuleRegistrationPoints,
+    coreServices,
+    createBackendModule
+} from "@backstage/backend-plugin-api";
 import {
     authProvidersExtensionPoint, AuthResolverContext, createOAuthProviderFactory,
     createProxyAuthenticator, createProxyAuthProviderFactory
@@ -19,8 +24,9 @@ export const authModuleGithubLocalProvider = createBackendModule({
             deps: {
                 providers: authProvidersExtensionPoint,
                 discovery: coreServices.discovery,
+                auth: coreServices.auth,
             },
-            async init({ providers, discovery}) {
+            async init({ providers, discovery, auth}) {
                 providers.registerProvider({
                     providerId: 'github',
                     factory: createOAuthProviderFactory({
@@ -36,14 +42,15 @@ export const authModuleGithubLocalProvider = createBackendModule({
                                     'microsoft.com/email': info.result.fullProfile.username as string,
                                 }
                             })
-                            console.log(entity)
+                            if (!entity) {
+                                throw new AuthenticationError('Authentication failed', "No user found in catalog");
+                            }
                             const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
-                            const groups = await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi)
                             return ctx.issueToken({
                                 claims: {
                                     sub: stringifyEntityRef(entity),
                                     ent: ownershipRefs,
-                                    groups: groups
+                                    groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi, auth)
                                 }
                             })
                         }
@@ -63,8 +70,9 @@ export const authModuleIstioProvider = createBackendModule({
             deps: {
                 providers: authProvidersExtensionPoint,
                 discovery: coreServices.discovery,
+                auth: coreServices.auth
             },
-            async init({ providers, discovery }){
+            async init({ providers, discovery, auth }){
                 providers.registerProvider({
                     providerId: 'istio',
                     factory: createProxyAuthProviderFactory({
@@ -73,12 +81,14 @@ export const authModuleIstioProvider = createBackendModule({
                            const catalogApi = new CatalogClient({ discoveryApi: discovery })
                            const entity = await getUserFromResult(result, ctx);
                            const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
-
+                           if (!entity) {
+                               throw new AuthenticationError('Authentication failed', "No user found in catalog");
+                           }
                            return ctx.issueToken({
                                claims: {
                                    sub: stringifyEntityRef(entity),
                                    ent: ownershipRefs,
-                                   groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi)
+                                   groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi, auth)
                                }
                            })
                        }
@@ -102,7 +112,7 @@ const istioProxyAuthenticator = createProxyAuthenticator({
         const email = <string>( token as any).upn
 
         if (!email) {
-            throw new Error('Request did not contain an email');
+            throw new AuthenticationError('Request did not contain an email');
         }
 
         return {
@@ -171,9 +181,12 @@ async function getUserFromResult(result: OAuth2ProxyResult, ctx: AuthResolverCon
 
 // Add group display names as claim to the issued backstage token.
 // This is used for DASKs onboarding plugin
-async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi: CatalogApi): Promise<string[]> {
-    const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs});
-
+async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi: CatalogApi, auth: AuthService): Promise<string[]> {
+    const { token } = await auth.getPluginRequestToken({
+        onBehalfOf: await auth.getOwnServiceCredentials(),
+        targetPluginId: 'catalog', // e.g. 'catalog'
+    });
+    const groupEntitiesUsingDisplayName = await catalogApi.getEntitiesByRefs({entityRefs: ownershipRefs}, {token: token});
     const groupDisplayNames: string[] = await Promise.all(
         groupEntitiesUsingDisplayName.items
             //@ts-ignore
@@ -181,7 +194,7 @@ async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi
             .map(async e => {
                 let parentGroup: Entity | undefined;
                 if (e!.spec!.parent) {
-                    parentGroup = await catalogApi.getEntityByRef(e!.spec!.parent as string);
+                    parentGroup = await catalogApi.getEntityByRef(e!.spec!.parent as string, {token: token});
                 }
                 let groupName;
                 if (parentGroup) {
