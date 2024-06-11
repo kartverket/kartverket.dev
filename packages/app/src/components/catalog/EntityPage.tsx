@@ -210,8 +210,8 @@ const serviceEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-  <EntityLayout.Route path="/risc" title="Risk Scorecard">
-      <RiScPage ></RiScPage>
+  <EntityLayout.Route path="/risc" title="ROS">
+      <RiScPage />
   </EntityLayout.Route>
 
   </EntityLayout>
