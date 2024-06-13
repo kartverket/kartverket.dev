@@ -6664,10 +6664,10 @@
   resolved "https://registry.yarnpkg.com/@kamilkisiela/fast-url-parser/-/fast-url-parser-1.1.4.tgz#9d68877a489107411b953c54ea65d0658b515809"
   integrity sha512-gbkePEBupNydxCelHCESvFSFM8XPh1Zs/OAVRW/rKpEqPAl5PbOM90Si8mv9bvnR53uPD2s/FiRxdvSejpRJew==
 
-"@kartverket/backstage-plugin-dask-onboarding-backend@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding-backend/-/backstage-plugin-dask-onboarding-backend-0.1.4.tgz#daf067937d390ab8049969393a0602cc367a4d73"
-  integrity sha512-MKm70zAORrfoOIEvTchc8OIV/iwQE9SkWd6PY4BTw3bg4vjwGGDt9xx+2kRJX9R+f4aGRZohSN8Ybg09lGn4tA==
+"@kartverket/backstage-plugin-dask-onboarding-backend@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding-backend/-/backstage-plugin-dask-onboarding-backend-0.1.5.tgz#339196478ce0606ed6d26fc0d64507124a652077"
+  integrity sha512-hszYbyOBz9q/hHAluQ4kKzGbWtgc6xJNTwDGnGOJGowr2goGmeuA3S/oQAaF/Ip8vW1IdccDme84IYv7PRu6cA==
   dependencies:
     "@backstage/backend-common" "^0.21.6"
     "@backstage/config" "^1.2.0"
@@ -6683,10 +6683,10 @@
     winston "^3.2.1"
     yn "^4.0.0"
 
-"@kartverket/backstage-plugin-dask-onboarding@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding/-/backstage-plugin-dask-onboarding-0.1.5.tgz#9497ec8c5818351bd1a71bbb385706a58c0bd1d2"
-  integrity sha512-oNm+/dkdnoGqrqcR58tYcufK4TPn5V2/nakstAeWcsSlAnxnVELmGmAOYQHclp+9pDbyKOEQYQy/hHeGkc67nw==
+"@kartverket/backstage-plugin-dask-onboarding@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding/-/backstage-plugin-dask-onboarding-0.1.6.tgz#018d5dbe4e53e621d9d05432b82990ebda506294"
+  integrity sha512-HCxWSn9Va+RYioEiqZPpPa1yWaE8F8EKW9rpZYIjI/Ftu6dFq7Pa+BerHhJDhyVo8V5XST3Xh70dVjLmP63/FA==
   dependencies:
     "@backstage/core-components" "^0.14.3"
     "@backstage/core-plugin-api" "^1.9.1"
@@ -11835,7 +11835,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@backstage/theme" "^0.5.1"
     "@internal/plugin-instatus" "^0.1.0"
     "@k-phoen/backstage-plugin-grafana" "^0.1.22"
-    "@kartverket/backstage-plugin-dask-onboarding" "^0.1.5"
+    "@kartverket/backstage-plugin-dask-onboarding" "^0.1.6"
     "@kartverket/backstage-plugin-risk-scorecard" "^1.0.11"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
