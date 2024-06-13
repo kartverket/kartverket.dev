@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   HomePageToolkit,
   HomePageCompanyLogo,
@@ -22,8 +22,6 @@ import databricksLogo from './logos/Databricks.png';
 import githubLogo from './logos/Github.png';
 import daskLogo from './logos/DASK.png';
 import skipLogo from './logos/SKIP.png';
-import { useApi, identityApiRef } from '@backstage/core-plugin-api';
-import { jwtDecode } from 'jwt-decode';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -53,62 +51,12 @@ const useLogoStyles = makeStyles(theme => ({
   },
 }));
 
-type UserGroups = {
-  groups: string[]
-};
-
-type UserGroup = {
-  area: string;
-  role: string;
-};
-
 export const HomePage = () => {
   const classes = useStyles();
-  const identityApi = useApi(identityApiRef);
   
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
-  // TODO: DASK WILL DELETE AFTER DEBUGGING
-  async function getIdentity() {
-    const token = await identityApi.getCredentials();
-    return token
-  }
-
-  function decodeToken(token: string): UserGroups | null {
-    try {
-      const decoded = jwtDecode<UserGroups>(token);
-      console.log('Decoded Token:', decoded);
-      return decoded;
-    } catch (error) {
-      console.error('Invalid token:', error);
-      return null;
-    }
-  }
-  const [groupAreaMap, setGroupAreaMap] = useState<UserGroup[]>([]);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const result = await getIdentity();
-      console.log('Token:', result.token)
-      if (result.token) {
-        const decoded = decodeToken(result.token);        
-        if (decoded?.groups) {
-          const groupsMap = decoded.groups.map((group: string) => {
-            const [area, role] = group.split(':');
-            return { area, role };
-          });
-          setGroupAreaMap(groupsMap);
-        }
-      }
-    };
-
-    fetchToken();
-  }, []);
-
-  useEffect(() => {
-    console.log('Updated groupAreaMap:', groupAreaMap);
-  }, [groupAreaMap]);
 
   return (
     <SearchContextProvider>
