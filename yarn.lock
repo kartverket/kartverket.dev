@@ -6683,10 +6683,10 @@
     winston "^3.2.1"
     yn "^4.0.0"
 
-"@kartverket/backstage-plugin-dask-onboarding@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding/-/backstage-plugin-dask-onboarding-0.1.7.tgz#0cbd0df8882a36c0c0aedf935371c260185bf885"
-  integrity sha512-CVocOFYaw5EhcoOMRE1wgppyU5mtkmX5QEDe6Na+dBDbUWZbTEifPMooB/obxU7KK+c0hOlQFcRJ/3Wm3L/wIg==
+"@kartverket/backstage-plugin-dask-onboarding@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@kartverket/backstage-plugin-dask-onboarding/-/backstage-plugin-dask-onboarding-0.1.8.tgz#d1c1b47487ed99a98211547153983ec2c97bde4d"
+  integrity sha512-1Fqyp2QkHxy/vEv7YV2MlqrXMGrN/IPAxcn1TrjmU5tJo3VN2me6csP71Hn5tv9upLFBPqClXdNOmAPB11ijNQ==
   dependencies:
     "@backstage/core-components" "^0.14.3"
     "@backstage/core-plugin-api" "^1.9.1"
@@ -11835,7 +11835,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     "@backstage/theme" "^0.5.1"
     "@internal/plugin-instatus" "^0.1.0"
     "@k-phoen/backstage-plugin-grafana" "^0.1.22"
-    "@kartverket/backstage-plugin-dask-onboarding" "^0.1.7"
+    "@kartverket/backstage-plugin-dask-onboarding" "^0.1.8"
     "@kartverket/backstage-plugin-risk-scorecard" "^1.0.12"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
