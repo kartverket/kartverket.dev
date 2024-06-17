@@ -47,6 +47,13 @@ backend:
       directory: /<absolute>/<path>/<to>/<repo>/db
 ```
 
+### Add local guest user
+To `app-config.local.yaml` add: 
+```yaml
+auth:
+  providers:
+    guest: {}
+```
 ### Getting user data and orgs
 
 #### Using the anonymized data from Kartverket
