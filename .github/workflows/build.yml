@@ -169,7 +169,7 @@ jobs:
           git push
 
   prod-deploy-argo:
-    needs: build
+    needs: [build, sandbox-deploy-argo]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
