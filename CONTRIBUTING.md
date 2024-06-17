@@ -61,7 +61,7 @@ auth:
 ```yaml
 catalog:
   rules:
-    - allow: [Component, API, Location, Template, Group, User]
+    - allow: [Component, API, Location, Resource, Template, Group, User]
   locations:
     - type: file
       target: ../../test_data/org.yaml
