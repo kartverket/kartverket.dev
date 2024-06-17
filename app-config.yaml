@@ -15,6 +15,11 @@ app:
         links:
           - url: https://kartverketgroup.slack.com/archives/C028ZEED280
             title: '#gen-skip'
+      - title: ROS Feedback Channel
+        icon: chat
+        links:
+          - url: https://kartverketgroup.slack.com/archives/C075KCPTURY
+            title: '#kodenær-ros-tilbakemelding'
 
 organization:
   name: Kartverket
@@ -85,7 +90,7 @@ auth:
         clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
 
 riskAssessment:
-  baseUrl: https://ros-plugin.dev.skip.statkart.no
+  baseUrl: https://ros-plugin.atgcp1-dev.kartverket-intern.cloud
   path: .security/risc
 
 kubernetes:
@@ -130,7 +135,7 @@ catalog:
           repository: '.*' # Regex
         schedule: # same options as in TaskScheduleDefinition
           # supports cron, ISO duration, "human duration" as used in code
-          frequency: { minutes: 70 }
+          frequency: { minutes: 30 }
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
   locations:

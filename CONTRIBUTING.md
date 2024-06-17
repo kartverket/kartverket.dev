@@ -19,8 +19,8 @@ To start a local development environment, follow the instructions below.
 ### prerequisites
 
 1. install [nvm](https://github.com/nvm-sh/nvm)
-2. `nvm install 18`
-3. `nvm use 18`
+2. `nvm install 20`
+3. `nvm use 20`
 
 ### GitHub integration
 
