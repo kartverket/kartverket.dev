@@ -111,7 +111,9 @@ const istioProxyAuthenticator = createProxyAuthenticator({
         }
 
         const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
-        const email = <string>( token as any).upn
+        console.log("TOKEN")
+        console.log(token)
+        const email = <string>( token as any).preferred_username
 
         if (!email) {
             throw new AuthenticationError('Request did not contain an email');
@@ -166,7 +168,7 @@ async function getUserFromResult(result: OAuth2ProxyResult, ctx: AuthResolverCon
     }
 
     const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
-    const email = <string>( token as any).upn
+    const email = <string>( token as any).preferred_username
 
     if (!email) {
         throw new Error('Request did not contain an email');
