@@ -80,6 +80,8 @@ export const authModuleIstioProvider = createBackendModule({
                        signInResolver: async ({ result }, ctx) => {
                            const catalogApi = new CatalogClient({ discoveryApi: discovery })
                            const entity = await getUserFromResult(result, ctx);
+                           console.log("AUTH")
+                           console.log(entity.metadata.name)
                            const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
                            if (!entity) {
                                throw new AuthenticationError('Authentication failed', "No user found in catalog");
