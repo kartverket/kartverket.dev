@@ -73,7 +73,7 @@ proxy:
       # Uses cluster-local service in a kubernetes environment
       target: https://opencost.dev.skip.statkart.no
     '/lighthouse':
-      target: https://lighthouse-audit-service.sandbox.skip.statkart.no
+      target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/grafana/api':
       # May be a public or an internal DNS
       target: https://monitoring.kartverket.dev
