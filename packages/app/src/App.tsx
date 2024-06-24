@@ -61,18 +61,16 @@ const app = createApp({
             apiRef: githubAuthApiRef,
         }} />;
       }
-        if (configApi.has('auth.providers.microsoft')) {
-            return <SignInPage {...props} auto provider={{
-                id: 'microsoft-auth-provider',
-                title: 'Microsoft',
-                message: 'Sign in using Microsoft',
-                apiRef: microsoftAuthApiRef,
-            }} />;
-        }
-      if (!configApi.has('auth.providers.istio')) {
+
+      if (configApi.getOptionalString('auth.environment') != 'production') {
         return <SignInPage {...props} auto providers={['guest']} />;
       }
-      return <ProxiedSignInPage {...props} provider={'istio'} />;
+        return <SignInPage {...props} auto provider={{
+            id: 'microsoft-auth-provider',
+            title: 'Microsoft',
+            message: 'Sign in using Microsoft',
+            apiRef: microsoftAuthApiRef,
+        }} />;
     },
   },
   apis,
