@@ -37,7 +37,7 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { ExplorePage } from '@backstage/plugin-explore';
 import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
-import {configApiRef, githubAuthApiRef, useApi} from "@backstage/core-plugin-api";
+import {configApiRef, githubAuthApiRef, microsoftAuthApiRef, useApi} from "@backstage/core-plugin-api";
 import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage/plugin-lighthouse';
 import { OpenCostPage } from '@backstage/plugin-opencost';
@@ -61,6 +61,14 @@ const app = createApp({
             apiRef: githubAuthApiRef,
         }} />;
       }
+        if (configApi.has('auth.providers.microsoft')) {
+            return <SignInPage {...props} auto provider={{
+                id: 'microsoft-auth-provider',
+                title: 'Microsoft',
+                message: 'Sign in using Microsoft',
+                apiRef: microsoftAuthApiRef,
+            }} />;
+        }
       if (!configApi.has('auth.providers.istio')) {
         return <SignInPage {...props} auto providers={['guest']} />;
       }

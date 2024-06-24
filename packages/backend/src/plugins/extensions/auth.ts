@@ -5,16 +5,14 @@ import {
     createBackendModule
 } from "@backstage/backend-plugin-api";
 import {
-    authProvidersExtensionPoint, AuthResolverContext, createOAuthProviderFactory,
-    createProxyAuthenticator, createProxyAuthProviderFactory
+    authProvidersExtensionPoint, createOAuthProviderFactory,
 } from "@backstage/plugin-auth-node";
-import {OAuth2ProxyResult} from "@backstage/plugin-auth-backend-module-oauth2-proxy-provider";
 import {Entity, stringifyEntityRef} from "@backstage/catalog-model";
-import {jwtDecode, JwtPayload} from "jwt-decode";
 import {CatalogApi, CatalogClient} from "@backstage/catalog-client";
 import { AuthenticationError } from '@backstage/errors';
 import {getDefaultOwnershipEntityRefs} from "@backstage/plugin-auth-backend";
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
+import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
 
 export const authModuleGithubLocalProvider = createBackendModule({
     pluginId: 'auth',
@@ -61,39 +59,44 @@ export const authModuleGithubLocalProvider = createBackendModule({
     }
 })
 
-
-export const authModuleIstioProvider = createBackendModule({
+export const authModuleMicrosoftProvider = createBackendModule({
     pluginId: 'auth',
-    moduleId: 'istioProvider',
-    register(reg) {
+    moduleId: 'microsoftGraphProvider',
+    register(reg: BackendModuleRegistrationPoints) {
         reg.registerInit({
             deps: {
                 providers: authProvidersExtensionPoint,
                 discovery: coreServices.discovery,
-                auth: coreServices.auth
+                auth: coreServices.auth,
             },
-            async init({ providers, discovery, auth }){
+            async init({ providers, discovery, auth}) {
                 providers.registerProvider({
-                    providerId: 'istio',
-                    factory: createProxyAuthProviderFactory({
-                       authenticator: istioProxyAuthenticator,
-                       signInResolver: async ({ result }, ctx) => {
-                           const catalogApi = new CatalogClient({ discoveryApi: discovery })
-                           const entity = await getUserFromResult(result, ctx);
-                           console.log("AUTH")
-                           console.log(entity.metadata.name)
-                           const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
-                           if (!entity) {
-                               throw new AuthenticationError('Authentication failed', "No user found in catalog");
-                           }
-                           return ctx.issueToken({
-                               claims: {
-                                   sub: stringifyEntityRef(entity),
-                                   ent: ownershipRefs,
-                                   groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi, auth)
-                               }
-                           })
-                       }
+                    providerId: 'microsoft',
+                    factory: createOAuthProviderFactory({
+                        authenticator: microsoftAuthenticator,
+                        async signInResolver(info, ctx) {
+                            const catalogApi = new CatalogClient({ discoveryApi: discovery })
+                            const email = info.profile.email
+                            if (!email) {
+                                throw new AuthenticationError('Authentication failed', "No username found in profile");
+                            }
+                            const { entity } = await ctx.findCatalogUser({
+                                annotations: {
+                                    'microsoft.com/email': email
+                                }
+                            })
+                            if (!entity) {
+                                throw new AuthenticationError('Authentication failed', "No user found in catalog");
+                            }
+                            const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
+                            return ctx.issueToken({
+                                claims: {
+                                    sub: stringifyEntityRef(entity),
+                                    ent: ownershipRefs,
+                                    groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi, auth)
+                                }
+                            })
+                        }
                     })
                 })
             }
@@ -101,87 +104,6 @@ export const authModuleIstioProvider = createBackendModule({
     }
 })
 
-
-const istioProxyAuthenticator = createProxyAuthenticator({
-    defaultProfileTransform: async (result: OAuth2ProxyResult) => {
-        const authHeader= result.getHeader('authorization');
-
-        if (!authHeader) {
-            throw new Error('Request did not contain an authorization header');
-        }
-
-        const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
-        console.log("TOKEN")
-        console.log(token)
-        const email = <string>( token as any).preferred_username
-
-        if (!email) {
-            throw new AuthenticationError('Request did not contain an email');
-        }
-
-        return {
-            profile: {
-                email,
-            }
-        }
-    },
-    async initialize() {},
-    async authenticate({ req }) {
-        try {
-        const authHeader= req.header('authorization');
-
-        if (!authHeader) {
-            throw new Error('Request did not contain an authorization header');
-        }
-
-        const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
-
-        const result = {
-            fullProfile: token,
-            accessToken: authHeader.split(' ')[1] || '',
-            headers: req.headers,
-            getHeader(name: string) {
-                if (name.toLocaleLowerCase('en-US') === 'set-cookie') {
-                    throw new Error('Access Set-Cookie via the headers object instead');
-                }
-                return req.get(name);
-            },
-        };
-
-        return {
-            result,
-            providerInfo: {
-                accessToken: result.accessToken,
-            },
-        };
-    } catch (e) {
-        throw new AuthenticationError('Authentication failed', e);
-    }
-    }
-})
-
-async function getUserFromResult(result: OAuth2ProxyResult, ctx: AuthResolverContext): Promise<Entity> {
-    const authHeader= result.getHeader('authorization');
-
-    if (!authHeader) {
-        throw new Error('Request did not contain an authorization header');
-    }
-
-    const token = jwtDecode<JwtPayload>(authHeader.split(' ')[1])
-    const email = <string>( token as any).preferred_username
-
-    if (!email) {
-        throw new Error('Request did not contain an email');
-    }
-
-    const { entity } = await ctx.findCatalogUser({
-        annotations: {
-            'microsoft.com/email': email,
-        }
-    })
-
-    return entity;
-}
 
 // Add group display names as claim to the issued backstage token.
 // This is used for DASKs onboarding plugin
