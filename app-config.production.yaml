@@ -64,12 +64,15 @@ catalog:
 auth:
   environment: production
   providers:
-    istio:
-      production: {}
     google:
       production:
         clientId: ${GOOGLE_OAUTH_CLIENT_ID}
         clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+    microsoft:
+      development:
+        clientId: ${ENTRA_WEB_APP_ID}
+        clientSecret: ${ENTRA_WEB_CLIENT_SECRET}
+        tenantId: ${ENTRA_TENANT_ID}
 
 cors:
   origin: ${APP_CONFIG_app_baseUrl}
