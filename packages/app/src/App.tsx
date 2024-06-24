@@ -36,7 +36,7 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { ExplorePage } from '@backstage/plugin-explore';
-import { SignInPage, ProxiedSignInPage } from '@backstage/core-components';
+import { SignInPage } from '@backstage/core-components';
 import {configApiRef, githubAuthApiRef, microsoftAuthApiRef, useApi} from "@backstage/core-plugin-api";
 import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage/plugin-lighthouse';
