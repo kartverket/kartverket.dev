@@ -13,7 +13,7 @@ import {
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-import { TechRadarPage } from '@backstage/plugin-tech-radar';
+import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 import {
     DefaultTechDocsHome,
     TechDocsIndexPage,
@@ -35,12 +35,12 @@ import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-import { ExplorePage } from '@backstage/plugin-explore';
+import { ExplorePage } from '@backstage-community/plugin-explore';
 import { SignInPage } from '@backstage/core-components';
 import {configApiRef, githubAuthApiRef, microsoftAuthApiRef, useApi} from "@backstage/core-plugin-api";
 import { VisitListener } from '@backstage/plugin-home';
-import { LighthousePage } from '@backstage/plugin-lighthouse';
-import { OpenCostPage } from '@backstage/plugin-opencost';
+import { LighthousePage } from '@backstage-community/plugin-lighthouse';
+import { OpenCostPage } from '@backstage-community/plugin-opencost';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';

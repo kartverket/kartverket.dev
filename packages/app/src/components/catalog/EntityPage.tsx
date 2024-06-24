@@ -31,7 +31,7 @@ import {
 import {
   isGithubActionsAvailable,
   EntityGithubActionsContent,
-} from '@backstage/plugin-github-actions';
+} from '@backstage-community/plugin-github-actions';
 import {
   EntityUserProfileCard,
   EntityGroupProfileCard,
@@ -57,8 +57,8 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-import { EntityLinguistCard } from '@backstage/plugin-linguist';
-import { EntityLighthouseContent } from '@backstage/plugin-lighthouse';
+import { EntityLinguistCard } from '@backstage-community/plugin-linguist';
+import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse';
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import { EntityGrafanaAlertsCard, EntityGrafanaDashboardsCard, EntityOverviewDashboardViewer, isAlertSelectorAvailable, isDashboardSelectorAvailable, isOverviewDashboardAvailable } from '@k-phoen/backstage-plugin-grafana';
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';

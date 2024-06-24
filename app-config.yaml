@@ -55,7 +55,13 @@ backend:
     client: better-sqlite3
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
-
+  auth:
+    externalAccess:
+      - type: jwks
+        options:
+          url: https://login.microsoftonline.com/das/discovery/v2.0/keys
+          issuer: https://sts.windows.net/dsa/
+          audience: das
 integrations:
   github:
     - host: github.com
