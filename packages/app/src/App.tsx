@@ -40,7 +40,7 @@ import { SignInPage } from '@backstage/core-components';
 import {configApiRef, githubAuthApiRef, microsoftAuthApiRef, useApi} from "@backstage/core-plugin-api";
 import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
-import { OpenCostPage } from '@backstage-community/plugin-opencost';
+import { OpenCostPage } from '@backstage/plugin-opencost';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
