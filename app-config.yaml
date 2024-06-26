@@ -78,6 +78,9 @@ proxy:
       target: https://monitoring.kartverket.dev
       headers:
         Authorization: Bearer ${GRAFANA_TOKEN}
+    'risc-proxy':
+      target: http://localhost:8080
+      allowedHeaders: ['Authorization', 'GCP-Access-Token']
 
 lighthouse:
   baseUrl: http://localhost:7007/api/proxy/lighthouse
@@ -88,10 +91,6 @@ auth:
       development:
         clientId: ${GOOGLE_OAUTH_CLIENT_ID}
         clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
-
-riskAssessment:
-  baseUrl: https://ros-plugin.atgcp1-dev.kartverket-intern.cloud
-  path: .security/risc
 
 kubernetes:
   serviceLocatorMethod:
