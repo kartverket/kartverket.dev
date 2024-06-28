@@ -27,7 +27,7 @@ backend:
       - type: jwks
         options:
           url: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/discovery/v2.0/keys
-          issuer: https://sts.windows.net/${ENTRA_TENANT_ID}/
+          issuer: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/v2.0
           audience: ${ENTRA_WEB_APP_ID}
 
 integrations:
