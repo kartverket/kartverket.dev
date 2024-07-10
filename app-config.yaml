@@ -78,7 +78,7 @@ proxy:
       target: https://monitoring.kartverket.dev
       headers:
         Authorization: Bearer ${GRAFANA_TOKEN}
-    'risc-proxy':
+    '/risc-proxy':
       target: http://localhost:8080
       allowedHeaders: ['Authorization', 'GCP-Access-Token']
 
