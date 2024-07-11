@@ -38,15 +38,16 @@ integrations:
         - $include: github-secrets/github-app-backstage-skip-credentials.yaml
 
 proxy:
-  '/xkcd-proxy':
-    target: https://xkcd.com/
-  '/opencost':
-    target: "http://opencost.opencost.svc.cluster.local:9090"
-  '/lighthouse':
-    target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
-  '/risc-proxy':
-    target: https://ros-plugin.atgcp1-dev.kartverket-intern.cloud
-    allowedHeaders: ['Authorization', 'GCP-Access-Token']
+  endpoints:
+    '/xkcd-proxy':
+      target: https://xkcd.com/
+    '/opencost':
+      target: "http://opencost.opencost.svc.cluster.local:9090"
+    '/lighthouse':
+      target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
+    '/risc-proxy':
+      target: https://ros-plugin.atgcp1-dev.kartverket-intern.cloud
+      allowedHeaders: ['Authorization', 'GCP-Access-Token']
 
 lighthouse:
   baseUrl: /api/proxy/lighthouse
