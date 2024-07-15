@@ -3,9 +3,9 @@ name: Build
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: ['main']
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: ['v*.*.*']
     paths-ignore:
       - README.md
       - CONTRIBUTING.md
@@ -15,7 +15,7 @@ on:
       - '.gitignore'
       - 'mkdocs.yml'
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
     paths-ignore:
       - README.md
       - CONTRIBUTING.md
@@ -24,7 +24,6 @@ on:
       - 'terraform/**'
       - '.gitignore'
       - 'mkdocs.yml'
-
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -145,13 +144,21 @@ jobs:
       matrix:
         env:
           - atgcp1-sandbox
+    permissions:
+      id-token: write
 
     steps:
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: ${{ github.repository }}
+          identity: utviklerportal
+
       - name: Checkout apps repo
         uses: actions/checkout@v4
         with:
           repository: kartverket/skip-apps
-          token: ${{ secrets.ARGOCD_PAT }}
+          token: ${{ steps.octo-sts.outputs.token }}
 
       - name: Deploy to ${{ matrix.env }}
         run: |
@@ -178,13 +185,21 @@ jobs:
       matrix:
         env:
           - atgcp1-prod
+    permissions:
+      id-token: write
 
     steps:
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: ${{ github.repository }}
+          identity: utviklerportal
+
       - name: Checkout apps repo
         uses: actions/checkout@v4
         with:
           repository: kartverket/skip-apps
-          token: ${{ secrets.ARGOCD_PAT }}
+          token: ${{ steps.octo-sts.outputs.token }}
 
       - name: Deploy to ${{ matrix.env }}
         run: |
