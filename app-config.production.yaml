@@ -46,7 +46,7 @@ proxy:
     '/lighthouse':
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/risc-proxy':
-      target: http://ros-plugin-backend.ros-plugin:8080
+      target: http://ros-plugin-backend.ros-plugin-main:8080
       allowedHeaders: ['Authorization', 'GCP-Access-Token']
 
 lighthouse:
