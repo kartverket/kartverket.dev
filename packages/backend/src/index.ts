@@ -62,5 +62,8 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 // TechDocs
 backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
 
+// Security metrics
+backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
+
 
 backend.start();

@@ -62,6 +62,7 @@ import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse'
 import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
 import { EntityGrafanaAlertsCard, EntityGrafanaDashboardsCard, EntityOverviewDashboardViewer, isAlertSelectorAvailable, isDashboardSelectorAvailable, isOverviewDashboardAvailable } from '@k-phoen/backstage-plugin-grafana';
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
+import { SecurityMetricsPage }  from '@kartverket/backstage-plugin-security-metrics-frontend';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -210,9 +211,13 @@ const serviceEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-  <EntityLayout.Route path="/risc" title="ROS">
-      <RiScPage />
-  </EntityLayout.Route>
+    <EntityLayout.Route path="/risc" title="ROS">
+        <RiScPage />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+        <SecurityMetricsPage />
+    </EntityLayout.Route>
 
   </EntityLayout>
 );
@@ -248,6 +253,10 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/risc" title="Risk Scorecard">
         <RiScPage />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+        <SecurityMetricsPage />
     </EntityLayout.Route>
 
   </EntityLayout>
@@ -413,6 +422,10 @@ const systemPage = (
         ]}
         unidirectional={false}
       />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+        <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );
