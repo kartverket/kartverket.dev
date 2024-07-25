@@ -93,3 +93,9 @@ sikkerhetsmetrikker:
   enable: true
   baseUrl: https://sikkerhetsmetrikker.atgcp1-dev.kartverket-intern.cloud
   clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
+
+activeDirectory:
+  clientId: ${ENTRA_WEB_APP_ID}
+  clientSecret: ${ENTRA_WEB_CLIENT_SECRET}
+  tenantId: ${ENTRA_TENANT_ID}
+  scope: '978bd794-4ce3-4664-9139-6801625c8915/.default'
