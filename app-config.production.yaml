@@ -9,7 +9,6 @@ backend:
   # callers. When its value is "http://localhost:7007", it's strictly private
   # and can't be reached by others.
   baseUrl: ${APP_CONFIG_backend_baseUrl}
-  sikmet-backend-baseurl: http://plugin-backend.sikkerhetsmetrikker-main:8080/api
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen: ':7007'
@@ -93,3 +92,5 @@ sikkerhetsmetrikker:
   enable: true
   baseUrl: https://sikkerhetsmetrikker.atgcp1-dev.kartverket-intern.cloud
   clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
+  securityMetricsBackendClientId: ${SIKKERHETSMETRIKKER_PLUGIN_BACKEND_CLIENT_ID}
+  backendBaseUrl: http://plugin-backend.sikkerhetsmetrikker-main:8080/api
