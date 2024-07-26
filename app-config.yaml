@@ -32,7 +32,6 @@ backend:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
   baseUrl: http://localhost:7007
-  sikmet-backend-baseurl: https://api.sikkerhetsmetrikker.plugin.atgcp1-dev.kartverket-intern.cloud/api
   listen:
     port: 7007
     # Uncomment the following host directive to bind to specific interfaces
