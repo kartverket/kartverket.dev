@@ -15,11 +15,16 @@ app:
         links:
           - url: https://kartverketgroup.slack.com/archives/C028ZEED280
             title: '#gen-skip'
-      - title: ROS Feedback Channel
+      - title: RISC Feedback Channel
         icon: chat
         links:
           - url: https://kartverketgroup.slack.com/archives/C075KCPTURY
             title: '#kodenær-ros-tilbakemelding'
+      - title: RISC Documentation
+        icon: article
+        links:
+          - url: https://kartverket.atlassian.net/wiki/spaces/SIK/pages/1176142023/Koden+r+RoS
+            title: Confluence - RISC
 
 organization:
   name: Kartverket
@@ -39,10 +44,23 @@ backend:
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     img-src: ["'self'", 'data:', 'imgs.xkcd.com']
-    frame-src: ['sandbox.kartverket.dev', 'kartverket.dev', 'fedifeed.com', 'monitoring.kartverket.dev']
+    frame-src:
+      [
+        'sandbox.kartverket.dev',
+        'kartverket.dev',
+        'fedifeed.com',
+        'monitoring.kartverket.dev',
+      ]
     # unsafe-eval is required by backstage
     # unsafe-inline is required by the lighthouse iframe
-    script-src: ["'self'", 'sandbox.kartverket.dev', 'skip.instatus.com', "'unsafe-eval'", "'unsafe-inline'"]
+    script-src:
+      [
+        "'self'",
+        'sandbox.kartverket.dev',
+        'skip.instatus.com',
+        "'unsafe-eval'",
+        "'unsafe-inline'",
+      ]
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
@@ -127,7 +145,7 @@ scaffolder:
 catalog:
   orphanStrategy: delete
   rules:
-    - allow: [ Component, Group, User, Resource, Location, System, API, Domain ]
+    - allow: [Component, Group, User, Resource, Location, System, API, Domain]
   providers:
     github:
       providerId:
@@ -145,16 +163,16 @@ catalog:
     - type: url
       target: https://github.com/kartverket/backstage-templates/blob/main/catalog-onboarding/template.yaml
       rules:
-        - allow: [ Template ]
+        - allow: [Template]
     - type: url
       target: https://github.com/kartverket/backstage-templates/blob/main/techdocs-onboarding/template.yaml
       rules:
-        - allow: [ Template ]
+        - allow: [Template]
 
 opencost:
   baseUrl: http://localhost:7007/api/proxy/opencost/model
 
-techdocs: 
+techdocs:
   builder: local
 
 grafana:
