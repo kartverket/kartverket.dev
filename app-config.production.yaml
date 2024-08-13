@@ -75,10 +75,6 @@ catalog:
 auth:
   environment: production
   providers:
-    google:
-      production:
-        clientId: ${GOOGLE_OAUTH_CLIENT_ID}
-        clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
     microsoft:
       production:
         clientId: ${ENTRA_WEB_APP_ID}

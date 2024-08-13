@@ -89,13 +89,6 @@ sikkerhetsmetrikker:
   backendBaseUrl: https://api.sikkerhetsmetrikker.plugin.atgcp1-dev.kartverket-intern.cloud/api
   securityMetricsBackendClientId: 'dummy_value'
 
-auth:
-  providers:
-    google:
-      development:
-        clientId: ${GOOGLE_OAUTH_CLIENT_ID}
-        clientSecret: ${GOOGLE_OAUTH_CLIENT_SECRET}
-
 kubernetes:
   serviceLocatorMethod:
     type: 'multiTenant'
