@@ -44,8 +44,7 @@
   "resolutions": {
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@mui/material": "5.16.4",
-    "axios": "1.7.4"
+    "@mui/material": "5.16.4"
   },
   "prettier": "@spotify/prettier-config",
   "lint-staged": {
@@ -58,7 +57,7 @@
     ]
   },
   "dependencies": {
-    "@types/react": "^17",
-    "@mui/material": "5.16.4"
+    "@mui/material": "5.16.4",
+    "@types/react": "^17"
   }
 }
