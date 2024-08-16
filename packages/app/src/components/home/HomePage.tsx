@@ -152,7 +152,7 @@ export const HomePage = () => {
                     icon: <img src={daskLogo} alt="Logo of DASK" width={35} />,
                   },
                   {
-                    url: 'https://kartverket.atlassian.net/wiki/spaces/SKIPDOK/overview',
+                    url: 'https://skip.kartverket.no/docs',
                     label: 'SKIP Docs',
                     icon: <img src={skipLogo} alt="Logo of SKIP" width={35} />,
                   },
