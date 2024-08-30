@@ -8,8 +8,8 @@ app:
       - title: Documentation
         icon: article
         links:
-          - url: https://kartverket.atlassian.net/wiki/spaces/SKIPDOK/overview
-            title: Confluence - SKIPDOK
+          - url: https://skip.kartverket.no/docs
+            title: SKIPDOK
       - title: Slack Channel
         icon: chat
         links:
@@ -49,7 +49,7 @@ backend:
         'sandbox.kartverket.dev',
         'kartverket.dev',
         'fedifeed.com',
-        'monitoring.kartverket.dev',
+        'monitoring.kartverket.cloud',
       ]
     # unsafe-eval is required by backstage
     # unsafe-inline is required by the lighthouse iframe
@@ -93,7 +93,7 @@ proxy:
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/grafana/api':
       # May be a public or an internal DNS
-      target: https://monitoring.kartverket.dev
+      target: https://monitoring.kartverket.cloud
       headers:
         Authorization: Bearer ${GRAFANA_TOKEN}
     '/risc-proxy':
@@ -159,15 +159,7 @@ catalog:
           frequency: { minutes: 30 }
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
-  locations:
-    - type: url
-      target: https://github.com/kartverket/backstage-templates/blob/main/catalog-onboarding/template.yaml
-      rules:
-        - allow: [Template]
-    - type: url
-      target: https://github.com/kartverket/backstage-templates/blob/main/techdocs-onboarding/template.yaml
-      rules:
-        - allow: [Template]
+
 
 opencost:
   baseUrl: http://localhost:7007/api/proxy/opencost/model
@@ -177,7 +169,7 @@ techdocs:
 
 grafana:
   # Publicly accessible domain
-  domain: https://monitoring.kartverket.dev
+  domain: https://monitoring.kartverket.cloud
 
   # Is unified alerting enabled in Grafana?
   # See: https://grafana.com/blog/2021/06/14/the-new-unified-alerting-system-for-grafana-everything-you-need-to-know/
@@ -257,25 +249,16 @@ explore:
       tags:
         - google-cloud
 
-    - title: Grafana – monitoring.kartverket.dev
+    - title: Grafana – monitoring.kartverket.cloud
       description: Query, visualize, alert on, and understand your data no matter where it's stored. With Grafana you can create, explore, and share all of your data through beautiful, flexible dashboards.
-      url: https://monitoring.kartverket.dev
+      url: https://monitoring.kartverket.cloud
       image: /img/grafana.png
       tags:
         - observability
 
     - title: Argo CD dev
       description: Declarative continuous delivery with a fully-loaded UI
-      url: https://argocd.dev.skip.statkart.no
-      image: /img/argocd.png
-      tags:
-        - gitops
-        - deployment
-        - kubernetes
-
-    - title: Argo CD test
-      description: Declarative continuous delivery with a fully-loaded UI
-      url: https://argocd.test.skip.statkart.no
+      url: https://argo-dev.kartverket.dev/
       image: /img/argocd.png
       tags:
         - gitops
@@ -284,7 +267,7 @@ explore:
 
     - title: Argo CD production
       description: Declarative continuous delivery with a fully-loaded UI
-      url: https://argocd.prod.skip.statkart.no
+      url: https://argo-prod.kartverket.dev/
       image: /img/argocd.png
       tags:
         - gitops
@@ -312,19 +295,6 @@ explore:
         - security
         - secrets
 
-    - title: Vault
-      description: |
-        Vault is a tool for securely accessing secrets. A secret is anything
-        that you want to tightly control access to, such as API keys, passwords,
-        certificates, and more. Vault provides a unified interface to any
-        secret, while providing tight access control and recording a detailed
-        audit log.
-      lifecycle: Sunsetting
-      url: https://vault.statkart.no/
-      image: /img/vault.svg
-      tags:
-        - security
-        - secrets
 
     - title: Scality S3 Admin
       description: |
