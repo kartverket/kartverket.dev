@@ -51,7 +51,6 @@ backend.add(import('@backstage/plugin-proxy-backend/alpha'));
 
 // Scaffolder
 backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
-backend.add(import('@roadiehq/scaffolder-backend-module-utils/new-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 
 // Search
