@@ -37,7 +37,7 @@ export const authModuleGithubLocalProvider = createBackendModule({
                             }
                             const { entity } = await ctx.findCatalogUser({
                                 annotations: {
-                                    'microsoft.com/email': info.result.fullProfile.username as string,
+                                    'microsoft.com/email': '<DINEPOST@epost.com>' // info.result.fullProfile.username as string,
                                 }
                             })
                             if (!entity) {

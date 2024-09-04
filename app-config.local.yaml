@@ -1,0 +1,54 @@
+integrations:
+  github:
+    - host: github.com
+      token: <dinGithubToken(trengerRepo)>
+
+catalog:
+  providers:
+    github:
+      providerId:
+        organization: 'spire-test'
+        catalogPath: '.security/catalog-info.yaml'
+        filters:
+          branch: 'main'
+          repository: '.*'
+        schedule:
+          frequency: { minutes: 1 }
+          timeout: { minutes: 3 }
+  locations:
+    - type: file
+      target: ../../test_data/entities.yaml
+    - type: file
+      target: ../../test_data/org.yaml
+auth:
+  environment: development
+  providers:
+    microsoft:
+      development:
+        clientId: 4db9a5d4-74c3-4c7e-bd71-1029f96a099c
+        clientSecret: <CLIENT_SECRET_SIKKERHETSMETRIKKER_PLUGIN>
+        tenantId: c6ea0b0b-e867-46d4-a70b-4c05887e7f6f
+        domainHint: c6ea0b0b-e867-46d4-a70b-4c05887e7f6f
+        additionalScopes:
+          - Mail.Send
+        signIn:
+          resolvers:
+            - resolver: emailMatchingUserEntityAnnotation
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
+    github:
+      development:
+        clientId: <GITHUB_APP_CLIENT_ID>
+        clientSecret: <GITHUB_APP_CLIENT_SECRET>
+        callbackUrl: http://localhost:7007/api/auth/github/handler/frame
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
+
+riskAssessment:
+  baseUrl: http://localhost:8080
+  path: .security/risc
+
+isUsingMock: true
