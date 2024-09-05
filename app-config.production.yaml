@@ -62,7 +62,8 @@ catalog:
         tenantId: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
         queryMode: 'advanced'
         user:
-          filter: accountEnabled eq true and userType eq 'member'
+          filter: accountEnabled eq true and userType eq 'member' and startsWith(companyName, 'Staten')
+          select: ['accountEnabled', 'displayName', 'givenName', 'id', 'mail', 'mailNickname', 'surname', 'companyName', 'userType']
         group:
           filter: >
             startswith(displayName, 'AAD - TF')
