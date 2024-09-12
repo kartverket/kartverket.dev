@@ -91,7 +91,5 @@ cors:
 
 sikkerhetsmetrikker:
   enable: true
-  baseUrl: https://sikkerhetsmetrikker.atgcp1-dev.kartverket-intern.cloud
+  baseUrl: http://sikkerhetsmetrikker.sikkerhetsmetrikker-main:8080
   clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
-  securityMetricsBackendClientId: ${SIKKERHETSMETRIKKER_PLUGIN_BACKEND_CLIENT_ID}
-  backendBaseUrl: http://plugin-backend.sikkerhetsmetrikker-main:8080/api
