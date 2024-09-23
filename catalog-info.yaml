@@ -5,6 +5,8 @@ metadata:
   name: "kartverket.dev"
   tags:
   - "internal"
+  annotations:
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: "website"
   lifecycle: "production"
