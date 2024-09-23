@@ -160,10 +160,6 @@ catalog:
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
 
-
-opencost:
-  baseUrl: http://localhost:7007/api/proxy/opencost/model
-
 techdocs:
   builder: local
 

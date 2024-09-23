@@ -21,6 +21,7 @@ To start a local development environment, follow the instructions below.
 1. install [nvm](https://github.com/nvm-sh/nvm)
 2. `nvm install 20`
 3. `nvm use 20`
+4. enable corepack `corepack enable`
 
 ### GitHub integration
 
