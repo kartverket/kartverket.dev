@@ -43,7 +43,7 @@ backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
 // Lighthouse
 backend.add(import('@backstage-community/plugin-lighthouse-backend'));
 
-// Lighthouse
+// Linguist
 backend.add(import('@backstage-community/plugin-linguist-backend'));
 
 // Proxy
@@ -57,6 +57,7 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-search-backend/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
+backend.add(import('@backstage/plugin-search-backend-module-pg/alpha'));
 
 // TechDocs
 backend.add(import('@backstage/plugin-techdocs-backend/alpha'));

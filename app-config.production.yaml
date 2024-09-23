@@ -41,8 +41,6 @@ proxy:
   endpoints:
     '/xkcd-proxy':
       target: https://xkcd.com/
-    '/opencost':
-      target: "http://opencost.opencost.svc.cluster.local:9090"
     '/lighthouse':
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/risc-proxy':
@@ -51,9 +49,6 @@ proxy:
 
 lighthouse:
   baseUrl: /api/proxy/lighthouse
-
-opencost:
-  baseUrl: /api/proxy/opencost/model
 
 catalog:
   providers:

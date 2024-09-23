@@ -55,6 +55,8 @@ jobs:
           node-version: 20.x
           cache: 'npm'
 
+      - run: corepack enable
+
       - run: yarn install --frozen-lockfile
 
       # tsc outputs type definitions to dist-types/ in the repo root, which are then consumed by the build
