@@ -57,7 +57,7 @@ jobs:
 
       - run: corepack enable
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
       # tsc outputs type definitions to dist-types/ in the repo root, which are then consumed by the build
       - run: yarn tsc
