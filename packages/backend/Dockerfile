@@ -65,7 +65,7 @@ RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
-RUN find packages/
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
+RUN find packages/
 
 CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml", "--config", "app-config.runtime.yaml"]
