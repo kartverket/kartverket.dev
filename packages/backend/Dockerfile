@@ -17,7 +17,7 @@ ENV PYTHON=/usr/bin/python3
 RUN groupmod -g 150 node && usermod -u 150 -g 150 node
 RUN corepack enable
 # Set the owner of the cache directory to node so we can use corepack
-#RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
+RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
 
 # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
