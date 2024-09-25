@@ -64,6 +64,8 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 # Then copy the rest of the backend bundle, along with any other files we might want.
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
-RUN find packages/
 
-CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml", "--config", "app-config.runtime.yaml"]
+# Make a local copy that we can use to copy from into a writable volume later
+RUN mkdir /app/dist_copy && cp -r /app/packages/app/dist /app/dist_copy
+
+CMD ["sh", "-c", "cp -r /app/dist_copy/dist/* /app/packages/app/dist && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
