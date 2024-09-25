@@ -80,6 +80,9 @@ integrations:
       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
       token: ${GITHUB_TOKEN}
 
+permission:
+  enabled: false
+
 ### Add a proxy endpoint for the frontend.
 ### A typical reason to do this is to handle HTTPS and CORS for internal services.
 proxy:
