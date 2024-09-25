@@ -66,6 +66,7 @@ jobs:
       # The configuration files here should match the one you use inside the Dockerfile below.
       - run: yarn build:backend --config ../../app-config.yaml --config ../../app-config.production.yaml
 
+      - run: find packages/
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
