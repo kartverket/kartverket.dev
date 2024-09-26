@@ -65,7 +65,7 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
-RUN mkdir /app/dist_copy && cp -r /app/packages/app/dist /app/dist_copy
-RUN mkdir /app/backend_copy && cp -r /app/packages/backend/dist /app/backend_copy
+RUN mv packages packages_tmp
+RUN mkdir packages
 
-CMD ["sh", "-c", "cp -r /app/dist_copy/dist/* /app/packages/app/dist && cp -r /app/backend_copy/dist/* /app/packages/backend/dist && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
+CMD ["sh", "-c", "cp -rn packages_tmp/* packages/ && rm -rf packages_tmp && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
