@@ -68,4 +68,4 @@ RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 RUN mv packages packages_tmp
 RUN mkdir packages
 
-CMD ["sh", "-c", "cp -rn packages_tmp/* packages/ && rm -rf packages_tmp && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
+CMD ["sh", "-c", "cp -r packages_tmp/* packages/ && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]

@@ -136,6 +136,21 @@ jobs:
     outputs:
       image_digest: ${{ steps.build-and-push.outputs.digest }}
 
+  pharos:
+    name: Run Pharos
+    needs: build
+    permissions:
+      actions: read
+      packages: read
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Run Pharos"
+        uses: kartverket/pharos@v0.2.1
+        with:
+          image_url: ${{ needs.build.outputs.image_url }}
+
   sandbox-deploy-argo:
     needs: build
     runs-on: ubuntu-latest
