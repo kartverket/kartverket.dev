@@ -59,5 +59,9 @@
   "dependencies": {
     "@mui/material": "5.16.4",
     "@types/react": "^17"
-  }
+  },
+  "files": [
+    "config.d.ts"
+  ],
+  "configSchema": "config.d.ts"
 }

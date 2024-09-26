@@ -1,9 +1,6 @@
-import { createBackend } from '@backstage/backend-defaults';
-import { legacyPlugin } from '@backstage/backend-common';
-import {
-    authModuleGithubLocalProvider,
-    authModuleMicrosoftProvider
-} from "./plugins/extensions/auth";
+import {createBackend} from '@backstage/backend-defaults';
+import {legacyPlugin} from '@backstage/backend-common';
+import {authModuleGithubLocalProvider, authModuleMicrosoftProvider} from "./plugins/extensions/auth";
 import {msGroupTransformerCatalogModule, securityChampionsCatalogModule} from "./plugins/extensions/catalog";
 
 

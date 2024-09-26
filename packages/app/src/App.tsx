@@ -51,27 +51,27 @@ const app = createApp({
     resources: [pluginRiScNorwegianTranslation],
   },
   components: {
-    SignInPage: props => {
-      const configApi = useApi(configApiRef);
-      if (configApi.has('auth.providers.github') && configApi.getOptionalString('auth.environment') === 'development') {
-        return <SignInPage {...props} auto provider={{
-            id: 'github-auth-provider',
-            title: 'GitHub',
-            message: 'Sign in using GitHub',
-            apiRef: githubAuthApiRef,
-        }} />;
-      }
+      SignInPage: props => {
+          const configApi = useApi(configApiRef);
+          if (configApi.has('auth.providers.github') && configApi.getOptionalString('auth.environment') === 'development') {
+              return <SignInPage {...props} auto provider={{
+                  id: 'github-auth-provider',
+                  title: 'GitHub',
+                  message: 'Sign in using GitHub',
+                  apiRef: githubAuthApiRef,
+              }} />;
+          }
 
-      if (configApi.getOptionalString('auth.environment') != 'production') {
-        return <SignInPage {...props} auto providers={['guest']} />;
-      }
-        return <SignInPage {...props} auto provider={{
-            id: 'microsoft-auth-provider',
-            title: 'Microsoft',
-            message: 'Sign in using Microsoft',
-            apiRef: microsoftAuthApiRef,
-        }} />;
-    },
+          if (configApi.getOptionalString('auth.environment') != 'production') {
+              return <SignInPage {...props} auto providers={['guest']} />;
+          }
+          return <SignInPage {...props} auto provider={{
+              id: 'microsoft-auth-provider',
+              title: 'Microsoft',
+              message: 'Sign in using Microsoft',
+              apiRef: microsoftAuthApiRef,
+          }} />;
+      },
   },
   apis,
   bindRoutes({ bind }) {

@@ -13,6 +13,17 @@ import { AuthenticationError } from '@backstage/errors';
 import {getDefaultOwnershipEntityRefs} from "@backstage/plugin-auth-backend";
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
 import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
+import {jwtDecode} from "jwt-decode";
+
+interface JWTClaims {
+    oid: string
+    [key: string]: any
+}
+
+function getObjectIdFromToken(token: string): string {
+    const decodedToken: JWTClaims = jwtDecode<JWTClaims>(token)
+    return decodedToken.oid
+}
 
 export const authModuleGithubLocalProvider = createBackendModule({
     pluginId: 'auth',
@@ -69,32 +80,28 @@ export const authModuleMicrosoftProvider = createBackendModule({
                 discovery: coreServices.discovery,
                 auth: coreServices.auth,
             },
-            async init({ providers, discovery, auth}) {
+            async init({ providers}) {
                 providers.registerProvider({
                     providerId: 'microsoft',
                     factory: createOAuthProviderFactory({
                         authenticator: microsoftAuthenticator,
                         async signInResolver(info, ctx) {
-                            const catalogApi = new CatalogClient({ discoveryApi: discovery })
-                            const email = info.profile.email
-                            if (!email) {
-                                throw new AuthenticationError('Authentication failed', "No username found in profile");
+                            const { result } = info
+
+                            if (!result.session.accessToken) {
+                                throw new Error(
+                                    "Login failed, OAuth session did not contain an access token",
+                                )
                             }
-                            const { entity } = await ctx.findCatalogUser({
+
+                            const oid = getObjectIdFromToken(
+                                result.session.accessToken,
+                            )
+
+                            return ctx.signInWithCatalogUser({
                                 annotations: {
-                                    'microsoft.com/email': email
-                                }
-                            })
-                            if (!entity) {
-                                throw new AuthenticationError('Authentication failed', "No user found in catalog");
-                            }
-                            const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
-                            return ctx.issueToken({
-                                claims: {
-                                    sub: stringifyEntityRef(entity),
-                                    ent: ownershipRefs,
-                                    groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi, auth)
-                                }
+                                    "graph.microsoft.com/user-id": oid,
+                                },
                             })
                         }
                     })
