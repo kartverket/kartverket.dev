@@ -1,4 +1,5 @@
 import { createBackend } from '@backstage/backend-defaults';
+import { legacyPlugin } from '@backstage/backend-common';
 import {
     authModuleGithubLocalProvider,
     authModuleMicrosoftProvider
@@ -29,6 +30,9 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 
 // Explore
 backend.add(import('@backstage-community/plugin-explore-backend'));
+
+// DASK
+backend.add(legacyPlugin('dask-onboarding', import('./plugins/dask-onboarding')));
 
 // Devtools
 backend.add(import('@backstage/plugin-devtools-backend'));

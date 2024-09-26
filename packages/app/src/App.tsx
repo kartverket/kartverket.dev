@@ -41,6 +41,7 @@ import {configApiRef, githubAuthApiRef, microsoftAuthApiRef, useApi} from "@back
 import { VisitListener } from '@backstage/plugin-home';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { DevToolsPage } from '@backstage/plugin-devtools';
+import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
 
 const app = createApp({
@@ -136,6 +137,7 @@ const routes = (
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
+    <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
   </FlatRoutes>
 );
 
