@@ -76,13 +76,20 @@ export const authModuleMicrosoftProvider = createBackendModule({
                         authenticator: microsoftAuthenticator,
                         async signInResolver(info, ctx) {
                             const catalogApi = new CatalogClient({ discoveryApi: discovery })
-                            const email = info.profile.email
-                            if (!email) {
-                                throw new AuthenticationError('Authentication failed', "No username found in profile");
+                            const { result } = info
+
+                            if (!result.session.accessToken) {
+                                throw new Error(
+                                    "Login failed, OAuth session did not contain an access token",
+                                )
                             }
+
+                            const oid = getObjectIdFromToken(
+                                result.session.accessToken,
+                            )
                             const { entity } = await ctx.findCatalogUser({
                                 annotations: {
-                                    'microsoft.com/email': email
+                                    "graph.microsoft.com/user-id": oid,
                                 }
                             })
                             if (!entity) {
@@ -134,4 +141,16 @@ async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi
             })
     );
     return groupDisplayNames;
+}
+
+import {jwtDecode} from "jwt-decode";
+
+interface JWTClaims {
+    oid: string
+    [key: string]: any
+}
+
+function getObjectIdFromToken(token: string): string {
+    const decodedToken: JWTClaims = jwtDecode<JWTClaims>(token)
+    return decodedToken.oid
 }

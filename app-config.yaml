@@ -106,10 +106,6 @@ proxy:
 lighthouse:
   baseUrl: http://localhost:7007/api/proxy/lighthouse
 
-sikkerhetsmetrikker:
-  backendBaseUrl: https://api.sikkerhetsmetrikker.plugin.atgcp1-dev.kartverket-intern.cloud/api
-  securityMetricsBackendClientId: 'dummy_value'
-
 auth:
   providers:
     google:
