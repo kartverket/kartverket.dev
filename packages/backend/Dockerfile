@@ -66,6 +66,6 @@ COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 RUN mkdir /app/dist_copy && cp -r /app/packages/app/dist /app/dist_copy
-RUN mkdir /app/backend_copy && cp -r /app/packages/backend /app/backend_copy
+RUN mkdir /app/backend_copy && cp -r /app/packages/backend/dist /app/backend_copy
 
-CMD ["sh", "-c", "cp -r /app/dist_copy/dist/* /app/packages/app/dist && cp -r /app/backend_copy/* /app/packages/backend && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
+CMD ["sh", "-c", "cp -r /app/dist_copy/dist/* /app/packages/app/dist && cp -r /app/backend_copy/dist/* /app/packages/backend/dist && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
