@@ -11,7 +11,8 @@ backend:
   baseUrl: ${APP_CONFIG_backend_baseUrl}
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
-  listen: ':7007'
+  listen:
+    port: 7007
 
   # config options: https://node-postgres.com/api/client
   database:
@@ -23,6 +24,8 @@ backend:
       user: ${POSTGRES_USER}
     pluginDivisionMode: schema
   auth:
+    keys:
+      - secret: 56fYRaW0m6JWh6vZLbetkmXhUehJrCf1
     externalAccess:
       - type: jwks
         options:
@@ -41,8 +44,6 @@ proxy:
   endpoints:
     '/xkcd-proxy':
       target: https://xkcd.com/
-    '/opencost':
-      target: "http://opencost.opencost.svc.cluster.local:9090"
     '/lighthouse':
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/risc-proxy':
@@ -52,9 +53,6 @@ proxy:
 lighthouse:
   baseUrl: /api/proxy/lighthouse
 
-opencost:
-  baseUrl: /api/proxy/opencost/model
-
 catalog:
   providers:
     microsoftGraphOrg:
@@ -62,7 +60,8 @@ catalog:
         tenantId: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
         queryMode: 'advanced'
         user:
-          filter: accountEnabled eq true and userType eq 'member'
+          filter: accountEnabled eq true and userType eq 'member' and startsWith(companyName, 'Staten')
+          select: ['accountEnabled', 'displayName', 'givenName', 'id', 'mail', 'mailNickname', 'surname', 'companyName', 'userType']
         group:
           filter: >
             startswith(displayName, 'AAD - TF')

@@ -80,6 +80,9 @@ integrations:
       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
       token: ${GITHUB_TOKEN}
 
+permission:
+  enabled: false
+
 ### Add a proxy endpoint for the frontend.
 ### A typical reason to do this is to handle HTTPS and CORS for internal services.
 proxy:
@@ -159,10 +162,6 @@ catalog:
           frequency: { minutes: 30 }
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
-
-
-opencost:
-  baseUrl: http://localhost:7007/api/proxy/opencost/model
 
 techdocs:
   builder: local

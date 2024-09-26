@@ -59,7 +59,10 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityLinguistCard } from '@backstage-community/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse';
-import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
+import {
+    EntityKubernetesContent,
+    isKubernetesAvailable,
+} from '@backstage/plugin-kubernetes';
 import { EntityGrafanaAlertsCard, EntityGrafanaDashboardsCard, EntityOverviewDashboardViewer, isAlertSelectorAvailable, isDashboardSelectorAvailable, isOverviewDashboardAvailable } from '@k-phoen/backstage-plugin-grafana';
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage }  from '@kartverket/backstage-plugin-security-metrics-frontend';
@@ -279,9 +282,13 @@ const defaultEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/kubernetes" title="Kubernetes">
-      <EntityKubernetesContent refreshIntervalMs={30000} />
-    </EntityLayout.Route>
+      <EntityLayout.Route
+          path="/kubernetes"
+          title="Kubernetes"
+          if={isKubernetesAvailable}
+      >
+          <EntityKubernetesContent />
+      </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -422,6 +429,10 @@ const systemPage = (
         ]}
         unidirectional={false}
       />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/risc" title="ROS">
+        <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">

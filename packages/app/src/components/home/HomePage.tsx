@@ -90,7 +90,7 @@ export const HomePage = () => {
               <HomePageToolkit
                 tools={[
                   {
-                    url: 'https://monitoring.kartverket.dev',
+                    url: 'https://monitoring.kartverket.cloud',
                     label: 'Grafana',
                     icon: (
                       <img src={grafanaLogo} alt="Logo of Grafana" width={35} />
