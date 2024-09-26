@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: backstage-postgres
+    environment:
+      POSTGRES_USER: admin       # Admin user for PostgreSQL
+      POSTGRES_PASSWORD: adminpw # Admin user password
+      POSTGRES_DB: backstage     # Database name for Backstage
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Expose PostgreSQL on port 5432
+    networks:
+      - backstage-network
+
+  backstage:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    environment:
+      APP_CONFIG_app_baseUrl: 'http://localhost:7007'
+      APP_CONFIG_backend_baseUrl: 'http://localhost:7007'
+      APP_CONFIG_backend_database_client: 'pg'
+      APP_CONFIG_backend_database_connection_host: 'postgres'
+      APP_CONFIG_backend_database_connection_user: 'admin'
+      APP_CONFIG_backend_database_connection_password: 'adminpw'
+      APP_CONFIG_backend_database_connection_database: 'backstage'
+      APP_CONFIG_backend_cors_origin: 'http://localhost:3000'
+      ENTRA_ID_SP_APP_ID:
+      ENTRA_ID_SP_CLIENT_SECRET:
+      ENTRA_WEB_APP_ID:
+      ENTRA_WEB_CLIENT_SECRET:
+      ENTRA_TENANT_ID:
+      GOOGLE_OAUTH_CLIENT_ID:
+      GOOGLE_OAUTH_CLIENT_SECRET:
+    ports:
+      - "7007:7007"  # Expose Backstage on port 7007
+    depends_on:
+      - postgres
+    networks:
+      - backstage-network
+    volumes:
+      - ./github-secret.yaml:/app/github-secrets/github-app-backstage-skip-credentials.yaml
+
+volumes:
+  postgres_data: {}
+
+networks:
+  backstage-network:
+    driver: bridge
