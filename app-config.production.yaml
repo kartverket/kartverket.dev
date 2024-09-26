@@ -1,6 +1,7 @@
 app:
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
   baseUrl: ${APP_CONFIG_app_baseUrl}
+  title: Kartverket.dev
 
 backend:
   # Note that the baseUrl should be the URL that the browser and other clients
