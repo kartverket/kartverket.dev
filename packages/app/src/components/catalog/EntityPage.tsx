@@ -431,6 +431,10 @@ const systemPage = (
       />
     </EntityLayout.Route>
 
+    <EntityLayout.Route path="/risc" title="ROS">
+        <RiScPage />
+    </EntityLayout.Route>
+
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
         <SecurityMetricsPage />
     </EntityLayout.Route>
