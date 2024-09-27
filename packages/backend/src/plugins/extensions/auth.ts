@@ -13,6 +13,17 @@ import { AuthenticationError } from '@backstage/errors';
 import {getDefaultOwnershipEntityRefs} from "@backstage/plugin-auth-backend";
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
 import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
+import {jwtDecode} from "jwt-decode";
+
+interface JWTClaims {
+    oid: string
+    [key: string]: any
+}
+
+function getObjectIdFromToken(token: string): string {
+    const decodedToken: JWTClaims = jwtDecode<JWTClaims>(token)
+    return decodedToken.oid
+}
 
 export const authModuleGithubLocalProvider = createBackendModule({
     pluginId: 'auth',
@@ -76,13 +87,20 @@ export const authModuleMicrosoftProvider = createBackendModule({
                         authenticator: microsoftAuthenticator,
                         async signInResolver(info, ctx) {
                             const catalogApi = new CatalogClient({ discoveryApi: discovery })
-                            const email = info.profile.email
-                            if (!email) {
-                                throw new AuthenticationError('Authentication failed', "No username found in profile");
+                            const { result } = info
+
+                            if (!result.session.accessToken) {
+                                throw new AuthenticationError(
+                                    "Login failed, OAuth session did not contain an access token",
+                                )
                             }
+
+                            const oid = getObjectIdFromToken(
+                                result.session.accessToken,
+                            )
                             const { entity } = await ctx.findCatalogUser({
                                 annotations: {
-                                    'microsoft.com/email': email
+                                    "graph.microsoft.com/user-id": oid,
                                 }
                             })
                             if (!entity) {
