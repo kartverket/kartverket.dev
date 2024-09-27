@@ -103,7 +103,7 @@ The end result should be the same, as far as backstage is considered.
 
 In your Oauth Application configure homepage Url to  `http://localhost:3000` and callback url to `http://localhost:7007/api/auth/github/handler/frame`
 
-Configure github and microsoft auth in `app-config.local.yaml`: 
+Configure github or microsoft auth in `app-config.local.yaml`: 
 ```yaml
 auth:
   environment: development
