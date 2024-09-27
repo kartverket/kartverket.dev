@@ -13,6 +13,7 @@ import { AuthenticationError } from '@backstage/errors';
 import {getDefaultOwnershipEntityRefs} from "@backstage/plugin-auth-backend";
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
 import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
+import {jwtDecode} from "jwt-decode";
 
 export const authModuleGithubLocalProvider = createBackendModule({
     pluginId: 'auth',
@@ -79,7 +80,7 @@ export const authModuleMicrosoftProvider = createBackendModule({
                             const { result } = info
 
                             if (!result.session.accessToken) {
-                                throw new Error(
+                                throw new AuthenticationError(
                                     "Login failed, OAuth session did not contain an access token",
                                 )
                             }
@@ -142,8 +143,6 @@ async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi
     );
     return groupDisplayNames;
 }
-
-import {jwtDecode} from "jwt-decode";
 
 interface JWTClaims {
     oid: string
