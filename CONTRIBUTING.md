@@ -98,12 +98,12 @@ catalog:
 
 ### Testing OAuth locally
 
-We run with azure on kubernetes, but for local testing create your own [github app](https://github.com/settings/developers).    
+We run with azure on kubernetes, but for local testing create your own [github app](https://github.com/settings/developers) or use an app registration in Microsoft Entra ID.    
 The end result should be the same, as far as backstage is considered.
 
 In your Oauth Application configure homepage Url to  `http://localhost:3000` and callback url to `http://localhost:7007/api/auth/github/handler/frame`
 
-Configure github auth in `app-config.local.yaml`: 
+Configure github and microsoft auth in `app-config.local.yaml`: 
 ```yaml
 auth:
   environment: development
@@ -112,17 +112,24 @@ auth:
       development:
         clientId: x
         clientSecret: x
+    microsoft:
+      development:
+        clientId: x
+        clientSecret: x
+        tenantId: x
 ```
 
-To login you NEED to use the anonymized data from Kartverket in `test_data/org.yaml`
+To login you NEED to use the anonymized data from Kartverket in `test_data/org.yaml`. 
 
-Find a user in `test_data/org.yaml` and replace the `annotations.microsoft/email` with your github username.
+Find a user in `test_data/org.yaml`. Replace the `annotations.microsoft/email` with your github username if you use a GitHub to sign in. 
+If you use Microsoft Entra ID to sign in, replace the `annotations.graph.microsoft.com/user-id` with the object ID (OID) found in [Microsoft Entra Portal](https://aka.ms/MSEntraPortal).
 ```yaml
 apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
   annotations:
     microsoft.com/email: YOUR-GITHUB-USERNAME
+    graph.microsoft.com/user-id: YOUR-OID-FOUND-IN-ENTRA-ID
   name: Lynn.Villanueva_kartverket.dev
   namespace: default
   uid: 40cdf86d-90a1-44b8-830a-db920aadac82
