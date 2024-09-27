@@ -1,9 +1,5 @@
 export interface Config {
-    /**
-     @visibility frontend
-     */
-    isUsingMock: boolean
-    auth: {
+   auth: {
         providers: {
             /**
              * NOTE: Visibility applies recursively downward
