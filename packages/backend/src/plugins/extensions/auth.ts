@@ -15,6 +15,16 @@ import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-githu
 import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
 import {jwtDecode} from "jwt-decode";
 
+interface JWTClaims {
+    oid: string
+    [key: string]: any
+}
+
+function getObjectIdFromToken(token: string): string {
+    const decodedToken: JWTClaims = jwtDecode<JWTClaims>(token)
+    return decodedToken.oid
+}
+
 export const authModuleGithubLocalProvider = createBackendModule({
     pluginId: 'auth',
     moduleId: 'githubLocalProvider',
@@ -142,14 +152,4 @@ async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi
             })
     );
     return groupDisplayNames;
-}
-
-interface JWTClaims {
-    oid: string
-    [key: string]: any
-}
-
-function getObjectIdFromToken(token: string): string {
-    const decodedToken: JWTClaims = jwtDecode<JWTClaims>(token)
-    return decodedToken.oid
 }
