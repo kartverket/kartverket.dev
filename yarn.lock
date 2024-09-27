@@ -8277,9 +8277,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:^1.4.0":
-  version: 1.5.0
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:1.5.0"
+"@kartverket/backstage-plugin-risk-scorecard@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:1.5.1"
   dependencies:
     "@backstage/core-components": "npm:^0.14.9"
     "@backstage/core-plugin-api": "npm:^1.9.3"
@@ -8304,7 +8304,7 @@ __metadata:
     react: ^17.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 10c0/ccfd56c7ca82ad952e751e9e3901d4a7e89bce214ef1d30d65c61f3c0cc4adb0458916ae0ec74d82cb89a36bfd7d0c201582296b2c7a585e36a187cb18118b08
+  checksum: 10c0/2e6d8e3a7dadfa9777bdf1a0b5be584e6db347688a7fc69bfe52699e8bd1cb663d81f551e74d8aa247476db4ce316b8cc9af7a8b0c95ccc474f4e73201fc3bb6
   languageName: node
   linkType: hard
 
@@ -15492,7 +15492,7 @@ __metadata:
     "@internal/plugin-instatus": "npm:^0.1.0"
     "@k-phoen/backstage-plugin-grafana": "npm:^0.1.22"
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.14"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:^1.4.0"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:^1.5.1"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.0.0"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
