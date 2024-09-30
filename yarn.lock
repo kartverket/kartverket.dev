@@ -4433,6 +4433,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/integration-react@npm:^1.1.32":
+  version: 1.1.32
+  resolution: "@backstage/integration-react@npm:1.1.32"
+  dependencies:
+    "@backstage/config": "npm:^1.2.0"
+    "@backstage/core-plugin-api": "npm:^1.9.4"
+    "@backstage/integration": "npm:^1.15.0"
+    "@material-ui/core": "npm:^4.12.2"
+    "@material-ui/icons": "npm:^4.9.1"
+    "@types/react": "npm:^16.13.1 || ^17.0.0"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router-dom: 6.0.0-beta.0 || ^6.3.0
+  checksum: 10c0/9deefce77bc8835b9bf8d5b45d0e5b010d0c64164d2c514ac21a7872559ce58cf2f4029fc01bb486b2eb85b8632fc5446a7b85b8697655b8055e80089b97c9b3
+  languageName: node
+  linkType: hard
+
 "@backstage/integration@npm:^1.10.0, @backstage/integration@npm:^1.11.0, @backstage/integration@npm:^1.13.0, @backstage/integration@npm:^1.14.0, @backstage/integration@npm:^1.15.0":
   version: 1.15.0
   resolution: "@backstage/integration@npm:1.15.0"
@@ -5133,8 +5151,8 @@ __metadata:
   linkType: hard
 
 "@backstage/plugin-catalog-react@npm:^1.11.3, @backstage/plugin-catalog-react@npm:^1.12.1, @backstage/plugin-catalog-react@npm:^1.12.2, @backstage/plugin-catalog-react@npm:^1.12.3, @backstage/plugin-catalog-react@npm:^1.13.0, @backstage/plugin-catalog-react@npm:^1.4.0":
-  version: 1.13.0
-  resolution: "@backstage/plugin-catalog-react@npm:1.13.0"
+  version: 1.13.1
+  resolution: "@backstage/plugin-catalog-react@npm:1.13.1"
   dependencies:
     "@backstage/catalog-client": "npm:^1.7.0"
     "@backstage/catalog-model": "npm:^1.7.0"
@@ -5143,7 +5161,7 @@ __metadata:
     "@backstage/core-plugin-api": "npm:^1.9.4"
     "@backstage/errors": "npm:^1.2.4"
     "@backstage/frontend-plugin-api": "npm:^0.8.0"
-    "@backstage/integration-react": "npm:^1.1.31"
+    "@backstage/integration-react": "npm:^1.1.32"
     "@backstage/plugin-catalog-common": "npm:^1.1.0"
     "@backstage/plugin-permission-common": "npm:^0.8.1"
     "@backstage/plugin-permission-react": "npm:^0.4.26"
@@ -5165,7 +5183,7 @@ __metadata:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
-  checksum: 10c0/83639a5832998c546957bba150cc6948c1b5d20c6e6c4a50c07c4d9f5309bc01c32325178defd1eb5a66b4bf85b670d4a247e5b8f0ead86f0bdf43a77318ad52
+  checksum: 10c0/7e20a5467065555917299dc06e198a6ca78f6dfb775b6bcff98f52c81c6696039a28ccb96d3f1586f93c5022614b565c470961cb5d2429fdc7b3576d1d048415
   languageName: node
   linkType: hard
 
