@@ -7780,7 +7780,7 @@ __metadata:
     "@material-ui/icons": "npm:^4.9.1"
     "@material-ui/lab": "npm:4.0.0-alpha.61"
     "@testing-library/jest-dom": "npm:^5.10.1"
-    "@testing-library/react": "npm:^12.1.3"
+    "@testing-library/react": "npm:^16.0.1"
     "@testing-library/user-event": "npm:^14.0.0"
     msw: "npm:^1.0.0"
     react-use: "npm:^17.2.4"
@@ -13417,17 +13417,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^12.1.3":
-  version: 12.1.5
-  resolution: "@testing-library/react@npm:12.1.5"
+"@testing-library/react@npm:^16.0.1":
+  version: 16.0.1
+  resolution: "@testing-library/react@npm:16.0.1"
   dependencies:
     "@babel/runtime": "npm:^7.12.5"
-    "@testing-library/dom": "npm:^8.0.0"
-    "@types/react-dom": "npm:<18.0.0"
   peerDependencies:
-    react: <18.0.0
-    react-dom: <18.0.0
-  checksum: 10c0/3c2433d2fdb6535261f62cd85d79657989cebd96f9072da03c098a1cfa56dec4dfec83d7c2e93633a3ccebdb178ea8578261533d11551600966edab77af00c8b
+    "@testing-library/dom": ^10.0.0
+    "@types/react": ^18.0.0
+    "@types/react-dom": ^18.0.0
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/67d05dec5ad5a2e6f92b6a3234af785435c7bb62bdbf12f3bfc89c9bca0c871a189e88c4ba023ed4cea504704c87c6ac7e86e24a3962df6c521ae89b62f48ff7
   languageName: node
   linkType: hard
 
@@ -15499,7 +15505,7 @@ __metadata:
     "@playwright/test": "npm:^1.32.3"
     "@testing-library/dom": "npm:^8.0.0"
     "@testing-library/jest-dom": "npm:^5.10.1"
-    "@testing-library/react": "npm:^12.1.3"
+    "@testing-library/react": "npm:^16.0.1"
     "@testing-library/user-event": "npm:^14.0.0"
     "@types/react-dom": "npm:*"
     backstage-plugin-xkcd: "npm:^1.0.9"
