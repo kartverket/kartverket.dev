@@ -16217,7 +16217,7 @@ __metadata:
     express: "npm:^4.17.1"
     express-promise-router: "npm:^4.1.0"
     jwt-decode: "npm:^4.0.0"
-    node-gyp: "npm:^9.0.0"
+    node-gyp: "npm:^10.2.0"
     pg: "npm:^8.11.3"
     winston: "npm:^3.2.1"
   languageName: unknown
@@ -27663,7 +27663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:^10.0.0, node-gyp@npm:latest":
+"node-gyp@npm:^10.0.0, node-gyp@npm:^10.2.0, node-gyp@npm:latest":
   version: 10.2.0
   resolution: "node-gyp@npm:10.2.0"
   dependencies:
