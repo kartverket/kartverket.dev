@@ -17,7 +17,7 @@ jobs:
       # For fetching git repo
       contents: read
       # For accessing repository
-    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@v4.1.0
+    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@v4.4.0
     with:
       runner: ubuntu-latest
       environment: sandbox
@@ -28,6 +28,29 @@ jobs:
       auth_project_number: "833464919209"
       service_account: utviklerportal-deploy@utviklerportal-sandbox-5af9.iam.gserviceaccount.com
       project_id: utviklerportal-sandbox-5af9
+      use_platform_modules: true
+  dev:
+    name: Deploy to dev
+    permissions:
+      # For logging on to Vault, GCP
+      id-token: write
+      # For writing comments on PR
+      pull-requests: write
+      # For fetching git repo
+      contents: read
+      # For accessing repository
+    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@v4.4.0
+    with:
+      runner: ubuntu-latest
+      environment: dev
+      terraform_workspace: dev
+      terraform_option_1: -var-file=dev.tfvars
+      terraform_init_option_1: -backend-config=backend-dev.hcl
+      working_directory: terraform
+      auth_project_number: "984647225311"
+      service_account: utviklerportal-deploy@utviklerportal-dev-9dca.iam.gserviceaccount.com
+      project_id: utviklerportal-dev-9dca
+      use_platform_modules: true
   prod:
     name: Deploy to prod
     permissions:
@@ -38,7 +61,7 @@ jobs:
       # For fetching git repo
       contents: read
       # For accessing repository
-    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@v4.1.0
+    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@v4.4.0
     with:
       runner: ubuntu-latest
       environment: prod
@@ -49,3 +72,5 @@ jobs:
       auth_project_number: "208889908729"
       service_account: utviklerportal-deploy@utviklerportal-prod-ba53.iam.gserviceaccount.com
       project_id: utviklerportal-prod-ba53
+      use_platform_modules: true
+
