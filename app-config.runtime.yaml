@@ -17,4 +17,4 @@ backend:
     connection:
       ssl:
         ca:
-          $file: app/db-ssl-ca/server.crt
+          $file: /app/db-ssl-ca/server.crt
