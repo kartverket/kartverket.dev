@@ -102,6 +102,9 @@ proxy:
     '/risc-proxy':
       target: http://localhost:8080
       allowedHeaders: ['Authorization', 'GCP-Access-Token']
+    '/opencost-cacher':
+      target: http://opencost-cacher:8080
+      changeOrigin: true
 
 lighthouse:
   baseUrl: http://localhost:7007/api/proxy/lighthouse
