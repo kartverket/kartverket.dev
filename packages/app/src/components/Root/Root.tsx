@@ -22,7 +22,7 @@ import {
   SidebarScrollWrapper,
   SidebarSpace,
   useSidebarOpenState,
-  Link,
+  Link, WarningIcon,
 } from '@backstage/core-components';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -82,6 +82,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarScrollWrapper>
           <SidebarItem icon={SpeedIcon} to="lighthouse" text="Lighthouse" />
         </SidebarScrollWrapper>
+        <SidebarItem icon={WarningIcon} to="opencost" text="SKIPcost" />
       </SidebarGroup>
       <SidebarSpace />
       <SidebarDivider />

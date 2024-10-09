@@ -43,6 +43,7 @@ import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
+import {OpencostPage} from "@kartverket/backstage-plugin-opencost";
 
 const app = createApp({
   __experimentalTranslations: {
@@ -138,6 +139,7 @@ const routes = (
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
+    <Route path="/opencost" element={<OpencostPage />} />
   </FlatRoutes>
 );
 
