@@ -49,6 +49,10 @@ proxy:
     '/risc-proxy':
       target: http://ros-plugin-backend.ros-plugin-main:8080
       allowedHeaders: ['Authorization', 'GCP-Access-Token']
+    '/opencost-cacher':
+      target: http://opencost-cacher:8080
+      credentials: forward
+      changeOrigin: true
 
 lighthouse:
   baseUrl: /api/proxy/lighthouse

@@ -103,7 +103,8 @@ proxy:
       target: http://localhost:8080
       allowedHeaders: ['Authorization', 'GCP-Access-Token']
     '/opencost-cacher':
-      target: http://opencost-cacher:8080
+      target: http://localhost:8080
+      credentials: forward
       changeOrigin: true
 
 lighthouse:
