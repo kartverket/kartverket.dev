@@ -26,7 +26,8 @@ backend:
       ssl:
         require: true
         rejectUnauthorized: false
-        ca: ${POSTGRES_SSL_CA}
+        ca:
+          $file: app/db-ssl-ca/server.crt
     pluginDivisionMode: schema
   auth:
     keys:
