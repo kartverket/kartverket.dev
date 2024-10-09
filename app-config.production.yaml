@@ -26,8 +26,6 @@ backend:
       ssl:
         require: true
         rejectUnauthorized: false
-        ca:
-          $file: app/db-ssl-ca/server.crt
     pluginDivisionMode: schema
   auth:
     keys:

@@ -11,3 +11,10 @@ techdocs:
       credentials:
         $file: /var/run/secrets/tokens/gcp-ksa/google-application-credentials.json
       projectId: ${TECHDOCS_PROJECT_ID}
+
+backend:
+  database:
+    connection:
+      ssl:
+        ca:
+          $file: app/db-ssl-ca/server.crt
