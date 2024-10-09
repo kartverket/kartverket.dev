@@ -1,6 +1,6 @@
 app:
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
-  baseUrl: ${APP_CONFIG_app_baseUrl}
+  baseUrl: ${BASE_URL}
 
 backend:
   # Note that the baseUrl should be the URL that the browser and other clients
@@ -8,7 +8,7 @@ backend:
   # reachable not just from within the backend host, but from all of your
   # callers. When its value is "http://localhost:7007", it's strictly private
   # and can't be reached by others.
-  baseUrl: ${APP_CONFIG_backend_baseUrl}
+  baseUrl: ${BASE_URL}
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen:
@@ -22,6 +22,11 @@ backend:
       host: ${POSTGRES_HOST}
       port: ${POSTGRES_PORT}
       user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      ssl:
+        require: true
+        rejectUnauthorized: false
+        ca: ${POSTGRES_SSL_CA}
     pluginDivisionMode: schema
   auth:
     keys:
@@ -89,7 +94,7 @@ auth:
         tenantId: ${ENTRA_TENANT_ID}
 
 cors:
-  origin: ${APP_CONFIG_app_baseUrl}
+  origin: ${BASE_URL}
 
 sikkerhetsmetrikker:
   enable: true
