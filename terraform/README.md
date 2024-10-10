@@ -1,5 +1,6 @@
-## Upgrading
-
-1. JIT first, if needed
-2. Login to gcp with `gcloud auth application-default login --project $PROJECT`
-3. Run `terraform init -backend-config=backend-sandbox.hcl -var-file=sandbox.tfvars -upgrade`
+# How to use
+1. `gcloud auth application-default login --project <prod-project>`
+2. `terraform init`
+3. `terraform workspace select <sandbox|dev|prod>`
+4. `terraform plan -var-file=sandbox.tfvars|dev.tfvars|prod.tfvars`
+5. `terraform apply -var-file=sandbox.tfvars|dev.tfvars|prod.tfvars`

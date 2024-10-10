@@ -23,3 +23,7 @@ variable "kubernetes_service_account_name" {
   default = "backstage"
 }
 
+variable "env" {
+  type        = string
+  description = "The environment to deploy into"
+}
