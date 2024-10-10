@@ -23,13 +23,13 @@ jobs:
       environment: sandbox
       terraform_workspace: sandbox
       terraform_option_1: -var-file=sandbox.tfvars
-      terraform_init_option_1: -backend-config=backend-sandbox.hcl
       working_directory: terraform
       auth_project_number: "833464919209"
       service_account: utviklerportal-deploy@utviklerportal-sandbox-5af9.iam.gserviceaccount.com
       project_id: utviklerportal-sandbox-5af9
       use_platform_modules: true
   dev:
+    needs: [sandbox]
     name: Deploy to dev
     permissions:
       # For logging on to Vault, GCP
@@ -45,13 +45,13 @@ jobs:
       environment: dev
       terraform_workspace: dev
       terraform_option_1: -var-file=dev.tfvars
-      terraform_init_option_1: -backend-config=backend-dev.hcl
       working_directory: terraform
       auth_project_number: "984647225311"
       service_account: utviklerportal-deploy@utviklerportal-dev-9dca.iam.gserviceaccount.com
       project_id: utviklerportal-dev-9dca
       use_platform_modules: true
   prod:
+    needs: [sandbox, dev]
     name: Deploy to prod
     permissions:
       # For logging on to Vault, GCP
@@ -67,7 +67,6 @@ jobs:
       environment: prod
       terraform_workspace: prod
       terraform_option_1: -var-file=prod.tfvars
-      terraform_init_option_1: -backend-config=backend-prod.hcl
       working_directory: terraform
       auth_project_number: "208889908729"
       service_account: utviklerportal-deploy@utviklerportal-prod-ba53.iam.gserviceaccount.com
