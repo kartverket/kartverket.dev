@@ -23,7 +23,7 @@ resource "google_iam_workload_identity_pool_provider" "backstage" {
   workload_identity_pool_id          = google_iam_workload_identity_pool.backstage.workload_identity_pool_id
   workload_identity_pool_provider_id = "github-provider"
   description                        = "Workload Identity Pool Provider managed by Terraform"
-  attribute_condition                = "attribute.org == \"kartverket\""
+  attribute_condition                = "attribute.repository_owner == \"kartverket\""
   attribute_mapping = {
     "google.subject"             = "assertion.sub"
     "attribute.actor"            = "assertion.actor"
