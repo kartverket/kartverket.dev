@@ -1,5 +1,8 @@
 terraform {
-  backend "gcs" {}
+  backend "gcs" {
+    bucket = "terraform_state_utviklerportal_e053"
+    prefix = "utviklerportal"
+  }
   required_providers {
     google = {
       source  = "hashicorp/google"
