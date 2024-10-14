@@ -8261,9 +8261,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-dask-onboarding@npm:^0.1.17":
-  version: 0.1.17
-  resolution: "@kartverket/backstage-plugin-dask-onboarding@npm:0.1.17"
+"@kartverket/backstage-plugin-dask-onboarding@npm:^0.1.18":
+  version: 0.1.18
+  resolution: "@kartverket/backstage-plugin-dask-onboarding@npm:0.1.18"
   dependencies:
     "@backstage/core-components": "npm:^0.14.3"
     "@backstage/core-plugin-api": "npm:^1.9.1"
@@ -8276,7 +8276,7 @@ __metadata:
     styled-components: "npm:^6.1.8"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/eaa62637ad113f918e08cbe727f0b63dd48e7947ef81df83dc50deab8d3e211418161b0117ade62ca4ea720be9f1c70011f7d79225f426100284d9fd317042a5
+  checksum: 10c0/689003a12770ad2289dba3fcedfa74a7bc011cad522cb6a138b06b917324c4cd05f105ccd4808a37de16f22f7235e1bab24aa86fca725a333ddc4f2f65429eec
   languageName: node
   linkType: hard
 
@@ -17186,7 +17186,7 @@ __metadata:
     "@backstage/theme": "npm:^0.5.7"
     "@internal/plugin-instatus": "npm:^0.1.0"
     "@k-phoen/backstage-plugin-grafana": "npm:^0.1.22"
-    "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.17"
+    "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.18"
     "@kartverket/backstage-plugin-opencost": "npm:0.1.0"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^1.5.1"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.2.3"
