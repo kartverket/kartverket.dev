@@ -1,0 +1,16 @@
+name: Restart deployment
+on: push
+
+jobs:
+  sandbox:
+    name: restart-app
+    uses: kartverket/github-workflows/.github/workflows/run-kubectl.yaml@1accb8d6642acb08bf8a7ae0a3d9754736f7cf68
+    with:
+      cluster_name: atgcp1-sandbox
+      service_account: utviklerportal-deploy@utviklerportal-sandbox-5af9.iam.gserviceaccount.com
+      kubernetes_project_id: kubernetes-sandbox-6e24
+      project_number: 833464919209
+      namespace: backstage
+      commands: |
+        get pods 
+        get pods -l app=backstage
