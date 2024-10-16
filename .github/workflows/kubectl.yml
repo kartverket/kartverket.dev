@@ -6,11 +6,11 @@ jobs:
     name: restart-app
     uses: kartverket/github-workflows/.github/workflows/run-kubectl.yaml@1accb8d6642acb08bf8a7ae0a3d9754736f7cf68
     with:
-      cluster_name: atgcp1-sandbox
-      service_account: utviklerportal-deploy@utviklerportal-sandbox-5af9.iam.gserviceaccount.com
-      kubernetes_project_id: kubernetes-sandbox-6e24
-      project_number: 833464919209
-      namespace: backstage
+      cluster_name: atkv3-dev-user-cluster
+      service_account: utviklerportal-deploy@utviklerportal-dev-9dca.iam.gserviceaccount.com
+      kubernetes_project_id: kubernetes-dev-94b9
+      project_number: 984647225311
+      namespace: shipwreck
       commands: |
         get pods 
-        get pods -l app=backstage
+        get pods -l app=dummyapp
