@@ -5,7 +5,10 @@ on:
     paths:
         - "terraform/**"
         - ".github/workflows/terraform.yml"
-
+  pull_request:
+    paths:
+        - "terraform/**"
+        - ".github/workflows/terraform.yml"
 jobs:
   sandbox:
     name: Deploy to sandbox
