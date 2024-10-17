@@ -5,6 +5,7 @@ on:
     paths:
         - "terraform/**"
         - ".github/workflows/terraform.yml"
+  pull_request:
 
 jobs:
   sandbox:
