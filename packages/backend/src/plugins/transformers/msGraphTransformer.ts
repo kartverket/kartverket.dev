@@ -20,13 +20,32 @@ export async function msGraphGroupTransformer(
     if (groupEntity === undefined) {
         return undefined;
     }
-    if (groupType != undefined && groupType.toLowerCase().includes('role')) {
-        groupEntity.spec.type = 'role';
+
+    if (groupType === undefined) {
+        return groupEntity;
     }
-    if (groupType != undefined && groupType.toLowerCase().includes('business unit')) {
+
+    if (groupType.toLowerCase().includes("role")) {
+        groupType = group.displayName?.split(' - ')[1];
+    }
+
+    if (groupType === undefined) {
+        return groupEntity;
+    }
+
+    if (groupType.toLowerCase().includes('product owner')) {
+        groupEntity.spec.type = 'product owner';
+    }
+    if (groupType.toLowerCase().includes('tech lead')) {
+        groupEntity.spec.type = 'tech lead';
+    }
+    if (groupType.toLowerCase().includes('team lead')) {
+        groupEntity.spec.type = 'team lead';
+    }
+    if (groupType.toLowerCase().includes('business unit')) {
         groupEntity.spec.type = 'business unit';
     }
-    if (groupType != undefined && groupType.toLowerCase().includes('product area')) {
+    if (groupType.toLowerCase().includes('product area')) {
         groupEntity.spec.type = 'product area';
     }
 
