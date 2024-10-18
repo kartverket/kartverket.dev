@@ -8346,9 +8346,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-security-metrics-backend@npm:3.4.7":
-  version: 3.4.7
-  resolution: "@kartverket/backstage-plugin-security-metrics-backend@npm:3.4.7"
+"@kartverket/backstage-plugin-security-metrics-backend@npm:3.4.8":
+  version: 3.4.8
+  resolution: "@kartverket/backstage-plugin-security-metrics-backend@npm:3.4.8"
   dependencies:
     "@azure/msal-node": "npm:^2.10.0"
     "@backstage/backend-common": "npm:^0.22.0"
@@ -8362,13 +8362,13 @@ __metadata:
     node-fetch: "npm:^2.6.7"
     winston: "npm:^3.2.1"
     yn: "npm:^4.0.0"
-  checksum: 10c0/8dc16b553f5e299ad0e5bd92e853294c2f8fc964af5394f825e657c790ab5767fd27cb5479d48fc5a69e910edaba8c3156a35f69d304718735bd48b8912feb06
+  checksum: 10c0/df1360a71fb1bac345d303a2825f387487efc5e0bd9dc158c9051a3bfb766a45bead86b393db2224a81a7bd637ca390953965e62f7aec6a0b462cdbedd266450
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-security-metrics-frontend@npm:3.4.7":
-  version: 3.4.7
-  resolution: "@kartverket/backstage-plugin-security-metrics-frontend@npm:3.4.7"
+"@kartverket/backstage-plugin-security-metrics-frontend@npm:3.4.8":
+  version: 3.4.8
+  resolution: "@kartverket/backstage-plugin-security-metrics-frontend@npm:3.4.8"
   dependencies:
     "@backstage/catalog-client": "npm:^1.7.0"
     "@backstage/catalog-model": "npm:^1.7.0"
@@ -8391,7 +8391,7 @@ __metadata:
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: ^6.26.2
-  checksum: 10c0/ecd92daf9cfb131bd0218cd20a897b0c4da9d95bd76bf453fcc303dc605ffed4b752db43fbacdb463d88b705424d39a8e9b6d2482e38b946cdf2b145c1df3874
+  checksum: 10c0/72bce6d8a0ee386f9d8aee9c5a242eae0d8cdff7324af4d6c8caf791769b99a67e89bf735694b2fd394d2d950446ec411f1fa422ad9595b80cd6fe08dc4f86ac
   languageName: node
   linkType: hard
 
@@ -17242,7 +17242,7 @@ __metadata:
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.18"
     "@kartverket/backstage-plugin-opencost": "npm:0.1.0"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^1.5.2"
-    "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.4.7"
+    "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.4.8"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
     "@playwright/test": "npm:^1.32.3"
@@ -17955,7 +17955,7 @@ __metadata:
     "@backstage/plugin-search-backend-node": "npm:^1.3.2"
     "@backstage/plugin-techdocs-backend": "npm:^1.10.13"
     "@kartverket/backstage-plugin-dask-onboarding-backend": "npm:^0.1.13"
-    "@kartverket/backstage-plugin-security-metrics-backend": "npm:3.4.7"
+    "@kartverket/backstage-plugin-security-metrics-backend": "npm:3.4.8"
     "@types/dockerode": "npm:^3.3.0"
     "@types/express": "npm:^4.17.6"
     "@types/express-serve-static-core": "npm:^4.17.5"
