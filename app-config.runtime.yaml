@@ -17,6 +17,9 @@ backend:
     connection:
       ssl:
         ca:
-          $file: /app/db-ssl-ca/server.crt
+          $file: /app/db-ssl/server.crt
         cert:
-          $file: /app/db-ssl-ca/client.crt
+          $file: /app/db-ssl/client.crt
+        key:
+          $file: /app/db-ssl/client.key
+
