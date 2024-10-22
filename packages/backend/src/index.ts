@@ -1,7 +1,6 @@
 import { createBackend } from '@backstage/backend-defaults';
 import { legacyPlugin } from '@backstage/backend-common';
 import {
-    authModuleGithubLocalProvider,
     authModuleMicrosoftProvider
 } from "./plugins/extensions/auth";
 import {msGroupTransformerCatalogModule, securityChampionsCatalogModule} from "./plugins/extensions/catalog";
@@ -14,9 +13,9 @@ backend.add(import('@backstage/plugin-app-backend/alpha'));
 
 // Auth
 backend.add(import('@backstage/plugin-auth-backend'));
-backend.add(authModuleGithubLocalProvider);
 backend.add(authModuleMicrosoftProvider);
 backend.add(import('@backstage/plugin-auth-backend-module-google-provider')); // Required for ROS Plugin
+backend.add(import('@backstage/plugin-auth-backend-module-github-provider')); // Required for ROS Plugin
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 
 // Catalog

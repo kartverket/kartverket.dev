@@ -1,15 +1,21 @@
 export interface Config {
-   auth: {
+    auth: {
         providers: {
-            /**
-             * NOTE: Visibility applies recursively downward
-             * @deepVisibility frontend
-             */
             microsoft: {
                 development: {
+                    /**
+                     * Frontend root URL
+                     * NOTE: Visibility applies to only this field
+                     * @visibility frontend
+                     */
                     clientId: string
                 }
                 production: {
+                    /**
+                     * Frontend root URL
+                     * NOTE: Visibility applies to only this field
+                     * @visibility frontend
+                     */
                     clientId: string
                 }
             }
