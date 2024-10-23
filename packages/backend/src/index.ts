@@ -3,7 +3,7 @@ import { legacyPlugin } from '@backstage/backend-common';
 import {
     authModuleMicrosoftProvider
 } from "./plugins/extensions/auth";
-import {msGroupTransformerCatalogModule, securityChampionsCatalogModule} from "./plugins/extensions/catalog";
+import {msGroupTransformerCatalogModule} from "./plugins/extensions/catalog";
 
 
 const backend = createBackend();
@@ -21,7 +21,6 @@ backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 // Catalog
 backend.add(import('@backstage/plugin-catalog-backend/alpha'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
-backend.add(securityChampionsCatalogModule);
 backend.add(import('@backstage/plugin-catalog-backend-module-msgraph/alpha'));
 backend.add(msGroupTransformerCatalogModule);
 backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
