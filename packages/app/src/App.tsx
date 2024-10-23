@@ -24,7 +24,7 @@ import {CatalogGraphPage} from '@backstage/plugin-catalog-graph';
 import {RequirePermission} from '@backstage/plugin-permission-react';
 import {catalogEntityCreatePermission} from '@backstage/plugin-catalog-common/alpha';
 import {ExplorePage} from '@backstage-community/plugin-explore';
-import {configApiRef, githubAuthApiRef, microsoftAuthApiRef, useApi} from "@backstage/core-plugin-api";
+import {configApiRef, microsoftAuthApiRef, useApi} from "@backstage/core-plugin-api";
 import {LighthousePage} from '@backstage-community/plugin-lighthouse';
 import {DevToolsPage} from '@backstage/plugin-devtools';
 import {DaskOnboardingPage} from '@kartverket/backstage-plugin-dask-onboarding';
