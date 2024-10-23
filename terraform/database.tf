@@ -3,4 +3,5 @@ module "cloudsql" {
   instance_name = "backstage"
   env           = var.env
   project_id    = var.gcp_project_id
+  instance_tier = "db-g1-small"
 }
