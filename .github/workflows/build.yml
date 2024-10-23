@@ -136,16 +136,16 @@ jobs:
     outputs:
       image_digest: ${{ steps.build-and-push.outputs.digest }}
 
-  sandbox-deploy-argo:
+  dev-deploy-argo:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
-      name: sandbox
+      name: dev
     strategy:
       matrix:
         env:
-          - atgcp1-sandbox
+          - atgcp1-dev
     permissions:
       id-token: write
 
@@ -178,7 +178,7 @@ jobs:
           git push
 
   prod-deploy-argo:
-    needs: [build, sandbox-deploy-argo]
+    needs: [build, dev-deploy-argo]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
