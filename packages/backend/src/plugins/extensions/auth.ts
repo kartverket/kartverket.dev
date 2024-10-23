@@ -11,7 +11,6 @@ import {Entity, stringifyEntityRef} from "@backstage/catalog-model";
 import {CatalogApi, CatalogClient} from "@backstage/catalog-client";
 import { AuthenticationError } from '@backstage/errors';
 import {getDefaultOwnershipEntityRefs} from "@backstage/plugin-auth-backend";
-import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
 import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
 import {jwtDecode} from "jwt-decode";
 
@@ -24,51 +23,6 @@ function getObjectIdFromToken(token: string): string {
     const decodedToken: JWTClaims = jwtDecode<JWTClaims>(token)
     return decodedToken.oid
 }
-
-export const authModuleGithubLocalProvider = createBackendModule({
-    pluginId: 'auth',
-    moduleId: 'githubLocalProvider',
-    register(reg: BackendModuleRegistrationPoints) {
-        reg.registerInit({
-            deps: {
-                providers: authProvidersExtensionPoint,
-                discovery: coreServices.discovery,
-                auth: coreServices.auth,
-            },
-            async init({ providers, discovery, auth}) {
-                providers.registerProvider({
-                    providerId: 'github',
-                    factory: createOAuthProviderFactory({
-                        authenticator: githubAuthenticator,
-                        async signInResolver(info, ctx) {
-                            const catalogApi = new CatalogClient({ discoveryApi: discovery })
-                            const username = info.result.fullProfile.username
-                            if (!username) {
-                                throw new AuthenticationError('Authentication failed', "No username found in profile");
-                            }
-                            const { entity } = await ctx.findCatalogUser({
-                                annotations: {
-                                    'microsoft.com/email': info.result.fullProfile.username as string,
-                                }
-                            })
-                            if (!entity) {
-                                throw new AuthenticationError('Authentication failed', "No user found in catalog");
-                            }
-                            const ownershipRefs = getDefaultOwnershipEntityRefs(entity)
-                            return ctx.issueToken({
-                                claims: {
-                                    sub: stringifyEntityRef(entity),
-                                    ent: ownershipRefs,
-                                    groups: await getGroupDisplayNamesForEntity(ownershipRefs, catalogApi, auth)
-                                }
-                            })
-                        }
-                    })
-                })
-            }
-        })
-    }
-})
 
 export const authModuleMicrosoftProvider = createBackendModule({
     pluginId: 'auth',

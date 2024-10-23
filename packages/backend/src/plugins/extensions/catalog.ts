@@ -3,7 +3,7 @@ import {catalogProcessingExtensionPoint} from "@backstage/plugin-catalog-node/al
 import {SecurityChampionGroupProcessor} from "../processors/securitychampion";
 import {
     microsoftGraphOrgEntityProviderTransformExtensionPoint
-} from "@backstage/plugin-catalog-backend-module-msgraph/alpha";
+} from "@backstage/plugin-catalog-backend-module-msgraph";
 import {msGraphGroupTransformer} from "../transformers/msGraphTransformer";
 
 export const securityChampionsCatalogModule =

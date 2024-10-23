@@ -52,7 +52,7 @@ proxy:
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/risc-proxy':
       target: http://ros-plugin-backend.ros-plugin-main:8080
-      allowedHeaders: ['Authorization', 'GCP-Access-Token']
+      allowedHeaders: ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
     '/opencost-cacher':
       target: http://opencost-cacher:8080
       credentials: forward
@@ -91,6 +91,10 @@ auth:
         clientId: ${ENTRA_WEB_APP_ID}
         clientSecret: ${ENTRA_WEB_CLIENT_SECRET}
         tenantId: ${ENTRA_TENANT_ID}
+    github:
+      production:
+        clientId: ${RISC_GITHUB_APP_CLIENT_ID}
+        clientSecret: ${RISC_GITHUB_APP_CLIENT_SECRET}
 
 cors:
   origin: ${BASE_URL}
