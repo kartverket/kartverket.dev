@@ -24,7 +24,7 @@ import {CatalogGraphPage} from '@backstage/plugin-catalog-graph';
 import {RequirePermission} from '@backstage/plugin-permission-react';
 import {catalogEntityCreatePermission} from '@backstage/plugin-catalog-common/alpha';
 import {ExplorePage} from '@backstage-community/plugin-explore';
-import {microsoftAuthApiRef} from "@backstage/core-plugin-api";
+import {configApiRef, githubAuthApiRef, microsoftAuthApiRef, useApi} from "@backstage/core-plugin-api";
 import {LighthousePage} from '@backstage-community/plugin-lighthouse';
 import {DevToolsPage} from '@backstage/plugin-devtools';
 import {DaskOnboardingPage} from '@kartverket/backstage-plugin-dask-onboarding';
@@ -37,12 +37,23 @@ const app = createApp({
         resources: [pluginRiScNorwegianTranslation],
     },
     components: {
-        SignInPage: props => <SignInPage {...props} auto providers={['guest', {
-            id: 'microsoft-auth-provider',
-            title: 'Microsoft',
-            message: 'Sign in using Microsoft',
-            apiRef: microsoftAuthApiRef,
-        }]}/>
+        SignInPage: props => {
+            const configApi = useApi(configApiRef);
+            if (configApi.getOptionalString('auth.environment') != 'production') {
+                return <SignInPage {...props} auto providers={['guest', {
+                    id: 'microsoft-auth-provider',
+                    title: 'Microsoft',
+                    message: 'Sign in using Microsoft',
+                    apiRef: microsoftAuthApiRef,
+                }]} />;
+            }
+            return <SignInPage {...props} auto provider={{
+                id: 'microsoft-auth-provider',
+                title: 'Microsoft',
+                message: 'Sign in using Microsoft',
+                apiRef: microsoftAuthApiRef,
+            }} />;
+        },
     },
     apis,
     bindRoutes({bind}) {
