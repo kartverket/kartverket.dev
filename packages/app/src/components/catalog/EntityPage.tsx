@@ -265,6 +265,23 @@ const websiteEntityPage = (
   </EntityLayout>
 );
 
+const opsEntityPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {overviewContent}
+    </EntityLayout.Route>
+    
+    <EntityLayout.Route path="/risc" title="Risk Scorecard">
+        <RiScPage />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+        <SecurityMetricsPage />
+    </EntityLayout.Route>
+
+  </EntityLayout>
+);
+
 /**
  * NOTE: This page is designed to work on small screens such as mobile devices.
  * This is based on Material UI Grid. If breakpoints are used, each grid item must set the `xs` prop to a column size or to `true`,
@@ -302,9 +319,14 @@ const componentPage = (
       {websiteEntityPage}
     </EntitySwitch.Case>
 
+    <EntitySwitch.Case if={isComponentType('ops')}>
+      {opsEntityPage}
+    </EntitySwitch.Case>
+
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
 );
+
 
 const apiPage = (
   <EntityLayout>
