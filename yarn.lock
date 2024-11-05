@@ -8445,9 +8445,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-opencost@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@kartverket/backstage-plugin-opencost@npm:0.1.0"
+"@kartverket/backstage-plugin-opencost@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "@kartverket/backstage-plugin-opencost@npm:0.1.7"
   dependencies:
     "@backstage/core-components": "npm:^0.14.10"
     "@backstage/core-plugin-api": "npm:^1.9.3"
@@ -8460,14 +8460,14 @@ __metadata:
     "@mui/icons-material": "npm:^6.1.0"
     "@mui/joy": "npm:5.0.0-beta.48"
     "@mui/material": "npm:^6.1.2"
-    "@mui/x-date-pickers": "npm:^7.18.0"
     date-fns: "npm:^4.1.0"
     react-aria-components: "npm:^1.4.0"
+    react-multi-date-picker: "npm:^4.5.2"
     react-use: "npm:^17.2.4"
     typescript: "npm:^5.6.3"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/0f2d28cf748c2df17ccfd40b9b46dcd6bbfaf27171513b649bcf8785cce3951de8449d3ef8b30046ba50b1ce1f5f5ebcefa22c0e0bc60acb21bfff5d85d0eaa0
+  checksum: 10c0/d2cd9bc8334c446c8748f9e1c12e06e67690f28ac0e332097cdff6606a8ec8b090cc37eabeb946b6fe0765bbd68631085cf782a6f774665c305ee4a0e04f9759
   languageName: node
   linkType: hard
 
@@ -9753,54 +9753,6 @@ __metadata:
     moment-jalaali:
       optional: true
   checksum: 10c0/1e1d414776564d9f6aed36ec61382a74f5002e829178af0fb1a308633a9acfe3f1a78d95bdbcd3f4b5d44c0194d940743dacb66074ee68c051f05fd0de56e239
-  languageName: node
-  linkType: hard
-
-"@mui/x-date-pickers@npm:^7.18.0":
-  version: 7.21.0
-  resolution: "@mui/x-date-pickers@npm:7.21.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.25.7"
-    "@mui/utils": "npm:^5.16.6 || ^6.0.0"
-    "@mui/x-internals": "npm:7.21.0"
-    "@types/react-transition-group": "npm:^4.4.11"
-    clsx: "npm:^2.1.1"
-    prop-types: "npm:^15.8.1"
-    react-transition-group: "npm:^4.4.5"
-  peerDependencies:
-    "@emotion/react": ^11.9.0
-    "@emotion/styled": ^11.8.1
-    "@mui/material": ^5.15.14 || ^6.0.0
-    "@mui/system": ^5.15.14 || ^6.0.0
-    date-fns: ^2.25.0 || ^3.2.0 || ^4.0.0
-    date-fns-jalali: ^2.13.0-0 || ^3.2.0-0
-    dayjs: ^1.10.7
-    luxon: ^3.0.2
-    moment: ^2.29.4
-    moment-hijri: ^2.1.2
-    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@emotion/react":
-      optional: true
-    "@emotion/styled":
-      optional: true
-    date-fns:
-      optional: true
-    date-fns-jalali:
-      optional: true
-    dayjs:
-      optional: true
-    luxon:
-      optional: true
-    moment:
-      optional: true
-    moment-hijri:
-      optional: true
-    moment-jalaali:
-      optional: true
-  checksum: 10c0/a54a5a872977583329ebf7f61615d599bc7d79eaecee089a5aacd79a6f8bb2b930acadc31e63c112e952795bd65f36b7b879a685c8e064b000c5b205a6234f14
   languageName: node
   linkType: hard
 
@@ -17511,7 +17463,7 @@ __metadata:
     "@internal/plugin-instatus": "npm:^0.1.0"
     "@k-phoen/backstage-plugin-grafana": "npm:^0.1.22"
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.18"
-    "@kartverket/backstage-plugin-opencost": "npm:0.1.0"
+    "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^2.0.3"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.5.0"
     "@material-ui/core": "npm:^4.12.2"
@@ -33114,6 +33066,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-date-object@npm:^2.1.8":
+  version: 2.1.9
+  resolution: "react-date-object@npm:2.1.9"
+  checksum: 10c0/bcf39a1120c09b10ad9294ec5300c106ff9bdaf21f33584f22876ee1b1615efab894e69dd5317cfaa469b8b61b50d2178afd6baf496b6dd8a446337a9fbba3a8
+  languageName: node
+  linkType: hard
+
 "react-debounce-input@npm:=3.3.0":
   version: 3.3.0
   resolution: "react-debounce-input@npm:3.3.0"
@@ -33224,6 +33183,16 @@ __metadata:
     react: ">= 16.3.0"
     react-dom: ">= 16.3.0"
   checksum: 10c0/1e8cf47414a8554caa68447e5f27749bc40e1eabb4806e2dadcb39ab081d263f517d6aaec5231677e6b425603037c7e3386d1549898f9ffcc98a86cabafb2b9a
+  languageName: node
+  linkType: hard
+
+"react-element-popper@npm:^2.1.6":
+  version: 2.1.7
+  resolution: "react-element-popper@npm:2.1.7"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/da840daaf8829516b7c1646a76d92dd64e5f4dc73bf29afea00d6bd665235e7480305dae75572bc7b17802bccb1434166711b828e5c90a7d172160520ea61fcb
   languageName: node
   linkType: hard
 
@@ -33387,6 +33356,19 @@ __metadata:
     "@types/react": ">=16"
     react: ">=16"
   checksum: 10c0/016617fbd2f4c03c5ae017fe39e89202f2ff536b4921dc1a5f7283d4b9d5157f20797adda75a8c59a06787ad0bc8841e2e437915aec645ce528e0a04a6d450ac
+  languageName: node
+  linkType: hard
+
+"react-multi-date-picker@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "react-multi-date-picker@npm:4.5.2"
+  dependencies:
+    react-date-object: "npm:^2.1.8"
+    react-element-popper: "npm:^2.1.6"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/cb860dcb1b621bd33546b7e6fada6431b72ad3a0992916c39edac769fcde5fb6f8c541f6d8975b5768286b2fa43929a29659ad802852e31ef22ed2b16c164133
   languageName: node
   linkType: hard
 
