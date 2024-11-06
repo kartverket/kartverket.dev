@@ -20,7 +20,7 @@ jobs:
       # For fetching git repo
       contents: read
       # For accessing repository
-    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@v4.4.2
+    uses: kartverket/github-workflows/.github/workflows/run-terraform.yml@95e7157fd2a4e28f398409258942231679347ea4
     with:
       runner: ubuntu-latest
       environment: sandbox
