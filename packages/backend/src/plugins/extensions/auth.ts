@@ -90,14 +90,17 @@ async function getGroupDisplayNamesForEntity(ownershipRefs: string[], catalogApi
             //@ts-ignore
             .filter(e => e != undefined && e.spec && e.kind == 'Group' && e.spec.profile && e.spec.profile.displayName)
             .map(async e => {
-                let parentGroup: Entity | undefined;
+                let divisionGroup: Entity | undefined;
                 if (e!.spec!.parent) {
-                    parentGroup = await catalogApi.getEntityByRef(e!.spec!.parent as string, {token: token});
+                    let businessUnit = await catalogApi.getEntityByRef(e!.spec!.parent as string, {token: token});
+                    if (businessUnit) {
+                       divisionGroup = await catalogApi.getEntityByRef(businessUnit.spec!.parent as string, {token: token});
+                    }
                 }
                 let groupName;
-                if (parentGroup) {
+                if (divisionGroup) {
                     //@ts-ignore
-                    groupName = `${parentGroup!.spec!.profile!.displayName}:${e!.spec!.profile!.displayName}`;
+                    groupName = `${divisionGroup!.spec!.profile!.displayName}:${e!.spec!.profile!.displayName}`;
                 } else {
                     //@ts-ignore
                     groupName = e!.spec!.profile!.displayName;
