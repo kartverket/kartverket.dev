@@ -26,6 +26,7 @@ import {
   isOrphan,
   hasRelationWarnings,
   EntityRelationWarning,
+  EntityHasResourcesCard,
 } from '@backstage/plugin-catalog';
 import {
   isGithubActionsAvailable,
@@ -429,7 +430,7 @@ const systemPage = (
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={4} xs={12}>
           <SecurityChampionCard />
         </Grid>
         <Grid item md={8}>
@@ -437,6 +438,9 @@ const systemPage = (
         </Grid>
         <Grid item md={6}>
           <EntityHasApisCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6}>
+          <EntityHasResourcesCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityLinksCard />
