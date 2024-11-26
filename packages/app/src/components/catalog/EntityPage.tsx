@@ -13,7 +13,6 @@ import {
   EntityDependsOnComponentsCard,
   EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
-  EntityHasResourcesCard,
   EntityHasSubcomponentsCard,
   EntityHasSystemsCard,
   EntityLayout,
