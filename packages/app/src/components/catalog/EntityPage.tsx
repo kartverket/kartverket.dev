@@ -13,7 +13,6 @@ import {
   EntityDependsOnComponentsCard,
   EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
-  EntityHasResourcesCard,
   EntityHasSubcomponentsCard,
   EntityHasSystemsCard,
   EntityLayout,
@@ -27,6 +26,7 @@ import {
   isOrphan,
   hasRelationWarnings,
   EntityRelationWarning,
+  EntityHasResourcesCard,
 } from '@backstage/plugin-catalog';
 import {
   isGithubActionsAvailable,
@@ -60,12 +60,22 @@ import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityLinguistCard } from '@backstage-community/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse';
 import {
-    EntityKubernetesContent,
-    isKubernetesAvailable,
+  EntityKubernetesContent,
+  isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
-import { EntityGrafanaAlertsCard, EntityGrafanaDashboardsCard, EntityOverviewDashboardViewer, isAlertSelectorAvailable, isDashboardSelectorAvailable, isOverviewDashboardAvailable } from '@k-phoen/backstage-plugin-grafana';
+import {
+  EntityGrafanaAlertsCard,
+  EntityGrafanaDashboardsCard,
+  EntityOverviewDashboardViewer,
+  isAlertSelectorAvailable,
+  isDashboardSelectorAvailable,
+  isOverviewDashboardAvailable,
+} from '@k-phoen/backstage-plugin-grafana';
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
-import { SecurityMetricsPage }  from '@kartverket/backstage-plugin-security-metrics-frontend';
+import {
+  SecurityMetricsPage,
+  SecurityChampionCard,
+} from '@kartverket/backstage-plugin-security-metrics-frontend';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -85,7 +95,9 @@ const grafanaContent = (
       </EntitySwitch.Case>
     </EntitySwitch>
     <EntitySwitch>
-      <EntitySwitch.Case if={entity => Boolean(isDashboardSelectorAvailable(entity))}>
+      <EntitySwitch.Case
+        if={entity => Boolean(isDashboardSelectorAvailable(entity))}
+      >
         <Grid item md={6}>
           <EntityGrafanaDashboardsCard />
         </Grid>
@@ -165,7 +177,10 @@ const overviewContent = (
     <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-    <Grid item md={12}>
+    <Grid item xs={4}>
+      <SecurityChampionCard />
+    </Grid>
+    <Grid item md={8}>
       <EntityLinguistCard />
     </Grid>
     <Grid item md={4} xs={12}>
@@ -215,13 +230,12 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="ROS">
-        <RiScPage />
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-        <SecurityMetricsPage />
+      <SecurityMetricsPage />
     </EntityLayout.Route>
-
   </EntityLayout>
 );
 
@@ -255,13 +269,12 @@ const websiteEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Risk Scorecard">
-        <RiScPage />
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-        <SecurityMetricsPage />
+      <SecurityMetricsPage />
     </EntityLayout.Route>
-
   </EntityLayout>
 );
 
@@ -270,15 +283,14 @@ const opsEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-    
+
     <EntityLayout.Route path="/risc" title="Risk Scorecard">
-        <RiScPage />
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-        <SecurityMetricsPage />
+      <SecurityMetricsPage />
     </EntityLayout.Route>
-
   </EntityLayout>
 );
 
@@ -299,13 +311,13 @@ const defaultEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-      <EntityLayout.Route
-          path="/kubernetes"
-          title="Kubernetes"
-          if={isKubernetesAvailable}
-      >
-          <EntityKubernetesContent />
-      </EntityLayout.Route>
+    <EntityLayout.Route
+      path="/kubernetes"
+      title="Kubernetes"
+      if={isKubernetesAvailable}
+    >
+      <EntityKubernetesContent />
+    </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -326,7 +338,6 @@ const componentPage = (
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
 );
-
 
 const apiPage = (
   <EntityLayout>
@@ -389,15 +400,15 @@ const groupPage = (
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityOwnershipCard
-              variant="gridItem"
-              entityFilterKind={[
-                  'Domain',
-                  'System',
-                  'Component',
-                  'API',
-                  'Template',
-                  'Resource',
-              ]}
+            variant="gridItem"
+            entityFilterKind={[
+              'Domain',
+              'System',
+              'Component',
+              'API',
+              'Template',
+              'Resource',
+            ]}
           />
         </Grid>
         <Grid item xs={12}>
@@ -420,7 +431,7 @@ const systemPage = (
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
         <Grid item md={4} xs={12}>
-          <EntityLinksCard />
+          <SecurityChampionCard />
         </Grid>
         <Grid item md={8}>
           <EntityHasComponentsCard variant="gridItem" />
@@ -430,6 +441,9 @@ const systemPage = (
         </Grid>
         <Grid item md={6}>
           <EntityHasResourcesCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityLinksCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
@@ -454,11 +468,11 @@ const systemPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="ROS">
-        <RiScPage />
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-        <SecurityMetricsPage />
+      <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );
