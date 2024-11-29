@@ -14,24 +14,7 @@ You can read more about Tech Docs in Backstages [official documentation](https:/
 
 # How to use it
  
-## Add it to your repo
-### Use the template
-
-[Add Techdocs](/create/templates/default/add-techdocs) template.
-
-![Add Techdocs](../assets/add-techdocs.png)
-
-This will create a pull request in your repository that adds the necessary files for Tech Docs to work.
-
-Also consider adding paths-ignore to your other workflows, to avoid building the documentation every time you push to main.
-```yaml
-on:
-  push:
-    branches: [ "main" ]
-    paths-ignore:
-      - 'mkdocs.yml'
-      - 'docs/**'
-```
+## Add it to your repository
 
 ### Add it manually
 (this is basically the same the [official guide](https://backstage.io/docs/features/techdocs/creating-and-publishing), with some extra tips).
@@ -72,6 +55,41 @@ your-great-documentation/
   mkdocs.yml
 ```
 
+## Automated deployment of techdocs
+To deploy the techdocs you need to use the techdocs-action we have created.
+Create a techdocs.yaml workflow that looks like this:
+```yaml
+name: Publish TechDocs Site
+
+on:
+  push:
+    paths:
+     - "docs/**"
+     - "mkdocs.yml"
+     - ".github/workflows/techdocs.yml"
+
+jobs:
+  publish-techdocs-site:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    # The following secrets are required in your CI environment for publishing files to AWS S3.
+    # e.g. You can use GitHub Organization secrets to set them for all existing and new repositories.
+
+    steps:
+      - id: 'techdocs-action'
+        uses: kartverket/backstage-techdocs-action@v1
+        with:
+          entity_kind: 'component'
+          entity_name: '<exact-name-of-your-repo>'
+          gcs_bucket_name: ${{vars.BACKSTAGE_TECHDOCS_GCS_BUCKET_NAME}}  #global variable
+          workload_identity_provider: ${{vars.BACKSTAGE_TECHDOCS_WIF}} #global variable
+          service_account: ${{vars.BACKSTAGE_TECHDOCS_SERVICE_ACCOUNT}} #global variable
+          project_id: ${{vars.BACKSTAGE_TECHDOCS_PROJECT_ID}} #global variable
+
+```
 ## Local development
 
 Run `npx @techdocs/cli serve` in the projects root directory to start a local server. You can now view your documentation at http://localhost:3000.  
