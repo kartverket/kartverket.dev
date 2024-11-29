@@ -5,7 +5,7 @@ description: How to add documentation to your service
 ---
 
 ####  Prerequisites
-- Your repository exists in the [catalog](/catalog), if not see [Onboarding a new service](/docs/default/component/backstage/getting-started/using-the-catalog/).
+- Your repository exists in the [catalog](/catalog), if not contact SKVIS.
 # What is Tech Docs?
 
 Tech Docs is a tool for generating documentation for your service. It is based on [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
@@ -75,9 +75,6 @@ jobs:
       contents: read
       pull-requests: write
       id-token: write
-    # The following secrets are required in your CI environment for publishing files to AWS S3.
-    # e.g. You can use GitHub Organization secrets to set them for all existing and new repositories.
-
     steps:
       - id: 'techdocs-action'
         uses: kartverket/backstage-techdocs-action@v1
