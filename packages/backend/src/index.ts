@@ -20,8 +20,8 @@ backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 
 // Catalog
 backend.add(import('@backstage/plugin-catalog-backend'));
-backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
-backend.add(import('@backstage/plugin-catalog-backend-module-msgraph/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend-module-github'));
+backend.add(import('@backstage/plugin-catalog-backend-module-msgraph'));
 backend.add(msGroupTransformerCatalogModule);
 backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
 backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
