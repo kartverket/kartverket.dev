@@ -8,15 +8,6 @@ export interface Config {
                 /**
                  * @visibility frontend
                  */
-                development: {
-                    /**
-                     * @visibility frontend
-                     */
-                    clientId: string;
-                };
-                /**
-                 * @visibility frontend
-                 */
                 production: {
                     /**
                      * @visibility frontend
