@@ -416,6 +416,9 @@ const groupPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+      <SecurityMetricsPage />
+    </EntityLayout.Route>
   </EntityLayout>
 );
 
