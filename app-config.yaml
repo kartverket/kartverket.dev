@@ -115,28 +115,6 @@ proxy:
 lighthouse:
   baseUrl: http://localhost:7007/api/proxy/lighthouse
 
-kubernetes:
-  serviceLocatorMethod:
-    type: 'multiTenant'
-  clusterLocatorMethods:
-    - type: 'config'
-      clusters:
-        - url: https://10.13.2.133
-          name: atkv1-sandbox
-          authProvider: 'serviceAccount'
-          #dashboardUrl: http://127.0.0.1:64713 # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
-          #dashboardApp: standard
-          #customResources:
-          #  - group: 'argoproj.io'
-          #    apiVersion: 'v1alpha1'
-          #    plural: 'rollouts'
-        - url: https://34.88.245.88
-          name: atgcp1-sandbox
-          authProvider: 'serviceAccount'
-          skipTLSVerify: true # TODO Fix me
-          serviceAccountToken: ${ATGCP1_SANDBOX_SERVICE_ACCOUNT_TOKEN}
-          caData: ${ATGCP1_SANDBOX_CA_DATA}
-
 scaffolder:
   defaultAuthor:
     name: 'Backstage'

@@ -35,9 +35,6 @@ backend.add(legacyPlugin('dask-onboarding', import('./plugins/dask-onboarding'))
 // Devtools
 backend.add(import('@backstage/plugin-devtools-backend'));
 
-// Kubernetes
-backend.add(import('@backstage/plugin-kubernetes-backend'));
-
 // Lighthouse
 backend.add(import('@backstage-community/plugin-lighthouse-backend'));
 
