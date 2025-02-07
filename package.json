@@ -6,7 +6,7 @@
     "node": "20 || 22"
   },
   "scripts": {
-    "dev": "yarn workspaces foreach -A --include backend --include app --parallel -v -i run start",
+    "dev": "yarn workspaces foreach -A --include backend --include app --parallel --jobs unlimited -v -i run start",
     "start": "yarn workspace app start",
     "start-backend": "yarn workspace backend start",
     "build:backend": "yarn workspace backend build",
@@ -31,7 +31,7 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "^0.29.2",
+    "@backstage/cli": "^0.29.6",
     "@backstage/e2e-test-utils": "^0.1.1",
     "@playwright/test": "^1.32.3",
     "@spotify/prettier-config": "^12.0.0",
@@ -45,9 +45,10 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "@mui/material": "5.16.4",
-    "swagger-ui-react": "5.10.5"
+    "swagger-ui-react": "5.10.5",
+    "jsonpath-plus": "^10.2.0"
   },
-  "prettier": "@spotify/prettier-config",
+  "prettier": "@backstage/cli/config/prettier-config",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": [
       "eslint --fix",
