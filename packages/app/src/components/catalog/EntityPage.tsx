@@ -60,10 +60,6 @@ import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityLinguistCard } from '@backstage-community/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse';
 import {
-  EntityKubernetesContent,
-  isKubernetesAvailable,
-} from '@backstage/plugin-kubernetes';
-import {
   EntityGrafanaAlertsCard,
   EntityGrafanaDashboardsCard,
   EntityOverviewDashboardViewer,
@@ -309,14 +305,6 @@ const defaultEntityPage = (
 
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
-    </EntityLayout.Route>
-
-    <EntityLayout.Route
-      path="/kubernetes"
-      title="Kubernetes"
-      if={isKubernetesAvailable}
-    >
-      <EntityKubernetesContent />
     </EntityLayout.Route>
   </EntityLayout>
 );
