@@ -34,7 +34,14 @@ app:
 organization:
   name: Kartverket
 
+auth:
+  environment: development
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  providers: {}
+
 backend:
+  auth:
+    environment: development
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/auth/service-to-service-auth for
   # information on the format
