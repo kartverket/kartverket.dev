@@ -1,5 +1,4 @@
 import { createBackend } from '@backstage/backend-defaults';
-import { legacyPlugin } from '@backstage/backend-common';
 import {
     authModuleMicrosoftProvider
 } from "./plugins/extensions/auth";
@@ -30,7 +29,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 backend.add(import('@backstage-community/plugin-explore-backend'));
 
 // DASK
-backend.add(legacyPlugin('dask-onboarding', import('./plugins/dask-onboarding')));
+backend.add(import('@kartverket/plugin-dask-onboarding-backend'));
 
 // Devtools
 backend.add(import('@backstage/plugin-devtools-backend'));
