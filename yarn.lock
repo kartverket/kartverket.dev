@@ -3792,7 +3792,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/core-components@npm:^0.14.10, @backstage/core-components@npm:^0.14.3":
+"@backstage/core-components@npm:^0.14.10":
   version: 0.14.10
   resolution: "@backstage/core-components@npm:0.14.10"
   dependencies:
@@ -4000,7 +4000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/core-plugin-api@npm:^1.10.0, @backstage/core-plugin-api@npm:^1.10.3, @backstage/core-plugin-api@npm:^1.5.0, @backstage/core-plugin-api@npm:^1.9.1, @backstage/core-plugin-api@npm:^1.9.3, @backstage/core-plugin-api@npm:^1.9.4":
+"@backstage/core-plugin-api@npm:^1.10.0, @backstage/core-plugin-api@npm:^1.10.3, @backstage/core-plugin-api@npm:^1.5.0, @backstage/core-plugin-api@npm:^1.9.3, @backstage/core-plugin-api@npm:^1.9.4":
   version: 1.10.3
   resolution: "@backstage/core-plugin-api@npm:1.10.3"
   dependencies:
@@ -6408,7 +6408,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/theme@npm:^0.5.2, @backstage/theme@npm:^0.5.6, @backstage/theme@npm:^0.5.7":
+"@backstage/theme@npm:^0.5.6, @backstage/theme@npm:^0.5.7":
   version: 0.5.7
   resolution: "@backstage/theme@npm:0.5.7"
   dependencies:
@@ -8561,14 +8561,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-dask-onboarding@npm:^0.1.18":
-  version: 0.1.18
-  resolution: "@kartverket/backstage-plugin-dask-onboarding@npm:0.1.18"
+"@kartverket/backstage-plugin-dask-onboarding@npm:^0.1.19":
+  version: 0.1.19
+  resolution: "@kartverket/backstage-plugin-dask-onboarding@npm:0.1.19"
   dependencies:
-    "@backstage/core-components": "npm:^0.14.3"
-    "@backstage/core-plugin-api": "npm:^1.9.1"
-    "@backstage/theme": "npm:^0.5.2"
-    "@material-ui/core": "npm:^4.12.2"
+    "@backstage/core-components": "npm:^0.16.4"
+    "@backstage/core-plugin-api": "npm:^1.10.4"
+    "@backstage/theme": "npm:^0.6.4"
+    "@material-ui/core": "npm:^4.9.13"
     "@material-ui/icons": "npm:^4.9.1"
     "@material-ui/lab": "npm:4.0.0-alpha.61"
     jwt-decode: "npm:^4.0.0"
@@ -8576,7 +8576,7 @@ __metadata:
     styled-components: "npm:^6.1.8"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/689003a12770ad2289dba3fcedfa74a7bc011cad522cb6a138b06b917324c4cd05f105ccd4808a37de16f22f7235e1bab24aa86fca725a333ddc4f2f65429eec
+  checksum: 10c0/82d06be322f4a15bb18a9aa81c9d0275afcc5b70b3edebaaec2ac440cf0eacd3fd5a48f6b66207210ca1b0a2f551616390021238facb320983fd5bec9b03d79b
   languageName: node
   linkType: hard
 
@@ -17683,7 +17683,7 @@ __metadata:
     "@backstage/theme": "npm:^0.6.4"
     "@internal/plugin-instatus": "npm:^0.1.0"
     "@k-phoen/backstage-plugin-grafana": "npm:^0.1.22"
-    "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.18"
+    "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.19"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^2.1.6"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.10.3"
