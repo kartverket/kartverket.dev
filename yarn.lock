@@ -8561,13 +8561,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-dask-onboarding@npm:^0.1.20":
-  version: 0.1.20
-  resolution: "@kartverket/backstage-plugin-dask-onboarding@npm:0.1.20"
+"@kartverket/backstage-plugin-dask-onboarding-backend@npm:^0.1.16":
+  version: 0.1.16
+  resolution: "@kartverket/backstage-plugin-dask-onboarding-backend@npm:0.1.16"
+  dependencies:
+    "@backstage/backend-defaults": "npm:^0.8.0"
+    "@backstage/backend-plugin-api": "npm:^1.2.0"
+    "@backstage/catalog-client": "npm:^1.9.1"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/plugin-catalog-node": "npm:^1.16.0"
+    "@google-cloud/firestore": "npm:^7.5.0"
+    "@google-cloud/pubsub": "npm:^4.3.3"
+    "@google-cloud/secret-manager": "npm:^5.1.0"
+    express: "npm:^4.17.1"
+    express-promise-router: "npm:^4.1.0"
+    jsonwebtoken: "npm:^9.0.2"
+    node-fetch: "npm:^2.6.7"
+    octokit: "npm:^3.1.2"
+    winston: "npm:^3.2.1"
+    yn: "npm:^4.0.0"
+    zod: "npm:^3.22.4"
+  checksum: 10c0/f5446a8c9954ca0268734f2f68fc33bf7df4214d423552f39e2590846bfd0a62b2acdfc77204884ad71def49d73cf3fd33b1c840f5a1527fd3b6f9f633d8f5c1
+  languageName: node
+  linkType: hard
+
+"@kartverket/backstage-plugin-dask-onboarding@npm:^0.1.22":
+  version: 0.1.22
+  resolution: "@kartverket/backstage-plugin-dask-onboarding@npm:0.1.22"
   dependencies:
     "@backstage/core-components": "npm:^0.16.4"
     "@backstage/core-plugin-api": "npm:^1.10.4"
     "@backstage/theme": "npm:^0.6.4"
+    "@kartverket/backstage-plugin-dask-onboarding-backend": "npm:^0.1.16"
     "@material-ui/core": "npm:^4.9.13"
     "@material-ui/icons": "npm:^4.9.1"
     "@material-ui/lab": "npm:4.0.0-alpha.61"
@@ -8576,7 +8601,7 @@ __metadata:
     styled-components: "npm:^6.1.8"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/cc058cbb5d51b6951be3ec4a5b10ab6874ecf7c69dcc5402cd8e21bf17bc7e2a4e5898a4371dc94e9fb4327601024a089ca350a9c8f4bec8c85bd104a3695236
+  checksum: 10c0/b095b09159f95d16973c4ef7afe94270404358b04d444457c6027058e47a558c5740ea4e5c28823c45d4b9d38ceed36ef8ab319d0e022cf2812938098f32bb4d
   languageName: node
   linkType: hard
 
@@ -17684,7 +17709,7 @@ __metadata:
     "@backstage/theme": "npm:^0.6.4"
     "@internal/plugin-instatus": "npm:^0.1.0"
     "@k-phoen/backstage-plugin-grafana": "npm:^0.1.22"
-    "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.20"
+    "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.22"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.0.1"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.10.5"
