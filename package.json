@@ -22,7 +22,20 @@
     "lint": "backstage-cli repo lint --since origin/main",
     "lint:all": "backstage-cli repo lint",
     "prettier:check": "prettier --check .",
-    "new": "backstage-cli new"
+    "prettier:format": "prettier --write .",
+    "new": "backstage-cli new",
+    "ci//": "echo Installs dependencies without modifying the lockfile.\n`yarn rebuild` was added because folders are randomly missing, this command fixes it.",
+    "ci": "yarn install --immutable && yarn rebuild",
+    "iup//": "echo 'Interactive upgrade of dependencies (do not touch packages with `backstage:^?)'",
+    "iup": "yarn upgrade-interactive",
+    "cup//": "echo Custom UPdate - Install without lockfile forces yarn to look for latest version within ranges",
+    "cup": "rm -f yarn.lock && yarn install",
+    "backstage:upgrade": "backstage-cli versions:bump",
+    "pipeline//": "echo Shorthand to run all checks in the lint.yml pipeline/workflow",
+    "pipeline": "yarn run ci && yarn run prettier:check && yarn run lint:all && yarn run tsc",
+    "self-update//": "Upgrade package manager to the latest version",
+    "self-update": "corepack up",
+    "clean-cache": "yarn cache clean --all"
   },
   "workspaces": {
     "packages": [
