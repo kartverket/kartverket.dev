@@ -15,6 +15,9 @@ coverage
 # Dependencies
 node_modules/
 
+# VSCode extension
+.history/
+
 # Yarn files
 .pnp.*
 .yarn/*
