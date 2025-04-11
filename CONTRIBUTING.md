@@ -16,7 +16,7 @@ backlog as well as the current roadmap in the following places:
 
 To start a local development environment, follow the instructions below.
 
-### prerequisites
+### Prerequisites
 
 1. install [nvm](https://github.com/nvm-sh/nvm)
 2. `nvm install 20`
@@ -134,7 +134,7 @@ spec:
     email: Lynn.Villanueva@kartverket.dev
     picture: https://i.imgur.com/zcal7OY.jpeg
 ```
-### start the app
+### Start the app
 
 ```sh
 yarn install
