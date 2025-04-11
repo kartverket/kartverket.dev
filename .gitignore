@@ -47,6 +47,9 @@ dist-types
 # MkDocs build output
 site
 
+# VSCode
+.vscode/settings.json
+
 # Local configuration files
 *.local.yaml
 
