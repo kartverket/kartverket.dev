@@ -3,9 +3,9 @@ name: Publish TechDocs Site
 on:
   push:
     paths:
-     - "docs/**"
-     - "mkdocs.yml"
-     - ".github/workflows/techdocs.yml"
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/techdocs.yml'
 
 jobs:
   publish-techdocs-site:
