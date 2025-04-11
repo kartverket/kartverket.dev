@@ -18,6 +18,9 @@ node_modules/
 # VSCode extension
 .history/
 
+# Config file for mise, an alternative to `nvm`.
+mise.toml
+
 # Yarn files
 .pnp.*
 .yarn/*
