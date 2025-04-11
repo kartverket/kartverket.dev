@@ -59,6 +59,8 @@ jobs:
 
       - run: yarn install --immutable
 
+      - run: yarn run prettier:check
+
       # tsc outputs type definitions to dist-types/ in the repo root, which are then consumed by the build
       # - run: yarn tsc
 
