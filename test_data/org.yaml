@@ -132,7 +132,7 @@ metadata:
   uid: 876277ac-686e-4880-bf5f-02740c27d070
 spec:
   memberOf:
-    - group:default/nye_referanserammer
+  - group:default/nye_referanserammer
   profile:
     displayName: Holly Duncan
     email: Holly.Duncan@kartverket.dev
@@ -313,9 +313,9 @@ metadata:
   uid: 367af2c8-2c10-48fd-be64-e7e98311eb42
 spec:
   children:
-    - group:default/nye_referanserammer_-_tech_lead
-    - group:default/nye_referanserammer_-_team_lead
-    - group:default/nye_referanserammer_-_product_owner
+  - group:default/nye_referanserammer_-_tech_lead
+  - group:default/nye_referanserammer_-_team_lead
+  - group:default/nye_referanserammer_-_product_owner
   parent: group:default/land
   profile:
     displayName: Nye referanserammer
@@ -896,7 +896,7 @@ metadata:
   uid: 2b128546-0981-46d5-8267-6f444a88c42f
 spec:
   memberOf:
-    - group:default/digitalt_sentralarkiv_-_team_lead
+  - group:default/digitalt_sentralarkiv_-_team_lead
   profile:
     displayName: Gregory Hernandez
     email: Gregory.Hernandez@kartverket.dev
@@ -1030,8 +1030,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/68399584-c579-4cdc-b07e-965c3cd0ed82
     backstage.io/managed-by-origin-location: msgraph:default/68399584-c579-4cdc-b07e-965c3cd0ed82
     graph.microsoft.com/group-id: 7f5838f4-9ad9-422a-8fc4-e511db9ca66b
-  description:
-    Team Lead role group for Digitalt sentralarkiv team. Managed with terraform
+  description: Team Lead role group for Digitalt sentralarkiv team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: a8dcc682-40b6-4794-b427-cff43f27b731
   name: digitalt_sentralarkiv_-_team_lead
@@ -1059,7 +1058,7 @@ metadata:
   uid: 37eed30b-79ff-4762-bcfa-cd4f0db26cbe
 spec:
   memberOf:
-    - group:default/geodesi_devops_-_team_lead
+  - group:default/geodesi_devops_-_team_lead
   profile:
     displayName: Brandon Hunt
     email: Brandon.Hunt@kartverket.dev
@@ -1253,8 +1252,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/42c88ebc-cf40-4d20-8680-2a24b675370a
     backstage.io/managed-by-origin-location: msgraph:default/42c88ebc-cf40-4d20-8680-2a24b675370a
     graph.microsoft.com/group-id: fdb476ce-40a2-4a0e-8346-fe76e99a7498
-  description:
-    Team Lead role group for GeoDesi DevOps team. Managed with terraform
+  description: Team Lead role group for GeoDesi DevOps team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: b4971931-6968-4438-9b75-7acf5fb26ed0
   name: geodesi_devops_-_team_lead
@@ -1402,7 +1400,7 @@ metadata:
   uid: 6baef307-259b-4fe6-af02-f9c16789cb2c
 spec:
   memberOf:
-    - group:default/smia_-_team_lead
+  - group:default/smia_-_team_lead
   profile:
     displayName: Joseph Hoffman
     email: Joseph.Hoffman@kartverket.dev
@@ -2503,8 +2501,8 @@ metadata:
   uid: 5c17f6f4-d343-437b-950f-843aa660b151
 spec:
   memberOf:
-    - group:default/smia
-    - group:default/dataplattform
+  - group:default/smia
+  - group:default/dataplattform
   profile:
     displayName: David Perry
     email: David.Perry@kartverket.dev
@@ -2525,7 +2523,7 @@ metadata:
   uid: 7d73a29d-da0f-47a0-8f94-532b44908e61
 spec:
   memberOf:
-    - group:default/egenregistrering_-_team_lead
+  - group:default/egenregistrering_-_team_lead
   profile:
     displayName: Stephen Perez
     email: Stephen.Perez@kartverket.dev
@@ -2546,8 +2544,8 @@ metadata:
   uid: f534aebb-6fd5-4269-9b15-ae84dbae93f1
 spec:
   memberOf:
-    - group:default/skip
-    - group:default/team_norgeskart_og_topo
+  - group:default/skip
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: Amber Ward
     email: Amber.Ward@kartverket.dev
@@ -2648,7 +2646,7 @@ metadata:
   uid: 6275b19b-f29c-4f98-9956-91ee10a1570c
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: Leslie Lee
     email: Leslie.Lee@kartverket.dev
@@ -2709,9 +2707,9 @@ metadata:
   uid: 39d06533-a0d6-4d72-924e-ba32272e5596
 spec:
   children:
-    - group:default/smia_-_tech_lead
-    - group:default/smia_-_product_owner
-    - group:default/smia_-_team_lead
+  - group:default/smia_-_tech_lead
+  - group:default/smia_-_product_owner
+  - group:default/smia_-_team_lead
   parent: group:default/eiendom
   profile:
     displayName: Smia
@@ -2725,8 +2723,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/d471be0b-b78b-48b1-831a-745bc42f1195
     backstage.io/managed-by-origin-location: msgraph:default/d471be0b-b78b-48b1-831a-745bc42f1195
     graph.microsoft.com/group-id: 62fc04f0-02e0-4a5f-834e-2d430caf4c3f
-  description:
-    Team Lead role group for Egenregistrering team. Managed with terraform
+  description: Team Lead role group for Egenregistrering team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: e27081c5-cad8-4a9c-bb10-6899e7031ecb
   name: egenregistrering_-_team_lead
@@ -2754,9 +2751,9 @@ metadata:
   uid: 0dceeabe-92e3-42d5-95f3-faaa69e17b95
 spec:
   children:
-    - group:default/skip_-_team_lead
-    - group:default/skip_-_product_owner
-    - group:default/skip_-_tech_lead
+  - group:default/skip_-_team_lead
+  - group:default/skip_-_product_owner
+  - group:default/skip_-_tech_lead
   parent: group:default/plattform
   profile:
     displayName: SKIP
@@ -2777,9 +2774,9 @@ metadata:
   uid: 69d52cc9-84e8-4d92-88cd-45c3af7a0ddf
 spec:
   children:
-    - group:default/dataplattform_-_team_lead
-    - group:default/dataplattform_-_tech_lead
-    - group:default/dataplattform_-_product_owner
+  - group:default/dataplattform_-_team_lead
+  - group:default/dataplattform_-_tech_lead
+  - group:default/dataplattform_-_product_owner
   parent: group:default/plattform
   profile:
     displayName: Dataplattform
@@ -2900,9 +2897,9 @@ metadata:
   uid: 5618ae8c-54a1-4d0b-b8eb-96875855a457
 spec:
   children:
-    - group:default/team_norgeskart_og_topo_-_team_lead
-    - group:default/team_norgeskart_og_topo_-_product_owner
-    - group:default/team_norgeskart_og_topo_-_tech_lead
+  - group:default/team_norgeskart_og_topo_-_team_lead
+  - group:default/team_norgeskart_og_topo_-_product_owner
+  - group:default/team_norgeskart_og_topo_-_tech_lead
   parent: group:default/land
   profile:
     displayName: Team Norgeskart og Topo
@@ -3063,7 +3060,7 @@ metadata:
   uid: 7280a1ea-63cc-437f-bea4-f2ec20660c33
 spec:
   memberOf:
-    - group:default/nasjonalt_register_for_luftfartshindre_-_team_lead
+  - group:default/nasjonalt_register_for_luftfartshindre_-_team_lead
   profile:
     displayName: Amanda Huber
     email: Amanda.Huber@kartverket.dev
@@ -3217,8 +3214,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/8b35e5c2-7219-431e-8ce2-030d909d8f7e
     backstage.io/managed-by-origin-location: msgraph:default/8b35e5c2-7219-431e-8ce2-030d909d8f7e
     graph.microsoft.com/group-id: 3c0a90ca-e521-4c58-a818-876c5b24bf35
-  description:
-    Team Lead role group for Nasjonalt register for luftfartshindre team.
+  description: Team Lead role group for Nasjonalt register for luftfartshindre team.
     Managed with terraform - github.com/kartverket/entra-id-config
   etag: c78e8dbe-78aa-427f-9ba8-b2541383622b
   name: nasjonalt_register_for_luftfartshindre_-_team_lead
@@ -3386,7 +3382,7 @@ metadata:
   uid: 67d5a94d-f862-4eed-8aa4-366345893479
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: James Shaw
     email: James.Shaw@kartverket.dev
@@ -4487,7 +4483,7 @@ metadata:
   uid: c37caa45-4cf4-41ab-9155-081fe3ee00b8
 spec:
   memberOf:
-    - group:default/skip
+  - group:default/skip
   profile:
     displayName: Tyler Arellano
     email: Tyler.Arellano@kartverket.dev
@@ -4628,7 +4624,7 @@ metadata:
   uid: e7099979-b8d1-4c56-89d2-ef99416889b2
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: Warren Garcia
     email: Warren.Garcia@kartverket.dev
@@ -4749,7 +4745,7 @@ metadata:
   uid: 4076d232-5bdc-4d50-a0d8-11683dca5301
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: Michelle Daniels
     email: Michelle.Daniels@kartverket.dev
@@ -5070,7 +5066,7 @@ metadata:
   uid: c217cdce-9b78-4362-bac7-91e6c55e6d47
 spec:
   memberOf:
-    - group:default/skip
+  - group:default/skip
   profile:
     displayName: Melanie Williams
     email: Melanie.Williams@kartverket.dev
@@ -5371,7 +5367,7 @@ metadata:
   uid: d0bd5be5-d8e4-47af-8d34-5d0950166e8f
 spec:
   memberOf:
-    - group:default/bygning
+  - group:default/bygning
   profile:
     displayName: Ashley Mathis
     email: Ashley.Mathis@kartverket.dev
@@ -5552,9 +5548,9 @@ metadata:
   uid: 13e28669-bdfc-40a7-b39a-125d330bf749
 spec:
   children:
-    - group:default/bygning_-_team_lead
-    - group:default/bygning_-_tech_lead
-    - group:default/bygning_-_product_owner
+  - group:default/bygning_-_team_lead
+  - group:default/bygning_-_tech_lead
+  - group:default/bygning_-_product_owner
   parent: group:default/eiendom
   profile:
     displayName: Bygning
@@ -6075,7 +6071,7 @@ metadata:
   uid: 5ab18068-ece6-47c3-b3f6-2d736ae9a869
 spec:
   memberOf:
-    - group:default/bygning
+  - group:default/bygning
   profile:
     displayName: Donald Ray
     email: Donald.Ray@kartverket.dev
@@ -6496,7 +6492,7 @@ metadata:
   uid: 747e5e13-be77-43e5-8c17-4b2b397136f5
 spec:
   memberOf:
-    - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_team_lead
+  - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_team_lead
   profile:
     displayName: Tara Smith
     email: Tara.Smith@kartverket.dev
@@ -6670,8 +6666,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/ff584466-0efc-4d15-a1a3-d604a6003d15
     backstage.io/managed-by-origin-location: msgraph:default/ff584466-0efc-4d15-a1a3-d604a6003d15
     graph.microsoft.com/group-id: 8ca5dd11-fa0f-4199-9261-36695eb48f9a
-  description:
-    Team Lead role group for Nøyaktig og pålitelig posisjon til alle (NPPA)
+  description: Team Lead role group for Nøyaktig og pålitelig posisjon til alle (NPPA)
     team. Managed with terraform - github.com/kartverket/entra-id-config
   etag: cc60577b-564d-4e86-a983-cd701f9f44e3
   name: n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_team_lead
@@ -6699,7 +6694,7 @@ metadata:
   uid: 1d2d9908-b6c0-4d17-9c52-877b0cb97837
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: Michelle Robertson
     email: Michelle.Robertson@kartverket.dev
@@ -6780,7 +6775,7 @@ metadata:
   uid: 6a782321-04ed-40ef-834a-e244e42aeb10
 spec:
   memberOf:
-    - group:default/eiet_-_team_lead
+  - group:default/eiet_-_team_lead
   profile:
     displayName: Wesley Mitchell
     email: Wesley.Mitchell@kartverket.dev
@@ -7301,8 +7296,8 @@ metadata:
   uid: 42213dd4-8e55-4e6e-a406-96d5e8de239f
 spec:
   memberOf:
-    - group:default/bygning_-_tech_lead
-    - group:default/bygning
+  - group:default/bygning_-_tech_lead
+  - group:default/bygning
   profile:
     displayName: Hannah Bryant
     email: Hannah.Bryant@kartverket.dev
@@ -7583,7 +7578,7 @@ metadata:
   uid: 83d950b9-9088-4947-8dab-0498ad25aa45
 spec:
   memberOf:
-    - group:default/topografisk_grunndatabase_-_team_lead
+  - group:default/topografisk_grunndatabase_-_team_lead
   profile:
     displayName: Douglas Moon
     email: Douglas.Moon@kartverket.dev
@@ -7737,8 +7732,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/79d66c13-133e-4d34-a6d9-1af85a388d44
     backstage.io/managed-by-origin-location: msgraph:default/79d66c13-133e-4d34-a6d9-1af85a388d44
     graph.microsoft.com/group-id: c1c57493-73a9-498a-8c31-63709b112e59
-  description:
-    Team Lead role group for Topografisk grunndatabase team. Managed with
+  description: Team Lead role group for Topografisk grunndatabase team. Managed with
     terraform - github.com/kartverket/entra-id-config
   etag: 99d72a54-8d46-40f4-b02a-8e122d353930
   name: topografisk_grunndatabase_-_team_lead
@@ -8526,7 +8520,7 @@ metadata:
   uid: e36758a3-593d-4bc7-b6fc-a5607814dca8
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo_-_team_lead
+  - group:default/team_norgeskart_og_topo_-_team_lead
   profile:
     displayName: Brandy Smith
     email: Brandy.Smith@kartverket.dev
@@ -8660,8 +8654,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/0ee8645b-8226-41d5-af5a-5818e7337a4f
     backstage.io/managed-by-origin-location: msgraph:default/0ee8645b-8226-41d5-af5a-5818e7337a4f
     graph.microsoft.com/group-id: 11b15738-8858-4dee-bc78-c7e8d4888f62
-  description:
-    Team Lead role group for Team Norgeskart og Topo team. Managed with
+  description: Team Lead role group for Team Norgeskart og Topo team. Managed with
     terraform - github.com/kartverket/entra-id-config
   etag: d2cbca2d-7e63-4a20-a20a-4209dd8f1ed4
   name: team_norgeskart_og_topo_-_team_lead
@@ -8889,7 +8882,7 @@ metadata:
   uid: 211063ab-a626-4c8d-90f3-308ed84642cb
 spec:
   memberOf:
-    - group:default/skip
+  - group:default/skip
   profile:
     displayName: Duane Green
     email: Duane.Green@kartverket.dev
@@ -9230,7 +9223,7 @@ metadata:
   uid: 7466ba3d-106b-41ce-b3bb-34cc65a826fa
 spec:
   memberOf:
-    - group:default/dataplattform_-_team_lead
+  - group:default/dataplattform_-_team_lead
   profile:
     displayName: Emily Clark
     email: Emily.Clark@kartverket.dev
@@ -9371,8 +9364,8 @@ metadata:
   uid: c0a3126d-c416-4df3-b3e8-1da131430dcb
 spec:
   memberOf:
-    - group:default/skvis_-_product_owner
-    - group:default/skvis
+  - group:default/skvis_-_product_owner
+  - group:default/skvis
   profile:
     displayName: Victoria Moore
     email: Victoria.Moore@kartverket.dev
@@ -9386,8 +9379,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/d3eb615e-e0df-45ca-bc96-726d073dfcd7
     backstage.io/managed-by-origin-location: msgraph:default/d3eb615e-e0df-45ca-bc96-726d073dfcd7
     graph.microsoft.com/group-id: 92edec5b-810b-4ace-8407-bb3609482cdf
-  description:
-    Team Lead role group for Dataplattform team. Managed with terraform
+  description: Team Lead role group for Dataplattform team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: b45fbbdf-24dd-4b39-8d98-1227fe843f74
   name: dataplattform_-_team_lead
@@ -9535,9 +9527,9 @@ metadata:
   uid: 084401de-76a6-4c9e-b1bf-6a68fc1cf914
 spec:
   children:
-    - group:default/skvis_-_tech_lead
-    - group:default/skvis_-_product_owner
-    - group:default/skvis_-_team_lead
+  - group:default/skvis_-_tech_lead
+  - group:default/skvis_-_product_owner
+  - group:default/skvis_-_team_lead
   parent: group:default/eiendom
   profile:
     displayName: SKVIS
@@ -9878,7 +9870,7 @@ metadata:
   uid: fd658b99-5125-4e62-909f-8e0fd2b23283
 spec:
   memberOf:
-    - group:default/digibok_-_team_lead
+  - group:default/digibok_-_team_lead
   profile:
     displayName: Melissa Little
     email: Melissa.Little@kartverket.dev
@@ -10619,7 +10611,7 @@ metadata:
   uid: ddcae400-d712-4d32-a9f1-3f0207e5d1f7
 spec:
   memberOf:
-    - group:default/heimdall_-_team_lead
+  - group:default/heimdall_-_team_lead
   profile:
     displayName: Louis Wiley
     email: Louis.Wiley@kartverket.dev
@@ -10940,7 +10932,7 @@ metadata:
   uid: 54705c88-c694-4e95-99ab-3329544329af
 spec:
   memberOf:
-    - group:default/fred_-_intern_folkeregisterkopi_-_team_lead
+  - group:default/fred_-_intern_folkeregisterkopi_-_team_lead
   profile:
     displayName: Jessica Miller
     email: Jessica.Miller@kartverket.dev
@@ -11081,7 +11073,7 @@ metadata:
   uid: d4a7d8b8-6606-49b6-a59e-86b1bfddb5d8
 spec:
   memberOf:
-    - group:default/h_yde_-_team_lead
+  - group:default/h_yde_-_team_lead
   profile:
     displayName: Gregory Baker
     email: Gregory.Baker@kartverket.dev
@@ -11095,8 +11087,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/3a3cc6ea-4355-4894-aa0d-dd34cb5e645f
     backstage.io/managed-by-origin-location: msgraph:default/3a3cc6ea-4355-4894-aa0d-dd34cb5e645f
     graph.microsoft.com/group-id: 01af8afb-1ab2-45f4-beaa-7cafbccbb6c0
-  description:
-    Team Lead role group for FRED - Intern folkeregisterkopi team. Managed
+  description: Team Lead role group for FRED - Intern folkeregisterkopi team. Managed
     with terraform - github.com/kartverket/entra-id-config
   etag: 41272480-ac3c-4684-81db-96fe22d91d24
   name: fred_-_intern_folkeregisterkopi_-_team_lead
@@ -11204,7 +11195,7 @@ metadata:
   uid: e761877c-f84f-4eb2-ab4a-cf131c0c3657
 spec:
   memberOf:
-    - group:default/komreg_-_team_lead
+  - group:default/komreg_-_team_lead
   profile:
     displayName: Jessica Lewis
     email: Jessica.Lewis@kartverket.dev
@@ -11425,8 +11416,8 @@ metadata:
   uid: 286a9881-cacc-4cea-b69d-6e39e23fd5ff
 spec:
   memberOf:
-    - group:default/bygning_-_product_owner
-    - group:default/bygning
+  - group:default/bygning_-_product_owner
+  - group:default/bygning
   profile:
     displayName: Joshua Taylor
     email: Joshua.Taylor@kartverket.dev
@@ -11987,8 +11978,8 @@ metadata:
   uid: e34a93f6-b0b5-43b4-8a57-050c55a0d74c
 spec:
   memberOf:
-    - group:default/skvis_-_tech_lead
-    - group:default/skvis
+  - group:default/skvis_-_tech_lead
+  - group:default/skvis
   profile:
     displayName: Maria Rivera
     email: Maria.Rivera@kartverket.dev
@@ -12849,7 +12840,7 @@ metadata:
   uid: 750cf504-ed69-4a45-959b-c8de772bed14
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: Mark Graham
     email: Mark.Graham@kartverket.dev
@@ -13610,7 +13601,7 @@ metadata:
   uid: 9c2a68b8-5aeb-4e7c-9cf7-d040b819087e
 spec:
   memberOf:
-    - group:default/kartkontorenes_oppf_lgingssystem_-_team_lead
+  - group:default/kartkontorenes_oppf_lgingssystem_-_team_lead
   profile:
     displayName: Sue Perez
     email: Sue.Perez@kartverket.dev
@@ -13791,7 +13782,7 @@ metadata:
   uid: c977c258-b143-44e3-b746-d40611338fcd
 spec:
   memberOf:
-    - group:default/n50_-_team_lead
+  - group:default/n50_-_team_lead
   profile:
     displayName: Alexis King
     email: Alexis.King@kartverket.dev
@@ -13805,8 +13796,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/f038ee1c-5995-48fd-8fc4-e0c91f55dc62
     backstage.io/managed-by-origin-location: msgraph:default/f038ee1c-5995-48fd-8fc4-e0c91f55dc62
     graph.microsoft.com/group-id: f6d14012-c024-4278-be5a-8dc1373228ae
-  description:
-    Team Lead role group for Kartkontorenes OppfølgingsSystem team. Managed
+  description: Team Lead role group for Kartkontorenes OppfølgingsSystem team. Managed
     with terraform - github.com/kartverket/entra-id-config
   etag: 90614796-04d2-4410-b4ff-8c6edc104e7c
   name: kartkontorenes_oppf_lgingssystem_-_team_lead
@@ -13954,7 +13944,7 @@ metadata:
   uid: 194aa191-3a54-4800-88fc-cb36b930c3e9
 spec:
   memberOf:
-    - group:default/skip
+  - group:default/skip
   profile:
     displayName: Kelsey Bowen
     email: Kelsey.Bowen@kartverket.dev
@@ -14015,7 +14005,7 @@ metadata:
   uid: 80e47ede-19b5-43a9-bbcc-ac1c3453facc
 spec:
   memberOf:
-    - group:default/skvis
+  - group:default/skvis
   profile:
     displayName: Mary Harmon
     email: Mary.Harmon@kartverket.dev
@@ -14356,7 +14346,7 @@ metadata:
   uid: a29b14ee-27df-4b0b-a342-9f73035710d3
 spec:
   memberOf:
-    - group:default/handsfree_-_team_lead
+  - group:default/handsfree_-_team_lead
   profile:
     displayName: Carrie Clark
     email: Carrie.Clark@kartverket.dev
@@ -14397,7 +14387,7 @@ metadata:
   uid: 011a74b4-a276-4780-94eb-7187492ae7f7
 spec:
   memberOf:
-    - group:default/datadeling_og_distribusjon_-_team_lead
+  - group:default/datadeling_og_distribusjon_-_team_lead
   profile:
     displayName: Michelle Drake
     email: Michelle.Drake@kartverket.dev
@@ -14571,8 +14561,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/625dba13-75f2-4819-bd94-2074b5fd0523
     backstage.io/managed-by-origin-location: msgraph:default/625dba13-75f2-4819-bd94-2074b5fd0523
     graph.microsoft.com/group-id: eba276a4-ebc1-489e-823a-678674558a4d
-  description:
-    Team Lead role group for Datadeling og distribusjon team. Managed with
+  description: Team Lead role group for Datadeling og distribusjon team. Managed with
     terraform - github.com/kartverket/entra-id-config
   etag: 667e520b-034a-4d8b-be66-1710968a90de
   name: datadeling_og_distribusjon_-_team_lead
@@ -14840,7 +14829,7 @@ metadata:
   uid: 5cd68fcc-14b5-482b-89d8-92cc38b47093
 spec:
   memberOf:
-    - group:default/bygning
+  - group:default/bygning
   profile:
     displayName: Randy Henderson
     email: Randy.Henderson@kartverket.dev
@@ -14861,7 +14850,7 @@ metadata:
   uid: 0b95c166-9469-479d-b31d-a2c89868c408
 spec:
   memberOf:
-    - group:default/dataforvaltning_lukket_-_team_lead
+  - group:default/dataforvaltning_lukket_-_team_lead
   profile:
     displayName: Andrew Contreras
     email: Andrew.Contreras@kartverket.dev
@@ -14982,8 +14971,8 @@ metadata:
   uid: 93367708-4029-4daa-81ba-c0e0bea6d266
 spec:
   memberOf:
-    - group:default/teknisk_rammeverk_-_team_lead
-    - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_team_lead
+  - group:default/teknisk_rammeverk_-_team_lead
+  - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_team_lead
   profile:
     displayName: Rachel Smith
     email: Rachel.Smith@kartverket.dev
@@ -14997,8 +14986,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/90f41172-966a-4728-9c2a-6e83a09ac7e1
     backstage.io/managed-by-origin-location: msgraph:default/90f41172-966a-4728-9c2a-6e83a09ac7e1
     graph.microsoft.com/group-id: edd45145-dc2e-43f9-be0d-e10c2475a992
-  description:
-    Team Lead role group for Dataforvaltning lukket team. Managed with
+  description: Team Lead role group for Dataforvaltning lukket team. Managed with
     terraform - github.com/kartverket/entra-id-config
   etag: e08f511d-9c92-4229-8336-430525a31a59
   name: dataforvaltning_lukket_-_team_lead
@@ -15119,8 +15107,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/c61943b1-5df4-43c6-b0bd-c638c6693e81
     backstage.io/managed-by-origin-location: msgraph:default/c61943b1-5df4-43c6-b0bd-c638c6693e81
     graph.microsoft.com/group-id: fe137e9e-3ce8-40f2-989a-95ec1c34642a
-  description:
-    Team Lead role group for Teknisk rammeverk team. Managed with terraform
+  description: Team Lead role group for Teknisk rammeverk team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: 7c01fb5e-9c88-4762-a499-f9351e30cf76
   name: teknisk_rammeverk_-_team_lead
@@ -15141,8 +15128,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/74e3a173-77c5-436e-a631-b0026c6eee27
     backstage.io/managed-by-origin-location: msgraph:default/74e3a173-77c5-436e-a631-b0026c6eee27
     graph.microsoft.com/group-id: f09c6a17-77f7-4f22-8f44-aadd069df739
-  description:
-    Team Lead role group for Nasjonalt geografisk informasjonssystem QMS
+  description: Team Lead role group for Nasjonalt geografisk informasjonssystem QMS
     team. Managed with terraform - github.com/kartverket/entra-id-config
   etag: 8b8f8bc8-e07e-4dea-ba45-067b50f70b38
   name: nasjonalt_geografisk_informasjonssystem_qms_-_team_lead
@@ -15630,7 +15616,7 @@ metadata:
   uid: 92c8113a-283d-4f5f-a015-dde598e17460
 spec:
   memberOf:
-    - group:default/skip
+  - group:default/skip
   profile:
     displayName: Bailey Joseph
     email: Bailey.Joseph@kartverket.dev
@@ -15751,7 +15737,7 @@ metadata:
   uid: 71d1e05c-9b1a-4ee4-ae98-76e4c402f5d6
 spec:
   memberOf:
-    - group:default/global_geodesi_-_team_lead
+  - group:default/global_geodesi_-_team_lead
   profile:
     displayName: Michele Harrison
     email: Michele.Harrison@kartverket.dev
@@ -15865,8 +15851,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/3e0cb203-e6de-4b89-b59f-6d22f4537981
     backstage.io/managed-by-origin-location: msgraph:default/3e0cb203-e6de-4b89-b59f-6d22f4537981
     graph.microsoft.com/group-id: 12967552-399f-451a-87e0-582520361b80
-  description:
-    Team Lead role group for Global Geodesi team. Managed with terraform
+  description: Team Lead role group for Global Geodesi team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: ec12d09c-2c05-4640-ba7b-11acc01f6210
   name: global_geodesi_-_team_lead
@@ -15934,7 +15919,7 @@ metadata:
   uid: 08594d99-a6f4-4d0c-87db-927ea232a00e
 spec:
   memberOf:
-    - group:default/fou_-_team_lead
+  - group:default/fou_-_team_lead
   profile:
     displayName: Joann Bennett
     email: Joann.Bennett@kartverket.dev
@@ -15955,7 +15940,7 @@ metadata:
   uid: 3c584652-88af-4886-b737-b4a528cc3347
 spec:
   memberOf:
-    - group:default/referanserammer_-_team_lead
+  - group:default/referanserammer_-_team_lead
   profile:
     displayName: Alexis Fisher
     email: Alexis.Fisher@kartverket.dev
@@ -16109,8 +16094,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/395e42f5-79ea-4b67-af4a-6cdaf1a8f7b5
     backstage.io/managed-by-origin-location: msgraph:default/395e42f5-79ea-4b67-af4a-6cdaf1a8f7b5
     graph.microsoft.com/group-id: 2530e165-da46-4315-8305-cdd139386f92
-  description:
-    Team Lead role group for Referanserammer team. Managed with terraform
+  description: Team Lead role group for Referanserammer team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: 809b7b1b-c425-4261-89f6-c75c1acda429
   name: referanserammer_-_team_lead
@@ -16138,7 +16122,7 @@ metadata:
   uid: 4b7ff352-8672-41c4-ad6c-8c6465b373ae
 spec:
   memberOf:
-    - group:default/bygning
+  - group:default/bygning
   profile:
     displayName: Billy Ortiz
     email: Billy.Ortiz@kartverket.dev
@@ -16459,7 +16443,7 @@ metadata:
   uid: 960a3e4a-65ff-44ea-ba8b-b61c66c33096
 spec:
   memberOf:
-    - group:default/team_norgeskart_og_topo
+  - group:default/team_norgeskart_og_topo
   profile:
     displayName: Brenda Gardner
     email: Brenda.Gardner@kartverket.dev
@@ -17380,7 +17364,7 @@ metadata:
   uid: c7829cf9-0c46-4de8-be5b-5a3d1f745469
 spec:
   memberOf:
-    - group:default/df_-_team_lead
+  - group:default/df_-_team_lead
   profile:
     displayName: Juan Brown
     email: Juan.Brown@kartverket.dev
@@ -17561,8 +17545,8 @@ metadata:
   uid: 775dba00-dddc-4ae2-97c2-328a4525302a
 spec:
   memberOf:
-    - group:default/skvis_-_team_lead
-    - group:default/skvis
+  - group:default/skvis_-_team_lead
+  - group:default/skvis
   profile:
     displayName: Jessica Dawson
     email: Jessica.Dawson@kartverket.dev
@@ -18223,7 +18207,7 @@ metadata:
   uid: 20555cbd-d7fb-4f2e-976a-87471805f00c
 spec:
   memberOf:
-    - group:default/skip
+  - group:default/skip
   profile:
     displayName: Joseph Reeves
     email: Joseph.Reeves@kartverket.dev
@@ -18384,7 +18368,7 @@ metadata:
   uid: ae9a5fd7-35b2-4601-bfd3-6d26510dfbd4
 spec:
   memberOf:
-    - group:default/rett_i_kartet_-_team_lead
+  - group:default/rett_i_kartet_-_team_lead
   profile:
     displayName: Tammy Perez
     email: Tammy.Perez@kartverket.dev
@@ -18578,8 +18562,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/dfb0f6c4-778e-4b9d-abb4-58bd31e1098d
     backstage.io/managed-by-origin-location: msgraph:default/dfb0f6c4-778e-4b9d-abb4-58bd31e1098d
     graph.microsoft.com/group-id: eb02dd47-8fc6-42bd-b566-e428ae84da95
-  description:
-    Team Lead role group for Rett i kartet team. Managed with terraform
+  description: Team Lead role group for Rett i kartet team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: 47f2f6de-e3d2-4314-992d-89581c12b4cc
   name: rett_i_kartet_-_team_lead
@@ -18947,7 +18930,7 @@ metadata:
   uid: ed947cb3-074b-4df4-a986-a69fb34d4252
 spec:
   memberOf:
-    - group:default/nye_referanserammer
+  - group:default/nye_referanserammer
   profile:
     displayName: Martin Hunt
     email: Martin.Hunt@kartverket.dev
@@ -19248,8 +19231,8 @@ metadata:
   uid: b834f610-70e9-4b1a-b5d4-d6c9753de7a8
 spec:
   memberOf:
-    - group:default/skip_-_team_lead
-    - group:default/skip
+  - group:default/skip_-_team_lead
+  - group:default/skip
   profile:
     displayName: Amanda Carter
     email: Amanda.Carter@kartverket.dev
@@ -19450,7 +19433,7 @@ metadata:
   uid: bcea765e-73fa-4fe3-a5d4-c2b3c7e67cdc
 spec:
   memberOf:
-    - group:default/nye_referanserammer_-_team_lead
+  - group:default/nye_referanserammer_-_team_lead
   profile:
     displayName: Marisa Riley
     email: Marisa.Riley@kartverket.dev
@@ -19624,8 +19607,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/f9cbe547-c705-47cb-93ab-6a65d9080888
     backstage.io/managed-by-origin-location: msgraph:default/f9cbe547-c705-47cb-93ab-6a65d9080888
     graph.microsoft.com/group-id: 91093f23-706f-450e-90dc-22ec2c99231c
-  description:
-    Team Lead role group for Nye referanserammer team. Managed with terraform
+  description: Team Lead role group for Nye referanserammer team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: e820f94d-7262-49b4-bbb4-f5ee8753cb5b
   name: nye_referanserammer_-_team_lead
@@ -19813,7 +19795,7 @@ metadata:
   uid: 062468c3-cc7f-4973-8ce9-06f1ecbffadc
 spec:
   memberOf:
-    - group:default/bygning
+  - group:default/bygning
   profile:
     displayName: Jessica Gentry
     email: Jessica.Gentry@kartverket.dev
@@ -19954,7 +19936,7 @@ metadata:
   uid: d732e4f3-f329-41ed-a935-f2e5dc25f869
 spec:
   memberOf:
-    - group:default/kontrollsenter_-_team_lead
+  - group:default/kontrollsenter_-_team_lead
   profile:
     displayName: Amanda Palmer
     email: Amanda.Palmer@kartverket.dev
@@ -20148,8 +20130,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/2e42d8af-8462-4e3c-a199-18766fb12cf4
     backstage.io/managed-by-origin-location: msgraph:default/2e42d8af-8462-4e3c-a199-18766fb12cf4
     graph.microsoft.com/group-id: 67f07c5f-b31f-4f47-8d2e-661f156cc063
-  description:
-    Team Lead role group for Kontrollsenter team. Managed with terraform
+  description: Team Lead role group for Kontrollsenter team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: 22e83e6b-58fa-45ac-b0a7-e12648b3cd2f
   name: kontrollsenter_-_team_lead
@@ -20217,8 +20198,8 @@ metadata:
   uid: ae0ad0fc-9480-49ba-a263-9ea6cc328c5c
 spec:
   memberOf:
-    - group:default/bygning_-_team_lead
-    - group:default/bygning
+  - group:default/bygning_-_team_lead
+  - group:default/bygning
   profile:
     displayName: Joseph Perez
     email: Joseph.Perez@kartverket.dev
@@ -20499,7 +20480,7 @@ metadata:
   uid: 468d47c3-ebb6-4fb3-8a42-c56e66884b4c
 spec:
   memberOf:
-    - group:default/fysak_-_team_lead
+  - group:default/fysak_-_team_lead
   profile:
     displayName: Shannon Sexton
     email: Shannon.Sexton@kartverket.dev
@@ -21140,7 +21121,7 @@ metadata:
   uid: a5fc9d6b-e30a-4037-b830-4392a9fd307e
 spec:
   memberOf:
-    - group:default/felles_kartdatabase_-_team_lead
+  - group:default/felles_kartdatabase_-_team_lead
   profile:
     displayName: Daniel Floyd
     email: Daniel.Floyd@kartverket.dev
@@ -21281,7 +21262,7 @@ metadata:
   uid: f25b6243-320e-4f01-a57e-d81df62ee6e9
 spec:
   memberOf:
-    - group:default/innsikt_-_team_lead
+  - group:default/innsikt_-_team_lead
   profile:
     displayName: Jeanette Griffin
     email: Jeanette.Griffin@kartverket.dev
@@ -21315,8 +21296,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/5fbce535-5891-4d0f-b1a6-11d5a2e6281a
     backstage.io/managed-by-origin-location: msgraph:default/5fbce535-5891-4d0f-b1a6-11d5a2e6281a
     graph.microsoft.com/group-id: 11d690cf-2c47-4ec3-9008-c52956c9ee08
-  description:
-    Team Lead role group for Felles kartdatabase team. Managed with terraform
+  description: Team Lead role group for Felles kartdatabase team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: 7a89a967-5cd9-478f-ad47-c010983ce171
   name: felles_kartdatabase_-_team_lead
@@ -21384,7 +21364,7 @@ metadata:
   uid: b87e4800-99f5-4d22-8f39-05c3a83c18d3
 spec:
   memberOf:
-    - group:default/bygning
+  - group:default/bygning
   profile:
     displayName: Steven Shaffer
     email: Steven.Shaffer@kartverket.dev
@@ -21605,9 +21585,9 @@ metadata:
   uid: 85c6e5aa-61e7-4656-ae45-a731df526876
 spec:
   children:
-    - group:default/datadeling_og_distribusjon_-_tech_lead
-    - group:default/datadeling_og_distribusjon_-_team_lead
-    - group:default/datadeling_og_distribusjon_-_product_owner
+  - group:default/datadeling_og_distribusjon_-_tech_lead
+  - group:default/datadeling_og_distribusjon_-_team_lead
+  - group:default/datadeling_og_distribusjon_-_product_owner
   parent: group:default/land
   profile:
     displayName: Datadeling og distribusjon
@@ -21668,17 +21648,17 @@ metadata:
   uid: 2c6b14eb-97c8-4d47-b03c-74f5951f11e4
 spec:
   children:
-    - group:default/skvis
-    - group:default/smia
-    - group:default/komreg
-    - group:default/eiet
-    - group:default/digibok
-    - group:default/heimdall
-    - group:default/fred_-_intern_folkeregisterkopi
-    - group:default/df
-    - group:default/innsikt
-    - group:default/egenregistrering
-    - group:default/bygning
+  - group:default/skvis
+  - group:default/smia
+  - group:default/komreg
+  - group:default/eiet
+  - group:default/digibok
+  - group:default/heimdall
+  - group:default/fred_-_intern_folkeregisterkopi
+  - group:default/df
+  - group:default/innsikt
+  - group:default/egenregistrering
+  - group:default/bygning
   parent: group:default/statens_kartverk
   profile:
     displayName: Eiendom
@@ -21699,9 +21679,9 @@ metadata:
   uid: 8da4d5de-4194-4331-a6e4-ccd0d6fc3ade
 spec:
   children:
-    - group:default/dataforvaltning_lukket_-_tech_lead
-    - group:default/dataforvaltning_lukket_-_team_lead
-    - group:default/dataforvaltning_lukket_-_product_owner
+  - group:default/dataforvaltning_lukket_-_tech_lead
+  - group:default/dataforvaltning_lukket_-_team_lead
+  - group:default/dataforvaltning_lukket_-_product_owner
   parent: group:default/hydris
   profile:
     displayName: Dataforvaltning lukket
@@ -21762,19 +21742,19 @@ metadata:
   uid: ef87437b-c680-4fec-b546-bb440d4c13d9
 spec:
   children:
-    - group:default/digitalt_sentralarkiv
-    - group:default/datadeling_og_distribusjon
-    - group:default/nasjonalt_register_for_luftfartshindre
-    - group:default/rett_i_kartet
-    - group:default/n50
-    - group:default/team_norgeskart_og_topo
-    - group:default/nye_referanserammer
-    - group:default/teknisk_rammeverk
-    - group:default/nasjonalt_geografisk_informasjonssystem_qms
-    - group:default/topografisk_grunndatabase
-    - group:default/felles_kartdatabase
-    - group:default/fysak
-    - group:default/kartkontorenes_oppf_lgingssystem
+  - group:default/digitalt_sentralarkiv
+  - group:default/datadeling_og_distribusjon
+  - group:default/nasjonalt_register_for_luftfartshindre
+  - group:default/rett_i_kartet
+  - group:default/n50
+  - group:default/team_norgeskart_og_topo
+  - group:default/nye_referanserammer
+  - group:default/teknisk_rammeverk
+  - group:default/nasjonalt_geografisk_informasjonssystem_qms
+  - group:default/topografisk_grunndatabase
+  - group:default/felles_kartdatabase
+  - group:default/fysak
+  - group:default/kartkontorenes_oppf_lgingssystem
   parent: group:default/statens_kartverk
   profile:
     displayName: Land
@@ -21835,9 +21815,9 @@ metadata:
   uid: 167bb881-b3c9-4d58-8fc6-d19cb9bb8a58
 spec:
   children:
-    - group:default/designsystem_-_product_owner
-    - group:default/designsystem_-_team_lead
-    - group:default/designsystem_-_tech_lead
+  - group:default/designsystem_-_product_owner
+  - group:default/designsystem_-_team_lead
+  - group:default/designsystem_-_tech_lead
   parent: group:default/plattform
   profile:
     displayName: Designsystem
@@ -21878,8 +21858,8 @@ metadata:
   uid: 2e707b70-9c78-4537-a2f5-f391f21f2d80
 spec:
   children:
-    - group:default/handsfree
-    - group:default/dataforvaltning_lukket
+  - group:default/handsfree
+  - group:default/dataforvaltning_lukket
   parent: group:default/sj
   profile:
     displayName: Hydris
@@ -21900,9 +21880,9 @@ metadata:
   uid: 7859253b-5cb5-4a6a-be3c-ccae0c2e365f
 spec:
   children:
-    - group:default/designsystem
-    - group:default/dataplattform
-    - group:default/skip
+  - group:default/designsystem
+  - group:default/dataplattform
+  - group:default/skip
   parent: group:default/it
   profile:
     displayName: Plattform
@@ -21916,8 +21896,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/ee02ea75-03d4-420e-aa78-86728e679f41
     backstage.io/managed-by-origin-location: msgraph:default/ee02ea75-03d4-420e-aa78-86728e679f41
     graph.microsoft.com/group-id: 83d9e58e-eb3a-4614-8db0-d3d98bf60b5e
-  description:
-    Team Lead role group for Designsystem team. Managed with terraform
+  description: Team Lead role group for Designsystem team. Managed with terraform
     - github.com/kartverket/entra-id-config
   etag: bf4d46f2-12e5-4190-be43-c6fbc5ef670b
   name: designsystem_-_team_lead
@@ -21965,9 +21944,9 @@ metadata:
   uid: b8596e63-6a2d-4d6a-81f6-2550e7d6d1d0
 spec:
   children:
-    - group:default/df_-_team_lead
-    - group:default/df_-_tech_lead
-    - group:default/df_-_product_owner
+  - group:default/df_-_team_lead
+  - group:default/df_-_tech_lead
+  - group:default/df_-_product_owner
   parent: group:default/eiendom
   profile:
     displayName: DFØ
@@ -22028,9 +22007,9 @@ metadata:
   uid: 1ea1e01a-3922-4dd9-ad96-cd11b74fb41c
 spec:
   children:
-    - group:default/digibok_-_product_owner
-    - group:default/digibok_-_team_lead
-    - group:default/digibok_-_tech_lead
+  - group:default/digibok_-_product_owner
+  - group:default/digibok_-_team_lead
+  - group:default/digibok_-_tech_lead
   parent: group:default/eiendom
   profile:
     displayName: Digibok
@@ -22091,9 +22070,9 @@ metadata:
   uid: 8f7d3b3d-9978-4fef-9c66-7f326f066b5d
 spec:
   children:
-    - group:default/digitalt_sentralarkiv_-_tech_lead
-    - group:default/digitalt_sentralarkiv_-_product_owner
-    - group:default/digitalt_sentralarkiv_-_team_lead
+  - group:default/digitalt_sentralarkiv_-_tech_lead
+  - group:default/digitalt_sentralarkiv_-_product_owner
+  - group:default/digitalt_sentralarkiv_-_team_lead
   parent: group:default/land
   profile:
     displayName: Digitalt sentralarkiv
@@ -22154,9 +22133,9 @@ metadata:
   uid: 2b01a229-5fac-4e7d-88b7-66a12d922880
 spec:
   children:
-    - group:default/egenregistrering_-_tech_lead
-    - group:default/egenregistrering_-_product_owner
-    - group:default/egenregistrering_-_team_lead
+  - group:default/egenregistrering_-_tech_lead
+  - group:default/egenregistrering_-_product_owner
+  - group:default/egenregistrering_-_team_lead
   parent: group:default/eiendom
   profile:
     displayName: Egenregistrering
@@ -22217,9 +22196,9 @@ metadata:
   uid: c2d8e1e3-1295-4615-b0fe-9ac5f51af8dc
 spec:
   children:
-    - group:default/eiet_-_product_owner
-    - group:default/eiet_-_tech_lead
-    - group:default/eiet_-_team_lead
+  - group:default/eiet_-_product_owner
+  - group:default/eiet_-_tech_lead
+  - group:default/eiet_-_team_lead
   parent: group:default/eiendom
   profile:
     displayName: Eiet
@@ -22241,11 +22220,11 @@ metadata:
   uid: 5856fb4c-42a7-4cfd-ba2a-da55bb3d6096
 spec:
   children:
-    - group:default/eiendom
-    - group:default/geodesi
-    - group:default/it
-    - group:default/sj
-    - group:default/land
+  - group:default/eiendom
+  - group:default/geodesi
+  - group:default/it
+  - group:default/sj
+  - group:default/land
   profile:
     displayName: Statens Kartverk
   type: root
@@ -22265,9 +22244,9 @@ metadata:
   uid: a54611bf-3abe-4ae4-a001-aa5d1b31dbf9
 spec:
   children:
-    - group:default/komreg_-_tech_lead
-    - group:default/komreg_-_product_owner
-    - group:default/komreg_-_team_lead
+  - group:default/komreg_-_tech_lead
+  - group:default/komreg_-_product_owner
+  - group:default/komreg_-_team_lead
   parent: group:default/eiendom
   profile:
     displayName: KomReg
@@ -22288,9 +22267,9 @@ metadata:
   uid: 9e9b398d-d1c7-4fdf-a5f6-e8373986c044
 spec:
   children:
-    - group:default/heimdall_-_tech_lead
-    - group:default/heimdall_-_team_lead
-    - group:default/heimdall_-_product_owner
+  - group:default/heimdall_-_tech_lead
+  - group:default/heimdall_-_team_lead
+  - group:default/heimdall_-_product_owner
   parent: group:default/eiendom
   profile:
     displayName: Heimdall
@@ -22311,9 +22290,9 @@ metadata:
   uid: fc018a48-483d-463f-ae9d-7268cb5c1081
 spec:
   children:
-    - group:default/fred_-_intern_folkeregisterkopi_-_product_owner
-    - group:default/fred_-_intern_folkeregisterkopi_-_tech_lead
-    - group:default/fred_-_intern_folkeregisterkopi_-_team_lead
+  - group:default/fred_-_intern_folkeregisterkopi_-_product_owner
+  - group:default/fred_-_intern_folkeregisterkopi_-_tech_lead
+  - group:default/fred_-_intern_folkeregisterkopi_-_team_lead
   parent: group:default/eiendom
   profile:
     displayName: FRED - Intern folkeregisterkopi
@@ -22334,9 +22313,9 @@ metadata:
   uid: 359a0e03-65f6-4168-b0df-0810f12af158
 spec:
   children:
-    - group:default/innsikt_-_product_owner
-    - group:default/innsikt_-_tech_lead
-    - group:default/innsikt_-_team_lead
+  - group:default/innsikt_-_product_owner
+  - group:default/innsikt_-_tech_lead
+  - group:default/innsikt_-_team_lead
   parent: group:default/eiendom
   profile:
     displayName: Innsikt
@@ -22397,9 +22376,9 @@ metadata:
   uid: 331e4a70-e8a7-47af-8be1-e0f7e2f2f570
 spec:
   children:
-    - group:default/felles_kartdatabase_-_product_owner
-    - group:default/felles_kartdatabase_-_team_lead
-    - group:default/felles_kartdatabase_-_tech_lead
+  - group:default/felles_kartdatabase_-_product_owner
+  - group:default/felles_kartdatabase_-_team_lead
+  - group:default/felles_kartdatabase_-_tech_lead
   parent: group:default/land
   profile:
     displayName: Felles kartdatabase
@@ -22460,9 +22439,9 @@ metadata:
   uid: 6d63bc96-b46b-4749-aca9-821461ff3a2c
 spec:
   children:
-    - group:default/fou_-_product_owner
-    - group:default/fou_-_team_lead
-    - group:default/fou_-_tech_lead
+  - group:default/fou_-_product_owner
+  - group:default/fou_-_team_lead
+  - group:default/fou_-_tech_lead
   parent: group:default/geodesi
   profile:
     displayName: Fou
@@ -22563,13 +22542,13 @@ metadata:
   uid: ef034f86-9945-4466-9e14-d460e385b89d
 spec:
   children:
-    - group:default/geodesi_devops
-    - group:default/global_geodesi
-    - group:default/referanserammer
-    - group:default/kontrollsenter
-    - group:default/h_yde
-    - group:default/fou
-    - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa
+  - group:default/geodesi_devops
+  - group:default/global_geodesi
+  - group:default/referanserammer
+  - group:default/kontrollsenter
+  - group:default/h_yde
+  - group:default/fou
+  - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa
   parent: group:default/statens_kartverk
   profile:
     displayName: Geodesi
@@ -22590,9 +22569,9 @@ metadata:
   uid: 02020d8a-b6a3-48dc-b382-5720358e0276
 spec:
   children:
-    - group:default/fysak_-_product_owner
-    - group:default/fysak_-_team_lead
-    - group:default/fysak_-_tech_lead
+  - group:default/fysak_-_product_owner
+  - group:default/fysak_-_team_lead
+  - group:default/fysak_-_tech_lead
   parent: group:default/land
   profile:
     displayName: FYSAK
@@ -22653,9 +22632,9 @@ metadata:
   uid: 3aecc701-d346-4bfe-ba21-d51503b35fe4
 spec:
   children:
-    - group:default/geodesi_devops_-_team_lead
-    - group:default/geodesi_devops_-_tech_lead
-    - group:default/geodesi_devops_-_product_owner
+  - group:default/geodesi_devops_-_team_lead
+  - group:default/geodesi_devops_-_tech_lead
+  - group:default/geodesi_devops_-_product_owner
   parent: group:default/geodesi
   profile:
     displayName: GeoDesi DevOps
@@ -22716,9 +22695,9 @@ metadata:
   uid: e3bb4887-73e7-49b1-9253-3f9d05427e96
 spec:
   children:
-    - group:default/global_geodesi_-_product_owner
-    - group:default/global_geodesi_-_tech_lead
-    - group:default/global_geodesi_-_team_lead
+  - group:default/global_geodesi_-_product_owner
+  - group:default/global_geodesi_-_tech_lead
+  - group:default/global_geodesi_-_team_lead
   parent: group:default/geodesi
   profile:
     displayName: Global Geodesi
@@ -22739,9 +22718,9 @@ metadata:
   uid: 4daa734f-8731-40c4-8fe6-d18dfceb30b9
 spec:
   children:
-    - group:default/referanserammer_-_tech_lead
-    - group:default/referanserammer_-_team_lead
-    - group:default/referanserammer_-_product_owner
+  - group:default/referanserammer_-_tech_lead
+  - group:default/referanserammer_-_team_lead
+  - group:default/referanserammer_-_product_owner
   parent: group:default/geodesi
   profile:
     displayName: Referanserammer
@@ -22762,9 +22741,9 @@ metadata:
   uid: 3d417309-6234-4301-a679-dc412cb344d9
 spec:
   children:
-    - group:default/kontrollsenter_-_product_owner
-    - group:default/kontrollsenter_-_tech_lead
-    - group:default/kontrollsenter_-_team_lead
+  - group:default/kontrollsenter_-_product_owner
+  - group:default/kontrollsenter_-_tech_lead
+  - group:default/kontrollsenter_-_team_lead
   parent: group:default/geodesi
   profile:
     displayName: Kontrollsenter
@@ -22785,9 +22764,9 @@ metadata:
   uid: 1f2246ca-f964-42f7-83f4-0b4c358682bc
 spec:
   children:
-    - group:default/h_yde_-_product_owner
-    - group:default/h_yde_-_tech_lead
-    - group:default/h_yde_-_team_lead
+  - group:default/h_yde_-_product_owner
+  - group:default/h_yde_-_tech_lead
+  - group:default/h_yde_-_team_lead
   parent: group:default/geodesi
   profile:
     displayName: Høyde
@@ -22808,9 +22787,9 @@ metadata:
   uid: e7ddad86-6508-4435-80a6-8c2ea89a791a
 spec:
   children:
-    - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_tech_lead
-    - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_team_lead
-    - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_product_owner
+  - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_tech_lead
+  - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_team_lead
+  - group:default/n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_product_owner
   parent: group:default/geodesi
   profile:
     displayName: Nøyaktig og pålitelig posisjon til alle (NPPA)
@@ -22911,9 +22890,9 @@ metadata:
   uid: e574d917-103a-4fb1-b955-09f23692dce1
 spec:
   children:
-    - group:default/handsfree_-_team_lead
-    - group:default/handsfree_-_product_owner
-    - group:default/handsfree_-_tech_lead
+  - group:default/handsfree_-_team_lead
+  - group:default/handsfree_-_product_owner
+  - group:default/handsfree_-_tech_lead
   parent: group:default/hydris
   profile:
     displayName: Handsfree
@@ -23054,7 +23033,7 @@ metadata:
   uid: cc352d23-1a9c-45ec-9dec-9f721d252fe9
 spec:
   children:
-    - group:default/plattform
+  - group:default/plattform
   parent: group:default/statens_kartverk
   profile:
     displayName: IT
@@ -23075,9 +23054,9 @@ metadata:
   uid: bb9359ff-0c8f-4d5e-9cee-0e2b5dcee608
 spec:
   children:
-    - group:default/kartkontorenes_oppf_lgingssystem_-_team_lead
-    - group:default/kartkontorenes_oppf_lgingssystem_-_product_owner
-    - group:default/kartkontorenes_oppf_lgingssystem_-_tech_lead
+  - group:default/kartkontorenes_oppf_lgingssystem_-_team_lead
+  - group:default/kartkontorenes_oppf_lgingssystem_-_product_owner
+  - group:default/kartkontorenes_oppf_lgingssystem_-_tech_lead
   parent: group:default/land
   profile:
     displayName: Kartkontorenes OppfølgingsSystem
@@ -23138,7 +23117,7 @@ metadata:
   uid: 3ce9a498-d361-4352-bc3f-3830afe0fa37
 spec:
   children:
-    - group:default/hydris
+  - group:default/hydris
   parent: group:default/statens_kartverk
   profile:
     displayName: Sjø
@@ -23232,8 +23211,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/1e0f671d-2fc5-4c61-9912-6c7a9eb1cf2e
     backstage.io/managed-by-origin-location: msgraph:default/1e0f671d-2fc5-4c61-9912-6c7a9eb1cf2e
     graph.microsoft.com/group-id: 6f0e95b3-6ad2-424f-8c07-e404991788c8
-  description:
-    Product Owner role group for Nøyaktig og pålitelig posisjon til alle
+  description: Product Owner role group for Nøyaktig og pålitelig posisjon til alle
     (NPPA) team
   etag: fd119890-e37f-4687-a3fb-5c8d43c995de
   name: n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_product_owner
@@ -23254,8 +23232,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/6bc13263-2331-416d-ba61-d7e437fbe8d8
     backstage.io/managed-by-origin-location: msgraph:default/6bc13263-2331-416d-ba61-d7e437fbe8d8
     graph.microsoft.com/group-id: af50a451-08fc-4273-bbe7-3ac1f53cc1f4
-  description:
-    Tech Lead role group for Nøyaktig og pålitelig posisjon til alle (NPPA)
+  description: Tech Lead role group for Nøyaktig og pålitelig posisjon til alle (NPPA)
     team
   etag: e9688386-3b8c-4a8f-aee0-a1baeaad6937
   name: n_yaktig_og_p_litelig_posisjon_til_alle_nppa_-_tech_lead
@@ -23283,9 +23260,9 @@ metadata:
   uid: 62a0cf7b-e5f5-4427-915c-91a2c3c55a87
 spec:
   children:
-    - group:default/n50_-_team_lead
-    - group:default/n50_-_tech_lead
-    - group:default/n50_-_product_owner
+  - group:default/n50_-_team_lead
+  - group:default/n50_-_tech_lead
+  - group:default/n50_-_product_owner
   parent: group:default/land
   profile:
     displayName: N50
@@ -23326,9 +23303,9 @@ metadata:
   uid: e1ddeba0-7308-4bfe-8b40-0c9af1196a21
 spec:
   children:
-    - group:default/nasjonalt_register_for_luftfartshindre_-_product_owner
-    - group:default/nasjonalt_register_for_luftfartshindre_-_tech_lead
-    - group:default/nasjonalt_register_for_luftfartshindre_-_team_lead
+  - group:default/nasjonalt_register_for_luftfartshindre_-_product_owner
+  - group:default/nasjonalt_register_for_luftfartshindre_-_tech_lead
+  - group:default/nasjonalt_register_for_luftfartshindre_-_team_lead
   parent: group:default/land
   profile:
     displayName: Nasjonalt register for luftfartshindre
@@ -23349,9 +23326,9 @@ metadata:
   uid: e26ec279-4811-4538-9ba2-d0afa97058d7
 spec:
   children:
-    - group:default/rett_i_kartet_-_team_lead
-    - group:default/rett_i_kartet_-_tech_lead
-    - group:default/rett_i_kartet_-_product_owner
+  - group:default/rett_i_kartet_-_team_lead
+  - group:default/rett_i_kartet_-_tech_lead
+  - group:default/rett_i_kartet_-_product_owner
   parent: group:default/land
   profile:
     displayName: Rett i kartet
@@ -23372,9 +23349,9 @@ metadata:
   uid: 9ba17219-07a0-4e5f-a343-6d017a9fb622
 spec:
   children:
-    - group:default/teknisk_rammeverk_-_team_lead
-    - group:default/teknisk_rammeverk_-_product_owner
-    - group:default/teknisk_rammeverk_-_tech_lead
+  - group:default/teknisk_rammeverk_-_team_lead
+  - group:default/teknisk_rammeverk_-_product_owner
+  - group:default/teknisk_rammeverk_-_tech_lead
   parent: group:default/land
   profile:
     displayName: Teknisk rammeverk
@@ -23395,9 +23372,9 @@ metadata:
   uid: 4d3017da-9a65-4330-aeb1-0483e105041a
 spec:
   children:
-    - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_team_lead
-    - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_product_owner
-    - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_tech_lead
+  - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_team_lead
+  - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_product_owner
+  - group:default/nasjonalt_geografisk_informasjonssystem_qms_-_tech_lead
   parent: group:default/land
   profile:
     displayName: Nasjonalt geografisk informasjonssystem QMS
@@ -23418,9 +23395,9 @@ metadata:
   uid: 26601024-a8f1-4b48-a529-90d3bdcc3aec
 spec:
   children:
-    - group:default/topografisk_grunndatabase_-_product_owner
-    - group:default/topografisk_grunndatabase_-_team_lead
-    - group:default/topografisk_grunndatabase_-_tech_lead
+  - group:default/topografisk_grunndatabase_-_product_owner
+  - group:default/topografisk_grunndatabase_-_team_lead
+  - group:default/topografisk_grunndatabase_-_tech_lead
   parent: group:default/land
   profile:
     displayName: Topografisk grunndatabase
@@ -23454,8 +23431,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/10190894-6ce7-4ef2-a606-a2306c6f4dab
     backstage.io/managed-by-origin-location: msgraph:default/10190894-6ce7-4ef2-a606-a2306c6f4dab
     graph.microsoft.com/group-id: 465ab7c2-a438-4cce-b078-79bb6f57c4db
-  description:
-    Product Owner role group for Nasjonalt geografisk informasjonssystem
+  description: Product Owner role group for Nasjonalt geografisk informasjonssystem
     QMS team
   etag: 04a28b1a-7111-4f43-a231-19f20d946afd
   name: nasjonalt_geografisk_informasjonssystem_qms_-_product_owner
@@ -23476,8 +23452,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/968a7b18-66ce-404d-ab44-18bd41b80a2b
     backstage.io/managed-by-origin-location: msgraph:default/968a7b18-66ce-404d-ab44-18bd41b80a2b
     graph.microsoft.com/group-id: fe0cb06c-3a1d-4353-b690-6cd77f4060ba
-  description:
-    Tech Lead role group for Nasjonalt geografisk informasjonssystem QMS
+  description: Tech Lead role group for Nasjonalt geografisk informasjonssystem QMS
     team
   etag: 0ab0f93d-3469-4e69-b5e0-7eec9943b70b
   name: nasjonalt_geografisk_informasjonssystem_qms_-_tech_lead
@@ -23498,8 +23473,7 @@ metadata:
     backstage.io/managed-by-location: msgraph:default/dad943fb-ae0e-4011-a32e-b61b60138f3f
     backstage.io/managed-by-origin-location: msgraph:default/dad943fb-ae0e-4011-a32e-b61b60138f3f
     graph.microsoft.com/group-id: c0662129-b346-4752-b7d2-50f4f3317b04
-  description:
-    Product Owner role group for Nasjonalt register for luftfartshindre
+  description: Product Owner role group for Nasjonalt register for luftfartshindre
     team
   etag: 5ac0d552-be6a-4edc-a599-860195f25493
   name: nasjonalt_register_for_luftfartshindre_-_product_owner
@@ -23853,4 +23827,3 @@ spec:
   type: role
 
 ---
-

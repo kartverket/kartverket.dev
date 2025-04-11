@@ -106,8 +106,7 @@ proxy:
         Authorization: Bearer ${GRAFANA_TOKEN}
     '/risc-proxy':
       target: http://localhost:8080
-      allowedHeaders:
-        ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
+      allowedHeaders: ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
     '/opencost-cacher':
       target: http://localhost:8080
       credentials: forward
@@ -270,6 +269,7 @@ explore:
         - google-cloud
         - security
         - secrets
+
 
     - title: Scality S3 Admin
       description: |

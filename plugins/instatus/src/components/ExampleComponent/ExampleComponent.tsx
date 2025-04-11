@@ -30,7 +30,7 @@ export const ExampleComponent = () => (
           </InfoCard>
         </Grid>
         <Grid item>
-          <StatusCard pageId="skip" />
+          <StatusCard pageId='skip' />
         </Grid>
       </Grid>
     </Content>

@@ -5,13 +5,13 @@ services:
     image: postgres:15
     container_name: backstage-postgres
     environment:
-      POSTGRES_USER: admin # Admin user for PostgreSQL
+      POSTGRES_USER: admin       # Admin user for PostgreSQL
       POSTGRES_PASSWORD: adminpw # Admin user password
-      POSTGRES_DB: backstage # Database name for Backstage
+      POSTGRES_DB: backstage     # Database name for Backstage
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - '5432:5432' # Expose PostgreSQL on port 5432
+      - "5432:5432"  # Expose PostgreSQL on port 5432
     networks:
       - backstage-network
 
@@ -36,7 +36,7 @@ services:
       GOOGLE_OAUTH_CLIENT_ID: 432
       GOOGLE_OAUTH_CLIENT_SECRET: 432
     ports:
-      - '7007:7007' # Expose Backstage on port 7007
+      - "7007:7007"  # Expose Backstage on port 7007
     depends_on:
       - postgres
     networks:

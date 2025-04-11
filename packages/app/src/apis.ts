@@ -10,7 +10,10 @@ import {
   storageApiRef,
   identityApiRef,
 } from '@backstage/core-plugin-api';
-import { VisitsStorageApi, visitsApiRef } from '@backstage/plugin-home';
+import {
+  VisitsStorageApi,
+  visitsApiRef,
+} from '@backstage/plugin-home';
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({

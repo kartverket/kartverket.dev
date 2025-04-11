@@ -1,56 +1,56 @@
 # nonk8s
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'Component'
+apiVersion: "backstage.io/v1alpha1"
+kind: "Component"
 metadata:
-  name: 'kartverket.dev'
+  name: "kartverket.dev"
   tags:
-    - 'internal'
+  - "internal"
   annotations:
     backstage.io/techdocs-ref: dir:.
 spec:
-  type: 'website'
-  lifecycle: 'production'
-  owner: 'skip'
-  system: 'utviklerportal'
+  type: "website"
+  lifecycle: "production"
+  owner: "skip"
+  system: "utviklerportal"
   providesApis:
-    - 'kartverket.dev-api'
+  - "kartverket.dev-api"
 ---
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'Group'
+apiVersion: "backstage.io/v1alpha1"
+kind: "Group"
 metadata:
-  name: 'security_champion_kartverket.dev'
-  title: 'Security Champion kartverket.dev'
+  name: "security_champion_kartverket.dev"
+  title: "Security Champion kartverket.dev"
 spec:
-  type: 'security_champion'
-  parent: 'it_security_champions'
+  type: "security_champion"
+  parent: "it_security_champions"
   members:
-    - 'omaen'
+  - "omaen"
   children:
-    - 'resource:kartverket.dev'
+  - "resource:kartverket.dev"
 ---
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'Resource'
+apiVersion: "backstage.io/v1alpha1"
+kind: "Resource"
 metadata:
-  name: 'kartverket.dev'
+  name: "kartverket.dev"
   links:
-    - url: 'https://github.com/kartverket/kartverket.dev'
-      title: 'kartverket.dev på GitHub'
+  - url: "https://github.com/kartverket/kartverket.dev"
+    title: "kartverket.dev på GitHub"
 spec:
-  type: 'repo'
-  owner: 'security_champion_kartverket.dev'
+  type: "repo"
+  owner: "security_champion_kartverket.dev"
   dependencyOf:
-    - 'component:kartverket.dev'
+  - "component:kartverket.dev"
 ---
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'API'
+apiVersion: "backstage.io/v1alpha1"
+kind: "API"
 metadata:
-  name: 'kartverket.dev-api'
+  name: "kartverket.dev-api"
   tags:
-    - 'internal'
+  - "internal"
 spec:
-  type: 'openapi'
-  lifecycle: 'production'
-  owner: 'skip'
+  type: "openapi"
+  lifecycle: "production"
+  owner: "skip"
   definition: |
     openapi: "3.0.0"
     info:

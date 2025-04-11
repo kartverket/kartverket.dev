@@ -49,15 +49,12 @@ backend:
 ```
 
 ### Add local guest user
-
-To `app-config.local.yaml` add:
-
+To `app-config.local.yaml` add: 
 ```yaml
 auth:
   providers:
     guest: {}
 ```
-
 ### Getting user data and orgs
 
 #### Using the anonymized data from Kartverket
@@ -101,13 +98,12 @@ catalog:
 
 ### Testing OAuth locally
 
-We run with azure on kubernetes, but for local testing create your own app registration in [Azure Portal](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) or use an existing one.  
+We run with azure on kubernetes, but for local testing create your own app registration in [Azure Portal](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) or use an existing one.    
 Set the following API permissions: `email`, `offline_access`, `openid`, `profile` `User.Read`.
 
 Also remember to configure the redirect URI to `http://localhost:7007/api/auth/github/handler/frame`
 
-Configure microsoft auth in `app-config.local.yaml`:
-
+Configure microsoft auth in `app-config.local.yaml`: 
 ```yaml
 auth:
   environment: development
@@ -119,10 +115,9 @@ auth:
         tenantId: x
 ```
 
-To login you NEED to use the anonymized data from Kartverket in `test_data/org.yaml`.
+To login you NEED to use the anonymized data from Kartverket in `test_data/org.yaml`. 
 
 Find a user in `test_data/org.yaml` and replace `annotations.graph.microsoft.com/user-id` with the object ID (OID) for your Microsoft Account found in [Azure Portal](https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/Overview).
-
 ```yaml
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -139,7 +134,6 @@ spec:
     email: Lynn.Villanueva@kartverket.dev
     picture: https://i.imgur.com/zcal7OY.jpeg
 ```
-
 ### Start the app
 
 ```sh
