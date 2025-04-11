@@ -2,6 +2,14 @@ dist
 dist-types
 coverage
 .vscode
+*.md
+
+# Yarn
+.yarnrc.yml
+.yarn/
+
+# Leave ROS folder alone.
+.security/
 
 # VSCode extension that backup files.
 .history/
