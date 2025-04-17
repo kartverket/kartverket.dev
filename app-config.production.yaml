@@ -52,7 +52,8 @@ proxy:
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/risc-proxy':
       target: http://ros-plugin-backend.ros-plugin-main:8080
-      allowedHeaders: ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
+      allowedHeaders:
+        ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
     '/opencost-cacher':
       target: http://opencost-cacher:8080
       credentials: forward
@@ -69,7 +70,19 @@ catalog:
         queryMode: 'advanced'
         user:
           filter: accountEnabled eq true and userType eq 'member' and startsWith(companyName, 'Staten')
-          select: ['accountEnabled', 'displayName', 'givenName', 'id', 'mail', 'mailNickname', 'userPrincipalName', 'surname', 'companyName', 'userType']
+          select:
+            [
+              'accountEnabled',
+              'displayName',
+              'givenName',
+              'id',
+              'mail',
+              'mailNickname',
+              'userPrincipalName',
+              'surname',
+              'companyName',
+              'userType',
+            ]
         group:
           filter: >
             startswith(displayName, 'AAD - TF')

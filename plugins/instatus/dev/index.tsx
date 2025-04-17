@@ -7,6 +7,6 @@ createDevApp()
   .addPage({
     element: <InstatusPage />,
     title: 'Root Page',
-    path: '/instatus'
+    path: '/instatus',
   })
   .render();

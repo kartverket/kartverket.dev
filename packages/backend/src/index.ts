@@ -1,9 +1,6 @@
 import { createBackend } from '@backstage/backend-defaults';
-import {
-    authModuleMicrosoftProvider
-} from "./plugins/extensions/auth";
-import {msGroupTransformerCatalogModule} from "./plugins/extensions/catalog";
-
+import { authModuleMicrosoftProvider } from './plugins/extensions/auth';
+import { msGroupTransformerCatalogModule } from './plugins/extensions/catalog';
 
 const backend = createBackend();
 
@@ -22,7 +19,9 @@ backend.add(import('@backstage/plugin-catalog-backend'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github'));
 backend.add(import('@backstage/plugin-catalog-backend-module-msgraph'));
 backend.add(msGroupTransformerCatalogModule);
-backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
+backend.add(
+  import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
+);
 backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 
 // Explore
@@ -58,6 +57,5 @@ backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // Security metrics
 backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
-
 
 backend.start();
