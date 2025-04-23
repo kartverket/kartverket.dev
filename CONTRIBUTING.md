@@ -1,7 +1,11 @@
 # Contributing to Kartverket.dev
 
 You want to contribute to Kartverket.dev? Awesome! Thanks a lot for the
-support :) Here's how you can get started:
+support :) Here's how you can get started. <br>
+To start a local development environment, follow the instructions below.
+
+
+<br>
 
 ## Issues and roadmap
 
@@ -12,16 +16,40 @@ backlog as well as the current roadmap in the following places:
 - Project board: https://github.com/orgs/kartverket/projects/13/views/2
 - All issues: https://github.com/kartverket/kartverket.dev/issues
 
-## Local development
 
-To start a local development environment, follow the instructions below.
+<br>
 
-### Prerequisites
+### Node (prerequisite)
 
-1. install [nvm](https://github.com/nvm-sh/nvm)
-2. `nvm install 20`
-3. `nvm use 20`
-4. enable corepack `corepack enable`
+This project currently uses Node v20, see source of truth [mise.toml](mise.toml).
+
+#### Setup `mise`
+
+`mise` is a tool version manager https://mise.jdx.dev/.
+
+> `mise` is optional, you may use `nvm`, `nodenv` or any other preferred tool.
+
+
+1. Install `mise` https://mise.jdx.dev/getting-started.html#installing-mise-cli
+2. Activate for your shell https://mise.jdx.dev/getting-started.html#activate-mise
+3. Install tools within repo: `mise install` (it reads from `mise.toml`)
+
+The correct `node` should now apply locally in this project. Check with:
+
+```sh
+node -v
+>>> v20.18.3
+```
+
+Continue by enabling `yarn` as package manager. `corepack` is used for this, it comes with `node`.
+It will read the correct version from `package.json`.
+
+```sh
+corepack enable
+corepack install
+```
+
+<br>
 
 ### GitHub integration
 
@@ -34,6 +62,8 @@ integrations:
     - host: github.com
       token: your-token
 ```
+
+<br>
 
 ### Persistent sqlite
 
@@ -48,6 +78,8 @@ backend:
       directory: /<absolute>/<path>/<to>/<repo>/db
 ```
 
+<br>
+
 ### Add local guest user
 To `app-config.local.yaml` add: 
 ```yaml
@@ -55,6 +87,9 @@ auth:
   providers:
     guest: {}
 ```
+
+<br>
+
 ### Getting user data and orgs
 
 #### Using the anonymized data from Kartverket
@@ -96,6 +131,8 @@ catalog:
         timeout: PT50M
 ```
 
+<br>
+
 ### Testing OAuth locally
 
 We run with azure on kubernetes, but for local testing create your own app registration in [Azure Portal](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) or use an existing one.    
@@ -134,12 +171,18 @@ spec:
     email: Lynn.Villanueva@kartverket.dev
     picture: https://i.imgur.com/zcal7OY.jpeg
 ```
+
+<br>
+
 ### Start the app
 
 ```sh
 yarn install
 yarn dev
 ```
+
+<br>
+<br>
 
 ## Plugins
 
