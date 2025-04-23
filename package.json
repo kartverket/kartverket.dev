@@ -60,7 +60,7 @@
     "swagger-ui-react": "5.10.5",
     "jsonpath-plus": "^10.2.0"
   },
-  "prettier": "@backstage/cli/config/prettier-config",
+  "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": [
       "eslint --fix",
