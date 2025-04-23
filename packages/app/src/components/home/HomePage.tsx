@@ -53,7 +53,7 @@ const useLogoStyles = makeStyles(theme => ({
 
 export const HomePage = () => {
   const classes = useStyles();
-  
+
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
@@ -107,7 +107,7 @@ export const HomePage = () => {
                     url: 'https://eu1.app.sysdig.com/api/saml/kartverket?redirectRoute=/&product=SDS&companyName=kartverket',
                     label: 'Sysdig Secure',
                     icon: (
-                        <img src={sysdigLogo} alt="Logo of Sysdig" width={40} />
+                      <img src={sysdigLogo} alt="Logo of Sysdig" width={40} />
                     ),
                   },
                   {
