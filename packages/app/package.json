@@ -49,7 +49,7 @@
     "@k-phoen/backstage-plugin-grafana": "^0.1.22",
     "@kartverket/backstage-plugin-dask-onboarding": "^0.1.22",
     "@kartverket/backstage-plugin-opencost": "^0.1.7",
-    "@kartverket/backstage-plugin-risk-scorecard": "^3.1.1",
+    "@kartverket/backstage-plugin-risk-scorecard": "^3.1.2",
     "@kartverket/backstage-plugin-security-metrics-frontend": "3.10.7",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
@@ -69,8 +69,7 @@
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "^12.1.3",
     "@testing-library/user-event": "^14.0.0",
-    "@types/react-dom": "*",
-    "cross-env": "^7.0.0"
+    "@types/react-dom": "*"
   },
   "browserslist": {
     "production": [
