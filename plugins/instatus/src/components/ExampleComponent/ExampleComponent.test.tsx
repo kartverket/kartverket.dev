@@ -1,17 +1,13 @@
-import React from 'react';
 import { ExampleComponent } from './ExampleComponent';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { screen } from '@testing-library/react';
-import {
-  setupRequestMockHandlers,
-  renderInTestApp,
-} from '@backstage/test-utils';
+import { renderInTestApp, registerMswTestHooks } from '@backstage/test-utils';
 
 describe('ExampleComponent', () => {
   const server = setupServer();
   // Enable sane handlers for network requests
-  setupRequestMockHandlers(server);
+  registerMswTestHooks(server);
 
   // setup mock response
   beforeEach(() => {
