@@ -11,7 +11,6 @@ import {
 import { Entity, stringifyEntityRef } from '@backstage/catalog-model';
 import { CatalogApi, CatalogClient } from '@backstage/catalog-client';
 import { AuthenticationError } from '@backstage/errors';
-import { getDefaultOwnershipEntityRefs } from '@backstage/plugin-auth-backend';
 import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
 import { jwtDecode } from 'jwt-decode';
 
@@ -62,7 +61,10 @@ export const authModuleMicrosoftProvider = createBackendModule({
                   'No user found in catalog',
                 );
               }
-              const ownershipRefs = getDefaultOwnershipEntityRefs(entity);
+              const ownershipRefs = (
+                await ctx.resolveOwnershipEntityRefs(entity)
+              ).ownershipEntityRefs;
+
               return ctx.issueToken({
                 claims: {
                   sub: stringifyEntityRef(entity),
@@ -99,13 +101,13 @@ async function getGroupDisplayNamesForEntity(
   );
   const groupDisplayNames: string[] = await Promise.all(
     groupEntitiesUsingDisplayName.items
-      //@ts-ignore
       .filter(
         e =>
-          e != undefined &&
+          e !== undefined &&
           e.spec &&
-          e.kind == 'Group' &&
+          e.kind === 'Group' &&
           e.spec.profile &&
+          // @ts-ignore
           e.spec.profile.displayName,
       )
       .map(async e => {
@@ -118,12 +120,14 @@ async function getGroupDisplayNamesForEntity(
         }
         let groupName;
         if (parentGroup) {
-          //@ts-ignore
+          // @ts-ignore
           groupName = `${parentGroup!.spec!.profile!.displayName}:${
+            // @ts-ignore
             e!.spec!.profile!.displayName
           }`;
         } else {
-          //@ts-ignore
+          // @ts-ignore
+
           groupName = e!.spec!.profile!.displayName;
         }
         return groupName;
