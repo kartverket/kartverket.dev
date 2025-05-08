@@ -55,8 +55,7 @@
     "@kartverket/plugin-dask-onboarding-backend": "^0.1.15",
     "app": "link:../app",
     "better-sqlite3": "^9.0.0",
-    "jwt-decode": "^4.0.0",
-    "node-gyp": "^9.0.0"
+    "jwt-decode": "^4.0.0"
   },
   "devDependencies": {
     "@backstage/cli": "backstage:^",
