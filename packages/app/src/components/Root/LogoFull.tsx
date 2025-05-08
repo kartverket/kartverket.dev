@@ -1,6 +1,5 @@
 import KartverketLogoFull from './logo/kartverket-dev.svg';
 import KartverketLogoFullLight from './logo/kartverket-dev-light.svg';
-import React from 'react';
 
 type Props = {
   type: undefined | 'light' | 'dark';

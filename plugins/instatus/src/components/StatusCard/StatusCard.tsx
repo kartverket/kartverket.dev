@@ -1,4 +1,3 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -145,10 +144,14 @@ export const CardView = ({ pageId, status, reportUrl }: DenseTableProps) => {
       <div className={classes.wrapper}>
         <div className={classes.logoWrapper}>
           {status.page.status === 'UP' && (
-            <img src={UmbrellaLogo} className={classes.logo} />
+            <img src={UmbrellaLogo} className={classes.logo} alt="Status: up" />
           )}
           {status.page.status !== 'UP' && (
-            <img src={WarningLogo} className={classes.logo} />
+            <img
+              src={WarningLogo}
+              className={classes.logo}
+              alt="Status: has issues or under maintenance"
+            />
           )}
         </div>
         {status.page.status === 'UP' && (
@@ -192,7 +195,7 @@ export const CardView = ({ pageId, status, reportUrl }: DenseTableProps) => {
         >
           View full status page
         </Button>
-        {reportUrl != undefined && (
+        {reportUrl !== undefined && (
           <Button
             variant="outlined"
             className={classes.actionButton}

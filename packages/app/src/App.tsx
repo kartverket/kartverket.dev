@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route } from 'react-router-dom';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
@@ -59,7 +58,7 @@ const app = createApp({
   components: {
     SignInPage: props => {
       const configApi = useApi(configApiRef);
-      if (configApi.getOptionalString('auth.environment') != 'production') {
+      if (configApi.getOptionalString('auth.environment') !== 'production') {
         return (
           <SignInPage
             {...props}
