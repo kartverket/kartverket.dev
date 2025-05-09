@@ -58,9 +58,7 @@
     "jwt-decode": "^4.0.0"
   },
   "devDependencies": {
-    "@backstage/cli": "backstage:^",
-    "@types/dockerode": "^3.3.0",
-    "@types/luxon": "^2.0.4"
+    "@backstage/cli": "backstage:^"
   },
   "files": [
     "dist"
