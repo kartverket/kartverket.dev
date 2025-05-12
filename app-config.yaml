@@ -175,9 +175,6 @@ home:
         value: /docs
       - field: pathname
         operator: '!='
-        value: /tech-radar
-      - field: pathname
-        operator: '!='
         value: /search
       - field: pathname
         operator: '!='
@@ -202,9 +199,6 @@ home:
       - field: pathname
         operator: '!='
         value: /docs
-      - field: pathname
-        operator: '!='
-        value: /tech-radar
       - field: pathname
         operator: '!='
         value: /search
