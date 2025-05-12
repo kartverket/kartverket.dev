@@ -3231,6 +3231,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage-community/plugin-grafana@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@backstage-community/plugin-grafana@npm:0.4.0"
+  dependencies:
+    "@backstage/catalog-model": "npm:^1.7.3"
+    "@backstage/core-components": "npm:^0.16.4"
+    "@backstage/core-plugin-api": "npm:^1.10.4"
+    "@backstage/frontend-plugin-api": "npm:^0.9.5"
+    "@backstage/plugin-catalog-react": "npm:^1.15.2"
+    "@material-ui/core": "npm:^4.12.2"
+    "@material-ui/lab": "npm:4.0.0-alpha.61"
+    cross-fetch: "npm:^4.0.0"
+    jsep: "npm:^1.3.8"
+    react-use: "npm:^17.2.4"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router-dom: 6.0.0-beta.0 || ^6.3.0
+  checksum: 10c0/a6a4e8dc75873dada415c846d53d95940237f42ab9803435e261f766eec2b5ab322b834ab4f63bc6ad1383bf6a11d350a3dcf961754919f96910269454cbe5ae
+  languageName: node
+  linkType: hard
+
 "@backstage-community/plugin-lighthouse-backend@npm:^0.10.0":
   version: 0.10.0
   resolution: "@backstage-community/plugin-lighthouse-backend@npm:0.10.0"
@@ -3807,7 +3829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/catalog-model@npm:^1.2.1, @backstage/catalog-model@npm:^1.7.0, @backstage/catalog-model@npm:^1.7.3":
+"@backstage/catalog-model@npm:^1.7.0, @backstage/catalog-model@npm:^1.7.3":
   version: 1.7.3
   resolution: "@backstage/catalog-model@npm:1.7.3"
   dependencies:
@@ -5362,7 +5384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-react@npm:^1.14.0, @backstage/plugin-catalog-react@npm:^1.17.0, @backstage/plugin-catalog-react@npm:^1.4.0":
+"@backstage/plugin-catalog-react@npm:^1.14.0, @backstage/plugin-catalog-react@npm:^1.15.2, @backstage/plugin-catalog-react@npm:^1.17.0":
   version: 1.17.0
   resolution: "@backstage/plugin-catalog-react@npm:1.17.0"
   dependencies:
@@ -8605,25 +8627,6 @@ __metadata:
   version: 3.4.0
   resolution: "@juggle/resize-observer@npm:3.4.0"
   checksum: 10c0/12930242357298c6f2ad5d4ec7cf631dfb344ca7c8c830ab7f64e6ac11eb1aae486901d8d880fd08fb1b257800c160a0da3aee1e7ed9adac0ccbb9b7c5d93347
-  languageName: node
-  linkType: hard
-
-"@k-phoen/backstage-plugin-grafana@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@k-phoen/backstage-plugin-grafana@npm:0.1.22"
-  dependencies:
-    "@backstage/catalog-model": "npm:^1.2.1"
-    "@backstage/core-components": "npm:^0.12.5"
-    "@backstage/core-plugin-api": "npm:^1.5.0"
-    "@backstage/plugin-catalog-react": "npm:^1.4.0"
-    "@material-ui/core": "npm:^4.12.2"
-    "@material-ui/lab": "npm:4.0.0-alpha.57"
-    jsep: "npm:^1.3.8"
-    react-use: "npm:^17.2.4"
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0
-    react-dom: ^16.13.1 || ^17.0.0
-  checksum: 10c0/ba0aca0afd21f7d6cf774d0c4240f18f1b7e8a2e812fdb1ef774040433ba3d297d715d91e2bd56bcff3195b7ff545355cb39e401d1c3c7a6dd3d0b3db6814b46
   languageName: node
   linkType: hard
 
@@ -18625,6 +18628,7 @@ __metadata:
   dependencies:
     "@backstage-community/plugin-explore": "npm:^0.5.5"
     "@backstage-community/plugin-github-actions": "npm:^0.6.16"
+    "@backstage-community/plugin-grafana": "npm:^0.4.0"
     "@backstage-community/plugin-lighthouse": "npm:^0.9.0"
     "@backstage-community/plugin-linguist": "npm:^0.7.0"
     "@backstage/app-defaults": "backstage:^"
@@ -18655,7 +18659,6 @@ __metadata:
     "@backstage/test-utils": "backstage:^"
     "@backstage/theme": "backstage:^"
     "@internal/plugin-instatus": "npm:^0.1.0"
-    "@k-phoen/backstage-plugin-grafana": "npm:^0.1.22"
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.22"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.1.2"
