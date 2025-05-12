@@ -20,9 +20,9 @@ After merging the pull request your service will be added to the catalog within 
 
 Once your component is added to the catalog, you may want to add optional features to the detail view of the component. Currently we support the following features:
 
-  - [Lighthouse Insights](#lighthouse-insights)
-  - [Grafana alerts and dashboards](#grafana-alerts-and-dashboards)
-  - [Kubernetes](#kubernetes)
+- [Lighthouse Insights](#lighthouse-insights)
+- [Grafana alerts and dashboards](#grafana-alerts-and-dashboards)
+- [Kubernetes](#kubernetes)
 
 ### Lighthouse Insights
 
