@@ -3231,42 +3231,41 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-lighthouse-backend@npm:^0.4.14":
-  version: 0.4.17
-  resolution: "@backstage-community/plugin-lighthouse-backend@npm:0.4.17"
+"@backstage-community/plugin-lighthouse-backend@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "@backstage-community/plugin-lighthouse-backend@npm:0.10.0"
   dependencies:
-    "@backstage-community/plugin-lighthouse-common": "npm:^0.1.10"
-    "@backstage/backend-common": "npm:^0.25.0"
-    "@backstage/backend-plugin-api": "npm:^1.0.1"
+    "@backstage-community/plugin-lighthouse-common": "npm:^0.6.0"
+    "@backstage/backend-plugin-api": "npm:^1.3.0"
     "@backstage/backend-tasks": "npm:^0.6.1"
-    "@backstage/catalog-client": "npm:^1.7.1"
-    "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/config": "npm:^1.2.0"
-    "@backstage/plugin-catalog-node": "npm:^1.13.1"
-    "@backstage/types": "npm:^1.1.1"
+    "@backstage/catalog-client": "npm:^1.9.1"
+    "@backstage/catalog-model": "npm:^1.7.3"
+    "@backstage/config": "npm:^1.3.2"
+    "@backstage/plugin-catalog-node": "npm:^1.16.3"
+    "@backstage/types": "npm:^1.2.1"
     winston: "npm:^3.2.1"
-  checksum: 10c0/bd29164d7914830144bd82e12144b6686e18e6174496062e364d6f86298b89d53aa517c99790450ca2e39d8c0e338b6e0f0ad0b8b2fe093538d948256a4212be
+  checksum: 10c0/25ed4a1a7a44b595218dfdcbfc170bec7e1d8e5e5f8b354b3519c455a8d441b078cf2a0ba6888a3450f9b2197cbf70cd68b14052750f7301d2b5cb1caac48bcc
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-lighthouse-common@npm:^0.1.10":
-  version: 0.1.10
-  resolution: "@backstage-community/plugin-lighthouse-common@npm:0.1.10"
+"@backstage-community/plugin-lighthouse-common@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "@backstage-community/plugin-lighthouse-common@npm:0.6.0"
   dependencies:
-    "@backstage/config": "npm:^1.2.0"
-  checksum: 10c0/c6f7e872d990861d78f099f1220495d902933a15451352161af7f48b2f88fd9827988fac41e63e68bb46b48341a5aad5ab430dd348806354114888f0f51e8c7b
+    "@backstage/config": "npm:^1.3.2"
+  checksum: 10c0/e1c0f92e9bc3a8343ae1a424e98c8ce8e860b584c5300e37f8e0cd5e4691b4a4aa100348dcfadff736c69c6f74e1609843a2ce6cd5f1a3a930350884aa65eb84
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-lighthouse@npm:^0.4.20":
-  version: 0.4.24
-  resolution: "@backstage-community/plugin-lighthouse@npm:0.4.24"
+"@backstage-community/plugin-lighthouse@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "@backstage-community/plugin-lighthouse@npm:0.9.0"
   dependencies:
-    "@backstage-community/plugin-lighthouse-common": "npm:^0.1.10"
-    "@backstage/catalog-model": "npm:^1.7.0"
-    "@backstage/core-components": "npm:^0.15.1"
-    "@backstage/core-plugin-api": "npm:^1.10.0"
-    "@backstage/plugin-catalog-react": "npm:^1.14.0"
+    "@backstage-community/plugin-lighthouse-common": "npm:^0.6.0"
+    "@backstage/catalog-model": "npm:^1.7.3"
+    "@backstage/core-components": "npm:^0.17.1"
+    "@backstage/core-plugin-api": "npm:^1.10.6"
+    "@backstage/plugin-catalog-react": "npm:^1.17.0"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
     "@material-ui/lab": "npm:4.0.0-alpha.61"
@@ -3276,7 +3275,7 @@ __metadata:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
-  checksum: 10c0/777fa708c82312c9d41e0ee95c00295de42a5632c7c8a0a5320c4be3a2a247f02f3a225e2cfdb0fc515476e889ac9a177dc3f5250797cff9e7d9bd54510d8d4e
+  checksum: 10c0/92538414186fd8652ac4247fdad3907b0bcc3a00e562add8bcd52bbd8e913599b6d4291556cb31df83b787adcb96e3cacff899a21cb3f0186d2fce4e5d22a60a
   languageName: node
   linkType: hard
 
@@ -3758,7 +3757,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/backend-plugin-api@npm:^1.0.0, @backstage/backend-plugin-api@npm:^1.0.1, @backstage/backend-plugin-api@npm:^1.1.1, @backstage/backend-plugin-api@npm:^1.2.0, @backstage/backend-plugin-api@npm:^1.2.1, @backstage/backend-plugin-api@npm:^1.3.0":
+"@backstage/backend-plugin-api@npm:^1.0.0, @backstage/backend-plugin-api@npm:^1.1.1, @backstage/backend-plugin-api@npm:^1.2.0, @backstage/backend-plugin-api@npm:^1.2.1, @backstage/backend-plugin-api@npm:^1.3.0":
   version: 1.3.0
   resolution: "@backstage/backend-plugin-api@npm:1.3.0"
   dependencies:
@@ -5369,7 +5368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-node@npm:^1.13.1, @backstage/plugin-catalog-node@npm:^1.16.0, @backstage/plugin-catalog-node@npm:^1.16.3":
+"@backstage/plugin-catalog-node@npm:^1.16.0, @backstage/plugin-catalog-node@npm:^1.16.3":
   version: 1.16.3
   resolution: "@backstage/plugin-catalog-node@npm:1.16.3"
   dependencies:
@@ -18657,7 +18656,7 @@ __metadata:
   dependencies:
     "@backstage-community/plugin-explore": "npm:^0.5.5"
     "@backstage-community/plugin-github-actions": "npm:^0.6.16"
-    "@backstage-community/plugin-lighthouse": "npm:^0.4.20"
+    "@backstage-community/plugin-lighthouse": "npm:^0.9.0"
     "@backstage-community/plugin-linguist": "npm:^0.7.0"
     "@backstage-community/plugin-tech-radar": "npm:^0.7.4"
     "@backstage/app-defaults": "backstage:^"
@@ -19405,7 +19404,7 @@ __metadata:
   resolution: "backend@workspace:packages/backend"
   dependencies:
     "@backstage-community/plugin-explore-backend": "npm:^0.6.0"
-    "@backstage-community/plugin-lighthouse-backend": "npm:^0.4.14"
+    "@backstage-community/plugin-lighthouse-backend": "npm:^0.10.0"
     "@backstage-community/plugin-linguist-backend": "npm:^0.14.0"
     "@backstage/backend-defaults": "backstage:^"
     "@backstage/backend-plugin-api": "backstage:^"
