@@ -21,7 +21,7 @@ backlog as well as the current roadmap in the following places:
 
 ### Node (prerequisite)
 
-This project currently uses Node v20, see source of truth [mise.toml](mise.toml).
+This project currently uses Node v22, see source of truth [mise.toml](mise.toml).
 
 #### Setup `mise`
 
@@ -38,7 +38,7 @@ The correct `node` should now apply locally in this project. Check with:
 
 ```sh
 node -v
->>> v20.18.3
+>>> v22.14.0
 ```
 
 Continue by enabling `yarn` as package manager. `corepack` is used for this, it comes with `node`.
