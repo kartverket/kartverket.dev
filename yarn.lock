@@ -3231,6 +3231,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage-community/plugin-grafana@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@backstage-community/plugin-grafana@npm:0.4.0"
+  dependencies:
+    "@backstage/catalog-model": "npm:^1.7.3"
+    "@backstage/core-components": "npm:^0.16.4"
+    "@backstage/core-plugin-api": "npm:^1.10.4"
+    "@backstage/frontend-plugin-api": "npm:^0.9.5"
+    "@backstage/plugin-catalog-react": "npm:^1.15.2"
+    "@material-ui/core": "npm:^4.12.2"
+    "@material-ui/lab": "npm:4.0.0-alpha.61"
+    cross-fetch: "npm:^4.0.0"
+    jsep: "npm:^1.3.8"
+    react-use: "npm:^17.2.4"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router-dom: 6.0.0-beta.0 || ^6.3.0
+  checksum: 10c0/a6a4e8dc75873dada415c846d53d95940237f42ab9803435e261f766eec2b5ab322b834ab4f63bc6ad1383bf6a11d350a3dcf961754919f96910269454cbe5ae
+  languageName: node
+  linkType: hard
+
 "@backstage-community/plugin-lighthouse-backend@npm:^0.10.0":
   version: 0.10.0
   resolution: "@backstage-community/plugin-lighthouse-backend@npm:0.10.0"
@@ -3337,28 +3359,6 @@ __metadata:
     react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
   checksum: 10c0/763a9548d8e6b54a86d2ef92c7085320461c5d54db11314fa5353e2cfc665f7cc8d2f823276ef54176e275ae887900d8de14974648d2ca497c1d13f5ea588506
-  languageName: node
-  linkType: hard
-
-"@backstage-community/plugin-tech-radar@npm:^0.7.4":
-  version: 0.7.11
-  resolution: "@backstage-community/plugin-tech-radar@npm:0.7.11"
-  dependencies:
-    "@backstage/core-compat-api": "npm:^0.3.1"
-    "@backstage/core-components": "npm:^0.15.1"
-    "@backstage/core-plugin-api": "npm:^1.10.0"
-    "@backstage/frontend-plugin-api": "npm:^0.9.0"
-    "@material-ui/core": "npm:^4.12.2"
-    "@material-ui/icons": "npm:^4.9.1"
-    "@types/react": "npm:^16.13.1 || ^17.0.0 || ^18.0.0"
-    color: "npm:^4.0.1"
-    d3-force: "npm:^3.0.0"
-    react-use: "npm:^17.2.4"
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
-    react-router-dom: 6.0.0-beta.0 || ^6.3.0
-  checksum: 10c0/3c2cd3c525b7d38d893622afe4e52425e8ae1681232d400db25aaadc93a1a102607c197a57d550925280acb4636ad2d3a2e22f9caca79ceca049bf34453255ac
   languageName: node
   linkType: hard
 
@@ -3829,7 +3829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/catalog-model@npm:^1.2.1, @backstage/catalog-model@npm:^1.7.0, @backstage/catalog-model@npm:^1.7.3":
+"@backstage/catalog-model@npm:^1.7.0, @backstage/catalog-model@npm:^1.7.3":
   version: 1.7.3
   resolution: "@backstage/catalog-model@npm:1.7.3"
   dependencies:
@@ -5384,7 +5384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-react@npm:^1.14.0, @backstage/plugin-catalog-react@npm:^1.17.0, @backstage/plugin-catalog-react@npm:^1.4.0":
+"@backstage/plugin-catalog-react@npm:^1.14.0, @backstage/plugin-catalog-react@npm:^1.15.2, @backstage/plugin-catalog-react@npm:^1.17.0":
   version: 1.17.0
   resolution: "@backstage/plugin-catalog-react@npm:1.17.0"
   dependencies:
@@ -8627,25 +8627,6 @@ __metadata:
   version: 3.4.0
   resolution: "@juggle/resize-observer@npm:3.4.0"
   checksum: 10c0/12930242357298c6f2ad5d4ec7cf631dfb344ca7c8c830ab7f64e6ac11eb1aae486901d8d880fd08fb1b257800c160a0da3aee1e7ed9adac0ccbb9b7c5d93347
-  languageName: node
-  linkType: hard
-
-"@k-phoen/backstage-plugin-grafana@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@k-phoen/backstage-plugin-grafana@npm:0.1.22"
-  dependencies:
-    "@backstage/catalog-model": "npm:^1.2.1"
-    "@backstage/core-components": "npm:^0.12.5"
-    "@backstage/core-plugin-api": "npm:^1.5.0"
-    "@backstage/plugin-catalog-react": "npm:^1.4.0"
-    "@material-ui/core": "npm:^4.12.2"
-    "@material-ui/lab": "npm:4.0.0-alpha.57"
-    jsep: "npm:^1.3.8"
-    react-use: "npm:^17.2.4"
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0
-    react-dom: ^16.13.1 || ^17.0.0
-  checksum: 10c0/ba0aca0afd21f7d6cf774d0c4240f18f1b7e8a2e812fdb1ef774040433ba3d297d715d91e2bd56bcff3195b7ff545355cb39e401d1c3c7a6dd3d0b3db6814b46
   languageName: node
   linkType: hard
 
@@ -15026,15 +15007,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@spotify/prettier-config@npm:^12.0.0":
-  version: 12.0.0
-  resolution: "@spotify/prettier-config@npm:12.0.0"
-  peerDependencies:
-    prettier: 2.x
-  checksum: 10c0/c19ea09a0c6937dc08917a5890a01c800450ed8f20f614ec2239e09a5897a7d40eb28e5af70ae58c7f41d56769c0fc516ab0ae672d2fd7585016cd54ad514336
-  languageName: node
-  linkType: hard
-
 "@stoplight/better-ajv-errors@npm:1.0.3":
   version: 1.0.3
   resolution: "@stoplight/better-ajv-errors@npm:1.0.3"
@@ -18648,9 +18620,9 @@ __metadata:
   dependencies:
     "@backstage-community/plugin-explore": "npm:^0.5.5"
     "@backstage-community/plugin-github-actions": "npm:^0.6.16"
+    "@backstage-community/plugin-grafana": "npm:^0.4.0"
     "@backstage-community/plugin-lighthouse": "npm:^0.9.0"
     "@backstage-community/plugin-linguist": "npm:^0.7.0"
-    "@backstage-community/plugin-tech-radar": "npm:^0.7.4"
     "@backstage/app-defaults": "backstage:^"
     "@backstage/canon": "backstage:^"
     "@backstage/catalog-model": "backstage:^"
@@ -18679,7 +18651,6 @@ __metadata:
     "@backstage/test-utils": "backstage:^"
     "@backstage/theme": "backstage:^"
     "@internal/plugin-instatus": "npm:^0.1.0"
-    "@k-phoen/backstage-plugin-grafana": "npm:^0.1.22"
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.22"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.1.2"
@@ -20691,7 +20662,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-string@npm:^1.6.0, color-string@npm:^1.9.0":
+"color-string@npm:^1.6.0":
   version: 1.9.1
   resolution: "color-string@npm:1.9.1"
   dependencies:
@@ -20717,16 +20688,6 @@ __metadata:
     color-convert: "npm:^1.9.3"
     color-string: "npm:^1.6.0"
   checksum: 10c0/39345d55825884c32a88b95127d417a2c24681d8b57069413596d9fcbb721459ef9d9ec24ce3e65527b5373ce171b73e38dbcd9c830a52a6487e7f37bf00e83c
-  languageName: node
-  linkType: hard
-
-"color@npm:^4.0.1":
-  version: 4.2.3
-  resolution: "color@npm:4.2.3"
-  dependencies:
-    color-convert: "npm:^2.0.1"
-    color-string: "npm:^1.9.0"
-  checksum: 10c0/7fbe7cfb811054c808349de19fb380252e5e34e61d7d168ec3353e9e9aacb1802674bddc657682e4e9730c2786592a4de6f8283e7e0d3870b829bb0b7b2f6118
   languageName: node
   linkType: hard
 
@@ -21840,17 +21801,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-force@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "d3-force@npm:3.0.0"
-  dependencies:
-    d3-dispatch: "npm:1 - 3"
-    d3-quadtree: "npm:1 - 3"
-    d3-timer: "npm:1 - 3"
-  checksum: 10c0/220a16a1a1ac62ba56df61028896e4b52be89c81040d20229c876efc8852191482c233f8a52bb5a4e0875c321b8e5cb6413ef3dfa4d8fe79eeb7d52c587f52cf
-  languageName: node
-  linkType: hard
-
 "d3-format@npm:1 - 3":
   version: 3.1.0
   resolution: "d3-format@npm:3.1.0"
@@ -21871,13 +21821,6 @@ __metadata:
   version: 3.1.0
   resolution: "d3-path@npm:3.1.0"
   checksum: 10c0/dc1d58ec87fa8319bd240cf7689995111a124b141428354e9637aa83059eb12e681f77187e0ada5dedfce346f7e3d1f903467ceb41b379bfd01cd8e31721f5da
-  languageName: node
-  linkType: hard
-
-"d3-quadtree@npm:1 - 3":
-  version: 3.0.1
-  resolution: "d3-quadtree@npm:3.0.1"
-  checksum: 10c0/18302d2548bfecaef788152397edec95a76400fd97d9d7f42a089ceb68d910f685c96579d74e3712d57477ed042b056881b47cd836a521de683c66f47ce89090
   languageName: node
   linkType: hard
 
@@ -34460,12 +34403,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.3.2":
-  version: 2.8.8
-  resolution: "prettier@npm:2.8.8"
+"prettier@npm:^3.5.3":
+  version: 3.5.3
+  resolution: "prettier@npm:3.5.3"
   bin:
-    prettier: bin-prettier.js
-  checksum: 10c0/463ea8f9a0946cd5b828d8cf27bd8b567345cf02f56562d5ecde198b91f47a76b7ac9eae0facd247ace70e927143af6135e8cf411986b8cb8478784a4d6d724a
+    prettier: bin/prettier.cjs
+  checksum: 10c0/3880cb90b9dc0635819ab52ff571518c35bd7f15a6e80a2054c05dbc8a3aa6e74f135519e91197de63705bcb38388ded7e7230e2178432a1468005406238b877
   languageName: node
   linkType: hard
 
@@ -37044,10 +36987,9 @@ __metadata:
     "@backstage/e2e-test-utils": "backstage:^"
     "@mui/material": "npm:5.16.4"
     "@playwright/test": "npm:^1.32.3"
-    "@spotify/prettier-config": "npm:^12.0.0"
     "@types/react": "npm:^18"
     lerna: "npm:^7.3.0"
-    prettier: "npm:^2.3.2"
+    prettier: "npm:^3.5.3"
     typescript: "npm:~5.8.3"
   languageName: unknown
   linkType: soft
