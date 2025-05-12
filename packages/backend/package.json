@@ -16,18 +16,20 @@
     "build-image": "docker build ../.. -f Dockerfile --tag backstage"
   },
   "dependencies": {
-    "@backstage-community/plugin-explore-backend": "^0.1.5",
-    "@backstage-community/plugin-lighthouse-backend": "^0.4.14",
-    "@backstage-community/plugin-linguist-backend": "^0.6.1",
-    "@backstage/backend-common": "^0.25.0",
+    "@backstage-community/plugin-explore-backend": "^0.6.0",
+    "@backstage-community/plugin-lighthouse-backend": "^0.10.0",
+    "@backstage-community/plugin-linguist-backend": "^0.14.0",
     "@backstage/backend-defaults": "backstage:^",
     "@backstage/backend-plugin-api": "backstage:^",
     "@backstage/backend-tasks": "^0.6.1",
     "@backstage/catalog-client": "backstage:^",
     "@backstage/catalog-model": "backstage:^",
     "@backstage/config": "backstage:^",
+    "@backstage/errors": "^1.2.7",
     "@backstage/plugin-app-backend": "backstage:^",
     "@backstage/plugin-auth-backend": "backstage:^",
+    "@backstage/plugin-auth-backend-module-github-provider": "^0.3.2",
+    "@backstage/plugin-auth-backend-module-google-provider": "^0.3.2",
     "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
     "@backstage/plugin-auth-backend-module-microsoft-provider": "backstage:^",
     "@backstage/plugin-auth-node": "backstage:^",
@@ -48,24 +50,14 @@
     "@backstage/plugin-search-backend-module-techdocs": "backstage:^",
     "@backstage/plugin-search-backend-node": "backstage:^",
     "@backstage/plugin-techdocs-backend": "backstage:^",
-    "@kartverket/backstage-plugin-security-metrics-backend": "3.10.7",
+    "@kartverket/backstage-plugin-security-metrics-backend": "3.10.8",
     "@kartverket/plugin-dask-onboarding-backend": "^0.1.15",
     "app": "link:../app",
     "better-sqlite3": "^9.0.0",
-    "dockerode": "^3.3.1",
-    "express": "^4.17.1",
-    "express-promise-router": "^4.1.0",
-    "jwt-decode": "^4.0.0",
-    "node-gyp": "^9.0.0",
-    "pg": "^8.11.3",
-    "winston": "^3.2.1"
+    "jwt-decode": "^4.0.0"
   },
   "devDependencies": {
-    "@backstage/cli": "backstage:^",
-    "@types/dockerode": "^3.3.0",
-    "@types/express": "^4.17.6",
-    "@types/express-serve-static-core": "^4.17.5",
-    "@types/luxon": "^2.0.4"
+    "@backstage/cli": "backstage:^"
   },
   "files": [
     "dist"

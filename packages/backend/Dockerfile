@@ -9,6 +9,7 @@
 #
 # Once the commands have been run, you can build the image using `yarn build-image`
 
+# From mise.toml
 FROM node:20-bookworm-slim
 
 # Set Python interpreter for `node-gyp` to use
