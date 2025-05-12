@@ -20,9 +20,11 @@ After merging the pull request your service will be added to the catalog within 
 
 Once your component is added to the catalog, you may want to add optional features to the detail view of the component. Currently we support the following features:
 
-- [Lighthouse Insights](#lighthouse-insights)
-- [Grafana alerts and dashboards](#grafana-alerts-and-dashboards)
-- [Kubernetes](#kubernetes)
+- [Onboarding](#onboarding)
+- [Customizing components](#customizing-components)
+  - [Lighthouse Insights](#lighthouse-insights)
+  - [Grafana alerts and dashboards](#grafana-alerts-and-dashboards)
+  - [Kubernetes](#kubernetes)
 
 ### Lighthouse Insights
 
@@ -66,7 +68,7 @@ metadata:
     grafana/overview-dashboard: # A dashboard URL, for example: 'https://monitoring.kartverket.cloud/d/b48615bc-3801-4d0b-be37-858483dfb3d3/skiperator?orgId=1&kiosk'
 ```
 
-For details on how to write a dashboard selector see [this page](https://github.com/K-Phoen/backstage-plugin-grafana/blob/main/docs/dashboards-on-component-page.md).
+For details on how to write a dashboard selector see [this page](https://github.com/backstage/community-plugins/blob/main/workspaces/grafana/plugins/grafana/docs/dashboards-on-component-page.md).
 
 ### Kubernetes
 
