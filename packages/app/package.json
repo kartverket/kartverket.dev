@@ -55,8 +55,8 @@
     "backstage-plugin-xkcd": "^1.0.9",
     "jwt-decode": "^4.0.0",
     "posthog-js": "^1.121.4",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18",
+    "react-dom": "^18",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-use": "^17.2.4"
@@ -68,7 +68,7 @@
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "^12.1.3",
     "@testing-library/user-event": "^14.0.0",
-    "@types/react-dom": "*"
+    "@types/react-dom": "^18"
   },
   "browserslist": {
     "production": [
