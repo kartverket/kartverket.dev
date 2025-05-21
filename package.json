@@ -30,6 +30,8 @@
     "iup": "yarn upgrade-interactive",
     "cup//": "echo Custom UPdate - Install without lockfile forces yarn to look for latest version within ranges",
     "cup": "rm -f yarn.lock && yarn install",
+    "cupp//": "echo `cup plus`\nAlias to run `cup` followed by `backstage:upgrade`",
+    "cupp": "yarn run cup && yarn run backstage:upgrade",
     "backstage:upgrade": "backstage-cli versions:bump",
     "pipeline//": "echo Shorthand to run all checks in the lint.yml pipeline/workflow",
     "pipeline": "yarn run ci && yarn run prettier:check && yarn run lint:all && yarn run tsc",
