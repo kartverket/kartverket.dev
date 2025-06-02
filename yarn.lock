@@ -8705,9 +8705,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:^3.1.4":
-  version: 3.1.4
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:3.1.4"
+"@kartverket/backstage-plugin-risk-scorecard@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:3.1.5"
   dependencies:
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
@@ -8724,8 +8724,8 @@ __metadata:
     "@mui/x-date-pickers": "npm:^6.20.2"
     "@uiw/react-markdown-preview": "npm:^5.1.3"
     "@uiw/react-md-editor": "npm:^4.0.5"
-    date-fns: "npm:^4.1.0"
     github-markdown-css: "npm:^5.8.1"
+    luxon: "npm:^3.6.1"
     react-dnd: "npm:^16.0.1"
     react-dnd-html5-backend: "npm:^16.0.1"
     react-hook-form: "npm:^7.55.0"
@@ -8736,7 +8736,7 @@ __metadata:
     react-dom: ^18.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 10c0/4234eb19c4fdc9958a2fd9e220764b130c28d871356af0a704522ee5b4663e24b08baaefb4e93e710dda24c94db8ac841e8ddebb77b870ce0fdbc0500ea3bc9b
+  checksum: 10c0/a118a19261bc623850ba8f7b008b07ac31fd9c5c86afa4962b2125fde8f5fa87e0d181a69dc30de4efd4d0f19d447d8239cceb6e37913934c40cec0aa459aa48
   languageName: node
   linkType: hard
 
@@ -18887,7 +18887,7 @@ __metadata:
     "@internal/plugin-instatus": "npm:^0.1.0"
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.22"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.1.4"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.1.5"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.11.0"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
@@ -29836,7 +29836,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^3.0.0, luxon@npm:^3.2.1, luxon@npm:^3.4.3":
+"luxon@npm:^3.0.0, luxon@npm:^3.2.1, luxon@npm:^3.4.3, luxon@npm:^3.6.1":
   version: 3.6.1
   resolution: "luxon@npm:3.6.1"
   checksum: 10c0/906d57a9dc4d1de9383f2e9223e378c298607c1b4d17b6657b836a3cd120feb1c1de3b5d06d846a3417e1ca764de8476e8c23b3cd4083b5cdb870adcb06a99d5
