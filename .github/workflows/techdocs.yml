@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - id: 'techdocs-action'
-        uses: kartverket/backstage-techdocs-action@v1.
+        uses: kartverket/backstage-techdocs-action@v1.1
         with:
           entity_kind: 'component'
           entity_name: 'kartverket.dev'
