@@ -1,0 +1,25 @@
+name: Pull Request Actions
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  dependency-review:
+    permissions:
+      contents: read # Required for reading repository
+      pull-requests: write # Required for dependency review comments
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Perform dependency review
+        uses: actions/dependency-review-action@v4
+        if: github.event_name == 'pull_request'
+        with:
+          comment-summary-in-pr: always
+          fail-on-severity: moderate
