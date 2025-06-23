@@ -55,6 +55,7 @@ import {
 } from '@backstage/catalog-model';
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
+import { Mermaid } from "backstage-plugin-techdocs-addon-mermaid";
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityLinguistCard } from '@backstage-community/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse';
@@ -76,6 +77,7 @@ const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
       <ReportIssue />
+      <Mermaid config={{ theme: "forest", themeVariables: { lineColor: "#000000" } }} />
     </TechDocsAddons>
   </EntityTechdocsContent>
 );
