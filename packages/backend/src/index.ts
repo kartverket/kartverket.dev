@@ -23,6 +23,7 @@ backend.add(
   import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
 );
 backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
+backend.add(import('@backstage/plugin-catalog-backend-module-openapi'));
 
 // Explore
 backend.add(import('@backstage-community/plugin-explore-backend'));
