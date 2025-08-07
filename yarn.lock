@@ -9418,9 +9418,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-security-metrics-backend@npm:3.12.2":
-  version: 3.12.2
-  resolution: "@kartverket/backstage-plugin-security-metrics-backend@npm:3.12.2"
+"@kartverket/backstage-plugin-security-metrics-backend@npm:3.15.0":
+  version: 3.15.0
+  resolution: "@kartverket/backstage-plugin-security-metrics-backend@npm:3.15.0"
   dependencies:
     "@azure/msal-node": "npm:^2.10.0"
     "@backstage/backend-common": "npm:^0.25.0"
@@ -9435,13 +9435,13 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     winston: "npm:^3.15.0"
     yn: "npm:^5.0.0"
-  checksum: 10c0/d399b9884c81db438359d8a99c848788cfe0648c9ae4c11389f8551e7af759a4371371ba4839401d2ca4efae046fec65d11fe9a251c082b2c6740f96d0b09e3f
+  checksum: 10c0/0933062ddadf32c9ab9ed54c5d119b3777113375b538653a49e882d3ebbc511e8ec7cbb70633ebf89a8fa31da2289068bd06e6aab8df3195c8c06caba46dc2c5
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-security-metrics-frontend@npm:3.12.2":
-  version: 3.12.2
-  resolution: "@kartverket/backstage-plugin-security-metrics-frontend@npm:3.12.2"
+"@kartverket/backstage-plugin-security-metrics-frontend@npm:3.15.0":
+  version: 3.15.0
+  resolution: "@kartverket/backstage-plugin-security-metrics-frontend@npm:3.15.0"
   dependencies:
     "@backstage/catalog-client": "backstage:^"
     "@backstage/catalog-model": "backstage:^"
@@ -9458,6 +9458,8 @@ __metadata:
     "@mui/system": "npm:^6.1.5"
     "@mui/x-charts": "npm:^7.21.0"
     "@mui/x-date-pickers": "npm:^7.21.0"
+    "@tanstack/react-query": "npm:^5.84.1"
+    "@tanstack/react-query-devtools": "npm:^5.84.1"
     date-fns: "npm:^4.1.0"
     react-use: "npm:^17.5.1"
     recharts: "npm:^2.13.0"
@@ -9465,7 +9467,7 @@ __metadata:
     react: ^18.0.0
     react-dom: ^18.0.0
     react-router-dom: ^6.26.2
-  checksum: 10c0/07301468902fba7f2644f227f216a22c5b6315fc12bb21ddc2b29c3e8598d03b4e7a5a90fedbdf36feeabe35c9b401897c70808e597fdf64ecbb61c7eeab6834
+  checksum: 10c0/6007a586b51ddf53263a4af6026d51fe35069d3e7f304503f8a324a2a0efc17adb37c03794a9143595c08885c0b91eb4bd8bf427fa5af4f601240e92178f9208
   languageName: node
   linkType: hard
 
@@ -18774,6 +18776,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.83.1":
+  version: 5.83.1
+  resolution: "@tanstack/query-core@npm:5.83.1"
+  checksum: 10c0/3eeacf678fcf9803585f1be74979548a33c7f659b8d5f33c1e3b3834ef3b9f3401070b2e2d38bbaa9c6e5a3c359baaa3828078e38007b7c99fb8c9f1e3911142
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-devtools@npm:5.84.0":
+  version: 5.84.0
+  resolution: "@tanstack/query-devtools@npm:5.84.0"
+  checksum: 10c0/8257bebbf648e850f0186175a6e17aa6ac50e2dbb9413953927a698a2f73db8009693980f4c6b0f928a703be353a0b1bd1316031029818be7672db98c1b42cde
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:^5.84.1":
+  version: 5.84.1
+  resolution: "@tanstack/react-query-devtools@npm:5.84.1"
+  dependencies:
+    "@tanstack/query-devtools": "npm:5.84.0"
+  peerDependencies:
+    "@tanstack/react-query": ^5.84.1
+    react: ^18 || ^19
+  checksum: 10c0/f26180835d92640ed55644e3aed557a62e662120b94fc6b3887ff67f5f3711912a258e9898117936927e94ce80eae4de3d89f4b4cbed77b1d8d4719581929915
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.84.1":
+  version: 5.84.1
+  resolution: "@tanstack/react-query@npm:5.84.1"
+  dependencies:
+    "@tanstack/query-core": "npm:5.83.1"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/a57fed2e6f3c7a42309383e03056f1ff1506ad5fdc8d20a1a6a945006442e71871dfd5eac6e90fb8a506036b2e8a2a5463fa0f5bed826de170aa5926a4728f99
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-table@npm:^8.21.3":
   version: 8.21.3
   resolution: "@tanstack/react-table@npm:8.21.3"
@@ -21206,7 +21245,7 @@ __metadata:
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.22"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.1.7"
-    "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.12.2"
+    "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.15.0"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
     "@playwright/test": "npm:^1.32.3"
@@ -21955,7 +21994,7 @@ __metadata:
     "@backstage/plugin-search-backend-module-techdocs": "backstage:^"
     "@backstage/plugin-search-backend-node": "backstage:^"
     "@backstage/plugin-techdocs-backend": "backstage:^"
-    "@kartverket/backstage-plugin-security-metrics-backend": "npm:3.12.2"
+    "@kartverket/backstage-plugin-security-metrics-backend": "npm:3.15.0"
     "@kartverket/plugin-dask-onboarding-backend": "npm:^0.1.15"
     app: "link:../app"
     better-sqlite3: "npm:^11.10.0"
