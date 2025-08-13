@@ -325,6 +325,9 @@ const componentPage = (
     <EntitySwitch.Case if={isComponentType('ops')}>
       {opsEntityPage}
     </EntitySwitch.Case>
+    <EntitySwitch.Case if={isComponentType('library')}>
+      {opsEntityPage}
+    </EntitySwitch.Case>
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
