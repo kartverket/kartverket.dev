@@ -15,12 +15,12 @@ export const updateYaml = (initial: RequiredYamlFields, form: CatalogInfoForm): 
             ...initial.spec,
             owner: form.owner,
             lifecycle: form.lifecycle || undefined,
-            system: form.system,
-            domain: form.domain,
-            providesApis: form.providesApis ? form.providesApis : undefined,
-            consumesApis: form.consumesApis ? form.consumesApis : undefined,
-            dependsOn: form.dependsOn ? form.dependsOn : undefined,
-            definition: form.definition ? form.definition : undefined,
+            system: form.system?.length ? form.system : undefined,
+            domain: form.domain?.length ? form.domain : undefined,
+            providesApis: form.providesApis?.length ? form.providesApis : undefined,
+            consumesApis: form.consumesApis?.length ? form.consumesApis : undefined,
+            dependsOn: form.dependsOn?.length ? form.dependsOn : undefined,
+            definition: form.definition?.length ? form.definition : undefined,
         }
     };
 
