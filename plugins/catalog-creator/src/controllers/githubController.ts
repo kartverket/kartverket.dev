@@ -28,7 +28,6 @@ export class GithubController {
             }
 
             const yamlContent = updateYaml(initialYaml, catalogInfo);
-            const yamlObject = yaml.stringify(yamlContent);
 
             // Use api to get default commit message + title, handle possibly missing method
             const { title, body } = await (this.catalogImportApi.preparePullRequest?.() ?? Promise.resolve({
@@ -39,7 +38,7 @@ export class GithubController {
             // Submit the PR
             const result = await this.catalogImportApi.submitPullRequest({
                 repositoryUrl: url,  // 👈 the repo URL the user typed in
-                fileContent: yamlObject,
+                fileContent: yamlContent,
                 title,
                 body,
             });
