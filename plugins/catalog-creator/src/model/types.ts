@@ -46,7 +46,7 @@ export type RequiredYamlFields = {
         links?: [{
             url: string;
             title: string;
-            type: string;
+            type?: string;
         }];
     }
     spec: {

@@ -25,6 +25,7 @@ import type { CatalogInfoForm, RequiredYamlFields } from '../../model/types';
 import { CatalogForm } from '../CatalogForm';
 
 import { GithubController } from '../../controllers/githubController';
+import { updateYaml } from '../../translator/translator';
 
 export const CatalogCreatorPage = () => {
 
@@ -47,6 +48,8 @@ export const CatalogCreatorPage = () => {
       definition: [],
     }
   );
+
+  const [yamlContent, setYamlContent] = useState<string>('');
 
   const catalogImportApi = useApi(catalogImportApiRef);
   const githubAuth = useApi(githubAuthApiRef);
@@ -86,6 +89,7 @@ export const CatalogCreatorPage = () => {
     }
 
     await githubController.submitCatalogInfoToGithub(url, initialYaml, catalogInfoForm);
+    setYamlContent(updateYaml(initialYaml, catalogInfoForm));
   };
 
   return (
@@ -121,6 +125,8 @@ export const CatalogCreatorPage = () => {
                 onSubmit={submitGithubRepo}
                 catalogInfoForm={catalogInfoForm}
                 setCatalogInfoForm={setCatalogInfoForm}
+                yamlContent={yamlContent}
+                setYamlContent={setYamlContent}
               />
             )}
           </Card>
