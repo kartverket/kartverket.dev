@@ -112,7 +112,9 @@ proxy:
       target: http://localhost:8080
       credentials: forward
       changeOrigin: true
-
+    '/security-champion-proxy':
+      target: http://localhost:8080
+      changeOrigin: true
 lighthouse:
   baseUrl: http://localhost:7007/api/proxy/lighthouse
 

@@ -68,10 +68,8 @@ import {
   isOverviewDashboardAvailable,
 } from '@backstage-community/plugin-grafana';
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
-import {
-  SecurityMetricsPage,
-  SecurityChampionCard,
-} from '@kartverket/backstage-plugin-security-metrics-frontend';
+import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
+import { SecurityChampionCard } from '@kartverket/plugin-security-champion';
 
 const techdocsContent = (
   <EntityTechdocsContent>
