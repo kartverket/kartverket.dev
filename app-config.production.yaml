@@ -54,6 +54,9 @@ proxy:
       target: http://ros-plugin-backend.ros-plugin-main:8080
       allowedHeaders:
         ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
+    '/security-champion-proxy':
+      target: http://security-champion-api.sikkerhetsmetrikker-main:8080
+      credentials: forward
     '/opencost-cacher':
       target: http://opencost-cacher:8080
       credentials: forward
