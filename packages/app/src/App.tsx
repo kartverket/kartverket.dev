@@ -63,7 +63,6 @@ const app = createApp({
             {...props}
             auto
             providers={[
-              'guest',
               {
                 id: 'microsoft-auth-provider',
                 title: 'Microsoft',
