@@ -9383,14 +9383,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:^3.3.10":
-  version: 3.3.10
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:3.3.10"
+"@kartverket/backstage-plugin-risk-scorecard@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:3.5.0"
   dependencies:
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
     "@backstage/plugin-catalog-react": "backstage:^"
     "@backstage/theme": "backstage:^"
+    "@backstage/ui": "backstage:^"
     "@emotion/cache": "npm:^11.14.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
@@ -9409,12 +9410,13 @@ __metadata:
     react-hook-form: "npm:^7.55.0"
     react-markdown: "npm:^10.1.0"
     remark-breaks: "npm:^4.0.0"
+    remixicon: "npm:^4.6.0"
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 10c0/39dbee3eb17eb56e4432d218c5fa5539ab4cfad1568ed9f5b62354c2e70f325ba4c791cbe1451dfa5879a32a844a5c481d3c18f879122cae7d26d8a34b5481f4
+  checksum: 10c0/d6fa27f541bc22ee2b685c85261356be7bb7d79703b783eea598a8c259e352778fe77ccbed86507106f4903d589a61259ada44f804ab1d039b12bb421e900a37
   languageName: node
   linkType: hard
 
@@ -21260,7 +21262,7 @@ __metadata:
     "@internal/plugin-instatus": "npm:^0.1.0"
     "@kartverket/backstage-plugin-dask-onboarding": "npm:^0.1.22"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.3.10"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.5.0"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.17.5"
     "@kartverket/plugin-security-champion": "npm:^0.1.7"
     "@material-ui/core": "npm:^4.12.2"
@@ -39673,6 +39675,13 @@ __metadata:
   bin:
     remarkable: bin/remarkable.js
   checksum: 10c0/e2c23bfd2e45234110bc3220e44fcac5e4a8199691ff6959d9cd0bac34ffca2f123d3913946cbef517018bc8e5ab00beafc527a04782b7afbe5e9706d1c0c77a
+  languageName: node
+  linkType: hard
+
+"remixicon@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "remixicon@npm:4.6.0"
+  checksum: 10c0/940b898cb9db5c2706b54a23244223991f1b746866452cff1e9604d602ccb64872babab046b63d9958fdc33c896e329f9b4a5cddc5c70793fe03940ecea82a24
   languageName: node
   linkType: hard
 
