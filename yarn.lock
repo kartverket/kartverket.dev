@@ -7753,6 +7753,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "@hookform/resolvers@npm:5.2.2"
+  dependencies:
+    "@standard-schema/utils": "npm:^0.3.0"
+  peerDependencies:
+    react-hook-form: ^7.55.0
+  checksum: 10c0/0692cd61dcc2a70cbb27b88a37f733c39e97f555c036ba04a81bd42b0467461cfb6bafacb46c16f173672f9c8a216bd7928a2330d4e49c700d130622bf1defaf
+  languageName: node
+  linkType: hard
+
 "@httptoolkit/httpolyglot@npm:^2.2.1":
   version: 2.2.2
   resolution: "@httptoolkit/httpolyglot@npm:2.2.2"
@@ -8653,6 +8664,25 @@ __metadata:
     react-dom: ^18.0.0
     react-router-dom: ^6.26.2
   checksum: 10c0/744740fe751e96cad0d89c27963c1ace977f3b1b6148f68ecd5aabf40a3a3b541b60e5fb62e09cd92ab0b771112af00290c863539a782c7c0a87a910476b6629
+  languageName: node
+  linkType: hard
+
+"@kartverket/plugin-catalog-creator@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@kartverket/plugin-catalog-creator@npm:0.1.5"
+  dependencies:
+    "@backstage/core-components": "npm:^0.17.1"
+    "@backstage/core-plugin-api": "npm:^1.10.5"
+    "@backstage/theme": "npm:^0.6.5"
+    "@hookform/resolvers": "npm:^5.2.2"
+    "@material-ui/core": "npm:^4.9.13"
+    "@material-ui/icons": "npm:^4.9.1"
+    "@material-ui/lab": "npm:^4.0.0-alpha.61"
+    react-use: "npm:^17.2.4"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    zod: ^3.25.0 || ^4.0.0
+  checksum: 10c0/ac6b5c6f9e330fdc358fc730f39063895c277d1c37a000fad8d3fc8c76a40fd287c40e942e87d152aff01890332f8bf9b83d87c68267ee542ec37ca0139eeb87
   languageName: node
   linkType: hard
 
@@ -16595,6 +16625,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@standard-schema/utils@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@standard-schema/utils@npm:0.3.0"
+  checksum: 10c0/6eb74cd13e52d5fc74054df51e37d947ef53f3ab9e02c085665dcca3c38c60ece8d735cebbdf18fbb13c775fbcb9becb3f53109b0e092a63f0f7389ce0993fd0
+  languageName: node
+  linkType: hard
+
 "@stoplight/better-ajv-errors@npm:1.0.3":
   version: 1.0.3
   resolution: "@stoplight/better-ajv-errors@npm:1.0.3"
@@ -20409,6 +20446,7 @@ __metadata:
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.5.3"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.18.1"
+    "@kartverket/plugin-catalog-creator": "npm:^0.1.5"
     "@kartverket/plugin-security-champion": "npm:^0.1.7"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
@@ -20427,6 +20465,7 @@ __metadata:
     react-router: "npm:^6.3.0"
     react-router-dom: "npm:^6.3.0"
     react-use: "npm:^17.2.4"
+    zod: "npm:^4.1.11"
   languageName: unknown
   linkType: soft
 
@@ -43961,6 +44000,13 @@ __metadata:
   version: 3.24.2
   resolution: "zod@npm:3.24.2"
   checksum: 10c0/c638c7220150847f13ad90635b3e7d0321b36cce36f3fc6050ed960689594c949c326dfe2c6fa87c14b126ee5d370ccdebd6efb304f41ef5557a4aaca2824565
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.1.11":
+  version: 4.1.11
+  resolution: "zod@npm:4.1.11"
+  checksum: 10c0/ce6a4c4acfbf51d7dd0f2669c82f207d62a1f00264eef608994b94eb99d86a74c99f59b0dd3e61ef82909ee136631378b709e0908f0a02a2d5c21d0c497de5db
   languageName: node
   linkType: hard
 
