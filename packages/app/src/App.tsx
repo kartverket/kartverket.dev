@@ -42,6 +42,7 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
+import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
 import { Route } from 'react-router-dom';
 import { apis } from './apis';
@@ -84,6 +85,7 @@ const app = createApp({
             message: 'Sign in using Microsoft',
             apiRef: microsoftAuthApiRef,
           }}
+          onSignInSuccess={() => posthog.identify()}
         />
       );
     },
