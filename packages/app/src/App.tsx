@@ -50,7 +50,10 @@ import { entityPage } from './components/catalog/EntityPage';
 import { HomePage } from './components/home/HomePage';
 import { Root } from './components/Root';
 import { searchPage } from './components/search/SearchPage';
-import { CatalogCreatorPage, catalogCreatorPlugin } from './components/catalog-creator/CatalogCreatorPage';
+import {
+  CatalogCreatorPage,
+  catalogCreatorPlugin,
+} from './components/catalog-creator/CatalogCreatorPage';
 
 const app = createApp({
   __experimentalTranslations: {
