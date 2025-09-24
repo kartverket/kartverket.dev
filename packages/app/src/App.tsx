@@ -53,7 +53,7 @@ import { searchPage } from './components/search/SearchPage';
 import {
   CatalogCreatorPage,
   catalogCreatorPlugin,
-} from './components/catalog-creator/CatalogCreatorPage';
+} from '@kartverket/plugin-catalog-creator';
 
 const app = createApp({
   __experimentalTranslations: {
