@@ -50,6 +50,10 @@ import { entityPage } from './components/catalog/EntityPage';
 import { HomePage } from './components/home/HomePage';
 import { Root } from './components/Root';
 import { searchPage } from './components/search/SearchPage';
+import {
+  CatalogCreatorPage,
+  catalogCreatorPlugin,
+} from '@kartverket/plugin-catalog-creator';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -101,7 +105,8 @@ const app = createApp({
       registerApi: catalogImportPlugin.routes.importPage,
     });
     bind(scaffolderPlugin.externalRoutes, {
-      registerComponent: catalogImportPlugin.routes.importPage,
+      // registerComponent: catalogImportPlugin.routes.importPage,
+      registerComponent: catalogCreatorPlugin.routes.root,
       viewTechDoc: techdocsPlugin.routes.docRoot,
     });
     bind(orgPlugin.externalRoutes, {
@@ -153,6 +158,7 @@ const routes = (
     <Route path="/devtools" element={<DevToolsPage />} />
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
+    <Route path="/catalog-creator" element={<CatalogCreatorPage />} />
   </FlatRoutes>
 );
 

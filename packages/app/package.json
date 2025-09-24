@@ -50,6 +50,7 @@
     "@kartverket/backstage-plugin-opencost": "^0.1.7",
     "@kartverket/backstage-plugin-risk-scorecard": "^3.5.8",
     "@kartverket/backstage-plugin-security-metrics-frontend": "3.18.1",
+    "@kartverket/plugin-catalog-creator": "^0.1.5",
     "@kartverket/plugin-security-champion": "^0.1.7",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
@@ -61,7 +62,8 @@
     "react-dom": "^18",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "react-use": "^17.2.4"
+    "react-use": "^17.2.4",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@backstage/test-utils": "backstage:^",
