@@ -1,16 +1,34 @@
-import { Route } from 'react-router-dom';
+import { ExplorePage } from '@backstage-community/plugin-explore';
+import { LighthousePage } from '@backstage-community/plugin-lighthouse';
+import { createApp } from '@backstage/app-defaults';
+import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import {
+  AlertDisplay,
+  OAuthRequestDialog,
+  SignInPage,
+} from '@backstage/core-components';
+import {
+  configApiRef,
+  microsoftAuthApiRef,
+  useApi,
+} from '@backstage/core-plugin-api';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
   CatalogIndexPage,
   catalogPlugin,
 } from '@backstage/plugin-catalog';
+import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import {
   CatalogImportPage,
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
-import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
+import { DevToolsPage } from '@backstage/plugin-devtools';
+import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
 import { orgPlugin } from '@backstage/plugin-org';
+import { RequirePermission } from '@backstage/plugin-permission-react';
+import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { SearchPage } from '@backstage/plugin-search';
 import {
   DefaultTechDocsHome,
@@ -18,36 +36,20 @@ import {
   techdocsPlugin,
   TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
-import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
+import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
+import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
+import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
+import posthog from 'posthog-js';
+import { PostHogProvider } from 'posthog-js/react';
+import { Route } from 'react-router-dom';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
-import { searchPage } from './components/search/SearchPage';
-import { Root } from './components/Root';
-import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
-import {
-  AlertDisplay,
-  OAuthRequestDialog,
-  SignInPage,
-} from '@backstage/core-components';
-import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
-import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-import { RequirePermission } from '@backstage/plugin-permission-react';
-import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-import { ExplorePage } from '@backstage-community/plugin-explore';
-import {
-  configApiRef,
-  microsoftAuthApiRef,
-  useApi,
-} from '@backstage/core-plugin-api';
-import { LighthousePage } from '@backstage-community/plugin-lighthouse';
-import { DevToolsPage } from '@backstage/plugin-devtools';
-import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
-import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
-import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
+import { Root } from './components/Root';
+import { searchPage } from './components/search/SearchPage';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -83,6 +85,7 @@ const app = createApp({
             message: 'Sign in using Microsoft',
             apiRef: microsoftAuthApiRef,
           }}
+          onSignInSuccess={() => posthog.identify()}
         />
       );
     },
@@ -154,12 +157,20 @@ const routes = (
 );
 
 export default app.createRoot(
-  <>
+  <PostHogProvider
+    apiKey="phc_RMZqNA5YC4tONx0Ri9ECA4yrYZyGmfmt2kfcIQBDNwm"
+    options={{
+      api_host: 'https://ph.kartverket.no',
+      ui_host: 'https://eu.i.posthog.com',
+      autocapture: false,
+      capture_pageview: true,
+    }}
+  >
     <AlertDisplay />
     <OAuthRequestDialog />
     <AppRouter>
       <VisitListener />
       <Root>{routes}</Root>
     </AppRouter>
-  </>,
+  </PostHogProvider>,
 );
