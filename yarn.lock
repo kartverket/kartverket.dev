@@ -11053,13 +11053,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.1.0":
-  version: 1.1.0
-  resolution: "@posthog/core@npm:1.1.0"
-  checksum: 10c0/313dba3fe575bbb2fb9eae85b89d8c2bd67d6d1b83b932d2835b5abe10404e1accd443ffa55fd58bd2741e8cd9e74585303519bc5d06c20cff228ad1f5ad8b9a
-  languageName: node
-  linkType: hard
-
 "@protobufjs/aspromise@npm:^1.1.1, @protobufjs/aspromise@npm:^1.1.2":
   version: 1.1.2
   resolution: "@protobufjs/aspromise@npm:1.1.2"
@@ -36685,27 +36678,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.268.0":
-  version: 1.268.0
-  resolution: "posthog-js@npm:1.268.0"
-  dependencies:
-    "@posthog/core": "npm:1.1.0"
-    core-js: "npm:^3.38.1"
-    fflate: "npm:^0.4.8"
-    preact: "npm:^10.19.3"
-    web-vitals: "npm:^4.2.4"
-  peerDependencies:
-    "@rrweb/types": 2.0.0-alpha.17
-    rrweb-snapshot: 2.0.0-alpha.17
-  peerDependenciesMeta:
-    "@rrweb/types":
-      optional: true
-    rrweb-snapshot:
-      optional: true
-  checksum: 10c0/ddc1429c300b2684a8159a2bb30707968b24776bfdeca962e85eabf59ceb8c4c4d0809977cf20494ad375d0936c4c72c1d5be314d0221dda9bc8fcf4fb7dbb45
-  languageName: node
-  linkType: hard
-
 "preact@npm:^10.19.3":
   version: 10.26.5
   resolution: "preact@npm:10.26.5"
@@ -39445,7 +39417,6 @@ __metadata:
     "@playwright/test": "npm:^1.32.3"
     "@types/react": "npm:^18"
     lerna: "npm:^7.3.0"
-    posthog-js: "npm:^1.268.0"
     prettier: "npm:^3.5.3"
     typescript: "npm:~5.8.3"
   languageName: unknown
