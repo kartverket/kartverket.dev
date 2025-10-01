@@ -1,7 +1,7 @@
-import { securityMetricsPlugin } from "./plugin"
+import { securityMetricsPlugin } from './plugin';
 
-describe("security-metrics", () => {
-    it("should export plugin", () => {
-        expect(securityMetricsPlugin).toBeDefined()
-    })
-})
+describe('security-metrics', () => {
+  it('should export plugin', () => {
+    expect(securityMetricsPlugin).toBeDefined();
+  });
+});

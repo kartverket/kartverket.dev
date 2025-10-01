@@ -1,17 +1,17 @@
-import Alert from "@mui/material/Alert"
-import AlertTitle from "@mui/material/AlertTitle"
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 interface ErrorBannerProps {
-    errorTitle?: string
-    errorMessage?: string
+  errorTitle?: string;
+  errorMessage?: string;
 }
 
 export const ErrorBanner = ({
-    errorTitle,
-    errorMessage = "En uventet feil oppsto. Vennligst prøv igjen senere.",
+  errorTitle,
+  errorMessage = 'En uventet feil oppsto. Vennligst prøv igjen senere.',
 }: ErrorBannerProps) => (
-    <Alert severity="error">
-        {errorTitle && <AlertTitle>{errorTitle}</AlertTitle>}
-        {errorMessage}
-    </Alert>
-)
+  <Alert severity="error">
+    {errorTitle && <AlertTitle>{errorTitle}</AlertTitle>}
+    {errorMessage}
+  </Alert>
+);

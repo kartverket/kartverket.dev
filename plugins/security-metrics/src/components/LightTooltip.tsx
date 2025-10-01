@@ -1,8 +1,8 @@
-import { styled } from "@mui/material/styles"
-import Tooltip, { TooltipProps } from "@mui/material/Tooltip"
+import { styled } from '@mui/material/styles';
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 
 export const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
-    <Tooltip {...props} slotProps={{ tooltip: { className: className } }} />
+  <Tooltip {...props} slotProps={{ tooltip: { className: className } }} />
 ))(`
     color: black;
     background-color: white;
@@ -11,4 +11,4 @@ export const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     padding: 8px;
     word-wrap: break-word;
     border: 1px solid black;
-`)
+`);
