@@ -10,23 +10,10 @@ metadata:
 spec:
   type: 'website'
   lifecycle: 'production'
-  owner: 'skip'
+  owner: 'skvis'
   system: 'utviklerportal'
   providesApis:
     - 'kartverket.dev-api'
----
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'Group'
-metadata:
-  name: 'security_champion_kartverket.dev'
-  title: 'Security Champion kartverket.dev'
-spec:
-  type: 'security_champion'
-  parent: 'it_security_champions'
-  members:
-    - 'omaen'
-  children:
-    - 'resource:kartverket.dev'
 ---
 apiVersion: 'backstage.io/v1alpha1'
 kind: 'Resource'
@@ -37,7 +24,7 @@ metadata:
       title: 'kartverket.dev på GitHub'
 spec:
   type: 'repo'
-  owner: 'security_champion_kartverket.dev'
+  owner: 'skvis'
   dependencyOf:
     - 'component:kartverket.dev'
 ---
@@ -50,7 +37,7 @@ metadata:
 spec:
   type: 'openapi'
   lifecycle: 'production'
-  owner: 'skip'
+  owner: 'skvis'
   definition: |
     openapi: "3.0.0"
     info:
