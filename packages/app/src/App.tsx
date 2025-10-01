@@ -103,7 +103,11 @@ const app = createApp({
             message: 'Sign in using Microsoft',
             apiRef: microsoftAuthApiRef,
           }}
-          onSignInSuccess={() => posthog.identify()}
+          onSignInSuccess={() => {
+            if (posthog.__loaded) {
+              posthog.identify();
+            }
+          }}
         />
       );
     },
