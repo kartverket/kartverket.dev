@@ -14,6 +14,15 @@ export interface Config {
            */
           clientId: string;
         };
+        /**
+         * @visibility frontend
+         */
+        development: {
+          /**
+           * @visibility frontend
+           */
+          clientId: string;
+        };
       };
     };
   };
