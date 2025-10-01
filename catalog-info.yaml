@@ -12,34 +12,3 @@ spec:
   lifecycle: 'production'
   owner: 'skvis'
   system: 'utviklerportal'
-  providesApis:
-    - 'kartverket.dev-api'
----
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'Resource'
-metadata:
-  name: 'kartverket.dev'
-  links:
-    - url: 'https://github.com/kartverket/kartverket.dev'
-      title: 'kartverket.dev på GitHub'
-spec:
-  type: 'repo'
-  owner: 'skvis'
-  dependencyOf:
-    - 'component:kartverket.dev'
----
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'API'
-metadata:
-  name: 'kartverket.dev-api'
-  tags:
-    - 'internal'
-spec:
-  type: 'openapi'
-  lifecycle: 'production'
-  owner: 'skvis'
-  definition: |
-    openapi: "3.0.0"
-    info:
-        title: kartverket.dev API
-    paths:
