@@ -55,6 +55,20 @@ import {
   catalogCreatorPlugin,
 } from '@kartverket/plugin-catalog-creator';
 
+if (typeof window !== 'undefined') {
+  try {
+    posthog.init('phc_RMZqNA5YC4tONx0Ri9ECA4yrYZyGmfmt2kfcIQBDNwm', {
+      api_host: 'https://ph.kartverket.no',
+      ui_host: 'https://eu.i.posthog.com',
+      autocapture: false,
+      capture_pageview: true,
+      persistence: 'localStorage+cookie',
+    });
+  } catch {
+    // PostHog unavailable, we continues without analytics
+  }
+}
+
 const app = createApp({
   __experimentalTranslations: {
     availableLanguages: ['en', 'no'],
@@ -163,15 +177,7 @@ const routes = (
 );
 
 export default app.createRoot(
-  <PostHogProvider
-    apiKey="phc_RMZqNA5YC4tONx0Ri9ECA4yrYZyGmfmt2kfcIQBDNwm"
-    options={{
-      api_host: 'https://ph.kartverket.no',
-      ui_host: 'https://eu.i.posthog.com',
-      autocapture: false,
-      capture_pageview: true,
-    }}
-  >
+  <PostHogProvider client={posthog}>
     <AlertDisplay />
     <OAuthRequestDialog />
     <AppRouter>
