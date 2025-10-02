@@ -167,5 +167,5 @@ export default app.createRoot(
       <VisitListener />
       <Root>{routes}</Root>
     </AppRouter>
-    </>
+  </>,
 );
