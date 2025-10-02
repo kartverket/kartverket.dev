@@ -42,8 +42,6 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
-import posthog from 'posthog-js';
-import { PostHogProvider } from 'posthog-js/react';
 import { Route } from 'react-router-dom';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
@@ -89,7 +87,6 @@ const app = createApp({
             message: 'Sign in using Microsoft',
             apiRef: microsoftAuthApiRef,
           }}
-          onSignInSuccess={() => posthog.identify()}
         />
       );
     },
@@ -163,20 +160,12 @@ const routes = (
 );
 
 export default app.createRoot(
-  <PostHogProvider
-    apiKey="phc_RMZqNA5YC4tONx0Ri9ECA4yrYZyGmfmt2kfcIQBDNwm"
-    options={{
-      api_host: 'https://ph.kartverket.no',
-      ui_host: 'https://eu.i.posthog.com',
-      autocapture: false,
-      capture_pageview: true,
-    }}
-  >
+  <>
     <AlertDisplay />
     <OAuthRequestDialog />
     <AppRouter>
       <VisitListener />
       <Root>{routes}</Root>
     </AppRouter>
-  </PostHogProvider>,
+    </>
 );
