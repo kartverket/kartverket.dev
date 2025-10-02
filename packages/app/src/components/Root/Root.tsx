@@ -28,7 +28,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import GroupIcon from '@material-ui/icons/People';
 import SearchIcon from '@material-ui/icons/Search';
 import SpeedIcon from '@material-ui/icons/Speed';
-import { PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren } from 'react';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 
