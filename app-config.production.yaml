@@ -88,7 +88,7 @@ catalog:
             ]
         group:
           filter: >
-            startswith(displayName, 'AAD - TF')
+            startswith(displayName, 'AAD - TF - TEAM')
         schedule:
           frequency: PT1H
           timeout: PT50M
