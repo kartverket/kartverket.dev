@@ -9,16 +9,12 @@
 #
 # Once the commands have been run, you can build the image using `yarn build-image`
 
-# From mise.toml
-FROM node:22-bookworm-slim
+# ---- Builder ----
+FROM node:22-bookworm-slim AS build
 
-# Set Python interpreter for `node-gyp` to use
 ENV PYTHON=/usr/bin/python3
-
-RUN groupmod -g 150 node && usermod -u 150 -g 150 node
-RUN corepack enable
-# Set the owner of the cache directory to node so we can use corepack
-RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
+ENV NODE_ENV=production
+ENV NODE_OPTIONS="--no-node-snapshot"
 
 # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
 # If sqlite3 is not needed anymore, remove libsqlite3-dev and better-sqlite3.
@@ -28,30 +24,17 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends python3 g++ build-essential libsqlite3-dev && \
     rm -rf /var/lib/apt/lists/*
 
-
-# From here on we use the least-privileged `node` user to run the backend.
+# Use the least-privileged user even during build
+RUN groupmod -g 150 node && usermod -u 150 -g 150 node
+RUN corepack enable
+RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
 USER node
-
-# This should create the app dir as `node`.
-# If it is instead created as `root` then the `tar` command below will fail: `can't create directory 'packages/': Permission denied`.
-# If this occurs, then ensure BuildKit is enabled (`DOCKER_BUILDKIT=1`) so the app dir is correctly created as `node`.
 WORKDIR /app
 
 # Copy files needed by Yarn
 COPY --chown=node:node .yarn ./.yarn
-COPY --chown=node:node .yarnrc.yml ./
-COPY --chown=node:node backstage.json ./
-
-# This switches many Node.js dependencies to production mode.
-ENV NODE_ENV=production
-
-# This disables node snapshot for Node 20 to work with the Scaffolder
-# Not sure if needed for Node 22.
-ENV NODE_OPTIONS="--no-node-snapshot"
-
-# Copy repo skeleton first, to avoid unnecessary docker cache invalidation.
-# The skeleton contains the package.json of each package in the monorepo,
-# and along with yarn.lock and the root package.json, that's enough to run yarn install.
+COPY --chown=node:node .yarnrc.yml .
+COPY --chown=node:node backstage.json .
 COPY --chown=node:node yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
@@ -62,7 +45,13 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
-RUN mv packages packages_tmp
-RUN mkdir packages
+# ---- Runtime ----
+FROM gcr.io/distroless/nodejs22-debian12
 
-CMD ["sh", "-c", "cp -r packages_tmp/* packages/ && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
+WORKDIR /app
+COPY --from=build --chown=nonroot:nonroot /app /app
+
+ENV NODE_ENV=production
+ENV NODE_OPTIONS="--no-node-snapshot"
+
+CMD ["packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml", "--config", "app-config.runtime.yaml"]
