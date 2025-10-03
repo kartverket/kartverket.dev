@@ -34,13 +34,11 @@ WORKDIR /app
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node package.json yarn.lock backstage.json ./
-COPY --chown=node:node packages/backend/dist/skeleton.tar.gz ./ || true
-RUN [ -f skeleton.tar.gz ] && (tar xzf skeleton.tar.gz && rm skeleton.tar.gz) || true
 
-# Install production deps for all workspaces
+# install prod deps for all workspaces
 RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
     yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
-    
+
 COPY --chown=node:node . .
 RUN yarn tsc && yarn build:backend
 
