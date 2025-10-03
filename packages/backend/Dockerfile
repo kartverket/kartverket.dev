@@ -54,4 +54,7 @@ COPY --from=build --chown=nonroot:nonroot /app /app
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
 
-CMD ["packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml", "--config", "app-config.runtime.yaml"]
+RUN mv packages packages_tmp
+RUN mkdir packages
+
+CMD ["sh", "-c", "cp -r packages_tmp/* packages/ && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
