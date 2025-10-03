@@ -1,0 +1,56 @@
+{
+  "name": "@kartverket/backstage-plugin-security-metrics-backend",
+  "version": "3.18.1",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "types": "dist/index.d.ts"
+  },
+  "backstage": {
+    "role": "backend-plugin",
+    "pluginId": "security-metrics",
+    "pluginPackages": [
+      "@kartverket/backstage-plugin-security-metrics-backend"
+    ]
+  },
+  "scripts": {
+    "start": "backstage-cli package start",
+    "build": "backstage-cli package build",
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test",
+    "clean": "backstage-cli package clean",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "publishToNpm": "npm publish",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "@azure/msal-node": "^2.10.0",
+    "@backstage/backend-common": "^0.25.0",
+    "@backstage/backend-defaults": "backstage:^",
+    "@backstage/backend-plugin-api": "backstage:^",
+    "@backstage/config": "backstage:^",
+    "@backstage/core-plugin-api": "backstage:^",
+    "@types/express": "^4.17.12",
+    "express": "^4.21.1",
+    "express-promise-router": "^4.1.1",
+    "http-status-codes": "^2.3.0",
+    "node-fetch": "^3.3.2",
+    "winston": "^3.15.0",
+    "yn": "^5.0.0"
+  },
+  "devDependencies": {
+    "@backstage/cli": "backstage:^",
+    "@backstage/plugin-auth-backend": "backstage:^",
+    "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
+    "@types/supertest": "^2.0.12",
+    "msw": "^2.5.1",
+    "supertest": "^7.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
