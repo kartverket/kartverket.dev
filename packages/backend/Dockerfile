@@ -46,7 +46,7 @@ COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # ---- Runtime ----
-FROM gcr.io/distroless/nodejs22-debian12
+FROM gcr.io/distroless/nodejs22-debian12:debug
 
 WORKDIR /app
 COPY --from=build --chown=nonroot:nonroot /app /app
