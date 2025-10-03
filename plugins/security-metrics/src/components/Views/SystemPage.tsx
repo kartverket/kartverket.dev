@@ -22,6 +22,7 @@ import {
 } from '../../mapping/getGroupedData';
 import { RepositorySummary } from '../../typesFrontend';
 import NoAccessAlert from '../NoAccessAlert';
+import Alert from '@mui/material/Alert';
 
 export function getComponentNamesFromSystem(system: Entity) {
   const rels = system.relations ?? [];
@@ -49,6 +50,14 @@ export const SystemPage = () => {
         errorMessage={error.message}
       />
     );
+
+  if (componentNames.length === 0) {
+    return (
+      <Alert severity="warning">
+        Kan ikke hente sikkerhetsmetrikker for entiteter uten komponenter.
+      </Alert>
+    );
+  }
 
   if (isPending) return <Progress />;
 
