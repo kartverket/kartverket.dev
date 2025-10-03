@@ -31,19 +31,20 @@ RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
 USER node
 WORKDIR /app
 
-# Copy files needed by Yarn
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node .yarnrc.yml .
-COPY --chown=node:node backstage.json .
-COPY --chown=node:node yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
-RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
+COPY --chown=node:node package.json yarn.lock backstage.json ./
+COPY --chown=node:node packages/backend/dist/skeleton.tar.gz ./ || true
+RUN [ -f skeleton.tar.gz ] && (tar xzf skeleton.tar.gz && rm skeleton.tar.gz) || true
 
+# Install production deps for all workspaces
 RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
     yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
+    
+COPY --chown=node:node . .
+RUN yarn tsc && yarn build:backend
 
-# Then copy the rest of the backend bundle, along with any other files we might want.
-COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
-RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
+RUN test -f /app/packages/backend || (echo "ERROR: /app/packages/backend missing after build" >&2; exit 1)
 
 # ---- Runtime ----
 FROM gcr.io/distroless/nodejs22-debian12
