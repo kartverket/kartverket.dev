@@ -35,9 +35,8 @@ COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node package.json yarn.lock backstage.json ./
 
-# install prod deps for all workspaces
 RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
-    yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
+    yarn install --immutable && rm -rf "$(yarn cache clean)"
 
 COPY --chown=node:node . .
 RUN yarn tsc && yarn build:backend
