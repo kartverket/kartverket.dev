@@ -50,6 +50,7 @@
   "devDependencies": {
     "@backstage/cli": "backstage:^",
     "@backstage/e2e-test-utils": "backstage:^",
+    "@changesets/cli": "^2.29.7",
     "@playwright/test": "^1.55.1",
     "@spotify/eslint-plugin": "^15.0.0",
     "eslint": "^8.6.0",
