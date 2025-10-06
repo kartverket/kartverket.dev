@@ -1,59 +1,60 @@
 {
-    "name": "@internal/plugin-instatus",
-    "version": "0.1.0",
-    "main": "src/index.ts",
-    "types": "src/index.ts",
-    "license": "Apache-2.0",
-    "private": true,
-    "publishConfig": {
-        "access": "public",
-        "main": "dist/index.esm.js",
-        "types": "dist/index.d.ts"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/kartverket/kartverket.dev",
-        "directory": "plugins/instatus"
-    },
-    "backstage": {
-        "role": "frontend-plugin",
-        "pluginId": "instatus",
-        "pluginPackages": [
-            "@internal/plugin-instatus"
-        ]
-    },
-    "sideEffects": false,
-    "scripts": {
-        "start": "backstage-cli package start",
-        "build": "backstage-cli package build",
-        "lint": "backstage-cli package lint",
-        "test": "backstage-cli package test",
-        "clean": "backstage-cli package clean",
-        "prepack": "backstage-cli package prepack",
-        "postpack": "backstage-cli package postpack"
-    },
-    "dependencies": {
-        "@backstage/core-components": "backstage:^",
-        "@backstage/core-plugin-api": "backstage:^",
-        "@backstage/theme": "backstage:^",
-        "@mui/material": "5.18.0",
-        "@mui/styles": "6.5.0",
-        "msw": "^2.11.3",
-        "react-use": "^17.6.0"
-    },
-    "peerDependencies": {
-        "react": "^18"
-    },
-    "devDependencies": {
-        "@backstage/cli": "backstage:^",
-        "@backstage/core-app-api": "backstage:^",
-        "@backstage/dev-utils": "backstage:^",
-        "@backstage/test-utils": "backstage:^",
-        "@testing-library/jest-dom": "^6.9.1",
-        "@testing-library/react": "^16.3.0",
-        "@testing-library/user-event": "^14.6.1"
-    },
-    "files": [
-        "dist"
+  "name": "@internal/plugin-instatus",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "license": "Apache-2.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.esm.js",
+    "types": "dist/index.d.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kartverket/kartverket.dev",
+    "directory": "plugins/instatus"
+  },
+  "backstage": {
+    "role": "frontend-plugin",
+    "pluginId": "instatus",
+    "pluginPackages": [
+      "@internal/plugin-instatus"
     ]
+  },
+  "sideEffects": false,
+  "scripts": {
+    "start": "backstage-cli package start",
+    "build": "backstage-cli package build",
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test",
+    "clean": "backstage-cli package clean",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack"
+  },
+  "dependencies": {
+    "@backstage/core-components": "backstage:^",
+    "@backstage/core-plugin-api": "backstage:^",
+    "@backstage/theme": "backstage:^",
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "5.18.0",
+    "@mui/styles": "6.5.0",
+    "msw": "^2.11.3",
+    "react-use": "^17.6.0"
+  },
+  "peerDependencies": {
+    "react": "^18"
+  },
+  "devDependencies": {
+    "@backstage/cli": "backstage:^",
+    "@backstage/core-app-api": "backstage:^",
+    "@backstage/dev-utils": "backstage:^",
+    "@backstage/test-utils": "backstage:^",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1"
+  },
+  "files": [
+    "dist"
+  ]
 }

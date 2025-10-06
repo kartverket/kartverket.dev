@@ -1,64 +1,65 @@
 {
-    "name": "@kartverket/backstage-plugin-security-champion",
-    "version": "0.1.8",
-    "license": "Apache-2.0",
-    "private": true,
-    "main": "src/index.ts",
-    "types": "src/index.ts",
-    "publishConfig": {
-        "access": "public",
-        "main": "dist/index.esm.js",
-        "types": "dist/index.d.ts"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/kartverket/kartverket.dev",
-        "directory": "plugins/security-champion"
-    },
-    "backstage": {
-        "role": "frontend-plugin",
-        "pluginId": "security-champion",
-        "pluginPackages": [
-            "@kartverket/backstage-plugin-security-champion"
-        ]
-    },
-    "sideEffects": false,
-    "scripts": {
-        "start": "backstage-cli package start",
-        "build": "backstage-cli package build",
-        "lint": "backstage-cli package lint",
-        "test": "backstage-cli package test",
-        "clean": "backstage-cli package clean",
-        "prepack": "backstage-cli package prepack",
-        "postpack": "backstage-cli package postpack"
-    },
-    "dependencies": {
-        "@backstage/catalog-model": "backstage:^",
-        "@backstage/core-components": "backstage:^",
-        "@backstage/core-plugin-api": "backstage:^",
-        "@backstage/plugin-catalog-react": "backstage:^",
-        "@backstage/theme": "backstage:^",
-        "@backstage/ui": "backstage:^",
-        "@mui/material": "^5.16.4",
-        "@mui/system": "^7.3.3",
-        "@tanstack/react-query": "^5.90.2",
-        "react-use": "^17.2.4"
-    },
-    "peerDependencies": {
-        "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
-    },
-    "devDependencies": {
-        "@backstage/cli": "^0.34.3",
-        "@backstage/core-app-api": "^1.19.0",
-        "@backstage/dev-utils": "^1.1.14",
-        "@backstage/test-utils": "^1.7.11",
-        "@testing-library/jest-dom": "^6.0.0",
-        "@testing-library/react": "^14.0.0",
-        "@testing-library/user-event": "^14.0.0",
-        "msw": "^1.0.0",
-        "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
-    },
-    "files": [
-        "dist"
+  "name": "@kartverket/backstage-plugin-security-champion",
+  "version": "0.1.8",
+  "license": "Apache-2.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.esm.js",
+    "types": "dist/index.d.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kartverket/kartverket.dev",
+    "directory": "plugins/security-champion"
+  },
+  "backstage": {
+    "role": "frontend-plugin",
+    "pluginId": "security-champion",
+    "pluginPackages": [
+      "@kartverket/backstage-plugin-security-champion"
     ]
+  },
+  "sideEffects": false,
+  "scripts": {
+    "start": "backstage-cli package start",
+    "build": "backstage-cli package build",
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test",
+    "clean": "backstage-cli package clean",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack"
+  },
+  "dependencies": {
+    "@backstage/catalog-model": "backstage:^",
+    "@backstage/config": "backstage:^",
+    "@backstage/core-components": "backstage:^",
+    "@backstage/core-plugin-api": "backstage:^",
+    "@backstage/plugin-catalog-react": "backstage:^",
+    "@backstage/theme": "backstage:^",
+    "@backstage/ui": "backstage:^",
+    "@mui/material": "^5.16.4",
+    "@mui/system": "^7.3.3",
+    "@tanstack/react-query": "^5.90.2",
+    "react-use": "^17.2.4"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.34.3",
+    "@backstage/core-app-api": "^1.19.0",
+    "@backstage/dev-utils": "^1.1.14",
+    "@backstage/test-utils": "^1.7.11",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "msw": "^1.0.0",
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+  },
+  "files": [
+    "dist"
+  ]
 }
