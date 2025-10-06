@@ -161,12 +161,6 @@ export type AggregatedScannerStatus = {
   repositoryStatus: RepositoryScannerStatusData[];
 };
 
-export type SecurityChamp = {
-  repositoryName: string;
-  securityChampionHandle: string;
-  securityChampionEmail?: string;
-};
-
 export type SecretsOverview = {
   componentName: string;
   alerts: SecretAlert[];
