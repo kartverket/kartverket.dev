@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ErrorBanner } from './ErrorBanner';
 import { SecurityChamp } from '../types';
 import { SecurityChampionItem } from './SecurityChampionItem';

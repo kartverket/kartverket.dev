@@ -1,15 +1,16 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
-import { SecurityChamp } from "../types";
-import { post } from "../api/client";
-import { getBackstageToken } from "../utils/authenticationUtils";
+import { SecurityChamp } from '../types';
+import { post } from '../api/client';
+import { getBackstageToken } from '../utils/authenticationUtils';
 import {
   configApiRef,
   identityApiRef,
   useApi,
-} from "@backstage/core-plugin-api";
+} from '@backstage/core-plugin-api';
+
 export const useSetSecurityChampionMutation = () => {
-  const backendUrl = useApi(configApiRef).getString("backend.baseUrl");
+  const backendUrl = useApi(configApiRef).getString('backend.baseUrl');
   const backstageAuthApi = useApi(identityApiRef);
 
   return useMutation({
@@ -21,7 +22,7 @@ export const useSetSecurityChampionMutation = () => {
       return post<SecurityChamp, string>(
         endpointUrl,
         backstageToken,
-        securityChampion
+        securityChampion,
       );
     },
   });

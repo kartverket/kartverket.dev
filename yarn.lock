@@ -7683,6 +7683,7 @@ __metadata:
     "@backstage/dev-utils": "backstage:^"
     "@backstage/test-utils": "backstage:^"
     "@backstage/theme": "backstage:^"
+    "@material-ui/core": "npm:^4.12.4"
     "@mui/material": "npm:5.18.0"
     "@mui/styles": "npm:6.5.0"
     "@testing-library/jest-dom": "npm:^6.9.1"
@@ -8504,6 +8505,7 @@ __metadata:
   dependencies:
     "@backstage/catalog-model": "backstage:^"
     "@backstage/cli": "npm:^0.34.3"
+    "@backstage/config": "backstage:^"
     "@backstage/core-app-api": "npm:^1.19.0"
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
@@ -20964,6 +20966,7 @@ __metadata:
     "@kartverket/backstage-plugin-security-champion": "workspace:^"
     "@kartverket/backstage-plugin-security-metrics-frontend": "npm:3.18.1"
     "@kartverket/plugin-catalog-creator": "npm:^0.1.5"
+    "@material-ui/icons": "npm:^4.11.3"
     "@mui/icons-material": "npm:5.18.0"
     "@mui/material": "npm:5.18.0"
     "@mui/styles": "npm:6.5.0"

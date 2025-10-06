@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { UserEntity } from '@backstage/catalog-model';
 import { SearchField } from '@backstage/ui';
+
 interface UserSearchProps {
   selectedUser: UserEntity | null;
   setSelectedUser: Dispatch<SetStateAction<UserEntity | null>>;

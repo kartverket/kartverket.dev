@@ -1,7 +1,7 @@
-import { catalogApiRef } from "@backstage/plugin-catalog-react";
-import { useApi } from "@backstage/core-plugin-api";
-import { useAsync } from "react-use";
-import { UserEntity } from "@backstage/catalog-model";
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import { useApi } from '@backstage/core-plugin-api';
+import { useAsync } from 'react-use';
+import { UserEntity } from '@backstage/catalog-model';
 
 export const useUserProfile = (email: string) => {
   const catalogApi = useApi(catalogApiRef);
@@ -13,8 +13,8 @@ export const useUserProfile = (email: string) => {
   } = useAsync(async () => {
     const users = await catalogApi.getEntities({
       filter: {
-        kind: "User",
-        "spec.profile.email": email,
+        kind: 'User',
+        'spec.profile.email': email,
       },
     });
     return users.items[0] as UserEntity;
