@@ -1,75 +1,79 @@
 {
-  "name": "root",
-  "version": "1.0.0",
-  "private": true,
-  "engines": {
-    "node": "22"
-  },
-  "scripts": {
-    "dev": "yarn workspaces foreach -A --include backend --include app --parallel --jobs unlimited -v -i run start",
-    "start": "yarn workspace app start",
-    "start-backend": "yarn workspace backend start",
-    "build:backend": "yarn workspace backend build",
-    "build:all": "backstage-cli repo build --all",
-    "build-image": "yarn workspace backend build-image",
-    "tsc": "tsc",
-    "tsc:full": "tsc --skipLibCheck false --incremental false",
-    "clean": "backstage-cli repo clean",
-    "test": "backstage-cli repo test",
-    "test:all": "backstage-cli repo test --coverage",
-    "test:e2e": "playwright test",
-    "fix": "backstage-cli repo fix",
-    "lint": "backstage-cli repo lint --since origin/main",
-    "lint:all": "backstage-cli repo lint",
-    "prettier:check": "prettier --check .",
-    "prettier:format": "prettier --write .",
-    "new": "backstage-cli new",
-    "ci//": "echo Installs dependencies without modifying the lockfile.\n`yarn rebuild` was added because folders are randomly missing, this command fixes it.",
-    "ci": "yarn install --immutable && yarn rebuild",
-    "iup//": "echo 'Interactive upgrade of dependencies (do not touch packages with `backstage:^?)'",
-    "iup": "yarn upgrade-interactive",
-    "cup//": "echo Custom UPdate - Install without lockfile forces yarn to look for latest version within ranges",
-    "cup": "rm -f yarn.lock && yarn install",
-    "backstage:upgrade": "backstage-cli versions:bump",
-    "pipeline//": "echo Shorthand to run all checks in the lint.yml pipeline/workflow",
-    "pipeline": "yarn run ci && yarn run prettier:check && yarn run lint:all && yarn run tsc",
-    "self-update//": "Upgrade package manager to the latest version",
-    "self-update": "corepack up",
-    "clean-cache": "yarn cache clean --all"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "plugins/*"
-    ]
-  },
-  "devDependencies": {
-    "@backstage/cli": "backstage:^",
-    "@backstage/e2e-test-utils": "backstage:^",
-    "@playwright/test": "^1.32.3",
-    "lerna": "^7.3.0",
-    "prettier": "^3.5.3",
-    "typescript": "~5.8.3"
-  },
-  "resolutions": {
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@mui/material": "5.16.4",
-    "jsonpath-plus": "^10.2.0"
-  },
-  "prettier": "@backstage/cli/config/prettier",
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
-    ]
-  },
-  "dependencies": {
-    "@mui/material": "5.16.4",
-    "@types/react": "^18"
-  },
-  "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
+    "name": "@kartverket/backstage-kartverket.dev",
+    "version": "1.0.0",
+    "private": true,
+    "engines": {
+        "node": "22"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kartverket/kartverket.dev"
+    },
+    "scripts": {
+        "dev": "yarn workspaces foreach -A --include backend --include app --parallel --jobs unlimited -v -i run start",
+        "start": "yarn workspace app start",
+        "start-backend": "yarn workspace backend start",
+        "build:backend": "yarn workspace backend build",
+        "build:all": "backstage-cli repo build --all",
+        "build-image": "yarn workspace backend build-image",
+        "tsc": "tsc",
+        "tsc:full": "tsc --skipLibCheck false --incremental false",
+        "clean": "backstage-cli repo clean",
+        "test": "backstage-cli repo test",
+        "test:all": "backstage-cli repo test --coverage",
+        "test:e2e": "playwright test",
+        "fix": "backstage-cli repo fix",
+        "lint": "backstage-cli repo lint --since origin/main",
+        "lint:all": "backstage-cli repo lint",
+        "prettier:check": "prettier --check .",
+        "prettier:format": "prettier --write .",
+        "new": "backstage-cli new",
+        "ci//": "echo Installs dependencies without modifying the lockfile.\n`yarn rebuild` was added because folders are randomly missing, this command fixes it.",
+        "ci": "yarn install --immutable && yarn rebuild",
+        "iup//": "echo 'Interactive upgrade of dependencies (do not touch packages with `backstage:^?)'",
+        "iup": "yarn upgrade-interactive",
+        "cup//": "echo Custom UPdate - Install without lockfile forces yarn to look for latest version within ranges",
+        "cup": "rm -f yarn.lock && yarn install",
+        "backstage:upgrade": "backstage-cli versions:bump",
+        "pipeline//": "echo Shorthand to run all checks in the lint.yml pipeline/workflow",
+        "pipeline": "yarn run ci && yarn run prettier:check && yarn run lint:all && yarn run tsc",
+        "self-update//": "Upgrade package manager to the latest version",
+        "self-update": "corepack up",
+        "clean-cache": "yarn cache clean --all"
+    },
+    "workspaces": {
+        "packages": [
+            "packages/*",
+            "plugins/*"
+        ]
+    },
+    "devDependencies": {
+        "@backstage/cli": "backstage:^",
+        "@backstage/e2e-test-utils": "backstage:^",
+        "@playwright/test": "^1.55.1",
+        "@spotify/eslint-plugin": "^15.0.0",
+        "eslint": "^8.6.0",
+        "eslint-plugin-testing-library": "^6.0.0",
+        "lerna": "^9.0.0",
+        "prettier": "^3.6.2",
+        "typescript": "~5.9.3"
+    },
+    "resolutions": {
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "@mui/material": "5.16.4",
+        "@material-ui/core": "4.12.4",
+        "jsonpath-plus": "^10.2.0"
+    },
+    "prettier": "@backstage/cli/config/prettier",
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,mjs,cjs}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,md}": [
+            "prettier --write"
+        ]
+    },
+    "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
 }

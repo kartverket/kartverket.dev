@@ -1,5 +1,5 @@
 import { ExampleComponent } from './ExampleComponent';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { setupServer } from 'msw/node';
 import { screen } from '@testing-library/react';
 import { renderInTestApp, registerMswTestHooks } from '@backstage/test-utils';
@@ -11,9 +11,7 @@ describe('ExampleComponent', () => {
 
   // setup mock response
   beforeEach(() => {
-    server.use(
-      rest.get('/*', (_, res, ctx) => res(ctx.status(200), ctx.json({}))),
-    );
+    server.use(http.get('/*', _ => new Response('{}', { status: 200 })));
   });
 
   it('should render', async () => {
