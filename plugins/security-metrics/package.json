@@ -1,72 +1,72 @@
 {
-  "name": "@kartverket/backstage-plugin-security-metrics-frontend",
-  "version": "3.18.1",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public",
-    "main": "dist/index.esm.js",
-    "types": "dist/index.d.ts"
-  },
-  "backstage": {
-    "role": "frontend-plugin",
-    "pluginId": "security-metrics-frontend",
-    "pluginPackages": [
-      "@kartverket/backstage-plugin-security-metrics-frontend"
+    "name": "@kartverket/backstage-plugin-security-metrics-frontend",
+    "version": "3.18.1",
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public",
+        "main": "dist/index.esm.js",
+        "types": "dist/index.d.ts"
+    },
+    "backstage": {
+        "role": "frontend-plugin",
+        "pluginId": "security-metrics-frontend",
+        "pluginPackages": [
+            "@kartverket/backstage-plugin-security-metrics-frontend"
+        ]
+    },
+    "sideEffects": false,
+    "scripts": {
+        "start": "backstage-cli package start",
+        "build": "backstage-cli package build",
+        "lint": "backstage-cli package lint",
+        "test": "backstage-cli package test",
+        "clean": "backstage-cli package clean",
+        "prepack": "backstage-cli package prepack",
+        "postpack": "backstage-cli package postpack",
+        "publishToNpm": "npm publish",
+        "tsc": "tsc"
+    },
+    "dependencies": {
+        "@backstage/catalog-client": "backstage:^",
+        "@backstage/catalog-model": "backstage:^",
+        "@backstage/config": "backstage:^",
+        "@backstage/core-components": "backstage:^",
+        "@backstage/core-plugin-api": "backstage:^",
+        "@backstage/plugin-catalog-react": "backstage:^",
+        "@backstage/theme": "backstage:^",
+        "@emotion/cache": "^11.13.1",
+        "@emotion/react": "^11.13.3",
+        "@emotion/styled": "^11.13.0",
+        "@mui/icons-material": "^6.1.5",
+        "@mui/material": "^6.1.5",
+        "@mui/system": "^6.1.5",
+        "@mui/x-charts": "^7.21.0",
+        "@mui/x-date-pickers": "^7.21.0",
+        "@tanstack/react-query": "^5.90.2",
+        "@tanstack/react-query-devtools": "^5.84.1",
+        "date-fns": "^4.1.0",
+        "react-use": "^17.5.1",
+        "recharts": "^2.13.0"
+    },
+    "peerDependencies": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "react-router-dom": "^6.26.2"
+    },
+    "devDependencies": {
+        "@backstage/cli": "backstage:^",
+        "@backstage/core-app-api": "backstage:^",
+        "@backstage/dev-utils": "backstage:^",
+        "@backstage/test-utils": "backstage:^",
+        "@tanstack/eslint-plugin-query": "^5.83.1",
+        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/react": "^16.2.0",
+        "@testing-library/user-event": "^14.5.2",
+        "msw": "^2.5.1"
+    },
+    "files": [
+        "dist"
     ]
-  },
-  "sideEffects": false,
-  "scripts": {
-    "start": "backstage-cli package start",
-    "build": "backstage-cli package build",
-    "lint": "backstage-cli package lint",
-    "test": "backstage-cli package test",
-    "clean": "backstage-cli package clean",
-    "prepack": "backstage-cli package prepack",
-    "postpack": "backstage-cli package postpack",
-    "publishToNpm": "npm publish",
-    "tsc": "tsc"
-  },
-  "dependencies": {
-    "@backstage/catalog-client": "backstage:^",
-    "@backstage/catalog-model": "backstage:^",
-    "@backstage/config": "backstage:^",
-    "@backstage/core-components": "backstage:^",
-    "@backstage/core-plugin-api": "backstage:^",
-    "@backstage/plugin-catalog-react": "backstage:^",
-    "@backstage/theme": "backstage:^",
-    "@emotion/cache": "^11.13.1",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^6.1.5",
-    "@mui/material": "^6.1.5",
-    "@mui/system": "^6.1.5",
-    "@mui/x-charts": "^7.21.0",
-    "@mui/x-date-pickers": "^7.21.0",
-    "@tanstack/react-query": "^5.84.1",
-    "@tanstack/react-query-devtools": "^5.84.1",
-    "date-fns": "^4.1.0",
-    "react-use": "^17.5.1",
-    "recharts": "^2.13.0"
-  },
-  "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.26.2"
-  },
-  "devDependencies": {
-    "@backstage/cli": "backstage:^",
-    "@backstage/core-app-api": "backstage:^",
-    "@backstage/dev-utils": "backstage:^",
-    "@backstage/test-utils": "backstage:^",
-    "@tanstack/eslint-plugin-query": "^5.83.1",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^14.5.2",
-    "msw": "^2.5.1"
-  },
-  "files": [
-    "dist"
-  ]
 }
