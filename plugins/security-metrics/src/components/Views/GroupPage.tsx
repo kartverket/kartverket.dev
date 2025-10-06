@@ -21,6 +21,7 @@ import { SystemsTable } from '../SystemsTable/SystemsTable';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
 import { useFetchComponentNamesByGroup } from '../../hooks/useFetchRepositoryNames';
 import NoAccessAlert from '../NoAccessAlert';
+import Alert from '@mui/material/Alert';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -47,6 +48,14 @@ export const GroupPage = () => {
         errorMessage={error ? error.message : componentNamesError?.message}
       />
     );
+
+  if (componentNames.length === 0) {
+    return (
+      <Alert severity="warning">
+        Kan ikke hente sikkerhetsmetrikker for entiteter uten komponenter.
+      </Alert>
+    );
+  }
 
   if (componentNamesIsLoading || isPending) return <Progress />;
 
