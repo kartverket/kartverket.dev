@@ -9,25 +9,31 @@
 #
 # Once the commands have been run, you can build the image using `yarn build-image`
 
-# From mise.toml
-FROM node:22-bookworm-slim
+# --- Builder: install prod deps and unpack the bundle
+FROM node:22-bookworm-slim AS build
 
 # Set Python interpreter for `node-gyp` to use
 ENV PYTHON=/usr/bin/python3
 
-RUN groupmod -g 150 node && usermod -u 150 -g 150 node
-RUN corepack enable
-# Set the owner of the cache directory to node so we can use corepack
-RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
+# enable Corepack + activate yarn@4.9.1 before dropping privileges
+RUN corepack enable && corepack prepare yarn@4.9.1 --activate
 
 # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
-# If sqlite3 is not needed anymore, remove libsqlite3-dev and better-sqlite3.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends python3 g++ build-essential libsqlite3-dev && \
+    apt-get install -y --no-install-recommends python3 g++ build-essential && \
     rm -rf /var/lib/apt/lists/*
 
+# Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
+# in which case you should also move better-sqlite3 to "devDependencies" in package.json.
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends libsqlite3-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
@@ -55,14 +61,19 @@ ENV NODE_OPTIONS="--no-node-snapshot"
 COPY --chown=node:node yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
-RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
-    yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
+RUN --mount=type=cache,target=/home/node/.cache,sharing=locked,uid=1000,gid=1000 \
+    yarn workspaces focus -A --production && yarn cache clean
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
 COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
-RUN mv packages packages_tmp
-RUN mkdir packages
+# --- Runtime: distroless NodeJS
+FROM gcr.io/distroless/nodejs22-debian12:nonroot
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NODE_OPTIONS="--no-node-snapshot"
+COPY --from=build --chown=65532:65532 /app /app
 
-CMD ["sh", "-c", "cp -r packages_tmp/* packages/ && node packages/backend --config app-config.yaml --config app-config.production.yaml --config app-config.runtime.yaml"]
+# Distroless has node as the default entrypoint; use JSON-form CMD:
+CMD ["packages/backend","--config","app-config.yaml","--config","app-config.production.yaml", "--config","app-config.runtime.yaml"]
