@@ -125,7 +125,7 @@ catalog:
         filter: accountEnabled eq true and userType eq 'member'
       group:
         filter: >
-          startswith(displayName, 'CLOUD_SK')
+          startswith(displayName, 'AAD - TF - TEAM')
       schedule:
         frequency: PT1H
         timeout: PT50M
