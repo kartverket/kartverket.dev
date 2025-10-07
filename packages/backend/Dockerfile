@@ -72,9 +72,6 @@ ENV NODE_OPTIONS="--no-node-snapshot"
 WORKDIR /app
 
 COPY package.json app-config*.yaml  ./
+COPY --from=build /app /app
 
-COPY --from=build /app/packages/backend /app/packages/backend
-COPY --from=build /app/node_modules ./node_modules
-
-# Distroless has node as the default entrypoint; use JSON-form CMD:
 CMD ["packages/backend","--config","app-config.yaml","--config","app-config.production.yaml", "--config","app-config.runtime.yaml"]
