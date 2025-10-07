@@ -33,10 +33,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends libsqlite3-dev && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /home/node/.cache && chown -R node:node /home/node/.cache
-
-# From here on we use the least-privileged `node` user to run the backend.
-USER node
+RUN mkdir -p /home/node/.cache
 
 # This should create the app dir as `node`.
 # If it is instead created as `root` then the `tar` command below will fail: `can't create directory 'packages/': Permission denied`.
@@ -44,9 +41,9 @@ USER node
 WORKDIR /app
 
 # Copy files needed by Yarn
-COPY --chown=node:node .yarn ./.yarn
-COPY --chown=node:node .yarnrc.yml ./
-COPY --chown=node:node backstage.json ./
+COPY .yarn ./.yarn
+COPY .yarnrc.yml ./
+COPY backstage.json ./
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV=production
@@ -58,22 +55,26 @@ ENV NODE_OPTIONS="--no-node-snapshot"
 # Copy repo skeleton first, to avoid unnecessary docker cache invalidation.
 # The skeleton contains the package.json of each package in the monorepo,
 # and along with yarn.lock and the root package.json, that's enough to run yarn install.
-COPY --chown=node:node yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
+COPY yarn.lock package.json packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
 RUN --mount=type=cache,target=/home/node/.cache,sharing=locked,uid=1000,gid=1000 \
     yarn workspaces focus -A --production && yarn cache clean
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
-COPY --chown=node:node packages/backend/dist/bundle.tar.gz app-config*.yaml ./
+COPY packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # --- Runtime: distroless NodeJS
-FROM gcr.io/distroless/nodejs22-debian12:nonroot
-WORKDIR /app
+FROM gcr.io/distroless/nodejs22-debian12
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
-COPY --from=build --chown=65532:65532 /app /app
+WORKDIR /app
+
+COPY package.json app-config*.yaml  ./
+
+COPY --from=build /app/packages/backend /app/packages/backend
+COPY --from=build /app/node_modules ./node_modules
 
 # Distroless has node as the default entrypoint; use JSON-form CMD:
 CMD ["packages/backend","--config","app-config.yaml","--config","app-config.production.yaml", "--config","app-config.runtime.yaml"]
