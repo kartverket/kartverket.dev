@@ -52,6 +52,7 @@ import {
   CatalogCreatorPage,
   catalogCreatorPlugin,
 } from '@kartverket/plugin-catalog-creator';
+import { NotificationsPage } from '@backstage/plugin-notifications';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -156,6 +157,7 @@ const routes = (
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route path="/catalog-creator" element={<CatalogCreatorPage />} />
+    <Route path="/notifications" element={<NotificationsPage />} />
   </FlatRoutes>
 );
 
