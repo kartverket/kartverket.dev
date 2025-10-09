@@ -39,11 +39,8 @@ export const catalogNotificationsModule = createBackendModule({
             entityRefRelations?.length < 1 ||
             entityRefRelations.length > 100
           ) {
-            logger.error(`Lengde: ${entityRefRelations?.length}`);
             return [];
           }
-
-          logger.error(`Lengde: ${entityRefRelations.length}`);
 
           const relatedEntities = await catalogApi.getEntitiesByRefs(
             {
@@ -60,7 +57,7 @@ export const catalogNotificationsModule = createBackendModule({
 
         await scheduler.scheduleTask({
           id: 'catalog-error-monitor',
-          frequency: { seconds: 10 },
+          frequency: { minutes: 30 },
           timeout: { minutes: 3 },
           fn: async () => {
             const { token } = await auth.getPluginRequestToken({
@@ -93,7 +90,6 @@ export const catalogNotificationsModule = createBackendModule({
               );
 
               for (const entity of entities) {
-                logger.error('NY ENTITET:');
                 const relationWarnings = await getRelationWarnings(
                   entity,
                   catalogClient,
@@ -112,8 +108,6 @@ export const catalogNotificationsModule = createBackendModule({
                     ? (entity.spec.owner as string)
                     : 'skvis';
                 }
-                logger.error(entity.kind);
-                logger.error(entityOwner);
 
                 const entityLink = `/catalog/${entityNamespace}/${entity.kind}/${entity.metadata.name}`;
 
@@ -135,8 +129,6 @@ export const catalogNotificationsModule = createBackendModule({
                     },
                   });
                 }
-
-                logger.error('Entitet slutt');
               }
             } catch (error) {
               logger.error('Failed to check catalog for errors:');
