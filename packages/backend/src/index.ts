@@ -59,7 +59,7 @@ backend.add(import('@backstage/plugin-techdocs-backend'));
 // Security metrics
 backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
 
-//Notifications
+// Notifications
 backend.add(import('@backstage/plugin-notifications-backend'));
 
 backend.start();

@@ -4177,7 +4177,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-notifications-node@npm:^0.2.19":
+"@backstage/plugin-notifications-node@backstage:^::backstage=1.43.3&npm=0.2.19, @backstage/plugin-notifications-node@npm:^0.2.19":
   version: 0.2.19
   resolution: "@backstage/plugin-notifications-node@npm:0.2.19"
   dependencies:
@@ -17988,6 +17988,7 @@ __metadata:
     "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "backstage:^"
     "@backstage/plugin-devtools-backend": "backstage:^"
     "@backstage/plugin-notifications-backend": "backstage:^"
+    "@backstage/plugin-notifications-node": "backstage:^"
     "@backstage/plugin-permission-common": "backstage:^"
     "@backstage/plugin-permission-node": "backstage:^"
     "@backstage/plugin-proxy-backend": "backstage:^"
