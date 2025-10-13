@@ -36,7 +36,7 @@ export const catalogNotificationsModule = createBackendModule({
 
         await scheduler.scheduleTask({
           id: 'catalog-error-monitor',
-          frequency: { seconds: 3 },
+          frequency: { minutes: 30 },
           timeout: { minutes: 3 },
           fn: async () => {
             let query: MissingRelationTarget[];
@@ -77,7 +77,11 @@ export const catalogNotificationsModule = createBackendModule({
                 )
                 .where('r.type', 'ownedBy');
             } catch (e) {
-              logger.error(e.toString());
+              if (e instanceof Error) {
+                logger.error(e.message);
+              } else {
+                logger.error(String(e));
+              }
               return;
             }
 
