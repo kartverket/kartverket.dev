@@ -95,7 +95,7 @@ const app = createApp({
   apis,
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
-      createComponent: scaffolderPlugin.routes.root,
+      createComponent: catalogCreatorPlugin.routes.root,
       viewTechDoc: techdocsPlugin.routes.docRoot,
       createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
     });
