@@ -7743,20 +7743,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@kartverket/plugin-catalog-creator@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@kartverket/plugin-catalog-creator@npm:1.0.0"
+"@kartverket/plugin-catalog-creator@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@kartverket/plugin-catalog-creator@npm:1.1.2"
   dependencies:
+    "@backstage/catalog-model": "backstage:^"
     "@backstage/core-components": "npm:^0.17.1"
     "@backstage/core-plugin-api": "npm:^1.10.5"
     "@backstage/plugin-catalog-import": "backstage:^"
+    "@backstage/plugin-catalog-react": "backstage:^"
     "@backstage/theme": "npm:^0.6.5"
     "@backstage/ui": "backstage:^"
     "@hookform/resolvers": "npm:^5.2.2"
-    "@material-ui/core": "npm:^4.9.13"
-    "@material-ui/icons": "npm:^4.9.1"
-    "@material-ui/lab": "npm:^4.0.0-alpha.61"
-    "@mui/material": "npm:^7.3.2"
     "@octokit/core": "npm:^7.0.5"
     "@octokit/rest": "npm:^22.0.0"
     octokit-plugin-create-pull-request: "npm:^6.0.1"
@@ -7764,9 +7762,13 @@ __metadata:
     react-use: "npm:^17.2.4"
     yaml: "npm:^2.8.1"
   peerDependencies:
+    "@material-ui/core": ^4.9.13
+    "@material-ui/icons": ^4.9.1
+    "@material-ui/lab": ^4.0.0-alpha.61
+    "@mui/material": ^5.16.4
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
     zod: ^3.25.0 || ^4.0.0
-  checksum: 10c0/aa8fef309b03d9d15829eef58af17f86a1c314e4dfa5ca211db16c60e44841154277b28ccde6aa7e9f5935725754ee7695cf08998366184f44e3f556acc1f4b2
+  checksum: 10c0/3ab461805934549ea8384f10a63029668e5ebf620e6801d16a94cc710f5a74437b71e377f7c486fd59e1f890c55ca6e72b5d712788f503b8bf448ba8d89897c3
   languageName: node
   linkType: hard
 
@@ -17241,7 +17243,7 @@ __metadata:
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.6.17"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
-    "@kartverket/plugin-catalog-creator": "npm:^1.0.0"
+    "@kartverket/plugin-catalog-creator": "npm:^1.1.2"
     "@kartverket/plugin-security-champion": "npm:^0.1.8"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
