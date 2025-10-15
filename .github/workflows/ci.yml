@@ -3,6 +3,9 @@ on:
   # NOTE: If you change these you must update ci-noop.yml as well
   pull_request:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
