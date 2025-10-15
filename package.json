@@ -1,9 +1,13 @@
 {
-  "name": "root",
+  "name": "@kartverket/backstage-kartverket.dev",
   "version": "1.0.0",
   "private": true,
   "engines": {
     "node": "22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kartverket/kartverket.dev"
   },
   "scripts": {
     "dev": "yarn workspaces foreach -A --include backend --include app --parallel --jobs unlimited -v -i run start",
@@ -46,16 +50,22 @@
   "devDependencies": {
     "@backstage/cli": "backstage:^",
     "@backstage/e2e-test-utils": "backstage:^",
-    "@playwright/test": "^1.32.3",
-    "lerna": "^7.3.0",
-    "prettier": "^3.5.3",
-    "typescript": "~5.8.3"
+    "@changesets/cli": "^2.29.7",
+    "@playwright/test": "^1.55.1",
+    "@spotify/eslint-plugin": "^15.0.0",
+    "eslint": "^8.6.0",
+    "eslint-plugin-testing-library": "^6.0.0",
+    "lerna": "^9.0.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.9.3"
   },
   "resolutions": {
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@mui/material": "5.16.4",
-    "jsonpath-plus": "^10.2.0"
+    "@material-ui/core": "4.12.4",
+    "jsonpath-plus": "^10.2.0",
+    "axios": "^1.12.0"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
@@ -67,9 +77,5 @@
       "prettier --write"
     ]
   },
-  "dependencies": {
-    "@mui/material": "5.16.4",
-    "@types/react": "^18"
-  },
-  "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
+  "packageManager": "yarn@4.9.1"
 }
