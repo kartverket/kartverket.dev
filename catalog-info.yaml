@@ -1,14 +1,8 @@
-# nonk8s
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'Component'
+apiVersion: backstage.io/v1alpha1
+kind: Component
 metadata:
-  name: 'kartverket.dev'
-  tags:
-    - 'internal'
-  annotations:
-    backstage.io/techdocs-ref: dir:.
+  name: asdsad
 spec:
-  type: 'website'
-  lifecycle: 'production'
-  owner: 'skvis'
-  system: 'utviklerportal'
+  type: service
+  owner: hydris_team_3_-_tech_lead
+  lifecycle: development
