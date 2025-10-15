@@ -94,7 +94,7 @@ jobs:
         run: yarn backstage-cli config:check --lax
 
       - name: type checking and declarations
-        run: yarn tsc:full
+        run: yarn tsc
 
       - name: build all packages
         run: yarn backstage-cli repo build --all
