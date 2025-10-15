@@ -49,7 +49,7 @@ jobs:
           cache-prefix: ${{ runner.os }}-v${{ matrix.node-version }}
 
   # The verify jobs runs all the verification that doesn't require a
-  # diff towards master, since it takes some time to fetch that.
+  # diff towards main, since it takes some time to fetch that.
   verify:
     runs-on: ubuntu-latest
 
@@ -110,7 +110,7 @@ jobs:
           fi
 
   # The test job runs all tests as well as any verification step that
-  # requires a diff towards master.
+  # requires a diff towards main.
   test:
     runs-on: ubuntu-latest
 
@@ -172,12 +172,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: fetch master branch
-        run: git fetch origin master
+      - name: fetch main branch
+        run: git fetch origin main
 
         # Need to fetch the base branch to be able to verify the release
       - name: fetch base branch
-        if: github.event.pull_request.base.ref != 'master'
+        if: github.event.pull_request.base.ref != 'main'
         run: git fetch origin ${{ github.event.pull_request.base.ref }}
 
       - name: use node.js ${{ matrix.node-version }}
@@ -204,10 +204,10 @@ jobs:
         run: yarn prettier:check --cache --cache-location .cache/backstage-cli/.prettier-cache
 
       - name: lint changed packages
-        run: yarn backstage-cli repo lint --since origin/master --successCache --successCacheDir .cache/backstage-cli
+        run: yarn backstage-cli repo lint --since origin/main --successCache --successCacheDir .cache/backstage-cli
 
       - name: test changed packages
-        run: yarn backstage-cli repo test --maxWorkers=3 --workerIdleMemoryLimit=1300M --since origin/master --successCache --successCacheDir .cache/backstage-cli
+        run: yarn backstage-cli repo test --maxWorkers=3 --workerIdleMemoryLimit=1300M --since origin/main --successCache --successCacheDir .cache/backstage-cli
         env:
           BACKSTAGE_TEST_DISABLE_DOCKER: 1
           BACKSTAGE_TEST_DATABASE_POSTGRES17_CONNECTION_STRING: postgresql://postgres:postgres@localhost:${{ job.services.postgres17.ports[5432] }}
