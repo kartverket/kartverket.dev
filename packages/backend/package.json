@@ -1,73 +1,73 @@
 {
-    "name": "backend",
-    "version": "0.0.0",
-    "main": "dist/index.cjs.js",
-    "types": "src/index.ts",
-    "private": true,
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/kartverket/kartverket.dev",
-        "directory": "packages/backend"
-    },
-    "backstage": {
-        "role": "backend"
-    },
-    "scripts": {
-        "start": "backstage-cli package start",
-        "build": "backstage-cli package build",
-        "lint": "backstage-cli package lint",
-        "test": "backstage-cli package test",
-        "clean": "backstage-cli package clean",
-        "build-image": "docker build ../.. -f Dockerfile --tag backstage"
-    },
-    "dependencies": {
-        "@backstage-community/plugin-explore-backend": "^0.9.0",
-        "@backstage-community/plugin-lighthouse-backend": "^0.15.0",
-        "@backstage-community/plugin-linguist-backend": "^0.19.0",
-        "@backstage/backend-defaults": "backstage:^",
-        "@backstage/backend-plugin-api": "backstage:^",
-        "@backstage/backend-tasks": "^0.6.1",
-        "@backstage/catalog-client": "backstage:^",
-        "@backstage/catalog-model": "backstage:^",
-        "@backstage/config": "backstage:^",
-        "@backstage/errors": "backstage:^",
-        "@backstage/plugin-app-backend": "backstage:^",
-        "@backstage/plugin-auth-backend": "backstage:^",
-        "@backstage/plugin-auth-backend-module-github-provider": "backstage:^",
-        "@backstage/plugin-auth-backend-module-google-provider": "backstage:^",
-        "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
-        "@backstage/plugin-auth-backend-module-microsoft-provider": "backstage:^",
-        "@backstage/plugin-auth-node": "backstage:^",
-        "@backstage/plugin-catalog-backend": "backstage:^",
-        "@backstage/plugin-catalog-backend-module-github": "backstage:^",
-        "@backstage/plugin-catalog-backend-module-logs": "backstage:^",
-        "@backstage/plugin-catalog-backend-module-msgraph": "backstage:^",
-        "@backstage/plugin-catalog-backend-module-openapi": "backstage:^",
-        "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "backstage:^",
-        "@backstage/plugin-devtools-backend": "backstage:^",
-        "@backstage/plugin-notifications-backend": "backstage:^",
-        "@backstage/plugin-notifications-node": "backstage:^",
-        "@backstage/plugin-permission-common": "backstage:^",
-        "@backstage/plugin-permission-node": "backstage:^",
-        "@backstage/plugin-proxy-backend": "backstage:^",
-        "@backstage/plugin-scaffolder-backend": "backstage:^",
-        "@backstage/plugin-scaffolder-backend-module-github": "backstage:^",
-        "@backstage/plugin-search-backend": "backstage:^",
-        "@backstage/plugin-search-backend-module-catalog": "backstage:^",
-        "@backstage/plugin-search-backend-module-pg": "backstage:^",
-        "@backstage/plugin-search-backend-module-techdocs": "backstage:^",
-        "@backstage/plugin-search-backend-node": "backstage:^",
-        "@backstage/plugin-techdocs-backend": "backstage:^",
-        "@kartverket/backstage-plugin-security-metrics-backend": "workspace:",
-        "@kartverket/plugin-dask-onboarding-backend": "^0.1.15",
-        "app": "link:../app",
-        "better-sqlite3": "^12.4.1",
-        "jwt-decode": "^4.0.0"
-    },
-    "devDependencies": {
-        "@backstage/cli": "backstage:^"
-    },
-    "files": [
-        "dist"
-    ]
+  "name": "backend",
+  "version": "0.0.0",
+  "main": "dist/index.cjs.js",
+  "types": "src/index.ts",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kartverket/kartverket.dev",
+    "directory": "packages/backend"
+  },
+  "backstage": {
+    "role": "backend"
+  },
+  "scripts": {
+    "start": "backstage-cli package start",
+    "build": "backstage-cli package build",
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test",
+    "clean": "backstage-cli package clean",
+    "build-image": "docker build ../.. -f Dockerfile --tag backstage"
+  },
+  "dependencies": {
+    "@backstage-community/plugin-explore-backend": "^0.9.0",
+    "@backstage-community/plugin-lighthouse-backend": "^0.15.0",
+    "@backstage-community/plugin-linguist-backend": "^0.19.0",
+    "@backstage/backend-defaults": "backstage:^",
+    "@backstage/backend-plugin-api": "backstage:^",
+    "@backstage/backend-tasks": "^0.6.1",
+    "@backstage/catalog-client": "backstage:^",
+    "@backstage/catalog-model": "backstage:^",
+    "@backstage/config": "backstage:^",
+    "@backstage/errors": "backstage:^",
+    "@backstage/plugin-app-backend": "backstage:^",
+    "@backstage/plugin-auth-backend": "backstage:^",
+    "@backstage/plugin-auth-backend-module-github-provider": "backstage:^",
+    "@backstage/plugin-auth-backend-module-google-provider": "backstage:^",
+    "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
+    "@backstage/plugin-auth-backend-module-microsoft-provider": "backstage:^",
+    "@backstage/plugin-auth-node": "backstage:^",
+    "@backstage/plugin-catalog-backend": "backstage:^",
+    "@backstage/plugin-catalog-backend-module-github": "backstage:^",
+    "@backstage/plugin-catalog-backend-module-logs": "backstage:^",
+    "@backstage/plugin-catalog-backend-module-msgraph": "backstage:^",
+    "@backstage/plugin-catalog-backend-module-openapi": "backstage:^",
+    "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "backstage:^",
+    "@backstage/plugin-devtools-backend": "backstage:^",
+    "@backstage/plugin-notifications-backend": "backstage:^",
+    "@backstage/plugin-notifications-node": "backstage:^",
+    "@backstage/plugin-permission-common": "backstage:^",
+    "@backstage/plugin-permission-node": "backstage:^",
+    "@backstage/plugin-proxy-backend": "backstage:^",
+    "@backstage/plugin-scaffolder-backend": "backstage:^",
+    "@backstage/plugin-scaffolder-backend-module-github": "backstage:^",
+    "@backstage/plugin-search-backend": "backstage:^",
+    "@backstage/plugin-search-backend-module-catalog": "backstage:^",
+    "@backstage/plugin-search-backend-module-pg": "backstage:^",
+    "@backstage/plugin-search-backend-module-techdocs": "backstage:^",
+    "@backstage/plugin-search-backend-node": "backstage:^",
+    "@backstage/plugin-techdocs-backend": "backstage:^",
+    "@kartverket/backstage-plugin-security-metrics-backend": "workspace:",
+    "@kartverket/plugin-dask-onboarding-backend": "^0.1.15",
+    "app": "link:../app",
+    "better-sqlite3": "^12.4.1",
+    "jwt-decode": "^4.0.0"
+  },
+  "devDependencies": {
+    "@backstage/cli": "backstage:^"
+  },
+  "files": [
+    "dist"
+  ]
 }
