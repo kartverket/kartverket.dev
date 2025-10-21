@@ -8,6 +8,7 @@ import {
   identityApiRef,
   useApi,
 } from '@backstage/core-plugin-api';
+
 export const useSetSecurityChampionMutation = () => {
   const backendUrl = useApi(configApiRef).getString('backend.baseUrl');
   const backstageAuthApi = useApi(identityApiRef);

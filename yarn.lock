@@ -9411,6 +9411,7 @@ __metadata:
   dependencies:
     "@backstage/catalog-model": "backstage:^"
     "@backstage/cli": "npm:^0.33.1"
+    "@backstage/config": "backstage:^"
     "@backstage/core-app-api": "npm:^1.18.0"
     "@backstage/core-components": "npm:^0.17.4"
     "@backstage/core-plugin-api": "npm:^1.9.3"
@@ -9419,6 +9420,7 @@ __metadata:
     "@backstage/test-utils": "npm:^1.7.7"
     "@backstage/theme": "npm:^0.6.7"
     "@backstage/ui": "backstage:^"
+    "@tanstack/react-query": "npm:^5.84.1"
     "@testing-library/jest-dom": "npm:^6.0.0"
     "@testing-library/react": "npm:^14.0.0"
     "@testing-library/user-event": "npm:^14.0.0"

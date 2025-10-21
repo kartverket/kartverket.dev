@@ -19,7 +19,7 @@ export const useSecurityChampionsQuery = (repositoryNames: string[]) => {
       const { backstageToken } = await getBackstageToken(backstageAuthApi);
 
       const endpointUrl =
-        backendUrl + '/api/proxy/security-champion-proxy/api/securityChampion';
+        `${backendUrl  }/api/proxy/security-champion-proxy/api/securityChampion`;
       return post<{ repositoryNames: string[] }, SecurityChamp[]>(
         endpointUrl,
         backstageToken,
