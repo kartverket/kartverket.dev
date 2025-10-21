@@ -7743,9 +7743,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@kartverket/plugin-catalog-creator@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@kartverket/plugin-catalog-creator@npm:1.1.2"
+"@kartverket/plugin-catalog-creator@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@kartverket/plugin-catalog-creator@npm:1.1.4"
   dependencies:
     "@backstage/catalog-model": "backstage:^"
     "@backstage/core-components": "npm:^0.17.1"
@@ -7755,6 +7755,7 @@ __metadata:
     "@backstage/theme": "npm:^0.6.5"
     "@backstage/ui": "backstage:^"
     "@hookform/resolvers": "npm:^5.2.2"
+    "@mui/icons-material": "npm:^7.3.4"
     "@octokit/core": "npm:^7.0.5"
     "@octokit/rest": "npm:^22.0.0"
     octokit-plugin-create-pull-request: "npm:^6.0.1"
@@ -7768,7 +7769,7 @@ __metadata:
     "@mui/material": ^5.16.4
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
     zod: ^3.25.0 || ^4.0.0
-  checksum: 10c0/3ab461805934549ea8384f10a63029668e5ebf620e6801d16a94cc710f5a74437b71e377f7c486fd59e1f890c55ca6e72b5d712788f503b8bf448ba8d89897c3
+  checksum: 10c0/7e6802605e13588cab3f10c7e41f3d04a6a410d216478f62c84543bae4ae727f165bf0f227e219c972c89985a5843f40bb5e4e1bb74511d9919d6652226ec7ae
   languageName: node
   linkType: hard
 
@@ -8717,6 +8718,22 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/0afec2280e8dde4ff34686481497c4b3ced8193f0038bf8984fd502808c053ba8464c35409def0380424cade1d282f647fac1db7c55046b2b232b0d2c52a589d
+  languageName: node
+  linkType: hard
+
+"@mui/icons-material@npm:^7.3.4":
+  version: 7.3.4
+  resolution: "@mui/icons-material@npm:7.3.4"
+  dependencies:
+    "@babel/runtime": "npm:^7.28.4"
+  peerDependencies:
+    "@mui/material": ^7.3.4
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/09c5708f0a96979dafeefdfbaef4950463e987bdc283874831d67ae0ce32cbc946bf408ba5084bd7a8f57af0cb87c3fdfddcf4c21e0946bb5e17c34abfd49d80
   languageName: node
   linkType: hard
 
@@ -17243,7 +17260,7 @@ __metadata:
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
     "@kartverket/backstage-plugin-risk-scorecard": "npm:^3.6.17"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
-    "@kartverket/plugin-catalog-creator": "npm:^1.1.2"
+    "@kartverket/plugin-catalog-creator": "npm:^1.1.4"
     "@kartverket/plugin-security-champion": "npm:^0.1.8"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
