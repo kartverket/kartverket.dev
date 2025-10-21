@@ -1,20 +1,20 @@
-import React, { useMemo, useState } from "react";
-import { ErrorBanner } from "./ErrorBanner";
-import { SecurityChamp } from "../types";
-import { SecurityChampionItem } from "./SecurityChampionItem";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import Divider from "@mui/material/Divider";
-import CardContent from "@mui/material/CardContent";
-import CircularProgress from "@mui/material/CircularProgress";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import { useSecurityChampionsQuery } from "../hooks/useSecurityChampionsQuery";
-import UserSearch from "./UserSearch";
-import { useSetSecurityChampionMutation } from "../hooks/useChangeSecurityChampionsQuery";
-import { Button } from "@backstage/ui";
-import { UserEntity } from "@backstage/catalog-model";
-import { useEntity } from "@backstage/plugin-catalog-react";
+import React, { useMemo, useState } from 'react';
+import { ErrorBanner } from './ErrorBanner';
+import { SecurityChamp } from '../types';
+import { SecurityChampionItem } from './SecurityChampionItem';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import Divider from '@mui/material/Divider';
+import CardContent from '@mui/material/CardContent';
+import CircularProgress from '@mui/material/CircularProgress';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import { useSecurityChampionsQuery } from '../hooks/useSecurityChampionsQuery';
+import UserSearch from './UserSearch';
+import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampionsQuery';
+import { Button } from '@backstage/ui';
+import { UserEntity } from '@backstage/catalog-model';
+import { useEntity } from '@backstage/plugin-catalog-react';
 
 const CardWrapper = ({
   title,
@@ -57,9 +57,9 @@ export const SecurityChampion = ({
       string,
       { champ: SecurityChamp; repositoryNames: string[] }
     >();
-    data?.forEach((champ) => {
+    data?.forEach(champ => {
       const repositories = champMap.get(
-        champ.securityChampionEmail.toLowerCase()
+        champ.securityChampionEmail.toLowerCase(),
       );
       if (repositories) {
         repositories.repositoryNames.push(champ.repositoryName);
@@ -155,14 +155,14 @@ export const SecurityChampion = ({
       <CardWrapper
         title={
           groupedChampions.keys.length > 1
-            ? "Security champions: "
-            : "Security champion: "
+            ? 'Security champions: '
+            : 'Security champion: '
         }
       >
         <List>
           <List>{renderSecurityChampions()}</List>
         </List>
-        {entity.kind === "Component" && <Button onClick={onEdit}>Edit</Button>}
+        {entity.kind === 'Component' && <Button onClick={onEdit}>Edit</Button>}
       </CardWrapper>
     );
   }

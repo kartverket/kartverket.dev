@@ -1,4 +1,4 @@
 export type SecurityChamp = {
-    repositoryName: string,
-    securityChampionEmail: string
-}
+  repositoryName: string;
+  securityChampionEmail: string;
+};

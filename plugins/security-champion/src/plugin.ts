@@ -12,12 +12,13 @@ export const securityChampionPlugin = createPlugin({
   },
 });
 
-
 export const SecurityChampionPage = securityChampionPlugin.provide(
   createRoutableExtension({
     name: 'SecurityChampionPage',
     component: () =>
-      import('./components/SecurityChampionCard').then(m => m.SecurityChampionCard),
+      import('./components/SecurityChampionCard').then(
+        m => m.SecurityChampionCard,
+      ),
     mountPoint: rootRouteRef,
   }),
 );

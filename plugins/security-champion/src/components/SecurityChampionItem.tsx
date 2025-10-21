@@ -1,27 +1,27 @@
-import { SecurityChamp } from "../types";
-import { useUserProfile } from "../hooks/useUserProfile";
-import { Box, useMediaQuery, useTheme } from "@mui/system";
-import { CustomTooltip } from "./LightTooltip";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import ListItemText from "@mui/material/ListItemText";
-import ListItem from "@mui/material/ListItem";
-import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
-import List from "@mui/material/List";
-import Link from "@mui/material/Link";
-import IconButton from "@mui/material/IconButton";
+import { SecurityChamp } from '../types';
+import { useUserProfile } from '../hooks/useUserProfile';
+import { Box, useMediaQuery, useTheme } from '@mui/system';
+import { CustomTooltip } from './LightTooltip';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
 
 const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
   const { user, loading, error } = useUserProfile(
-    champion.securityChampionEmail!
+    champion.securityChampionEmail!,
   );
 
   if (loading)
     return (
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <CircularProgress />
       </Box>
     );
@@ -37,7 +37,7 @@ const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
         primary={
           user?.spec?.profile?.displayName || champion.securityChampionEmail
         }
-        secondary={user?.spec.profile?.email || "User not in catalog"}
+        secondary={user?.spec.profile?.email || 'User not in catalog'}
       />
     </>
   );
@@ -64,22 +64,22 @@ export const SecurityChampionItem = ({
   champion: SecurityChamp;
   repositories?: string[];
 }) => {
-  const isSmallScreen = useMediaQuery("(max-width: 1500px)");
+  const isSmallScreen = useMediaQuery('(max-width: 1500px)');
   const theme = useTheme();
-  const isDarkMode = theme.palette.mode === "dark";
+  const isDarkMode = theme.palette.mode === 'dark';
   return (
     <ListItem
       sx={{
-        backgroundColor: isDarkMode ? "grey.900" : "#FFFFFF",
+        backgroundColor: isDarkMode ? 'grey.900' : '#FFFFFF',
       }}
     >
       <Stack
-        direction={isSmallScreen ? "column" : "row"}
+        direction={isSmallScreen ? 'column' : 'row'}
         width="100%"
         justifyContent="space-between"
         divider={
           <Divider
-            orientation={isSmallScreen ? "vertical" : "horizontal"}
+            orientation={isSmallScreen ? 'vertical' : 'horizontal'}
             flexItem
           />
         }
@@ -93,11 +93,11 @@ export const SecurityChampionItem = ({
         {repositories && (
           <CustomTooltip
             sx={{
-              backgroundColor: isDarkMode ? "grey.900" : "#FFFFFF",
+              backgroundColor: isDarkMode ? 'grey.900' : '#FFFFFF',
             }}
             title={
               <List>
-                {repositories.map((repository) => (
+                {repositories.map(repository => (
                   <ListItem key={repository}>
                     <Link
                       href={`/catalog/default/component/${repository}`}

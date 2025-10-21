@@ -10,9 +10,6 @@ interface CatalogSearchProps {
   entityList: Entity[];
   onChange: (entity: string | null) => void;
   onBlur: () => void;
-
- 
-  
 }
 
 export const CatalogSearch = ({
