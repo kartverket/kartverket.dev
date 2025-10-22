@@ -205,7 +205,7 @@ export const CatalogForm = ({
       >
         <Box px="2rem">
           <h2>Catalog-info.yaml Form</h2>
-          <p style={{ fontSize: '0.85rem', color: 'gray', marginBottom: '0' }}>
+          <p style={{ fontSize: '0.85rem', color: 'gray' }}>
             Required fields marked with:{' '}
             <span style={{ color: '#ff0000', fontSize: '1rem' }}>*</span>
           </p>
@@ -214,7 +214,7 @@ export const CatalogForm = ({
               <Card
                 style={{
                   marginRight: '1rem',
-                  marginTop: '0rem',
+                  marginBottom: '1rem',
                   padding: '1rem',
                   position: 'relative',
                   overflow: 'visible',
