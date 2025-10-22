@@ -24,7 +24,7 @@ export const InfoBox = () => {
         </p>
         <Divider />
         <h3>What are Entities in Kartverket.dev?</h3>
-        Kartverket.dev is built using Backstage, which defines a set entites
+        Kartverket.dev is built using Backstage, which defines a set of entities
         used to build the software catalog. These entities are seperated into
         three groups: core entities, ecosystem entities, and organizational
         entites. Core entities include Component, API, and Resource. Ecosystem
