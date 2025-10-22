@@ -51,7 +51,8 @@ import { searchPage } from './components/search/SearchPage';
 import {
   CatalogCreatorPage,
   catalogCreatorPlugin,
-} from '@kartverket/plugin-catalog-creator';
+} from '@kartverket/backstage-plugin-catalog-creator';
+import { NotificationsPage } from '@backstage/plugin-notifications';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -94,7 +95,7 @@ const app = createApp({
   apis,
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
-      createComponent: scaffolderPlugin.routes.root,
+      createComponent: catalogCreatorPlugin.routes.root,
       viewTechDoc: techdocsPlugin.routes.docRoot,
       createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
     });
@@ -156,6 +157,7 @@ const routes = (
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route path="/catalog-creator" element={<CatalogCreatorPage />} />
+    <Route path="/notifications" element={<NotificationsPage />} />
   </FlatRoutes>
 );
 
