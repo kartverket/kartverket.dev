@@ -27,11 +27,11 @@ export const InfoBox = () => {
         Kartverket.dev is built using Backstage, which defines a set of entities
         used to build the software catalog. These entities are seperated into
         three groups: core entities, ecosystem entities, and organizational
-        entites. Core entities include Component, API, and Resource. Ecosystem
-        entities include System and Domain. Organizational entites include Group
-        and User. Below is a brief explanation of the core entities.
-        <h4>Component</h4>A Component is a piece of software, such as service,
-        library, and website. It could for Components often correspond to a
+        entities. Core entities include Component, API, and Resource. Ecosystem
+        entities include System and Domain. Organizational entities include
+        Group and User. Below is a brief explanation of the core entities.
+        <h4>Component</h4> A Component is a piece of software, such as a
+        service, library or a website. Components will often correspond to a
         repository.
         {/* , but a monorepo can contain multiple components. */}
         Components can provide APIs that other components consume, and often
