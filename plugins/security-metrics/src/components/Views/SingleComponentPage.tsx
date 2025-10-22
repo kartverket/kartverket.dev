@@ -16,7 +16,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { RuntimeVulnerabilityTable } from '../VulnerabilityTable/RuntimeVulnerabilityTable';
 import { getScannerStatusData } from '../../mapping/getScannerData';
-import { ComponentVulnerabilityMttr} from "../ComponentVulnerabilityMttr/ComponentVulnerabilityMttr.tsx";
+import { ComponentVulnerabilityMttr } from '../ComponentVulnerabilityMttr/ComponentVulnerabilityMttr.tsx';
 
 enum TabEnum {
   ALL_VULNERABILITIES = 0,
@@ -60,10 +60,10 @@ export const SingleComponentPage = () => {
         </Box>
       </Stack>
 
-        <ComponentVulnerabilityMttr
-            repositoryName={componentName}
-            averageDays={data.averageTimeToSolveVulnerabilityDays ?? null}
-        />
+      <ComponentVulnerabilityMttr
+        repositoryName={componentName}
+        averageDays={data.averageTimeToSolveVulnerabilityDays ?? null}
+      />
 
       <Box
         display="grid"
@@ -75,7 +75,6 @@ export const SingleComponentPage = () => {
         gap={2}
         gridAutoRows="minmax(320px, 1fr)"
       >
-
         <ComponentScannerStatus scannerStatus={scannerStatus} />
         <ComponentRosStatus
           repositoryName={componentName}
