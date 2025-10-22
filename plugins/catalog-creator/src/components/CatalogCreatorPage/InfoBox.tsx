@@ -1,4 +1,4 @@
-import { Text, Box, Card } from '@backstage/ui';
+import { Box, Card } from '@backstage/ui';
 import Link from '@material-ui/core/Link';
 import Divider from '@mui/material/Divider';
 
