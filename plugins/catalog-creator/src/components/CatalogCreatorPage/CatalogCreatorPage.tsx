@@ -23,7 +23,7 @@ import { useAsyncFn } from 'react-use';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
-import { FormEntity } from '../../model/types';
+import { FormEntity, RequiredYamlFields } from '../../model/types';
 import Link from '@mui/material/Link';
 
 export const CatalogCreatorPage = () => {
@@ -34,12 +34,16 @@ export const CatalogCreatorPage = () => {
   const [url, setUrl] = useState('');
   const [defaultName, setDefaultName] = useState<string>('');
 
+  const [formState, setFormState] = useState<RequiredYamlFields[] | null>(null);
+
   const [catalogInfoState, doFetchCatalogInfo] = useAsyncFn(
     async (catInfoUrl: string | null) => {
       if (catInfoUrl === null) {
         return null;
       }
-      return await getCatalogInfo(catInfoUrl, githubAuthApi);
+      const result = await getCatalogInfo(catInfoUrl, githubAuthApi);
+      setFormState(result);
+      return result;
     },
     [url, githubAuthApi],
   );
@@ -119,6 +123,7 @@ export const CatalogCreatorPage = () => {
                     onClick={() => {
                       setUrl('');
                       setDefaultName('');
+                      setFormState(null);
                       doSubmitToGithub('', undefined);
                     }}
                   >
@@ -176,9 +181,7 @@ export const CatalogCreatorPage = () => {
                 </Alert>
               )}
 
-              {repoState.loading ||
-              analysisResult.loading ||
-              catalogInfoState.loading ? (
+              {analysisResult.loading || catalogInfoState.loading ? (
                 <div
                   style={{
                     display: 'flex',
@@ -191,21 +194,40 @@ export const CatalogCreatorPage = () => {
                   <CircularProgress />
                 </div>
               ) : (
-                <div>
-                  {catalogInfoState.value !== undefined &&
-                    analysisResult.value !== undefined && (
+                <>
+                  {formState !== null && (
+                    <div style={{ position: 'relative' }}>
+                      {repoState.loading && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            zIndex: 1,
+                          }}
+                        >
+                          <CircularProgress />
+                        </div>
+                      )}
                       <CatalogForm
                         onSubmit={data =>
                           doSubmitToGithub(
-                            getSubmitUrl(analysisResult.value),
+                            getSubmitUrl(analysisResult.value!),
                             data,
                           )
                         }
-                        currentYaml={catalogInfoState.value}
+                        currentYaml={formState}
                         defaultName={defaultName}
                       />
-                    )}
-                </div>
+                    </div>
+                  )}
+                </>
               )}
             </Card>
           )}
