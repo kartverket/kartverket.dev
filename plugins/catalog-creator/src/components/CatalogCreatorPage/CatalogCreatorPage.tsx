@@ -25,6 +25,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import { FormEntity } from '../../model/types';
 import Link from '@mui/material/Link';
+import { getRepoInfo } from '../../utils/getRepoInfo';
 
 export const CatalogCreatorPage = () => {
   const catalogImportApi = useApi(catalogImportApiRef);
@@ -56,6 +57,7 @@ export const CatalogCreatorPage = () => {
   );
 
   const [analysisResult, doAnalyzeUrl] = useAsyncFn(async () => {
+    const repoInfo = await getRepoInfo(url, githubAuthApi);
     const result = await catalogImportApi.analyzeUrl(url);
     if (result.type === 'locations') {
       doFetchCatalogInfo(result.locations[0].target);
