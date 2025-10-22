@@ -51,7 +51,7 @@ import { searchPage } from './components/search/SearchPage';
 import {
   CatalogCreatorPage,
   catalogCreatorPlugin,
-} from '@kartverket/plugin-catalog-creator';
+} from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 
 const app = createApp({

@@ -1,0 +1,56 @@
+# nonk8s                                 # deaktiverer Kubernetes‑skjemavalidering dersom man bruker kubernetes-plugin
+
+# ----------------------------------------------------------------------
+# Fire rotnøkler er gyldige: apiVersion, kind, metadata, spec
+# For monorepo: legg flere entiteter i samme fil adskilt med '---'
+# og gjenta hele strukturen under hver separator (f.eks. frontend + api).
+# ----------------------------------------------------------------------
+
+apiVersion: backstage.io/v1alpha1        # REQUIRED – skjema‑versjon
+kind: Component | API | System | ...     # REQUIRED – entitetstype
+metadata:
+  name: <value>                          # REQUIRED – DNS‑sikkert, ≤63 tegn
+  title: <value>                         # Valgfritt – tittel
+  description: <value>                   # Valgfritt – fri tekst
+  namespace: <value>                     # Valgfritt – logisk namespace
+  tags: [<value>, <value>]               # Valgfritt – søkbare tagger, feks internal
+  labels:                                # Valgfritt – nøkkel/verdi for gruppering
+    <key>: <value>
+  annotations:                           # Valgfritt – integrasjonsnøkler (DNS‑kvalifiserte)
+    <domain>/<key>: <value>
+  links:                                 # Valgfritt – hurtiglenker som vises i UI
+    - url: <value>
+      title: <value>
+      type: dashboard | docs | ...       # Klassifisering
+spec:
+  # ---- FELT SOM GJELDER FLERE kinds ---------------------------------
+  owner: <group_ref>                     # REQUIRED* – referanse til Group/User
+  lifecycle: production | experimental | deprecated | ...  # REQUIRED*
+  type: service | website | library | ... # REQUIRED*
+  system: <system_ref>                   # Valgfritt – referanse til System
+  domain: <domain_ref>                   # Valgfritt – referanse til Domain
+  providesApis:
+    - <api_ref>                          # Valgfritt – eksponerte API‑er
+  consumesApis:
+    - <api_ref>                          # Valgfritt – konsumerte API‑er
+  dependsOn:
+    - <entity_ref>                       # Valgfritt – avhengigheter
+
+  # ---- SPESIFIKT FOR ulike Kinds ---------------------------------
+  implementsApis:
+    - <api_ref>                          # Valgfritt – alias for providesApis når kind == Component
+  definition: $text: <path_or_url>       # PÅKREVD når kind == API
+  parameters: []                         # PÅKREVD når kind == Template (JSON‑schema)
+  target: <uri>                          # Valgfritt – fysisk ressurs‑URI når kind == Resource
+
+# ----------------------------------------------------------------------
+# *Påkrevde felt etter kind:
+#   Component → owner, type, lifecycle
+#   API       → owner, type, lifecycle, definition
+#   Template  → owner, type, parameters
+#   Group     → type, profile
+#   User      → profile
+#   System    → owner
+#   Domain    → owner
+#   Resource  → type, owner
+# ----------------------------------------------------------------------

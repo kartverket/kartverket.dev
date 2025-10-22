@@ -1,0 +1,70 @@
+{
+  "name": "@kartverket/backstage-plugin-catalog-creator",
+  "version": "1.1.4",
+  "license": "Apache-2.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.esm.js",
+    "types": "dist/index.d.ts"
+  },
+  "backstage": {
+    "role": "frontend-plugin",
+    "pluginId": "catalog-creator",
+    "pluginPackages": [
+      "@kartverket/backstage-plugin-catalog-creator"
+    ]
+  },
+  "sideEffects": false,
+  "scripts": {
+    "start": "backstage-cli package start",
+    "build": "backstage-cli package build",
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test",
+    "clean": "backstage-cli package clean",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "tsc": "tsc",
+    "publishToNpm": "npm publish"
+  },
+  "dependencies": {
+    "@backstage/catalog-model": "backstage:^",
+    "@backstage/core-components": "^0.17.1",
+    "@backstage/core-plugin-api": "^1.10.5",
+    "@backstage/plugin-catalog-import": "backstage:^",
+    "@backstage/plugin-catalog-react": "backstage:^",
+    "@backstage/theme": "^0.6.5",
+    "@backstage/ui": "backstage:^",
+    "@hookform/resolvers": "^5.2.2",
+    "@mui/icons-material": "^7.3.4",
+    "@octokit/core": "^7.0.5",
+    "@octokit/rest": "^22.0.0",
+    "octokit-plugin-create-pull-request": "^6.0.1",
+    "react-hook-form": "^7.63.0",
+    "react-use": "^17.2.4",
+    "yaml": "^2.8.1"
+  },
+  "peerDependencies": {
+    "@material-ui/core": "^4.9.13",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@mui/material": "^5.16.4",
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "zod": "^3.25.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.33.1",
+    "@backstage/core-app-api": "^1.16.1",
+    "@backstage/dev-utils": "^1.1.12",
+    "@backstage/test-utils": "^1.7.7",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "msw": "^1.0.0",
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
