@@ -1,9 +1,8 @@
-import { Flex, Select, TextField } from '@backstage/ui';
+import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ApiTypes,
-  ComponentTypes,
   EntityErrors,
 } from '../../../model/types';
 import { formSchema } from '../../../schemas/formSchema';
@@ -74,7 +73,7 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
             fieldName="Type"
-            tooltipText="The type of the API."
+            tooltipText="The type of the API. It is recommended to choose one from the dropdown, but you can define your own type"
             required
           />
           <Controller

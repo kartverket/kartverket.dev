@@ -336,7 +336,7 @@ export const CatalogForm = ({
                           renderInput={params => (
                             <MuiTextField
                               {...params}
-                              placeholder="Select system"
+                              placeholder="Select owner"
                               InputProps={{
                                 ...params.InputProps,
                                 sx: {
