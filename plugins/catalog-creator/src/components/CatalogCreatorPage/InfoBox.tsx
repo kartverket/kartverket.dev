@@ -32,8 +32,7 @@ export const InfoBox = () => {
         Group and User. Below is a brief explanation of the core entities.
         <h4>Component</h4> A Component is a piece of software, such as a
         service, library or a website. Components will often correspond to a
-        repository.
-        {/* , but a monorepo can contain multiple components. */}
+        repository. {/* , but a monorepo can contain multiple components. */}
         Components can provide APIs that other components consume, and often
         depend on APIs and resources.
         <h4>API</h4>
