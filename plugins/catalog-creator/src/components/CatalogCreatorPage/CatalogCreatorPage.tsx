@@ -219,6 +219,12 @@ export const CatalogCreatorPage = () => {
                 </Alert>
               )}
 
+              {analysisResult.error && (
+                <Alert sx={{ mx: 2 }} severity="error">
+                  {analysisResult.error?.message}
+                </Alert>
+              )}
+
               {repoState.error && (
                 <Alert sx={{ mx: 2 }} severity="error">
                   {repoState.error?.message}
