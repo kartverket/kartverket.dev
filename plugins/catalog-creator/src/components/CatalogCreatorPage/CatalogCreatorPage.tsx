@@ -67,6 +67,11 @@ export const CatalogCreatorPage = () => {
     return result;
   }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
 
+  const [repoInfo, doGetRepoInfo] = useAsyncFn(async () => {
+    const result = await getRepoInfo(url, githubAuthApi);
+    return result;
+  }, [url, githubAuthApi, showForm]);
+
   const [repoState, doSubmitToGithub] = useAsyncFn(
     async (submitUrl: string, catalogInfoFormList?: FormEntity[]) => {
       scrollToTop();
@@ -87,10 +92,13 @@ export const CatalogCreatorPage = () => {
     ],
   );
 
-  const [repoInfo, doGetRepoInfo] = useAsyncFn(async () => {
-    const result = await getRepoInfo(url, githubAuthApi);
-    return result;
-  }, [url, githubAuthApi]);
+  const loading =
+    repoInfo.loading || analysisResult.loading || catalogInfoState.loading;
+  const error =
+    repoInfo.error ||
+    analysisResult.error ||
+    catalogInfoState.error ||
+    repoInfo.value?.existingPrUrl;
 
   function getDefaultNameFromUrl() {
     const regexMatch = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
@@ -139,7 +147,6 @@ export const CatalogCreatorPage = () => {
                       setUrl('');
                       setDefaultName('');
                       setShowForm(false);
-
                       doSubmitToGithub('', undefined);
                     }}
                   >
@@ -188,15 +195,16 @@ export const CatalogCreatorPage = () => {
                   </Alert>
                 )}
 
-              {analysisResult.value?.type === 'repository' &&
-                !repoInfo.error &&
-                !(catalogInfoState.error || repoState.error) && (
+              {catalogInfoState.value === null &&
+                !repoInfo.value?.existingPrUrl &&
+                !showForm &&
+                !(error || loading) && (
                   <Alert sx={{ mx: 2 }} severity="info">
-                    Catalog-info.yaml does not exists. Creating a new file.
+                    Catalog-info.yaml does not exist. Creating a new file.
                   </Alert>
                 )}
 
-              {repoInfo.value?.existingPrUrl && !repoInfo.error && (
+              {repoInfo.value?.existingPrUrl && !loading && (
                 <Alert sx={{ mx: 2 }} severity="error">
                   There already exists a pull request:{' '}
                   <Link
@@ -228,7 +236,7 @@ export const CatalogCreatorPage = () => {
                 </Alert>
               )}
 
-              {analysisResult.loading || catalogInfoState.loading ? (
+              {loading ? (
                 <div
                   style={{
                     display: 'flex',
