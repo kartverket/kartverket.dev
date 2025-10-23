@@ -78,6 +78,7 @@ export const CatalogCreatorPage = () => {
       if (catalogInfoFormList !== undefined) {
         return await githubController.submitCatalogInfoToGithub(
           submitUrl,
+          repoInfo.value?.default_branch,
           catalogInfoState.value || [],
           catalogInfoFormList,
           githubAuthApi,
