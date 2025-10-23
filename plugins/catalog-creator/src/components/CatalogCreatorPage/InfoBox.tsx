@@ -10,26 +10,27 @@ export const InfoBox = () => {
         <Divider sx={{ marginY: '1.5rem' }} />
         <p>
           This form helps you create or edit catalog-info.yaml files used by
-          Kartverket.dev to discover and manage software components in the
-          catalog. Enter a GitHub repository URL to add it to the developer
-          portal, or provide a link to an existing catalog-info.yaml file to
-          edit it using this form.
+          Backstage to discover and manage software components in the catalog.
+          Enter a GitHub repository URL to add it to the developer portal, or
+          provide a link to an existing catalog-info.yaml file to edit it using
+          this form.
         </p>
         <p>
           Once the form is completed with the correct entities, click{' '}
           <em>Create Pull Request</em> to propose changes or additions to the
           catalog-info.yaml file in the relevant repository. The changes will
-          take effect only after the pull request is merged and Kartverket.dev
-          updates its catalog.
+          take effect only after the pull request is merged and the developer
+          portal updates its catalog.
         </p>
         <Divider />
-        <h3>What are Entities in Kartverket.dev?</h3>
-        Kartverket.dev is built using Backstage, which defines a set of entities
-        used to build the software catalog. These entities are seperated into
-        three groups: core entities, ecosystem entities, and organizational
-        entities. Core entities include Component, API, and Resource. Ecosystem
-        entities include System and Domain. Organizational entities include
-        Group and User. Below is a brief explanation of the core entities.
+        <h3>What are Entities in Backstage?</h3>
+        The developer portal is built using Backstage, which defines a set of
+        entities used to build the software catalog. These entities are
+        seperated into three groups: core entities, ecosystem entities, and
+        organizational entities. Core entities include Component, API, and
+        Resource. Ecosystem entities include System and Domain. Organizational
+        entities include Group and User. Below is a brief explanation of the
+        core entities.
         <h4>Component</h4> A Component is a piece of software, such as a
         service, library or a website. Components will often correspond to a
         repository. {/* , but a monorepo can contain multiple components. */}
@@ -40,8 +41,8 @@ export const InfoBox = () => {
         components consume. Public APIs are the primary ways which components
         interact. The API specification should be included in the API entity and
         the file path to this document should be added to the API entity, with
-        the file path poibtubg to the API definition so that Kartverket.dev can
-        provide detailed information.
+        the file path to the API definition so that Kartverket.dev can provide
+        detailed information.
         <h4>Resource</h4>
         Resource entities represent shared shared resources that a component
         requires during runtime, such as object storage or other cloud services.
