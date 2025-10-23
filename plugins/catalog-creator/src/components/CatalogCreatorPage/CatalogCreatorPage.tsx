@@ -35,6 +35,15 @@ export const CatalogCreatorPage = () => {
   const [defaultName, setDefaultName] = useState<string>('');
 
   const [formState, setFormState] = useState<RequiredYamlFields[] | null>(null);
+  const [analysisResultState, setAnalysisRestultState] =
+    useState<AnalyzeResult | null>(null);
+
+  const scrollToTop = () => {
+    const article = document.querySelector('article');
+    if (article && article.parentElement) {
+      article.parentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   const [catalogInfoState, doFetchCatalogInfo] = useAsyncFn(
     async (catInfoUrl: string | null) => {
@@ -55,11 +64,13 @@ export const CatalogCreatorPage = () => {
     } else {
       doFetchCatalogInfo(null);
     }
+    setAnalysisRestultState(result);
     return result;
   }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
 
   const [repoState, doSubmitToGithub] = useAsyncFn(
     async (submitUrl: string, catalogInfoFormList?: FormEntity[]) => {
+      scrollToTop();
       if (catalogInfoFormList !== undefined) {
         return await githubController.submitCatalogInfoToGithub(
           submitUrl,
@@ -124,6 +135,7 @@ export const CatalogCreatorPage = () => {
                       setUrl('');
                       setDefaultName('');
                       setFormState(null);
+                      setAnalysisRestultState(null);
                       doSubmitToGithub('', undefined);
                     }}
                   >
@@ -140,6 +152,8 @@ export const CatalogCreatorPage = () => {
                   doAnalyzeUrl();
                   getDefaultNameFromUrl();
                   doSubmitToGithub('', undefined);
+                  setFormState(null);
+                  setAnalysisRestultState(null);
                 }}
               >
                 <Box px="2rem">
@@ -163,7 +177,11 @@ export const CatalogCreatorPage = () => {
               </form>
 
               {analysisResult.value?.type === 'locations' &&
-                !(catalogInfoState.error || repoState.error) && (
+                !(
+                  catalogInfoState.error ||
+                  repoState.error ||
+                  analysisResultState === null
+                ) && (
                   <Alert sx={{ mx: 2 }} severity="info">
                     Catalog-info.yaml already exists. Editing existing file.
                   </Alert>
@@ -195,7 +213,7 @@ export const CatalogCreatorPage = () => {
                 </div>
               ) : (
                 <>
-                  {formState !== null && (
+                  {(formState !== null || analysisResultState !== null) && (
                     <div style={{ position: 'relative' }}>
                       {repoState.loading && (
                         <div
