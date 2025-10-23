@@ -23,7 +23,7 @@ import { useAsyncFn } from 'react-use';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
-import { FormEntity, RequiredYamlFields } from '../../model/types';
+import { FormEntity } from '../../model/types';
 import Link from '@mui/material/Link';
 
 export const CatalogCreatorPage = () => {
@@ -34,9 +34,7 @@ export const CatalogCreatorPage = () => {
   const [url, setUrl] = useState('');
   const [defaultName, setDefaultName] = useState<string>('');
 
-  const [formState, setFormState] = useState<RequiredYamlFields[] | null>(null);
-  const [analysisResultState, setAnalysisRestultState] =
-    useState<AnalyzeResult | null>(null);
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   const scrollToTop = () => {
     const article = document.querySelector('article');
@@ -51,7 +49,7 @@ export const CatalogCreatorPage = () => {
         return null;
       }
       const result = await getCatalogInfo(catInfoUrl, githubAuthApi);
-      setFormState(result);
+
       return result;
     },
     [url, githubAuthApi],
@@ -64,7 +62,7 @@ export const CatalogCreatorPage = () => {
     } else {
       doFetchCatalogInfo(null);
     }
-    setAnalysisRestultState(result);
+    setShowForm(true);
     return result;
   }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
 
@@ -134,8 +132,8 @@ export const CatalogCreatorPage = () => {
                     onClick={() => {
                       setUrl('');
                       setDefaultName('');
-                      setFormState(null);
-                      setAnalysisRestultState(null);
+                      setShowForm(false);
+
                       doSubmitToGithub('', undefined);
                     }}
                   >
@@ -152,8 +150,7 @@ export const CatalogCreatorPage = () => {
                   doAnalyzeUrl();
                   getDefaultNameFromUrl();
                   doSubmitToGithub('', undefined);
-                  setFormState(null);
-                  setAnalysisRestultState(null);
+                  setShowForm(false);
                 }}
               >
                 <Box px="2rem">
@@ -177,11 +174,8 @@ export const CatalogCreatorPage = () => {
               </form>
 
               {analysisResult.value?.type === 'locations' &&
-                !(
-                  catalogInfoState.error ||
-                  repoState.error ||
-                  analysisResultState === null
-                ) && (
+                !(catalogInfoState.error || repoState.error) &&
+                showForm && (
                   <Alert sx={{ mx: 2 }} severity="info">
                     Catalog-info.yaml already exists. Editing existing file.
                   </Alert>
@@ -213,7 +207,7 @@ export const CatalogCreatorPage = () => {
                 </div>
               ) : (
                 <>
-                  {(formState !== null || analysisResultState !== null) && (
+                  {showForm && catalogInfoState.value !== undefined && (
                     <div style={{ position: 'relative' }}>
                       {repoState.loading && (
                         <div
@@ -240,7 +234,7 @@ export const CatalogCreatorPage = () => {
                             data,
                           )
                         }
-                        currentYaml={formState}
+                        currentYaml={catalogInfoState.value!}
                         defaultName={defaultName}
                       />
                     </div>
