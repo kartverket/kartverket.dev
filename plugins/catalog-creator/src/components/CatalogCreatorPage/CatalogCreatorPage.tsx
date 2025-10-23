@@ -57,7 +57,6 @@ export const CatalogCreatorPage = () => {
   );
 
   const [analysisResult, doAnalyzeUrl] = useAsyncFn(async () => {
-    const repoInfo = await getRepoInfo(url, githubAuthApi);
     const result = await catalogImportApi.analyzeUrl(url);
     if (result.type === 'locations') {
       doFetchCatalogInfo(result.locations[0].target);
@@ -87,6 +86,11 @@ export const CatalogCreatorPage = () => {
       catalogInfoState.value,
     ],
   );
+
+  const [repoInfo, doGetRepoInfo] = useAsyncFn(async () => {
+    const result = await getRepoInfo(url, githubAuthApi);
+    return result;
+  }, [url, githubAuthApi]);
 
   function getDefaultNameFromUrl() {
     const regexMatch = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
@@ -149,6 +153,7 @@ export const CatalogCreatorPage = () => {
               <form
                 onSubmit={e => {
                   e.preventDefault();
+                  doGetRepoInfo();
                   doAnalyzeUrl();
                   getDefaultNameFromUrl();
                   doSubmitToGithub('', undefined);
@@ -183,9 +188,37 @@ export const CatalogCreatorPage = () => {
                   </Alert>
                 )}
 
+              {analysisResult.value?.type === 'repository' &&
+                !repoInfo.error &&
+                !(catalogInfoState.error || repoState.error) && (
+                  <Alert sx={{ mx: 2 }} severity="info">
+                    Catalog-info.yaml does not exists. Creating a new file.
+                  </Alert>
+                )}
+
+              {repoInfo.value?.existingPrUrl && !repoInfo.error && (
+                <Alert sx={{ mx: 2 }} severity="error">
+                  There already exists a pull request:{' '}
+                  <Link
+                    href={repoInfo.value.existingPrUrl}
+                    sx={{ fontWeight: 'normal' }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {repoInfo.value.existingPrUrl}
+                  </Link>
+                </Alert>
+              )}
+
               {repoState.error && (
                 <Alert sx={{ mx: 2 }} severity="error">
                   {repoState.error?.message}
+                </Alert>
+              )}
+
+              {repoInfo.error && (
+                <Alert sx={{ mx: 2 }} severity="error">
+                  {repoInfo.error?.message}
                 </Alert>
               )}
 
