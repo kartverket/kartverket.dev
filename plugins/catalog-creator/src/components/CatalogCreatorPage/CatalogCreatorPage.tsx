@@ -70,7 +70,7 @@ export const CatalogCreatorPage = () => {
   const [repoInfo, doGetRepoInfo] = useAsyncFn(async () => {
     const result = await getRepoInfo(url, githubAuthApi);
     return result;
-  }, [url, githubAuthApi, showForm]);
+  }, [url, githubAuthApi]);
 
   const [repoState, doSubmitToGithub] = useAsyncFn(
     async (submitUrl: string, catalogInfoFormList?: FormEntity[]) => {
@@ -189,7 +189,7 @@ export const CatalogCreatorPage = () => {
               </form>
 
               {analysisResult.value?.type === 'locations' &&
-                !(catalogInfoState.error || repoState.error) &&
+                !(error || loading || repoState.error) &&
                 showForm && (
                   <Alert sx={{ mx: 2 }} severity="info">
                     Catalog-info.yaml already exists. Editing existing file.
@@ -198,8 +198,8 @@ export const CatalogCreatorPage = () => {
 
               {catalogInfoState.value === null &&
                 !repoInfo.value?.existingPrUrl &&
-                !showForm &&
-                !(error || loading) && (
+                showForm &&
+                !(error || loading || repoState.error) && (
                   <Alert sx={{ mx: 2 }} severity="info">
                     Catalog-info.yaml does not exist. Creating a new file.
                   </Alert>
@@ -257,38 +257,40 @@ export const CatalogCreatorPage = () => {
                 </div>
               ) : (
                 <>
-                  {showForm && catalogInfoState.value !== undefined && (
-                    <div style={{ position: 'relative' }}>
-                      {repoState.loading && (
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            zIndex: 1,
-                          }}
-                        >
-                          <CircularProgress />
-                        </div>
-                      )}
-                      <CatalogForm
-                        onSubmit={data =>
-                          doSubmitToGithub(
-                            getSubmitUrl(analysisResult.value!),
-                            data,
-                          )
-                        }
-                        currentYaml={catalogInfoState.value!}
-                        defaultName={defaultName}
-                      />
-                    </div>
-                  )}
+                  {showForm &&
+                    catalogInfoState.value !== undefined &&
+                    !error && (
+                      <div style={{ position: 'relative' }}>
+                        {repoState.loading && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              zIndex: 1,
+                            }}
+                          >
+                            <CircularProgress />
+                          </div>
+                        )}
+                        <CatalogForm
+                          onSubmit={data =>
+                            doSubmitToGithub(
+                              getSubmitUrl(analysisResult.value!),
+                              data,
+                            )
+                          }
+                          currentYaml={catalogInfoState.value!}
+                          defaultName={defaultName}
+                        />
+                      </div>
+                    )}
                 </>
               )}
             </Card>
