@@ -22,9 +22,9 @@ export type PharosSpecificInfo = {
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
-  container_name: string;
+  containers: string[];
   namespace: string;
-  cluster: string[];
+  clusters: string[];
   isExploitable: Boolean;
   isRunning: Boolean;
   packages: string;
@@ -57,16 +57,6 @@ export type Vulnerability = {
   acceptedBy: string;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
-
-export interface SysdigInfo {
-  container_name: string;
-  namespace: string;
-  htmlUrl: URL;
-  cluster: string[];
-  isExploitable: boolean;
-  packages: string[];
-  severityCount: SeverityCount;
-}
 
 export type SecretAlert = {
   createdAt: string;
