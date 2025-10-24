@@ -28,11 +28,14 @@ import { FormEntity } from '../../model/types';
 import Link from '@mui/material/Link';
 import { getRepoInfo } from '../../utils/getRepoInfo';
 import { InfoBox } from './InfoBox';
+import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export const CatalogCreatorPage = () => {
   const catalogImportApi = useApi(catalogImportApiRef);
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const githubController = new GithubController();
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const [url, setUrl] = useState('');
   const [defaultName, setDefaultName] = useState<string>('');
@@ -114,7 +117,7 @@ export const CatalogCreatorPage = () => {
   return (
     <Page themeId="tool">
       <Content>
-        <ContentHeader title="Edit or Create Components">
+        <ContentHeader title={t('contentHeader.title')}>
           <SupportButton />
         </ContentHeader>
         <Flex>
