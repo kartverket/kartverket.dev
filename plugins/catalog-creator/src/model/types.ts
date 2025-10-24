@@ -23,6 +23,13 @@ export enum ApiTypes {
   graphql = 'graphql',
   grpc = 'grpc',
 }
+
+export enum SystemTypes {
+  product = 'product',
+  service = 'service',
+  featureset = 'feature-set',
+}
+
 const Kinds = {
   API: 'API',
   Component: 'Component',

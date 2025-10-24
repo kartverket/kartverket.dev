@@ -1,4 +1,4 @@
-import { TextField, Button, Box, Card, Icon, Flex } from '@backstage/ui';
+import { TextField, Button, Box, Card, Flex } from '@backstage/ui';
 
 import {
   Page,
@@ -8,6 +8,7 @@ import {
 } from '@backstage/core-components';
 
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
+import { useTheme } from '@material-ui/core/styles';
 
 import {
   AnalyzeResult,
@@ -37,6 +38,7 @@ export const CatalogCreatorPage = () => {
   const [defaultName, setDefaultName] = useState<string>('');
 
   const [showForm, setShowForm] = useState<boolean>(false);
+  const theme = useTheme();
 
   const scrollToTop = () => {
     const article = document.querySelector('article');
@@ -175,7 +177,6 @@ export const CatalogCreatorPage = () => {
                         <TextField
                           label="Repository URL"
                           size="small"
-                          icon={<Icon name="sparkling" />}
                           placeholder="Enter a URL"
                           name="url"
                           value={url}
@@ -271,7 +272,10 @@ export const CatalogCreatorPage = () => {
                                 left: 0,
                                 right: 0,
                                 bottom: 0,
-                                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                                backgroundColor:
+                                  theme.palette.type === 'dark'
+                                    ? 'rgba(118, 118, 118, 0.4)'
+                                    : 'rgba(255, 255, 255, 0.7)',
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',

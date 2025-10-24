@@ -73,7 +73,7 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
             fieldName="Type"
-            tooltipText="The type of the API. It is recommended to choose one from the dropdown, but you can define your own type"
+            tooltipText="The type of the API"
             required
           />
           <Controller
@@ -81,13 +81,9 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <Autocomplete
-                freeSolo
                 value={value}
                 onChange={(_, newValue) => {
                   onChange(newValue ?? '');
-                }}
-                onInputChange={(_, newInputValue) => {
-                  onChange(newInputValue);
                 }}
                 onBlur={onBlur}
                 options={Object.values(ApiTypes)}

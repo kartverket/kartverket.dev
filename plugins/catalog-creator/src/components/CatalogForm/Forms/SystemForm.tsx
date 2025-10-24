@@ -1,6 +1,6 @@
-import { Flex, TextField } from '@backstage/ui';
+import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
-import { EntityErrors } from '../../../model/types';
+import { EntityErrors, SystemTypes } from '../../../model/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
@@ -9,6 +9,8 @@ import { useAsync } from 'react-use';
 import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { FieldHeader } from '../FieldHeader';
+import Autocomplete from '@mui/material/Autocomplete';
+import MuiTextField from '@mui/material/TextField';
 
 export type SystemFormProps = {
   index: number;
@@ -31,12 +33,39 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
   return (
     <Flex direction="column" justify="start">
       <Flex>
-        <div style={{ flexGrow: 1 }}>
-          <FieldHeader fieldName="Type" tooltipText="The type of the system" />
+        <div style={{ flexGrow: 1, width: '50%' }}>
+          <FieldHeader
+            fieldName="Type"
+            tooltipText="The type of the system. Optional"
+          />
           <Controller
-            name={`entities.${index}.entityType`}
+            name={`entities.${index}.systemType`}
             control={control}
-            render={({ field }) => <TextField {...field} name="Type" />}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Autocomplete
+                value={value}
+                onChange={(_, newValue) => {
+                  onChange(newValue ?? '');
+                }}
+                onBlur={onBlur}
+                options={Object.values(SystemTypes)}
+                getOptionLabel={option => option}
+                size="small"
+                renderInput={params => (
+                  <MuiTextField
+                    {...params}
+                    placeholder="Select type"
+                    InputProps={{
+                      ...params.InputProps,
+                      sx: {
+                        fontSize: '0.85rem',
+                        font: 'system-ui',
+                      },
+                    }}
+                  />
+                )}
+              />
+            )}
           />
 
           <span
