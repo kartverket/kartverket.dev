@@ -42,9 +42,9 @@ export type PharosSpecificInfo = {
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
-  container_name: string;
+  containers: string[];
   namespace: string;
-  cluster: string[];
+  clusters: string[];
   isExploitable: Boolean;
   isRunning: Boolean;
   packages: string;
