@@ -86,6 +86,9 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
                 onChange={(_, newValue) => {
                   onChange(newValue ?? '');
                 }}
+                onInputChange={(_, newInputValue) => {
+                  onChange(newInputValue);
+                }}
                 onBlur={onBlur}
                 options={Object.values(ApiTypes)}
                 getOptionLabel={option => option}

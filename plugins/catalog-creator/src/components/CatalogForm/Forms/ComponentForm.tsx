@@ -113,7 +113,10 @@ export const ComponentForm = ({
                 freeSolo
                 value={value}
                 onChange={(_, newValue) => {
-                  onChange(newValue ?? '');
+                  onChange(newValue);
+                }}
+                onInputChange={(_, newInputValue) => {
+                  onChange(newInputValue);
                 }}
                 onBlur={onBlur}
                 options={Object.values(ComponentTypes)}
