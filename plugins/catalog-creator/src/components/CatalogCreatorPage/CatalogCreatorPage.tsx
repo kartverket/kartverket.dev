@@ -25,6 +25,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import { FormEntity } from '../../model/types';
 import Link from '@mui/material/Link';
+import { getRepoInfo } from '../../utils/getRepoInfo';
 
 export const CatalogCreatorPage = () => {
   const catalogImportApi = useApi(catalogImportApiRef);
@@ -34,12 +35,23 @@ export const CatalogCreatorPage = () => {
   const [url, setUrl] = useState('');
   const [defaultName, setDefaultName] = useState<string>('');
 
+  const [showForm, setShowForm] = useState<boolean>(false);
+
+  const scrollToTop = () => {
+    const article = document.querySelector('article');
+    if (article && article.parentElement) {
+      article.parentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const [catalogInfoState, doFetchCatalogInfo] = useAsyncFn(
     async (catInfoUrl: string | null) => {
       if (catInfoUrl === null) {
         return null;
       }
-      return await getCatalogInfo(catInfoUrl, githubAuthApi);
+      const result = await getCatalogInfo(catInfoUrl, githubAuthApi);
+
+      return result;
     },
     [url, githubAuthApi],
   );
@@ -51,14 +63,22 @@ export const CatalogCreatorPage = () => {
     } else {
       doFetchCatalogInfo(null);
     }
+    setShowForm(true);
     return result;
   }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
 
+  const [repoInfo, doGetRepoInfo] = useAsyncFn(async () => {
+    const result = await getRepoInfo(url, githubAuthApi);
+    return result;
+  }, [url, githubAuthApi]);
+
   const [repoState, doSubmitToGithub] = useAsyncFn(
     async (submitUrl: string, catalogInfoFormList?: FormEntity[]) => {
+      scrollToTop();
       if (catalogInfoFormList !== undefined) {
         return await githubController.submitCatalogInfoToGithub(
           submitUrl,
+          repoInfo.value?.default_branch,
           catalogInfoState.value || [],
           catalogInfoFormList,
           githubAuthApi,
@@ -72,6 +92,14 @@ export const CatalogCreatorPage = () => {
       catalogInfoState.value,
     ],
   );
+
+  const loading =
+    repoInfo.loading || analysisResult.loading || catalogInfoState.loading;
+  const error =
+    repoInfo.error ||
+    analysisResult.error ||
+    catalogInfoState.error ||
+    repoInfo.value?.existingPrUrl;
 
   function getDefaultNameFromUrl() {
     const regexMatch = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
@@ -119,6 +147,7 @@ export const CatalogCreatorPage = () => {
                     onClick={() => {
                       setUrl('');
                       setDefaultName('');
+                      setShowForm(false);
                       doSubmitToGithub('', undefined);
                     }}
                   >
@@ -132,9 +161,11 @@ export const CatalogCreatorPage = () => {
               <form
                 onSubmit={e => {
                   e.preventDefault();
+                  doGetRepoInfo();
                   doAnalyzeUrl();
                   getDefaultNameFromUrl();
                   doSubmitToGithub('', undefined);
+                  setShowForm(false);
                 }}
               >
                 <Box px="2rem">
@@ -158,15 +189,51 @@ export const CatalogCreatorPage = () => {
               </form>
 
               {analysisResult.value?.type === 'locations' &&
-                !(catalogInfoState.error || repoState.error) && (
+                !(error || loading || repoState.error) &&
+                showForm && (
                   <Alert sx={{ mx: 2 }} severity="info">
                     Catalog-info.yaml already exists. Editing existing file.
                   </Alert>
                 )}
 
+              {catalogInfoState.value === null &&
+                !repoInfo.value?.existingPrUrl &&
+                showForm &&
+                !(error || loading || repoState.error) && (
+                  <Alert sx={{ mx: 2 }} severity="info">
+                    Catalog-info.yaml does not exist. Creating a new file.
+                  </Alert>
+                )}
+
+              {repoInfo.value?.existingPrUrl && !loading && (
+                <Alert sx={{ mx: 2 }} severity="error">
+                  There already exists a pull request:{' '}
+                  <Link
+                    href={repoInfo.value.existingPrUrl}
+                    sx={{ fontWeight: 'normal' }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {repoInfo.value.existingPrUrl}
+                  </Link>
+                </Alert>
+              )}
+
+              {analysisResult.error && (
+                <Alert sx={{ mx: 2 }} severity="error">
+                  {analysisResult.error?.message}
+                </Alert>
+              )}
+
               {repoState.error && (
                 <Alert sx={{ mx: 2 }} severity="error">
                   {repoState.error?.message}
+                </Alert>
+              )}
+
+              {repoInfo.error && (
+                <Alert sx={{ mx: 2 }} severity="error">
+                  {repoInfo.error?.message}
                 </Alert>
               )}
 
@@ -176,9 +243,7 @@ export const CatalogCreatorPage = () => {
                 </Alert>
               )}
 
-              {repoState.loading ||
-              analysisResult.loading ||
-              catalogInfoState.loading ? (
+              {loading ? (
                 <div
                   style={{
                     display: 'flex',
@@ -191,21 +256,42 @@ export const CatalogCreatorPage = () => {
                   <CircularProgress />
                 </div>
               ) : (
-                <div>
-                  {catalogInfoState.value !== undefined &&
-                    analysisResult.value !== undefined && (
-                      <CatalogForm
-                        onSubmit={data =>
-                          doSubmitToGithub(
-                            getSubmitUrl(analysisResult.value),
-                            data,
-                          )
-                        }
-                        currentYaml={catalogInfoState.value}
-                        defaultName={defaultName}
-                      />
+                <>
+                  {showForm &&
+                    catalogInfoState.value !== undefined &&
+                    !error && (
+                      <div style={{ position: 'relative' }}>
+                        {repoState.loading && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              zIndex: 1,
+                            }}
+                          >
+                            <CircularProgress />
+                          </div>
+                        )}
+                        <CatalogForm
+                          onSubmit={data =>
+                            doSubmitToGithub(
+                              getSubmitUrl(analysisResult.value!),
+                              data,
+                            )
+                          }
+                          currentYaml={catalogInfoState.value!}
+                          defaultName={defaultName}
+                        />
+                      </div>
                     )}
-                </div>
+                </>
               )}
             </Card>
           )}
