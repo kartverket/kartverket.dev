@@ -1,8 +1,8 @@
-import { Flex, Select, TextField } from '@backstage/ui';
+import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
-import CatalogSearch from '../../CatalogSearch';
 import {
   AllowedLifecycleStages,
+  ComponentTypes,
   EntityErrors,
   Kind,
 } from '../../../model/types';
@@ -52,7 +52,7 @@ export const ComponentForm = ({
   return (
     <Flex direction="column" justify="start">
       <Flex>
-        <div>
+        <div style={{ width: '50%' }}>
           <FieldHeader
             fieldName="Lifecycle"
             tooltipText="The lifecycle state of the component"
@@ -62,16 +62,27 @@ export const ComponentForm = ({
             name={`entities.${index}.lifecycle`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Select
-                name="lifecycle"
+              <Autocomplete
+                value={value}
+                onChange={(_, newValue) => {
+                  onChange(newValue ?? '');
+                }}
                 onBlur={onBlur}
-                onSelectionChange={onChange}
-                selectedKey={value}
-                options={Object.values(AllowedLifecycleStages).map(
-                  lifecycleStage => ({
-                    value: lifecycleStage as string,
-                    label: lifecycleStage,
-                  }),
+                options={Object.values(AllowedLifecycleStages)}
+                getOptionLabel={option => option}
+                size="small"
+                renderInput={params => (
+                  <MuiTextField
+                    {...params}
+                    placeholder="Select type"
+                    InputProps={{
+                      ...params.InputProps,
+                      sx: {
+                        fontSize: '0.85rem',
+                        font: 'system-ui',
+                      },
+                    }}
+                  />
                 )}
               />
             )}
@@ -88,16 +99,44 @@ export const ComponentForm = ({
           </span>
         </div>
 
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
             fieldName="Type"
-            tooltipText="The type of the component."
+            tooltipText="The type of the component. It is recommended to choose one from the dropdown, but you can define your own type"
             required
           />
           <Controller
             name={`entities.${index}.entityType`}
             control={control}
-            render={({ field }) => <TextField {...field} name="Entity type" />}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Autocomplete
+                freeSolo
+                value={value}
+                onChange={(_, newValue) => {
+                  onChange(newValue);
+                }}
+                onInputChange={(_, newInputValue) => {
+                  onChange(newInputValue);
+                }}
+                onBlur={onBlur}
+                options={Object.values(ComponentTypes)}
+                getOptionLabel={option => option}
+                size="small"
+                renderInput={params => (
+                  <MuiTextField
+                    {...params}
+                    placeholder="Select type"
+                    InputProps={{
+                      ...params.InputProps,
+                      sx: {
+                        fontSize: '0.85rem',
+                        font: 'system-ui',
+                      },
+                    }}
+                  />
+                )}
+              />
+            )}
           />
 
           <span
@@ -120,11 +159,53 @@ export const ComponentForm = ({
           name={`entities.${index}.system`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <CatalogSearch
-              onChange={onChange}
+            <Autocomplete
+              value={
+                value
+                  ? (systems.find(entity => entity.metadata.name === value) ??
+                    null)
+                  : null
+              }
               onBlur={onBlur}
-              value={value}
-              entityList={systems}
+              onChange={(_, newValue) => {
+                const names = newValue?.metadata?.name ?? '';
+                onChange(names);
+              }}
+              options={systems || []}
+              getOptionLabel={option => {
+                return option.metadata.name;
+              }}
+              filterOptions={(options, state) => {
+                const inputValue = state.inputValue.toLowerCase();
+                return options.filter(option => {
+                  const name = option.metadata.name.toLowerCase();
+                  const title = (option.metadata.title ?? '').toLowerCase();
+                  return (
+                    name.includes(inputValue) || title.includes(inputValue)
+                  );
+                });
+              }}
+              renderOption={(props, option) => {
+                const label = option.metadata.title ?? option.metadata.name;
+                return <li {...props}>{label}</li>;
+              }}
+              isOptionEqualToValue={(option, selectedValue) => {
+                return option.metadata.name === selectedValue.metadata.name;
+              }}
+              size="small"
+              renderInput={params => (
+                <MuiTextField
+                  {...params}
+                  placeholder="Select system"
+                  InputProps={{
+                    ...params.InputProps,
+                    sx: {
+                      fontSize: '0.85rem',
+                      font: 'system-ui',
+                    },
+                  }}
+                />
+              )}
             />
           )}
         />
