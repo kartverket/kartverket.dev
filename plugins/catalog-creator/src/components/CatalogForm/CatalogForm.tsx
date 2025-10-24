@@ -82,6 +82,7 @@ export const CatalogForm = ({
               consumesApis: entry.spec.consumesApis,
               dependencyOf: entry.spec.dependencyOf,
               definition: definition,
+              title: entry.metadata.title || '',
             };
           })
         : [
@@ -90,6 +91,7 @@ export const CatalogForm = ({
               kind: 'Component',
               name: defaultName,
               owner: '',
+              title: '',
             },
           ],
     },
@@ -117,6 +119,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
+          title: '',
         };
         break;
       case 'API' as Kind:
@@ -129,6 +132,7 @@ export const CatalogForm = ({
           entityType: '',
           system: '',
           definition: '',
+          title: '',
         };
         break;
       case 'System' as Kind:
@@ -141,6 +145,7 @@ export const CatalogForm = ({
           entityType: '',
           system: '',
           definition: '',
+          title: '',
         };
         break;
       default:
@@ -152,6 +157,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
+          title: '',
         };
     }
     setIndexCount(prev => prev + 1);
@@ -269,7 +275,6 @@ export const CatalogForm = ({
                         />
                       )}
                     />
-
                     <span
                       style={{
                         color: 'red',
@@ -278,6 +283,28 @@ export const CatalogForm = ({
                       }}
                     >
                       {errors?.entities?.[index]?.name?.message || '\u00A0'}
+                    </span>
+                  </div>
+                  <div>
+                    <FieldHeader
+                      fieldName="Title"
+                      tooltipText="A human-readable title for the component entity, shown in Backstage UI instead of the name when available. Optional."
+                    />
+                    <Controller
+                      name={`entities.${index}.title`}
+                      control={control}
+                      render={({ field }) => (
+                        <TextField {...field} name="Title" />
+                      )}
+                    />
+                    <span
+                      style={{
+                        color: 'red',
+                        fontSize: '0.75rem',
+                        visibility: errors?.entities ? 'visible' : 'hidden',
+                      }}
+                    >
+                      {errors?.entities?.[index]?.title?.message || '\u00A0'}
                     </span>
                   </div>
                   <div>

@@ -21,6 +21,7 @@ const baseEntitySchema = z.object({
     .trim()
     .min(1, 'Add an owner')
     .refine(s => !s.includes(' '), { message: 'Owner cannot contain space' }),
+  title: z.string().optional(),
 });
 
 export const componentSchema = baseEntitySchema.extend({
