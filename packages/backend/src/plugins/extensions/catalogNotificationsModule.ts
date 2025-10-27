@@ -133,11 +133,7 @@ export const catalogNotificationsModule = createBackendModule({
               const ownerRef =
                 missingRelation.owner_ref ?? 'group:default/skvis';
 
-              // Add to current scopes set
               currentScopes.add(notificationScope);
-              logger.error(
-                `CURRENT SCOPES ------------------------------------: ${currentScopes}`,
-              );
 
               notification.send({
                 recipients: {
@@ -157,36 +153,30 @@ export const catalogNotificationsModule = createBackendModule({
 
             // Clean up notifications for fixed relations
             try {
-              // Get all existing notification scopes from the database
-              const existingScopes = await notificationsDb('notification')
+              const existingScopes: string[] = await notificationsDb(
+                'notification',
+              )
                 .distinct('scope')
                 .whereNotNull('scope')
-                .where('scope', 'like', '%:%') // Filter for catalog-related scopes
                 .pluck('scope');
 
-              logger.error(`Ecxisting scopes: ${existingScopes}`);
-
-              // Find scopes that exist in DB but not in current missing relations
               const scopesToRemove = existingScopes.filter(
                 (scope: string) => !currentScopes.has(scope),
               );
-              logger.error(
-                `IT GOT TO HERE_______________________: ${scopesToRemove}`,
-              );
-              if (scopesToRemove.length > 0) {
-                logger.error(
-                  `Removing ${scopesToRemove.length} notifications for fixed relations: ${scopesToRemove.join(', ')}`,
-                );
 
+              if (scopesToRemove.length > 0) {
+                logger.info(
+                  `Removing ${scopesToRemove.length} notifications for fixed relation errors: ${scopesToRemove.join(', ')}`,
+                );
                 const deletedCount = await notificationsDb('notification')
                   .whereIn('scope', scopesToRemove)
                   .delete();
 
-                logger.error(
+                logger.info(
                   `Successfully deleted ${deletedCount} notifications for fixed relations`,
                 );
               } else {
-                logger.error(
+                logger.info(
                   'No fixed relations found, no notifications to remove',
                 );
               }
