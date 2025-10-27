@@ -74,7 +74,11 @@ export const CatalogCreatorPage = () => {
   }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
 
   const [repoInfo, doGetRepoInfo] = useAsyncFn(async () => {
-    const result = await getRepoInfo(url, githubAuthApi);
+    const result = await getRepoInfo(
+      url,
+      githubAuthApi,
+      t('form.knownErrorAlerts.repoNotFound'),
+    );
     return result;
   }, [url, githubAuthApi]);
 
@@ -88,6 +92,7 @@ export const CatalogCreatorPage = () => {
           catalogInfoState.value || [],
           catalogInfoFormList,
           githubAuthApi,
+          t('form.knownErrorAlerts.couldNotCreatePR'),
         );
       }
       return undefined;
@@ -199,7 +204,7 @@ export const CatalogCreatorPage = () => {
                   !(error || loading || repoState.error) &&
                   showForm && (
                     <Alert sx={{ mx: 2 }} severity="info">
-                      Catalog-info.yaml already exists. Editing existing file.
+                      {t('form.infoAlerts.alreadyExists')}
                     </Alert>
                   )}
 
@@ -208,13 +213,13 @@ export const CatalogCreatorPage = () => {
                   showForm &&
                   !(error || loading || repoState.error) && (
                     <Alert sx={{ mx: 2 }} severity="info">
-                      Catalog-info.yaml does not exist. Creating a new file.
+                      {t('form.infoAlerts.doesNotExist')}
                     </Alert>
                   )}
 
                 {repoInfo.value?.existingPrUrl && !loading && (
                   <Alert sx={{ mx: 2 }} severity="error">
-                    There already exists a pull request:{' '}
+                    {t('form.knownErrorAlerts.PRExists')}
                     <Link
                       href={repoInfo.value.existingPrUrl}
                       sx={{ fontWeight: 'normal' }}

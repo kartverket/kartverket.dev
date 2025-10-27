@@ -117,7 +117,11 @@ export const catalogCreatorMessages = {
 
     knownErrorAlerts: {
       repoNotFound: 'Could not find the GitHub repository: ',
+      couldNotCheckIfPRExists:
+        'Could not check if the pull request already exists for: ',
       PRExists: 'There already exists a pull request: ',
+      couldNotCreatePR:
+        'Could not create a pull request. Make sure the URL is a github repo and that a pull request does not already exist.',
     },
   },
   infoBox: {
@@ -266,6 +270,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Kunne ikke finne GitHub-kodelager med URL: ',
           'form.knownErrorAlerts.PRExists':
             'Det finnes allerede en pull request: ',
+          'form.knownErrorAlerts.couldNotCheckIfPRExists':
+            'Kunne ikke sjekke om PR finnes fra før for GitHub-kodelager med URL: ',
+          'form.knownErrorAlerts.couldNotCreatePR':
+            'Kunne ikke lage en pull request. Sjekk at URL er et GitHub-kodelager og at det ikke finnes en eksisterende pull request.',
         },
       }),
   },
