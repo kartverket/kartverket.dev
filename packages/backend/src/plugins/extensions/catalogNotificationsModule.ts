@@ -123,9 +123,14 @@ export const catalogNotificationsModule = createBackendModule({
             for (let i = 0; i < entities.items.length; i++) {
               const entity = entities.items[i];
               const missingRelation = query[i];
-              if (!entity) throw Error('Missing relation source entity');
-              if (!missingRelation)
-                throw Error('Missing missing relation relation');
+              if (!entity) {
+                logger.error(`Entity not found for ref: ${query[i]?.ref}`);
+                continue;
+              }
+              if (!missingRelation) {
+                logger.error('Missing missing relation relation');
+                continue;
+              }
 
               const namespace = entity.metadata.namespace ?? 'default';
               const entityLink = `/catalog/${namespace}/${entity.kind}/${entity.metadata.name}`;
