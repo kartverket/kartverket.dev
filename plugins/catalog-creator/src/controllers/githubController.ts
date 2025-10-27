@@ -8,6 +8,7 @@ import { OAuthApi } from '@backstage/core-plugin-api';
 export class GithubController {
   submitCatalogInfoToGithub = async (
     url: string,
+    default_branch: string | undefined,
     initialYaml: RequiredYamlFields[],
     catalogInfo: FormEntity[],
     githubAuthApi: OAuthApi,
@@ -56,13 +57,13 @@ export class GithubController {
     }
 
     try {
-      if (owner && repo && relative_path) {
+      if (owner && repo && relative_path && default_branch) {
         const result = await octokit.createPullRequest({
           owner: owner,
           repo: repo,
           title: 'Create/update catalog-info.yaml',
           body: 'Creates or updates catalog-info.yaml',
-          base: 'main',
+          base: default_branch,
           head: 'Update-or-create-catalog-info',
           changes: [
             {

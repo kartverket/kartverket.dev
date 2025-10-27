@@ -11,6 +11,18 @@ export enum AllowedEntityKinds {
   Resource = 'Resource',
 }
 
+export enum ComponentTypes {
+  website = 'website',
+  library = 'library',
+  service = 'service',
+}
+
+export enum ApiTypes {
+  openapi = 'openapi',
+  asyncapi = 'asyncapi',
+  graphql = 'graphql',
+  grpc = 'grpc',
+}
 const Kinds = {
   API: 'API',
   Component: 'Component',
