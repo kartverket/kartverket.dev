@@ -24,6 +24,7 @@ import { SystemForm } from './Forms/SystemForm';
 import { FieldHeader } from './FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
+import { TextField } from '@material-ui/core';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
