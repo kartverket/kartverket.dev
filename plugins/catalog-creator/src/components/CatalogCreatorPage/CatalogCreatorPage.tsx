@@ -178,9 +178,9 @@ export const CatalogCreatorPage = () => {
                     <Flex align="end">
                       <div style={{ flexGrow: 1 }}>
                         <TextField
-                          label="Repository URL"
+                          label={t('repositorySearch.label')}
                           size="small"
-                          placeholder="Enter a URL"
+                          placeholder={t('repositorySearch.placeholder')}
                           name="url"
                           value={url}
                           onChange={e => {
@@ -188,7 +188,9 @@ export const CatalogCreatorPage = () => {
                           }}
                         />
                       </div>
-                      <Button type="submit">Fetch!</Button>
+                      <Button type="submit">
+                        {t('repositorySearch.fetchButton')}
+                      </Button>
                     </Flex>
                   </Box>
                 </form>

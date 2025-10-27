@@ -1,7 +1,12 @@
 import { OAuthApi } from '@backstage/core-plugin-api';
+// import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { Octokit } from '@octokit/rest';
 
-export async function getRepoInfo(url: string, githubAuthApi: OAuthApi) {
+export async function getRepoInfo(
+  url: string,
+  githubAuthApi: OAuthApi,
+  // t: ReturnType<typeof useTranslationRef>['t'],
+) {
   const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
 
   if (!match) {
@@ -28,7 +33,7 @@ export async function getRepoInfo(url: string, githubAuthApi: OAuthApi) {
     returnObject.default_branch = response.data.default_branch;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      error.message = `Could not find the GitHub repository: ${url}.`;
+      error.message = `Could not find the GitHub repository: ${url}`;
       throw error;
     } else {
       throw new Error(
