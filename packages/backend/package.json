@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@backstage-community/plugin-explore-backend": "^0.6.0",
-    "@backstage-community/plugin-lighthouse-backend": "^0.10.0",
+    "@backstage-community/plugin-lighthouse-backend": "^0.16.0",
     "@backstage-community/plugin-linguist-backend": "^0.14.0",
     "@backstage/backend-defaults": "backstage:^",
     "@backstage/backend-plugin-api": "backstage:^",
@@ -57,6 +57,7 @@
     "@kartverket/plugin-dask-onboarding-backend": "^0.1.15",
     "app": "link:../app",
     "better-sqlite3": "^11.10.0",
+    "form-data": "^2.5.5",
     "jwt-decode": "^4.0.0"
   },
   "devDependencies": {
