@@ -1,13 +1,4 @@
-import {
-  Button,
-  Box,
-  Flex,
-  Select,
-  Icon,
-  Card,
-  Text,
-  TextField,
-} from '@backstage/ui';
+import { Button, Box, Flex, Select, Icon, Card, Text } from '@backstage/ui';
 
 import type {
   EntityErrors,
@@ -29,9 +20,11 @@ import { useApi } from '@backstage/core-plugin-api';
 import { Entity } from '@backstage/catalog-model';
 import { useState } from 'react';
 import Divider from '@mui/material/Divider';
-import CatalogSearch from '../CatalogSearch';
 import { SystemForm } from './Forms/SystemForm';
 import { FieldHeader } from './FieldHeader';
+import Autocomplete from '@mui/material/Autocomplete';
+import MuiTextField from '@mui/material/TextField';
+import { TextField } from '@material-ui/core';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -90,6 +83,7 @@ export const CatalogForm = ({
               consumesApis: entry.spec.consumesApis,
               dependencyOf: entry.spec.dependencyOf,
               definition: definition,
+              title: entry.metadata.title || '',
             };
           })
         : [
@@ -98,6 +92,7 @@ export const CatalogForm = ({
               kind: 'Component',
               name: defaultName,
               owner: '',
+              title: '',
             },
           ],
     },
@@ -125,6 +120,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
+          title: '',
         };
         break;
       case 'API' as Kind:
@@ -137,6 +133,7 @@ export const CatalogForm = ({
           entityType: '',
           system: '',
           definition: '',
+          title: '',
         };
         break;
       case 'System' as Kind:
@@ -149,6 +146,7 @@ export const CatalogForm = ({
           entityType: '',
           system: '',
           definition: '',
+          title: '',
         };
         break;
       default:
@@ -160,6 +158,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
+          title: '',
         };
     }
     setIndexCount(prev => prev + 1);
@@ -213,12 +212,16 @@ export const CatalogForm = ({
       >
         <Box px="2rem">
           <h2>Catalog-info.yaml Form</h2>
+          <p style={{ fontSize: '0.85rem', color: 'gray' }}>
+            Required fields marked with:{' '}
+            <span style={{ color: '#ff0000', fontSize: '1rem' }}>*</span>
+          </p>
           {fields.map((entity, index) => {
             return (
               <Card
                 style={{
                   marginRight: '1rem',
-                  marginTop: '1rem',
+                  marginBottom: '1rem',
                   padding: '1rem',
                   position: 'relative',
                   overflow: 'visible',
@@ -249,20 +252,30 @@ export const CatalogForm = ({
                     )}
                   </Flex>
 
-                  <div>
+                  <div style={{ width: '100%' }}>
                     <FieldHeader
                       fieldName="Name"
                       required
-                      tooltipText="The name of the component entity. This name is both meant for human eyes to recognize the entity, and for machines and other components to reference the entity. Must be unique"
+                      tooltipText="The name of the entity. This name is both meant for human eyes to recognize the entity, and for machines and other components to reference the entity. Must be unique"
                     />
                     <Controller
                       name={`entities.${index}.name`}
                       control={control}
                       render={({ field }) => (
-                        <TextField {...field} name="Name" />
+                        <MuiTextField
+                          {...field}
+                          name="Name"
+                          fullWidth
+                          size="small"
+                          inputProps={{
+                            style: {
+                              fontSize: '0.85rem',
+                              fontFamily: 'system-ui',
+                            },
+                          }}
+                        />
                       )}
                     />
-
                     <span
                       style={{
                         color: 'red',
@@ -275,19 +288,92 @@ export const CatalogForm = ({
                   </div>
                   <div>
                     <FieldHeader
+                      fieldName="Title"
+                      tooltipText="A human-readable title for the component entity, shown in Backstage UI instead of the name when available. Optional."
+                    />
+                    <Controller
+                      name={`entities.${index}.title`}
+                      control={control}
+                      render={({ field }) => (
+                        <TextField {...field} name="Title" />
+                      )}
+                    />
+                    <span
+                      style={{
+                        color: 'red',
+                        fontSize: '0.75rem',
+                        visibility: errors?.entities ? 'visible' : 'hidden',
+                      }}
+                    >
+                      {errors?.entities?.[index]?.title?.message || '\u00A0'}
+                    </span>
+                  </div>
+                  <div>
+                    <FieldHeader
                       fieldName="Owner"
-                      tooltipText="A reference to the owner (commonly a team), that bears ultimate responsibility for the component, and has the authority and capability to develop and maintain it"
+                      tooltipText="A reference to the owner (commonly a team), that bears ultimate responsibility for the entity, and has the authority and capability to develop and maintain it"
                       required
                     />
                     <Controller
                       name={`entities.${index}.owner`}
                       control={control}
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <CatalogSearch
-                          onChange={onChange}
+                        <Autocomplete
+                          value={
+                            value
+                              ? (fetchOwners?.value?.find(
+                                  ownerEntity =>
+                                    ownerEntity.metadata.name === value,
+                                ) ?? null)
+                              : null
+                          }
                           onBlur={onBlur}
-                          value={value}
-                          entityList={fetchOwners.value || []}
+                          onChange={(_, newValue) => {
+                            const names = newValue?.metadata?.name ?? '';
+                            onChange(names);
+                          }}
+                          options={fetchOwners.value || []}
+                          getOptionLabel={option => {
+                            return option.metadata.name;
+                          }}
+                          filterOptions={(options, state) => {
+                            const inputValue = state.inputValue.toLowerCase();
+                            return options.filter(option => {
+                              const name = option.metadata.name.toLowerCase();
+                              const title = (
+                                option.metadata.title ?? ''
+                              ).toLowerCase();
+                              return (
+                                name.includes(inputValue) ||
+                                title.includes(inputValue)
+                              );
+                            });
+                          }}
+                          renderOption={(props, option) => {
+                            const label =
+                              option.metadata.title ?? option.metadata.name;
+                            return <li {...props}>{label}</li>;
+                          }}
+                          isOptionEqualToValue={(option, selectedValue) => {
+                            return (
+                              option.metadata.name ===
+                              selectedValue.metadata.name
+                            );
+                          }}
+                          size="small"
+                          renderInput={params => (
+                            <MuiTextField
+                              {...params}
+                              placeholder="Select owner"
+                              InputProps={{
+                                ...params.InputProps,
+                                sx: {
+                                  fontSize: '0.85rem',
+                                  font: 'system-ui',
+                                },
+                              }}
+                            />
+                          )}
                         />
                       )}
                     />
@@ -337,7 +423,11 @@ export const CatalogForm = ({
           </Flex>
           <Divider sx={{ marginY: '1.5rem' }} />
           <Flex justify="end">
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              type="submit"
+              style={{ marginBottom: '0.75rem' }}
+            >
               Create pull request
             </Button>
           </Flex>

@@ -17,6 +17,7 @@ export const updateYaml = (
         metadata: {
           ...initial.metadata,
           name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
         },
         spec: {
           ...initial.spec,
@@ -55,6 +56,7 @@ export const updateYaml = (
         metadata: {
           ...initial.metadata,
           name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
         },
         spec: {
           ...initial.spec,
@@ -76,6 +78,7 @@ export const updateYaml = (
         metadata: {
           ...initial.metadata,
           name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
         },
         spec: {
           ...initial.spec,
@@ -96,6 +99,7 @@ export const updateYaml = (
         metadata: {
           ...initial.metadata,
           name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
         },
         spec: {
           ...initial.spec,
