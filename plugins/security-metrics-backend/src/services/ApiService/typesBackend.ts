@@ -64,6 +64,7 @@ export type Repository = {
   rosStatus: RosStatusData;
   scannerConfig: ScannerConfig;
   vulnerabilities: Vulnerability[];
+  averageTimeToSolveVulnerabilityDays?: number;
 };
 
 export type Vulnerability = {
