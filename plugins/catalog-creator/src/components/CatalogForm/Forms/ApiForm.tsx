@@ -1,11 +1,16 @@
-import { Flex, Select, TextField } from '@backstage/ui';
+import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
-import CatalogSearch from '../../CatalogSearch';
-import { AllowedLifecycleStages, EntityErrors } from '../../../model/types';
+import {
+  AllowedLifecycleStages,
+  ApiTypes,
+  EntityErrors,
+} from '../../../model/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
 import { FieldHeader } from '../FieldHeader';
+import Autocomplete from '@mui/material/Autocomplete';
+import MuiTextField from '@mui/material/TextField';
 
 export type ApiFormProps = {
   index: number;
@@ -18,7 +23,7 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
   return (
     <Flex direction="column" justify="start">
       <Flex>
-        <div>
+        <div style={{ width: '50%' }}>
           <FieldHeader
             fieldName="Lifecycle"
             tooltipText="The lifecycle state of the API"
@@ -28,16 +33,27 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
             name={`entities.${index}.lifecycle`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Select
-                name="lifecycle"
+              <Autocomplete
+                value={value}
+                onChange={(_, newValue) => {
+                  onChange(newValue ?? '');
+                }}
                 onBlur={onBlur}
-                onSelectionChange={onChange}
-                selectedKey={value}
-                options={Object.values(AllowedLifecycleStages).map(
-                  lifecycleStage => ({
-                    value: lifecycleStage as string,
-                    label: lifecycleStage,
-                  }),
+                options={Object.values(AllowedLifecycleStages)}
+                getOptionLabel={option => option}
+                size="small"
+                renderInput={params => (
+                  <MuiTextField
+                    {...params}
+                    placeholder="Select type"
+                    InputProps={{
+                      ...params.InputProps,
+                      sx: {
+                        fontSize: '0.85rem',
+                        font: 'system-ui',
+                      },
+                    }}
+                  />
                 )}
               />
             )}
@@ -54,16 +70,44 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
           </span>
         </div>
 
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
             fieldName="Type"
-            tooltipText="The type of the API."
+            tooltipText="The type of the API. It is recommended to choose one from the dropdown, but you can define your own type"
             required
           />
           <Controller
             name={`entities.${index}.entityType`}
             control={control}
-            render={({ field }) => <TextField {...field} name="Entity type" />}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Autocomplete
+                freeSolo
+                value={value}
+                onChange={(_, newValue) => {
+                  onChange(newValue ?? '');
+                }}
+                onInputChange={(_, newInputValue) => {
+                  onChange(newInputValue);
+                }}
+                onBlur={onBlur}
+                options={Object.values(ApiTypes)}
+                getOptionLabel={option => option}
+                size="small"
+                renderInput={params => (
+                  <MuiTextField
+                    {...params}
+                    placeholder="Select type"
+                    InputProps={{
+                      ...params.InputProps,
+                      sx: {
+                        fontSize: '0.85rem',
+                        font: 'system-ui',
+                      },
+                    }}
+                  />
+                )}
+              />
+            )}
           />
 
           <span
@@ -77,20 +121,63 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
           </span>
         </div>
       </Flex>
+
       <div>
         <FieldHeader
           fieldName="System"
-          tooltipText="Reference to the system which the component belongs to"
+          tooltipText="Reference to the system which the API belongs to"
         />
         <Controller
           name={`entities.${index}.system`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <CatalogSearch
-              onChange={onChange}
+            <Autocomplete
+              value={
+                value
+                  ? (systems.find(entity => entity.metadata.name === value) ??
+                    null)
+                  : null
+              }
               onBlur={onBlur}
-              entityList={systems}
-              value={value}
+              onChange={(_, newValue) => {
+                const names = newValue?.metadata?.name ?? '';
+                onChange(names);
+              }}
+              options={systems || []}
+              getOptionLabel={option => {
+                return option.metadata.name;
+              }}
+              filterOptions={(options, state) => {
+                const inputValue = state.inputValue.toLowerCase();
+                return options.filter(option => {
+                  const name = option.metadata.name.toLowerCase();
+                  const title = (option.metadata.title ?? '').toLowerCase();
+                  return (
+                    name.includes(inputValue) || title.includes(inputValue)
+                  );
+                });
+              }}
+              renderOption={(props, option) => {
+                const label = option.metadata.title ?? option.metadata.name;
+                return <li {...props}>{label}</li>;
+              }}
+              isOptionEqualToValue={(option, selectedValue) => {
+                return option.metadata.name === selectedValue.metadata.name;
+              }}
+              size="small"
+              renderInput={params => (
+                <MuiTextField
+                  {...params}
+                  placeholder="Select system"
+                  InputProps={{
+                    ...params.InputProps,
+                    sx: {
+                      fontSize: '0.85rem',
+                      font: 'system-ui',
+                    },
+                  }}
+                />
+              )}
             />
           )}
         />
@@ -113,7 +200,20 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
         <Controller
           name={`entities.${index}.definition`}
           control={control}
-          render={({ field }) => <TextField {...field} name="Definition" />}
+          render={({ field }) => (
+            <MuiTextField
+              {...field}
+              name="Definition"
+              fullWidth
+              size="small"
+              inputProps={{
+                style: {
+                  fontSize: '0.85rem',
+                  fontFamily: 'system-ui',
+                },
+              }}
+            />
+          )}
         />
 
         <span
