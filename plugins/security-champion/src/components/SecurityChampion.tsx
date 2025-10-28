@@ -15,7 +15,6 @@ import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampi
 import { Button } from '@backstage/ui';
 import { UserEntity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import useTheme from '@mui/system/useTheme';
 
 const CardWrapper = ({
   title,
@@ -96,7 +95,7 @@ export const SecurityChampion = ({
   const onEdit = () => {
     setEdit(!edit);
   };
-  const theme = useTheme();
+
   if (edit) {
     return (
       <CardWrapper title="Change security champion:">
@@ -113,7 +112,7 @@ export const SecurityChampion = ({
           <Button
             style={{
               marginTop: 8,
-              backgroundColor: theme.palette.action.disabled, // skjønner ikke helt hvorfor dette funker.
+              backgroundColor: 'var(--bui-bg-solid-disabled)',
             }}
             onClick={setSecurityChampion}
             isDisabled
