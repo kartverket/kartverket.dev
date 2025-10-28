@@ -126,7 +126,7 @@ export const ComponentForm = ({
                 renderInput={params => (
                   <MuiTextField
                     {...params}
-                    placeholder="Select type"
+                    placeholder={t('form.componentForm.type.placeholder')}
                     InputProps={{
                       ...params.InputProps,
                       sx: {
