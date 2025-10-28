@@ -102,7 +102,7 @@ export const ComponentForm = ({
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
             fieldName="Type"
-            tooltipText="The type of the component. It is recommended to choose one from the dropdown, but you can define your own type"
+            tooltipText="The type of the component"
             required
           />
           <Controller
@@ -110,13 +110,9 @@ export const ComponentForm = ({
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <Autocomplete
-                freeSolo
                 value={value}
                 onChange={(_, newValue) => {
                   onChange(newValue);
-                }}
-                onInputChange={(_, newInputValue) => {
-                  onChange(newInputValue);
                 }}
                 onBlur={onBlur}
                 options={Object.values(ComponentTypes)}
