@@ -91,6 +91,7 @@ export type RepositorySummary = {
   scannerConfig: ScannerConfig;
   harRos: Boolean;
   rosStatus: RosStatus;
+  averageTimeToSolveVulnerabilityDays?: number;
 };
 
 export type SikkerhetsmetrikkerTotal = {
