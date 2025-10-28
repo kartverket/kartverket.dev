@@ -118,6 +118,8 @@ export const systemSchema = baseEntitySchema.extend({
         message: 'Domain cannot contain space',
       }),
   ),
+
+  systemType: z.optional(z.string()),
 });
 
 export const domainSchema = baseEntitySchema.extend({
