@@ -2,7 +2,7 @@ import { Box, Card } from '@backstage/ui';
 import Link from '@material-ui/core/Link';
 import Divider from '@mui/material/Divider';
 
-export const InfoBox = () => {
+export const EditOrGenerateCatalogInfoBox = () => {
   return (
     <Card>
       <Box px="2rem">
