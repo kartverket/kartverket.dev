@@ -1,5 +1,5 @@
-import { Button, Box, Flex, Select, Icon, Card, Text } from '@backstage/ui';
-
+import { Button, Box, Flex, Select, Card, Text } from '@backstage/ui';
+import DeleteIcon from '@mui/icons-material/Delete';
 import type {
   EntityErrors,
   FormEntity,
@@ -24,7 +24,6 @@ import { SystemForm } from './Forms/SystemForm';
 import { FieldHeader } from './FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
-import { TextField } from '@material-ui/core';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -247,7 +246,7 @@ export const CatalogForm = ({
                         style={{ width: '40px', alignSelf: 'flex-end' }}
                         onClick={() => remove(index)}
                       >
-                        <Icon name="trash" />
+                        <DeleteIcon />
                       </Button>
                     )}
                   </Flex>
@@ -295,7 +294,18 @@ export const CatalogForm = ({
                       name={`entities.${index}.title`}
                       control={control}
                       render={({ field }) => (
-                        <TextField {...field} name="Title" />
+                        <MuiTextField
+                          {...field}
+                          name="Title"
+                          fullWidth
+                          size="small"
+                          inputProps={{
+                            style: {
+                              fontSize: '0.85rem',
+                              fontFamily: 'system-ui',
+                            },
+                          }}
+                        />
                       )}
                     />
                     <span
@@ -404,8 +414,8 @@ export const CatalogForm = ({
             <Flex align="end" justify="start">
               <Select
                 label="Select kind"
-                selectedKey={addEntityKind}
-                onSelectionChange={value => setAddEntityKind(value as Kind)}
+                value={addEntityKind}
+                onChange={value => setAddEntityKind(value as Kind)}
                 options={Object.values(AllowedEntityKinds).map(
                   lifecycleStage => ({
                     value: lifecycleStage as string,
