@@ -24,7 +24,6 @@ import { SystemForm } from './Forms/SystemForm';
 import { FieldHeader } from './FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
-import { TextField } from '@material-ui/core';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -295,7 +294,18 @@ export const CatalogForm = ({
                       name={`entities.${index}.title`}
                       control={control}
                       render={({ field }) => (
-                        <TextField {...field} name="Title" />
+                        <MuiTextField
+                          {...field}
+                          name="Title"
+                          fullWidth
+                          size="small"
+                          inputProps={{
+                            style: {
+                              fontSize: '0.85rem',
+                              fontFamily: 'system-ui',
+                            },
+                          }}
+                        />
                       )}
                     />
                     <span
