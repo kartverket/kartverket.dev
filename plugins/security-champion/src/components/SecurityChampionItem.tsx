@@ -65,8 +65,7 @@ export const SecurityChampionItem = ({
   repositories?: string[];
 }) => {
   const isSmallScreen = useMediaQuery('(max-width: 1500px)');
-  
-  
+
   return (
     <ListItem>
       <Stack
@@ -88,6 +87,9 @@ export const SecurityChampionItem = ({
         )}
         {repositories && (
           <CustomTooltip
+            sx={{
+              backgroundColor: 'var(--bui-bg-surface-1	)',
+            }}
             title={
               <List>
                 {repositories.map(repository => (
