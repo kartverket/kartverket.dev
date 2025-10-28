@@ -98,7 +98,9 @@ export const ComponentForm = ({
               visibility: errors?.lifecycle ? 'visible' : 'hidden',
             }}
           >
-            {errors?.lifecycle?.message || '\u00A0'}
+            {errors?.lifecycle?.message
+              ? t(errors?.lifecycle?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
 
@@ -145,7 +147,9 @@ export const ComponentForm = ({
               visibility: errors?.entityType ? 'visible' : 'hidden',
             }}
           >
-            {errors?.entityType?.message || '\u00A0'}
+            {errors?.entityType?.message
+              ? t(errors?.entityType?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
       </Flex>
@@ -216,7 +220,9 @@ export const ComponentForm = ({
             visibility: errors?.system ? 'visible' : 'hidden',
           }}
         >
-          {errors?.system?.message || '\u00A0'}
+          {errors?.system?.message
+            ? t(errors?.system?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
       <div>
@@ -294,7 +300,9 @@ export const ComponentForm = ({
             visibility: errors?.providesApis ? 'visible' : 'hidden',
           }}
         >
-          {errors?.providesApis?.message || '\u00A0'}
+          {errors?.providesApis?.message
+            ? t(errors?.providesApis?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
       <div>
@@ -356,7 +364,9 @@ export const ComponentForm = ({
             visibility: errors?.consumesApis ? 'visible' : 'hidden',
           }}
         >
-          {errors?.consumesApis?.message || '\u00A0'}
+          {errors?.consumesApis?.message
+            ? t(errors?.consumesApis?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
       <div>
@@ -425,7 +435,9 @@ export const ComponentForm = ({
             visibility: errors?.dependsOn ? 'visible' : 'hidden',
           }}
         >
-          {errors?.dependsOn?.message || '\u00A0'}
+          {errors?.dependsOn?.message
+            ? t(errors?.dependsOn?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
     </Flex>

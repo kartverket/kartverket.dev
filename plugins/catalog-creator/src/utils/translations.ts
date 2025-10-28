@@ -109,6 +109,27 @@ export const catalogCreatorMessages = {
         placeholder: 'Select domain',
       },
     },
+    errors: {
+      noName: 'Add a name',
+      nameNoSpace: 'Name cannot contain space',
+      nameNoSpecialChar: 'Name cannot start or end with special characters',
+
+      noOwner: 'Add an owner',
+      ownerNoSpace: 'Name cannot contain space',
+
+      systemNoSpace: 'System cannot contain space',
+      noLifecycle: 'Choose a lifecycle',
+
+      noType: 'Add a type',
+      typeNoSpace: 'Type cannot contain space',
+
+      APIsNoSpace: 'APIs cannot contain space',
+      dependenciesNoSpace: 'Dependencies cannot contain space',
+
+      definitionNoSpace: 'Definition URL cannot contain space',
+
+      domainNoSpace: 'Domain cannot contain space',
+    },
 
     infoAlerts: {
       alreadyExists: 'Catalog-info.yaml already exists. Editing existing file.',
@@ -148,6 +169,11 @@ export const catalogCreatorMessages = {
           requires during runtime, such as object storage or other cloud
           services.`,
     linkText: `Learn more about entities and the Backstage catalog.`,
+  },
+  successPage: {
+    successfullyCreatedPR: 'Successfully created a pull request: ',
+    couldNotRetrieveURL: 'Could not retrieve pull request URL.',
+    registerNew: 'Register a new component?',
   },
 } as const;
 
@@ -245,6 +271,41 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Referanse til domenet som systemet tilhører.',
           'form.systemForm.domain.placeholder': 'Velg domene',
 
+          'form.infoAlerts.alreadyExists':
+            'Catalog-info.yaml finnes fra før, du redigerer filen.',
+          'form.infoAlerts.doesNotExist':
+            'Catalog-info.yaml finnes ikke, du oppretter en ny fil.',
+
+          'form.knownErrorAlerts.repoNotFound':
+            'Kunne ikke finne GitHub-kodelager med URL: ',
+          'form.knownErrorAlerts.PRExists':
+            'Det finnes allerede en pull request: ',
+          'form.knownErrorAlerts.couldNotCheckIfPRExists':
+            'Kunne ikke sjekke om PR finnes fra før for GitHub-kodelager med URL: ',
+          'form.knownErrorAlerts.couldNotCreatePR':
+            'Kunne ikke lage en pull request. Sjekk at URL er et GitHub-kodelager og at det ikke finnes en eksisterende pull request.',
+
+          'form.errors.noName': 'Legg til navn',
+          'form.errors.nameNoSpace': 'Navn kan ikke inneholde mellomrom',
+          'form.errors.nameNoSpecialChar':
+            'Navn kan ikke inneholde spesialtegn',
+
+          'form.errors.noOwner': 'Legg til eier',
+          'form.errors.ownerNoSpace': 'Eier kan ikke inneholde mellomrom',
+
+          'form.errors.systemNoSpace': 'System kan ikke inneholde mellomrom',
+
+          'form.errors.noLifecycle': 'Velg et livsyklusstadie',
+
+          'form.errors.noType': 'Legg til en type',
+          'form.errors.typeNoSpace': 'Type kan ikke inneholde mellomrom',
+
+          'form.errors.APIsNoSpace': 'APIer kan ikke inneholde mellomrom',
+          'form.errors.dependenciesNoSpace':
+            'Avhengigheter kan ikke inneholde mellomrom',
+          'form.errors.definitionNoSpace': 'URL kan ikke inneholde mellomrom',
+          'form.errors.domainNoSpace': 'Domene kan ikke inneholde mellomrom',
+
           'infoBox.title': 'Rediger eller lag catalog-info.yaml',
           'infoBox.p1':
             'Dette skjemaet hjelper deg med å opprette eller redigere catalog-info.yaml-filer som brukes av Backstage for å oppdage og administrere programvarekomponenter i katalogen. Skriv inn en GitHub-kodelager-URL for å legge den til i utviklerportalen, eller oppgi en lenke til en eksisterende catalog-info.yaml-fil for å redigere den ved hjelp av dette skjemaet.',
@@ -261,19 +322,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Resource-entiteter representerer delte ressurser som en komponent trenger under kjøring, for eksempel objektlagring eller andre skytjenester.',
           'infoBox.linkText': 'Lær mer om entiteter og Backstage-katalogen.',
 
-          'form.infoAlerts.alreadyExists':
-            'Catalog-info.yaml finnes fra før, du redigerer filen.',
-          'form.infoAlerts.doesNotExist':
-            'Catalog-info.yaml finnes ikke, du oppretter en ny fil.',
-
-          'form.knownErrorAlerts.repoNotFound':
-            'Kunne ikke finne GitHub-kodelager med URL: ',
-          'form.knownErrorAlerts.PRExists':
-            'Det finnes allerede en pull request: ',
-          'form.knownErrorAlerts.couldNotCheckIfPRExists':
-            'Kunne ikke sjekke om PR finnes fra før for GitHub-kodelager med URL: ',
-          'form.knownErrorAlerts.couldNotCreatePR':
-            'Kunne ikke lage en pull request. Sjekk at URL er et GitHub-kodelager og at det ikke finnes en eksisterende pull request.',
+          'successPage.successfullyCreatedPR': 'Opprettet en pull request: ',
+          'successPage.couldNotRetrieveURL':
+            'Klarte ikke hente URL for pull request.',
+          'successPage.registerNew': 'Registrer en ny component?',
         },
       }),
   },

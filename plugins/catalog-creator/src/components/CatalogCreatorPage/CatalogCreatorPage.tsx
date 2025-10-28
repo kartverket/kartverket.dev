@@ -139,7 +139,7 @@ export const CatalogCreatorPage = () => {
                       sx={{ fontWeight: 'bold', textAlign: 'center' }}
                       severity="success"
                     >
-                      Successfully created a pull request:{' '}
+                      {t('successPage.successfullyCreatedPR')}
                       {repoState?.value?.prUrl ? (
                         <Link
                           href={repoState.value.prUrl}
@@ -150,7 +150,7 @@ export const CatalogCreatorPage = () => {
                           {repoState.value.prUrl}
                         </Link>
                       ) : (
-                        <p>Could not retrieve pull request URL.</p>
+                        <p>{t('successPage.couldNotRetrieveURL')}</p>
                       )}
                     </Alert>
                     <Link
@@ -162,7 +162,7 @@ export const CatalogCreatorPage = () => {
                         doSubmitToGithub('', undefined);
                       }}
                     >
-                      Register a new component?
+                      {t('successPage.registerNew')}
                     </Link>
                   </Flex>
                 </Box>

@@ -285,7 +285,12 @@ export const CatalogForm = ({
                         visibility: errors?.entities ? 'visible' : 'hidden',
                       }}
                     >
-                      {errors?.entities?.[index]?.name?.message || '\u00A0'}
+                      {errors?.entities?.[index]?.name?.message
+                        ? t(
+                            errors.entities[index]?.name
+                              ?.message as keyof typeof t,
+                          )
+                        : '\u00A0'}
                     </span>
                   </div>
                   <div>
@@ -400,7 +405,12 @@ export const CatalogForm = ({
                           : 'hidden',
                       }}
                     >
-                      {errors.entities?.[index]?.owner?.message || '\u00A0'}
+                      {errors?.entities?.[index]?.owner?.message
+                        ? t(
+                            errors.entities[index]?.owner
+                              ?.message as keyof typeof t,
+                          )
+                        : '\u00A0'}
                     </span>
                   </div>
 

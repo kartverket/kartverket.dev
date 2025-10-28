@@ -69,7 +69,9 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
               visibility: errors?.lifecycle ? 'visible' : 'hidden',
             }}
           >
-            {errors?.lifecycle?.message || '\u00A0'}
+            {errors?.lifecycle?.message
+              ? t(errors?.lifecycle?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
 
@@ -116,7 +118,9 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
               visibility: errors?.entityType ? 'visible' : 'hidden',
             }}
           >
-            {errors?.entityType?.message || '\u00A0'}
+            {errors?.entityType?.message
+              ? t(errors?.entityType?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
       </Flex>
@@ -188,7 +192,9 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
             visibility: errors?.system ? 'visible' : 'hidden',
           }}
         >
-          {errors?.system?.message || '\u00A0'}
+          {errors?.system?.message
+            ? t(errors?.system?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
       <div>
@@ -222,7 +228,9 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
             visibility: errors?.definition ? 'visible' : 'hidden',
           }}
         >
-          {errors?.definition?.message || '\u00A0'}
+          {errors?.definition?.message
+            ? t(errors?.definition?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
     </Flex>

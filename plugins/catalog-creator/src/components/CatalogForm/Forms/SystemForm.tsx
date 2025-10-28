@@ -78,7 +78,9 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
               visibility: errors?.entityType ? 'visible' : 'hidden',
             }}
           >
-            {errors?.entityType?.message || '\u00A0'}
+            {errors?.entityType?.message
+              ? t(errors?.entityType?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
       </Flex>
@@ -107,7 +109,9 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
             visibility: errors?.domain ? 'visible' : 'hidden',
           }}
         >
-          {errors?.domain?.message || '\u00A0'}
+          {errors?.domain?.message
+            ? t(errors?.domain?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
     </Flex>
