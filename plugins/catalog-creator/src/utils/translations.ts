@@ -23,6 +23,11 @@ export const catalogCreatorMessages = {
       tooltipText:
         'The name of the entity. This name is both meant for human eyes to recognize the entity, and for machines and other components to reference the entity. Must be unique',
     },
+    titleField: {
+      fieldName: 'Title',
+      tooltipText:
+        'A human-readable title for the component entity, shown in Backstage UI instead of the name when available. Optional.',
+    },
     owner: {
       fieldName: 'Owner',
       tooltipText:
@@ -201,6 +206,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.name.fieldName': 'Navn',
           'form.name.tooltipText':
             'Navnet på entiteten. Dette navnet er både ment for at mennesker skal kunne kjenne igjen entiteten, men også for maskiner og andre komponenter for å kunne referrere til entiteten. Det må være unikt.',
+
+          'form.titleField.fieldName': 'Tittel',
+          'form.titleField.tooltipText':
+            'En tittel for entiteten, vist i utviklerportalen i stedet for navn når det er tilgjengelig. Det er ikke obligatorisk.',
 
           'form.owner.fieldName': 'Eier',
           'form.owner.tooltipText':

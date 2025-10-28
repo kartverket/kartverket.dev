@@ -295,8 +295,8 @@ export const CatalogForm = ({
                   </div>
                   <div>
                     <FieldHeader
-                      fieldName="Title"
-                      tooltipText="A human-readable title for the component entity, shown in Backstage UI instead of the name when available. Optional."
+                      fieldName={t('form.titleField.fieldName')}
+                      tooltipText={t('form.titleField.tooltipText')}
                     />
                     <Controller
                       name={`entities.${index}.title`}
