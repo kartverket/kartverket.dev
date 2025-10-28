@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ErrorBanner } from './ErrorBanner';
 import { SecurityChamp } from '../types';
 import { SecurityChampionItem } from './SecurityChampionItem';
@@ -15,6 +15,7 @@ import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampi
 import { Button } from '@backstage/ui';
 import { UserEntity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import useTheme from '@mui/system/useTheme';
 
 const CardWrapper = ({
   title,
@@ -95,7 +96,7 @@ export const SecurityChampion = ({
   const onEdit = () => {
     setEdit(!edit);
   };
-
+  const theme = useTheme();
   if (edit) {
     return (
       <CardWrapper title="Change security champion:">
@@ -110,17 +111,20 @@ export const SecurityChampion = ({
 
         {!selectedUser && (
           <Button
-            style={{ marginTop: 8 }}
+            style={{
+              marginTop: 8,
+              backgroundColor: theme.palette.action.disabled, // skjønner ikke helt hvorfor dette funker.
+            }}
             onClick={setSecurityChampion}
             isDisabled
           >
-            Change Champion
+            Confirm change
           </Button>
         )}
 
         {selectedUser && (
           <Button style={{ marginTop: 8 }} onClick={setSecurityChampion}>
-            Change champion
+            Confirm change
           </Button>
         )}
       </CardWrapper>
@@ -154,7 +158,7 @@ export const SecurityChampion = ({
     return (
       <CardWrapper
         title={
-          groupedChampions.keys.length > 1
+          groupedChampions.size > 1
             ? 'Security champions: '
             : 'Security champion: '
         }

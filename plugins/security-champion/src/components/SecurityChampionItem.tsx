@@ -1,6 +1,6 @@
 import { SecurityChamp } from '../types';
 import { useUserProfile } from '../hooks/useUserProfile';
-import { Box, useMediaQuery, useTheme } from '@mui/system';
+import { Box, useMediaQuery } from '@mui/system';
 import { CustomTooltip } from './LightTooltip';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -65,14 +65,10 @@ export const SecurityChampionItem = ({
   repositories?: string[];
 }) => {
   const isSmallScreen = useMediaQuery('(max-width: 1500px)');
-  const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark';
+  
+  
   return (
-    <ListItem
-      sx={{
-        backgroundColor: isDarkMode ? 'grey.900' : '#FFFFFF',
-      }}
-    >
+    <ListItem>
       <Stack
         direction={isSmallScreen ? 'column' : 'row'}
         width="100%"
@@ -92,9 +88,6 @@ export const SecurityChampionItem = ({
         )}
         {repositories && (
           <CustomTooltip
-            sx={{
-              backgroundColor: isDarkMode ? 'grey.900' : '#FFFFFF',
-            }}
             title={
               <List>
                 {repositories.map(repository => (
