@@ -48,6 +48,8 @@ export const RepositoriesTableRow = ({
   const { critical, high, medium, low, negligible, unknown } = severityCount;
   const total = critical + high + medium + low + negligible + unknown;
 
+  const mttr = repository.averageTimeToSolveVulnerabilityDays;
+
   return (
     <StyledTableRow
       key={repository.componentName}
@@ -87,6 +89,15 @@ export const RepositoriesTableRow = ({
               riscLabel(repository.rosStatus)}
           </Box>
         </Box>
+      </TableCell>
+      <TableCell>
+        {typeof mttr === 'number' ? (
+          <Typography>{mttr.toFixed(1)} dager</Typography>
+        ) : (
+          <Typography>
+            <i>Ingen data</i>
+          </Typography>
+        )}
       </TableCell>
       <TableCell>
         <RepositoryScannerStatus repository={repository} />
