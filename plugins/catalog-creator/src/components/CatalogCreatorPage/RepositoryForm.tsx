@@ -1,4 +1,6 @@
 import { TextField, Button, Box, Flex } from '@backstage/ui';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { catalogCreatorTranslationRef } from '../../utils/translations';
 
 interface RepositoryFormProps {
   url: string;
@@ -10,22 +12,26 @@ export const RepositoryForm = ({
   url,
   onUrlChange,
   onSubmit,
-}: RepositoryFormProps) => (
-  <form onSubmit={onSubmit}>
-    <Box px="2rem">
-      <Flex align="end">
-        <div style={{ flexGrow: 1 }}>
-          <TextField
-            label="Repository URL"
-            size="small"
-            placeholder="Enter a URL"
-            name="url"
-            value={url}
-            onChange={onUrlChange}
-          />
-        </div>
-        <Button type="submit">Fetch!</Button>
-      </Flex>
-    </Box>
-  </form>
-);
+}: RepositoryFormProps) => {
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  return (
+    <form onSubmit={onSubmit}>
+      <Box px="2rem">
+        <Flex align="end">
+          <div style={{ flexGrow: 1 }}>
+            <TextField
+              label={t('repositorySearch.label')}
+              size="small"
+              placeholder={t('repositorySearch.placeholder')}
+              name="url"
+              value={url}
+              onChange={onUrlChange}
+            />
+          </div>
+          <Button type="submit"> {t('repositorySearch.fetchButton')}</Button>
+        </Flex>
+      </Box>
+    </form>
+  );
+};

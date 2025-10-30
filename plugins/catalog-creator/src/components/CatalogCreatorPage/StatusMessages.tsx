@@ -1,5 +1,7 @@
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Alert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
+import { catalogCreatorTranslationRef } from '../../utils/translations';
 
 interface StatusMessagesProps {
   hasExistingCatalogFile: boolean;
@@ -27,58 +29,61 @@ export const StatusMessages = ({
   repoStateErrorMessage,
   repoInfoError,
   catalogInfoError,
-}: StatusMessagesProps) => (
-  <>
-    {hasExistingCatalogFile &&
-      !(hasError || isLoading || repoStateError) &&
-      showForm && (
+}: StatusMessagesProps) => {
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
+  return (
+    <>
+      {hasExistingCatalogFile &&
+        !(hasError || isLoading || repoStateError) &&
+        showForm && (
+          <Alert sx={{ mx: 2 }} severity="info">
+            {t('form.infoAlerts.alreadyExists')}
+          </Alert>
+        )}
+
+      {shouldCreateNewFile && !(hasError || isLoading || repoStateError) && (
         <Alert sx={{ mx: 2 }} severity="info">
-          Catalog-info.yaml already exists. Editing existing file.
+          {t('form.infoAlerts.doesNotExist')}
         </Alert>
       )}
 
-    {shouldCreateNewFile && !(hasError || isLoading || repoStateError) && (
-      <Alert sx={{ mx: 2 }} severity="info">
-        Catalog-info.yaml does not exist. Creating a new file.
-      </Alert>
-    )}
+      {existingPrUrl && !isLoading && (
+        <Alert sx={{ mx: 2 }} severity="error">
+          {t('form.knownErrorAlerts.PRExists')}:{' '}
+          <Link
+            href={existingPrUrl}
+            sx={{ fontWeight: 'normal' }}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {existingPrUrl}
+          </Link>
+        </Alert>
+      )}
 
-    {existingPrUrl && !isLoading && (
-      <Alert sx={{ mx: 2 }} severity="error">
-        There already exists a pull request:{' '}
-        <Link
-          href={existingPrUrl}
-          sx={{ fontWeight: 'normal' }}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {existingPrUrl}
-        </Link>
-      </Alert>
-    )}
+      {analysisError && (
+        <Alert sx={{ mx: 2 }} severity="error">
+          {analysisError.message}
+        </Alert>
+      )}
 
-    {analysisError && (
-      <Alert sx={{ mx: 2 }} severity="error">
-        {analysisError.message}
-      </Alert>
-    )}
+      {repoStateError && (
+        <Alert sx={{ mx: 2 }} severity="error">
+          {repoStateErrorMessage}
+        </Alert>
+      )}
 
-    {repoStateError && (
-      <Alert sx={{ mx: 2 }} severity="error">
-        {repoStateErrorMessage}
-      </Alert>
-    )}
+      {repoInfoError && (
+        <Alert sx={{ mx: 2 }} severity="error">
+          {repoInfoError.message}
+        </Alert>
+      )}
 
-    {repoInfoError && (
-      <Alert sx={{ mx: 2 }} severity="error">
-        {repoInfoError.message}
-      </Alert>
-    )}
-
-    {catalogInfoError && (
-      <Alert sx={{ mx: 2 }} severity="error">
-        {catalogInfoError.message}
-      </Alert>
-    )}
-  </>
-);
+      {catalogInfoError && (
+        <Alert sx={{ mx: 2 }} severity="error">
+          {catalogInfoError.message}
+        </Alert>
+      )}
+    </>
+  );
+};

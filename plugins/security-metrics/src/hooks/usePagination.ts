@@ -15,7 +15,7 @@ export const usePaginationProps = (
   count: number,
   initialPage: number = 0,
   initialRowsPerPage: number = 10,
-  rowsPerPageOptions: number[] = [10, 25, 50],
+  rowsPerPageOptions: number[] = [5, 10, 25, 50],
 ): TablePaginationProps => {
   const [page, setPage] = useState(initialPage);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);

@@ -14,6 +14,8 @@ import { SuccessMessage } from './SuccessMessage';
 import { StatusMessages } from './StatusMessages';
 import { RepositoryForm } from './RepositoryForm';
 import { LoadingOverlay } from './LoadingOverlay';
+import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export const CatalogCreatorPage = () => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
@@ -39,6 +41,7 @@ export const CatalogCreatorPage = () => {
     shouldCreateNewFile,
     shouldShowForm,
   } = useCatalogCreator(githubAuthApi);
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +67,7 @@ export const CatalogCreatorPage = () => {
     <Page themeId="tool">
       <Content>
         <Flex justify="between" align="center">
-          <h1>Edit or Create Components</h1>
+          <h1>{t('contentHeader.title')}</h1>
           <SupportButton />
         </Flex>
         <Flex>
