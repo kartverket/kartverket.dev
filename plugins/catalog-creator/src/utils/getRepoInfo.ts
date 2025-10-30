@@ -23,6 +23,9 @@ export async function getRepoInfo(url: string, githubAuthApi: OAuthApi) {
     const response = await octokit.rest.repos.get({
       owner: owner,
       repo: repo,
+      headers: {
+        'If-None-Match': '',
+      },
     });
 
     returnObject.default_branch = response.data.default_branch;
@@ -42,6 +45,9 @@ export async function getRepoInfo(url: string, githubAuthApi: OAuthApi) {
       owner: owner,
       repo: repo,
       state: 'open',
+      headers: {
+        'If-None-Match': '',
+      },
     });
 
     const matchingPr = response.data.find(
