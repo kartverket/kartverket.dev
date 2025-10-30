@@ -108,24 +108,16 @@ export const SecurityChampion = ({
           <ErrorBanner errorMessage="Failed to set security champion" />
         )}
 
-        {!selectedUser && (
-          <Button
-            style={{
-              marginTop: 8,
-              backgroundColor: 'var(--bui-bg-solid-disabled)',
-            }}
-            onClick={setSecurityChampion}
-            isDisabled
-          >
-            Confirm change
-          </Button>
-        )}
-
-        {selectedUser && (
-          <Button style={{ marginTop: 8 }} onClick={setSecurityChampion}>
-            Confirm change
-          </Button>
-        )}
+        <Button
+          style={{
+            marginTop: 8,
+            backgroundColor: selectedUser ? '' : 'var(--bui-bg-solid-disabled)',
+          }}
+          onClick={setSecurityChampion}
+          isDisabled={!selectedUser}
+        >
+          Confirm change
+        </Button>
       </CardWrapper>
     );
   }
