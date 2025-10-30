@@ -4,7 +4,7 @@ import {
   AllowedLifecycleStages,
   ApiTypes,
   EntityErrors,
-} from '../../../model/types';
+} from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';

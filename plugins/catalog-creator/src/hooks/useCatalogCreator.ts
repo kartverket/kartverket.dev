@@ -6,11 +6,14 @@ import { GithubController } from '../controllers/githubController';
 import { getCatalogInfo } from '../utils/getCatalogInfo';
 import { getRepoInfo } from '../utils/getRepoInfo';
 import { scrollToTop } from '../utils/pageUtils';
-import { FormEntity } from '../model/types';
+import { FormEntity } from '../types/types';
+import { catalogCreatorTranslationRef } from '../utils/translations';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
   const catalogImportApi = useApi(catalogImportApiRef);
   const githubController = new GithubController();
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const [url, setUrl] = useState('');
   const [defaultName, setDefaultName] = useState('');
@@ -40,7 +43,12 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
   }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
 
   const [repoInfo, doGetRepoInfo] = useAsyncFn(
-    async () => await getRepoInfo(url, githubAuthApi),
+    async () =>
+      await getRepoInfo(
+        url,
+        githubAuthApi,
+        t('form.knownErrorAlerts.repoNotFound'),
+      ),
     [url, githubAuthApi],
   );
 
@@ -58,6 +66,7 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
         catalogInfoState.value || [],
         catalogInfoFormList,
         githubAuthApi,
+        t('form.knownErrorAlerts.couldNotCreatePR'),
       );
     },
     [

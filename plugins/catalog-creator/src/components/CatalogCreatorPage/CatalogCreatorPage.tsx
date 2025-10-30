@@ -5,7 +5,7 @@ import { useTheme } from '@material-ui/core/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { CatalogForm } from '../CatalogForm';
-import { FormEntity } from '../../model/types';
+import { FormEntity } from '../../types/types';
 import { getDefaultNameFromUrl, getSubmitUrl } from '../../utils/pageUtils';
 import { useCatalogCreator } from '../../hooks/useCatalogCreator';
 
