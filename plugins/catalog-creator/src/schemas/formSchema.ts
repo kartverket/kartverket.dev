@@ -132,6 +132,31 @@ export const domainSchema = baseEntitySchema.extend({
 
 export const resourceSchema = baseEntitySchema.extend({
   kind: z.literal('Resource'),
+  entityType: z.optional(
+    z
+      .string()
+      .trim()
+      .refine(s => !s.includes(' '), {
+        message: 'form.errors.typeNoSpace',
+      }),
+  ),
+  system: z.optional(
+    z
+      .string()
+      .trim()
+      .refine(s => !s.includes(' '), {
+        message: 'form.errors.systemNoSpace',
+      }),
+  ),
+  dependencyof: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.dependenciesNoSpace' },
+    )
+    .optional(),
+  depencencyOf: z.array(z.string()).optional(),
 });
 
 export const entitySchema = z.discriminatedUnion('kind', [

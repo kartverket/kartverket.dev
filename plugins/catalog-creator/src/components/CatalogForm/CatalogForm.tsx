@@ -26,6 +26,8 @@ import MuiTextField from '@mui/material/TextField';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { AutocompleteField } from './AutocompleteField';
+import { ResourceForm } from './Forms/ResourceForm';
+import { DomainForm } from './Forms/DomainForm';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -198,6 +200,23 @@ export const CatalogForm = ({
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'System'>}
             owners={fetchOwners.value || []}
+          />
+        );
+      case 'Resource':
+        return (
+          <ResourceForm
+            index={index}
+            control={control}
+            errors={errors?.entities?.[index] as EntityErrors<'Resource'>}
+            systems={fetchSystems.value || []}
+          />
+        );
+      case 'Domain':
+        return (
+          <DomainForm
+            index={index}
+            control={control}
+            errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
           />
         );
       default:

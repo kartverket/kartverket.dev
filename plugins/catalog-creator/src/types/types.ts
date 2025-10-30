@@ -30,10 +30,23 @@ export enum SystemTypes {
   featureset = 'feature-set',
 }
 
+export enum ResourceTypes {
+  database = 'database',
+  s3bucket = 's3-bucket',
+  kubernetescluster = 'kubernetes-cluster',
+}
+
+export enum DomainTypes {
+  productarea = 'product-area',
+  productgroup = 'product-group',
+  bundle = 'bundle',
+}
+
 const Kinds = {
   API: 'API',
   Component: 'Component',
   System: 'System',
+  Resource: 'Resource',
 } as const;
 
 export type Kind = (typeof Kinds)[keyof typeof Kinds];
