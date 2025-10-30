@@ -83,6 +83,7 @@ export const SingleComponentPage = () => {
             <VulnerabilityTable
               vulnerabilities={data.vulnerabilities}
               componentName={componentName}
+              initialRowsPerPage={10}
             />
           ) : (
             <>
@@ -98,6 +99,7 @@ export const SingleComponentPage = () => {
                 <VulnerabilityTable
                   vulnerabilities={data.vulnerabilities}
                   componentName={componentName}
+                  initialRowsPerPage={10}
                 />
               )}
               {selectedTab === TabEnum.RUNTIME_VULNERABILITIES && (
