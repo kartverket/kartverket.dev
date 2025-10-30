@@ -22,12 +22,11 @@ export type PharosSpecificInfo = {
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
-  container_name: string;
-  namespace: string;
-  cluster: string[];
+  containerNames: string[];
+  locations: { cluster: string; namespace: string }[];
   isExploitable: Boolean;
   isRunning: Boolean;
-  packages: string;
+  packages: string[];
 };
 
 export type ScannerSpecificInfo = {
@@ -58,16 +57,6 @@ export type Vulnerability = {
   acceptedBy: string;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
-
-export interface SysdigInfo {
-  container_name: string;
-  namespace: string;
-  htmlUrl: URL;
-  cluster: string[];
-  isExploitable: boolean;
-  packages: string[];
-  severityCount: SeverityCount;
-}
 
 export type SecretAlert = {
   createdAt: string;
@@ -166,3 +155,14 @@ export type SecretsOverview = {
   componentName: string;
   alerts: SecretAlert[];
 };
+
+export type ClusterSummary = {
+  clusterName: string;
+  groups: {
+    namespaces: string[];
+    vulnerabilities: Vulnerability[];
+  }[];
+};
+
+export type NamespaceMap = Map<string, Vulnerability[]>;
+export type ClusterMap = Map<string, NamespaceMap>;
