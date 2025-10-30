@@ -28,11 +28,14 @@ import { FormEntity } from '../../model/types';
 import Link from '@mui/material/Link';
 import { getRepoInfo } from '../../utils/getRepoInfo';
 import { InfoBox } from './InfoBox';
+import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export const CatalogCreatorPage = () => {
   const catalogImportApi = useApi(catalogImportApiRef);
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const githubController = new GithubController();
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const [url, setUrl] = useState('');
   const [defaultName, setDefaultName] = useState<string>('');
@@ -71,7 +74,11 @@ export const CatalogCreatorPage = () => {
   }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
 
   const [repoInfo, doGetRepoInfo] = useAsyncFn(async () => {
-    const result = await getRepoInfo(url, githubAuthApi);
+    const result = await getRepoInfo(
+      url,
+      githubAuthApi,
+      t('form.knownErrorAlerts.repoNotFound'),
+    );
     return result;
   }, [url, githubAuthApi]);
 
@@ -85,6 +92,7 @@ export const CatalogCreatorPage = () => {
           catalogInfoState.value || [],
           catalogInfoFormList,
           githubAuthApi,
+          t('form.knownErrorAlerts.couldNotCreatePR'),
         );
       }
       return undefined;
@@ -114,7 +122,7 @@ export const CatalogCreatorPage = () => {
   return (
     <Page themeId="tool">
       <Content>
-        <ContentHeader title="Edit or Create Components">
+        <ContentHeader title={t('contentHeader.title')}>
           <SupportButton />
         </ContentHeader>
         <Flex>
@@ -131,7 +139,7 @@ export const CatalogCreatorPage = () => {
                       sx={{ fontWeight: 'bold', textAlign: 'center' }}
                       severity="success"
                     >
-                      Successfully created a pull request:{' '}
+                      {t('successPage.successfullyCreatedPR')}
                       {repoState?.value?.prUrl ? (
                         <Link
                           href={repoState.value.prUrl}
@@ -142,7 +150,7 @@ export const CatalogCreatorPage = () => {
                           {repoState.value.prUrl}
                         </Link>
                       ) : (
-                        <p>Could not retrieve pull request URL.</p>
+                        <p>{t('successPage.couldNotRetrieveURL')}</p>
                       )}
                     </Alert>
                     <Link
@@ -154,7 +162,7 @@ export const CatalogCreatorPage = () => {
                         doSubmitToGithub('', undefined);
                       }}
                     >
-                      Register a new component?
+                      {t('successPage.registerNew')}
                     </Link>
                   </Flex>
                 </Box>
@@ -175,9 +183,9 @@ export const CatalogCreatorPage = () => {
                     <Flex align="end">
                       <div style={{ flexGrow: 1 }}>
                         <TextField
-                          label="Repository URL"
+                          label={t('repositorySearch.label')}
                           size="small"
-                          placeholder="Enter a URL"
+                          placeholder={t('repositorySearch.placeholder')}
                           name="url"
                           value={url}
                           onChange={e => {
@@ -185,7 +193,9 @@ export const CatalogCreatorPage = () => {
                           }}
                         />
                       </div>
-                      <Button type="submit">Fetch!</Button>
+                      <Button type="submit">
+                        {t('repositorySearch.fetchButton')}
+                      </Button>
                     </Flex>
                   </Box>
                 </form>
@@ -194,7 +204,7 @@ export const CatalogCreatorPage = () => {
                   !(error || loading || repoState.error) &&
                   showForm && (
                     <Alert sx={{ mx: 2 }} severity="info">
-                      Catalog-info.yaml already exists. Editing existing file.
+                      {t('form.infoAlerts.alreadyExists')}
                     </Alert>
                   )}
 
@@ -203,13 +213,13 @@ export const CatalogCreatorPage = () => {
                   showForm &&
                   !(error || loading || repoState.error) && (
                     <Alert sx={{ mx: 2 }} severity="info">
-                      Catalog-info.yaml does not exist. Creating a new file.
+                      {t('form.infoAlerts.doesNotExist')}
                     </Alert>
                   )}
 
                 {repoInfo.value?.existingPrUrl && !loading && (
                   <Alert sx={{ mx: 2 }} severity="error">
-                    There already exists a pull request:{' '}
+                    {t('form.knownErrorAlerts.PRExists')}
                     <Link
                       href={repoInfo.value.existingPrUrl}
                       sx={{ fontWeight: 'normal' }}

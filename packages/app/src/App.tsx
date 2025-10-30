@@ -51,13 +51,17 @@ import { searchPage } from './components/search/SearchPage';
 import {
   CatalogCreatorPage,
   catalogCreatorPlugin,
+  catalogCreatorNorwegianTranslation,
 } from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 
 const app = createApp({
   __experimentalTranslations: {
     availableLanguages: ['en', 'no'],
-    resources: [pluginRiScNorwegianTranslation],
+    resources: [
+      pluginRiScNorwegianTranslation,
+      catalogCreatorNorwegianTranslation,
+    ],
   },
   components: {
     SignInPage: props => {
