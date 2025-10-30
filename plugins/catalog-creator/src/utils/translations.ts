@@ -114,6 +114,33 @@ export const catalogCreatorMessages = {
         placeholder: 'Select domain',
       },
     },
+
+    resourceForm: {
+      type: {
+        fieldName: 'Type',
+        tooltipText: 'The type of the resource.',
+        placeholder: 'Select type',
+      },
+      dependencyof: {
+        fieldName: 'Dependency of',
+        tooltipText:
+          'Which components or systems that depends on this resource',
+        placeholder: 'Select components',
+      },
+      system: {
+        fieldName: 'System',
+        tooltipText: 'Reference to the system which the resource belongs to',
+        placeholder: 'Select system',
+      },
+    },
+
+    domainForm: {
+      type: {
+        fieldname: 'Type',
+        tooltipText: 'The type of the domain',
+        placeholder: 'Select type',
+      },
+    },
     errors: {
       noName: 'Add a name',
       nameNoSpace: 'Name cannot contain space',
@@ -282,6 +309,24 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.systemForm.domain.tooltipText':
             'Referanse til domenet som systemet tilhører.',
           'form.systemForm.domain.placeholder': 'Velg domene',
+
+          'form.resourceForm.type.fieldName': 'Type',
+          'form.resourceForm.type.tooltipText': 'Typen til ressursen.',
+          'form.resourceForm.type.placeholder': 'Velg type',
+
+          'form.resourceForm.dependencyof.fieldName': 'Avhenghigheter til',
+          'form.resourceForm.dependencyof.tooltipText':
+            'Hvilke komponenter eller systemer som er avhengige av denne ressursen',
+          'form.resourceForm.dependencyof.placeholder': 'Velg komponenter',
+
+          'form.resourceForm.system.fieldName': 'System',
+          'form.resourceForm.system.tooltipText':
+            'Referanse til systemet som ressursen tilhører',
+          'form.resourceForm.system.placeholder': 'Velg system',
+
+          'form.domainForm.type.fieldname': 'Type',
+          'form.domainForm.type.tooltipText': 'Typen til domenet.',
+          'form.domainForm.type.placeholder': 'Velg type',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',
