@@ -54,6 +54,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
                 </Tooltip>
               </Box>
             </TableCell>
+            <TableCell>MTTR (dager)</TableCell>
             <TableCell>Inaktive skannere</TableCell>
             <TableCell width="30%">Sårbarheter</TableCell>
           </TableRow>
