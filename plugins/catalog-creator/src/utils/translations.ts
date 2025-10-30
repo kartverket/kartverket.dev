@@ -161,15 +161,18 @@ export const catalogCreatorMessages = {
        These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
         Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.
          Organizational entities include Group and User. Below is a brief explanation of the core entities.`,
+    componentTitle: 'Component',
     componentParagraph: `A Component is a piece of software, such as a service, library or a
           website. Components will often correspond to a repository. Components can provide APIs that other components consume, and often
           depend on APIs and resources.`,
+    APITitle: 'API',
     APIParagraph: `An API entity describes an API that a component provides and that
           other components consume. Public APIs are the primary ways which
           components interact. The API specification should be included in the
           API entity and the file path to this document should be added to the
           API entity, with the file path to the API definition so that
           the developer portal can provide detailed information.`,
+    resourceTitle: 'Resource',
     resourceParagraph: `Resource entities represent shared shared resources that a component
           requires during runtime, such as object storage or other cloud
           services.`,
@@ -323,10 +326,13 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'infoBox.subtitle': 'Hva er entiteter i Backstage?',
           'infoBox.p3':
             'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen. Disse entitetene er delt inn i tre grupper: kjerneentiteter, økosystementiteter og organisatoriske entiteter. Kjerneentiteter inkluderer Component, API og Resource. Økosystementiteter inkluderer System og Domain. Organisatoriske entiteter inkluderer Group og User. Nedenfor finner du en kort forklaring av kjerneentiteter.',
+          'infoBox.componentTitle': 'Component',
           'infoBox.componentParagraph':
             'En Component er et stykke programvare, for eksempel en tjeneste, et bibliotek eller et nettsted. Komponenter tilsvarer ofte et eget kodelager. Komponenter kan tilby API-er som andre komponenter bruker, og avhenger ofte av API-er og ressurser selv.',
+          'infoBox.APITitle': 'API',
           'infoBox.APIParagraph':
             'En API-entitet beskriver et API som en komponent tilbyr, og som andre komponenter bruker. Offentlige API-er er den primære måten komponenter samhandler på. API-spesifikasjonen bør inkluderes i API-entiteter, og filbanen til dette dokumentet bør legges til i API-entiteter slik at utviklerportalen kan vise detaljert informasjon.',
+          'infoBox.resourceTitle': 'Resource',
           'infoBox.resourceParagraph':
             'Resource-entiteter representerer delte ressurser som en komponent trenger under kjøring, for eksempel objektlagring eller andre skytjenester.',
           'infoBox.linkText': 'Lær mer om entiteter og Backstage-katalogen.',

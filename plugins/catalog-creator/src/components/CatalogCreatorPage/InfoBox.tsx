@@ -16,10 +16,11 @@ export const InfoBox = () => {
         <Divider />
         <h3> {t('infoBox.subtitle')}</h3>
         <p>{t('infoBox.p3')}</p>
-        <h4>Component</h4> <p>{t('infoBox.componentParagraph')}</p>
-        <h4>API</h4>
+        <h4>{t('infoBox.componentTitle')}</h4>{' '}
+        <p>{t('infoBox.componentParagraph')}</p>
+        <h4>{t('infoBox.APITitle')}</h4>
         <p>{t('infoBox.APIParagraph')}</p>
-        <h4>Resource</h4>
+        <h4>{t('infoBox.resourceTitle')}</h4>
         <p>{t('infoBox.resourceParagraph')}</p>
         <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
           <Link
