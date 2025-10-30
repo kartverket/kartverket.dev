@@ -12,6 +12,7 @@ export class GithubController {
     initialYaml: RequiredYamlFields[],
     catalogInfo: FormEntity[],
     githubAuthApi: OAuthApi,
+    couldNotCreatePRErrorMsg: string,
   ): Promise<Status | undefined> => {
     const emptyRequiredYaml: RequiredYamlFields = {
       apiVersion: 'backstage.io/v1alpha1',
@@ -83,8 +84,7 @@ export class GithubController {
       throw new Error();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        error.message =
-          'Could not create a pull request. Make sure the URL is a github repo and that a pull request does not already exist.';
+        error.message = couldNotCreatePRErrorMsg;
         throw error;
       } else {
         throw new Error('Unkown error when trying to create a PR.');
