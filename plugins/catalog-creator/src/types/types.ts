@@ -5,7 +5,6 @@ import { entitySchema, formSchema } from '../schemas/formSchema';
 export enum AllowedEntityKinds {
   Component = 'Component',
   API = 'API',
-  Template = 'Template',
   System = 'System',
   Domain = 'Domain',
   Resource = 'Resource',
@@ -47,6 +46,7 @@ const Kinds = {
   Component: 'Component',
   System: 'System',
   Resource: 'Resource',
+  Domain: 'Domain',
 } as const;
 
 export type Kind = (typeof Kinds)[keyof typeof Kinds];
