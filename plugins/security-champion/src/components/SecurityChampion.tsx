@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ErrorBanner } from './ErrorBanner';
 import { SecurityChamp } from '../types';
 import { SecurityChampionItem } from './SecurityChampionItem';
@@ -108,21 +108,16 @@ export const SecurityChampion = ({
           <ErrorBanner errorMessage="Failed to set security champion" />
         )}
 
-        {!selectedUser && (
-          <Button
-            style={{ marginTop: 8 }}
-            onClick={setSecurityChampion}
-            isDisabled
-          >
-            Change Champion
-          </Button>
-        )}
-
-        {selectedUser && (
-          <Button style={{ marginTop: 8 }} onClick={setSecurityChampion}>
-            Change champion
-          </Button>
-        )}
+        <Button
+          style={{
+            marginTop: 8,
+            backgroundColor: selectedUser ? '' : 'var(--bui-bg-solid-disabled)',
+          }}
+          onClick={setSecurityChampion}
+          isDisabled={!selectedUser}
+        >
+          Confirm change
+        </Button>
       </CardWrapper>
     );
   }
@@ -154,7 +149,7 @@ export const SecurityChampion = ({
     return (
       <CardWrapper
         title={
-          groupedChampions.keys.length > 1
+          groupedChampions.size > 1
             ? 'Security champions: '
             : 'Security champion: '
         }

@@ -17,6 +17,12 @@ export const SecurityChampionCard = () => {
       .map(rel => rel.targetRef.split('/')[1]) as string[];
   } else if (entity.kind === 'Component') {
     componentNames = [entity.metadata.name];
+  } else if (entity.kind === 'Group') {
+    componentNames = entity.relations
+      ?.filter(rel => {
+        return rel.targetRef.startsWith('component');
+      })
+      .map(rel => rel.targetRef.split('/')[1]) as string[];
   }
 
   if (!componentNames)

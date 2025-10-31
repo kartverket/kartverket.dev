@@ -404,6 +404,9 @@ const groupPage = (
           />
         </Grid>
         <Grid item xs={12}>
+          <SecurityChampionCard />
+        </Grid>
+        <Grid item xs={12}>
           <EntityMembersListCard showAggregateMembersToggle />
         </Grid>
       </Grid>
