@@ -1,6 +1,6 @@
 import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
-import { DomainTypes, EntityErrors } from '../../../model/types';
+import { DomainTypes, EntityErrors } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { FieldHeader } from '../FieldHeader';
