@@ -30,6 +30,9 @@ export async function getCatalogInfo(
       repo: repo,
       path: path,
       ref: ref,
+      headers: {
+        'If-None-Match': '',
+      },
     });
 
     const fileContent = Buffer.from(
