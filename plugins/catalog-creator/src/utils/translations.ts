@@ -314,7 +314,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.resourceForm.type.tooltipText': 'Typen til ressursen.',
           'form.resourceForm.type.placeholder': 'Velg type',
 
-          'form.resourceForm.dependencyof.fieldName': 'Avhenghigheter til',
+          'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
           'form.resourceForm.dependencyof.tooltipText':
             'Hvilke komponenter eller systemer som er avhengige av denne ressursen',
           'form.resourceForm.dependencyof.placeholder': 'Velg komponenter',
