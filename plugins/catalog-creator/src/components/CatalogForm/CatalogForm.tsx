@@ -24,6 +24,8 @@ import { SystemForm } from './Forms/SystemForm';
 import { FieldHeader } from './FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
+import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -37,6 +39,7 @@ export const CatalogForm = ({
   defaultName = '',
 }: CatalogFormProps) => {
   const catalogApi = useApi(catalogApiRef);
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const fetchOwners = useAsync(async () => {
     const results = await catalogApi.getEntities({
@@ -210,9 +213,9 @@ export const CatalogForm = ({
         })}
       >
         <Box px="2rem">
-          <h2>Catalog-info.yaml Form</h2>
+          <h2>{t('form.title')}</h2>
           <p style={{ fontSize: '0.85rem', color: 'gray' }}>
-            Required fields marked with:{' '}
+            {t('form.requiredFields')}
             <span style={{ color: '#ff0000', fontSize: '1rem' }}>*</span>
           </p>
           {fields.map((entity, index) => {
@@ -236,7 +239,7 @@ export const CatalogForm = ({
                         render={({ field: { value } }) => (
                           <h3 aria-label="entity-header">
                             {' '}
-                            {`${value} Entity`}{' '}
+                            {`${value}${t('form.entity')}`}{' '}
                           </h3>
                         )}
                       />
@@ -253,9 +256,9 @@ export const CatalogForm = ({
 
                   <div style={{ width: '100%' }}>
                     <FieldHeader
-                      fieldName="Name"
+                      fieldName={t('form.name.fieldName')}
                       required
-                      tooltipText="The name of the entity. This name is both meant for human eyes to recognize the entity, and for machines and other components to reference the entity. Must be unique"
+                      tooltipText={t('form.name.tooltipText')}
                     />
                     <Controller
                       name={`entities.${index}.name`}
@@ -282,13 +285,18 @@ export const CatalogForm = ({
                         visibility: errors?.entities ? 'visible' : 'hidden',
                       }}
                     >
-                      {errors?.entities?.[index]?.name?.message || '\u00A0'}
+                      {errors?.entities?.[index]?.name?.message
+                        ? t(
+                            errors.entities[index]?.name
+                              ?.message as keyof typeof t,
+                          )
+                        : '\u00A0'}
                     </span>
                   </div>
                   <div>
                     <FieldHeader
-                      fieldName="Title"
-                      tooltipText="A human-readable title for the component entity, shown in Backstage UI instead of the name when available. Optional."
+                      fieldName={t('form.titleField.fieldName')}
+                      tooltipText={t('form.titleField.tooltipText')}
                     />
                     <Controller
                       name={`entities.${index}.title`}
@@ -320,8 +328,8 @@ export const CatalogForm = ({
                   </div>
                   <div>
                     <FieldHeader
-                      fieldName="Owner"
-                      tooltipText="A reference to the owner (commonly a team), that bears ultimate responsibility for the entity, and has the authority and capability to develop and maintain it"
+                      fieldName={t('form.owner.fieldName')}
+                      tooltipText={t('form.name.tooltipText')}
                       required
                     />
                     <Controller
@@ -374,7 +382,7 @@ export const CatalogForm = ({
                           renderInput={params => (
                             <MuiTextField
                               {...params}
-                              placeholder="Select owner"
+                              placeholder={t('form.owner.placeholder')}
                               InputProps={{
                                 ...params.InputProps,
                                 sx: {
@@ -397,7 +405,12 @@ export const CatalogForm = ({
                           : 'hidden',
                       }}
                     >
-                      {errors.entities?.[index]?.owner?.message || '\u00A0'}
+                      {errors?.entities?.[index]?.owner?.message
+                        ? t(
+                            errors.entities[index]?.owner
+                              ?.message as keyof typeof t,
+                          )
+                        : '\u00A0'}
                     </span>
                   </div>
 
@@ -409,11 +422,11 @@ export const CatalogForm = ({
 
           <Flex direction="column">
             <Text style={{ fontWeight: 'bold', marginTop: '1.5rem' }}>
-              Add Entity
+              {t('form.addEntity.title')}
             </Text>
             <Flex align="end" justify="start">
               <Select
-                label="Select kind"
+                label={t('form.addEntity.label')}
                 value={addEntityKind}
                 onChange={value => setAddEntityKind(value as Kind)}
                 options={Object.values(AllowedEntityKinds).map(
@@ -427,7 +440,7 @@ export const CatalogForm = ({
                 type="button"
                 onClick={() => appendHandler(addEntityKind)}
               >
-                Add Entity
+                {t('form.addEntity.buttonText')}
               </Button>
             </Flex>
           </Flex>
@@ -438,7 +451,7 @@ export const CatalogForm = ({
               type="submit"
               style={{ marginBottom: '0.75rem' }}
             >
-              Create pull request
+              {t('form.createPR')}
             </Button>
           </Flex>
         </Box>

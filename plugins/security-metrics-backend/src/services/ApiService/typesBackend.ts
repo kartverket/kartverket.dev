@@ -42,12 +42,11 @@ export type PharosSpecificInfo = {
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
-  container_name: string;
-  namespace: string;
-  cluster: string[];
+  containerNames: string[];
+  locations: { cluster: string; namespace: string }[];
   isExploitable: Boolean;
   isRunning: Boolean;
-  packages: string;
+  packages: string[];
 };
 
 export type ScannerSpecificInfo = {

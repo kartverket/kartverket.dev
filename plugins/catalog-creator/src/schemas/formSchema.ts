@@ -7,20 +7,20 @@ const baseEntitySchema = z.object({
   name: z
     .string()
     .trim()
-    .min(1, 'Add a name')
-    .refine(s => !s.includes(' '), { message: 'Name cannot contain space' })
+    .min(1, 'form.errors.noName')
+    .refine(s => !s.includes(' '), { message: 'form.errors.nameNoSpace' })
     .refine(
       s =>
         !/^[.!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]|[.!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]$/.test(
           s,
         ),
-      'Name cannot start or end with special characters',
+      'form.errors.ownerNoSpace',
     ),
   owner: z
     .string()
     .trim()
-    .min(1, 'Add an owner')
-    .refine(s => !s.includes(' '), { message: 'Owner cannot contain space' }),
+    .min(1, 'form.errors.noOwner')
+    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
   title: z.string().optional(),
 });
 
@@ -31,23 +31,25 @@ export const componentSchema = baseEntitySchema.extend({
       .string()
       .trim()
       .refine(s => !s.includes(' '), {
-        message: 'System cannot contain space',
+        message: 'form.errors.systemNoSpace',
       }),
   ),
 
-  lifecycle: z.enum(AllowedLifecycleStages, { message: 'Choose a lifecycle' }),
+  lifecycle: z.enum(AllowedLifecycleStages, {
+    message: 'form.errors.noLifecycle',
+  }),
   entityType: z
-    .string('Add a type')
+    .string('form.errors.noType')
     .trim()
-    .min(1, 'Add a type')
-    .refine(s => !s.includes(' '), { message: 'Type cannot contain space' }),
+    .min(1, 'form.errors.noType')
+    .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
   subcomponentOf: z.string().optional(),
   providesApis: z
     .array(z.string())
     .refine(
       entries =>
         entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
-      { message: 'APIs cannot contain space' },
+      { message: 'form.errors.APIsNoSpace' },
     )
     .optional(),
   consumesApis: z
@@ -55,7 +57,7 @@ export const componentSchema = baseEntitySchema.extend({
     .refine(
       entries =>
         entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
-      { message: 'APIs cannot contain space' },
+      { message: 'form.errors.APIsNoSpace' },
     )
     .optional(),
   dependsOn: z
@@ -63,7 +65,7 @@ export const componentSchema = baseEntitySchema.extend({
     .refine(
       entries =>
         entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
-      { message: 'Dependencies cannot contain space' },
+      { message: 'form.errors.dependenciesNoSpace' },
     )
     .optional(),
   depencencyOf: z.array(z.string()).optional(),
@@ -72,18 +74,20 @@ export const componentSchema = baseEntitySchema.extend({
 export const apiSchema = baseEntitySchema.extend({
   kind: z.literal('API'),
 
-  lifecycle: z.enum(AllowedLifecycleStages, { message: 'Choose a lifecycle' }),
+  lifecycle: z.enum(AllowedLifecycleStages, {
+    message: 'form.errors.noLifecycle',
+  }),
   entityType: z
-    .string('Add a type')
+    .string('form.errors.noType')
     .trim()
-    .min(1, 'Add a type')
-    .refine(s => !s.includes(' '), { message: 'Type cannot contain space' }),
+    .min(1, 'form.errors.noType')
+    .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
   system: z.optional(
     z
       .string()
       .trim()
       .refine(s => !s.includes(' '), {
-        message: 'System cannot contain space',
+        message: 'form.errors.systemNoSpace',
       }),
   ),
   definition: z.optional(
@@ -91,7 +95,7 @@ export const apiSchema = baseEntitySchema.extend({
       .string()
       .trim()
       .refine(s => !s.includes(' '), {
-        message: 'Definition URL cannot contain space',
+        message: 'form.errors.definitionNoSpace',
       }),
   ),
 });
@@ -107,7 +111,7 @@ export const systemSchema = baseEntitySchema.extend({
       .string()
       .trim()
       .refine(s => !s.includes(' '), {
-        message: 'Type cannot contain space',
+        message: 'form.errors.typeNoSpace',
       }),
   ),
   domain: z.optional(
@@ -115,7 +119,7 @@ export const systemSchema = baseEntitySchema.extend({
       .string()
       .trim()
       .refine(s => !s.includes(' '), {
-        message: 'Domain cannot contain space',
+        message: 'form.errors.domainNoSpace',
       }),
   ),
 
