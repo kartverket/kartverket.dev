@@ -5,8 +5,8 @@ import type {
   FormEntity,
   Kind,
   RequiredYamlFields,
-} from '../../model/types';
-import { AllowedLifecycleStages, AllowedEntityKinds } from '../../model/types';
+} from '../../types/types';
+import { AllowedLifecycleStages, AllowedEntityKinds } from '../../types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod/v4';

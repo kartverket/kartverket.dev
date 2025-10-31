@@ -5,7 +5,7 @@ import {
   ComponentTypes,
   EntityErrors,
   Kind,
-} from '../../../model/types';
+} from '../../../types/types';
 import { apiSchema, formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
