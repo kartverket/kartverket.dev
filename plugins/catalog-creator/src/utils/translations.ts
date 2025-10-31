@@ -8,7 +8,7 @@ export const catalogCreatorMessages = {
     title: 'Edit or Create Components',
   },
   repositorySearch: {
-    label: 'Repository URL',
+    label: 'Paste GitHub repository URL',
     placeholder: 'Enter a URL',
     fetchButton: 'Fetch!',
   },
@@ -198,7 +198,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
         default: {
           'contentHeader.title': 'Rediger eller lag komponenter',
 
-          'repositorySearch.label': 'Kodelager URL',
+          'repositorySearch.label': 'Lim inn URL til GitHub-repository under',
           'repositorySearch.placeholder': 'Skriv inn en URL',
           'repositorySearch.fetchButton': 'Hent!',
 
