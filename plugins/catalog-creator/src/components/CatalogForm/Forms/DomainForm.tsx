@@ -20,7 +20,6 @@ export const DomainForm = ({ index, control, errors }: DomainFormProps) => {
 
   return (
     <Flex direction="column" justify="start">
-      // type
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
