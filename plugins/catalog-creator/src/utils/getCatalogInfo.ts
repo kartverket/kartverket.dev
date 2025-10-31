@@ -1,7 +1,7 @@
 import { OAuthApi } from '@backstage/core-plugin-api';
 import { Octokit } from '@octokit/rest';
 import * as yaml from 'yaml';
-import { RequiredYamlFields } from '../model/types';
+import { RequiredYamlFields } from '../types/types';
 
 export async function getCatalogInfo(
   url: string,
@@ -30,6 +30,9 @@ export async function getCatalogInfo(
       repo: repo,
       path: path,
       ref: ref,
+      headers: {
+        'If-None-Match': '',
+      },
     });
 
     const fileContent = Buffer.from(

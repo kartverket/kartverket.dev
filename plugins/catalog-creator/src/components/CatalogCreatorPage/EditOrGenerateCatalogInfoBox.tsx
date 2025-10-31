@@ -4,7 +4,7 @@ import Link from '@material-ui/core/Link';
 import Divider from '@mui/material/Divider';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 
-export const InfoBox = () => {
+export const EditOrGenerateCatalogInfoBox = () => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
     <Card>
