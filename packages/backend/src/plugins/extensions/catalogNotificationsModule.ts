@@ -128,7 +128,7 @@ export const catalogNotificationsModule = createBackendModule({
                 continue;
               }
               if (!missingRelation) {
-                logger.error('Missing missing relation relation');
+                logger.error(`No missing relation found at index ${i}`);
                 continue;
               }
 
