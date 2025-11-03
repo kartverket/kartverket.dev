@@ -1,5 +1,5 @@
 import z from 'zod/v4';
-import { RequiredYamlFields } from '../model/types.ts';
+import { RequiredYamlFields } from '../types/types.ts';
 import yaml from 'yaml';
 import { entitySchema } from '../schemas/formSchema.ts';
 

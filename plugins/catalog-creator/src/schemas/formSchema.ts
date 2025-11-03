@@ -1,5 +1,5 @@
 import * as z from 'zod/v4';
-import { AllowedLifecycleStages } from '../model/types';
+import { AllowedLifecycleStages } from '../types/types';
 
 const baseEntitySchema = z.object({
   id: z.number(),
