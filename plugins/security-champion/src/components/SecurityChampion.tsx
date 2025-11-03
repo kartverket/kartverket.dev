@@ -1,4 +1,3 @@
-import { useMemo, useState } from 'react';
 import { ErrorBanner } from './ErrorBanner';
 import { SecurityChamp } from '../types';
 import { SecurityChampionItem } from './SecurityChampionItem';
@@ -16,6 +15,7 @@ import { UserEntity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { MissingReposItem } from './MissingReposItem';
 import Alert from '@mui/material/Alert';
+import { useMemo, useState } from 'react';
 
 const CardWrapper = ({
   title,
