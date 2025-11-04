@@ -92,7 +92,7 @@ export const RepositoriesTableRow = ({
       </TableCell>
       <TableCell>
         {typeof mttr === 'number' ? (
-          <Typography>{mttr.toFixed(1)} dager</Typography>
+          <Typography>{mttr.toFixed(1)}</Typography>
         ) : (
           <Typography>
             <i>Ingen data</i>
