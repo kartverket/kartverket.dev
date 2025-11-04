@@ -1,6 +1,6 @@
 import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
-import { EntityErrors, SystemTypes } from '../../../model/types';
+import { EntityErrors, SystemTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
@@ -11,6 +11,8 @@ import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { FieldHeader } from '../FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { catalogCreatorTranslationRef } from '../../../utils/translations';
 
 export type SystemFormProps = {
   index: number;
@@ -21,6 +23,7 @@ export type SystemFormProps = {
 
 export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
   const catalogApi = useApi(catalogApiRef);
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const fetchDomains = useAsync(async () => {
     const results = await catalogApi.getEntities({
       filter: {
@@ -35,8 +38,8 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
-            fieldName="Type"
-            tooltipText="The type of the system. Optional"
+            fieldName={t('form.systemForm.type.fieldName')}
+            tooltipText={t('form.systemForm.type.tooltipText')}
           />
           <Controller
             name={`entities.${index}.systemType`}
@@ -54,7 +57,7 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
                 renderInput={params => (
                   <MuiTextField
                     {...params}
-                    placeholder="Select type"
+                    placeholder={t('form.componentForm.type.placeholder')}
                     InputProps={{
                       ...params.InputProps,
                       sx: {
@@ -75,14 +78,16 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
               visibility: errors?.entityType ? 'visible' : 'hidden',
             }}
           >
-            {errors?.entityType?.message || '\u00A0'}
+            {errors?.entityType?.message
+              ? t(errors?.entityType?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
       </Flex>
       <div>
         <FieldHeader
-          fieldName="Domain"
-          tooltipText="Reference to the domain the system is a part of"
+          fieldName={t('form.systemForm.domain.fieldName')}
+          tooltipText={t('form.systemForm.domain.tooltipText')}
         />
         <Controller
           name={`entities.${index}.domain`}
@@ -104,7 +109,9 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
             visibility: errors?.domain ? 'visible' : 'hidden',
           }}
         >
-          {errors?.domain?.message || '\u00A0'}
+          {errors?.domain?.message
+            ? t(errors?.domain?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
     </Flex>

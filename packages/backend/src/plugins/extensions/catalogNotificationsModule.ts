@@ -4,6 +4,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { notificationService } from '@backstage/plugin-notifications-node';
 import { CatalogClient } from '@backstage/catalog-client';
+import { DatabaseManager } from '@backstage/backend-defaults/database';
 
 type MissingRelationTarget = {
   ref: string;
@@ -22,17 +23,32 @@ export const catalogNotificationsModule = createBackendModule({
         discovery: coreServices.discovery,
         auth: coreServices.auth,
         db: coreServices.database,
+        config: coreServices.rootConfig,
+        lifecycle: coreServices.lifecycle,
         notificationService: notificationService,
       },
       async init({
         logger,
         scheduler,
         db,
+        config,
+        lifecycle,
         discovery,
         auth,
         notificationService: notification,
       }) {
         const database = await db.getClient();
+
+        const databaseManager = DatabaseManager.fromConfig(config);
+        const notificationsDbService = databaseManager.forPlugin(
+          'notifications',
+          {
+            logger,
+            lifecycle,
+          },
+        );
+
+        const notificationsDb = await notificationsDbService.getClient();
 
         await scheduler.scheduleTask({
           id: 'catalog-error-monitor',
@@ -102,17 +118,27 @@ export const catalogNotificationsModule = createBackendModule({
               { token },
             );
 
+            const currentScopes = new Set<string>();
+
             for (let i = 0; i < entities.items.length; i++) {
               const entity = entities.items[i];
               const missingRelation = query[i];
-              if (!entity) throw Error('Missing relation source entity');
-              if (!entity) throw Error('Missing missing relation relation');
+              if (!entity) {
+                logger.error(`Entity not found for ref: ${query[i]?.ref}`);
+                continue;
+              }
+              if (!missingRelation) {
+                logger.error(`No missing relation found at index ${i}`);
+                continue;
+              }
 
               const namespace = entity.metadata.namespace ?? 'default';
               const entityLink = `/catalog/${namespace}/${entity.kind}/${entity.metadata.name}`;
               const notificationScope = `${entity.metadata.name}${missingRelation.target_ref}`;
               const ownerRef =
                 missingRelation.owner_ref ?? 'group:default/skvis';
+
+              currentScopes.add(notificationScope);
 
               notification.send({
                 recipients: {
@@ -128,6 +154,47 @@ export const catalogNotificationsModule = createBackendModule({
                   scope: notificationScope,
                 },
               });
+            }
+
+            // Clean up notifications for fixed relations
+            try {
+              const existingScopes: string[] = await notificationsDb(
+                'notification',
+              )
+                .distinct('scope')
+                .whereNotNull('scope')
+                .pluck('scope');
+
+              const scopesToRemove = existingScopes.filter(
+                (scope: string) => !currentScopes.has(scope),
+              );
+
+              if (scopesToRemove.length > 0) {
+                logger.info(
+                  `Removing ${scopesToRemove.length} notifications for fixed relation errors: ${scopesToRemove.join(', ')}`,
+                );
+                const deletedCount = await notificationsDb('notification')
+                  .whereIn('scope', scopesToRemove)
+                  .delete();
+
+                logger.info(
+                  `Successfully deleted ${deletedCount} notifications for fixed relations`,
+                );
+              } else {
+                logger.info(
+                  'No fixed relations found, no notifications to remove',
+                );
+              }
+            } catch (e) {
+              if (e instanceof Error) {
+                logger.error(
+                  `Error cleaning up fixed relation notifications: ${e.message}`,
+                );
+              } else {
+                logger.error(
+                  `Error cleaning up fixed relation notifications: ${String(e)}`,
+                );
+              }
             }
           },
         });

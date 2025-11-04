@@ -5,7 +5,7 @@ import {
   ComponentTypes,
   EntityErrors,
   Kind,
-} from '../../../model/types';
+} from '../../../types/types';
 import { apiSchema, formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
@@ -15,6 +15,8 @@ import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { FieldHeader } from '../FieldHeader';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { catalogCreatorTranslationRef } from '../../../utils/translations';
 
 export type ComponentFormProps = {
   index: number;
@@ -32,6 +34,7 @@ export const ComponentForm = ({
   systems,
 }: ComponentFormProps) => {
   const catalogApi = useApi(catalogApiRef);
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const fetchAPIs = useAsync(async () => {
     const results = await catalogApi.getEntities({
@@ -54,8 +57,8 @@ export const ComponentForm = ({
       <Flex>
         <div style={{ width: '50%' }}>
           <FieldHeader
-            fieldName="Lifecycle"
-            tooltipText="The lifecycle state of the component"
+            fieldName={t('form.componentForm.lifecycle.fieldName')}
+            tooltipText={t('form.componentForm.lifecycle.tooltipText')}
             required
           />
           <Controller
@@ -74,7 +77,7 @@ export const ComponentForm = ({
                 renderInput={params => (
                   <MuiTextField
                     {...params}
-                    placeholder="Select type"
+                    placeholder={t('form.componentForm.lifecycle.placeholder')}
                     InputProps={{
                       ...params.InputProps,
                       sx: {
@@ -95,7 +98,9 @@ export const ComponentForm = ({
               visibility: errors?.lifecycle ? 'visible' : 'hidden',
             }}
           >
-            {errors?.lifecycle?.message || '\u00A0'}
+            {errors?.lifecycle?.message
+              ? t(errors?.lifecycle?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
 
@@ -121,7 +126,7 @@ export const ComponentForm = ({
                 renderInput={params => (
                   <MuiTextField
                     {...params}
-                    placeholder="Select type"
+                    placeholder={t('form.componentForm.type.placeholder')}
                     InputProps={{
                       ...params.InputProps,
                       sx: {
@@ -142,14 +147,16 @@ export const ComponentForm = ({
               visibility: errors?.entityType ? 'visible' : 'hidden',
             }}
           >
-            {errors?.entityType?.message || '\u00A0'}
+            {errors?.entityType?.message
+              ? t(errors?.entityType?.message as keyof typeof t)
+              : '\u00A0'}
           </span>
         </div>
       </Flex>
       <div>
         <FieldHeader
-          fieldName="System"
-          tooltipText="Reference to the system which the component belongs to"
+          fieldName={t('form.componentForm.system.fieldName')}
+          tooltipText={t('form.componentForm.system.tooltipText')}
         />
         <Controller
           name={`entities.${index}.system`}
@@ -192,7 +199,7 @@ export const ComponentForm = ({
               renderInput={params => (
                 <MuiTextField
                   {...params}
-                  placeholder="Select system"
+                  placeholder={t('form.componentForm.system.placeholder')}
                   InputProps={{
                     ...params.InputProps,
                     sx: {
@@ -213,13 +220,15 @@ export const ComponentForm = ({
             visibility: errors?.system ? 'visible' : 'hidden',
           }}
         >
-          {errors?.system?.message || '\u00A0'}
+          {errors?.system?.message
+            ? t(errors?.system?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
       <div>
         <FieldHeader
-          fieldName="Provides APIs"
-          tooltipText="References to all the APIs the component may provide. This does not define the API-entity itself"
+          fieldName={t('form.componentForm.providesAPIs.fieldName')}
+          tooltipText={t('form.componentForm.providesAPIs.tooltipText')}
         />
         <Controller
           name={`entities.${index}.providesApis`}
@@ -270,7 +279,7 @@ export const ComponentForm = ({
               renderInput={params => (
                 <MuiTextField
                   {...params}
-                  placeholder="Select or create API..."
+                  placeholder={t('form.componentForm.providesAPIs.placeholder')}
                   InputProps={{
                     ...params.InputProps,
                     sx: {
@@ -291,13 +300,15 @@ export const ComponentForm = ({
             visibility: errors?.providesApis ? 'visible' : 'hidden',
           }}
         >
-          {errors?.providesApis?.message || '\u00A0'}
+          {errors?.providesApis?.message
+            ? t(errors?.providesApis?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
       <div>
         <FieldHeader
-          fieldName="Consumes APIs"
-          tooltipText="APIs that are consumed by the component"
+          fieldName={t('form.componentForm.consumesAPIs.fieldName')}
+          tooltipText={t('form.componentForm.consumesAPIs.tooltipText')}
         />
         <Controller
           name={`entities.${index}.consumesApis`}
@@ -332,7 +343,7 @@ export const ComponentForm = ({
               renderInput={params => (
                 <MuiTextField
                   {...params}
-                  placeholder="Select or create API..."
+                  placeholder={t('form.componentForm.consumesAPIs.placeholder')}
                   InputProps={{
                     ...params.InputProps,
                     sx: {
@@ -353,13 +364,15 @@ export const ComponentForm = ({
             visibility: errors?.consumesApis ? 'visible' : 'hidden',
           }}
         >
-          {errors?.consumesApis?.message || '\u00A0'}
+          {errors?.consumesApis?.message
+            ? t(errors?.consumesApis?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
       <div>
         <FieldHeader
-          fieldName="Depends on"
-          tooltipText="References to other components and/or resources that the component depends on"
+          fieldName={t('form.componentForm.dependsOn.fieldName')}
+          tooltipText={t('form.componentForm.dependsOn.tooltipText')}
         />
         <Controller
           name={`entities.${index}.dependsOn`}
@@ -401,7 +414,7 @@ export const ComponentForm = ({
               renderInput={params => (
                 <MuiTextField
                   {...params}
-                  placeholder="Select or create resource or component..."
+                  placeholder={t('form.componentForm.dependsOn.placeholder')}
                   InputProps={{
                     ...params.InputProps,
                     sx: {
@@ -422,7 +435,9 @@ export const ComponentForm = ({
             visibility: errors?.dependsOn ? 'visible' : 'hidden',
           }}
         >
-          {errors?.dependsOn?.message || '\u00A0'}
+          {errors?.dependsOn?.message
+            ? t(errors?.dependsOn?.message as keyof typeof t)
+            : '\u00A0'}
         </span>
       </div>
     </Flex>
