@@ -98,7 +98,16 @@ export const SecurityChampion = ({
           repositoryNames: repositoryNames,
           securityChampionEmail: selectedUser.spec.profile?.email,
         };
-        securityChampionForMultipleReposMutation.mutate(secChampBatch);
+        securityChampionForMultipleReposMutation.mutate(secChampBatch, {
+          onSuccess: () => {
+            refetch();
+            setEdit(false);
+            setSelectedUser(null);
+          },
+          onError: () => {
+            setIsMutationError(true);
+          },
+        });
       }
     }
   };
@@ -168,8 +177,12 @@ export const SecurityChampion = ({
         <List>
           <List>{renderSecurityChampions()}</List>
         </List>
-        {(entity.kind === 'Component' || 'System') && (
-          <Button onClick={onEdit}>Edit</Button>
+        {(entity.kind === 'Component' ||
+          entity.kind === 'System' ||
+          entity.kind === 'Group') && (
+          <Button onClick={onEdit}>
+            {entity.kind === 'Component' ? 'Edit' : 'Edit all'}
+          </Button>
         )}
       </CardWrapper>
     );
