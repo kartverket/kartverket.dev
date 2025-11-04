@@ -1,6 +1,6 @@
 import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
-import { ApiTypes, EntityErrors } from '../../../types/types';
+import { EntityErrors, ResourceTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
@@ -12,6 +12,7 @@ import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { useAsync } from 'react-use';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
+import { AutocompleteField } from '../AutocompleteField';
 
 export type ResourceFormProps = {
   index: number;
@@ -42,35 +43,20 @@ export const ResourceForm = ({
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
             fieldName={t('form.APIForm.type.fieldName')}
-            tooltipText={t('form.APIForm.type.tooltipText')}
+            tooltipText={t('form.resourceForm.type.tooltipText')}
             required
           />
           <Controller
             name={`entities.${index}.entityType`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Autocomplete
-                value={value}
-                onChange={(_, newValue) => {
-                  onChange(newValue ?? '');
-                }}
+              <AutocompleteField
+                onChange={onChange}
                 onBlur={onBlur}
-                options={Object.values(ApiTypes)}
-                getOptionLabel={option => option}
-                size="small"
-                renderInput={params => (
-                  <MuiTextField
-                    {...params}
-                    placeholder={t('form.APIForm.type.placeholder')}
-                    InputProps={{
-                      ...params.InputProps,
-                      sx: {
-                        fontSize: '0.85rem',
-                        font: 'system-ui',
-                      },
-                    }}
-                  />
-                )}
+                value={value}
+                placeholder={t('form.resourceForm.type.tooltipText')}
+                type="select"
+                options={Object.values(ResourceTypes)}
               />
             )}
           />
@@ -97,53 +83,13 @@ export const ResourceForm = ({
           name={`entities.${index}.system`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Autocomplete
-              value={
-                value
-                  ? (systems.find(entity => entity.metadata.name === value) ??
-                    null)
-                  : null
-              }
+            <AutocompleteField
+              value={value}
               onBlur={onBlur}
-              onChange={(_, newValue) => {
-                const names = newValue?.metadata?.name ?? '';
-                onChange(names);
-              }}
-              options={systems || []}
-              getOptionLabel={option => {
-                return option.metadata.name;
-              }}
-              filterOptions={(options, state) => {
-                const inputValue = state.inputValue.toLowerCase();
-                return options.filter(option => {
-                  const name = option.metadata.name.toLowerCase();
-                  const title = (option.metadata.title ?? '').toLowerCase();
-                  return (
-                    name.includes(inputValue) || title.includes(inputValue)
-                  );
-                });
-              }}
-              renderOption={(props, option) => {
-                const label = option.metadata.title ?? option.metadata.name;
-                return <li {...props}>{label}</li>;
-              }}
-              isOptionEqualToValue={(option, selectedValue) => {
-                return option.metadata.name === selectedValue.metadata.name;
-              }}
-              size="small"
-              renderInput={params => (
-                <MuiTextField
-                  {...params}
-                  placeholder={t('form.resourceForm.type.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
-                  }}
-                />
-              )}
+              onChange={onChange}
+              placeholder={t('form.resourceForm.system.placeholder')}
+              entities={systems}
+              type="search"
             />
           )}
         />

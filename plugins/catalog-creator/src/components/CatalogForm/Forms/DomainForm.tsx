@@ -4,10 +4,9 @@ import { DomainTypes, EntityErrors } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { FieldHeader } from '../FieldHeader';
-import Autocomplete from '@mui/material/Autocomplete';
-import MuiTextField from '@mui/material/TextField';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
+import { AutocompleteField } from '../AutocompleteField';
 
 export type DomainFormProps = {
   index: number;
@@ -31,28 +30,13 @@ export const DomainForm = ({ index, control, errors }: DomainFormProps) => {
             name={`entities.${index}.entityType`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Autocomplete
-                value={value}
-                onChange={(_, newValue) => {
-                  onChange(newValue ?? '');
-                }}
+              <AutocompleteField
+                onChange={onChange}
                 onBlur={onBlur}
+                value={value}
+                placeholder={t('form.domainForm.type.placeholder')}
+                type="select"
                 options={Object.values(DomainTypes)}
-                getOptionLabel={option => option}
-                size="small"
-                renderInput={params => (
-                  <MuiTextField
-                    {...params}
-                    placeholder={t('form.domainForm.type.placeholder')}
-                    InputProps={{
-                      ...params.InputProps,
-                      sx: {
-                        fontSize: '0.85rem',
-                        font: 'system-ui',
-                      },
-                    }}
-                  />
-                )}
               />
             )}
           />
