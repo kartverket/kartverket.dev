@@ -56,7 +56,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
             </TableCell>
             <TableCell>
               <Box display="flex" alignItems="center" gap={1}>
-                MTTR (dager)
+                MTTR
                 <Tooltip title="Mean time to resolve: gjennomsnittlig antall dager det tar å løse en sårbarhet etter at den ble oppdaget">
                   <InfoIcon fontSize="small" />
                 </Tooltip>
