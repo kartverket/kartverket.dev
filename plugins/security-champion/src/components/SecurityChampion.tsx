@@ -39,7 +39,7 @@ interface SecurityChampionProps {
 export const SecurityChampion = ({
   repositoryNames,
 }: SecurityChampionProps) => {
-  const { data, isPending, error, refetch } =
+  const { data, isPending, refetch } =
     useSecurityChampionsQuery(repositoryNames);
 
   const [edit, setEdit] = useState<boolean>(false);
@@ -193,7 +193,7 @@ export const SecurityChampion = ({
 
   return (
     <CardWrapper title="Security champion: ">
-      <ErrorBanner errorMessage={error?.message} />
+      <ErrorBanner errorMessage="Kunne ikke koble til security champion API" />
     </CardWrapper>
   );
 };
