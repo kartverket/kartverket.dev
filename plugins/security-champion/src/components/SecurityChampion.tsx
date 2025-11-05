@@ -118,7 +118,13 @@ export const SecurityChampion = ({
 
   if (edit) {
     return (
-      <CardWrapper title="Change security champion:">
+      CardWrapper
+        title={
+          entity.kind === 'Component'
+            ? 'Change security champion'
+            : `Change security champion for all components in this ${entity.kind.toLowerCase()}`
+        }
+      >
         <UserSearch
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
