@@ -22,10 +22,10 @@ import { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { SystemForm } from './Forms/SystemForm';
 import { FieldHeader } from './FieldHeader';
-import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { AutocompleteField } from './AutocompleteField';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -336,62 +336,13 @@ export const CatalogForm = ({
                       name={`entities.${index}.owner`}
                       control={control}
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <Autocomplete
-                          value={
-                            value
-                              ? (fetchOwners?.value?.find(
-                                  ownerEntity =>
-                                    ownerEntity.metadata.name === value,
-                                ) ?? null)
-                              : null
-                          }
+                        <AutocompleteField
+                          value={value}
                           onBlur={onBlur}
-                          onChange={(_, newValue) => {
-                            const names = newValue?.metadata?.name ?? '';
-                            onChange(names);
-                          }}
-                          options={fetchOwners.value || []}
-                          getOptionLabel={option => {
-                            return option.metadata.name;
-                          }}
-                          filterOptions={(options, state) => {
-                            const inputValue = state.inputValue.toLowerCase();
-                            return options.filter(option => {
-                              const name = option.metadata.name.toLowerCase();
-                              const title = (
-                                option.metadata.title ?? ''
-                              ).toLowerCase();
-                              return (
-                                name.includes(inputValue) ||
-                                title.includes(inputValue)
-                              );
-                            });
-                          }}
-                          renderOption={(props, option) => {
-                            const label =
-                              option.metadata.title ?? option.metadata.name;
-                            return <li {...props}>{label}</li>;
-                          }}
-                          isOptionEqualToValue={(option, selectedValue) => {
-                            return (
-                              option.metadata.name ===
-                              selectedValue.metadata.name
-                            );
-                          }}
-                          size="small"
-                          renderInput={params => (
-                            <MuiTextField
-                              {...params}
-                              placeholder={t('form.owner.placeholder')}
-                              InputProps={{
-                                ...params.InputProps,
-                                sx: {
-                                  fontSize: '0.85rem',
-                                  font: 'system-ui',
-                                },
-                              }}
-                            />
-                          )}
+                          onChange={onChange}
+                          placeholder={t('form.owner.placeholder')}
+                          entities={fetchOwners.value || []}
+                          type="search"
                         />
                       )}
                     />
