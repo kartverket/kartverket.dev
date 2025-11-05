@@ -74,9 +74,9 @@ export const SingleComponentPage = () => {
           rosStatus={data.rosStatus}
         />
         <VulnerabilityCountsOverview
-            data={data}
-            repositoryName={componentName}
-            averageDays={data.averageTimeToSolveVulnerabilityDays}
+          data={data}
+          repositoryName={componentName}
+          averageDays={data.averageTimeToSolveVulnerabilityDays}
         />
         <Trend componentNames={componentName} />
       </Box>
