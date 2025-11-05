@@ -86,8 +86,8 @@ export const SecurityChampionCard = () => {
         .map(rel => rel.targetRef.split('/')[1]) as string[];
     } else if (entity.kind === 'Component') {
       return [entity.metadata.name];
-    } else if (entity.kind === 'Group') {
-      const groupRef = `${entity.kind.toLowerCase()}:default/${entity.metadata.name}`;
+    } else if (entity.kind === 'Group' || entity.kind === 'Domain') {
+      const groupRef = `${entity.kind.toLowerCase()}:${entity.metadata.namespace}/${entity.metadata.name}`;
       return await getAllComponentNamesByRecursion([groupRef]);
     }
     return [];

@@ -487,6 +487,9 @@ const domainPage = (
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
         <Grid item md={6}>
+          <SecurityChampionCard />
+        </Grid>
+        <Grid item md={6}>
           <EntityHasSystemsCard variant="gridItem" />
         </Grid>
       </Grid>
