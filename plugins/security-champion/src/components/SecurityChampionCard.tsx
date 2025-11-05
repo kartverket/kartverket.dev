@@ -11,6 +11,8 @@ import {
 } from '@backstage/catalog-model';
 import { useApi } from '@backstage/core-plugin-api';
 import { useAsync } from 'react-use';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const queryClient = new QueryClient();
 
@@ -91,7 +93,12 @@ export const SecurityChampionCard = () => {
     return [];
   }, [entity]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
+    );
 
   if (error) {
     return <ErrorBanner errorMessage="Kunne ikke hente Security Champions" />;
