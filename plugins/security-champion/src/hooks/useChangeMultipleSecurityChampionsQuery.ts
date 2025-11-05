@@ -24,13 +24,13 @@ export const useSetMultipleSecurityChampionsMutation = () => {
         {
           repositoryNames: string[];
           securityChampionEmail: string;
-          userEmail: string;
+          modifiedBy: string;
         },
         string
       >(endpointUrl, backstageToken, {
         repositoryNames: securityChampionBatch.repositoryNames,
         securityChampionEmail: securityChampionBatch.securityChampionEmail,
-        userEmail: userEmail,
+        modifiedBy: userEmail,
       });
     },
   });
