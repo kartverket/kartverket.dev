@@ -118,7 +118,7 @@ export const SecurityChampion = ({
 
   if (edit) {
     return (
-      CardWrapper
+      <CardWrapper
         title={
           entity.kind === 'Component'
             ? 'Change security champion'
