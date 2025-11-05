@@ -75,7 +75,6 @@ export const SingleComponentPage = () => {
         />
         <VulnerabilityCountsOverview
           data={data}
-          repositoryName={componentName}
           averageDays={data.averageTimeToSolveVulnerabilityDays}
         />
         <Trend componentNames={componentName} />
