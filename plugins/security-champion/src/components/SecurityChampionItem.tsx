@@ -108,8 +108,8 @@ export const SecurityChampionItem = ({
             <IconButton color="primary">
               <Typography variant="body1">
                 {repositories.length > 1
-                  ? `${repositories.length} repositories`
-                  : `${repositories.length} repository`}
+                  ? `${repositories.length} components`
+                  : `${repositories.length} component`}
               </Typography>
             </IconButton>
           </CustomTooltip>

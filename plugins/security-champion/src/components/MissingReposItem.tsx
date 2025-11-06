@@ -63,8 +63,8 @@ export const MissingReposItem = ({
               <IconButton color="primary">
                 <Typography variant="body1">
                   {reposWithNoSecChamps.length > 1
-                    ? `${reposWithNoSecChamps.length} repositories`
-                    : `${reposWithNoSecChamps.length} repository`}
+                    ? `${reposWithNoSecChamps.length} components`
+                    : `${reposWithNoSecChamps.length} component`}
                 </Typography>
               </IconButton>
             </CustomTooltip>
