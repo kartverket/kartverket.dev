@@ -17,7 +17,11 @@ import { LoadingOverlay } from './LoadingOverlay';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
-export const CatalogCreatorPage = () => {
+export interface CatalogCreatorPageProps {
+  gitUrl?: string;
+}
+
+export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
 
@@ -80,7 +84,7 @@ export const CatalogCreatorPage = () => {
             ) : (
               <Card style={{ position: 'relative', overflow: 'visible' }}>
                 <RepositoryForm
-                  url={url}
+                  url={gitUrl || url}
                   onUrlChange={setUrl}
                   onSubmit={handleFormSubmit}
                 />

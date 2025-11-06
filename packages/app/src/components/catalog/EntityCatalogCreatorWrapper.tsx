@@ -1,5 +1,5 @@
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { EntityCatalogCreator } from '@kartverket/backstage-plugin-catalog-creator';
+import { CatalogCreatorPage } from '@kartverket/backstage-plugin-catalog-creator';
 
 export const EntityCatalogCreatorWrapper = () => {
   const { entity } = useEntity();
@@ -19,5 +19,5 @@ export const EntityCatalogCreatorWrapper = () => {
     gitUrl = gitUrl.replace(/\/tree\/main\/?$/, '');
   }
 
-  return <EntityCatalogCreator gitUrl={gitUrl} />;
+  return <CatalogCreatorPage gitUrl={gitUrl} />;
 };
