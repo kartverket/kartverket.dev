@@ -14,8 +14,9 @@ export const EntityCatalogCreatorWrapper = () => {
     gitUrl = gitUrl.substring(4);
   }
 
-  // Remove /tree/main/ or /tree/main suffix from the end
-  if (gitUrl && gitUrl.includes('/tree/main')) {
+  // Only remove /tree/main if it's at the end without any additional path
+  // This preserves file-specific URLs but cleans up repository root URLs
+  if (gitUrl && gitUrl.match(/\/tree\/main\/?$/)) {
     gitUrl = gitUrl.replace(/\/tree\/main\/?$/, '');
   }
 

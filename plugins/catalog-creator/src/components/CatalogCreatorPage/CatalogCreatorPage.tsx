@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Box, Card, Flex } from '@backstage/ui';
 import { Page, Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
@@ -46,6 +47,12 @@ export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
     shouldShowForm,
   } = useCatalogCreator(githubAuthApi);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  useEffect(() => {
+    if (gitUrl && !url) {
+      setUrl(gitUrl);
+    }
+  }, [gitUrl, url, setUrl]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
