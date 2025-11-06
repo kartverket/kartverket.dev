@@ -56,7 +56,6 @@ import {
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 
-
 const app = createApp({
   __experimentalTranslations: {
     availableLanguages: ['en', 'no'],
