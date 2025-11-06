@@ -39,7 +39,7 @@ export const MissingReposItem = ({
             }
           >
             <Alert severity="warning">
-              <Typography>Repositories without security champion</Typography>
+              <Typography>Missing security champion</Typography>
             </Alert>
             <CustomTooltip
               sx={{
