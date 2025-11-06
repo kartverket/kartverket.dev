@@ -15,6 +15,7 @@ import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampi
 import { Button } from '@backstage/ui';
 import { UserEntity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { MissingReposItem } from './MissingReposItem';
 
 const CardWrapper = ({
   title,
@@ -136,13 +137,23 @@ export const SecurityChampion = ({
     if (data && data.length < 2) {
       return <SecurityChampionItem key={0} champion={data[0]} />;
     }
-    return [...groupedChampions].map((element, index) => (
-      <SecurityChampionItem
-        key={index}
-        champion={element[1].champ}
-        repositories={element[1].repositoryNames}
-      />
-    ));
+    return (
+      <>
+        {[...groupedChampions].map((element, index) => (
+          <SecurityChampionItem
+            key={index}
+            champion={element[1].champ}
+            repositories={element[1].repositoryNames}
+          />
+        ))}
+        <MissingReposItem
+          reposWithSecChamps={Array.from(groupedChampions.values()).flatMap(
+            e => e.repositoryNames,
+          )}
+          allRepositories={repositoryNames}
+        />
+      </>
+    );
   };
 
   if (data) {
