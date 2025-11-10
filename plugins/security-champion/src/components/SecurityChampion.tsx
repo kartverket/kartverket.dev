@@ -8,13 +8,14 @@ import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
 import CircularProgress from '@mui/material/CircularProgress';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import { useSecurityChampionsQuery } from '../hooks/useSecurityChampionsQuery';
 import UserSearch from './UserSearch';
 import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampionsQuery';
 import { Button } from '@backstage/ui';
 import { UserEntity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { MissingReposItem } from './MissingReposItem';
+import Alert from '@mui/material/Alert';
 
 const CardWrapper = ({
   title,
@@ -130,19 +131,45 @@ export const SecurityChampion = ({
     );
 
   const renderSecurityChampions = () => {
+    if (data && data.length < 1 && repositoryNames.length > 1) {
+      return (
+        <MissingReposItem
+          reposWithSecChamps={[]}
+          allRepositories={repositoryNames}
+        />
+      );
+    }
     if (data && data.length < 1) {
-      return <Typography>No security champion</Typography>;
+      return <Alert severity="warning">Missing security champion</Alert>;
     }
     if (data && data.length < 2) {
-      return <SecurityChampionItem key={0} champion={data[0]} />;
+      return (
+        <>
+          <SecurityChampionItem key={0} champion={data[0]} />
+          <MissingReposItem
+            reposWithSecChamps={[data[0].repositoryName]}
+            allRepositories={repositoryNames}
+          />
+        </>
+      );
     }
-    return [...groupedChampions].map((element, index) => (
-      <SecurityChampionItem
-        key={index}
-        champion={element[1].champ}
-        repositories={element[1].repositoryNames}
-      />
-    ));
+    return (
+      <>
+        {[...groupedChampions].map((element, index) => (
+          <SecurityChampionItem
+            key={index}
+            champion={element[1].champ}
+            repositories={element[1].repositoryNames}
+          />
+        ))}
+        <MissingReposItem
+          reposWithSecChamps={Array.from(groupedChampions.values()).flatMap(
+            e => e.repositoryNames,
+          )}
+          allRepositories={repositoryNames}
+        />
+      </>
+    );
   };
 
   if (data) {
