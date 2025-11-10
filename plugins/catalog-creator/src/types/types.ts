@@ -15,6 +15,8 @@ export enum ComponentTypes {
   website = 'website',
   library = 'library',
   service = 'service',
+  ops = 'ops',
+  documentation = 'documentation',
 }
 
 export enum ApiTypes {
@@ -39,7 +41,7 @@ const Kinds = {
 export type Kind = (typeof Kinds)[keyof typeof Kinds];
 
 export enum AllowedLifecycleStages {
-  development = 'development',
+  experimental = 'experimental',
   production = 'production',
   deprecated = 'deprecated',
 }

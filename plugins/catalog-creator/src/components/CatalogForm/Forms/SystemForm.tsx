@@ -4,15 +4,13 @@ import { EntityErrors, SystemTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
-import CatalogSearch from '../../CatalogSearch';
 import { useAsync } from 'react-use';
 import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { FieldHeader } from '../FieldHeader';
-import Autocomplete from '@mui/material/Autocomplete';
-import MuiTextField from '@mui/material/TextField';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
+import { AutocompleteField } from '../AutocompleteField';
 
 export type SystemFormProps = {
   index: number;
@@ -24,6 +22,7 @@ export type SystemFormProps = {
 export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
   const fetchDomains = useAsync(async () => {
     const results = await catalogApi.getEntities({
       filter: {
@@ -45,28 +44,13 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
             name={`entities.${index}.systemType`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Autocomplete
+              <AutocompleteField
                 value={value}
-                onChange={(_, newValue) => {
-                  onChange(newValue ?? '');
-                }}
                 onBlur={onBlur}
+                onChange={onChange}
                 options={Object.values(SystemTypes)}
-                getOptionLabel={option => option}
-                size="small"
-                renderInput={params => (
-                  <MuiTextField
-                    {...params}
-                    placeholder={t('form.componentForm.type.placeholder')}
-                    InputProps={{
-                      ...params.InputProps,
-                      sx: {
-                        fontSize: '0.85rem',
-                        font: 'system-ui',
-                      },
-                    }}
-                  />
-                )}
+                placeholder={t('form.systemForm.type.placeholder')}
+                type="select"
               />
             )}
           />
@@ -93,11 +77,13 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
           name={`entities.${index}.domain`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <CatalogSearch
+            <AutocompleteField
               onChange={onChange}
               onBlur={onBlur}
               value={value}
-              entityList={fetchDomains.value || []}
+              entities={fetchDomains.value || []}
+              type="search"
+              placeholder={t('form.systemForm.domain.placeholder')}
             />
           )}
         />
