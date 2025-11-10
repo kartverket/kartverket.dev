@@ -2,7 +2,6 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
-  EntityConsumingComponentsCard,
   EntityHasApisCard,
   EntityProvidedApisCard,
   EntityProvidingComponentsCard,
@@ -70,6 +69,7 @@ import {
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
+import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -195,7 +195,9 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
@@ -241,6 +243,9 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
@@ -279,6 +284,9 @@ const opsEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Risk Scorecard">
@@ -349,13 +357,12 @@ const apiPage = (
           <Grid item md={6}>
             <EntityProvidingComponentsCard />
           </Grid>
-          <Grid item md={6}>
-            <EntityConsumingComponentsCard />
-          </Grid>
         </Grid>
       </Grid>
     </EntityLayout.Route>
-
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -464,7 +471,6 @@ const systemPage = (
         unidirectional={false}
       />
     </EntityLayout.Route>
-
     <EntityLayout.Route path="/risc" title="ROS">
       <RiScPage />
     </EntityLayout.Route>
