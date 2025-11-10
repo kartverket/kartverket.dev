@@ -41,6 +41,15 @@ export const CatalogForm = ({
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
+  const handleKeyDown = (event: {
+    key: string;
+    preventDefault: () => void;
+  }) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   const fetchOwners = useAsync(async () => {
     const results = await catalogApi.getEntities({
       filter: {
@@ -207,10 +216,13 @@ export const CatalogForm = ({
 
   return (
     <>
+      {/* Prevent form submission on enter */}
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <form
         onSubmit={handleSubmit(data => {
           onSubmit(data.entities as FormEntity[]);
         })}
+        onKeyDown={handleKeyDown}
       >
         <Box px="2rem">
           <h2>{t('form.title')}</h2>
