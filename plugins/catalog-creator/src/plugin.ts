@@ -16,7 +16,9 @@ export const CatalogCreatorPage = catalogCreatorPlugin.provide(
   createRoutableExtension({
     name: 'CatalogCreatorPage',
     component: () =>
-      import('./components/CatalogCreatorPage').then(m => m.CatalogCreatorPage),
+      import('./components/CatalogCreatorPage/CatalogCreatorPage').then(
+        m => m.CatalogCreatorPage,
+      ),
     mountPoint: rootRouteRef,
   }),
 );
