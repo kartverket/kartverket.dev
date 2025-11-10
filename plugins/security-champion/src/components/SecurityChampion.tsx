@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react';
 import { ErrorBanner } from './ErrorBanner';
-import { SecurityChamp } from '../types';
+import { SecurityChamp, SecurityChampionBatchUpdate } from '../types';
 import { SecurityChampionItem } from './SecurityChampionItem';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -14,8 +13,10 @@ import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampi
 import { Button } from '@backstage/ui';
 import { UserEntity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { useSetMultipleSecurityChampionsMutation } from '../hooks/useChangeMultipleSecurityChampionsQuery';
 import { MissingReposItem } from './MissingReposItem';
 import Alert from '@mui/material/Alert';
+import { useMemo, useState } from 'react';
 
 const CardWrapper = ({
   title,
@@ -44,7 +45,9 @@ export const SecurityChampion = ({
 
   const [edit, setEdit] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<UserEntity | null>(null);
-  const mutation = useSetSecurityChampionMutation();
+  const securityChampionMutation = useSetSecurityChampionMutation();
+  const securityChampionForMultipleReposMutation =
+    useSetMultipleSecurityChampionsMutation();
   const [isMutationError, setIsMutationError] = useState<boolean>(false);
 
   const { entity } = useEntity();
@@ -79,20 +82,37 @@ export const SecurityChampion = ({
 
   const setSecurityChampion = () => {
     if (selectedUser && selectedUser.spec.profile?.email) {
-      const champion: SecurityChamp = {
-        repositoryName: repositoryNames[0],
-        securityChampionEmail: selectedUser.spec.profile?.email,
-      };
-      mutation.mutate(champion, {
-        onSuccess: () => {
-          refetch();
-          setEdit(false);
-          setSelectedUser(null);
-        },
-        onError: () => {
-          setIsMutationError(true);
-        },
-      });
+      if (repositoryNames.length === 1) {
+        const champion: SecurityChamp = {
+          repositoryName: repositoryNames[0],
+          securityChampionEmail: selectedUser.spec.profile?.email,
+        };
+        securityChampionMutation.mutate(champion, {
+          onSuccess: () => {
+            refetch();
+            setEdit(false);
+            setSelectedUser(null);
+          },
+          onError: () => {
+            setIsMutationError(true);
+          },
+        });
+      } else {
+        const secChampBatch: SecurityChampionBatchUpdate = {
+          repositoryNames: repositoryNames,
+          securityChampionEmail: selectedUser.spec.profile?.email,
+        };
+        securityChampionForMultipleReposMutation.mutate(secChampBatch, {
+          onSuccess: () => {
+            refetch();
+            setEdit(false);
+            setSelectedUser(null);
+          },
+          onError: () => {
+            setIsMutationError(true);
+          },
+        });
+      }
     }
   };
 
@@ -102,7 +122,13 @@ export const SecurityChampion = ({
 
   if (edit) {
     return (
-      <CardWrapper title="Change security champion:">
+      <CardWrapper
+        title={
+          entity.kind === 'Component'
+            ? 'Change security champion'
+            : `Change security champion for all components in this ${entity.kind.toLowerCase()}`
+        }
+      >
         <UserSearch
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
@@ -187,7 +213,13 @@ export const SecurityChampion = ({
         <List>
           <List>{renderSecurityChampions()}</List>
         </List>
-        {entity.kind === 'Component' && <Button onClick={onEdit}>Edit</Button>}
+        {(entity.kind === 'Component' ||
+          entity.kind === 'System' ||
+          entity.kind === 'Group') && (
+          <Button onClick={onEdit}>
+            {entity.kind === 'Component' ? 'Edit' : 'Edit all'}
+          </Button>
+        )}
       </CardWrapper>
     );
   }
