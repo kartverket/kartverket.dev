@@ -16,7 +16,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const queryClient = new QueryClient();
 
-const REPOSITORY_ENTITY_KIND = 'Component';
+const COMPONENT_ENTITY_KIND = 'Component';
 const HIGHER_LEVEL_ENTITIES = ['Group', 'Domain', 'System'];
 
 const isEntity = (entity: Entity | undefined): entity is Entity => !!entity;
@@ -27,11 +27,11 @@ export const SecurityChampionCard = () => {
 
   const getAllComponentNamesByRecursion = async (
     entityRefs: string[],
-    repositoryEntities: string[] = [],
+    componentEntities: string[] = [],
     visitedRefs: Set<string> = new Set(),
   ): Promise<string[]> => {
     const newGroupRefs = entityRefs.filter(ref => !visitedRefs.has(ref));
-    if (newGroupRefs.length === 0) return repositoryEntities;
+    if (newGroupRefs.length === 0) return componentEntities;
 
     newGroupRefs.forEach(ref => visitedRefs.add(ref));
 
@@ -44,8 +44,8 @@ export const SecurityChampionCard = () => {
     const childrenRefs: string[] = [];
 
     resultEntities.forEach(item => {
-      if (item.kind === REPOSITORY_ENTITY_KIND) {
-        repositoryEntities.push(item.metadata.title ?? item.metadata.name);
+      if (item.kind === COMPONENT_ENTITY_KIND) {
+        componentEntities.push(item.metadata.title ?? item.metadata.name);
       } else if (HIGHER_LEVEL_ENTITIES.includes(item.kind)) {
         item.relations?.forEach(relation => {
           if (
@@ -63,12 +63,12 @@ export const SecurityChampionCard = () => {
     });
 
     if (!childrenRefs || childrenRefs.length === 0) {
-      return repositoryEntities;
+      return componentEntities;
     }
 
     return getAllComponentNamesByRecursion(
       childrenRefs,
-      repositoryEntities,
+      componentEntities,
       visitedRefs,
     );
   };
@@ -81,7 +81,7 @@ export const SecurityChampionCard = () => {
     if (entity.kind === 'System') {
       return entity.relations
         ?.filter(rel =>
-          rel.targetRef.startsWith(REPOSITORY_ENTITY_KIND.toLowerCase()),
+          rel.targetRef.startsWith(COMPONENT_ENTITY_KIND.toLowerCase()),
         )
         .map(rel => rel.targetRef.split('/')[1]) as string[];
     } else if (entity.kind === 'Component') {
@@ -100,21 +100,20 @@ export const SecurityChampionCard = () => {
       </Box>
     );
 
-  if (error) {
-    return <ErrorBanner errorMessage="Kunne ikke hente Security Champions" />;
-  }
-
-  if (!componentNames || componentNames.length === 0) {
+  if ((!componentNames || componentNames.length === 0) && !error) {
     return (
       <QueryClientProvider client={queryClient}>
         <SecurityChampion repositoryNames={['']} />
       </QueryClientProvider>
     );
   }
+  if (componentNames) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <SecurityChampion repositoryNames={componentNames} />
+      </QueryClientProvider>
+    );
+  }
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <SecurityChampion repositoryNames={componentNames} />
-    </QueryClientProvider>
-  );
+  return <ErrorBanner errorMessage="Kunne ikke hente Security Champions" />;
 };
