@@ -17,6 +17,7 @@ export enum ComponentTypes {
   service = 'service',
   ops = 'ops',
   documentation = 'documentation',
+  job = 'job',
 }
 
 export enum ApiTypes {
