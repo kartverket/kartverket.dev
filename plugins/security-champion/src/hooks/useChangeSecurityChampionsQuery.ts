@@ -16,14 +16,24 @@ export const useSetSecurityChampionMutation = () => {
   return useMutation({
     mutationFn: async (securityChampion: SecurityChamp) => {
       const { backstageToken } = await getBackstageToken(backstageAuthApi);
+      const { email } = await backstageAuthApi.getProfileInfo();
+
+      const userEmail = email ? email : 'no user email';
 
       const endpointUrl = `${backendUrl}/api/proxy/security-champion-proxy/api/setSecurityChampion`;
 
-      return post<SecurityChamp, string>(
-        endpointUrl,
-        backstageToken,
-        securityChampion,
-      );
+      return post<
+        {
+          repositoryName: string;
+          securityChampionEmail: string;
+          modifiedBy: string;
+        },
+        string
+      >(endpointUrl, backstageToken, {
+        repositoryName: securityChampion.repositoryName,
+        securityChampionEmail: securityChampion.securityChampionEmail,
+        modifiedBy: userEmail,
+      });
     },
   });
 };
