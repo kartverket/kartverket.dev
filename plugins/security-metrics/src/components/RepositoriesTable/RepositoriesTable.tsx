@@ -84,7 +84,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              colSpan={6}
+              colSpan={7}
               {...paginationProps}
               count={allRows.length}
             />
