@@ -24,7 +24,7 @@ export enum ApiTypes {
   asyncapi = 'asyncapi',
   graphql = 'graphql',
   grpc = 'grpc',
-  wsld = 'wsdl',
+  wsdl = 'wsdl',
 }
 
 export enum SystemTypes {
