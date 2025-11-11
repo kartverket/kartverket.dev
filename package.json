@@ -57,7 +57,7 @@
     "@types/react-dom": "^18",
     "@mui/material": "5.16.4",
     "jsonpath-plus": "^10.2.0",
-    "form-data": "2.5.4"
+    "@kubernetes/client-node": "1.4.0"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
