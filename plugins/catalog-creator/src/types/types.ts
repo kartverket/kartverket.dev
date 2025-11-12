@@ -15,6 +15,8 @@ export enum ComponentTypes {
   website = 'website',
   library = 'library',
   service = 'service',
+  ops = 'ops',
+  documentation = 'documentation',
 }
 
 export enum ApiTypes {
@@ -22,6 +24,7 @@ export enum ApiTypes {
   asyncapi = 'asyncapi',
   graphql = 'graphql',
   grpc = 'grpc',
+  wsdl = 'wsdl',
 }
 
 export enum SystemTypes {
@@ -39,7 +42,7 @@ const Kinds = {
 export type Kind = (typeof Kinds)[keyof typeof Kinds];
 
 export enum AllowedLifecycleStages {
-  development = 'development',
+  experimental = 'experimental',
   production = 'production',
   deprecated = 'deprecated',
 }

@@ -1,6 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-
-import { SecurityChamp } from '../types';
 import { post } from '../api/client';
 import { getBackstageToken } from '../utils/authenticationUtils';
 import {
@@ -8,30 +6,30 @@ import {
   identityApiRef,
   useApi,
 } from '@backstage/core-plugin-api';
+import { SecurityChampionBatchUpdate } from '../types';
 
-export const useSetSecurityChampionMutation = () => {
+export const useSetMultipleSecurityChampionsMutation = () => {
   const backendUrl = useApi(configApiRef).getString('backend.baseUrl');
   const backstageAuthApi = useApi(identityApiRef);
 
   return useMutation({
-    mutationFn: async (securityChampion: SecurityChamp) => {
+    mutationFn: async (securityChampionBatch: SecurityChampionBatchUpdate) => {
       const { backstageToken } = await getBackstageToken(backstageAuthApi);
       const { email } = await backstageAuthApi.getProfileInfo();
-
       const userEmail = email ? email : 'no user email';
 
-      const endpointUrl = `${backendUrl}/api/proxy/security-champion-proxy/api/setSecurityChampion`;
+      const endpointUrl = `${backendUrl}/api/proxy/security-champion-proxy/api/setSecurityChampions`;
 
       return post<
         {
-          repositoryName: string;
+          repositoryNames: string[];
           securityChampionEmail: string;
           modifiedBy: string;
         },
         string
       >(endpointUrl, backstageToken, {
-        repositoryName: securityChampion.repositoryName,
-        securityChampionEmail: securityChampion.securityChampionEmail,
+        repositoryNames: securityChampionBatch.repositoryNames,
+        securityChampionEmail: securityChampionBatch.securityChampionEmail,
         modifiedBy: userEmail,
       });
     },

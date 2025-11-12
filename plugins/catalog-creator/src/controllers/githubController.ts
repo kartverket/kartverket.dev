@@ -1,4 +1,4 @@
-import type { FormEntity, RequiredYamlFields, Status } from '../model/types.ts';
+import type { FormEntity, RequiredYamlFields, Status } from '../types/types.ts';
 
 import { updateYaml } from '../translator/translator';
 import { Octokit } from '@octokit/core';

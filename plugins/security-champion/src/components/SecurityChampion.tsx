@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react';
 import { ErrorBanner } from './ErrorBanner';
-import { SecurityChamp } from '../types';
+import { SecurityChamp, SecurityChampionBatchUpdate } from '../types';
 import { SecurityChampionItem } from './SecurityChampionItem';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -8,13 +7,16 @@ import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
 import CircularProgress from '@mui/material/CircularProgress';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import { useSecurityChampionsQuery } from '../hooks/useSecurityChampionsQuery';
 import UserSearch from './UserSearch';
 import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampionsQuery';
 import { Button } from '@backstage/ui';
 import { UserEntity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { useSetMultipleSecurityChampionsMutation } from '../hooks/useChangeMultipleSecurityChampionsQuery';
+import { MissingReposItem } from './MissingReposItem';
+import Alert from '@mui/material/Alert';
+import { useMemo, useState } from 'react';
 
 const CardWrapper = ({
   title,
@@ -38,12 +40,14 @@ interface SecurityChampionProps {
 export const SecurityChampion = ({
   repositoryNames,
 }: SecurityChampionProps) => {
-  const { data, isPending, error, refetch } =
+  const { data, isPending, refetch } =
     useSecurityChampionsQuery(repositoryNames);
 
   const [edit, setEdit] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<UserEntity | null>(null);
-  const mutation = useSetSecurityChampionMutation();
+  const securityChampionMutation = useSetSecurityChampionMutation();
+  const securityChampionForMultipleReposMutation =
+    useSetMultipleSecurityChampionsMutation();
   const [isMutationError, setIsMutationError] = useState<boolean>(false);
 
   const { entity } = useEntity();
@@ -57,7 +61,10 @@ export const SecurityChampion = ({
       string,
       { champ: SecurityChamp; repositoryNames: string[] }
     >();
+
+    if (!data) return champMap;
     data?.forEach(champ => {
+      if (!champ.securityChampionEmail) return;
       const repositories = champMap.get(
         champ.securityChampionEmail.toLowerCase(),
       );
@@ -75,20 +82,37 @@ export const SecurityChampion = ({
 
   const setSecurityChampion = () => {
     if (selectedUser && selectedUser.spec.profile?.email) {
-      const champion: SecurityChamp = {
-        repositoryName: repositoryNames[0],
-        securityChampionEmail: selectedUser.spec.profile?.email,
-      };
-      mutation.mutate(champion, {
-        onSuccess: () => {
-          refetch();
-          setEdit(false);
-          setSelectedUser(null);
-        },
-        onError: () => {
-          setIsMutationError(true);
-        },
-      });
+      if (repositoryNames.length === 1) {
+        const champion: SecurityChamp = {
+          repositoryName: repositoryNames[0],
+          securityChampionEmail: selectedUser.spec.profile?.email,
+        };
+        securityChampionMutation.mutate(champion, {
+          onSuccess: () => {
+            refetch();
+            setEdit(false);
+            setSelectedUser(null);
+          },
+          onError: () => {
+            setIsMutationError(true);
+          },
+        });
+      } else {
+        const secChampBatch: SecurityChampionBatchUpdate = {
+          repositoryNames: repositoryNames,
+          securityChampionEmail: selectedUser.spec.profile?.email,
+        };
+        securityChampionForMultipleReposMutation.mutate(secChampBatch, {
+          onSuccess: () => {
+            refetch();
+            setEdit(false);
+            setSelectedUser(null);
+          },
+          onError: () => {
+            setIsMutationError(true);
+          },
+        });
+      }
     }
   };
 
@@ -98,7 +122,13 @@ export const SecurityChampion = ({
 
   if (edit) {
     return (
-      <CardWrapper title="Change security champion:">
+      <CardWrapper
+        title={
+          entity.kind === 'Component'
+            ? 'Change security champion'
+            : `Change security champion for all components in this ${entity.kind.toLowerCase()}`
+        }
+      >
         <UserSearch
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
@@ -108,21 +138,16 @@ export const SecurityChampion = ({
           <ErrorBanner errorMessage="Failed to set security champion" />
         )}
 
-        {!selectedUser && (
-          <Button
-            style={{ marginTop: 8 }}
-            onClick={setSecurityChampion}
-            isDisabled
-          >
-            Change Champion
-          </Button>
-        )}
-
-        {selectedUser && (
-          <Button style={{ marginTop: 8 }} onClick={setSecurityChampion}>
-            Change champion
-          </Button>
-        )}
+        <Button
+          style={{
+            marginTop: 8,
+            backgroundColor: selectedUser ? '' : 'var(--bui-bg-solid-disabled)',
+          }}
+          onClick={setSecurityChampion}
+          isDisabled={!selectedUser}
+        >
+          Confirm change
+        </Button>
       </CardWrapper>
     );
   }
@@ -135,26 +160,52 @@ export const SecurityChampion = ({
     );
 
   const renderSecurityChampions = () => {
+    if (data && data.length < 1 && repositoryNames.length > 1) {
+      return (
+        <MissingReposItem
+          reposWithSecChamps={[]}
+          allRepositories={repositoryNames}
+        />
+      );
+    }
     if (data && data.length < 1) {
-      return <Typography>No security champion</Typography>;
+      return <Alert severity="warning">Missing security champion</Alert>;
     }
     if (data && data.length < 2) {
-      return <SecurityChampionItem key={0} champion={data[0]} />;
+      return (
+        <>
+          <SecurityChampionItem key={0} champion={data[0]} />
+          <MissingReposItem
+            reposWithSecChamps={[data[0].repositoryName]}
+            allRepositories={repositoryNames}
+          />
+        </>
+      );
     }
-    return [...groupedChampions].map((element, index) => (
-      <SecurityChampionItem
-        key={index}
-        champion={element[1].champ}
-        repositories={element[1].repositoryNames}
-      />
-    ));
+    return (
+      <>
+        {[...groupedChampions].map((element, index) => (
+          <SecurityChampionItem
+            key={index}
+            champion={element[1].champ}
+            repositories={element[1].repositoryNames}
+          />
+        ))}
+        <MissingReposItem
+          reposWithSecChamps={Array.from(groupedChampions.values()).flatMap(
+            e => e.repositoryNames,
+          )}
+          allRepositories={repositoryNames}
+        />
+      </>
+    );
   };
 
   if (data) {
     return (
       <CardWrapper
         title={
-          groupedChampions.keys.length > 1
+          groupedChampions.size > 1
             ? 'Security champions: '
             : 'Security champion: '
         }
@@ -162,14 +213,20 @@ export const SecurityChampion = ({
         <List>
           <List>{renderSecurityChampions()}</List>
         </List>
-        {entity.kind === 'Component' && <Button onClick={onEdit}>Edit</Button>}
+        {(entity.kind === 'Component' ||
+          entity.kind === 'System' ||
+          entity.kind === 'Group') && (
+          <Button onClick={onEdit}>
+            {entity.kind === 'Component' ? 'Edit' : 'Edit all'}
+          </Button>
+        )}
       </CardWrapper>
     );
   }
 
   return (
     <CardWrapper title="Security champion: ">
-      <ErrorBanner errorMessage={error?.message} />
+      <ErrorBanner errorMessage="Kunne ikke koble til security champion API" />
     </CardWrapper>
   );
 };

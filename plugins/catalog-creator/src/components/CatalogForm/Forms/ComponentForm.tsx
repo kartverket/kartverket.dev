@@ -5,7 +5,7 @@ import {
   ComponentTypes,
   EntityErrors,
   Kind,
-} from '../../../model/types';
+} from '../../../types/types';
 import { apiSchema, formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
@@ -17,6 +17,7 @@ import MuiTextField from '@mui/material/TextField';
 import { FieldHeader } from '../FieldHeader';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
+import { AutocompleteField } from '../AutocompleteField';
 
 export type ComponentFormProps = {
   index: number;
@@ -65,28 +66,13 @@ export const ComponentForm = ({
             name={`entities.${index}.lifecycle`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Autocomplete
-                value={value}
-                onChange={(_, newValue) => {
-                  onChange(newValue ?? '');
-                }}
+              <AutocompleteField
+                onChange={onChange}
                 onBlur={onBlur}
+                value={value}
+                placeholder={t('form.componentForm.lifecycle.placeholder')}
+                type="select"
                 options={Object.values(AllowedLifecycleStages)}
-                getOptionLabel={option => option}
-                size="small"
-                renderInput={params => (
-                  <MuiTextField
-                    {...params}
-                    placeholder={t('form.componentForm.lifecycle.placeholder')}
-                    InputProps={{
-                      ...params.InputProps,
-                      sx: {
-                        fontSize: '0.85rem',
-                        font: 'system-ui',
-                      },
-                    }}
-                  />
-                )}
               />
             )}
           />
@@ -114,28 +100,13 @@ export const ComponentForm = ({
             name={`entities.${index}.entityType`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Autocomplete
-                value={value}
-                onChange={(_, newValue) => {
-                  onChange(newValue);
-                }}
+              <AutocompleteField
+                onChange={onChange}
                 onBlur={onBlur}
+                value={value}
+                placeholder={t('form.componentForm.type.placeholder')}
+                type="select"
                 options={Object.values(ComponentTypes)}
-                getOptionLabel={option => option}
-                size="small"
-                renderInput={params => (
-                  <MuiTextField
-                    {...params}
-                    placeholder={t('form.componentForm.type.placeholder')}
-                    InputProps={{
-                      ...params.InputProps,
-                      sx: {
-                        fontSize: '0.85rem',
-                        font: 'system-ui',
-                      },
-                    }}
-                  />
-                )}
               />
             )}
           />
@@ -162,53 +133,13 @@ export const ComponentForm = ({
           name={`entities.${index}.system`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Autocomplete
-              value={
-                value
-                  ? (systems.find(entity => entity.metadata.name === value) ??
-                    null)
-                  : null
-              }
+            <AutocompleteField
+              value={value}
               onBlur={onBlur}
-              onChange={(_, newValue) => {
-                const names = newValue?.metadata?.name ?? '';
-                onChange(names);
-              }}
-              options={systems || []}
-              getOptionLabel={option => {
-                return option.metadata.name;
-              }}
-              filterOptions={(options, state) => {
-                const inputValue = state.inputValue.toLowerCase();
-                return options.filter(option => {
-                  const name = option.metadata.name.toLowerCase();
-                  const title = (option.metadata.title ?? '').toLowerCase();
-                  return (
-                    name.includes(inputValue) || title.includes(inputValue)
-                  );
-                });
-              }}
-              renderOption={(props, option) => {
-                const label = option.metadata.title ?? option.metadata.name;
-                return <li {...props}>{label}</li>;
-              }}
-              isOptionEqualToValue={(option, selectedValue) => {
-                return option.metadata.name === selectedValue.metadata.name;
-              }}
-              size="small"
-              renderInput={params => (
-                <MuiTextField
-                  {...params}
-                  placeholder={t('form.componentForm.system.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
-                  }}
-                />
-              )}
+              onChange={onChange}
+              placeholder={t('form.componentForm.system.placeholder')}
+              entities={systems}
+              type="search"
             />
           )}
         />

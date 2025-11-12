@@ -4,15 +4,15 @@ import {
   AllowedLifecycleStages,
   ApiTypes,
   EntityErrors,
-} from '../../../model/types';
+} from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
 import { FieldHeader } from '../FieldHeader';
-import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
+import { AutocompleteField } from '../AutocompleteField';
 
 export type ApiFormProps = {
   index: number;
@@ -36,28 +36,13 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
             name={`entities.${index}.lifecycle`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Autocomplete
-                value={value}
-                onChange={(_, newValue) => {
-                  onChange(newValue ?? '');
-                }}
+              <AutocompleteField
+                onChange={onChange}
                 onBlur={onBlur}
+                value={value}
+                placeholder={t('form.APIForm.lifecycle.placeholder')}
+                type="select"
                 options={Object.values(AllowedLifecycleStages)}
-                getOptionLabel={option => option}
-                size="small"
-                renderInput={params => (
-                  <MuiTextField
-                    {...params}
-                    placeholder={t('form.APIForm.lifecycle.placeholder')}
-                    InputProps={{
-                      ...params.InputProps,
-                      sx: {
-                        fontSize: '0.85rem',
-                        font: 'system-ui',
-                      },
-                    }}
-                  />
-                )}
               />
             )}
           />
@@ -85,28 +70,13 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
             name={`entities.${index}.entityType`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Autocomplete
-                value={value}
-                onChange={(_, newValue) => {
-                  onChange(newValue ?? '');
-                }}
+              <AutocompleteField
+                onChange={onChange}
                 onBlur={onBlur}
+                value={value}
+                placeholder={t('form.APIForm.type.placeholder')}
+                type="select"
                 options={Object.values(ApiTypes)}
-                getOptionLabel={option => option}
-                size="small"
-                renderInput={params => (
-                  <MuiTextField
-                    {...params}
-                    placeholder={t('form.APIForm.type.placeholder')}
-                    InputProps={{
-                      ...params.InputProps,
-                      sx: {
-                        fontSize: '0.85rem',
-                        font: 'system-ui',
-                      },
-                    }}
-                  />
-                )}
               />
             )}
           />
@@ -128,59 +98,19 @@ export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
       <div>
         <FieldHeader
           fieldName={t('form.APIForm.system.fieldName')}
-          tooltipText={t('form.APIForm.type.tooltipText')}
+          tooltipText={t('form.APIForm.system.tooltipText')}
         />
         <Controller
           name={`entities.${index}.system`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Autocomplete
-              value={
-                value
-                  ? (systems.find(entity => entity.metadata.name === value) ??
-                    null)
-                  : null
-              }
+            <AutocompleteField
+              value={value}
               onBlur={onBlur}
-              onChange={(_, newValue) => {
-                const names = newValue?.metadata?.name ?? '';
-                onChange(names);
-              }}
-              options={systems || []}
-              getOptionLabel={option => {
-                return option.metadata.name;
-              }}
-              filterOptions={(options, state) => {
-                const inputValue = state.inputValue.toLowerCase();
-                return options.filter(option => {
-                  const name = option.metadata.name.toLowerCase();
-                  const title = (option.metadata.title ?? '').toLowerCase();
-                  return (
-                    name.includes(inputValue) || title.includes(inputValue)
-                  );
-                });
-              }}
-              renderOption={(props, option) => {
-                const label = option.metadata.title ?? option.metadata.name;
-                return <li {...props}>{label}</li>;
-              }}
-              isOptionEqualToValue={(option, selectedValue) => {
-                return option.metadata.name === selectedValue.metadata.name;
-              }}
-              size="small"
-              renderInput={params => (
-                <MuiTextField
-                  {...params}
-                  placeholder={t('form.APIForm.type.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
-                  }}
-                />
-              )}
+              onChange={onChange}
+              placeholder={t('form.APIForm.system.placeholder')}
+              entities={systems}
+              type="search"
             />
           )}
         />

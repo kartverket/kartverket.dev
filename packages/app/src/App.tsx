@@ -54,6 +54,7 @@ import {
   catalogCreatorNorwegianTranslation,
 } from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
+import { SignalsDisplay } from '@backstage/plugin-signals';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -169,6 +170,8 @@ export default app.createRoot(
   <>
     <AlertDisplay />
     <OAuthRequestDialog />
+    <SignalsDisplay />
+
     <AppRouter>
       <VisitListener />
       <Root>{routes}</Root>
