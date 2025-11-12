@@ -90,15 +90,15 @@ export const SecurityChampion = ({
       { champ: SecurityChamp; repositoryNames: string[] }
     >,
   ) => {
-    const refinedData = [];
-    refinedData.push(['security champion', 'repositories']);
+    const csvRows = [];
+    csvRows.push(['security champion', 'repositories']);
     groupOfChampions.forEach((value, key) => {
-      refinedData.push([key, value.repositoryNames.join(';')]);
+      csvRows.push([key, value.repositoryNames.join(';')]);
     });
 
     let csvContent = '';
 
-    refinedData.forEach(row => {
+    csvRows.forEach(row => {
       csvContent += `${row.join(',')}\n`;
     });
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' });
