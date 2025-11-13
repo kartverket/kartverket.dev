@@ -19,6 +19,7 @@ import Alert from '@mui/material/Alert';
 import { useMemo, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 const CardWrapper = ({
   title,
@@ -161,6 +162,8 @@ export const SecurityChampion = ({
         action={
           <IconButton
             disabled
+            aria-label="Download a CSV file containing all security champions for this entity."
+            aria-description="The download button is disabled if there are only one or no security champions."
             onClick={() => generateSecurityChampionCSV(groupedChampions)}
           >
             <DownloadIcon />
@@ -197,6 +200,8 @@ export const SecurityChampion = ({
         action={
           <IconButton
             disabled
+            aria-label="Download a CSV file containing all security champions for this entity."
+            aria-description="The download button is disabled if there are only one or no security champions."
             onClick={() => generateSecurityChampionCSV(groupedChampions)}
           >
             <DownloadIcon />
@@ -258,14 +263,18 @@ export const SecurityChampion = ({
             : 'Security champion: '
         }
         action={
-          <IconButton
-            disabled={groupedChampions.size === 0}
-            onClick={() => {
-              generateSecurityChampionCSV(groupedChampions);
-            }}
-          >
-            <DownloadIcon />
-          </IconButton>
+          <Tooltip title="Download CSV">
+            <IconButton
+              aria-label="Download a CSV file containing all security champions for this entity."
+              aria-description="The download button is disabled if there are only one or no security champions."
+              disabled={groupedChampions.size === 0}
+              onClick={() => {
+                generateSecurityChampionCSV(groupedChampions);
+              }}
+            >
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
         }
       >
         <List>
@@ -288,6 +297,8 @@ export const SecurityChampion = ({
       action={
         <IconButton
           disabled
+          aria-label="Download a CSV file containing all security champions for this entity."
+          aria-description="The download button is disabled if there are only one or no security champions."
           onClick={() => generateSecurityChampionCSV(groupedChampions)}
         >
           <DownloadIcon />
