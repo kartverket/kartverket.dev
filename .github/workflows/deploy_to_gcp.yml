@@ -41,5 +41,4 @@ jobs:
             --platform managed \
             --set-env-vars "DB_PASSWORD=${{secrets.SPIRE_DEV_DB_PASSORD}}" \
             --set-env-vars "DB_USERNAME=postgres" \
-            --port 7007 \
             --quiet
