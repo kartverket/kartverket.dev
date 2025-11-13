@@ -160,7 +160,7 @@ export const SecurityChampion = ({
     );
 
   const renderSecurityChampions = () => {
-    if (data && data.length < 1 && repositoryNames.length > 1) {
+    if (data && data.length === 0 && repositoryNames.length > 1) {
       return (
         <MissingReposItem
           reposWithSecChamps={[]}
@@ -168,13 +168,17 @@ export const SecurityChampion = ({
         />
       );
     }
-    if (data && data.length < 1) {
+    if (data && data.length === 0 && repositoryNames.length === 1) {
       return <Alert severity="warning">Missing security champion</Alert>;
     }
-    if (data && data.length < 2) {
+    if (data && data.length === 1) {
       return (
         <>
-          <SecurityChampionItem key={0} champion={data[0]} />
+          <SecurityChampionItem
+            key={0}
+            champion={data[0]}
+            repositories={[data[0].repositoryName]}
+          />
           <MissingReposItem
             reposWithSecChamps={[data[0].repositoryName]}
             allRepositories={repositoryNames}
