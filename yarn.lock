@@ -8465,6 +8465,7 @@ __metadata:
     "@backstage/test-utils": "backstage:^"
     "@backstage/theme": "backstage:^"
     "@backstage/ui": "backstage:^"
+    "@mui/icons-material": "npm:^7.3.5"
     "@tanstack/react-query": "npm:^5.84.1"
     "@testing-library/jest-dom": "npm:^6.0.0"
     "@testing-library/react": "npm:^14.0.0"
@@ -9490,6 +9491,22 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/09c5708f0a96979dafeefdfbaef4950463e987bdc283874831d67ae0ce32cbc946bf408ba5084bd7a8f57af0cb87c3fdfddcf4c21e0946bb5e17c34abfd49d80
+  languageName: node
+  linkType: hard
+
+"@mui/icons-material@npm:^7.3.5":
+  version: 7.3.5
+  resolution: "@mui/icons-material@npm:7.3.5"
+  dependencies:
+    "@babel/runtime": "npm:^7.28.4"
+  peerDependencies:
+    "@mui/material": ^7.3.5
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/5fa551acabc8eddf30113a45a7c7b9923ec0f520608442cb914345493208aaa5b4ba852ad4b766ab58c547a2eb498ab4d6c1a3ebf5d4055a006c2327e397f88c
   languageName: node
   linkType: hard
 
