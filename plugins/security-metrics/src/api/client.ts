@@ -1,3 +1,34 @@
+const ERROR_MESSAGES: Record<number, string> = {
+  401: 'Mangler autentisering. Vennligst logg inn.',
+  403: 'Det ser ut som du ikke har tilgang til metrikker for denne ressursen.',
+  404: 'Vi fant ikke ressursen du leter etter.',
+  500: 'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
+  502: 'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
+  503: 'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
+  504: 'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
+};
+
+const DEFAULT_ERROR_MESSAGE =
+  'Kunne ikke hente metrikker for denne ressursen på grunn av en ukjent feil.';
+
+const throwHttpError = (response: Response): never => {
+  const message = ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
+  throw new Error(message);
+};
+
+const handleResponse = async <ResponseBody>(
+  response: Response,
+  parse: (response: Response) => Promise<ResponseBody>,
+): Promise<ResponseBody> => {
+  const result = await parse(response);
+
+  if (!response.ok) {
+    throwHttpError(response);
+  }
+
+  return result;
+};
+
 export const post = async <RequestBody, ResponseBody>(
   url: URL,
   backstageToken: string,
@@ -12,43 +43,28 @@ export const post = async <RequestBody, ResponseBody>(
     body: JSON.stringify(requestBody),
   });
 
-  const result: ResponseBody =
-    response.status === 204 ? await response.text() : await response.json();
+  return handleResponse<ResponseBody>(response, async res =>
+    res.status === 204 ? (res.text() as unknown as ResponseBody) : res.json(),
+  );
+};
 
-  if (!response.ok) {
-    switch (response.status) {
-      case 401:
-        throw new Error('Mangler autentisering. Vennligst logg inn.');
-      case 403:
-        throw new Error(
-          'Det ser ut som du ikke har tilgang til metrikker for denne ressursen.',
-        );
-      case 404:
-        throw new Error('Vi fant ikke ressursen du leter etter.');
-      case 500:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      case 502:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      case 503:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      case 504:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      default:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en ukjent feil.',
-        );
-    }
-  }
+export const put = async <RequestBody, ResponseBody>(
+  url: URL,
+  backstageToken: string,
+  requestBody: RequestBody,
+): Promise<ResponseBody> => {
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${backstageToken}`,
+    },
+    body: JSON.stringify(requestBody),
+  });
 
-  return result;
+  return handleResponse<ResponseBody>(response, async res =>
+    res.status === 204 ? (res.text() as unknown as ResponseBody) : res.json(),
+  );
 };
 
 export const get = async <ResponseBody>(
@@ -64,40 +80,5 @@ export const get = async <ResponseBody>(
     },
   });
 
-  const result: ResponseBody = await response.json();
-
-  if (!response.ok) {
-    switch (response.status) {
-      case 401:
-        throw new Error('Mangler autentisering. Vennligst logg inn.');
-      case 403:
-        throw new Error(
-          'Det ser ut som du ikke har tilgang til metrikker for denne ressursen.',
-        );
-      case 404:
-        throw new Error('Vi fant ikke ressursen du leter etter.');
-      case 500:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      case 502:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      case 503:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      case 504:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en server-feil.',
-        );
-      default:
-        throw new Error(
-          'Kunne ikke hente metrikker for denne ressursen på grunn av en ukjent feil.',
-        );
-    }
-  }
-
-  return result;
+  return handleResponse<ResponseBody>(response, res => res.json());
 };
