@@ -5,7 +5,6 @@ import { entitySchema, formSchema } from '../schemas/formSchema';
 export enum AllowedEntityKinds {
   Component = 'Component',
   API = 'API',
-  Template = 'Template',
   System = 'System',
   Domain = 'Domain',
   Resource = 'Resource',
@@ -33,10 +32,24 @@ export enum SystemTypes {
   featureset = 'feature-set',
 }
 
+export enum ResourceTypes {
+  database = 'database',
+  s3bucket = 's3-bucket',
+  kubernetescluster = 'kubernetes-cluster',
+}
+
+export enum DomainTypes {
+  productarea = 'product-area',
+  productgroup = 'product-group',
+  bundle = 'bundle',
+}
+
 const Kinds = {
   API: 'API',
   Component: 'Component',
   System: 'System',
+  Resource: 'Resource',
+  Domain: 'Domain',
 } as const;
 
 export type Kind = (typeof Kinds)[keyof typeof Kinds];
