@@ -74,7 +74,7 @@ export const catalogCreatorMessages = {
         fieldName: 'Depends on',
         tooltipText:
           'References to other components and/or resources that the component depends on.',
-        placeholder: 'Select or add resource or component...',
+        placeholder: 'Select resource or component...',
       },
     },
 
@@ -282,7 +282,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.dependsOn.tooltipText':
             'Referanse til komponenten eller ressurser som komponenten er avhengig av. En komponent eller ressurs som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
           'form.componentForm.dependsOn.placeholder':
-            'Velg eller legg til komponenter eller ressurser...',
+            'Velg komponenter eller ressurser...',
 
           'form.APIForm.lifecycle.fieldName': 'Livssyklus',
           'form.APIForm.lifecycle.tooltipText': 'Livssyklusstadiet til et API.',
