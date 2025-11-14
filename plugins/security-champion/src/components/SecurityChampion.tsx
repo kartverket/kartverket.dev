@@ -163,7 +163,7 @@ export const SecurityChampion = ({
           <IconButton
             disabled
             aria-label="Download a CSV file containing all security champions for this entity."
-            aria-description="The download button is disabled if there are only one or no security champions."
+            aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
             onClick={() => generateSecurityChampionCSV(groupedChampions)}
           >
             <DownloadIcon />
@@ -201,7 +201,7 @@ export const SecurityChampion = ({
           <IconButton
             disabled
             aria-label="Download a CSV file containing all security champions for this entity."
-            aria-description="The download button is disabled if there are only one or no security champions."
+            aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
             onClick={() => generateSecurityChampionCSV(groupedChampions)}
           >
             <DownloadIcon />
@@ -266,7 +266,7 @@ export const SecurityChampion = ({
           <Tooltip title="Download CSV">
             <IconButton
               aria-label="Download a CSV file containing all security champions for this entity."
-              aria-description="The download button is disabled if there are only one or no security champions."
+              aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
               disabled={groupedChampions.size === 0}
               onClick={() => {
                 generateSecurityChampionCSV(groupedChampions);
@@ -298,7 +298,7 @@ export const SecurityChampion = ({
         <IconButton
           disabled
           aria-label="Download a CSV file containing all security champions for this entity."
-          aria-description="The download button is disabled if there are only one or no security champions."
+          aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
           onClick={() => generateSecurityChampionCSV(groupedChampions)}
         >
           <DownloadIcon />
