@@ -6,6 +6,7 @@ import { ApiService } from './api.service';
 import { EntraIdService } from '../EntraIdService/auth.service';
 import {
   AcceptVulnerabilityRequestBody,
+  ConfigureNotificationsRequestBody,
   FetchMetricsRequestBody,
   FetchTrendsRequestBody,
 } from './typesBackend';
@@ -260,6 +261,40 @@ export const createRouter = async (
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error';
       logger.error(`Failed to accept vulnerability: ${error}`);
+      throw new Error(errorMessage);
+    }
+  });
+
+  router.put('/proxy/configure-notifications/', async (req, res) => {
+    try {
+      const backstageToken = req.header('Authorization');
+      const validToken = validateToken(backstageToken, auth);
+      const request = req.body as ConfigureNotificationsRequestBody;
+
+      if (!validToken || !backstageToken) {
+        res.status(401).send({ frontendMessage: 'Token is not valid' });
+        return;
+      }
+
+      const apiResult = await apiService.configureNotifications(
+        request.teamName,
+        request.componentNames,
+        request.channelName,
+        request.entraIdToken,
+      );
+
+      if (apiResult.isRight()) {
+        res.sendStatus(204);
+      } else {
+        res.status(apiResult.error.statusCode).send({
+          frontendMessage: apiResult.error.frontendMessage,
+        });
+        logger.error(apiResult.error.error);
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      logger.error(`Failed to configure notifications: ${error}`);
       throw new Error(errorMessage);
     }
   });

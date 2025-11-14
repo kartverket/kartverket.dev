@@ -164,3 +164,10 @@ export type AcceptVulnerabilityRequestBody = {
   acceptedBy?: string;
   entraIdToken: string;
 };
+
+export type ConfigureNotificationsRequestBody = {
+  teamName: string;
+  componentNames: string[];
+  channelName: string;
+  entraIdToken: string;
+};
