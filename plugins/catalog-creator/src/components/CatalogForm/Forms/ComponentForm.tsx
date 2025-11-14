@@ -315,9 +315,12 @@ export const ComponentForm = ({
               value={value || []}
               onBlur={onBlur}
               onChange={(_, newValue) => {
-                const names = newValue.map(item =>
-                  typeof item === 'string' ? item : item.metadata.name,
-                );
+                const names = newValue.map(item => {
+                  if (typeof item === 'string') {
+                    return item;
+                  }
+                  return `${item.kind}:${item.metadata.namespace ?? 'Default'}:${item.metadata.name}`;
+                });
                 onChange(names);
               }}
               options={fetchComponentsAndResources.value || []}
