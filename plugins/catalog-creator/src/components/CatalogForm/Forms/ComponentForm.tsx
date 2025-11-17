@@ -37,6 +37,10 @@ export const ComponentForm = ({
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
+  const formatEntityString = (entity: Entity): string => {
+    return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+  };
+
   const fetchAPIs = useAsync(async () => {
     const results = await catalogApi.getEntities({
       filter: {
@@ -327,21 +331,17 @@ export const ComponentForm = ({
               onBlur={onBlur}
               onChange={(_, newValue) => {
                 const names = newValue.map(item => {
-                  if (typeof item === 'string') {
-                    return item;
-                  }
-                  return `${item.kind.toLowerCase()}:${item.metadata.namespace?.toLowerCase() ?? 'default'}/${item.metadata.name}`;
+                  return formatEntityString(item);
                 });
                 onChange(names);
               }}
               options={fetchComponentsAndResources.value || []}
               getOptionLabel={option => {
-                if (typeof option === 'string') return option;
                 return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
               }}
               isOptionEqualToValue={(option, selectedValue) => {
-                const optionName = `${option.kind}:${option.metadata.namespace}/${option.metadata?.name}`;
-                const valueName = `${selectedValue.kind}:${selectedValue.metadata.namespace}/${selectedValue.metadata?.name}`;
+                const optionName = formatEntityString(option);
+                const valueName = formatEntityString(selectedValue);
                 return optionName === valueName;
               }}
               size="small"
