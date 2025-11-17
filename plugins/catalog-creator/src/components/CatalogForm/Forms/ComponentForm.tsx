@@ -48,8 +48,9 @@ export const ComponentForm = ({
 
   const fetchComponentsAndResources = useAsync(async () => {
     const results = await catalogApi.getEntities({
-      filter: [{ kind: 'Component' }, { kind: 'Resources' }],
+      filter: [{ kind: ['Component', 'Resource'] }],
     });
+
     return results.items as Entity[];
   }, [catalogApi]);
 
@@ -311,30 +312,36 @@ export const ComponentForm = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
               multiple
-              freeSolo
-              value={value || []}
+              value={
+                (value || [])
+                  .map(str => {
+                    return (fetchComponentsAndResources.value || []).find(
+                      entity => {
+                        const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                        return entityStr === str;
+                      },
+                    );
+                  })
+                  .filter(Boolean) as Entity[]
+              }
               onBlur={onBlur}
               onChange={(_, newValue) => {
                 const names = newValue.map(item => {
                   if (typeof item === 'string') {
                     return item;
                   }
-                  return `${item.kind}:${item.metadata.namespace ?? 'Default'}:${item.metadata.name}`;
+                  return `${item.kind.toLowerCase()}:${item.metadata.namespace?.toLowerCase() ?? 'default'}/${item.metadata.name}`;
                 });
                 onChange(names);
               }}
               options={fetchComponentsAndResources.value || []}
               getOptionLabel={option => {
                 if (typeof option === 'string') return option;
-                return option.metadata.title ?? option.metadata.name;
+                return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
               }}
               isOptionEqualToValue={(option, selectedValue) => {
-                const optionName =
-                  typeof option === 'string' ? option : option.metadata.name;
-                const valueName =
-                  typeof selectedValue === 'string'
-                    ? selectedValue
-                    : selectedValue.metadata?.name;
+                const optionName = `${option.kind}:${option.metadata.namespace}/${option.metadata?.name}`;
+                const valueName = `${selectedValue.kind}:${selectedValue.metadata.namespace}/${selectedValue.metadata?.name}`;
                 return optionName === valueName;
               }}
               size="small"
