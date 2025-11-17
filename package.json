@@ -57,6 +57,7 @@
     "@types/react-dom": "^18",
     "@mui/material": "5.16.4",
     "jsonpath-plus": "^10.2.0",
+    # fjernes ved migrering bort fra @backstage/backend-common sånn at vi husker å fjerne den :relaxed:
     "@kubernetes/client-node": "1.4.0"
   },
   "prettier": "@backstage/cli/config/prettier",
