@@ -51,6 +51,7 @@ export const ResourceForm = ({
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <AutocompleteField
+                freeSolo
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
