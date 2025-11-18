@@ -25,7 +25,6 @@ import { FieldHeader } from './FieldHeader';
 import MuiTextField from '@mui/material/TextField';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { AutocompleteField } from './AutocompleteField';
 import { ResourceForm } from './Forms/ResourceForm';
 import { DomainForm } from './Forms/DomainForm';
 
@@ -52,7 +51,7 @@ export const CatalogForm = ({
     }
   };
 
-  const fetchOwners = useAsync(async () => {
+  const fetchGroups = useAsync(async () => {
     const results = await catalogApi.getEntities({
       filter: {
         kind: 'group',
@@ -191,6 +190,7 @@ export const CatalogForm = ({
             errors={errors?.entities?.[index] as EntityErrors<'Component'>}
             appendHandler={appendHandler}
             systems={fetchSystems.value || []}
+            groups={fetchGroups.value || []}
           />
         );
       case 'API':
@@ -200,6 +200,7 @@ export const CatalogForm = ({
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'API'>}
             systems={fetchSystems.value || []}
+            groups={fetchGroups.value || []}
           />
         );
       case 'System':
@@ -208,7 +209,7 @@ export const CatalogForm = ({
             index={index}
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'System'>}
-            owners={fetchOwners.value || []}
+            groups={fetchGroups.value || []}
           />
         );
       case 'Resource':
@@ -218,6 +219,7 @@ export const CatalogForm = ({
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'Resource'>}
             systems={fetchSystems.value || []}
+            groups={fetchGroups.value || []}
           />
         );
       case 'Domain':
@@ -226,6 +228,7 @@ export const CatalogForm = ({
             index={index}
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
+            groups={fetchGroups.value || []}
           />
         );
       default:
@@ -355,44 +358,6 @@ export const CatalogForm = ({
                       }}
                     >
                       {errors?.entities?.[index]?.title?.message || '\u00A0'}
-                    </span>
-                  </div>
-                  <div>
-                    <FieldHeader
-                      fieldName={t('form.owner.fieldName')}
-                      tooltipText={t('form.name.tooltipText')}
-                      required
-                    />
-                    <Controller
-                      name={`entities.${index}.owner`}
-                      control={control}
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <AutocompleteField
-                          value={value}
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          placeholder={t('form.owner.placeholder')}
-                          entities={fetchOwners.value || []}
-                          type="search"
-                        />
-                      )}
-                    />
-
-                    <span
-                      style={{
-                        color: 'red',
-                        fontSize: '0.75rem',
-                        visibility: errors.entities?.[index]?.owner
-                          ? 'visible'
-                          : 'hidden',
-                      }}
-                    >
-                      {errors?.entities?.[index]?.owner?.message
-                        ? t(
-                            errors.entities[index]?.owner
-                              ?.message as keyof typeof t,
-                          )
-                        : '\u00A0'}
                     </span>
                   </div>
 

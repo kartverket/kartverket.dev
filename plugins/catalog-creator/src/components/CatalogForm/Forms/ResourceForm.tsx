@@ -19,6 +19,7 @@ export type ResourceFormProps = {
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Resource'>;
   systems: Entity[];
+  groups: Entity[];
 };
 
 export const ResourceForm = ({
@@ -26,6 +27,7 @@ export const ResourceForm = ({
   control,
   errors,
   systems,
+  groups,
 }: ResourceFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const catalogApi = useApi(catalogApiRef);
@@ -43,6 +45,39 @@ export const ResourceForm = ({
 
   return (
     <Flex direction="column" justify="start">
+      <div>
+        <FieldHeader
+          fieldName={t('form.owner.fieldName')}
+          tooltipText={t('form.name.tooltipText')}
+          required
+        />
+        <Controller
+          name={`entities.${index}.owner`}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AutocompleteField
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder={t('form.owner.placeholder')}
+              entities={groups || []}
+              type="search"
+            />
+          )}
+        />
+
+        <span
+          style={{
+            color: 'red',
+            fontSize: '0.75rem',
+            visibility: errors?.owner ? 'visible' : 'hidden',
+          }}
+        >
+          {errors?.owner?.message
+            ? t(errors.owner?.message as keyof typeof t)
+            : '\u00A0'}
+        </span>
+      </div>
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader

@@ -16,16 +16,16 @@ const baseEntitySchema = z.object({
         ),
       'form.errors.ownerNoSpace',
     ),
-  owner: z
-    .string()
-    .trim()
-    .min(1, 'form.errors.noOwner')
-    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
   title: z.string().optional(),
 });
 
 export const componentSchema = baseEntitySchema.extend({
   kind: z.literal('Component'),
+  owner: z
+    .string()
+    .trim()
+    .min(1, 'form.errors.noOwner')
+    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
   system: z.optional(
     z
       .string()
@@ -73,7 +73,11 @@ export const componentSchema = baseEntitySchema.extend({
 
 export const apiSchema = baseEntitySchema.extend({
   kind: z.literal('API'),
-
+  owner: z
+    .string()
+    .trim()
+    .min(1, 'form.errors.noOwner')
+    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
   lifecycle: z.enum(AllowedLifecycleStages, {
     message: 'form.errors.noLifecycle',
   }),
@@ -100,12 +104,13 @@ export const apiSchema = baseEntitySchema.extend({
   ),
 });
 
-export const templateSchema = baseEntitySchema.extend({
-  kind: z.literal('Template'),
-});
-
 export const systemSchema = baseEntitySchema.extend({
   kind: z.literal('System'),
+  owner: z
+    .string()
+    .trim()
+    .min(1, 'form.errors.noOwner')
+    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
   entityType: z.optional(
     z
       .string()
@@ -126,19 +131,15 @@ export const systemSchema = baseEntitySchema.extend({
   systemType: z.optional(z.string()),
 });
 
-export const domainSchema = baseEntitySchema.extend({
-  kind: z.literal('Domain'),
-  entityType: z
-    .string('form.errors.noType')
-    .trim()
-    .min(1, 'form.errors.noType')
-    .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
-});
-
 export const resourceSchema = baseEntitySchema.extend({
   kind: z.literal('Resource'),
+  owner: z
+    .string()
+    .trim()
+    .min(1, 'form.errors.noOwner')
+    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
   entityType: z
-    .string('form.errors.noType') 
+    .string('form.errors.noType')
     .trim()
     .min(1, 'form.errors.noType')
     .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
@@ -161,6 +162,36 @@ export const resourceSchema = baseEntitySchema.extend({
     .optional(),
 });
 
+export const domainSchema = baseEntitySchema.extend({
+  kind: z.literal('Domain'),
+  owner: z
+    .string()
+    .trim()
+    .min(1, 'form.errors.noOwner')
+    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
+  entityType: z
+    .string('form.errors.noType')
+    .trim()
+    .min(1, 'form.errors.noType')
+    .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
+});
+
+export const templateSchema = baseEntitySchema.extend({
+  kind: z.literal('Template'),
+});
+
+export const groupSchema = baseEntitySchema.extend({
+  kind: z.literal('Group'),
+});
+
+export const userSchema = baseEntitySchema.extend({
+  kind: z.literal('User'),
+});
+
+export const locationSchema = baseEntitySchema.extend({
+  kind: z.literal('Location'),
+});
+
 export const entitySchema = z.discriminatedUnion('kind', [
   componentSchema,
   apiSchema,
@@ -168,6 +199,9 @@ export const entitySchema = z.discriminatedUnion('kind', [
   systemSchema,
   domainSchema,
   resourceSchema,
+  groupSchema,
+  userSchema,
+  locationSchema,
 ]);
 
 export const formSchema = z.object({

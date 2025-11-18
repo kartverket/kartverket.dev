@@ -16,10 +16,15 @@ export type SystemFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'System'>;
-  owners: Entity[];
+  groups: Entity[];
 };
 
-export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
+export const SystemForm = ({
+  index,
+  control,
+  errors,
+  groups,
+}: SystemFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -34,6 +39,39 @@ export const SystemForm = ({ index, control, errors }: SystemFormProps) => {
 
   return (
     <Flex direction="column" justify="start">
+      <div>
+        <FieldHeader
+          fieldName={t('form.owner.fieldName')}
+          tooltipText={t('form.name.tooltipText')}
+          required
+        />
+        <Controller
+          name={`entities.${index}.owner`}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AutocompleteField
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder={t('form.owner.placeholder')}
+              entities={groups || []}
+              type="search"
+            />
+          )}
+        />
+
+        <span
+          style={{
+            color: 'red',
+            fontSize: '0.75rem',
+            visibility: errors?.owner ? 'visible' : 'hidden',
+          }}
+        >
+          {errors?.owner?.message
+            ? t(errors.owner?.message as keyof typeof t)
+            : '\u00A0'}
+        </span>
+      </div>
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
