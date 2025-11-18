@@ -31,6 +31,7 @@ export const DomainForm = ({ index, control, errors }: DomainFormProps) => {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <AutocompleteField
+                freeSolo
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}

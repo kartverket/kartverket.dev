@@ -138,7 +138,7 @@ export const catalogCreatorMessages = {
       type: {
         fieldname: 'Type',
         tooltipText: 'The type of the domain',
-        placeholder: 'Select type',
+        placeholder: 'Select or add type',
       },
     },
     errors: {
