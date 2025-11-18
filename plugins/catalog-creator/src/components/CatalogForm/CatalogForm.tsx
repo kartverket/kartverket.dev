@@ -6,7 +6,11 @@ import type {
   Kind,
   RequiredYamlFields,
 } from '../../types/types';
-import { AllowedLifecycleStages, AllowedEntityKinds } from '../../types/types';
+import {
+  AllowedLifecycleStages,
+  AllowedEntityKinds,
+  Kinds,
+} from '../../types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod/v4';
@@ -42,6 +46,11 @@ export const CatalogForm = ({
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
+  const [indexCount, setIndexCount] = useState(
+    currentYaml ? currentYaml.length : 0,
+  );
+  const [addEntityKind, setAddEntityKind] = useState<Kind>('Component');
+
   const handleKeyDown = (event: {
     key: string;
     preventDefault: () => void;
@@ -70,6 +79,10 @@ export const CatalogForm = ({
     return results.items as Entity[];
   }, [catalogApi]);
 
+  const isKind = (input_kind: string): input_kind is Kind => {
+    return Object.values(Kinds).includes(input_kind as Kind);
+  };
+
   const {
     handleSubmit,
     formState: { errors },
@@ -77,7 +90,8 @@ export const CatalogForm = ({
   } = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       entities: currentYaml
-        ? currentYaml.map((entry: RequiredYamlFields, index) => {
+        ? currentYaml.flatMap((entry: RequiredYamlFields, index) => {
+            if (!isKind(entry.kind)) return [];
             const definition =
               typeof entry.spec.definition !== 'string'
                 ? entry.spec.definition?.$text
@@ -117,8 +131,6 @@ export const CatalogForm = ({
     keyName: 'key',
     control,
   });
-  const [indexCount, setIndexCount] = useState(fields.length);
-  const [addEntityKind, setAddEntityKind] = useState<Kind>('Component');
 
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
