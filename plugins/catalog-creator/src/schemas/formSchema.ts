@@ -128,6 +128,11 @@ export const systemSchema = baseEntitySchema.extend({
 
 export const domainSchema = baseEntitySchema.extend({
   kind: z.literal('Domain'),
+  entityType: z
+    .string('form.errors.noType')
+    .trim()
+    .min(1, 'form.errors.noType')
+    .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
 });
 
 export const resourceSchema = baseEntitySchema.extend({
@@ -154,7 +159,6 @@ export const resourceSchema = baseEntitySchema.extend({
       { message: 'form.errors.dependenciesNoSpace' },
     )
     .optional(),
-  depencencyOf: z.array(z.string()).optional(),
 });
 
 export const entitySchema = z.discriminatedUnion('kind', [
