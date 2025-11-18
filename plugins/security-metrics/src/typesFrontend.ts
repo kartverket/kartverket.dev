@@ -46,8 +46,15 @@ export type Repository = {
   averageTimeToSolveVulnerabilityDays?: number;
 };
 
+export type VulnerabilityIdInfo = {
+  type: string;
+  id: string;
+  url?: string;
+};
+
 export type Vulnerability = {
   vulnerabilityId: string;
+  vulnerabilityIdInfo: VulnerabilityIdInfo[];
   severity: Severity;
   scanners: Scanner[];
   summary: string;
