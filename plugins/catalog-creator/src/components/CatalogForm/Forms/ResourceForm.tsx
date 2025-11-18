@@ -30,9 +30,13 @@ export const ResourceForm = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const catalogApi = useApi(catalogApiRef);
 
+  const formatEntityString = (entity: Entity): string => {
+    return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+  };
+
   const fetchComponentsAndResources = useAsync(async () => {
     const results = await catalogApi.getEntities({
-      filter: [{ kind: 'Component' }, { kind: 'Resources' }],
+      filter: [{ kind: 'Component' }, { kind: 'Resource' }],
     });
     return results.items as Entity[];
   }, [catalogApi]);
@@ -55,7 +59,7 @@ export const ResourceForm = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
-                placeholder={t('form.resourceForm.type.tooltipText')}
+                placeholder={t('form.resourceForm.type.placeholder')}
                 type="select"
                 options={Object.values(ResourceTypes)}
               />
@@ -118,27 +122,32 @@ export const ResourceForm = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
               multiple
-              freeSolo
-              value={value || []}
+              value={
+                (value || [])
+                  .map(str => {
+                    return (fetchComponentsAndResources.value || []).find(
+                      entity => {
+                        const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                        return entityStr === str;
+                      },
+                    );
+                  })
+                  .filter(Boolean) as Entity[]
+              }
               onBlur={onBlur}
               onChange={(_, newValue) => {
-                const names = newValue.map(item =>
-                  typeof item === 'string' ? item : item.metadata.name,
-                );
+                const names = newValue.map(item => {
+                  return formatEntityString(item);
+                });
                 onChange(names);
               }}
               options={fetchComponentsAndResources.value || []}
               getOptionLabel={option => {
-                if (typeof option === 'string') return option;
-                return option.metadata.title ?? option.metadata.name;
+                return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
               }}
               isOptionEqualToValue={(option, selectedValue) => {
-                const optionName =
-                  typeof option === 'string' ? option : option.metadata.name;
-                const valueName =
-                  typeof selectedValue === 'string'
-                    ? selectedValue
-                    : selectedValue.metadata?.name;
+                const optionName = formatEntityString(option);
+                const valueName = formatEntityString(selectedValue);
                 return optionName === valueName;
               }}
               size="small"

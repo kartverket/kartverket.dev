@@ -119,13 +119,13 @@ export const catalogCreatorMessages = {
       type: {
         fieldName: 'Type',
         tooltipText: 'The type of the resource.',
-        placeholder: 'Select type',
+        placeholder: 'Select or add type',
       },
       dependencyof: {
         fieldName: 'Dependency of',
         tooltipText:
           'Which components or systems that depends on this resource',
-        placeholder: 'Select components',
+        placeholder: 'Select components/resources',
       },
       system: {
         fieldName: 'System',
@@ -311,13 +311,14 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.systemForm.domain.placeholder': 'Velg domene',
 
           'form.resourceForm.type.fieldName': 'Type',
-          'form.resourceForm.type.tooltipText': 'Typen til ressursen.',
-          'form.resourceForm.type.placeholder': 'Velg type',
+          'form.resourceForm.type.tooltipText': 'Typen til ressursen',
+          'form.resourceForm.type.placeholder': 'Velg eller skriv inn type',
 
           'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
           'form.resourceForm.dependencyof.tooltipText':
             'Hvilke komponenter eller systemer som er avhengige av denne ressursen',
-          'form.resourceForm.dependencyof.placeholder': 'Velg komponenter',
+          'form.resourceForm.dependencyof.placeholder':
+            'Velg komponenter/ressurser',
 
           'form.resourceForm.system.fieldName': 'System',
           'form.resourceForm.system.tooltipText':
