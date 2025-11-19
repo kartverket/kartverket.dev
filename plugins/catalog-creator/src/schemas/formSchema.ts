@@ -138,7 +138,7 @@ export const domainSchema = baseEntitySchema.extend({
 export const resourceSchema = baseEntitySchema.extend({
   kind: z.literal('Resource'),
   entityType: z
-    .string('form.errors.noType') 
+    .string('form.errors.noType')
     .trim()
     .min(1, 'form.errors.noType')
     .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
