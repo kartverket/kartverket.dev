@@ -16,7 +16,7 @@ env:
   WORKLOAD_IDENTITY_PROVIDER: projects/914366947816/locations/global/workloadIdentityPools/github-pool/providers/github-provider
   AR_REPO_LOCATION: europe-west1
   AR_URL: europe-west1-docker.pkg.dev/spire-kartverket-dev/backstagespiredev
-  IMAGE_NAME: Test
+  IMAGE_NAME: testimage
 
 jobs:
   push-to-ar:
