@@ -44,12 +44,16 @@ export enum DomainTypes {
   bundle = 'bundle',
 }
 
-const Kinds = {
+export const Kinds = {
   API: 'API',
   Component: 'Component',
   System: 'System',
   Resource: 'Resource',
   Domain: 'Domain',
+  Template: 'Template',
+  Group: 'Group',
+  User: 'User',
+  Location: 'Location',
 } as const;
 
 export type Kind = (typeof Kinds)[keyof typeof Kinds];

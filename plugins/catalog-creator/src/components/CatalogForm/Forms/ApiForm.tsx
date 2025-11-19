@@ -19,12 +19,52 @@ export type ApiFormProps = {
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'API'>;
   systems: Entity[];
+  groups: Entity[];
 };
 
-export const ApiForm = ({ index, control, errors, systems }: ApiFormProps) => {
+export const ApiForm = ({
+  index,
+  control,
+  errors,
+  systems,
+  groups,
+}: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
     <Flex direction="column" justify="start">
+      <div>
+        <FieldHeader
+          fieldName={t('form.owner.fieldName')}
+          tooltipText={t('form.name.tooltipText')}
+          required
+        />
+        <Controller
+          name={`entities.${index}.owner`}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AutocompleteField
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder={t('form.owner.placeholder')}
+              entities={groups || []}
+              type="search"
+            />
+          )}
+        />
+
+        <span
+          style={{
+            color: 'red',
+            fontSize: '0.75rem',
+            visibility: errors?.owner ? 'visible' : 'hidden',
+          }}
+        >
+          {errors?.owner?.message
+            ? t(errors.owner?.message as keyof typeof t)
+            : '\u00A0'}
+        </span>
+      </div>
       <Flex>
         <div style={{ width: '50%' }}>
           <FieldHeader
