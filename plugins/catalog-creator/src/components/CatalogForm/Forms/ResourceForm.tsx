@@ -179,11 +179,11 @@ export const ResourceForm = ({
           style={{
             color: 'red',
             fontSize: '0.75rem',
-            visibility: errors?.depencencyOf ? 'visible' : 'hidden',
+            visibility: errors?.dependencyof ? 'visible' : 'hidden',
           }}
         >
-          {errors?.depencencyOf?.message
-            ? t(errors?.depencencyOf?.message as keyof typeof t)
+          {errors?.dependencyof?.message
+            ? t(errors?.dependencyof?.message as keyof typeof t)
             : '\u00A0'}
         </span>
       </div>
