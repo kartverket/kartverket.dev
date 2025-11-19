@@ -60,3 +60,7 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build -f packages/backend/Dockerfile_test -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" .
+
+      - name: Push the Docker image to Google Artifact Registry
+        run: |
+          docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
