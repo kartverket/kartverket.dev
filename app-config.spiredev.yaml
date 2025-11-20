@@ -18,9 +18,6 @@ backend:
   database:
     client: better-sqlite3
     connection: ':memory:'
-  # auth:
-  #   keys:
-  #     - secret: ${BACKEND_AUTH_KEY}
 
   proxy:
   endpoints:
@@ -93,5 +90,4 @@ sikkerhetsmetrikker:
   baseUrl: https://kartverket-dev-env-914366947816.europe-west1.run.app
 
 security-champion:
-  # clientId: 9151af5e-6e0a-4f26-a598-eddf6fcc9993
   baseUrl: https://security-champion-api-914366947816.europe-west1.run.app
