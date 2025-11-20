@@ -17,6 +17,7 @@ env:
   AR_REPO_LOCATION: europe-west1
   AR_URL: europe-west1-docker.pkg.dev/spire-kartverket-dev/backstagespiredev
   IMAGE_NAME: backstagespiredev
+  SERVICE_ACCOUNT: deploy-to-gcp-workflow@spire-kartverket-dev.iam.gserviceaccount.com
 
 jobs:
   push-to-ar:
@@ -33,6 +34,7 @@ jobs:
         with:
           project_id: ${{ env.PROJECT_ID }}
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{env.SERVICE_ACCOUNT}}
 
       - name: Configure Docker to use the gcloud command-line tool as a credential helper
         run: gcloud auth configure-docker ${{ env.AR_REPO_LOCATION }}-docker.pkg.dev --quiet
