@@ -66,3 +66,16 @@ jobs:
       - name: Push the Docker image to Google Artifact Registry
         run: |
           docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy risc \
+            --image="${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" \
+            --region=europe-west1 \
+            --platform=managed \
+            --update-secrets=GITHUB_CLIENT_ID=GITHUB_CLIENT_ID:latest \
+            --update-secrets=GITHUB_CLIENT_SECRET=GITHUB_CLIENT_SECRET:latest \
+            --update-secrets=PERSONAL_GITHUB_TOKEN=PERSONAL_GITHUB_TOKEN:latest \
+            --update-secrets=MICROSOFT_CLIENT_ID=MICROSOFT_CLIENT_ID:latest \
+            --update-secrets=MICROSOFT_CLIENT_SECRET=MICROSOFT_CLIENT_SECRET:latest \
+            --update-secrets=MICROSOFT_TENANT_ID=MICROSOFT_TENANT_ID:latest
