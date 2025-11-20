@@ -85,9 +85,5 @@ catalog:
         clientId: ${MICROSOFT_CLIENT_ID}
         clientSecret: ${MICROSOFT_CLIENT_SECRET}
 
-sikkerhetsmetrikker:
-  clientId: efdaa164-4b95-4a40-b3d3-de4e552524e7
-  baseUrl: https://kartverket-dev-env-914366947816.europe-west1.run.app
-
 security-champion:
   baseUrl: https://security-champion-api-914366947816.europe-west1.run.app
