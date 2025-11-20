@@ -64,7 +64,7 @@ export const SecurityChampionItem = ({
   champion: SecurityChamp;
   repositories?: string[];
 }) => {
-  const isSmallScreen = useMediaQuery('(max-width: 1500px)');
+  const isSmallScreen = useMediaQuery('(max-width: 960px)');
 
   return (
     <ListItem>

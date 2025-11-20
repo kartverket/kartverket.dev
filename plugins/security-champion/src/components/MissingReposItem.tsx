@@ -21,7 +21,8 @@ export const MissingReposItem = ({
   const reposWithNoSecChamps: string[] = allRepositories.filter(
     repositoryName => !reposWithSecChamps.includes(repositoryName),
   );
-  const isSmallScreen = useMediaQuery('(max-width: 1500px)');
+  const isSmallScreen = useMediaQuery('(max-width: 960px)');
+
 
   return (
     <>
