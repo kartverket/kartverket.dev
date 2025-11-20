@@ -19,22 +19,29 @@ backend:
     client: better-sqlite3
     connection: ':memory:'
 
-  proxy:
+proxy:
   endpoints:
     '/xkcd-proxy':
       target: https://xkcd.com/
+    '/opencost':
+      target: https://opencost.dev.skip.statkart.no
     '/lighthouse':
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
+    '/grafana/api':
+      target: https://monitoring.kartverket.cloud
+      headers:
+        Authorization: Bearer ${GRAFANA_TOKEN}
     '/risc-proxy':
-      target: http://ros-plugin-backend.ros-plugin-main:8080
+      target: http://localhost:8080
       allowedHeaders:
         ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
+    '/opencost-cacher':
+      target: http://localhost:8080
+      credentials: forward
+      changeOrigin: true
     '/security-champion-proxy':
       target: https://security-champion-api-914366947816.europe-west1.run.app
-      credentials: forward
-    '/opencost-cacher':
-      target: http://opencost-cacher:8080
-      credentials: forward
+      # credentials: forward
       changeOrigin: true
 
 integrations:
@@ -84,6 +91,9 @@ catalog:
           timeout: PT50M
         clientId: ${MICROSOFT_CLIENT_ID}
         clientSecret: ${MICROSOFT_CLIENT_SECRET}
+
+sikkerhetsmetrikker:
+  baseUrl: https://kartverket-dev-env-914366947816.europe-west1.run.app
 
 security-champion:
   baseUrl: https://security-champion-api-914366947816.europe-west1.run.app
