@@ -45,7 +45,7 @@ export const SecurityChampionCard = () => {
 
     resultEntities.forEach(item => {
       if (item.kind === COMPONENT_ENTITY_KIND) {
-        componentEntities.push(item.metadata.title ?? item.metadata.name);
+        componentEntities.push(item.metadata.name);
       } else if (HIGHER_LEVEL_ENTITIES.includes(item.kind)) {
         item.relations?.forEach(relation => {
           if (

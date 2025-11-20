@@ -74,7 +74,7 @@ export const catalogCreatorMessages = {
         fieldName: 'Depends on',
         tooltipText:
           'References to other components and/or resources that the component depends on.',
-        placeholder: 'Select or add resource or component...',
+        placeholder: 'Select resource or component...',
       },
     },
 
@@ -112,6 +112,33 @@ export const catalogCreatorMessages = {
         fieldName: 'Domain',
         tooltipText: 'Reference to the domain which the system i s a part of.',
         placeholder: 'Select domain',
+      },
+    },
+
+    resourceForm: {
+      type: {
+        fieldName: 'Type',
+        tooltipText: 'The type of the resource.',
+        placeholder: 'Select or add type',
+      },
+      dependencyof: {
+        fieldName: 'Dependency of',
+        tooltipText:
+          'Which components or systems that depends on this resource',
+        placeholder: 'Select components/resources',
+      },
+      system: {
+        fieldName: 'System',
+        tooltipText: 'Reference to the system which the resource belongs to',
+        placeholder: 'Select system',
+      },
+    },
+
+    domainForm: {
+      type: {
+        fieldname: 'Type',
+        tooltipText: 'The type of the domain',
+        placeholder: 'Select or add type',
       },
     },
     errors: {
@@ -255,7 +282,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.dependsOn.tooltipText':
             'Referanse til komponenten eller ressurser som komponenten er avhengig av. En komponent eller ressurs som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
           'form.componentForm.dependsOn.placeholder':
-            'Velg eller legg til komponenter eller ressurser...',
+            'Velg komponenter eller ressurser...',
 
           'form.APIForm.lifecycle.fieldName': 'Livssyklus',
           'form.APIForm.lifecycle.tooltipText': 'Livssyklusstadiet til et API.',
@@ -282,6 +309,25 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.systemForm.domain.tooltipText':
             'Referanse til domenet som systemet tilhører.',
           'form.systemForm.domain.placeholder': 'Velg domene',
+
+          'form.resourceForm.type.fieldName': 'Type',
+          'form.resourceForm.type.tooltipText': 'Typen til ressursen',
+          'form.resourceForm.type.placeholder': 'Velg eller skriv inn type',
+
+          'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
+          'form.resourceForm.dependencyof.tooltipText':
+            'Hvilke komponenter eller systemer som er avhengige av denne ressursen',
+          'form.resourceForm.dependencyof.placeholder':
+            'Velg komponenter/ressurser',
+
+          'form.resourceForm.system.fieldName': 'System',
+          'form.resourceForm.system.tooltipText':
+            'Referanse til systemet som ressursen tilhører',
+          'form.resourceForm.system.placeholder': 'Velg system',
+
+          'form.domainForm.type.fieldname': 'Type',
+          'form.domainForm.type.tooltipText': 'Typen til domenet.',
+          'form.domainForm.type.placeholder': 'Velg type',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',

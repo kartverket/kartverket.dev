@@ -6,7 +6,11 @@ import type {
   Kind,
   RequiredYamlFields,
 } from '../../types/types';
-import { AllowedLifecycleStages, AllowedEntityKinds } from '../../types/types';
+import {
+  AllowedLifecycleStages,
+  AllowedEntityKinds,
+  Kinds,
+} from '../../types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod/v4';
@@ -25,7 +29,8 @@ import { FieldHeader } from './FieldHeader';
 import MuiTextField from '@mui/material/TextField';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { AutocompleteField } from './AutocompleteField';
+import { ResourceForm } from './Forms/ResourceForm';
+import { DomainForm } from './Forms/DomainForm';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -41,7 +46,21 @@ export const CatalogForm = ({
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  const fetchOwners = useAsync(async () => {
+  const [indexCount, setIndexCount] = useState(
+    currentYaml ? currentYaml.length : 0,
+  );
+  const [addEntityKind, setAddEntityKind] = useState<Kind>('Component');
+
+  const handleKeyDown = (event: {
+    key: string;
+    preventDefault: () => void;
+  }) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
+  const fetchGroups = useAsync(async () => {
     const results = await catalogApi.getEntities({
       filter: {
         kind: 'group',
@@ -60,6 +79,10 @@ export const CatalogForm = ({
     return results.items as Entity[];
   }, [catalogApi]);
 
+  const isKind = (input_kind: string): input_kind is Kind => {
+    return Object.values(Kinds).includes(input_kind as Kind);
+  };
+
   const {
     handleSubmit,
     formState: { errors },
@@ -67,7 +90,8 @@ export const CatalogForm = ({
   } = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       entities: currentYaml
-        ? currentYaml.map((entry: RequiredYamlFields, index) => {
+        ? currentYaml.flatMap((entry: RequiredYamlFields, index) => {
+            if (!isKind(entry.kind)) return [];
             const definition =
               typeof entry.spec.definition !== 'string'
                 ? entry.spec.definition?.$text
@@ -107,8 +131,6 @@ export const CatalogForm = ({
     keyName: 'key',
     control,
   });
-  const [indexCount, setIndexCount] = useState(fields.length);
-  const [addEntityKind, setAddEntityKind] = useState<Kind>('Component');
 
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
@@ -180,6 +202,7 @@ export const CatalogForm = ({
             errors={errors?.entities?.[index] as EntityErrors<'Component'>}
             appendHandler={appendHandler}
             systems={fetchSystems.value || []}
+            groups={fetchGroups.value || []}
           />
         );
       case 'API':
@@ -189,6 +212,7 @@ export const CatalogForm = ({
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'API'>}
             systems={fetchSystems.value || []}
+            groups={fetchGroups.value || []}
           />
         );
       case 'System':
@@ -197,7 +221,26 @@ export const CatalogForm = ({
             index={index}
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'System'>}
-            owners={fetchOwners.value || []}
+            groups={fetchGroups.value || []}
+          />
+        );
+      case 'Resource':
+        return (
+          <ResourceForm
+            index={index}
+            control={control}
+            errors={errors?.entities?.[index] as EntityErrors<'Resource'>}
+            systems={fetchSystems.value || []}
+            groups={fetchGroups.value || []}
+          />
+        );
+      case 'Domain':
+        return (
+          <DomainForm
+            index={index}
+            control={control}
+            errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
+            groups={fetchGroups.value || []}
           />
         );
       default:
@@ -207,10 +250,13 @@ export const CatalogForm = ({
 
   return (
     <>
+      {/* Prevent form submission on enter */}
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <form
         onSubmit={handleSubmit(data => {
           onSubmit(data.entities as FormEntity[]);
         })}
+        onKeyDown={handleKeyDown}
       >
         <Box px="2rem">
           <h2>{t('form.title')}</h2>
@@ -324,44 +370,6 @@ export const CatalogForm = ({
                       }}
                     >
                       {errors?.entities?.[index]?.title?.message || '\u00A0'}
-                    </span>
-                  </div>
-                  <div>
-                    <FieldHeader
-                      fieldName={t('form.owner.fieldName')}
-                      tooltipText={t('form.name.tooltipText')}
-                      required
-                    />
-                    <Controller
-                      name={`entities.${index}.owner`}
-                      control={control}
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <AutocompleteField
-                          value={value}
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          placeholder={t('form.owner.placeholder')}
-                          entities={fetchOwners.value || []}
-                          type="search"
-                        />
-                      )}
-                    />
-
-                    <span
-                      style={{
-                        color: 'red',
-                        fontSize: '0.75rem',
-                        visibility: errors.entities?.[index]?.owner
-                          ? 'visible'
-                          : 'hidden',
-                      }}
-                    >
-                      {errors?.entities?.[index]?.owner?.message
-                        ? t(
-                            errors.entities[index]?.owner
-                              ?.message as keyof typeof t,
-                          )
-                        : '\u00A0'}
                     </span>
                   </div>
 
