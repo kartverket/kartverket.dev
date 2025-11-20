@@ -29,7 +29,7 @@ const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
   if (error) return <Typography color="error">{error.message}</Typography>;
 
   return (
-    <>
+    <ListItem>
       <ListItemAvatar>
         <Avatar src={user?.spec.profile?.picture} />
       </ListItemAvatar>
@@ -39,7 +39,7 @@ const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
         }
         secondary={user?.spec.profile?.email || 'User not in catalog'}
       />
-    </>
+    </ListItem>
   );
 };
 const UnknownSecurityChampionItem = ({
@@ -72,6 +72,7 @@ export const SecurityChampionItem = ({
         direction={isSmallScreen ? 'column' : 'row'}
         width="100%"
         justifyContent="space-between"
+        alignItems={isSmallScreen ? 'baseline' : 'center'}
         divider={
           <Divider
             orientation={isSmallScreen ? 'vertical' : 'horizontal'}

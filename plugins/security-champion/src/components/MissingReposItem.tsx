@@ -23,7 +23,6 @@ export const MissingReposItem = ({
   );
   const isSmallScreen = useMediaQuery('(max-width: 960px)');
 
-
   return (
     <>
       {reposWithNoSecChamps.length > 0 ? (
@@ -32,6 +31,7 @@ export const MissingReposItem = ({
             direction={isSmallScreen ? 'column' : 'row'}
             width="100%"
             justifyContent="space-between"
+            alignItems={isSmallScreen ? 'baseline' : 'center'}
             divider={
               <Divider
                 orientation={isSmallScreen ? 'vertical' : 'horizontal'}
