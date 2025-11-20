@@ -65,4 +65,4 @@ WORKDIR /app
 COPY package.json app-config*.yaml  ./
 COPY --from=build /app /app
 
-CMD ["packages/backend","--config","app-config.yaml", "--config","app-config.spiredev.yaml"]
+CMD ["packages/backend","--config","app-config.yaml","--config","app-config.production.yaml", "--config","app-config.runtime.yaml"]
