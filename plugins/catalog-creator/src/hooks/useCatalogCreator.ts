@@ -30,9 +30,18 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
   );
 
   const [analysisResult, doAnalyzeUrl] = useAsyncFn(async () => {
-    const result = await catalogImportApi.analyzeUrl(url);
+    let result;
+    try {
+      result = await catalogImportApi.analyzeUrl(url);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(t('form.knownErrorAlerts.analyzeLocationError'));
+      } else {
+        throw error;
+      }
+    }
 
-    if (result.type === 'locations') {
+    if (result && result.type === 'locations') {
       doFetchCatalogInfo(result.locations[0].target);
     } else {
       doFetchCatalogInfo(null);
