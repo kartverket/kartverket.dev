@@ -103,10 +103,6 @@ export const CatalogForm = ({
       entities: currentYaml
         ? currentYaml.flatMap((entry: RequiredYamlFields, index) => {
             if (!isKind(entry.kind)) return [];
-            const definition =
-              typeof entry.spec.definition !== 'string'
-                ? entry.spec.definition?.$text
-                : undefined;
 
             return {
               id: index,
@@ -119,7 +115,7 @@ export const CatalogForm = ({
               providesApis: entry.spec.providesApis,
               consumesApis: entry.spec.consumesApis,
               dependencyOf: entry.spec.dependencyOf,
-              definition: definition,
+              definition: entry.spec.definition,
               title: entry.metadata.title || '',
             };
           })

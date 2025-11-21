@@ -94,13 +94,19 @@ export const apiSchema = baseEntitySchema.extend({
         message: 'form.errors.systemNoSpace',
       }),
   ),
-  definition: z
-    .string('form.errors.noDefinition')
-    .trim()
-    .min(1, 'form.errors.noDefinition')
-    .refine(s => !s.includes(' '), {
-      message: 'form.errors.definitionNoSpace',
+  definition: z.union([
+    z.string(),
+    z.object({
+      $text: z.string(),
     }),
+  ]),
+  // definition: z
+  //   .string('form.errors.noDefinition')
+  //   .trim()
+  //   .min(1, 'form.errors.noDefinition')
+  //   .refine(s => !s.includes(' '), {
+  //     message: 'form.errors.definitionNoSpace',
+  //   }),
 });
 
 export const systemSchema = baseEntitySchema.extend({

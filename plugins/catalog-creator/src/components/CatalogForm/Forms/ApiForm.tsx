@@ -30,9 +30,27 @@ export const ApiForm = ({
   errors,
   systems,
   groups,
-  inlineApiIndexes,
+  // inlineApiIndexes,
 }: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const getAPIDefinitionBanner = (
+    definitionValue:
+      | string
+      | {
+          $text: string;
+        },
+  ) => {
+    if (typeof definitionValue === 'string' && definitionValue.length > 0) {
+      return (
+        <Alert severity="info">
+          {t('form.APIForm.inlineDefinitionInfo.text')}
+        </Alert>
+      );
+    }
+    return <></>;
+  };
+
   return (
     <Flex direction="column" justify="start">
       <div>
@@ -171,11 +189,11 @@ export const ApiForm = ({
         </span>
       </div>
       <div>
-        {inlineApiIndexes.includes(index) && (
+        {/* {inlineApiIndexes.includes(index) && (
           <Alert sx={{ my: 2 }} severity="info">
             {t('form.APIForm.inlineDefinitionInfo.text')}
           </Alert>
-        )}
+        )} */}
         <FieldHeader
           fieldName={t('form.APIForm.definition.fieldName')}
           tooltipText={t('form.APIForm.definition.tooltipText')}
@@ -186,8 +204,15 @@ export const ApiForm = ({
           control={control}
           render={({ field }) => (
             <div>
+              {getAPIDefinitionBanner(field.value)}
+              <div>{typeof field.value}</div>
               <MuiTextField
                 {...field}
+                value={
+                  typeof field.value !== 'string'
+                    ? field.value.$text
+                    : undefined
+                }
                 name="Definition"
                 fullWidth
                 size="small"
