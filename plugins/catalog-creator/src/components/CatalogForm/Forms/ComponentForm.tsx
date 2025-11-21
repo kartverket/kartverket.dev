@@ -25,6 +25,7 @@ export type ComponentFormProps = {
   errors: EntityErrors<'Component'>;
   appendHandler: (entityKindToAdd: Kind, name?: string) => void;
   systems: Entity[];
+  groups: Entity[];
 };
 
 export const ComponentForm = ({
@@ -33,6 +34,7 @@ export const ComponentForm = ({
   errors,
   appendHandler,
   systems,
+  groups,
 }: ComponentFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
@@ -60,6 +62,39 @@ export const ComponentForm = ({
 
   return (
     <Flex direction="column" justify="start">
+      <div>
+        <FieldHeader
+          fieldName={t('form.owner.fieldName')}
+          tooltipText={t('form.name.tooltipText')}
+          required
+        />
+        <Controller
+          name={`entities.${index}.owner`}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AutocompleteField
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder={t('form.owner.placeholder')}
+              entities={groups || []}
+              type="search"
+            />
+          )}
+        />
+
+        <span
+          style={{
+            color: 'red',
+            fontSize: '0.75rem',
+            visibility: errors?.owner ? 'visible' : 'hidden',
+          }}
+        >
+          {errors?.owner?.message
+            ? t(errors.owner?.message as keyof typeof t)
+            : '\u00A0'}
+        </span>
+      </div>
       <Flex>
         <div style={{ width: '50%' }}>
           <FieldHeader
