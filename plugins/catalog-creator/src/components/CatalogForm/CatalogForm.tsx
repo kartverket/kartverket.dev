@@ -83,6 +83,17 @@ export const CatalogForm = ({
     return Object.values(Kinds).includes(input_kind as Kind);
   };
 
+  const getInlineAPIDefinitionIndexes = (yamlList: RequiredYamlFields[]) => {
+    return yamlList.flatMap((element, index) => {
+      if (element.kind === 'API') {
+        if (typeof element.spec.definition === 'string') {
+          return index;
+        }
+      }
+      return [];
+    });
+  };
+
   const {
     handleSubmit,
     formState: { errors },
@@ -144,6 +155,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
+          definition: '',
           title: '',
         };
         break;
@@ -182,6 +194,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
+          definition: '',
           title: '',
         };
     }
@@ -213,6 +226,7 @@ export const CatalogForm = ({
             errors={errors?.entities?.[index] as EntityErrors<'API'>}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}
+            inlineApiIndexes={getInlineAPIDefinitionIndexes(currentYaml || [])}
           />
         );
       case 'System':
