@@ -21,6 +21,9 @@ import { SystemsTable } from '../SystemsTable/SystemsTable';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
 import { useFetchComponentNamesByGroup } from '../../hooks/useFetchRepositoryNames';
 import NoAccessAlert from '../NoAccessAlert';
+import Button from '@mui/material/Button';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { SlackNotificationDialog } from '../SlackNotificationsDialog';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -29,6 +32,8 @@ enum TabEnum {
 
 export const GroupPage = () => {
   const { entity } = useEntity();
+  const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
+  const [channel, setChannel] = useState('');
 
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesByGroup(entity);
@@ -54,9 +59,17 @@ export const GroupPage = () => {
   const permitted: RepositorySummary[] = getAllPermittedMetrics(data);
   const notPermitted: string[] = getAllNotPermittedComponents(data);
 
+  const handleOpenNotificationsDialog = () => {
+    setOpenNotificationsDialog(true);
+  };
+
+  const handleCloseNotificationsDialog = () => {
+    setOpenNotificationsDialog(false);
+  };
+
   return (
     <Stack gap={2}>
-      <Stack flexDirection="row" gap={2}>
+      <Stack flexDirection="row">
         <Stack
           flexDirection="row"
           gap={2}
@@ -71,6 +84,22 @@ export const GroupPage = () => {
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
+        <Button
+          variant="text"
+          sx={{ ml: 2 }}
+          startIcon={<SettingsIcon />}
+          color="primary"
+          onClick={handleOpenNotificationsDialog}
+        >
+          Konfigurer varsling
+        </Button>
+        <SlackNotificationDialog
+          openNotificationsDialog={openNotificationsDialog}
+          handleCloseNotificationsDialog={handleCloseNotificationsDialog}
+          channel={channel}
+          setChannel={setChannel}
+          componentNames={componentNames}
+        />
         <SupportButton />
       </Stack>
 
