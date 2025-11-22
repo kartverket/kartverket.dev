@@ -44,8 +44,7 @@ backend:
   baseUrl: http://localhost:7007
   listen:
     port: 7007
-    # Uncomment the following host directive to bind to specific interfaces
-    # host: 127.0.0.1
+    host: 0.0.0.0
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     img-src: ["'self'", 'data:']
