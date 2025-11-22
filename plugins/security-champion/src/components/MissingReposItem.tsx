@@ -6,7 +6,6 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
-import { useMediaQuery } from '@mui/system';
 import Stack from '@mui/material/Stack';
 
 type MissingReposItemProps = {
@@ -21,20 +20,32 @@ export const MissingReposItem = ({
   const reposWithNoSecChamps: string[] = allRepositories.filter(
     repositoryName => !reposWithSecChamps.includes(repositoryName),
   );
-  const isSmallScreen = useMediaQuery('(max-width: 1500px)');
 
   return (
     <>
       {reposWithNoSecChamps.length > 0 ? (
         <ListItem>
           <Stack
-            direction={isSmallScreen ? 'column' : 'row'}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              '@container securityChampionList (max-width: 500px)': {
+                flexDirection: 'column',
+                alignItems: 'baseline',
+              },
+            }}
             width="100%"
             justifyContent="space-between"
             divider={
               <Divider
-                orientation={isSmallScreen ? 'vertical' : 'horizontal'}
                 flexItem
+                sx={{
+                  orientation: 'horisontal',
+                  '@container securityChampionList (max-width: 500px)': {
+                    orientation: 'vertical',
+                  },
+                }}
               />
             }
           >

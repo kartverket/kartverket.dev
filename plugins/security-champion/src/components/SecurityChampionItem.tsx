@@ -1,6 +1,6 @@
 import { SecurityChamp } from '../types';
 import { useUserProfile } from '../hooks/useUserProfile';
-import { Box, useMediaQuery } from '@mui/system';
+import { Box } from '@mui/system';
 import { CustomTooltip } from './LightTooltip';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -29,7 +29,7 @@ const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
   if (error) return <Typography color="error">{error.message}</Typography>;
 
   return (
-    <>
+    <ListItem>
       <ListItemAvatar>
         <Avatar src={user?.spec.profile?.picture} />
       </ListItemAvatar>
@@ -39,7 +39,7 @@ const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
         }
         secondary={user?.spec.profile?.email || 'User not in catalog'}
       />
-    </>
+    </ListItem>
   );
 };
 const UnknownSecurityChampionItem = ({
@@ -64,17 +64,28 @@ export const SecurityChampionItem = ({
   champion: SecurityChamp;
   repositories?: string[];
 }) => {
-  const isSmallScreen = useMediaQuery('(max-width: 1500px)');
-
   return (
     <ListItem>
       <Stack
-        direction={isSmallScreen ? 'column' : 'row'}
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          '@container securityChampionList (max-width: 500px)': {
+            flexDirection: 'column',
+            alignItems: 'baseline',
+          },
+        }}
         width="100%"
         justifyContent="space-between"
         divider={
           <Divider
-            orientation={isSmallScreen ? 'vertical' : 'horizontal'}
+            sx={{
+              orientation: 'horisontal',
+              '@container securityChampionList (max-width: 500px)': {
+                orientation: 'vertical',
+              },
+            }}
             flexItem
           />
         }
