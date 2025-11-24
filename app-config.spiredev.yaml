@@ -41,7 +41,6 @@ proxy:
       changeOrigin: true
     '/security-champion-proxy':
       target: https://security-champion-api-914366947816.europe-west1.run.app
-      # credentials: forward
       changeOrigin: true
 
 integrations:
