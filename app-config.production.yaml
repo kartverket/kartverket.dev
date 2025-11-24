@@ -46,8 +46,6 @@ integrations:
 
 proxy:
   endpoints:
-    '/xkcd-proxy':
-      target: https://xkcd.com/
     '/lighthouse':
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/risc-proxy':
