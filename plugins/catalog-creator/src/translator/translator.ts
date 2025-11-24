@@ -88,7 +88,7 @@ export const updateYaml = (
             : initial.spec.entityType || undefined,
           domain: form.domain?.length
             ? form.domain
-            : initial.spec.system || undefined,
+            : initial.spec.domain || undefined,
         },
       };
       break;
