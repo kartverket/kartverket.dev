@@ -96,9 +96,13 @@ export const catalogCreatorMessages = {
       },
 
       definition: {
-        fieldName: 'API Definition (path or URL)',
+        fieldName: 'API Definition',
         tooltipText:
-          'Relative path to the API definition file (OpenAPI, AsyncAPI, GraphQL, or gRPC). Required for new APIs. If editing an existing API this field may already be populated, check the existing catalog-info.yaml',
+          'GitHub URL or relative path from repository root to the API definition file (OpenAPI, AsyncAPI, GraphQL, or gRPC). An example of a relative path could be /api-schema.json.',
+      },
+
+      inlineDefinitionInfo: {
+        text: 'Inline API definition detected. The GitHub URL or path from the repository root will replace the existing inline content.',
       },
     },
 
@@ -161,6 +165,8 @@ export const catalogCreatorMessages = {
       definitionNoSpace: 'Definition URL cannot contain space',
 
       domainNoSpace: 'Domain cannot contain space',
+
+      noDefinition: 'Add a relative path or URL to the API definition.',
     },
 
     infoAlerts: {
@@ -296,15 +302,15 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.APIForm.system.tooltipText':
             'Referanse til systemet som APIet tilhører.',
           'form.APIForm.system.placeholder': 'Velg system',
-
           'form.APIForm.definition.fieldName': 'Definisjon',
           'form.APIForm.definition.tooltipText':
-            'Relativ filsti til API definisjonfilen (openAPI AsyncAPI, GraphQL, eller gRPC). Obligatorisk for nye APIer. Hvis du redigerer et eksisterende API kan det hende at dette feltet er fylt ut med tekst som ikke vises. Se catalog-info.yaml filen med API definisjonen.',
+            'GitHub URL eller relativ filsti til API definisjonfilen (openAPI AsyncAPI, GraphQL, eller gRPC). Et eksempel på en relativ filsti kan være /api-schema.json.',
+          'form.APIForm.inlineDefinitionInfo.text':
+            'Inline API-definisjon oppdaget. Denne GitHub-URL-en eller filstien fra rot i repoet vil erstatte det eksisterende inline-innholdet.',
 
           'form.systemForm.type.fieldName': 'Type',
           'form.systemForm.type.tooltipText': 'Systemets type.',
           'form.systemForm.type.placeholder': 'Velg system',
-
           'form.systemForm.domain.fieldName': 'Domene',
           'form.systemForm.domain.tooltipText':
             'Referanse til domenet som systemet tilhører.',
@@ -363,6 +369,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Avhengigheter kan ikke inneholde mellomrom',
           'form.errors.definitionNoSpace': 'URL kan ikke inneholde mellomrom',
           'form.errors.domainNoSpace': 'Domene kan ikke inneholde mellomrom',
+
+          'form.errors.noDefinition':
+            'Legg til en relativ filsti eller URL til API-definisjonen',
 
           'infoBox.title': 'Rediger eller lag catalog-info.yaml',
           'infoBox.p1':

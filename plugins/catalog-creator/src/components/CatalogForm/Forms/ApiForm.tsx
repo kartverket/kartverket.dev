@@ -13,6 +13,7 @@ import MuiTextField from '@mui/material/TextField';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
+import Alert from '@mui/material/Alert';
 
 export type ApiFormProps = {
   index: number;
@@ -20,6 +21,8 @@ export type ApiFormProps = {
   errors: EntityErrors<'API'>;
   systems: Entity[];
   groups: Entity[];
+  inlineApiIndexes: number[];
+  id: number;
 };
 
 export const ApiForm = ({
@@ -28,6 +31,8 @@ export const ApiForm = ({
   errors,
   systems,
   groups,
+  inlineApiIndexes,
+  id,
 }: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
@@ -168,26 +173,34 @@ export const ApiForm = ({
         </span>
       </div>
       <div>
+        {inlineApiIndexes.includes(id) && (
+          <Alert sx={{ my: 2 }} severity="info">
+            {t('form.APIForm.inlineDefinitionInfo.text')}
+          </Alert>
+        )}
         <FieldHeader
           fieldName={t('form.APIForm.definition.fieldName')}
           tooltipText={t('form.APIForm.definition.tooltipText')}
+          required
         />
         <Controller
           name={`entities.${index}.definition`}
           control={control}
           render={({ field }) => (
-            <MuiTextField
-              {...field}
-              name="Definition"
-              fullWidth
-              size="small"
-              inputProps={{
-                style: {
-                  fontSize: '0.85rem',
-                  fontFamily: 'system-ui',
-                },
-              }}
-            />
+            <div>
+              <MuiTextField
+                {...field}
+                name="Definition"
+                fullWidth
+                size="small"
+                inputProps={{
+                  style: {
+                    fontSize: '0.85rem',
+                    fontFamily: 'system-ui',
+                  },
+                }}
+              />
+            </div>
           )}
         />
 
