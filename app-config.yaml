@@ -47,12 +47,11 @@ backend:
     host: 0.0.0.0
   csp:
     connect-src: ["'self'", 'http:', 'https:']
-    img-src: ["'self'", 'data:', 'imgs.xkcd.com']
+    img-src: ["'self'", 'data:']
     frame-src:
       [
         'backstage.atgcp1-dev.kartverket-intern.cloud',
         'kartverket.dev',
-        'fedifeed.com',
         'monitoring.kartverket.cloud',
       ]
     # unsafe-eval is required by backstage
@@ -92,8 +91,6 @@ permission:
 ### A typical reason to do this is to handle HTTPS and CORS for internal services.
 proxy:
   endpoints:
-    '/xkcd-proxy':
-      target: https://xkcd.com/
     '/opencost':
       # Uses cluster-local service in a kubernetes environment
       target: https://opencost.dev.skip.statkart.no
