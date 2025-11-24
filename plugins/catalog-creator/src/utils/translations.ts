@@ -181,6 +181,8 @@ export const catalogCreatorMessages = {
       PRExists: 'There already exists a pull request: ',
       couldNotCreatePR:
         'Could not create a pull request. Make sure the URL is a github repo and that a pull request does not already exist.',
+      analyzeLocationError:
+        'Failed to identify or parse the file. Provide a URL to either the repository root or a full file path to a valid catalog-info.yaml file.',
     },
   },
   infoBox: {
@@ -348,6 +350,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Kunne ikke sjekke om PR finnes fra før for GitHub-kodelager med URL: ',
           'form.knownErrorAlerts.couldNotCreatePR':
             'Kunne ikke lage en pull request. Sjekk at URL er et GitHub-kodelager og at det ikke finnes en eksisterende pull request.',
+          'form.knownErrorAlerts.analyzeLocationError':
+            'Kunne ikke identifisere eller parse filen. Oppgi en URL som enten peker til rotmappen i repositoriet eller en full filsti til en gyldig catalog-info.yaml-fil.',
 
           'form.errors.noName': 'Legg til navn',
           'form.errors.nameNoSpace': 'Navn kan ikke inneholde mellomrom',
