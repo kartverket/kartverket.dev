@@ -83,7 +83,7 @@ export const CatalogForm = ({
     return Object.values(Kinds).includes(input_kind as Kind);
   };
 
-  const getInlineAPIDefinitionIndexes = (yamlList: RequiredYamlFields[]) => {
+  const getEntitiesWithInlineAPIDef = (yamlList: RequiredYamlFields[]) => {
     return yamlList.flatMap((element, index) => {
       if (element.kind === 'API') {
         if (typeof element.spec.definition === 'string') {
@@ -226,7 +226,8 @@ export const CatalogForm = ({
             errors={errors?.entities?.[index] as EntityErrors<'API'>}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}
-            inlineApiIndexes={getInlineAPIDefinitionIndexes(currentYaml || [])}
+            inlineApiIndexes={getEntitiesWithInlineAPIDef(currentYaml || [])}
+            id={entity.id}
           />
         );
       case 'System':

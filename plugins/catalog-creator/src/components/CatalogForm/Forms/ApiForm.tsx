@@ -22,6 +22,7 @@ export type ApiFormProps = {
   systems: Entity[];
   groups: Entity[];
   inlineApiIndexes: number[];
+  id: number;
 };
 
 export const ApiForm = ({
@@ -31,6 +32,7 @@ export const ApiForm = ({
   systems,
   groups,
   inlineApiIndexes,
+  id,
 }: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
@@ -171,7 +173,7 @@ export const ApiForm = ({
         </span>
       </div>
       <div>
-        {inlineApiIndexes.includes(index) && (
+        {inlineApiIndexes.includes(id) && (
           <Alert sx={{ my: 2 }} severity="info">
             {t('form.APIForm.inlineDefinitionInfo.text')}
           </Alert>
