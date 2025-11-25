@@ -43,7 +43,7 @@ export const useFetchComponentNamesByGroup = (rootGroupRef: Entity) => {
         item.kind === REPOSITORY_ENTITY_KIND &&
         !isExperimentalLifecycle(item.spec?.lifecycle)
       ) {
-        repositoryEntities.push(item.metadata.title ?? item.metadata.name);
+        repositoryEntities.push(item.metadata.name);
       } else if (HIGHER_LEVEL_ENTITIES.includes(item.kind)) {
         item.relations?.forEach(relation => {
           if (
