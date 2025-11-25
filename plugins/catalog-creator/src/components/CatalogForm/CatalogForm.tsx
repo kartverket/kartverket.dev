@@ -121,6 +121,7 @@ export const CatalogForm = ({
               dependencyOf: entry.spec.dependencyOf,
               definition: definition,
               title: entry.metadata.title || '',
+              tags: entry.metadata.tags || [],
             };
           })
         : [
