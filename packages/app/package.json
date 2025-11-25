@@ -10,7 +10,6 @@
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
     "clean": "backstage-cli package clean",
-    "test": "backstage-cli package test",
     "lint": "backstage-cli package lint"
   },
   "dependencies": {
@@ -65,12 +64,6 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@backstage/test-utils": "backstage:^",
-    "@playwright/test": "^1.32.3",
-    "@testing-library/dom": "^8.0.0",
-    "@testing-library/jest-dom": "^5.10.1",
-    "@testing-library/react": "^12.1.3",
-    "@testing-library/user-event": "^14.0.0",
     "@types/react-dom": "^18"
   },
   "browserslist": {

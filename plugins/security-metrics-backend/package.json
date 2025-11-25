@@ -20,7 +20,6 @@
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
     "lint": "backstage-cli package lint",
-    "test": "backstage-cli package test",
     "clean": "backstage-cli package clean",
     "prepack": "backstage-cli package prepack",
     "postpack": "backstage-cli package postpack",
@@ -29,7 +28,6 @@
   },
   "dependencies": {
     "@azure/msal-node": "^2.10.0",
-    "@backstage/backend-common": "^0.25.0",
     "@backstage/backend-defaults": "backstage:^",
     "@backstage/backend-plugin-api": "backstage:^",
     "@backstage/config": "backstage:^",
@@ -46,9 +44,7 @@
     "@backstage/cli": "backstage:^",
     "@backstage/plugin-auth-backend": "backstage:^",
     "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
-    "@types/supertest": "^2.0.12",
-    "msw": "^2.5.1",
-    "supertest": "^7.0.0"
+    "msw": "^2.5.1"
   },
   "files": [
     "dist"
