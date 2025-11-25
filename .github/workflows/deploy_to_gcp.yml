@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - spire-dev
+      - setup-gcp
 
 env:
   PROJECT_ID: spire-kartverket-dev
@@ -60,7 +61,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build -f packages/backend/Dockerfile_spiredev -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" .
+          docker build -f packages/backend/Dockerfile -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" .
 
       - name: Push the Docker image to Google Artifact Registry
         run: |
@@ -72,3 +73,5 @@ jobs:
             --image="${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" \
             --region=europe-west1 \
             --platform=managed \
+            --command=node \
+            --args="packages/backend,--config,app-config.yaml,--config,app-config.test.yaml"
