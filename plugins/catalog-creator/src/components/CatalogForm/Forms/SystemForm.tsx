@@ -11,6 +11,7 @@ import { FieldHeader } from '../FieldHeader';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
+import { TagField } from '../TagField';
 
 export type SystemFormProps = {
   index: number;
@@ -138,6 +139,7 @@ export const SystemForm = ({
             : '\u00A0'}
         </span>
       </div>
+      <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
   );
 };

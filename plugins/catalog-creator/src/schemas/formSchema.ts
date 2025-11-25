@@ -17,6 +17,25 @@ const baseEntitySchema = z.object({
       'form.errors.ownerNoSpace',
     ),
   title: z.string().optional(),
+  tags: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.tagNoSpace' },
+    )
+    .refine(
+      entries =>
+        entries.every(
+          entry =>
+            entry.trim().length <= 63 &&
+            /^[a-z0-9:+#]+(-[a-z0-9:+#]+)*$/.test(entry),
+        ),
+      {
+        message: 'form.errors.tagRegEx',
+      },
+    )
+    .optional(),
 });
 
 export const componentSchema = baseEntitySchema.extend({
