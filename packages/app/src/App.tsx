@@ -19,7 +19,7 @@ import {
   catalogPlugin,
 } from '@backstage/plugin-catalog';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-import { CatalogGraphPage, Direction } from '@backstage/plugin-catalog-graph';
+import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import {
   CatalogImportPage,
   catalogImportPlugin,
