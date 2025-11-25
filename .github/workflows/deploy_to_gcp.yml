@@ -74,4 +74,4 @@ jobs:
             --region=europe-west1 \
             --platform=managed \
             --command=node \
-            --args="packages/backend,--config,app-config.yaml,--config,app-config.test.yaml"
+            --args=packages/backend,--config,app-config.yaml,--config,app-config.spiredev.yaml
