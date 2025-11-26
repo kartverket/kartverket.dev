@@ -19,10 +19,12 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export interface CatalogCreatorPageProps {
-  gitUrl?: string;
+  originLocation?: string;
 }
 
-export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
+export const CatalogCreatorPage = ({
+  originLocation,
+}: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
 
@@ -49,10 +51,10 @@ export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   useEffect(() => {
-    if (gitUrl && !url) {
-      setUrl(gitUrl);
+    if (originLocation && !url) {
+      setUrl(originLocation);
     }
-  }, [gitUrl, url, setUrl]);
+  }, [originLocation, url, setUrl]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,9 +92,10 @@ export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
           ) : (
             <Card style={{ position: 'relative', overflow: 'visible' }}>
               <RepositoryForm
-                url={gitUrl || url}
+                url={originLocation || url}
                 onUrlChange={setUrl}
                 onSubmit={handleFormSubmit}
+                disableTextField={originLocation !== undefined}
               />
               <StatusMessages
                 hasExistingCatalogFile={hasExistingCatalogFile}
