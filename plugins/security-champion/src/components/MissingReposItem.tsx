@@ -5,7 +5,6 @@ import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import Divider from '@mui/material/Divider';
 import { useMediaQuery } from '@mui/system';
 import Stack from '@mui/material/Stack';
 
@@ -31,12 +30,6 @@ export const MissingReposItem = ({
             direction={isSmallScreen ? 'column' : 'row'}
             width="100%"
             justifyContent="space-between"
-            divider={
-              <Divider
-                orientation={isSmallScreen ? 'vertical' : 'horizontal'}
-                flexItem
-              />
-            }
           >
             <Alert severity="warning">
               <Typography>Missing security champion</Typography>

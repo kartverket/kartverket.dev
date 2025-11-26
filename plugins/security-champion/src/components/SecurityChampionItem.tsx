@@ -9,7 +9,6 @@ import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
@@ -72,12 +71,6 @@ export const SecurityChampionItem = ({
         direction={isSmallScreen ? 'column' : 'row'}
         width="100%"
         justifyContent="space-between"
-        divider={
-          <Divider
-            orientation={isSmallScreen ? 'vertical' : 'horizontal'}
-            flexItem
-          />
-        }
       >
         {champion.securityChampionEmail && (
           <KVSecurityChampionItem champion={champion} />
