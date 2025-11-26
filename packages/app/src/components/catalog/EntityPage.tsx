@@ -299,6 +299,21 @@ const opsEntityPage = (
   </EntityLayout>
 );
 
+const experimentEntityPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {overviewContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/docs" title="Docs">
+      {techdocsContent}
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
 /**
  * NOTE: This page is designed to work on small screens such as mobile devices.
  * This is based on Material UI Grid. If breakpoints are used, each grid item must set the `xs` prop to a column size or to `true`,
@@ -333,6 +348,9 @@ const componentPage = (
     </EntitySwitch.Case>
     <EntitySwitch.Case if={isComponentType('library')}>
       {opsEntityPage}
+    </EntitySwitch.Case>
+    <EntitySwitch.Case if={isComponentType('experiment')}>
+      {experimentEntityPage}
     </EntitySwitch.Case>
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
