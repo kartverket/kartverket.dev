@@ -13,6 +13,7 @@ import { useAsync } from 'react-use';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
 import { AutocompleteField } from '../AutocompleteField';
+import { TagField } from '../TagField';
 
 export type ResourceFormProps = {
   index: number;
@@ -222,6 +223,7 @@ export const ResourceForm = ({
             : '\u00A0'}
         </span>
       </div>
+      <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
   );
 };
