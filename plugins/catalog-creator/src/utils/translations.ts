@@ -34,7 +34,11 @@ export const catalogCreatorMessages = {
         'A reference to the owner (commonly a team), that bears ultimate responsibility for the entity, and has the authority and capability to develop and maintain it',
       placeholder: 'Select an owner',
     },
-
+    tags: {
+      fieldName: 'Tags',
+      tooltipText: 'A list of custom tags used to classify catalog entities.',
+      placeholder: 'Add tags',
+    },
     addEntity: {
       title: 'Add Entity',
       label: 'Select kind',
@@ -167,6 +171,10 @@ export const catalogCreatorMessages = {
       domainNoSpace: 'Domain cannot contain space',
 
       noDefinition: 'Add a relative path or URL to the API definition.',
+
+      tagNoSpace: 'Tags cannot contain space',
+      tagRegEx:
+        'Tags can only contain alphanumerical characters and :,+, or # seperated by -, and they cannot be longer than 63 characters.',
     },
 
     infoAlerts: {
@@ -253,6 +261,11 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.owner.tooltipText':
             'En refereanse til eieren (ofte et team) som har ansvaret for entiteten og har autorisasjon og kunnskapen til å utvikle og vedlikeholdet den.',
           'form.owner.placeholder': 'Velg en eier',
+
+          'form.tags.fieldName': 'Tags',
+          'form.tags.tooltipText':
+            'En liste over tags (merkelapper) som kan brukes til å klassifisere entiteter i systemkatalogen.',
+          'form.tags.placeholder': 'Legg til tags',
 
           'form.addEntity.title': 'Legg til entitet',
           'form.addEntity.label': 'Velg entitet',
@@ -376,6 +389,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
 
           'form.errors.noDefinition':
             'Legg til en relativ filsti eller URL til API-definisjonen',
+
+          'form.errors.tagNoSpace': 'Tags kan ikke inneholde mellomrom',
+          'form.errors.tagRegEx':
+            'Tags kan kun inneholde alfanumeriske tegn og :, + eller # separert med -, og de kan ikke være lengre enn 63 tegn.',
 
           'infoBox.title': 'Rediger eller lag catalog-info.yaml',
           'infoBox.p1':

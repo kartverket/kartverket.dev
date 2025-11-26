@@ -14,6 +14,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import Alert from '@mui/material/Alert';
+import { TagField } from '../TagField';
 
 export type ApiFormProps = {
   index: number;
@@ -216,6 +217,12 @@ export const ApiForm = ({
             : '\u00A0'}
         </span>
       </div>
+      <TagField
+        index={index}
+        control={control}
+        errors={errors}
+        options={['internal', 'public']}
+      />
     </Flex>
   );
 };
