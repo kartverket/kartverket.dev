@@ -1,7 +1,6 @@
 import { useApi, storageApiRef } from '@backstage/core-plugin-api';
 import { useEffect, useMemo, useState } from 'react';
-
-type FilterEnum = 'all' | 'starred';
+import { FilterEnum } from '../typesFrontend';
 
 export const useStarredRefFilter = ({
   allRefs,
@@ -17,15 +16,25 @@ export const useStarredRefFilter = ({
   const storageApi = useApi(storageApiRef);
   const storage = storageApi.forBucket(bucket);
 
-  const [filterChoice, setFilterChoice] = useState<FilterEnum>('starred');
-  const [initialized, setInitialized] = useState(false);
-
   const starredRefs = useMemo(
     () => allRefs.filter(ref => starredEntities.has(ref)),
     [allRefs, starredEntities],
   );
 
   const hasStarred = starredRefs.length > 0;
+
+  const getInitialFilter = (): FilterEnum => {
+    const snap = storage.snapshot<FilterEnum>(storageKey);
+
+    if (snap?.presence === 'present' && snap.value) {
+      return snap.value;
+    }
+
+    return 'all';
+  };
+
+  const [filterChoice, setFilterChoice] =
+    useState<FilterEnum>(getInitialFilter);
 
   const effectiveFilter: FilterEnum =
     hasStarred && filterChoice === 'starred' ? 'starred' : 'all';
@@ -36,20 +45,8 @@ export const useStarredRefFilter = ({
   );
 
   useEffect(() => {
-    if (!allRefs.length) return;
-
-    if (!initialized) {
-      const snap = storage.snapshot<FilterEnum>(storageKey);
-      const next: FilterEnum =
-        snap?.presence === 'present' && snap.value ? snap.value : 'all';
-
-      setFilterChoice(next);
-      setInitialized(true);
-      return;
-    }
-
     storage.set<FilterEnum>(storageKey, filterChoice);
-  }, [allRefs.length, initialized, filterChoice, storage, storageKey]);
+  }, [filterChoice, storage, storageKey]);
 
   return {
     hasStarred,

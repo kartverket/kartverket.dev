@@ -1,8 +1,8 @@
 import { Star, StarBorder } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-
-export type FilterEnum = 'all' | 'starred';
+import { FilterEnum } from '../typesFrontend';
+import { STAR_COLOR } from '../colors';
 
 type Props = {
   hasStarred: boolean;
@@ -25,16 +25,8 @@ export const StarFilterButton = ({
         isStarred ? 'Vis alle komponenter' : 'Vis stjernemerkede komponenter'
       }
     >
-      <IconButton
-        disableRipple
-        disableFocusRipple
-        onClick={onToggle}
-        sx={{
-          p: 0.5,
-          '&:hover': { backgroundColor: 'transparent' },
-        }}
-      >
-        {isStarred ? <Star sx={{ color: '#fbc02d' }} /> : <StarBorder />}
+      <IconButton onClick={onToggle} sx={{ p: 0.5 }}>
+        {isStarred ? <Star sx={{ color: STAR_COLOR }} /> : <StarBorder />}
       </IconButton>
     </Tooltip>
   );
