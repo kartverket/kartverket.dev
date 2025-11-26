@@ -73,8 +73,3 @@ jobs:
             --image="${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" \
             --region=europe-west1 \
             --platform=managed \
-            --args=packages/backend \
-            --args=--config \
-            --args=app-config.yaml \
-            --args=--config \
-            --args=app-config.spiredev.yaml \
