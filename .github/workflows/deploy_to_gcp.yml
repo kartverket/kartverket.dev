@@ -73,4 +73,4 @@ jobs:
             --image="${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" \
             --region=europe-west1 \
             --platform=managed \
-            --args=packages/backend,--config,app-config.yaml,--config,app-config.spiredev.yaml
+            --args='packages/backend,--config,app-config.yaml,--config,app-config.spiredev.yaml'
