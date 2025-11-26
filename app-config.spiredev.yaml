@@ -10,7 +10,7 @@ backend:
   cors:
     origin:
       [
-        'https://kartverket-dev-env-914366947816.europe-west1.run.app/',
+        'https://kartverket-dev-env-914366947816.europe-west1.run.app',
         'http://localhost:7007',
       ]
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
