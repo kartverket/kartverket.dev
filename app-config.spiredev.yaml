@@ -21,8 +21,6 @@ backend:
 
 proxy:
   endpoints:
-    '/xkcd-proxy':
-      target: https://xkcd.com/
     '/opencost':
       target: https://opencost.dev.skip.statkart.no
     '/lighthouse':
