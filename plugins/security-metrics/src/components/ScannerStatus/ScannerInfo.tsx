@@ -9,7 +9,7 @@ const scannerTooltips: Record<string, string> = {
     'Scanner kodeavhengigheter for kjente sårbarheter. Bør være aktivert på alle repoer som ikke er av typen documentation.',
   CodeQL: 'Analyserer selve kildekoden for konfigurasjonsfeil.',
   Pharos:
-    'Scanner docker images og infrastruktur for sårbarheter. Krever at repoet bygger container.',
+    'Scanner docker images og infrastruktur for sårbarheter. Krever at repoet bygger en container.',
   Sysdig:
     'Scanner tjenester som kjører på SKIP for sårbarheter. Ikke relevant dersom man ikke kan/skal kjøre på SKIP.',
 };
