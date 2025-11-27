@@ -25,9 +25,7 @@ export const MissingReposItem = ({
     <>
       {reposWithNoSecChamps.length > 0 ? (
         <ListItem>
-          <Stack
-            className={style.item}
-          >
+          <Stack className={style.item}>
             <Alert severity="warning">
               <Typography>Missing security champion</Typography>
             </Alert>

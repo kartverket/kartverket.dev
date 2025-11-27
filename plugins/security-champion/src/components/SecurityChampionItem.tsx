@@ -67,9 +67,7 @@ export const SecurityChampionItem = ({
 }) => {
   return (
     <ListItem>
-      <Stack
-        className={style.item}
-      >
+      <Stack className={style.item}>
         {champion.securityChampionEmail && (
           <KVSecurityChampionItem champion={champion} />
         )}
@@ -78,21 +76,21 @@ export const SecurityChampionItem = ({
         )}
         {repositories && (
           <CustomTooltip
-              className={style.toolTip}
-              title={
-                <List>
-                  {repositories.map(repository => (
-                    <ListItem key={repository}>
-                      <Link
-                        href={`/catalog/default/component/${repository}`}
-                        target="_blank"
-                      >
-                        {repository}
-                      </Link>
-                    </ListItem>
-                  ))}
-                </List>
-              }
+            className={style.toolTip}
+            title={
+              <List>
+                {repositories.map(repository => (
+                  <ListItem key={repository}>
+                    <Link
+                      href={`/catalog/default/component/${repository}`}
+                      target="_blank"
+                    >
+                      {repository}
+                    </Link>
+                  </ListItem>
+                ))}
+              </List>
+            }
           >
             <IconButton color="primary">
               <Typography variant="body1">

@@ -15,7 +15,7 @@
   margin-top: 8;
 }
 
-.toolTip{
+.toolTip {
   font-size: 16px;
   max-width: 750px;
   padding: 8px;
@@ -24,17 +24,17 @@
   background-color: var(--bui-bg-surface-1);
 }
 
-.paper{
+.paper {
   max-height: 300;
   overflow: auto;
   margin: 2px;
 }
 
-.searchField{
+.searchField {
   padding-bottom: var(--bui-space-2);
 }
 
-@container securityChampionList (max-width: 500px) { 
+@container securityChampionList (max-width: 500px) {
   .item {
     flex-direction: column;
     align-items: baseline;
@@ -42,4 +42,3 @@
     justify-content: space-between;
   }
 }
-

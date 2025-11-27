@@ -180,7 +180,8 @@ export const SecurityChampion = ({
           <ErrorBanner errorMessage="Failed to set security champion" />
         )}
 
-        <Button className={`${style.confirmChangeButton}`}
+        <Button
+          className={`${style.confirmChangeButton}`}
           onClick={setSecurityChampion}
           isDisabled={!selectedUser}
         >
