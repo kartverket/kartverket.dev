@@ -226,7 +226,7 @@ export const SecurityChampion = ({
       return (
         <>
           <SecurityChampionItem
-            key={0}
+            key={`${data[0].securityChampionEmail}`}
             champion={data[0]}
             repositories={[data[0].repositoryName]}
           />
@@ -241,7 +241,7 @@ export const SecurityChampion = ({
       <>
         {[...groupedChampions].map((element, index) => (
           <SecurityChampionItem
-            key={index}
+            key={`${index}-${element[1].champ.securityChampionEmail}`}
             champion={element[1].champ}
             repositories={element[1].repositoryNames}
           />
