@@ -18,6 +18,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -57,6 +58,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -79,6 +81,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -88,7 +91,7 @@ export const updateYaml = (
             : initial.spec.entityType || undefined,
           domain: form.domain?.length
             ? form.domain
-            : initial.spec.system || undefined,
+            : initial.spec.domain || undefined,
         },
       };
       break;
@@ -100,6 +103,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -118,6 +122,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -142,6 +147,8 @@ export const updateYaml = (
         metadata: {
           ...initial.metadata,
           name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,

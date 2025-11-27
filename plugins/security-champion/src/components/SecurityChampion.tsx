@@ -282,7 +282,14 @@ export const SecurityChampion = ({
         }
       >
         <List>
-          <List>{renderSecurityChampions()}</List>
+          <List
+            sx={{
+              containerType: 'inline-size', // enable container queries
+              containerName: 'securityChampionList',
+            }}
+          >
+            {renderSecurityChampions()}
+          </List>
         </List>
         {(entity.kind === 'Component' ||
           entity.kind === 'System' ||

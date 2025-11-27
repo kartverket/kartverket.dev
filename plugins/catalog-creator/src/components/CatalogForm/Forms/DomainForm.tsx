@@ -8,6 +8,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { Entity } from '@backstage/catalog-model';
+import { TagField } from '../TagField';
 
 export type DomainFormProps = {
   index: number;
@@ -95,6 +96,7 @@ export const DomainForm = ({
           </span>
         </div>
       </Flex>
+      <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
   );
 };
