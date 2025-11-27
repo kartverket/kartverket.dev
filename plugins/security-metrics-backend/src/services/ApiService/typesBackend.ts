@@ -177,5 +177,5 @@ export type ConfigureNotificationsRequestBody = {
   componentNames: string[];
   channelId: string;
   entraIdToken: string;
-  severity?: string[],
+  severity?: string[];
 };

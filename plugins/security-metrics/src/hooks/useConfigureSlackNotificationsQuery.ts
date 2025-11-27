@@ -8,7 +8,7 @@ type SlackNotificationPayload = {
   teamName: string;
   channelId: string;
   componentNames: string[];
-  severity?: string[],
+  severity?: string[];
 };
 
 export const useConfigureSlackNotificationsQuery = () => {
@@ -29,7 +29,7 @@ export const useConfigureSlackNotificationsQuery = () => {
           componentNames: string[];
           channelId: string;
           entraIdToken: string;
-          severity?: string[],
+          severity?: string[];
         },
         any
       >(endpointUrl, backstageToken, {

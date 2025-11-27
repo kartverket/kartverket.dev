@@ -92,7 +92,10 @@ export const SlackNotificationDialog = ({
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Typography>Hvor ønsker du å varsles om nye sårbarheter?</Typography>
           <Tooltip title="Slack-kanal-ID finner du i ønsket kanal under 'Open channel details'">
-            <InfoOutlinedIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+            <InfoOutlinedIcon
+              fontSize="small"
+              sx={{ color: 'text.secondary' }}
+            />
           </Tooltip>
         </Box>
         <TextField
