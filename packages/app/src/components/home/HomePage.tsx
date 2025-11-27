@@ -8,8 +8,6 @@ import { Content, Page } from '@backstage/core-components';
 import { HomePageSearchBar } from '@backstage/plugin-search';
 import { SearchContextProvider } from '@backstage/plugin-search-react';
 import { Grid, makeStyles } from '@material-ui/core';
-import { StatusCard } from '@internal/plugin-instatus';
-import { XkcdComicCard } from 'backstage-plugin-xkcd';
 import { useTheme } from '@material-ui/core/styles';
 import LogoFull from '../Root/LogoFull';
 import grafanaLogo from './logos/Grafana.png';
@@ -156,30 +154,6 @@ export const HomePage = () => {
                     icon: <img src={skipLogo} alt="Logo of SKIP" width={35} />,
                   },
                 ]}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <StatusCard
-                pageId="skip"
-                reportUrl="https://kartverketgroup.slack.com/archives/C028ZEED280"
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <XkcdComicCard />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <iframe
-                title="Powered by Fedifeed"
-                allowFullScreen
-                sandbox="allow-top-navigation allow-scripts"
-                src="https://fedifeed.com/api/v1/feed?user=kv_plattform&instance=https%3A%2F%2Fmastodon.social&instance_type=&theme=auto-dark&size=100&header=true&replies=true&boosts=true"
-                style={{
-                  border: '0px',
-                  overflow: 'hidden',
-                  width: '100%',
-                  height: '100%',
-                  minHeight: '400px',
-                }}
               />
             </Grid>
           </Grid>
