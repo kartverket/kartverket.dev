@@ -239,8 +239,9 @@ export class ApiService {
   async configureNotifications(
     teamName: string,
     componentNames: string[],
-    channelName: string,
+    channelId: string,
     entraIdToken: string,
+    severity?: string[],
   ): Promise<Either<ApiError, void>> {
     const endpointUrl = `${this.baseUrl}/api/slack/configure-notifications`;
     const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
@@ -260,7 +261,8 @@ export class ApiService {
         body: JSON.stringify({
           teamName,
           componentNames,
-          channelName,
+          channelId,
+          severity,
         }),
       });
 

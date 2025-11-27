@@ -175,6 +175,7 @@ export type AcceptVulnerabilityRequestBody = {
 export type ConfigureNotificationsRequestBody = {
   teamName: string;
   componentNames: string[];
-  channelName: string;
+  channelId: string;
   entraIdToken: string;
+  severity?: string[],
 };

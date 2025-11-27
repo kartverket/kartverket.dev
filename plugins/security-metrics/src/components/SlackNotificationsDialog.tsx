@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Tooltip from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useState } from 'react';
 import { useConfigureSlackNotificationsQuery } from '../hooks/useConfigureSlackNotificationsQuery';
 
@@ -22,6 +24,14 @@ interface Props {
   componentNames: string[];
 }
 
+const SEVERITIES = [
+  { value: 'critical', label: 'Critical' },
+  { value: 'high', label: 'High' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'low', label: 'Low' },
+  { value: 'unknown', label: 'Unknown' },
+];
+
 export const SlackNotificationDialog = ({
   openNotificationsDialog,
   handleCloseNotificationsDialog,
@@ -32,6 +42,9 @@ export const SlackNotificationDialog = ({
   const { entity } = useEntity();
 
   const [selectedComponents, setSelectedComponents] = useState(componentNames);
+  const [selectedSeverities, setSelectedSeverities] = useState<string[]>(
+    SEVERITIES.map(s => s.value),
+  );
 
   const configureNotification = useConfigureSlackNotificationsQuery();
 
@@ -41,12 +54,19 @@ export const SlackNotificationDialog = ({
     );
   };
 
+  const handleToggleSeverity = (severity: string, checked: boolean) => {
+    setSelectedSeverities(prev =>
+      checked ? [...prev, severity] : prev.filter(s => s !== severity),
+    );
+  };
+
   const handleSave = () => {
     configureNotification.mutate(
       {
         teamName: entity.metadata.name,
-        channelName: channel,
+        channelId: channel,
         componentNames: selectedComponents,
+        severity: selectedSeverities,
       },
       {
         onSuccess: () => {
@@ -60,6 +80,8 @@ export const SlackNotificationDialog = ({
     <Dialog
       open={openNotificationsDialog}
       onClose={handleCloseNotificationsDialog}
+      maxWidth="sm"
+      fullWidth
     >
       <DialogTitle>
         Konfigurer varsling for team {entity.metadata.name}
@@ -67,16 +89,41 @@ export const SlackNotificationDialog = ({
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
       >
-        <Typography>Hvor ønsker du å varsles om nye sårbarheter?</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Typography>Hvor ønsker du å varsles om nye sårbarheter?</Typography>
+          <Tooltip title="Slack-kanal-ID finner du i ønsket kanal under 'Open channel details'">
+            <InfoOutlinedIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+          </Tooltip>
+        </Box>
         <TextField
-          label="Slack-kanal (uten #)"
+          label="Slack-kanal ID (Eks: G98XYZ1234)"
           value={channel}
           onChange={e => setChannel(e.target.value)}
           fullWidth
         />
 
         <Typography variant="subtitle1">
-          Huk av hvilke komponenter du ønsker å varsles om:
+          <b>Hvilke kritikaliteter vil du varsles om:</b>
+        </Typography>
+        <FormGroup row sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+          {SEVERITIES.map(severity => (
+            <FormControlLabel
+              key={severity.value}
+              control={
+                <Checkbox
+                  checked={selectedSeverities.includes(severity.value)}
+                  onChange={(_, checked) =>
+                    handleToggleSeverity(severity.value, checked)
+                  }
+                />
+              }
+              label={severity.label}
+            />
+          ))}
+        </FormGroup>
+
+        <Typography variant="subtitle1">
+          <b>Hvilke komponenter skal det varsles om:</b>
         </Typography>
         <FormGroup>
           {componentNames.map(name => (

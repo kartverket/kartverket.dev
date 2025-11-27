@@ -6,8 +6,9 @@ import { put } from '../api/client';
 
 type SlackNotificationPayload = {
   teamName: string;
-  channelName: string;
+  channelId: string;
   componentNames: string[];
+  severity?: string[],
 };
 
 export const useConfigureSlackNotificationsQuery = () => {
@@ -16,7 +17,7 @@ export const useConfigureSlackNotificationsQuery = () => {
   );
 
   return useMutation<any, unknown, SlackNotificationPayload>({
-    mutationFn: async ({ teamName, componentNames, channelName }) => {
+    mutationFn: async ({ teamName, componentNames, channelId, severity }) => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
         backstageAuthApi,
@@ -26,15 +27,17 @@ export const useConfigureSlackNotificationsQuery = () => {
         {
           teamName: string;
           componentNames: string[];
-          channelName: string;
+          channelId: string;
           entraIdToken: string;
+          severity?: string[],
         },
         any
       >(endpointUrl, backstageToken, {
         teamName,
         componentNames,
-        channelName,
+        channelId,
         entraIdToken,
+        severity,
       });
     },
   });

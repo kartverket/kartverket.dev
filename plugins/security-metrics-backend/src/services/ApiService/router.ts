@@ -279,8 +279,9 @@ export const createRouter = async (
       const apiResult = await apiService.configureNotifications(
         request.teamName,
         request.componentNames,
-        request.channelName,
+        request.channelId,
         request.entraIdToken,
+        request.severity,
       );
 
       if (apiResult.isRight()) {
