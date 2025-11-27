@@ -20,6 +20,7 @@ import { useMemo, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import style from './securityCard.module.css';
 
 const CardWrapper = ({
   title,
@@ -179,11 +180,7 @@ export const SecurityChampion = ({
           <ErrorBanner errorMessage="Failed to set security champion" />
         )}
 
-        <Button
-          style={{
-            marginTop: 8,
-            backgroundColor: selectedUser ? '' : 'var(--bui-bg-solid-disabled)',
-          }}
+        <Button className={`${style.confirmChangeButton}`}
           onClick={setSecurityChampion}
           isDisabled={!selectedUser}
         >
@@ -282,7 +279,9 @@ export const SecurityChampion = ({
         }
       >
         <List>
-          <List>{renderSecurityChampions()}</List>
+          <List className={style.SecurityChampionList}>
+            {renderSecurityChampions()}
+          </List>
         </List>
         {(entity.kind === 'Component' ||
           entity.kind === 'System' ||

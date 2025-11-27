@@ -5,8 +5,8 @@ import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import { useMediaQuery } from '@mui/system';
 import Stack from '@mui/material/Stack';
+import style from './securityCard.module.css';
 
 type MissingReposItemProps = {
   reposWithSecChamps: string[];
@@ -20,24 +20,19 @@ export const MissingReposItem = ({
   const reposWithNoSecChamps: string[] = allRepositories.filter(
     repositoryName => !reposWithSecChamps.includes(repositoryName),
   );
-  const isSmallScreen = useMediaQuery('(max-width: 1500px)');
 
   return (
     <>
       {reposWithNoSecChamps.length > 0 ? (
         <ListItem>
           <Stack
-            direction={isSmallScreen ? 'column' : 'row'}
-            width="100%"
-            justifyContent="space-between"
+            className={style.item}
           >
             <Alert severity="warning">
               <Typography>Missing security champion</Typography>
             </Alert>
             <CustomTooltip
-              sx={{
-                backgroundColor: 'var(--bui-bg-surface-1	)',
-              }}
+              className={style.toolTip}
               title={
                 <List>
                   {reposWithNoSecChamps.map(repository => (

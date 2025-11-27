@@ -1,6 +1,6 @@
 import { SecurityChamp } from '../types';
 import { useUserProfile } from '../hooks/useUserProfile';
-import { Box, useMediaQuery } from '@mui/system';
+import { Box } from '@mui/system';
 import { CustomTooltip } from './LightTooltip';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -12,6 +12,8 @@ import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
+
+import style from './securityCard.module.css';
 
 const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
   const { user, loading, error } = useUserProfile(
@@ -63,14 +65,10 @@ export const SecurityChampionItem = ({
   champion: SecurityChamp;
   repositories?: string[];
 }) => {
-  const isSmallScreen = useMediaQuery('(max-width: 1500px)');
-
   return (
     <ListItem>
       <Stack
-        direction={isSmallScreen ? 'column' : 'row'}
-        width="100%"
-        justifyContent="space-between"
+        className={style.item}
       >
         {champion.securityChampionEmail && (
           <KVSecurityChampionItem champion={champion} />
@@ -80,23 +78,21 @@ export const SecurityChampionItem = ({
         )}
         {repositories && (
           <CustomTooltip
-            sx={{
-              backgroundColor: 'var(--bui-bg-surface-1	)',
-            }}
-            title={
-              <List>
-                {repositories.map(repository => (
-                  <ListItem key={repository}>
-                    <Link
-                      href={`/catalog/default/component/${repository}`}
-                      target="_blank"
-                    >
-                      {repository}
-                    </Link>
-                  </ListItem>
-                ))}
-              </List>
-            }
+              className={style.toolTip}
+              title={
+                <List>
+                  {repositories.map(repository => (
+                    <ListItem key={repository}>
+                      <Link
+                        href={`/catalog/default/component/${repository}`}
+                        target="_blank"
+                      >
+                        {repository}
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              }
           >
             <IconButton color="primary">
               <Typography variant="body1">
