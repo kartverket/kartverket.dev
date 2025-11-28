@@ -5,8 +5,8 @@ import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
+import style from './securityCard.module.css';
 
 type MissingReposItemProps = {
   reposWithSecChamps: string[];
@@ -25,37 +25,12 @@ export const MissingReposItem = ({
     <>
       {reposWithNoSecChamps.length > 0 ? (
         <ListItem>
-          <Stack
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              '@container securityChampionList (max-width: 500px)': {
-                flexDirection: 'column',
-                alignItems: 'baseline',
-              },
-            }}
-            width="100%"
-            justifyContent="space-between"
-            divider={
-              <Divider
-                flexItem
-                sx={{
-                  orientation: 'horisontal',
-                  '@container securityChampionList (max-width: 500px)': {
-                    orientation: 'vertical',
-                  },
-                }}
-              />
-            }
-          >
+          <Stack className={style.item}>
             <Alert severity="warning">
               <Typography>Missing security champion</Typography>
             </Alert>
             <CustomTooltip
-              sx={{
-                backgroundColor: 'var(--bui-bg-surface-1	)',
-              }}
+              className={style.toolTip}
               title={
                 <List>
                   {reposWithNoSecChamps.map(repository => (
