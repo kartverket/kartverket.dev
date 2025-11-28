@@ -20,7 +20,7 @@ const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
     champion.securityChampionEmail!,
   );
 
-  if (loading)
+  if (loading && !user)
     return (
       <Box sx={{ display: 'flex' }}>
         <CircularProgress />
