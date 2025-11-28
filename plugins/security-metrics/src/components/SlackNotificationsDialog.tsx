@@ -84,13 +84,17 @@ export const SlackNotificationDialog = ({
       fullWidth
     >
       <DialogTitle bgcolor="#5eb67bff">
-        Konfigurer varsling for team {entity.metadata.name}
+        Konfigurer slack-varsling for team {entity.metadata.name}
       </DialogTitle>
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Typography>Hvor ønsker du å varsles om nye sårbarheter?</Typography>
+        <Box
+          sx={{ display: 'flex', alignItems: 'center', gap: '8px', pt: '10px' }}
+        >
+          <Typography>
+            I hvilken kanal ønsker du å varsles om nye sårbarheter?
+          </Typography>
           <Tooltip title="Slack-kanal-ID finner du i ønsket kanal under 'Open channel details'">
             <InfoOutlinedIcon
               fontSize="small"
@@ -120,7 +124,10 @@ export const SlackNotificationDialog = ({
         <Typography variant="subtitle1">
           <b>Hvilke kritikaliteter vil du varsles om:</b>
         </Typography>
-        <FormGroup row sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+        <FormGroup
+          row
+          sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}
+        >
           {SEVERITIES.map(severity => (
             <FormControlLabel
               key={severity.value}
@@ -140,7 +147,10 @@ export const SlackNotificationDialog = ({
         <Typography variant="subtitle1">
           <b>Hvilke komponenter skal det varsles om:</b>
         </Typography>
-        <FormGroup>
+        <FormGroup
+          row
+          sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}
+        >
           {componentNames.map(name => (
             <FormControlLabel
               key={name}
@@ -157,11 +167,16 @@ export const SlackNotificationDialog = ({
           ))}
         </FormGroup>
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ backgroundColor: '#f5f5f5fc' }}>
         <Box sx={{ pb: 2, pr: 2 }}>
-          <Button onClick={handleCloseNotificationsDialog}>Avbryt</Button>
+          <Button
+            sx={{ mr: '5px' }}
+            variant="outlined"
+            onClick={handleCloseNotificationsDialog}
+          >
+            Avbryt
+          </Button>
           <SpinnerButton
-            variant="contained"
             loading={configureNotification.isPending}
             onClick={handleSave}
           >
