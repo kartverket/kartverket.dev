@@ -76,9 +76,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
           pluralTitle="My Groups"
           icon={GroupIcon}
         />
-        {/*
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-         <SidebarItem icon={LayersIcon} to="explore" text="Explore" />*/}
         <SidebarItem
           icon={EditIcon}
           to="catalog-creator"
