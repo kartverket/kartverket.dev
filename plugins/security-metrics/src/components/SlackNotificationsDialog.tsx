@@ -89,15 +89,15 @@ export const SlackNotificationDialog = ({
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
       >
-       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Typography>Hvor ønsker du å varsles om nye sårbarheter?</Typography>
-            <Tooltip title="Slack-kanal-ID finner du i ønsket kanal under 'Open channel details'">
-              <InfoOutlinedIcon
-                fontSize="small"
-                sx={{ color: 'text.secondary' }}
-              />
-            </Tooltip>
-            </Box>
+          <Tooltip title="Slack-kanal-ID finner du i ønsket kanal under 'Open channel details'">
+            <InfoOutlinedIcon
+              fontSize="small"
+              sx={{ color: 'text.secondary' }}
+            />
+          </Tooltip>
+        </Box>
         <TextField
           label="Slack-kanal ID (Eks: G98XYZ1234)"
           value={channel}
@@ -105,9 +105,10 @@ export const SlackNotificationDialog = ({
           fullWidth
         />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <Typography>
-          NB! For å varsle i riktig Slack-kanal må appen “Vulnerability Alerts” være lagt til.
-        </Typography>
+          <Typography>
+            NB! For å varsle i riktig Slack-kanal må appen “Vulnerability
+            Alerts” være lagt til.
+          </Typography>
           <Tooltip title="Tips: Gå til kanalen, skriv /add, og legg til appen.">
             <InfoOutlinedIcon
               fontSize="small"
@@ -115,7 +116,6 @@ export const SlackNotificationDialog = ({
             />
           </Tooltip>
         </Box>
-
 
         <Typography variant="subtitle1">
           <b>Hvilke kritikaliteter vil du varsles om:</b>
