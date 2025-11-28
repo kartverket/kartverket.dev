@@ -229,6 +229,7 @@ export const SecurityChampion = ({
             key={`${data[0].securityChampionEmail}`}
             champion={data[0]}
             repositories={[data[0].repositoryName]}
+            showComponentList={entity.kind !== 'Component'}
           />
           <MissingReposItem
             reposWithSecChamps={[data[0].repositoryName]}
@@ -244,6 +245,7 @@ export const SecurityChampion = ({
             key={`${index}-${element[1].champ.securityChampionEmail}`}
             champion={element[1].champ}
             repositories={element[1].repositoryNames}
+            showComponentList={entity.kind !== 'Component'}
           />
         ))}
         <MissingReposItem

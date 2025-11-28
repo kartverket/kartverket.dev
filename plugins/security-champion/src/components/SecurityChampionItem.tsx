@@ -61,9 +61,11 @@ const UnknownSecurityChampionItem = ({
 export const SecurityChampionItem = ({
   champion,
   repositories,
+  showComponentList = true
 }: {
   champion: SecurityChamp;
   repositories?: string[];
+  showComponentList: boolean;
 }) => {
   return (
     <ListItem>
@@ -74,7 +76,7 @@ export const SecurityChampionItem = ({
         {!champion.securityChampionEmail && (
           <UnknownSecurityChampionItem champion={champion} />
         )}
-        {repositories && (
+        {repositories && showComponentList && (
           <CustomTooltip
             className={style.toolTip}
             title={
