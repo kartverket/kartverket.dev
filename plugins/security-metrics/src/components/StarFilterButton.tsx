@@ -15,19 +15,22 @@ export const StarFilterButton = ({
   effectiveFilter,
   onToggle,
 }: Props) => {
-  if (!hasStarred) return null;
-
   const isStarred = effectiveFilter === 'starred';
 
+  let title = 'Du har ingen stjernemarkerte komponenter';
+  if (hasStarred && isStarred) {
+    title = 'Vis alle komponenter';
+  } else if (hasStarred && !isStarred) {
+    title = 'Vis stjernemarkerte komponenter';
+  }
+
   return (
-    <Tooltip
-      title={
-        isStarred ? 'Vis alle komponenter' : 'Vis stjernemerkede komponenter'
-      }
-    >
-      <IconButton onClick={onToggle} sx={{ p: 0.5 }}>
-        {isStarred ? <Star sx={{ color: STAR_COLOR }} /> : <StarBorder />}
-      </IconButton>
+    <Tooltip title={title}>
+      <span>
+        <IconButton disabled={!hasStarred} onClick={onToggle} sx={{ p: 0.5 }}>
+          {isStarred ? <Star sx={{ color: STAR_COLOR }} /> : <StarBorder />}
+        </IconButton>
+      </span>
     </Tooltip>
   );
 };
