@@ -105,6 +105,15 @@ export const GroupPage = () => {
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
+        <Box display="flex" alignItems="center">
+          <StarFilterButton
+            hasStarred={hasStarred}
+            effectiveFilter={effectiveFilter}
+            onToggle={() =>
+              setFilterChoice(prev => (prev === 'starred' ? 'all' : 'starred'))
+            }
+          />
+        </Box>
         <Button
           variant="text"
           sx={{ ml: 2 }}
@@ -122,16 +131,6 @@ export const GroupPage = () => {
           componentNames={componentNames}
         />
         <SupportButton />
-
-        <Box display="flex" alignItems="center">
-          <StarFilterButton
-            hasStarred={hasStarred}
-            effectiveFilter={effectiveFilter}
-            onToggle={() =>
-              setFilterChoice(prev => (prev === 'starred' ? 'all' : 'starred'))
-            }
-          />
-        </Box>
       </Stack>
 
       <Box
