@@ -1,6 +1,8 @@
 import {
+  FilterEnum,
   Scanner,
   Severity,
+  SikkerhetsmetrikkerSystemTotal,
   TrendSeverityCounts,
   Vulnerability,
 } from '../typesFrontend';
@@ -140,4 +142,24 @@ export const findBestId = (vulnerability: Vulnerability) => {
   else if (cweIds.length !== 0) shownId = cweIds;
   else shownId = otherIds;
   return shownId[0].id;
+};
+
+export const filterSystemsByComponents = (
+  data: SikkerhetsmetrikkerSystemTotal[] | undefined,
+  componentNames: Set<string>,
+  filter: FilterEnum,
+): SikkerhetsmetrikkerSystemTotal[] | undefined => {
+  if (!data || filter === 'all') return data;
+
+  return data
+    .map(system => ({
+      ...system,
+      metrics: {
+        ...system.metrics,
+        permittedMetrics: system.metrics.permittedMetrics.filter(pm =>
+          componentNames.has(pm.componentName),
+        ),
+      },
+    }))
+    .filter(system => system.metrics.permittedMetrics.length > 0);
 };
