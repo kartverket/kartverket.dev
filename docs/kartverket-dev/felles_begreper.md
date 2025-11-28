@@ -1,7 +1,7 @@
 ---
-id: identity
-title: Identity and groups in the developer portal
-description: How we are using identity and groups in the developer portal
+id: felles_begreper
+title: Hvordan entitetsmodellen er definert i Kartverket.
+description: Hvordan vi definerer og bruker entitetsmodellen og hvilke praksiser vi oppfordrer brukere å benytte seg av.
 ---
 
 # Felles begreper for Backstage
