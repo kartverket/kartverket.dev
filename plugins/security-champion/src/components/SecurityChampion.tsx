@@ -122,7 +122,6 @@ export const SecurityChampion = ({
           onSuccess: () => {
             refetch();
             setEdit(false);
-            setSelectedUser(null);
           },
           onError: () => {
             setIsMutationError(true);
@@ -137,7 +136,6 @@ export const SecurityChampion = ({
           onSuccess: () => {
             refetch();
             setEdit(false);
-            setSelectedUser(null);
           },
           onError: () => {
             setIsMutationError(true);
@@ -148,6 +146,7 @@ export const SecurityChampion = ({
   };
 
   const onEdit = () => {
+    setSelectedUser(null);
     setEdit(!edit);
   };
 
@@ -231,6 +230,7 @@ export const SecurityChampion = ({
             key={0}
             champion={data[0]}
             repositories={[data[0].repositoryName]}
+            selectedUser={selectedUser}
           />
           <MissingReposItem
             reposWithSecChamps={[data[0].repositoryName]}
