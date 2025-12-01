@@ -27,6 +27,7 @@ export type ComponentFormProps = {
   appendHandler: (entityKindToAdd: Kind, name?: string) => void;
   systems: Entity[];
   groups: Entity[];
+  componentsAndResources: Entity[];
 };
 
 export const ComponentForm = ({
@@ -36,6 +37,7 @@ export const ComponentForm = ({
   appendHandler,
   systems,
   groups,
+  componentsAndResources,
 }: ComponentFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
@@ -50,14 +52,6 @@ export const ComponentForm = ({
         kind: 'API',
       },
     });
-    return results.items as Entity[];
-  }, [catalogApi]);
-
-  const fetchComponentsAndResources = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: [{ kind: ['Component', 'Resource'] }],
-    });
-
     return results.items as Entity[];
   }, [catalogApi]);
 
@@ -355,12 +349,10 @@ export const ComponentForm = ({
               value={
                 (value || [])
                   .map(str => {
-                    return (fetchComponentsAndResources.value || []).find(
-                      entity => {
-                        const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
-                        return entityStr === str;
-                      },
-                    );
+                    return (componentsAndResources || []).find(entity => {
+                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                      return entityStr === str;
+                    });
                   })
                   .filter(Boolean) as Entity[]
               }
@@ -371,7 +363,7 @@ export const ComponentForm = ({
                 });
                 onChange(names);
               }}
-              options={fetchComponentsAndResources.value || []}
+              options={componentsAndResources || []}
               getOptionLabel={option => {
                 return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
               }}

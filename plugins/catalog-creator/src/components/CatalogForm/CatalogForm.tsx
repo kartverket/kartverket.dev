@@ -31,6 +31,7 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { ResourceForm } from './Forms/ResourceForm';
 import { DomainForm } from './Forms/DomainForm';
+import { useFetchEntities } from '../../hooks/useFetchEntities';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -144,6 +145,9 @@ export const CatalogForm = ({
     control,
   });
 
+  const fetchComponents = useFetchEntities(control, 'Component');
+  const fetchResources = useFetchEntities(control, 'Resource');
+
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
     switch (entityKindToAdd) {
@@ -217,6 +221,10 @@ export const CatalogForm = ({
             appendHandler={appendHandler}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}
+            componentsAndResources={[
+              ...fetchComponents.value,
+              ...fetchResources.value,
+            ]}
           />
         );
       case 'API':
