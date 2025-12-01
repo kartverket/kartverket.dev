@@ -20,6 +20,9 @@ import { SystemsTable } from '../SystemsTable/SystemsTable';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
 import { useFetchComponentNamesByGroup } from '../../hooks/useFetchRepositoryNames';
 import NoAccessAlert from '../NoAccessAlert';
+import Button from '@mui/material/Button';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { SlackNotificationDialog } from '../SlackNotificationsDialog';
 import { useStarredRefFilter } from '../../hooks/useStarredRefFilter';
 import { RepositorySummary } from '../../typesFrontend';
 import { StarFilterButton } from '../StarFilterButton';
@@ -32,6 +35,8 @@ enum TabEnum {
 
 export const GroupPage = () => {
   const { entity } = useEntity();
+  const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
+  const [channel, setChannel] = useState('');
   const { starredEntities } = useStarredEntities();
   const [selectedTab, setSelectedTab] = useState<TabEnum>(TabEnum.COMPONENT);
 
@@ -79,6 +84,14 @@ export const GroupPage = () => {
 
   const secrets: Secrets[] = getAllSecrets(data);
 
+  const handleOpenNotificationsDialog = () => {
+    setOpenNotificationsDialog(true);
+  };
+
+  const handleCloseNotificationsDialog = () => {
+    setOpenNotificationsDialog(false);
+  };
+
   return (
     <Stack gap={2}>
       <Stack flexDirection="row" gap={2} alignItems="center">
@@ -92,7 +105,6 @@ export const GroupPage = () => {
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
-
         <Box display="flex" alignItems="center">
           <StarFilterButton
             hasStarred={hasStarred}
@@ -101,8 +113,24 @@ export const GroupPage = () => {
               setFilterChoice(prev => (prev === 'starred' ? 'all' : 'starred'))
             }
           />
-          <SupportButton />
         </Box>
+        <Button
+          variant="text"
+          sx={{ ml: 2 }}
+          startIcon={<SettingsIcon />}
+          color="primary"
+          onClick={handleOpenNotificationsDialog}
+        >
+          Konfigurer varsling
+        </Button>
+        <SlackNotificationDialog
+          openNotificationsDialog={openNotificationsDialog}
+          handleCloseNotificationsDialog={handleCloseNotificationsDialog}
+          channel={channel}
+          setChannel={setChannel}
+          componentNames={componentNames}
+        />
+        <SupportButton />
       </Stack>
 
       <Box
