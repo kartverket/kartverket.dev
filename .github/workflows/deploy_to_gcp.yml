@@ -1,0 +1,74 @@
+name: Push to Google Artifact Registry
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - spire-dev
+
+env:
+  PROJECT_ID: spire-kartverket-dev
+  SERVICE: kartverket-dev-env
+  REGION: europe-west1
+  WORKLOAD_IDENTITY_PROVIDER: projects/914366947816/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+  AR_REPO_LOCATION: europe-west1
+  AR_URL: europe-west1-docker.pkg.dev/spire-kartverket-dev/backstagespiredev
+  IMAGE_NAME: backstagespiredev
+  SERVICE_ACCOUNT: deploy-to-gcp-workflow@spire-kartverket-dev.iam.gserviceaccount.com
+
+jobs:
+  push-to-ar:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - uses: 'actions/checkout@v4'
+
+      - uses: 'google-github-actions/auth@v3'
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{env.SERVICE_ACCOUNT}}
+
+      - name: Configure Docker to use the gcloud command-line tool as a credential helper
+        run: gcloud auth configure-docker ${{ env.AR_REPO_LOCATION }}-docker.pkg.dev --quiet
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x # From mise.toml
+          cache: 'npm'
+
+      - run: corepack enable
+
+      - run: yarn install --immutable
+
+      # tsc outputs type definitions to dist-types/ in the repo root, which are then consumed by the build
+      - run: yarn tsc
+
+      # Build the backend, which bundles it all up into the packages/backend/dist folder.
+      # The configuration files here should match the one you use inside the Dockerfile below.
+      - run: yarn build:backend --config ../../app-config.yaml --config ../../app-config.spiredev.yaml
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
+
+      - name: Build the Docker image
+        run: |
+          docker build -f packages/backend/Dockerfile -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" .
+
+      - name: Push the Docker image to Google Artifact Registry
+        run: |
+          docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy kartverket-dev-env \
+            --image="${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" \
+            --region=europe-west1 \
+            --platform=managed \

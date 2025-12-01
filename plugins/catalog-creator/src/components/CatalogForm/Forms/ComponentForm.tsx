@@ -18,6 +18,7 @@ import { FieldHeader } from '../FieldHeader';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
+import { TagField } from '../TagField';
 
 export type ComponentFormProps = {
   index: number;
@@ -25,6 +26,7 @@ export type ComponentFormProps = {
   errors: EntityErrors<'Component'>;
   appendHandler: (entityKindToAdd: Kind, name?: string) => void;
   systems: Entity[];
+  groups: Entity[];
 };
 
 export const ComponentForm = ({
@@ -33,9 +35,14 @@ export const ComponentForm = ({
   errors,
   appendHandler,
   systems,
+  groups,
 }: ComponentFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const formatEntityString = (entity: Entity): string => {
+    return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+  };
 
   const fetchAPIs = useAsync(async () => {
     const results = await catalogApi.getEntities({
@@ -48,13 +55,47 @@ export const ComponentForm = ({
 
   const fetchComponentsAndResources = useAsync(async () => {
     const results = await catalogApi.getEntities({
-      filter: [{ kind: 'Component' }, { kind: 'Resources' }],
+      filter: [{ kind: ['Component', 'Resource'] }],
     });
+
     return results.items as Entity[];
   }, [catalogApi]);
 
   return (
     <Flex direction="column" justify="start">
+      <div>
+        <FieldHeader
+          fieldName={t('form.owner.fieldName')}
+          tooltipText={t('form.name.tooltipText')}
+          required
+        />
+        <Controller
+          name={`entities.${index}.owner`}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AutocompleteField
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder={t('form.owner.placeholder')}
+              entities={groups || []}
+              type="search"
+            />
+          )}
+        />
+
+        <span
+          style={{
+            color: 'red',
+            fontSize: '0.75rem',
+            visibility: errors?.owner ? 'visible' : 'hidden',
+          }}
+        >
+          {errors?.owner?.message
+            ? t(errors.owner?.message as keyof typeof t)
+            : '\u00A0'}
+        </span>
+      </div>
       <Flex>
         <div style={{ width: '50%' }}>
           <FieldHeader
@@ -311,27 +352,32 @@ export const ComponentForm = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
               multiple
-              freeSolo
-              value={value || []}
+              value={
+                (value || [])
+                  .map(str => {
+                    return (fetchComponentsAndResources.value || []).find(
+                      entity => {
+                        const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                        return entityStr === str;
+                      },
+                    );
+                  })
+                  .filter(Boolean) as Entity[]
+              }
               onBlur={onBlur}
               onChange={(_, newValue) => {
-                const names = newValue.map(item =>
-                  typeof item === 'string' ? item : item.metadata.name,
-                );
+                const names = newValue.map(item => {
+                  return formatEntityString(item);
+                });
                 onChange(names);
               }}
               options={fetchComponentsAndResources.value || []}
               getOptionLabel={option => {
-                if (typeof option === 'string') return option;
-                return option.metadata.title ?? option.metadata.name;
+                return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
               }}
               isOptionEqualToValue={(option, selectedValue) => {
-                const optionName =
-                  typeof option === 'string' ? option : option.metadata.name;
-                const valueName =
-                  typeof selectedValue === 'string'
-                    ? selectedValue
-                    : selectedValue.metadata?.name;
+                const optionName = formatEntityString(option);
+                const valueName = formatEntityString(selectedValue);
                 return optionName === valueName;
               }}
               size="small"
@@ -371,6 +417,12 @@ export const ComponentForm = ({
             : '\u00A0'}
         </span>
       </div>
+      <TagField
+        index={index}
+        control={control}
+        errors={errors}
+        options={['internal', 'private', 'public']}
+      />
     </Flex>
   );
 };

@@ -34,6 +34,9 @@ export const AutocompleteField = (
         onChange={(_, newValue) => {
           onChange(newValue ?? '');
         }}
+        onInputChange={(_, newInputValue) => {
+          onChange(newInputValue);
+        }}
         onBlur={onBlur}
         freeSolo={freeSolo}
         options={props.options}

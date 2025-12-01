@@ -18,6 +18,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -57,6 +58,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -79,6 +81,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,
@@ -88,10 +91,55 @@ export const updateYaml = (
             : initial.spec.entityType || undefined,
           domain: form.domain?.length
             ? form.domain
-            : initial.spec.system || undefined,
+            : initial.spec.domain || undefined,
         },
       };
       break;
+    case 'Domain':
+      updated = {
+        ...initial,
+        kind: form.kind || initial.kind,
+        metadata: {
+          ...initial.metadata,
+          name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
+        },
+        spec: {
+          ...initial.spec,
+          owner: form.owner || initial.spec.owner || undefined,
+          type: form.entityType?.length
+            ? form.entityType
+            : initial.spec.entityType || undefined,
+        },
+      };
+      break;
+    case 'Resource':
+      updated = {
+        ...initial,
+        kind: form.kind || initial.kind,
+        metadata: {
+          ...initial.metadata,
+          name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
+        },
+        spec: {
+          ...initial.spec,
+          owner: form.owner || initial.spec.owner || undefined,
+          type: form.entityType?.length
+            ? form.entityType
+            : initial.spec.entityType || undefined,
+          system: form.system?.length
+            ? form.system
+            : initial.spec.system || undefined,
+          dependencyof: form.dependencyof?.length
+            ? form.dependencyof
+            : initial.spec.dependencyof || undefined,
+        },
+      };
+      break;
+
     default:
       updated = {
         ...initial,
@@ -100,6 +148,7 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          tags: form?.tags || initial.metadata?.tags || undefined,
         },
         spec: {
           ...initial.spec,

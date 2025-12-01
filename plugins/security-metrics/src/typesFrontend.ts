@@ -46,8 +46,15 @@ export type Repository = {
   averageTimeToSolveVulnerabilityDays?: number;
 };
 
+export type VulnerabilityIdInfo = {
+  type: string;
+  id: string;
+  url?: string;
+};
+
 export type Vulnerability = {
   vulnerabilityId: string;
+  vulnerabilityIdInfo: VulnerabilityIdInfo[];
   severity: Severity;
   scanners: Scanner[];
   summary: string;
@@ -167,3 +174,5 @@ export type ClusterSummary = {
 
 export type NamespaceMap = Map<string, Vulnerability[]>;
 export type ClusterMap = Map<string, NamespaceMap>;
+
+export type FilterEnum = 'all' | 'starred';

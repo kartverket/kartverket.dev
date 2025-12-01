@@ -57,7 +57,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
             <TableCell>
               <Box display="flex" alignItems="center" gap={1}>
                 MTTH
-                <Tooltip title="Mean time to handle: gjennomsnittlig antall dager det tar å håndtere en sårbarhet (løse/akseptere risiko) etter at den ble oppdaget">
+                <Tooltip title="Mean time to handle: gjennomsnittlig antall dager siden en sårbarhet ble oppdaget, fram til den blir løst eller akseptert – eller til dagens dato hvis den fortsatt er åpen">
                   <InfoIcon fontSize="small" />
                 </Tooltip>
               </Box>

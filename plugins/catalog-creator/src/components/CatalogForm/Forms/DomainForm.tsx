@@ -1,42 +1,29 @@
 import { Flex } from '@backstage/ui';
 import { Control, Controller } from 'react-hook-form';
-import { EntityErrors, SystemTypes } from '../../../types/types';
+import { DomainTypes, EntityErrors } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
-import { Entity } from '@backstage/catalog-model';
-import { useAsync } from 'react-use';
-import { useApi } from '@backstage/core-plugin-api';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { FieldHeader } from '../FieldHeader';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
+import { Entity } from '@backstage/catalog-model';
 import { TagField } from '../TagField';
 
-export type SystemFormProps = {
+export type DomainFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
-  errors: EntityErrors<'System'>;
+  errors: EntityErrors<'Resource'>;
   groups: Entity[];
 };
 
-export const SystemForm = ({
+export const DomainForm = ({
   index,
   control,
   errors,
   groups,
-}: SystemFormProps) => {
-  const catalogApi = useApi(catalogApiRef);
+}: DomainFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
-
-  const fetchDomains = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'Domain',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
 
   return (
     <Flex direction="column" justify="start">
@@ -76,20 +63,22 @@ export const SystemForm = ({
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
-            fieldName={t('form.systemForm.type.fieldName')}
-            tooltipText={t('form.systemForm.type.tooltipText')}
+            fieldName={t('form.domainForm.type.fieldname')}
+            tooltipText={t('form.domainForm.type.tooltipText')}
+            required
           />
           <Controller
-            name={`entities.${index}.systemType`}
+            name={`entities.${index}.entityType`}
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <AutocompleteField
-                value={value}
-                onBlur={onBlur}
+                freeSolo
                 onChange={onChange}
-                options={Object.values(SystemTypes)}
-                placeholder={t('form.systemForm.type.placeholder')}
+                onBlur={onBlur}
+                value={value}
+                placeholder={t('form.domainForm.type.placeholder')}
                 type="select"
+                options={Object.values(DomainTypes)}
               />
             )}
           />
@@ -107,38 +96,6 @@ export const SystemForm = ({
           </span>
         </div>
       </Flex>
-      <div>
-        <FieldHeader
-          fieldName={t('form.systemForm.domain.fieldName')}
-          tooltipText={t('form.systemForm.domain.tooltipText')}
-        />
-        <Controller
-          name={`entities.${index}.domain`}
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <AutocompleteField
-              onChange={onChange}
-              onBlur={onBlur}
-              value={value}
-              entities={fetchDomains.value || []}
-              type="search"
-              placeholder={t('form.systemForm.domain.placeholder')}
-            />
-          )}
-        />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.domain ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.domain?.message
-            ? t(errors?.domain?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
-      </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
   );

@@ -34,7 +34,11 @@ export const catalogCreatorMessages = {
         'A reference to the owner (commonly a team), that bears ultimate responsibility for the entity, and has the authority and capability to develop and maintain it',
       placeholder: 'Select an owner',
     },
-
+    tags: {
+      fieldName: 'Tags',
+      tooltipText: 'A list of custom tags used to classify catalog entities.',
+      placeholder: 'Add tags',
+    },
     addEntity: {
       title: 'Add Entity',
       label: 'Select kind',
@@ -74,7 +78,7 @@ export const catalogCreatorMessages = {
         fieldName: 'Depends on',
         tooltipText:
           'References to other components and/or resources that the component depends on.',
-        placeholder: 'Select or add resource or component...',
+        placeholder: 'Select resource or component...',
       },
     },
 
@@ -96,9 +100,13 @@ export const catalogCreatorMessages = {
       },
 
       definition: {
-        fieldName: 'API Definition (path or URL)',
+        fieldName: 'API Definition',
         tooltipText:
-          'Relative path to the API definition file (OpenAPI, AsyncAPI, GraphQL, or gRPC). Required for new APIs. If editing an existing API this field may already be populated, check the existing catalog-info.yaml',
+          'GitHub URL or relative path from repository root to the API definition file (OpenAPI, AsyncAPI, GraphQL, or gRPC). An example of a relative path could be /api-schema.json.',
+      },
+
+      inlineDefinitionInfo: {
+        text: 'Inline API definition detected. The GitHub URL or path from the repository root will replace the existing inline content.',
       },
     },
 
@@ -112,6 +120,33 @@ export const catalogCreatorMessages = {
         fieldName: 'Domain',
         tooltipText: 'Reference to the domain which the system i s a part of.',
         placeholder: 'Select domain',
+      },
+    },
+
+    resourceForm: {
+      type: {
+        fieldName: 'Type',
+        tooltipText: 'The type of the resource.',
+        placeholder: 'Select or add type',
+      },
+      dependencyof: {
+        fieldName: 'Dependency of',
+        tooltipText:
+          'Which components or systems that depends on this resource',
+        placeholder: 'Select components/resources',
+      },
+      system: {
+        fieldName: 'System',
+        tooltipText: 'Reference to the system which the resource belongs to',
+        placeholder: 'Select system',
+      },
+    },
+
+    domainForm: {
+      type: {
+        fieldname: 'Type',
+        tooltipText: 'The type of the domain',
+        placeholder: 'Select or add type',
       },
     },
     errors: {
@@ -134,6 +169,12 @@ export const catalogCreatorMessages = {
       definitionNoSpace: 'Definition URL cannot contain space',
 
       domainNoSpace: 'Domain cannot contain space',
+
+      noDefinition: 'Add a relative path or URL to the API definition.',
+
+      tagNoSpace: 'Tags cannot contain space',
+      tagRegEx:
+        'Tags can only contain alphanumerical characters and :,+, or # seperated by -, and they cannot be longer than 63 characters.',
     },
 
     infoAlerts: {
@@ -148,6 +189,8 @@ export const catalogCreatorMessages = {
       PRExists: 'There already exists a pull request: ',
       couldNotCreatePR:
         'Could not create a pull request. Make sure the URL is a github repo and that a pull request does not already exist.',
+      analyzeLocationError:
+        'Failed to identify or parse the file. Provide a URL to either the repository root or a full file path to a valid catalog-info.yaml file.',
     },
   },
   infoBox: {
@@ -219,6 +262,11 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'En refereanse til eieren (ofte et team) som har ansvaret for entiteten og har autorisasjon og kunnskapen til å utvikle og vedlikeholdet den.',
           'form.owner.placeholder': 'Velg en eier',
 
+          'form.tags.fieldName': 'Tags',
+          'form.tags.tooltipText':
+            'En liste over tags (merkelapper) som kan brukes til å klassifisere entiteter i systemkatalogen.',
+          'form.tags.placeholder': 'Legg til tags',
+
           'form.addEntity.title': 'Legg til entitet',
           'form.addEntity.label': 'Velg entitet',
           'form.addEntity.buttonText': 'Legg til entitet',
@@ -255,7 +303,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.dependsOn.tooltipText':
             'Referanse til komponenten eller ressurser som komponenten er avhengig av. En komponent eller ressurs som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
           'form.componentForm.dependsOn.placeholder':
-            'Velg eller legg til komponenter eller ressurser...',
+            'Velg komponenter eller ressurser...',
 
           'form.APIForm.lifecycle.fieldName': 'Livssyklus',
           'form.APIForm.lifecycle.tooltipText': 'Livssyklusstadiet til et API.',
@@ -269,19 +317,38 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.APIForm.system.tooltipText':
             'Referanse til systemet som APIet tilhører.',
           'form.APIForm.system.placeholder': 'Velg system',
-
           'form.APIForm.definition.fieldName': 'Definisjon',
           'form.APIForm.definition.tooltipText':
-            'Relativ filsti til API definisjonfilen (openAPI AsyncAPI, GraphQL, eller gRPC). Obligatorisk for nye APIer. Hvis du redigerer et eksisterende API kan det hende at dette feltet er fylt ut med tekst som ikke vises. Se catalog-info.yaml filen med API definisjonen.',
+            'GitHub URL eller relativ filsti til API definisjonfilen (openAPI AsyncAPI, GraphQL, eller gRPC). Et eksempel på en relativ filsti kan være /api-schema.json.',
+          'form.APIForm.inlineDefinitionInfo.text':
+            'Inline API-definisjon oppdaget. Denne GitHub-URL-en eller filstien fra rot i repoet vil erstatte det eksisterende inline-innholdet.',
 
           'form.systemForm.type.fieldName': 'Type',
           'form.systemForm.type.tooltipText': 'Systemets type.',
           'form.systemForm.type.placeholder': 'Velg system',
-
           'form.systemForm.domain.fieldName': 'Domene',
           'form.systemForm.domain.tooltipText':
             'Referanse til domenet som systemet tilhører.',
           'form.systemForm.domain.placeholder': 'Velg domene',
+
+          'form.resourceForm.type.fieldName': 'Type',
+          'form.resourceForm.type.tooltipText': 'Typen til ressursen',
+          'form.resourceForm.type.placeholder': 'Velg eller skriv inn type',
+
+          'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
+          'form.resourceForm.dependencyof.tooltipText':
+            'Hvilke komponenter eller systemer som er avhengige av denne ressursen',
+          'form.resourceForm.dependencyof.placeholder':
+            'Velg komponenter/ressurser',
+
+          'form.resourceForm.system.fieldName': 'System',
+          'form.resourceForm.system.tooltipText':
+            'Referanse til systemet som ressursen tilhører',
+          'form.resourceForm.system.placeholder': 'Velg system',
+
+          'form.domainForm.type.fieldname': 'Type',
+          'form.domainForm.type.tooltipText': 'Typen til domenet.',
+          'form.domainForm.type.placeholder': 'Velg type',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',
@@ -296,6 +363,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Kunne ikke sjekke om PR finnes fra før for GitHub-kodelager med URL: ',
           'form.knownErrorAlerts.couldNotCreatePR':
             'Kunne ikke lage en pull request. Sjekk at URL er et GitHub-kodelager og at det ikke finnes en eksisterende pull request.',
+          'form.knownErrorAlerts.analyzeLocationError':
+            'Kunne ikke identifisere eller parse filen. Oppgi en URL som enten peker til rotmappen i repositoriet eller en full filsti til en gyldig catalog-info.yaml-fil.',
 
           'form.errors.noName': 'Legg til navn',
           'form.errors.nameNoSpace': 'Navn kan ikke inneholde mellomrom',
@@ -317,6 +386,13 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Avhengigheter kan ikke inneholde mellomrom',
           'form.errors.definitionNoSpace': 'URL kan ikke inneholde mellomrom',
           'form.errors.domainNoSpace': 'Domene kan ikke inneholde mellomrom',
+
+          'form.errors.noDefinition':
+            'Legg til en relativ filsti eller URL til API-definisjonen',
+
+          'form.errors.tagNoSpace': 'Tags kan ikke inneholde mellomrom',
+          'form.errors.tagRegEx':
+            'Tags kan kun inneholde alfanumeriske tegn og :, + eller # separert med -, og de kan ikke være lengre enn 63 tegn.',
 
           'infoBox.title': 'Rediger eller lag catalog-info.yaml',
           'infoBox.p1':

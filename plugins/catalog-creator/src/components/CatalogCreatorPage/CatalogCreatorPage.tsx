@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Box, Card, Flex } from '@backstage/ui';
-import { Page, Content, SupportButton } from '@backstage/core-components';
+import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
 import { useTheme } from '@material-ui/core/styles';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -19,10 +19,12 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export interface CatalogCreatorPageProps {
-  gitUrl?: string;
+  originLocation?: string;
 }
 
-export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
+export const CatalogCreatorPage = ({
+  originLocation,
+}: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
 
@@ -49,10 +51,10 @@ export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   useEffect(() => {
-    if (gitUrl && !url) {
-      setUrl(gitUrl);
+    if (originLocation && !url) {
+      setUrl(originLocation);
     }
-  }, [gitUrl, url, setUrl]);
+  }, [originLocation, url, setUrl]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,78 +77,77 @@ export const CatalogCreatorPage = ({ gitUrl }: CatalogCreatorPageProps) => {
   };
 
   return (
-    <Page themeId="tool">
-      <Content>
-        <Flex justify="between" align="center">
-          <h1>{t('contentHeader.title')}</h1>
-          <SupportButton />
-        </Flex>
-        <Flex>
-          <Box flex-shrink="0" width="600px">
-            {repoState.value?.severity === 'success' ? (
-              <SuccessMessage
-                prUrl={repoState.value.prUrl}
-                onReset={handleResetForm}
+    <Content>
+      <Flex justify="between" align="center">
+        <h1>{t('contentHeader.title')}</h1>
+        <SupportButton />
+      </Flex>
+      <Flex>
+        <Box flex-shrink="0" width="600px">
+          {repoState.value?.severity === 'success' ? (
+            <SuccessMessage
+              prUrl={repoState.value.prUrl}
+              onReset={handleResetForm}
+            />
+          ) : (
+            <Card style={{ position: 'relative', overflow: 'visible' }}>
+              <RepositoryForm
+                url={originLocation || url}
+                onUrlChange={setUrl}
+                onSubmit={handleFormSubmit}
+                disableTextField={originLocation !== undefined}
               />
-            ) : (
-              <Card style={{ position: 'relative', overflow: 'visible' }}>
-                <RepositoryForm
-                  url={gitUrl || url}
-                  onUrlChange={setUrl}
-                  onSubmit={handleFormSubmit}
-                />
-                <StatusMessages
-                  hasExistingCatalogFile={hasExistingCatalogFile}
-                  shouldCreateNewFile={shouldCreateNewFile}
-                  hasError={hasError}
-                  isLoading={isLoading}
-                  repoStateError={Boolean(repoState.error)}
-                  showForm={showForm}
-                  existingPrUrl={repoInfo.value?.existingPrUrl}
-                  analysisError={analysisResult.error}
-                  repoStateErrorMessage={repoState.error?.message}
-                  repoInfoError={repoInfo.error}
-                  catalogInfoError={catalogInfoState.error}
-                />
-                {isLoading ? (
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      padding: '1.5rem',
-                      minHeight: '10rem',
-                    }}
-                  >
-                    <CircularProgress />
-                  </div>
-                ) : (
-                  <>
-                    {shouldShowForm && (
-                      <div style={{ position: 'relative' }}>
-                        {/* Submission Loading Overlay */}
-                        {repoState.loading && (
-                          <LoadingOverlay
-                            isDarkTheme={theme.palette.type === 'dark'}
-                          />
-                        )}
-                        <CatalogForm
-                          onSubmit={handleCatalogFormSubmit}
-                          currentYaml={catalogInfoState.value!}
-                          defaultName={defaultName}
+              <StatusMessages
+                hasExistingCatalogFile={hasExistingCatalogFile}
+                shouldCreateNewFile={shouldCreateNewFile}
+                hasError={hasError}
+                isLoading={isLoading}
+                repoStateError={Boolean(repoState.error)}
+                showForm={showForm}
+                existingPrUrl={repoInfo.value?.existingPrUrl}
+                analysisError={analysisResult.error}
+                repoStateErrorMessage={repoState.error?.message}
+                repoInfoError={repoInfo.error}
+                catalogInfoError={catalogInfoState.error}
+              />
+              {isLoading ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '1.5rem',
+                    minHeight: '10rem',
+                  }}
+                >
+                  <CircularProgress />
+                </div>
+              ) : (
+                <>
+                  {shouldShowForm && (
+                    <div style={{ position: 'relative' }}>
+                      {/* Submission Loading Overlay */}
+                      {repoState.loading && (
+                        <LoadingOverlay
+                          isDarkTheme={theme.palette.type === 'dark'}
                         />
-                      </div>
-                    )}
-                  </>
-                )}
-              </Card>
-            )}
-          </Box>
-          <Box flex-shrink="1" width="500px">
-            <EditOrGenerateCatalogInfoBox />
-          </Box>
-        </Flex>
-      </Content>
-    </Page>
+                      )}
+                      <CatalogForm
+                        onSubmit={handleCatalogFormSubmit}
+                        currentYaml={catalogInfoState.value!}
+                        defaultName={defaultName}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </Card>
+          )}
+        </Box>
+        <Box flex-shrink="1" width="500px">
+          <EditOrGenerateCatalogInfoBox />
+        </Box>
+      </Flex>
+    </Content>
   );
 };
