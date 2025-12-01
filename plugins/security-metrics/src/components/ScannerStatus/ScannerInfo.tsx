@@ -1,8 +1,9 @@
-import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
 import type { Scanner } from '../../typesFrontend';
+import { BASIC_COLORS } from '../../colors';
+import Box from '@mui/material/Box';
 
 const scannerTooltips: Record<string, string> = {
   Dependabot:
@@ -27,7 +28,7 @@ export const ScannerInfo = ({ name }: Props) => (
           position: 'absolute',
           top: 0,
           right: -16,
-          fontSize: 12,
+          fontSize: 13,
           color: BASIC_COLORS.LIGHT_GREY,
         }}
       />
