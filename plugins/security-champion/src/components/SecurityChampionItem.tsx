@@ -12,15 +12,20 @@ import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
+import { UserEntity } from '@backstage/catalog-model';
 
-import style from './securityCard.module.css';
-
-const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
+const KVSecurityChampionItem = ({
+  champion,
+  selectedUser,
+}: {
+  champion: SecurityChamp;
+  selectedUser?: UserEntity | null;
+}) => {
   const { user, loading, error } = useUserProfile(
     champion.securityChampionEmail!,
   );
 
-  if (loading && !user)
+  if (loading && !selectedUser)
     return (
       <Box sx={{ display: 'flex' }}>
         <CircularProgress />
@@ -32,13 +37,23 @@ const KVSecurityChampionItem = ({ champion }: { champion: SecurityChamp }) => {
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar src={user?.spec.profile?.picture} />
+        <Avatar
+          src={
+            user?.spec.profile?.picture || selectedUser?.spec.profile?.picture
+          }
+        />
       </ListItemAvatar>
       <ListItemText
         primary={
-          user?.spec?.profile?.displayName || champion.securityChampionEmail
+          user?.spec?.profile?.displayName ||
+          selectedUser?.spec?.profile?.displayName ||
+          champion.securityChampionEmail
         }
-        secondary={user?.spec.profile?.email || 'User not in catalog'}
+        secondary={
+          user?.spec.profile?.email ||
+          selectedUser?.spec.profile?.email ||
+          'User not in catalog'
+        }
       />
     </ListItem>
   );
@@ -61,15 +76,20 @@ const UnknownSecurityChampionItem = ({
 export const SecurityChampionItem = ({
   champion,
   repositories,
+  selectedUser,
 }: {
   champion: SecurityChamp;
   repositories?: string[];
+  selectedUser?: UserEntity | null;
 }) => {
   return (
     <ListItem>
       <Stack className={style.item}>
         {champion.securityChampionEmail && (
-          <KVSecurityChampionItem champion={champion} />
+          <KVSecurityChampionItem
+            champion={champion}
+            selectedUser={selectedUser}
+          />
         )}
         {!champion.securityChampionEmail && (
           <UnknownSecurityChampionItem champion={champion} />
