@@ -1,5 +1,5 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldError, Merge } from 'react-hook-form';
 import { EntityErrors, SystemTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
@@ -12,6 +12,8 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
+
+import style from '../../../catalog.module.css';
 
 export type SystemFormProps = {
   index: number;
@@ -28,6 +30,15 @@ export const SystemForm = ({
 }: SystemFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const errorText = (text: FieldError | undefined | Merge<FieldError, (FieldError | undefined)[]>) => {
+  return(
+      <span className={`${style.errorText} ${text? '' : style.hidden}`}>
+        {text?.message
+          ? t(text?.message as keyof typeof t)
+          : '\u00A0'}
+      </span>
+  )};
 
   const fetchDomains = useAsync(async () => {
     const results = await catalogApi.getEntities({
@@ -60,18 +71,8 @@ export const SystemForm = ({
             />
           )}
         />
+        {errorText(errors?.owner)}
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.owner ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.owner?.message
-            ? t(errors.owner?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
@@ -93,18 +94,8 @@ export const SystemForm = ({
               />
             )}
           />
+          {errorText(errors?.entityType)}
 
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.entityType ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.entityType?.message
-              ? t(errors?.entityType?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
         </div>
       </Flex>
       <div>
@@ -126,18 +117,8 @@ export const SystemForm = ({
             />
           )}
         />
+        {errorText(errors?.domain)}
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.domain ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.domain?.message
-            ? t(errors?.domain?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>

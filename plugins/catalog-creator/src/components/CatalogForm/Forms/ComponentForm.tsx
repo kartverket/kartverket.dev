@@ -1,5 +1,5 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldError, Merge } from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ComponentTypes,
@@ -20,6 +20,8 @@ import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
 
+import style from '../../../catalog.module.css';
+
 export type ComponentFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
@@ -39,6 +41,17 @@ export const ComponentForm = ({
 }: ComponentFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const errorText = (text: FieldError | undefined | Merge<FieldError, (FieldError | undefined)[]>) => {
+    return(
+        <span className={`${style.errorText} ${text? '' : style.hidden}`}>
+          {text?.message
+            ? t(text?.message as keyof typeof t)
+            : '\u00A0'}
+        </span>
+    )};
+
+
 
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
@@ -84,17 +97,7 @@ export const ComponentForm = ({
           )}
         />
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.owner ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.owner?.message
-            ? t(errors.owner?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.owner)}
       </div>
       <Flex>
         <div style={{ width: '50%' }}>
@@ -118,17 +121,7 @@ export const ComponentForm = ({
             )}
           />
 
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.lifecycle ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.lifecycle?.message
-              ? t(errors?.lifecycle?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
+          {errorText(errors?.lifecycle)}
         </div>
 
         <div style={{ flexGrow: 1, width: '50%' }}>
@@ -152,17 +145,8 @@ export const ComponentForm = ({
             )}
           />
 
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.entityType ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.entityType?.message
-              ? t(errors?.entityType?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
+          {errorText(errors?.entityType)}
+
         </div>
       </Flex>
       <div>
@@ -184,18 +168,8 @@ export const ComponentForm = ({
             />
           )}
         />
+        {errorText(errors?.system)}
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.system ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.system?.message
-            ? t(errors?.system?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <div>
         <FieldHeader
@@ -265,17 +239,8 @@ export const ComponentForm = ({
           )}
         />
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.providesApis ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.providesApis?.message
-            ? t(errors?.providesApis?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.providesApis)}
+
       </div>
       <div>
         <FieldHeader
@@ -328,18 +293,9 @@ export const ComponentForm = ({
             />
           )}
         />
+      
+        {errorText(errors?.consumesApis)}
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.consumesApis ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.consumesApis?.message
-            ? t(errors?.consumesApis?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <div>
         <FieldHeader
@@ -404,18 +360,8 @@ export const ComponentForm = ({
             />
           )}
         />
+      {errorText(errors?.dependsOn)}
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.dependsOn ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.dependsOn?.message
-            ? t(errors?.dependsOn?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <TagField
         index={index}
