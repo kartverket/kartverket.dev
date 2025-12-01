@@ -7,12 +7,12 @@ import Box from '@mui/material/Box';
 
 const scannerTooltips: Record<string, string> = {
   Dependabot:
-    'Scanner kodeavhengigheter for kjente sårbarheter. Bør være aktivert på alle repoer som ikke er av typen documentation.',
-  CodeQL: 'Analyserer selve kildekoden for konfigurasjonsfeil.',
+    'Scanner kodeavhengigheter for kjente sårbarheter. Bør være aktivert på alle repoer som ikke er av typen "documentation".',
+  CodeQL: 'Analyserer selve kildekoden for sikkerhets- og konfigurasjonsfeil.',
   Pharos:
     'Scanner docker images og infrastruktur for sårbarheter. Krever at repoet bygger en container.',
   Sysdig:
-    'Scanner tjenester som kjører på SKIP for sårbarheter. Ikke relevant dersom man ikke kan/skal kjøre på SKIP.',
+    'Scanner tjenester som kjører på SKIP for sårbarheter. Ikke relevant dersom koden ikke kan/skal kjøre på SKIP.',
 };
 
 type Props = {
