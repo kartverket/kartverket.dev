@@ -60,10 +60,9 @@ export const useSetSecurityChampionMutation = () => {
           const updated = [...old];
           updated[existingIndex] = newChampion;
           return updated;
-        } 
-          // Add new champion
-          return [...old, newChampion];
-        
+        }
+        // Add new champion
+        return [...old, newChampion];
       });
 
       // Return context for rollback
