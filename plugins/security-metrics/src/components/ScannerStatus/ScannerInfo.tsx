@@ -19,10 +19,18 @@ type Props = {
 };
 
 export const ScannerInfo = ({ name }: Props) => (
-  <Stack direction="row" alignItems="center" spacing={0.75}>
-    <Tooltip title={scannerTooltips[name]}>
-      <InfoIcon fontSize="small" sx={{ color: 'text.secondary' }} />
-    </Tooltip>
+  <Box sx={{ position: 'relative', display: 'inline-flex' }}>
     <Typography>{name}</Typography>
-  </Stack>
+    <Tooltip title={scannerTooltips[name]}>
+      <InfoIcon
+        sx={{
+          position: 'absolute',
+          top: 0,
+          right: -16,
+          fontSize: 12,
+          color: BASIC_COLORS.LIGHT_GREY,
+        }}
+      />
+    </Tooltip>
+  </Box>
 );
