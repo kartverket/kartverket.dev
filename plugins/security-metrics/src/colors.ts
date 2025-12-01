@@ -34,3 +34,5 @@ export const BASIC_COLORS = {
   PRIMARY_DARK: blue[900],
   SUCCESS: '#2e7d32',
 };
+
+export const STAR_COLOR = '#fbc02d';

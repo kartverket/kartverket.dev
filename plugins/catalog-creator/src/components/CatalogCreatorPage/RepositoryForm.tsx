@@ -6,12 +6,14 @@ interface RepositoryFormProps {
   url: string;
   onUrlChange: (url: string) => void;
   onSubmit: (e: React.FormEvent) => void;
+  disableTextField: boolean;
 }
 
 export const RepositoryForm = ({
   url,
   onUrlChange,
   onSubmit,
+  disableTextField,
 }: RepositoryFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -27,9 +29,10 @@ export const RepositoryForm = ({
               name="url"
               value={url}
               onChange={onUrlChange}
+              isDisabled={disableTextField}
             />
           </div>
-          <Button type="submit"> {t('repositorySearch.fetchButton')}</Button>
+          <Button type="submit"> {t('repositorySearch.fetchButton')} </Button>
         </Flex>
       </Box>
     </form>
