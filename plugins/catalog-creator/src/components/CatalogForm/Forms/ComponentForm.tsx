@@ -1,17 +1,18 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ComponentTypes,
   EntityErrors,
-  Kind,
 } from '../../../types/types';
-import { apiSchema, formSchema } from '../../../schemas/formSchema';
+import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
-import { useAsync } from 'react-use';
-import { useApi } from '@backstage/core-plugin-api';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { FieldHeader } from '../FieldHeader';
@@ -19,47 +20,83 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
+import { useFetchEntities } from '../../../hooks/useFetchEntities';
+import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 
 export type ComponentFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
+  setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Component'>;
-  appendHandler: (entityKindToAdd: Kind, name?: string) => void;
   systems: Entity[];
   groups: Entity[];
+  componentsAndResources: Entity[];
 };
 
 export const ComponentForm = ({
   index,
   control,
+  setValue,
   errors,
-  appendHandler,
   systems,
   groups,
+  componentsAndResources,
 }: ComponentFormProps) => {
-  const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
   };
 
-  const fetchAPIs = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'API',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
+  const fetchAPIs = useFetchEntities(control, 'API');
 
-  const fetchComponentsAndResources = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: [{ kind: ['Component', 'Resource'] }],
-    });
+  const systemVal = useWatch({
+    control,
+    name: `entities.${index}.system`,
+  });
 
-    return results.items as Entity[];
-  }, [catalogApi]);
+  const providesApisVal = useWatch({
+    control,
+    name: `entities.${index}.providesApis`,
+  });
+
+  const consumesApisVal = useWatch({
+    control,
+    name: `entities.${index}.consumesApis`,
+  });
+
+  const dependsOnVal = useWatch({
+    control,
+    name: `entities.${index}.dependsOn`,
+  });
+
+  useUpdateDependentFormFields(
+    systems,
+    typeof systemVal === 'string' ? [systemVal] : undefined,
+    `entities.${index}.system`,
+    setValue,
+  );
+
+  useUpdateDependentFormFields(
+    fetchAPIs.value,
+    providesApisVal,
+    `entities.${index}.providesApis`,
+    setValue,
+  );
+
+  useUpdateDependentFormFields(
+    fetchAPIs.value,
+    consumesApisVal,
+    `entities.${index}.consumesApis`,
+    setValue,
+  );
+
+  useUpdateDependentFormFields(
+    componentsAndResources,
+    dependsOnVal,
+    `entities.${index}.dependsOn`,
+    setValue,
+  );
 
   return (
     <Flex direction="column" justify="start">
@@ -208,28 +245,20 @@ export const ComponentForm = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
               multiple
-              freeSolo
-              value={value || []}
+              value={
+                (value || [])
+                  .map(str => {
+                    return (fetchAPIs.value || []).find(entity => {
+                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                      return entityStr === str;
+                    });
+                  })
+                  .filter(Boolean) as Entity[]
+              }
               onBlur={onBlur}
               onChange={(_, newValue) => {
                 const names = newValue.map(item => {
-                  if (typeof item === 'string') {
-                    if (
-                      !fetchAPIs.value?.some(
-                        api => api.metadata.name === item,
-                      ) &&
-                      !value?.some(oldInput => oldInput === item)
-                    ) {
-                      const result = apiSchema
-                        .pick({ name: true })
-                        .safeParse({ name: item });
-                      if (result.success) {
-                        appendHandler('API', item);
-                      }
-                    }
-                    return item;
-                  }
-                  return item.metadata.name;
+                  return formatEntityString(item);
                 });
                 onChange(names);
               }}
@@ -288,13 +317,21 @@ export const ComponentForm = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
               multiple
-              freeSolo
-              value={value || []}
+              value={
+                (value || [])
+                  .map(str => {
+                    return (fetchAPIs.value || []).find(entity => {
+                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                      return entityStr === str;
+                    });
+                  })
+                  .filter(Boolean) as Entity[]
+              }
               onBlur={onBlur}
               onChange={(_, newValue) => {
-                const names = newValue.map(item =>
-                  typeof item === 'string' ? item : item.metadata.name,
-                );
+                const names = newValue.map(item => {
+                  return formatEntityString(item);
+                });
                 onChange(names);
               }}
               options={fetchAPIs.value || []}
@@ -350,58 +387,58 @@ export const ComponentForm = ({
           name={`entities.${index}.dependsOn`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Autocomplete
-              multiple
-              value={
-                (value || [])
-                  .map(str => {
-                    return (fetchComponentsAndResources.value || []).find(
-                      entity => {
+            <>
+              <Autocomplete
+                multiple
+                value={
+                  (value || [])
+                    .map(str => {
+                      return (componentsAndResources || []).find(entity => {
                         const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
                         return entityStr === str;
+                      });
+                    })
+                    .filter(Boolean) as Entity[]
+                }
+                onBlur={onBlur}
+                onChange={(_, newValue) => {
+                  const names = newValue.map(item => {
+                    return formatEntityString(item);
+                  });
+                  onChange(names);
+                }}
+                options={componentsAndResources || []}
+                getOptionLabel={option => {
+                  return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
+                }}
+                isOptionEqualToValue={(option, selectedValue) => {
+                  const optionName = formatEntityString(option);
+                  const valueName = formatEntityString(selectedValue);
+                  return optionName === valueName;
+                }}
+                size="small"
+                sx={{
+                  '& .MuiInputBase-input': {
+                    fontSize: 10,
+                    height: 1,
+                    padding: 1,
+                  },
+                }}
+                renderInput={params => (
+                  <MuiTextField
+                    {...params}
+                    placeholder={t('form.componentForm.dependsOn.placeholder')}
+                    InputProps={{
+                      ...params.InputProps,
+                      sx: {
+                        fontSize: '0.85rem',
+                        font: 'system-ui',
                       },
-                    );
-                  })
-                  .filter(Boolean) as Entity[]
-              }
-              onBlur={onBlur}
-              onChange={(_, newValue) => {
-                const names = newValue.map(item => {
-                  return formatEntityString(item);
-                });
-                onChange(names);
-              }}
-              options={fetchComponentsAndResources.value || []}
-              getOptionLabel={option => {
-                return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
-              }}
-              isOptionEqualToValue={(option, selectedValue) => {
-                const optionName = formatEntityString(option);
-                const valueName = formatEntityString(selectedValue);
-                return optionName === valueName;
-              }}
-              size="small"
-              sx={{
-                '& .MuiInputBase-input': {
-                  fontSize: 10,
-                  height: 1,
-                  padding: 1,
-                },
-              }}
-              renderInput={params => (
-                <MuiTextField
-                  {...params}
-                  placeholder={t('form.componentForm.dependsOn.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
-                  }}
-                />
-              )}
-            />
+                    }}
+                  />
+                )}
+              />
+            </>
           )}
         />
 

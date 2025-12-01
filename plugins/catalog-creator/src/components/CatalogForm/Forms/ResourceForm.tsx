@@ -1,5 +1,10 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
 import { EntityErrors, ResourceTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
@@ -9,40 +14,46 @@ import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
-import { useAsync } from 'react-use';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { useApi } from '@backstage/core-plugin-api';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
+import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 
 export type ResourceFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
+  setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Resource'>;
   systems: Entity[];
   groups: Entity[];
+  componentsAndResources: Entity[];
 };
 
 export const ResourceForm = ({
   index,
   control,
+  setValue,
   errors,
   systems,
   groups,
+  componentsAndResources,
 }: ResourceFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
-  const catalogApi = useApi(catalogApiRef);
 
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
   };
 
-  const fetchComponentsAndResources = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: [{ kind: 'Component' }, { kind: 'Resource' }],
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
+  const dependencyOfVal = useWatch({
+    control,
+    name: `entities.${index}.dependencyOf`,
+  });
+
+  useUpdateDependentFormFields(
+    componentsAndResources,
+    dependencyOfVal,
+    `entities.${index}.dependencyOf`,
+    setValue,
+  );
 
   return (
     <Flex direction="column" justify="start">
@@ -153,7 +164,7 @@ export const ResourceForm = ({
           tooltipText={t('form.resourceForm.dependencyof.tooltipText')}
         />
         <Controller
-          name={`entities.${index}.dependencyof`}
+          name={`entities.${index}.dependencyOf`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
@@ -161,12 +172,10 @@ export const ResourceForm = ({
               value={
                 (value || [])
                   .map(str => {
-                    return (fetchComponentsAndResources.value || []).find(
-                      entity => {
-                        const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
-                        return entityStr === str;
-                      },
-                    );
+                    return (componentsAndResources || []).find(entity => {
+                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                      return entityStr === str;
+                    });
                   })
                   .filter(Boolean) as Entity[]
               }
@@ -177,7 +186,7 @@ export const ResourceForm = ({
                 });
                 onChange(names);
               }}
-              options={fetchComponentsAndResources.value || []}
+              options={componentsAndResources || []}
               getOptionLabel={option => {
                 return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
               }}
@@ -215,11 +224,11 @@ export const ResourceForm = ({
           style={{
             color: 'red',
             fontSize: '0.75rem',
-            visibility: errors?.dependencyof ? 'visible' : 'hidden',
+            visibility: errors?.dependencyOf ? 'visible' : 'hidden',
           }}
         >
-          {errors?.dependencyof?.message
-            ? t(errors?.dependencyof?.message as keyof typeof t)
+          {errors?.dependencyOf?.message
+            ? t(errors?.dependencyOf?.message as keyof typeof t)
             : '\u00A0'}
         </span>
       </div>

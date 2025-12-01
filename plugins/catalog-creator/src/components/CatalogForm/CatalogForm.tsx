@@ -31,6 +31,7 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { ResourceForm } from './Forms/ResourceForm';
 import { DomainForm } from './Forms/DomainForm';
+import { useFetchEntities } from '../../hooks/useFetchEntities';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -70,15 +71,6 @@ export const CatalogForm = ({
     return results.items as Entity[];
   }, [catalogApi]);
 
-  const fetchSystems = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'system',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
-
   const isKind = (input_kind: string): input_kind is Kind => {
     return Object.values(Kinds).includes(input_kind as Kind);
   };
@@ -98,6 +90,7 @@ export const CatalogForm = ({
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       entities: currentYaml
@@ -143,6 +136,11 @@ export const CatalogForm = ({
     keyName: 'key',
     control,
   });
+
+  const fetchSystems = useFetchEntities(control, Kinds.System);
+  const fetchComponents = useFetchEntities(control, Kinds.Component);
+  const fetchResources = useFetchEntities(control, Kinds.Resource);
+  const fetchDomains = useFetchEntities(control, Kinds.Domain);
 
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
@@ -214,9 +212,13 @@ export const CatalogForm = ({
             index={index}
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'Component'>}
-            appendHandler={appendHandler}
+            setValue={setValue}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}
+            componentsAndResources={[
+              ...fetchComponents.value,
+              ...fetchResources.value,
+            ]}
           />
         );
       case 'API':
@@ -236,8 +238,10 @@ export const CatalogForm = ({
           <SystemForm
             index={index}
             control={control}
+            setValue={setValue}
             errors={errors?.entities?.[index] as EntityErrors<'System'>}
             groups={fetchGroups.value || []}
+            domains={fetchDomains.value || []}
           />
         );
       case 'Resource':
@@ -245,9 +249,14 @@ export const CatalogForm = ({
           <ResourceForm
             index={index}
             control={control}
+            setValue={setValue}
             errors={errors?.entities?.[index] as EntityErrors<'Resource'>}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}
+            componentsAndResources={[
+              ...fetchComponents.value,
+              ...fetchResources.value,
+            ]}
           />
         );
       case 'Domain':
@@ -257,6 +266,7 @@ export const CatalogForm = ({
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
             groups={fetchGroups.value || []}
+            domains={fetchDomains.value || []}
           />
         );
       default:

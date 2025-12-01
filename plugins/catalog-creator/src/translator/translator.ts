@@ -111,6 +111,10 @@ export const updateYaml = (
           type: form.entityType?.length
             ? form.entityType
             : initial.spec.entityType || undefined,
+          subdomainOf:
+            form.subdomainOf?.length === 0
+              ? undefined
+              : form.subdomainOf || initial.spec.subdomainOf,
         },
       };
       break;
@@ -133,9 +137,9 @@ export const updateYaml = (
           system: form.system?.length
             ? form.system
             : initial.spec.system || undefined,
-          dependencyof: form.dependencyof?.length
-            ? form.dependencyof
-            : initial.spec.dependencyof || undefined,
+          dependencyOf: form.dependencyOf?.length
+            ? form.dependencyOf
+            : initial.spec.dependencyOf || undefined,
         },
       };
       break;

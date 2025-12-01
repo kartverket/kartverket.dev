@@ -66,13 +66,13 @@ export const catalogCreatorMessages = {
         fieldName: 'Provides APIs',
         tooltipText:
           'References to all the APIs the component may provide. This does not define the API-entity itself.',
-        placeholder: 'Select or add API...',
+        placeholder: 'Select API...',
       },
 
       consumesAPIs: {
         fieldName: 'Consumes APIs',
         tooltipText: 'APIs that are consumed by the component.',
-        placeholder: 'Select or add API...',
+        placeholder: 'Select API...',
       },
       dependsOn: {
         fieldName: 'Depends on',
@@ -147,6 +147,12 @@ export const catalogCreatorMessages = {
         fieldname: 'Type',
         tooltipText: 'The type of the domain',
         placeholder: 'Select or add type',
+      },
+      subdomainOf: {
+        fieldname: 'Subdomain',
+        tooltipText:
+          'A reference to other domains which is a part of this domain.',
+        placeholder: 'Select subdomains',
       },
     },
     errors: {
@@ -290,14 +296,12 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.providesAPIs.fieldName': 'Tilbyr APIer',
           'form.componentForm.providesAPIs.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.providesAPIs.placeholder':
-            'Velg eller legg til APIer...',
+          'form.componentForm.providesAPIs.placeholder': 'Velg APIer...',
 
           'form.componentForm.consumesAPIs.fieldName': 'Bruker APIer',
           'form.componentForm.consumesAPIs.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.consumesAPIs.placeholder':
-            'Velg eller legg til APIer...',
+          'form.componentForm.consumesAPIs.placeholder': 'Velg APIer...',
 
           'form.componentForm.dependsOn.fieldName': 'Avhenger av',
           'form.componentForm.dependsOn.tooltipText':
@@ -349,6 +353,11 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.domainForm.type.fieldname': 'Type',
           'form.domainForm.type.tooltipText': 'Typen til domenet.',
           'form.domainForm.type.placeholder': 'Velg type',
+
+          'form.domainForm.subdomainOf.fieldname': 'Subdomene',
+          'form.domainForm.subdomainOf.tooltipText':
+            'En eller flere referanser til underseksjoner av dette domenet.',
+          'form.domainForm.subdomainOf.placeholder': 'Velg subdomener',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',

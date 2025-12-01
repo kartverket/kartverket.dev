@@ -9,12 +9,15 @@ import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { Entity } from '@backstage/catalog-model';
 import { TagField } from '../TagField';
+import Autocomplete from '@mui/material/Autocomplete';
+import MuiTextField from '@mui/material/TextField';
 
 export type DomainFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
-  errors: EntityErrors<'Resource'>;
+  errors: EntityErrors<'Domain'>;
   groups: Entity[];
+  domains: Entity[];
 };
 
 export const DomainForm = ({
@@ -22,8 +25,13 @@ export const DomainForm = ({
   control,
   errors,
   groups,
+  domains,
 }: DomainFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const formatEntityString = (entity: Entity): string => {
+    return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+  };
 
   return (
     <Flex direction="column" justify="start">
@@ -96,6 +104,81 @@ export const DomainForm = ({
           </span>
         </div>
       </Flex>
+      <div>
+        <FieldHeader
+          fieldName={t('form.domainForm.subdomainOf.fieldname')}
+          tooltipText={t('form.domainForm.subdomainOf.tooltipText')}
+        />
+        <Controller
+          name={`entities.${index}.subdomainOf`}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Autocomplete
+              multiple
+              value={
+                (value || [])
+                  .map(str => {
+                    return (domains || []).find(entity => {
+                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                      return entityStr === str;
+                    });
+                  })
+                  .filter(Boolean) as Entity[]
+              }
+              onBlur={onBlur}
+              onChange={(_, newValue) => {
+                const names = newValue.map(item => {
+                  return formatEntityString(item);
+                });
+                onChange(names);
+              }}
+              options={domains || []}
+              getOptionLabel={option => {
+                return `${option.metadata.title ?? option.metadata.name}`;
+              }}
+              isOptionEqualToValue={(option, selectedValue) => {
+                const optionName = formatEntityString(option);
+                const valueName = formatEntityString(selectedValue);
+                return optionName === valueName;
+              }}
+              size="small"
+              sx={{
+                '& .MuiInputBase-input': {
+                  fontSize: 10,
+                  height: 1,
+                  padding: 1,
+                },
+              }}
+              renderInput={params => (
+                <MuiTextField
+                  {...params}
+                  placeholder={t('form.domainForm.subdomainOf.placeholder')}
+                  InputProps={{
+                    ...params.InputProps,
+                    sx: {
+                      fontSize: '0.85rem',
+                      font: 'system-ui',
+                    },
+                  }}
+                />
+              )}
+            />
+          )}
+        />
+
+        <span
+          style={{
+            color: 'red',
+            fontSize: '0.75rem',
+            visibility: errors?.subdomainOf ? 'visible' : 'hidden',
+          }}
+        >
+          {errors?.subdomainOf?.message
+            ? t(errors?.subdomainOf?.message as keyof typeof t)
+            : '\u00A0'}
+        </span>
+      </div>
+
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
   );

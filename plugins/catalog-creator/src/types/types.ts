@@ -107,6 +107,7 @@ export type RequiredYamlFields = {
         }
       | string;
     target?: string;
+    dependencyOf?: string[];
     [key: string]: any; // Allow additional spec fields
   };
 };
