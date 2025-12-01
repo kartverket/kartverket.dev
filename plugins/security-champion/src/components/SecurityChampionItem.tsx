@@ -9,7 +9,6 @@ import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
@@ -85,30 +84,7 @@ export const SecurityChampionItem = ({
 }) => {
   return (
     <ListItem>
-      <Stack
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          '@container securityChampionList (max-width: 500px)': {
-            flexDirection: 'column',
-            alignItems: 'baseline',
-          },
-        }}
-        width="100%"
-        justifyContent="space-between"
-        divider={
-          <Divider
-            sx={{
-              orientation: 'horisontal',
-              '@container securityChampionList (max-width: 500px)': {
-                orientation: 'vertical',
-              },
-            }}
-            flexItem
-          />
-        }
-      >
+      <Stack className={style.item}>
         {champion.securityChampionEmail && (
           <KVSecurityChampionItem
             champion={champion}
@@ -120,9 +96,7 @@ export const SecurityChampionItem = ({
         )}
         {repositories && (
           <CustomTooltip
-            sx={{
-              backgroundColor: 'var(--bui-bg-surface-1	)',
-            }}
+            className={style.toolTip}
             title={
               <List>
                 {repositories.map(repository => (
