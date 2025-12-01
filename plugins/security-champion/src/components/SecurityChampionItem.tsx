@@ -13,6 +13,7 @@ import List from '@mui/material/List';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import { UserEntity } from '@backstage/catalog-model';
+import style from './securityCard.module.css';
 
 const KVSecurityChampionItem = ({
   champion,
