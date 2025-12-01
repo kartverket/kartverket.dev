@@ -1,0 +1,50 @@
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  min-height: 10rem;
+}
+
+.card {
+  position: relative;
+  overflow: visible;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.darkLoadingOverlay {
+  background-color: rgba(118, 118, 118, 0.4);
+}
+
+.lightLoadingOverlay {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.learnMoreLink {
+  margin: 1.5rem 0;
+}
+
+.alert {
+  font-weight: bold;
+  text-align: center;
+}
+
+.errorText{
+    color: red;
+    font-size: 0.75rem;
+}
+
+.hidden {
+    visibility: hidden;
+}

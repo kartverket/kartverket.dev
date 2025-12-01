@@ -18,6 +18,8 @@ import { LoadingOverlay } from './LoadingOverlay';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
+import style from '../../catalog.module.css';
+
 export interface CatalogCreatorPageProps {
   originLocation?: string;
 }
@@ -90,7 +92,7 @@ export const CatalogCreatorPage = ({
               onReset={handleResetForm}
             />
           ) : (
-            <Card style={{ position: 'relative', overflow: 'visible' }}>
+            <Card className={style.card}>
               <RepositoryForm
                 url={originLocation || url}
                 onUrlChange={setUrl}
@@ -111,15 +113,7 @@ export const CatalogCreatorPage = ({
                 catalogInfoError={catalogInfoState.error}
               />
               {isLoading ? (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '1.5rem',
-                    minHeight: '10rem',
-                  }}
-                >
+                <div className={style.loadingContainer}>
                   <CircularProgress />
                 </div>
               ) : (
