@@ -21,7 +21,7 @@ export const EditOrGenerateCatalogInfoBox = ({
         <p>{t('infoBox.p1')}</p>
         <p>{t('infoBox.p2')}</p>
         <Divider />
-        <h3> {t('infoBox.subtitle')}</h3>
+        <h2> {t('infoBox.subtitle')}</h2>
         <p>{t('infoBox.p3')}</p>
         <h4>{t('infoBox.componentTitle')}</h4>{' '}
         <p>{t('infoBox.componentParagraph')}</p>

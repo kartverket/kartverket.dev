@@ -194,12 +194,9 @@ export const catalogCreatorMessages = {
     },
   },
   infoBox: {
-    title: 'Edit or Generate Catalog-info.yaml',
-    p1: `This form helps you create or edit catalog-info.yaml files used by Backstage to discover and manage software components in the catalog. Enter a GitHub repository URL to add it to the developer portal,
-           or provide a link to an existing catalog-info.yaml file to edit it using this form.`,
-    p2: `Once the form is completed with the correct entities, click "Create Pull Request" to propose changes or additions to the catalog-info.yaml file in the relevant repository. 
-           The changes will take effect only after the pull request is merged and the developer portal updates its catalog.`,
-    subtitle: 'What are Entities in Backstage?',
+    title: 'How does the form work?',
+    p1: `This form allows you to create or edit catalog-info.yaml files used by Backstage to discover and manage components. Enter the URL of a GitHub repository to add it to the developer portal, or provide a link to an existing file to edit it.`,
+    p2: `When you're done, click Create Pull Request to propose changes in the repository. The updates take effect once the pull request has been merged and the catalog has been refreshed.`,
     p3: `The developer portal is built using Backstage, which defines a set of entities used to build the software catalog.
        These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
         Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.
@@ -219,8 +216,8 @@ export const catalogCreatorMessages = {
     resourceParagraph: `Resource entities represent shared shared resources that a component
           requires during runtime, such as object storage or other cloud
           services.`,
-    linkText: `Read more about entities in your organization.`,
-    linkText2: `Read more about entities in the Backstage documentation.`,
+    linkText: `Read more about entities in your organization `,
+    linkText2: `Read more about entities in the Backstage documentation `,
   },
   successPage: {
     successfullyCreatedPR: 'Successfully created a pull request: ',
@@ -395,11 +392,11 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.errors.tagRegEx':
             'Tags kan kun inneholde alfanumeriske tegn og :, + eller # separert med -, og de kan ikke være lengre enn 63 tegn.',
 
-          'infoBox.title': 'Rediger eller lag catalog-info.yaml',
+          'infoBox.title': 'Hvordan funker skjemaet?',
           'infoBox.p1':
-            'Dette skjemaet hjelper deg med å opprette eller redigere catalog-info.yaml-filer som brukes av Backstage for å oppdage og administrere programvarekomponenter i katalogen. Skriv inn en GitHub-kodelager-URL for å legge den til i utviklerportalen, eller oppgi en lenke til en eksisterende catalog-info.yaml-fil for å redigere den ved hjelp av dette skjemaet.',
+            'Dette skjemaet lar deg opprette eller redigere catalog-info.yaml-filer som Backstage bruker for å oppdage og administrere komponenter. Oppgi enten URL til et GitHub-repository for å legge det til i utviklerportalen, eller en lenke til en eksisterende fil for å redigere den.',
           'infoBox.p2':
-            'Når skjemaet er fylt ut med de riktige entitetene, klikker du på Opprett Pull Request for å foreslå endringer eller tillegg til catalog-info.yaml-filen i det aktuelle kodelageret. Endringene trer i kraft først når pull request-en er slått sammen, og utviklerportalen har oppdatert katalogen sin.',
+            'Når du er ferdig, klikker du Opprett Pull Request for å foreslå endringer i repositoryet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
           'infoBox.subtitle': 'Hva er entiteter i Backstage?',
           'infoBox.p3':
             'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen. Disse entitetene er delt inn i tre grupper: kjerneentiteter, økosystementiteter og organisatoriske entiteter. Kjerneentiteter inkluderer Component, API og Resource. Økosystementiteter inkluderer System og Domain. Organisatoriske entiteter inkluderer Group og User. Nedenfor finner du en kort forklaring av kjerneentiteter.',
@@ -412,9 +409,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'infoBox.resourceTitle': 'Resource',
           'infoBox.resourceParagraph':
             'Resource-entiteter representerer delte ressurser som en komponent trenger under kjøring, for eksempel objektlagring eller andre skytjenester.',
-          'infoBox.linkText': 'Les mer om entiteter i din organisasjon.',
+          'infoBox.linkText': 'Les mer om entiteter i din organisasjon ',
           'infoBox.linkText2':
-            'Les mer om entiteter i Backstage-dokumentasjonen.',
+            'Les mer om entiteter i Backstage-dokumentasjonen ',
 
           'successPage.successfullyCreatedPR': 'Opprettet en pull request: ',
           'successPage.couldNotRetrieveURL':
