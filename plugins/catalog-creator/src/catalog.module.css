@@ -75,7 +75,7 @@
 
 .textField {
   font-size: 0.85rem;
-  font: system-ui;
+  font-family: system-ui!;
 }
 
 .entityCard {
@@ -84,8 +84,10 @@
   padding: 1rem;
   position: relative;
   overflow: visible;
-  /* <Flex direction="column" justify="start">
-*/
+  display: flex;
+  flex-direction: column;
+  justify-items: start;
+  gap: var(--bui-space-4);
 }
 
 .addEntityTitle {

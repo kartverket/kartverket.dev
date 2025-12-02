@@ -98,7 +98,6 @@ export const ComponentForm = ({
             />
           )}
         />
-
         {errorText(errors?.owner)}
       </div>
       <Flex>
