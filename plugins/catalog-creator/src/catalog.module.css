@@ -40,11 +40,73 @@
   text-align: center;
 }
 
-.errorText{
-    color: red;
-    font-size: 0.75rem;
+.errorText {
+  color: red;
+  font-size: 0.75rem;
 }
 
 .hidden {
-    visibility: hidden;
+  visibility: hidden;
+}
+
+.fieldHeaderContainer {
+  justify-self: start;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.75rem;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.fieldHeaderTooltip {
+  cursor: help;
+  color: #cbcbcbff;
+  display: flex;
+  margin-bottom: 0.1rem;
+}
+
+.requiredMark {
+  color: #ff0000;
+  font-size: 1rem;
+}
+
+.textField {
+  font-size: 0.85rem;
+  font: system-ui;
+}
+
+.card {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  position: relative;
+  overflow: visible;
+  /* <Flex direction="column" justify="start">
+*/
+}
+
+.addEntityTitle {
+  font-weight: bold;
+  margin-top: 1.5rem;
+}
+
+.endOfFormDivider {
+  margin: 0 1.5rem;
+}
+
+.createPRButton {
+  margin-bottom: 0.75rem;
+}
+
+.formInfoText {
+  font-size: 0.85rem;
+  color: gray;
+}
+
+.deleteEntityButton {
+  width: 40px;
+  align-self: flex-end;
 }
