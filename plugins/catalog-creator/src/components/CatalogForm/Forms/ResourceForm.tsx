@@ -35,14 +35,18 @@ export const ResourceForm = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const catalogApi = useApi(catalogApiRef);
 
-  const errorText = (text: FieldError | undefined | Merge<FieldError, (FieldError | undefined)[]>) => {
-  return(
-      <span className={`${style.errorText} ${text? '' : style.hidden}`}>
-        {text?.message
-          ? t(text?.message as keyof typeof t)
-          : '\u00A0'}
+  const errorText = (
+    text:
+      | FieldError
+      | undefined
+      | Merge<FieldError, (FieldError | undefined)[]>,
+  ) => {
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
       </span>
-  )};
+    );
+  };
 
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
@@ -79,7 +83,6 @@ export const ResourceForm = ({
         />
 
         {errorText(errors?.owner)}
-
       </div>
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
@@ -104,7 +107,6 @@ export const ResourceForm = ({
             )}
           />
           {errorText(errors?.entityType)}
-
         </div>
       </Flex>
       <div>
@@ -127,7 +129,6 @@ export const ResourceForm = ({
           )}
         />
         {errorText(errors?.system)}
-
       </div>
       <div>
         <FieldHeader
@@ -182,10 +183,7 @@ export const ResourceForm = ({
                   placeholder={t('form.resourceForm.dependencyof.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
@@ -193,7 +191,6 @@ export const ResourceForm = ({
           )}
         />
         {errorText(errors?.dependencyof)}
-
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>

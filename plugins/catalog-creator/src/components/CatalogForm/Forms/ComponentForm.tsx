@@ -42,16 +42,18 @@ export const ComponentForm = ({
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  const errorText = (text: FieldError | undefined | Merge<FieldError, (FieldError | undefined)[]>) => {
-    return(
-        <span className={`${style.errorText} ${text? '' : style.hidden}`}>
-          {text?.message
-            ? t(text?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
-    )};
-
-
+  const errorText = (
+    text:
+      | FieldError
+      | undefined
+      | Merge<FieldError, (FieldError | undefined)[]>,
+  ) => {
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
+      </span>
+    );
+  };
 
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
@@ -146,7 +148,6 @@ export const ComponentForm = ({
           />
 
           {errorText(errors?.entityType)}
-
         </div>
       </Flex>
       <div>
@@ -169,7 +170,6 @@ export const ComponentForm = ({
           )}
         />
         {errorText(errors?.system)}
-
       </div>
       <div>
         <FieldHeader
@@ -228,10 +228,7 @@ export const ComponentForm = ({
                   placeholder={t('form.componentForm.providesAPIs.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
@@ -240,7 +237,6 @@ export const ComponentForm = ({
         />
 
         {errorText(errors?.providesApis)}
-
       </div>
       <div>
         <FieldHeader
@@ -283,19 +279,15 @@ export const ComponentForm = ({
                   placeholder={t('form.componentForm.consumesAPIs.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
             />
           )}
         />
-      
-        {errorText(errors?.consumesApis)}
 
+        {errorText(errors?.consumesApis)}
       </div>
       <div>
         <FieldHeader
@@ -350,18 +342,14 @@ export const ComponentForm = ({
                   placeholder={t('form.componentForm.dependsOn.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
             />
           )}
         />
-      {errorText(errors?.dependsOn)}
-
+        {errorText(errors?.dependsOn)}
       </div>
       <TagField
         index={index}

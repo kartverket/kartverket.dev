@@ -31,14 +31,18 @@ export const SystemForm = ({
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  const errorText = (text: FieldError | undefined | Merge<FieldError, (FieldError | undefined)[]>) => {
-  return(
-      <span className={`${style.errorText} ${text? '' : style.hidden}`}>
-        {text?.message
-          ? t(text?.message as keyof typeof t)
-          : '\u00A0'}
+  const errorText = (
+    text:
+      | FieldError
+      | undefined
+      | Merge<FieldError, (FieldError | undefined)[]>,
+  ) => {
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
       </span>
-  )};
+    );
+  };
 
   const fetchDomains = useAsync(async () => {
     const results = await catalogApi.getEntities({
@@ -72,7 +76,6 @@ export const SystemForm = ({
           )}
         />
         {errorText(errors?.owner)}
-
       </div>
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
@@ -95,7 +98,6 @@ export const SystemForm = ({
             )}
           />
           {errorText(errors?.entityType)}
-
         </div>
       </Flex>
       <div>
@@ -118,7 +120,6 @@ export const SystemForm = ({
           )}
         />
         {errorText(errors?.domain)}
-
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>

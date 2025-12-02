@@ -284,7 +284,7 @@ export const CatalogForm = ({
           </p>
           {fields.map((entity, index) => {
             return (
-              <Card className={style.card} key={entity.key}>
+              <Card className={style.entityCard} key={entity.key}>
                 <Flex justify="between">
                   <Controller
                     name={`entities.${index}.kind`}

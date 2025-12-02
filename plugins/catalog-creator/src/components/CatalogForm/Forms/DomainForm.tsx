@@ -27,14 +27,18 @@ export const DomainForm = ({
 }: DomainFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-   const errorText = (text: FieldError | undefined | Merge<FieldError, (FieldError | undefined)[]>) => {
-      return(
-          <span className={`${style.errorText} ${text? '' : style.hidden}`}>
-            {text?.message
-              ? t(text?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
-      )};
+  const errorText = (
+    text:
+      | FieldError
+      | undefined
+      | Merge<FieldError, (FieldError | undefined)[]>,
+  ) => {
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
+      </span>
+    );
+  };
 
   return (
     <Flex direction="column" justify="start">

@@ -28,8 +28,6 @@ export type ApiFormProps = {
   id: number;
 };
 
-
-
 export const ApiForm = ({
   index,
   control,
@@ -42,14 +40,13 @@ export const ApiForm = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const errorText = (text: FieldError | undefined) => {
-    return(
-        <span className={`${style.errorText} ${text? '' : style.hidden}`}>
-          {text?.message
-            ? t(text?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
-    )};
-  
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
+      </span>
+    );
+  };
+
   return (
     <Flex direction="column" justify="start">
       <div>
@@ -164,10 +161,7 @@ export const ApiForm = ({
                 fullWidth
                 size="small"
                 inputProps={{
-                  style: {
-                    fontSize: '0.85rem',
-                    fontFamily: 'system-ui',
-                  },
+                  className: style.textField,
                 }}
               />
             </div>

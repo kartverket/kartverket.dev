@@ -6,7 +6,7 @@
   min-height: 10rem;
 }
 
-.card {
+.repositoryCard {
   position: relative;
   overflow: visible;
 }
@@ -78,7 +78,7 @@
   font: system-ui;
 }
 
-.card {
+.entityCard {
   margin-right: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
@@ -94,7 +94,7 @@
 }
 
 .endOfFormDivider {
-  margin: 0 1.5rem;
+  margin: 1.5rem 0;
 }
 
 .createPRButton {

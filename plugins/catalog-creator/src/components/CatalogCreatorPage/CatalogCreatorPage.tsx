@@ -92,7 +92,7 @@ export const CatalogCreatorPage = ({
               onReset={handleResetForm}
             />
           ) : (
-            <Card className={style.card}>
+            <Card className={style.repositoryCard}>
               <RepositoryForm
                 url={originLocation || url}
                 onUrlChange={setUrl}
