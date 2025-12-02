@@ -219,7 +219,8 @@ export const catalogCreatorMessages = {
     resourceParagraph: `Resource entities represent shared shared resources that a component
           requires during runtime, such as object storage or other cloud
           services.`,
-    linkText: `Learn more about entities and the Backstage catalog.`,
+    linkText: `Read more about entities in your organization.`,
+    linkText2: `Read more about entities in the Backstage documentation.`,
   },
   successPage: {
     successfullyCreatedPR: 'Successfully created a pull request: ',
@@ -411,7 +412,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'infoBox.resourceTitle': 'Resource',
           'infoBox.resourceParagraph':
             'Resource-entiteter representerer delte ressurser som en komponent trenger under kjøring, for eksempel objektlagring eller andre skytjenester.',
-          'infoBox.linkText': 'Lær mer om entiteter og Backstage-katalogen.',
+          'infoBox.linkText': 'Les mer om entiteter i din organisasjon.',
+          'infoBox.linkText2':
+            'Les mer om entiteter i Backstage-dokumentasjonen.',
 
           'successPage.successfullyCreatedPR': 'Opprettet en pull request: ',
           'successPage.couldNotRetrieveURL':

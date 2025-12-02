@@ -2,9 +2,16 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { Box, Card } from '@backstage/ui';
 import Link from '@material-ui/core/Link';
 import Divider from '@mui/material/Divider';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 
-export const EditOrGenerateCatalogInfoBox = () => {
+interface EditOrGenerateCatalogInfoBoxProps {
+  docsLink?: string;
+}
+
+export const EditOrGenerateCatalogInfoBox = ({
+  docsLink,
+}: EditOrGenerateCatalogInfoBoxProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
     <Card>
@@ -22,15 +29,21 @@ export const EditOrGenerateCatalogInfoBox = () => {
         <p>{t('infoBox.APIParagraph')}</p>
         <h4>{t('infoBox.resourceTitle')}</h4>
         <p>{t('infoBox.resourceParagraph')}</p>
-        <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+        {docsLink && (
+          <Box my="1.5rem">
+            <Link href={docsLink}>{t('infoBox.linkText')}</Link>
+          </Box>
+        )}
+        <Box my="1.5rem">
           <Link
             href="https://backstage.io/docs/features/software-catalog/"
             target="_blank"
             rel="noreferrer"
           >
-            {t('infoBox.linkText')}
+            {t('infoBox.linkText2')}
+            <OpenInNewIcon fontSize="inherit" />
           </Link>
-        </div>
+        </Box>
       </Box>
     </Card>
   );
