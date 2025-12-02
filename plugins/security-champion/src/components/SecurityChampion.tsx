@@ -246,6 +246,7 @@ export const SecurityChampion = ({
             key={index}
             champion={element[1].champ}
             repositories={element[1].repositoryNames}
+            selectedUser={selectedUser}
           />
         ))}
         <MissingReposItem
