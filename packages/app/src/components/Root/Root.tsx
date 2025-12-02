@@ -25,6 +25,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import GroupIcon from '@material-ui/icons/People';
 import SearchIcon from '@material-ui/icons/Search';
 import SpeedIcon from '@material-ui/icons/Speed';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { PropsWithChildren } from 'react';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -75,18 +76,14 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
           pluralTitle="My Groups"
           icon={GroupIcon}
         />
-        {/*
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-         <SidebarItem icon={LayersIcon} to="explore" text="Explore" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />*/}
         <SidebarItem
           icon={EditIcon}
           to="catalog-creator"
           text="Edit or Create"
         />
-        <NotificationsSidebarItem />
-        <SidebarDivider />
+
         <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
+        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
 
         {/* End global nav */}
         <SidebarDivider />
@@ -96,6 +93,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={WarningIcon} to="opencost" text="SKIPcost" />
       </SidebarGroup>
       <SidebarSpace />
+      <SidebarDivider />
+      <NotificationsSidebarItem />
       <SidebarDivider />
       <SidebarGroup
         label="Settings"

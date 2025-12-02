@@ -7,7 +7,8 @@ plugins:
   - techdocs-core
 
 nav:
-  - Overview:
-      - Identity: 'overview/identity.md'
+  - Kartverket.dev:
+      - Felles begreper: 'kartverket-dev/felles_begreper.md'
+      - Shared concepts: 'kartverket-dev/shared_concepts.md'
   - Getting Started:
       - Adding your documentation: 'getting-started/techdocs.md'
