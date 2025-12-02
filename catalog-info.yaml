@@ -1,14 +1,23 @@
-# nonk8s
-apiVersion: 'backstage.io/v1alpha1'
-kind: 'Component'
+apiVersion: backstage.io/v1alpha1
+kind: Component
 metadata:
-  name: 'kartverket.dev'
+  name: kartverket.dev
   tags:
-    - 'internal'
+    - internal
   annotations:
     backstage.io/techdocs-ref: dir:.
 spec:
-  type: 'website'
-  lifecycle: 'production'
-  owner: 'skvis'
-  system: 'utviklerportal'
+  type: website
+  lifecycle: production
+  owner: skvis
+  system: utviklerportal
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: Kartverket.dev
+  title: Kartverket.dev
+spec:
+  owner: skvis
+  domain: plattform
