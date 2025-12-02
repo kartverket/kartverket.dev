@@ -7,6 +7,7 @@ import z from 'zod/v4';
 import { EntityErrors, Kind } from '../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { useState } from 'react';
 
 type TagFieldProps = {
   index: number;
@@ -22,6 +23,7 @@ export const TagField = ({
   options,
 }: TagFieldProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+  const [inputValue, setInputValue] = useState<string>('');
   return (
     <div>
       <FieldHeader
@@ -36,10 +38,18 @@ export const TagField = ({
             <Autocomplete
               {...field}
               onChange={(_, value) => field.onChange(value)}
+              inputValue={inputValue}
+              onInputChange={(_, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
               value={field.value || []}
               multiple
               freeSolo
-              options={options}
+              options={
+                inputValue && !options.includes(inputValue)
+                  ? [...options, inputValue]
+                  : options
+              }
               size="small"
               renderInput={params => (
                 <TextField

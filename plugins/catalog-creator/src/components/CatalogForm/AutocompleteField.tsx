@@ -28,9 +28,14 @@ export const AutocompleteField = (
   const { value, onChange, onBlur, placeholder, freeSolo } = props;
 
   if (props.type === 'select') {
+    const options =
+      freeSolo && value && !props.options.includes(value)
+        ? [...props.options, value]
+        : props.options;
+
     return (
       <Autocomplete
-        value={value}
+        value={value ? (props.options.find(x => x === value) ?? null) : null}
         onChange={(_, newValue) => {
           onChange(newValue ?? '');
         }}
@@ -39,7 +44,7 @@ export const AutocompleteField = (
         }}
         onBlur={onBlur}
         freeSolo={freeSolo}
-        options={props.options}
+        options={options}
         getOptionLabel={option => option}
         size="small"
         renderInput={params => (
@@ -63,9 +68,8 @@ export const AutocompleteField = (
     <Autocomplete
       value={
         value
-          ? (props.entities.find(
-              domainEntity => domainEntity.metadata.name === value,
-            ) ?? null)
+          ? (props.entities.find(entity => entity.metadata.name === value) ??
+            null)
           : null
       }
       onBlur={onBlur}

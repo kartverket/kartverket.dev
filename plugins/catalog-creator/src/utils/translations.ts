@@ -37,7 +37,7 @@ export const catalogCreatorMessages = {
     tags: {
       fieldName: 'Tags',
       tooltipText: 'A list of custom tags used to classify catalog entities.',
-      placeholder: 'Add tags',
+      placeholder: 'Select or add tags',
     },
     addEntity: {
       title: 'Add Entity',
@@ -265,7 +265,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.tags.fieldName': 'Tags',
           'form.tags.tooltipText':
             'En liste over tags (merkelapper) som kan brukes til å klassifisere entiteter i systemkatalogen.',
-          'form.tags.placeholder': 'Legg til tags',
+          'form.tags.placeholder': 'Velg eller legg til tag',
 
           'form.addEntity.title': 'Legg til entitet',
           'form.addEntity.label': 'Velg entitet',
