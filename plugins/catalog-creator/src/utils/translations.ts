@@ -197,6 +197,7 @@ export const catalogCreatorMessages = {
     title: 'How does the form work?',
     p1: `This form allows you to create or edit catalog-info.yaml files used by Backstage to discover and manage components. Enter the URL of a GitHub repository to add it to the developer portal, or provide a link to an existing file to edit it.`,
     p2: `When you're done, click Create Pull Request to propose changes in the repository. The updates take effect once the pull request has been merged and the catalog has been refreshed.`,
+    subtitle: 'What are entities in Backstage?',
     p3: `The developer portal is built using Backstage, which defines a set of entities used to build the software catalog.
        These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
         Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.
