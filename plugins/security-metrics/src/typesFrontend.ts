@@ -174,3 +174,5 @@ export type ClusterSummary = {
 
 export type NamespaceMap = Map<string, Vulnerability[]>;
 export type ClusterMap = Map<string, NamespaceMap>;
+
+export type FilterEnum = 'all' | 'starred';

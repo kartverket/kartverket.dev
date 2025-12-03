@@ -6,7 +6,7 @@ export const EntityCatalogCreatorWrapper = () => {
 
   // Extract git URL from entity metadata
   const sourceLocation =
-    entity.metadata.annotations?.['backstage.io/source-location'];
+    entity.metadata.annotations?.['backstage.io/managed-by-origin-location'];
 
   // Remove 'url:' prefix if it exists in source-location
   let gitUrl = sourceLocation;
@@ -14,11 +14,5 @@ export const EntityCatalogCreatorWrapper = () => {
     gitUrl = gitUrl.substring(4);
   }
 
-  // Only remove /tree/main if it's at the end without any additional path
-  // This preserves file-specific URLs but cleans up repository root URLs
-  if (gitUrl && gitUrl.match(/\/tree\/main\/?$/)) {
-    gitUrl = gitUrl.replace(/\/tree\/main\/?$/, '');
-  }
-
-  return <CatalogCreatorPage gitUrl={gitUrl} />;
+  return <CatalogCreatorPage originLocation={gitUrl} />;
 };

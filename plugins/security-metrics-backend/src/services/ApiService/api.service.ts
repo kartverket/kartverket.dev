@@ -235,4 +235,50 @@ export class ApiService {
       });
     }
   }
+
+  async configureNotifications(
+    teamName: string,
+    componentNames: string[],
+    channelId: string,
+    entraIdToken: string,
+    severity?: string[],
+  ): Promise<Either<ApiError, void>> {
+    const endpointUrl = `${this.baseUrl}/api/slack/configure-notifications`;
+    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
+
+    if (!smapiToken) {
+      throw new Error('Failed to fetch token for Security-metrics API');
+    }
+
+    try {
+      const response = await fetch(endpointUrl, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${smapiToken}`,
+        },
+        body: JSON.stringify({
+          teamName,
+          componentNames,
+          channelId,
+          severity,
+        }),
+      });
+
+      if (response.status === 204) {
+        return Right.create(undefined);
+      }
+      return errorHandling(response);
+    } catch (error) {
+      this.logger.error(
+        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
+      );
+      return Left.create({
+        statusCode: 500,
+        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
+        error,
+      });
+    }
+  }
 }
