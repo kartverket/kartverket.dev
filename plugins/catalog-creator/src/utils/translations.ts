@@ -200,18 +200,16 @@ export const catalogCreatorMessages = {
     p2: `Once the form is completed with the correct entities, click "Create Pull Request" to propose changes or additions to the catalog-info.yaml file in the relevant repository. 
            The changes will take effect only after the pull request is merged and the developer portal updates its catalog.`,
     subtitle: 'What are Entities in Backstage?',
-    p3: `The developer portal is built using Backstage, which defines a set of entities used to build the software catalog.
-       These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
-        Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.
-         Organizational entities include Group and User. Below is a brief explanation of the core entities.`,
+    p3: `The developer portal is built using Backstage, which defines a set of entities used to build the software catalog.`,
+    systemTitle: 'System',
+    systemParagraph:
+      'A system is a collection of components that work together to fulfil a clear purpose within a specific domain. Together, they deliver complete functionality.',
     componentTitle: 'Component',
-    componentParagraph: `A Component is a piece of software, such as a service, library or a
-          website. Components will often correspond to a repository. Components can provide APIs that other components consume, and often
-          depend on APIs and resources.`,
-    APITitle: 'API (Application Programming Interface)',
+    componentParagraph: `A component is an independent part of a system — for example a service, a library, or an app. It often has its own repository and can be developed, built, and deployed separately from the rest of the system.`,
+    APITitle: 'API ',
     APIParagraph: `An API describes the interface a component provides or consumes, and shows how systems and components communicate. The definition field for APIs is required.`,
     APIremark:
-      'Note: External APIs (e.g., Altinn) should be registered as Resource, not as an API.',
+      'Note: External APIs should be registered as Resource, not as an API.',
     resourceTitle: 'Resource',
     resourceParagraph: `A Resource is an external or shared asset that a system or component depends on, but which is not necessarily owned by the same team. This can include technical infrastructure or external integrations.`,
     linkText: `Learn more about entities and the Backstage catalog.`,
@@ -396,15 +394,18 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Når skjemaet er fylt ut med de riktige entitetene, klikker du på Opprett Pull Request for å foreslå endringer eller tillegg til catalog-info.yaml-filen i det aktuelle kodelageret. Endringene trer i kraft først når pull request-en er slått sammen, og utviklerportalen har oppdatert katalogen sin.',
           'infoBox.subtitle': 'Hva er entiteter i Backstage?',
           'infoBox.p3':
-            'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen. Disse entitetene er delt inn i tre grupper: kjerneentiteter, økosystementiteter og organisatoriske entiteter. Kjerneentiteter inkluderer Component, API og Resource. Økosystementiteter inkluderer System og Domain. Organisatoriske entiteter inkluderer Group og User. Nedenfor finner du en kort forklaring av kjerneentiteter.',
+            'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen.',
+          'infoBox.systemTitle': 'System',
+          'infoBox.systemParagraph':
+            'Et system er en samling av komponenter som sammen løser et tydelig formål. Systemet kan bestå av flere komponenter som samarbeider for å levere en funksjonalitet.',
           'infoBox.componentTitle': 'Component',
           'infoBox.componentParagraph':
-            'En Component er et stykke programvare, for eksempel en tjeneste, et bibliotek eller et nettsted. Komponenter tilsvarer ofte et eget kodelager. Komponenter kan tilby API-er som andre komponenter bruker, og avhenger ofte av API-er og ressurser selv.',
-          'infoBox.APITitle': 'API (Application Programming Interface)',
+            'En komponent er en selvstendig del av et system – for eksempel en tjeneste, et bibliotek eller en app. Den har ofte sitt eget repository og kan utvikles, bygges og deployes uavhengig av andre deler av systemet.',
+          'infoBox.APITitle': 'API',
           'infoBox.APIParagraph':
             'Et API beskriver grensesnittet en komponent tilbyr eller bruker, og viser hvordan systemer og komponenter kommuniserer. Definisjonsfeltet for API-er er påkrevd.',
           'infoBox.APIremark':
-            'Merk: Eksterne API-er (f.eks. Altinn) skal registreres som Resource, ikke som et API.',
+            'Merk: Eksterne API-er skal registreres som Resource, ikke som et API.',
           'infoBox.resourceTitle': 'Resource',
           'infoBox.resourceParagraph':
             'En Resource er en ekstern eller delt ressurs som et system eller en komponent er avhengig av, men som ikke nødvendigvis eies av samme team. Dette kan være teknisk infrastruktur eller eksterne integrasjoner.',
