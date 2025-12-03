@@ -20,7 +20,6 @@ import { useMemo, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import style from './securityCard.module.css';
 
 const CardWrapper = ({
   title,
@@ -123,7 +122,6 @@ export const SecurityChampion = ({
           onSuccess: () => {
             refetch();
             setEdit(false);
-            setSelectedUser(null);
           },
           onError: () => {
             setIsMutationError(true);
@@ -138,7 +136,6 @@ export const SecurityChampion = ({
           onSuccess: () => {
             refetch();
             setEdit(false);
-            setSelectedUser(null);
           },
           onError: () => {
             setIsMutationError(true);
@@ -149,6 +146,7 @@ export const SecurityChampion = ({
   };
 
   const onEdit = () => {
+    setSelectedUser(null);
     setEdit(!edit);
   };
 
@@ -171,7 +169,10 @@ export const SecurityChampion = ({
         )}
 
         <Button
-          className={`${style.confirmChangeButton}`}
+          style={{
+            marginTop: 8,
+            backgroundColor: selectedUser ? '' : 'var(--bui-bg-solid-disabled)',
+          }}
           onClick={setSecurityChampion}
           isDisabled={!selectedUser}
         >
@@ -203,7 +204,12 @@ export const SecurityChampion = ({
     if (data && data.length === 1) {
       return (
         <>
-          <SecurityChampionItem key={0} champion={data[0]} />
+          <SecurityChampionItem
+            key={0}
+            champion={data[0]}
+            repositories={[data[0].repositoryName]}
+            selectedUser={selectedUser}
+          />
           <MissingReposItem
             reposWithSecChamps={[data[0].repositoryName]}
             allRepositories={repositoryNames}
@@ -218,6 +224,7 @@ export const SecurityChampion = ({
             key={index}
             champion={element[1].champ}
             repositories={element[1].repositoryNames}
+            selectedUser={selectedUser}
           />
         ))}
         <MissingReposItem
@@ -254,7 +261,12 @@ export const SecurityChampion = ({
         })}
       >
         <List>
-          <List className={style.SecurityChampionList}>
+          <List
+            sx={{
+              containerType: 'inline-size', // enable container queries
+              containerName: 'securityChampionList',
+            }}
+          >
             {renderSecurityChampions()}
           </List>
         </List>

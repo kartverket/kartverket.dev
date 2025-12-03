@@ -12,8 +12,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 
-import style from './securityCard.module.css';
-
 interface UserSearchProps {
   selectedUser: UserEntity | null;
   setSelectedUser: Dispatch<SetStateAction<UserEntity | null>>;
@@ -71,10 +69,9 @@ export const UserSearch = ({
         placeholder="Search..."
         onChange={input => setSearchQuery(input)}
         value={searchQuery}
-        className={style.searchField}
       />
       {searchQuery ? (
-        <Paper className={style.paper}>
+        <Paper style={{ maxHeight: 300, overflow: 'auto', margin: '2px' }}>
           <List>
             {filteredUsers.map((user, idx) => (
               <ListItemButton
