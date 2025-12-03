@@ -9,6 +9,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
+import { ScannerInfo } from './ScannerInfo';
 
 type ComponentScannerStatusProps = {
   scannerStatus: RepositoryScannerStatusData;
@@ -36,8 +37,8 @@ export const ComponentScannerStatus = ({
           <TableBody>
             {scannerStatus.scannerStatus.map(status => (
               <StyledTableRow key={status.type}>
-                <TableCell>
-                  <Typography>{status.type}</Typography>
+                <TableCell sx={{ pl: 0.5 }}>
+                  <ScannerInfo name={status.type} />
                 </TableCell>
                 <TableCell>
                   {status.on ? (

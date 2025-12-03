@@ -28,7 +28,7 @@ const CardWrapper = ({
 }: {
   title: string;
   children: React.ReactNode;
-  action: React.ReactNode;
+  action?: React.ReactNode;
 }) => (
   <Card>
     <CardHeader sx={{ mb: 2 }} title={title} action={action} />
@@ -159,16 +159,6 @@ export const SecurityChampion = ({
             ? 'Change security champion'
             : `Change security champion for all components in this ${entity.kind.toLowerCase()}`
         }
-        action={
-          <IconButton
-            disabled
-            aria-label="Download a CSV file containing all security champions for this entity."
-            aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
-            onClick={() => generateSecurityChampionCSV(groupedChampions)}
-          >
-            <DownloadIcon />
-          </IconButton>
-        }
       >
         <UserSearch
           selectedUser={selectedUser}
@@ -195,19 +185,7 @@ export const SecurityChampion = ({
 
   if (isPending)
     return (
-      <CardWrapper
-        title="Security champion: "
-        action={
-          <IconButton
-            disabled
-            aria-label="Download a CSV file containing all security champions for this entity."
-            aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
-            onClick={() => generateSecurityChampionCSV(groupedChampions)}
-          >
-            <DownloadIcon />
-          </IconButton>
-        }
-      >
+      <CardWrapper title="Security champion: ">
         <CircularProgress />
       </CardWrapper>
     );
@@ -227,11 +205,7 @@ export const SecurityChampion = ({
     if (data && data.length === 1) {
       return (
         <>
-          <SecurityChampionItem
-            key={0}
-            champion={data[0]}
-            repositories={[data[0].repositoryName]}
-          />
+          <SecurityChampionItem key={0} champion={data[0]} />
           <MissingReposItem
             reposWithSecChamps={[data[0].repositoryName]}
             allRepositories={repositoryNames}
@@ -266,20 +240,20 @@ export const SecurityChampion = ({
             ? 'Security champions: '
             : 'Security champion: '
         }
-        action={
-          <Tooltip title="Download CSV">
-            <IconButton
-              aria-label="Download a CSV file containing all security champions for this entity."
-              aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
-              disabled={groupedChampions.size === 0}
-              onClick={() => {
-                generateSecurityChampionCSV(groupedChampions);
-              }}
-            >
-              <DownloadIcon />
-            </IconButton>
-          </Tooltip>
-        }
+        {...(groupedChampions.size !== 0 && {
+          action: (
+            <Tooltip title="Download CSV">
+              <IconButton
+                aria-label="Download a CSV file containing all security champions for this entity."
+                onClick={() => {
+                  generateSecurityChampionCSV(groupedChampions);
+                }}
+              >
+                <DownloadIcon />
+              </IconButton>
+            </Tooltip>
+          ),
+        })}
       >
         <List>
           <List
@@ -303,19 +277,7 @@ export const SecurityChampion = ({
   }
 
   return (
-    <CardWrapper
-      title="Security champion: "
-      action={
-        <IconButton
-          disabled
-          aria-label="Download a CSV file containing all security champions for this entity."
-          aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
-          onClick={() => generateSecurityChampionCSV(groupedChampions)}
-        >
-          <DownloadIcon />
-        </IconButton>
-      }
-    >
+    <CardWrapper title="Security champion: ">
       <ErrorBanner errorMessage="Kunne ikke koble til security champion API" />
     </CardWrapper>
   );
