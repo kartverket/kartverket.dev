@@ -203,11 +203,7 @@ export const SecurityChampion = ({
     if (data && data.length === 1) {
       return (
         <>
-          <SecurityChampionItem
-            key={0}
-            champion={data[0]}
-            repositories={[data[0].repositoryName]}
-          />
+          <SecurityChampionItem key={0} champion={data[0]} />
           <MissingReposItem
             reposWithSecChamps={[data[0].repositoryName]}
             allRepositories={repositoryNames}
