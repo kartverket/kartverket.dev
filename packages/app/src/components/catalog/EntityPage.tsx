@@ -228,7 +228,7 @@ const serviceEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="ROS">
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
@@ -270,7 +270,7 @@ const websiteEntityPage = (
       <EntityLighthouseContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="Risk Scorecard">
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
@@ -289,7 +289,7 @@ const opsEntityPage = (
       <EntityCatalogCreatorWrapper />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="Risk Scorecard">
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
@@ -489,7 +489,8 @@ const systemPage = (
         unidirectional={false}
       />
     </EntityLayout.Route>
-    <EntityLayout.Route path="/risc" title="ROS">
+
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
