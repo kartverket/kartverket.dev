@@ -20,6 +20,9 @@ export const EditOrGenerateCatalogInfoBox = () => {
         <p>{t('infoBox.componentParagraph')}</p>
         <h4>{t('infoBox.APITitle')}</h4>
         <p>{t('infoBox.APIParagraph')}</p>
+        <p>
+          <i>{t('infoBox.APIremark')}</i>
+        </p>
         <h4>{t('infoBox.resourceTitle')}</h4>
         <p>{t('infoBox.resourceParagraph')}</p>
         <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>

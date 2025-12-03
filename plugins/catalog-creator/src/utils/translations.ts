@@ -208,17 +208,12 @@ export const catalogCreatorMessages = {
     componentParagraph: `A Component is a piece of software, such as a service, library or a
           website. Components will often correspond to a repository. Components can provide APIs that other components consume, and often
           depend on APIs and resources.`,
-    APITitle: 'API',
-    APIParagraph: `An API entity describes an API that a component provides and that
-          other components consume. Public APIs are the primary ways which
-          components interact. The API specification should be included in the
-          API entity and the file path to this document should be added to the
-          API entity, with the file path to the API definition so that
-          the developer portal can provide detailed information.`,
+    APITitle: 'API (Application Programming Interface)',
+    APIParagraph: `An API describes the interface a component provides or consumes, and shows how systems and components communicate. The definition field for APIs is required.`,
+    APIremark:
+      'Note: External APIs (e.g., Altinn) should be registered as Resource, not as an API.',
     resourceTitle: 'Resource',
-    resourceParagraph: `Resource entities represent shared shared resources that a component
-          requires during runtime, such as object storage or other cloud
-          services.`,
+    resourceParagraph: `A Resource is an external or shared asset that a system or component depends on, but which is not necessarily owned by the same team. This can include technical infrastructure or external integrations.`,
     linkText: `Learn more about entities and the Backstage catalog.`,
   },
   successPage: {
@@ -405,12 +400,14 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'infoBox.componentTitle': 'Component',
           'infoBox.componentParagraph':
             'En Component er et stykke programvare, for eksempel en tjeneste, et bibliotek eller et nettsted. Komponenter tilsvarer ofte et eget kodelager. Komponenter kan tilby API-er som andre komponenter bruker, og avhenger ofte av API-er og ressurser selv.',
-          'infoBox.APITitle': 'API',
+          'infoBox.APITitle': 'API (Application Programming Interface)',
           'infoBox.APIParagraph':
-            'En API-entitet beskriver et API som en komponent tilbyr, og som andre komponenter bruker. Offentlige API-er er den primære måten komponenter samhandler på. API-spesifikasjonen bør inkluderes i API-entiteter, og filbanen til dette dokumentet bør legges til i API-entiteter slik at utviklerportalen kan vise detaljert informasjon.',
+            'Et API beskriver grensesnittet en komponent tilbyr eller bruker, og viser hvordan systemer og komponenter kommuniserer. Definisjonsfeltet for API-er er påkrevd.',
+          'infoBox.APIremark':
+            'Merk: Eksterne API-er (f.eks. Altinn) skal registreres som Resource, ikke som et API.',
           'infoBox.resourceTitle': 'Resource',
           'infoBox.resourceParagraph':
-            'Resource-entiteter representerer delte ressurser som en komponent trenger under kjøring, for eksempel objektlagring eller andre skytjenester.',
+            'En Resource er en ekstern eller delt ressurs som et system eller en komponent er avhengig av, men som ikke nødvendigvis eies av samme team. Dette kan være teknisk infrastruktur eller eksterne integrasjoner.',
           'infoBox.linkText': 'Lær mer om entiteter og Backstage-katalogen.',
 
           'successPage.successfullyCreatedPR': 'Opprettet en pull request: ',
