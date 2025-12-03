@@ -21,15 +21,14 @@ export const useFetchEntities = (
     return results.items as Entity[];
   }, [catalogApi]);
 
-  const userEntities = useWatch({
+  const formEntities = useWatch({
     control,
     name: 'entities',
   });
 
   const combined: Entity[] = useMemo(() => {
-    return [
-      ...(fetchEntities.value ?? []),
-      ...userEntities.flatMap(e => {
+    const fromFormEntities = [
+      ...formEntities.flatMap(e => {
         if (e.kind === entityKind) {
           return {
             apiVersion: 'backstage.io/v1alpha1',
@@ -45,7 +44,23 @@ export const useFetchEntities = (
         return [];
       }),
     ];
-  }, [fetchEntities.value, userEntities, entityKind]);
+    const fetchedEntities = [
+      ...(fetchEntities.value
+        ? fetchEntities.value.filter(e => {
+            if (
+              fromFormEntities
+                .map(entity => `${entity.kind}:default/${entity.metadata.name}`)
+                .includes(`${e.kind}:default/${e.metadata.name}`)
+            ) {
+              return false;
+            }
+            return true;
+          })
+        : []),
+    ];
+
+    return [...fromFormEntities, ...fetchedEntities];
+  }, [fetchEntities.value, formEntities, entityKind]);
 
   return {
     loading: fetchEntities.loading,

@@ -99,6 +99,7 @@ export const CatalogForm = ({
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       entities: currentYaml
@@ -218,6 +219,7 @@ export const CatalogForm = ({
             index={index}
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'Component'>}
+            setValue={setValue}
             appendHandler={appendHandler}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}

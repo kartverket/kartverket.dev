@@ -1,5 +1,10 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ComponentTypes,
@@ -19,10 +24,12 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
+import { useEffect } from 'react';
 
 export type ComponentFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
+  setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Component'>;
   appendHandler: (entityKindToAdd: Kind, name?: string) => void;
   systems: Entity[];
@@ -33,6 +40,7 @@ export type ComponentFormProps = {
 export const ComponentForm = ({
   index,
   control,
+  setValue,
   errors,
   appendHandler,
   systems,
@@ -54,6 +62,30 @@ export const ComponentForm = ({
     });
     return results.items as Entity[];
   }, [catalogApi]);
+
+  const dependsOnVal = useWatch({
+    control,
+    name: `entities.${index}.dependsOn`,
+  });
+
+  useEffect(() => {
+    if (dependsOnVal && dependsOnVal?.length !== 0) {
+      const intersection = componentsAndResources.flatMap(value => {
+        if (dependsOnVal.includes(formatEntityString(value))) {
+          return formatEntityString(value);
+        }
+        return [];
+      });
+      const elementsToDelete = [
+        ...dependsOnVal.filter(e => !intersection.includes(e)),
+      ];
+      if (elementsToDelete.length > 0) {
+        setValue(`entities.${index}.dependsOn`, [
+          ...dependsOnVal.filter(e => intersection.includes(e)),
+        ]);
+      }
+    }
+  }, [dependsOnVal, componentsAndResources, index, setValue]);
 
   return (
     <Flex direction="column" justify="start">
@@ -344,56 +376,58 @@ export const ComponentForm = ({
           name={`entities.${index}.dependsOn`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Autocomplete
-              multiple
-              value={
-                (value || [])
-                  .map(str => {
-                    return (componentsAndResources || []).find(entity => {
-                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
-                      return entityStr === str;
-                    });
-                  })
-                  .filter(Boolean) as Entity[]
-              }
-              onBlur={onBlur}
-              onChange={(_, newValue) => {
-                const names = newValue.map(item => {
-                  return formatEntityString(item);
-                });
-                onChange(names);
-              }}
-              options={componentsAndResources || []}
-              getOptionLabel={option => {
-                return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
-              }}
-              isOptionEqualToValue={(option, selectedValue) => {
-                const optionName = formatEntityString(option);
-                const valueName = formatEntityString(selectedValue);
-                return optionName === valueName;
-              }}
-              size="small"
-              sx={{
-                '& .MuiInputBase-input': {
-                  fontSize: 10,
-                  height: 1,
-                  padding: 1,
-                },
-              }}
-              renderInput={params => (
-                <MuiTextField
-                  {...params}
-                  placeholder={t('form.componentForm.dependsOn.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
-                  }}
-                />
-              )}
-            />
+            <>
+              <Autocomplete
+                multiple
+                value={
+                  (value || [])
+                    .map(str => {
+                      return (componentsAndResources || []).find(entity => {
+                        const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                        return entityStr === str;
+                      });
+                    })
+                    .filter(Boolean) as Entity[]
+                }
+                onBlur={onBlur}
+                onChange={(_, newValue) => {
+                  const names = newValue.map(item => {
+                    return formatEntityString(item);
+                  });
+                  onChange(names);
+                }}
+                options={componentsAndResources || []}
+                getOptionLabel={option => {
+                  return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
+                }}
+                isOptionEqualToValue={(option, selectedValue) => {
+                  const optionName = formatEntityString(option);
+                  const valueName = formatEntityString(selectedValue);
+                  return optionName === valueName;
+                }}
+                size="small"
+                sx={{
+                  '& .MuiInputBase-input': {
+                    fontSize: 10,
+                    height: 1,
+                    padding: 1,
+                  },
+                }}
+                renderInput={params => (
+                  <MuiTextField
+                    {...params}
+                    placeholder={t('form.componentForm.dependsOn.placeholder')}
+                    InputProps={{
+                      ...params.InputProps,
+                      sx: {
+                        fontSize: '0.85rem',
+                        font: 'system-ui',
+                      },
+                    }}
+                  />
+                )}
+              />
+            </>
           )}
         />
 
