@@ -14,9 +14,6 @@ import {
 import { apiSchema, formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
-import { useAsync } from 'react-use';
-import { useApi } from '@backstage/core-plugin-api';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { FieldHeader } from '../FieldHeader';
@@ -25,6 +22,8 @@ import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
 import { useEffect } from 'react';
+import { useFetchEntities } from '../../../hooks/useFetchEntities';
+import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 
 export type ComponentFormProps = {
   index: number;
@@ -47,26 +46,39 @@ export const ComponentForm = ({
   groups,
   componentsAndResources,
 }: ComponentFormProps) => {
-  const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
   };
 
-  const fetchAPIs = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'API',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
+  const fetchAPIs = useFetchEntities(control, 'API');
+
+  const providesApisVal = useWatch({
+    control,
+    name: `entities.${index}.providesApis`,
+  });
+
+  useUpdateDependentFormFields(
+    fetchAPIs.value,
+    providesApisVal
+      ? [...providesApisVal.map(e => `api:default/${e}`)]
+      : undefined,
+    `entities.${index}.providesApis`,
+    setValue,
+  );
 
   const dependsOnVal = useWatch({
     control,
     name: `entities.${index}.dependsOn`,
   });
+
+  useUpdateDependentFormFields(
+    componentsAndResources,
+    dependsOnVal,
+    `entities.${index}.dependsOn`,
+    setValue,
+  );
 
   useEffect(() => {
     if (dependsOnVal && dependsOnVal?.length !== 0) {
@@ -377,6 +389,7 @@ export const ComponentForm = ({
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <>
+              <div>{value}</div>
               <Autocomplete
                 multiple
                 value={
