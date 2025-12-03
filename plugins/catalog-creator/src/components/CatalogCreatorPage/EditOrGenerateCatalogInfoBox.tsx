@@ -4,6 +4,8 @@ import Link from '@material-ui/core/Link';
 import Divider from '@mui/material/Divider';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 
+import style from '../../catalog.module.css';
+
 export const EditOrGenerateCatalogInfoBox = () => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
@@ -22,7 +24,7 @@ export const EditOrGenerateCatalogInfoBox = () => {
         <p>{t('infoBox.APIParagraph')}</p>
         <h4>{t('infoBox.resourceTitle')}</h4>
         <p>{t('infoBox.resourceParagraph')}</p>
-        <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+        <div className={style.learnMoreLink}>
           <Link
             href="https://backstage.io/docs/features/software-catalog/"
             target="_blank"

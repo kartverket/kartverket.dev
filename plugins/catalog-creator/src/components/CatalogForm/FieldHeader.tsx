@@ -2,6 +2,8 @@ import { Flex } from '@backstage/ui';
 import { Tooltip } from '@material-ui/core';
 import { InfoOutlined } from '@mui/icons-material';
 
+import style from '../../catalog.module.css';
+
 type FieldHeaderProps = {
   fieldName: string;
   tooltipText?: string;
@@ -14,30 +16,14 @@ export const FieldHeader = ({
   required,
 }: FieldHeaderProps) => {
   return (
-    <Flex justify="start" align="center">
-      <p
-        style={{
-          fontSize: '0.75rem',
-          margin: 0,
-          display: 'inline-flex',
-          alignItems: 'center',
-        }}
-      >
+    <Flex className={style.fieldHeaderContainer}>
+      <p className={style.label}>
         {fieldName}
 
-        {required && (
-          <span style={{ color: '#ff0000', fontSize: '1rem' }}>*</span>
-        )}
+        {required && <span className={style.requiredMark}>*</span>}
         {tooltipText && (
           <Tooltip title={tooltipText} placement="top">
-            <div
-              style={{
-                cursor: 'help',
-                color: '#cbcbcbff',
-                display: 'flex',
-                marginBottom: '0.1rem',
-              }}
-            >
+            <div className={style.fieldHeaderTooltip}>
               <InfoOutlined sx={{ scale: '70%' }} />
             </div>
           </Tooltip>

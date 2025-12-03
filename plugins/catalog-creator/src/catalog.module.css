@@ -1,0 +1,114 @@
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  min-height: 10rem;
+}
+
+.repositoryCard {
+  position: relative;
+  overflow: visible;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.darkLoadingOverlay {
+  background-color: rgba(118, 118, 118, 0.4);
+}
+
+.lightLoadingOverlay {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.learnMoreLink {
+  margin: 1.5rem 0;
+}
+
+.alert {
+  font-weight: bold;
+  text-align: center;
+}
+
+.errorText {
+  color: red;
+  font-size: 0.75rem;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.fieldHeaderContainer {
+  justify-self: start;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.75rem;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.fieldHeaderTooltip {
+  cursor: help;
+  color: #cbcbcbff;
+  display: flex;
+  margin-bottom: 0.1rem;
+}
+
+.requiredMark {
+  color: #ff0000;
+  font-size: 1rem;
+}
+
+.textField {
+  font-size: 0.85rem;
+  font-family: system-ui!;
+}
+
+.entityCard {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-items: start;
+  gap: var(--bui-space-4);
+}
+
+.addEntityTitle {
+  font-weight: bold;
+  margin-top: 1.5rem;
+}
+
+.endOfFormDivider {
+  margin: 1.5rem 0;
+}
+
+.createPRButton {
+  margin-bottom: 0.75rem;
+}
+
+.formInfoText {
+  font-size: 0.85rem;
+  color: gray;
+}
+
+.deleteEntityButton {
+  width: 40px;
+  align-self: flex-end;
+}

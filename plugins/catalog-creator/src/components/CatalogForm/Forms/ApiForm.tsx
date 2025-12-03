@@ -1,5 +1,5 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldError } from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ApiTypes,
@@ -15,6 +15,8 @@ import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import Alert from '@mui/material/Alert';
 import { TagField } from '../TagField';
+
+import style from '../../../catalog.module.css';
 
 export type ApiFormProps = {
   index: number;
@@ -36,6 +38,15 @@ export const ApiForm = ({
   id,
 }: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const errorText = (text: FieldError | undefined) => {
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
+      </span>
+    );
+  };
+
   return (
     <Flex direction="column" justify="start">
       <div>
@@ -58,18 +69,7 @@ export const ApiForm = ({
             />
           )}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.owner ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.owner?.message
-            ? t(errors.owner?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.owner)}
       </div>
       <Flex>
         <div style={{ width: '50%' }}>
@@ -92,20 +92,8 @@ export const ApiForm = ({
               />
             )}
           />
-
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.lifecycle ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.lifecycle?.message
-              ? t(errors?.lifecycle?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
+          {errorText(errors?.lifecycle)}
         </div>
-
         <div style={{ flexGrow: 1, width: '50%' }}>
           <FieldHeader
             fieldName={t('form.APIForm.type.fieldName')}
@@ -126,18 +114,7 @@ export const ApiForm = ({
               />
             )}
           />
-
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.entityType ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.entityType?.message
-              ? t(errors?.entityType?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
+          {errorText(errors?.entityType)}
         </div>
       </Flex>
 
@@ -160,18 +137,7 @@ export const ApiForm = ({
             />
           )}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.system ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.system?.message
-            ? t(errors?.system?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.system)}
       </div>
       <div>
         {inlineApiIndexes.includes(id) && (
@@ -195,27 +161,13 @@ export const ApiForm = ({
                 fullWidth
                 size="small"
                 inputProps={{
-                  style: {
-                    fontSize: '0.85rem',
-                    fontFamily: 'system-ui',
-                  },
+                  className: style.textField,
                 }}
               />
             </div>
           )}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.definition ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.definition?.message
-            ? t(errors?.definition?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.definition)}
       </div>
       <TagField
         index={index}
