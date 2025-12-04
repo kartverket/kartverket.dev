@@ -94,7 +94,7 @@ export const GroupPage = () => {
 
   return (
     <Stack gap={2}>
-      <Stack flexDirection="row" gap={2} alignItems="center">
+      <Stack flexDirection="row" alignItems="center">
         <Stack
           flexDirection="row"
           gap={2}
@@ -105,7 +105,7 @@ export const GroupPage = () => {
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" mr={2} ml={2}>
           <StarFilterButton
             hasStarred={hasStarred}
             effectiveFilter={effectiveFilter}
@@ -116,7 +116,6 @@ export const GroupPage = () => {
         </Box>
         <Button
           variant="text"
-          sx={{ ml: 2 }}
           startIcon={<SettingsIcon />}
           color="primary"
           onClick={handleOpenNotificationsDialog}
