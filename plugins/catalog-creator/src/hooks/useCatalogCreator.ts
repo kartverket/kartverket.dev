@@ -29,6 +29,16 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
     [url, githubAuthApi],
   );
 
+  const [repoInfo, doGetRepoInfo] = useAsyncFn(
+    async () =>
+      await getRepoInfo(
+        url,
+        githubAuthApi,
+        t('form.knownErrorAlerts.repoNotFound'),
+      ),
+    [url, githubAuthApi],
+  );
+
   const [analysisResult, doAnalyzeUrl] = useAsyncFn(async () => {
     let result;
     try {
@@ -41,6 +51,30 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
       }
     }
 
+    if (
+      result &&
+      result.type === 'repository' &&
+      url.match(/^https:\/\/github\.com\/kartverket\/[^\/]+$/)
+    ) {
+      try {
+        const backup_result = await catalogImportApi.analyzeUrl(
+          `${url}/blob/${
+            (
+              await getRepoInfo(
+                url,
+                githubAuthApi,
+                t('form.knownErrorAlerts.repoNotFound'),
+              )
+            ).default_branch
+          }/catalog-info.yaml`,
+        );
+        if (backup_result && backup_result.type === 'locations')
+          result = backup_result;
+      } catch {
+        // This API call is a failsafe to check for a likely catalog-info.yaml location.
+        // If it fails we continue trusting the result from the first call.
+      }
+    }
     if (result && result.type === 'locations') {
       doFetchCatalogInfo(result.locations[0].target);
     } else {
@@ -49,17 +83,13 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
 
     setShowForm(true);
     return result;
-  }, [url, githubAuthApi, catalogImportApi.analyzeUrl, doFetchCatalogInfo]);
-
-  const [repoInfo, doGetRepoInfo] = useAsyncFn(
-    async () =>
-      await getRepoInfo(
-        url,
-        githubAuthApi,
-        t('form.knownErrorAlerts.repoNotFound'),
-      ),
-    [url, githubAuthApi],
-  );
+  }, [
+    url,
+    githubAuthApi,
+    catalogImportApi.analyzeUrl,
+    doFetchCatalogInfo,
+    getRepoInfo,
+  ]);
 
   const [repoState, doSubmitToGithub] = useAsyncFn(
     async (submitUrl: string, catalogInfoFormList?: FormEntity[]) => {
@@ -111,8 +141,8 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
     setShowForm,
 
     catalogInfoState,
-    analysisResult,
     repoInfo,
+    analysisResult,
     repoState,
 
     doFetchCatalogInfo,

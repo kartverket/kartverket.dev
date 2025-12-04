@@ -56,7 +56,6 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { Mermaid } from 'backstage-plugin-techdocs-addon-mermaid';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-import { EntityLinguistCard } from '@backstage-community/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse';
 import {
   EntityGrafanaAlertsCard,
@@ -168,22 +167,19 @@ const entityWarningContent = (
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid item md={6}>
+    <Grid item md={6} xs={12}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
     <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-    <Grid item xs={4}>
+    <Grid item md={4} xs={12}>
       <SecurityChampionCard />
     </Grid>
-    <Grid item md={8}>
-      <EntityLinguistCard />
-    </Grid>
-    <Grid item md={4} xs={12}>
+    <Grid item md={8} xs={12}>
       <EntityLinksCard />
     </Grid>
-    <Grid item md={8} xs={12}>
+    <Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
     {grafanaContent}
