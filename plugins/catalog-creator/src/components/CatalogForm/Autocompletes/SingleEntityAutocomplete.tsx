@@ -1,13 +1,12 @@
 import { Control, Controller } from 'react-hook-form';
 import { FieldHeader } from '../FieldHeader';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { EntityErrors, Kind } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
-import { useState } from 'react';
 import { Entity } from '@backstage/catalog-model';
 
 type SingleEntityAutocompleteProps = {
@@ -43,7 +42,6 @@ export const SingleEntityAutocomplete = ({
   fieldname,
 }: SingleEntityAutocompleteProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
-  const [inputValue, setInputValue] = useState<string>('');
 
   const getTranslationKey = (
     suffix: 'fieldName' | 'tooltipText' | 'placeholder',
@@ -58,15 +56,7 @@ export const SingleEntityAutocomplete = ({
   const tooltipText = t(getTranslationKey('tooltipText'), {});
   const placeholder = t(getTranslationKey('placeholder'), {});
 
-  const options: (Entity | string)[] = (() => {
-    if (freeSolo && inputValue) {
-      const matchesEntity = entities.some(
-        entity => entity.metadata.name === inputValue,
-      );
-      return matchesEntity ? entities : [...entities, inputValue];
-    }
-    return entities;
-  })();
+  const filter = createFilterOptions<Entity | string>();
 
   return (
     <>
@@ -93,27 +83,33 @@ export const SingleEntityAutocomplete = ({
                 onChange(names);
               }}
               onInputChange={(_, newInputValue) => {
-                setInputValue(newInputValue);
                 if (freeSolo) {
                   onChange(newInputValue);
                 }
               }}
-              options={options || []}
+              options={entities || []}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                const { inputValue: filterInput } = params;
+                const isExisting = options.some(
+                  option =>
+                    filterInput ===
+                    (typeof option === 'string'
+                      ? option
+                      : option.metadata.name),
+                );
+
+                if (filterInput !== '' && !isExisting && freeSolo) {
+                  filtered.push(filterInput);
+                }
+
+                return filtered;
+              }}
               getOptionLabel={option => {
                 return typeof option === 'string'
                   ? option
                   : option.metadata.name;
-              }}
-              filterOptions={(optionList, state) => {
-                const inputVal = state.inputValue.toLowerCase();
-                return optionList.filter(option => {
-                  if (typeof option === 'string') {
-                    return option.toLowerCase().includes(inputVal);
-                  }
-                  const name = option.metadata.name.toLowerCase();
-                  const title = (option.metadata.title ?? '').toLowerCase();
-                  return name.includes(inputVal) || title.includes(inputVal);
-                });
               }}
               renderOption={(optionprops, option) => {
                 const label =

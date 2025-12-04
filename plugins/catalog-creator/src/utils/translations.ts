@@ -325,7 +325,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
 
           'form.systemForm.type.fieldName': 'Type',
           'form.systemForm.type.tooltipText': 'Systemets type.',
-          'form.systemForm.type.placeholder': 'Velg system',
+          'form.systemForm.type.placeholder':
+            'Velg eller legg til systemets type',
           'form.systemForm.domain.fieldName': 'Domene',
           'form.systemForm.domain.tooltipText':
             'Referanse til domenet som systemet tilhører.',
