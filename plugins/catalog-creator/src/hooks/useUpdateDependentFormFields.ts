@@ -11,6 +11,9 @@ export const useUpdateDependentFormFields = (
   setValue: UseFormSetValue<z.infer<typeof formSchema>>,
 ) => {
   const formatEntityString = (entity: Entity): string => {
+    if (entity.kind === 'API') {
+      return entity.metadata.name;
+    }
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
   };
 
@@ -26,7 +29,6 @@ export const useUpdateDependentFormFields = (
         ...valueToWatch.filter(e => !intersection.includes(e)),
       ];
       if (elementsToDelete.length > 0) {
-        // TODO: Fix API string on options
         setValue(fieldPath, [
           ...valueToWatch.filter(e => intersection.includes(e)),
         ]);

@@ -61,9 +61,7 @@ export const ComponentForm = ({
 
   useUpdateDependentFormFields(
     fetchAPIs.value,
-    providesApisVal
-      ? [...providesApisVal.map(e => `api:default/${e}`)]
-      : undefined,
+    providesApisVal,
     `entities.${index}.providesApis`,
     setValue,
   );
@@ -79,25 +77,6 @@ export const ComponentForm = ({
     `entities.${index}.dependsOn`,
     setValue,
   );
-
-  useEffect(() => {
-    if (dependsOnVal && dependsOnVal?.length !== 0) {
-      const intersection = componentsAndResources.flatMap(value => {
-        if (dependsOnVal.includes(formatEntityString(value))) {
-          return formatEntityString(value);
-        }
-        return [];
-      });
-      const elementsToDelete = [
-        ...dependsOnVal.filter(e => !intersection.includes(e)),
-      ];
-      if (elementsToDelete.length > 0) {
-        setValue(`entities.${index}.dependsOn`, [
-          ...dependsOnVal.filter(e => intersection.includes(e)),
-        ]);
-      }
-    }
-  }, [dependsOnVal, componentsAndResources, index, setValue]);
 
   return (
     <Flex direction="column" justify="start">
@@ -389,7 +368,6 @@ export const ComponentForm = ({
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <>
-              <div>{value}</div>
               <Autocomplete
                 multiple
                 value={
