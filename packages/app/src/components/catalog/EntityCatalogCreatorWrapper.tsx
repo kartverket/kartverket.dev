@@ -14,5 +14,10 @@ export const EntityCatalogCreatorWrapper = () => {
     gitUrl = gitUrl.substring(4);
   }
 
-  return <CatalogCreatorPage originLocation={gitUrl} />;
+  return (
+    <CatalogCreatorPage
+      docsLink="/docs/default/Component/kartverket.dev"
+      originLocation={gitUrl}
+    />
+  );
 };

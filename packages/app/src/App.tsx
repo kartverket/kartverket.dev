@@ -170,7 +170,12 @@ const routes = (
     <Route path="/devtools" element={<DevToolsPage />} />
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
-    <Route path="/catalog-creator" element={<CatalogCreatorPage />} />
+    <Route
+      path="/catalog-creator"
+      element={
+        <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
+      }
+    />
     <Route path="/notifications" element={<NotificationsPage />} />
   </FlatRoutes>
 );
