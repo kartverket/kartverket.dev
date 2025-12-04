@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { FieldPath, UseFormSetValue } from 'react-hook-form';
 import z from 'zod/v4';
 import { formSchema } from '../schemas/formSchema';
+import { Kinds } from '../types/types';
 
 export const useUpdateDependentFormFields = (
   options: Entity[],
@@ -11,7 +12,7 @@ export const useUpdateDependentFormFields = (
   setValue: UseFormSetValue<z.infer<typeof formSchema>>,
 ) => {
   const formatEntityString = (entity: Entity): string => {
-    if (entity.kind === 'API') {
+    if (entity.kind === Kinds.API || Kinds.System) {
       return entity.metadata.name;
     }
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;

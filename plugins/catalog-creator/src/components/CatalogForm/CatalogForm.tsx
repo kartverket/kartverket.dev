@@ -71,15 +71,6 @@ export const CatalogForm = ({
     return results.items as Entity[];
   }, [catalogApi]);
 
-  const fetchSystems = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'system',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
-
   const isKind = (input_kind: string): input_kind is Kind => {
     return Object.values(Kinds).includes(input_kind as Kind);
   };
@@ -146,8 +137,9 @@ export const CatalogForm = ({
     control,
   });
 
-  const fetchComponents = useFetchEntities(control, 'Component');
-  const fetchResources = useFetchEntities(control, 'Resource');
+  const fetchSystems = useFetchEntities(control, Kinds.System);
+  const fetchComponents = useFetchEntities(control, Kinds.Component);
+  const fetchResources = useFetchEntities(control, Kinds.Resource);
 
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
