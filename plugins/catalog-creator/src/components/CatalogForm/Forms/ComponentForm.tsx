@@ -77,7 +77,7 @@ export const ComponentForm = ({
 
   useUpdateDependentFormFields(
     systems,
-    systemVal ? [systemVal] : undefined,
+    typeof systemVal === 'string' ? [systemVal] : undefined,
     `entities.${index}.system`,
     setValue,
   );

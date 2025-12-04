@@ -12,14 +12,14 @@ export const useUpdateDependentFormFields = (
   setValue: UseFormSetValue<z.infer<typeof formSchema>>,
 ) => {
   const formatEntityString = (entity: Entity): string => {
-    if (entity.kind === Kinds.API || Kinds.System) {
+    if (entity.kind === Kinds.API || entity.kind === Kinds.System) {
       return entity.metadata.name;
     }
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
   };
 
   useEffect(() => {
-    if (valueToWatch && valueToWatch.length !== 0) {
+    if (valueToWatch && valueToWatch.length > 0 && options.length > 0) {
       const intersection = options.flatMap(value => {
         if (valueToWatch.includes(formatEntityString(value))) {
           return formatEntityString(value);
@@ -30,9 +30,16 @@ export const useUpdateDependentFormFields = (
         ...valueToWatch.filter(e => !intersection.includes(e)),
       ];
       if (elementsToDelete.length > 0) {
-        setValue(fieldPath, [
-          ...valueToWatch.filter(e => intersection.includes(e)),
-        ]);
+        if (
+          valueToWatch.length === 1 &&
+          intersection.includes(valueToWatch[0])
+        ) {
+          setValue(fieldPath, valueToWatch[0]);
+        } else {
+          setValue(fieldPath, [
+            ...valueToWatch.filter(e => intersection.includes(e)),
+          ]);
+        }
       }
     }
   }, [valueToWatch, options, fieldPath, setValue]);

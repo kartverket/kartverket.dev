@@ -238,6 +238,7 @@ export const CatalogForm = ({
           <SystemForm
             index={index}
             control={control}
+            setValue={setValue}
             errors={errors?.entities?.[index] as EntityErrors<'System'>}
             groups={fetchGroups.value || []}
           />
