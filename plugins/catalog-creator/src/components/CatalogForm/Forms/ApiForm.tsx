@@ -12,9 +12,10 @@ import { FieldHeader } from '../FieldHeader';
 import MuiTextField from '@mui/material/TextField';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
-import { AutocompleteField } from '../AutocompleteField';
 import Alert from '@mui/material/Alert';
-import { TagField } from '../TagField';
+import { TagField } from '../Autocompletes/TagField';
+import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/singleSelectAutocomplete';
 
 export type ApiFormProps = {
   index: number;
@@ -39,139 +40,48 @@ export const ApiForm = ({
   return (
     <Flex direction="column" justify="start">
       <div>
-        <FieldHeader
-          fieldName={t('form.owner.fieldName')}
-          tooltipText={t('form.name.tooltipText')}
-          required
-        />
-        <Controller
-          name={`entities.${index}.owner`}
+        <SingleEntityAutocomplete
+          index={index}
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <AutocompleteField
-              value={value}
-              onBlur={onBlur}
-              onChange={onChange}
-              placeholder={t('form.owner.placeholder')}
-              entities={groups || []}
-              type="search"
-            />
-          )}
+          errors={errors}
+          fieldname="owner"
+          entities={groups || []}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.owner ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.owner?.message
-            ? t(errors.owner?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <Flex>
         <div style={{ width: '50%' }}>
-          <FieldHeader
-            fieldName={t('form.APIForm.lifecycle.fieldName')}
-            tooltipText={t('form.APIForm.lifecycle.tooltipText')}
-            required
-          />
-          <Controller
-            name={`entities.${index}.lifecycle`}
+          <SingleSelectAutocomplete
+            index={index}
             control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AutocompleteField
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder={t('form.APIForm.lifecycle.placeholder')}
-                type="select"
-                options={Object.values(AllowedLifecycleStages)}
-              />
-            )}
+            errors={errors}
+            formname="APIForm"
+            fieldname="lifecycle"
+            options={Object.values(AllowedLifecycleStages)}
           />
-
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.lifecycle ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.lifecycle?.message
-              ? t(errors?.lifecycle?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
         </div>
 
         <div style={{ flexGrow: 1, width: '50%' }}>
-          <FieldHeader
-            fieldName={t('form.APIForm.type.fieldName')}
-            tooltipText={t('form.APIForm.type.tooltipText')}
-            required
-          />
-          <Controller
-            name={`entities.${index}.entityType`}
+          <SingleSelectAutocomplete
+            index={index}
             control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AutocompleteField
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder={t('form.APIForm.type.placeholder')}
-                type="select"
-                options={Object.values(ApiTypes)}
-              />
-            )}
+            errors={errors}
+            formname="APIForm"
+            fieldname="type"
+            freeSolo
+            options={Object.values(ApiTypes)}
           />
-
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.entityType ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.entityType?.message
-              ? t(errors?.entityType?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
         </div>
       </Flex>
 
       <div>
-        <FieldHeader
-          fieldName={t('form.APIForm.system.fieldName')}
-          tooltipText={t('form.APIForm.system.tooltipText')}
-        />
-        <Controller
-          name={`entities.${index}.system`}
+        <SingleEntityAutocomplete
+          index={index}
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <AutocompleteField
-              value={value}
-              onBlur={onBlur}
-              onChange={onChange}
-              placeholder={t('form.APIForm.system.placeholder')}
-              entities={systems}
-              type="search"
-            />
-          )}
+          errors={errors}
+          formname="APIForm"
+          fieldname="system"
+          entities={systems || []}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.system ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.system?.message
-            ? t(errors?.system?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <div>
         {inlineApiIndexes.includes(id) && (

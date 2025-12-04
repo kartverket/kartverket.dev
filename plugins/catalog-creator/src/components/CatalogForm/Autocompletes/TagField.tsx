@@ -1,12 +1,12 @@
 import { Control, Controller } from 'react-hook-form';
-import { FieldHeader } from './FieldHeader';
+import { FieldHeader } from '../FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { formSchema } from '../../schemas/formSchema';
+import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
-import { EntityErrors, Kind } from '../../types/types';
+import { EntityErrors, Kind } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { useState } from 'react';
 
 type TagFieldProps = {
