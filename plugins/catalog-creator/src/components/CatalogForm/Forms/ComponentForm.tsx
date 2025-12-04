@@ -21,7 +21,6 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
-import { useEffect } from 'react';
 import { useFetchEntities } from '../../../hooks/useFetchEntities';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 
@@ -59,6 +58,16 @@ export const ComponentForm = ({
     name: `entities.${index}.providesApis`,
   });
 
+  const consumesApisVal = useWatch({
+    control,
+    name: `entities.${index}.consumesApis`,
+  });
+
+  const dependsOnVal = useWatch({
+    control,
+    name: `entities.${index}.dependsOn`,
+  });
+
   useUpdateDependentFormFields(
     fetchAPIs.value,
     providesApisVal,
@@ -66,10 +75,12 @@ export const ComponentForm = ({
     setValue,
   );
 
-  const dependsOnVal = useWatch({
-    control,
-    name: `entities.${index}.dependsOn`,
-  });
+  useUpdateDependentFormFields(
+    fetchAPIs.value,
+    consumesApisVal,
+    `entities.${index}.consumesApis`,
+    setValue,
+  );
 
   useUpdateDependentFormFields(
     componentsAndResources,
@@ -309,9 +320,25 @@ export const ComponentForm = ({
               value={value || []}
               onBlur={onBlur}
               onChange={(_, newValue) => {
-                const names = newValue.map(item =>
-                  typeof item === 'string' ? item : item.metadata.name,
-                );
+                const names = newValue.map(item => {
+                  if (typeof item === 'string') {
+                    if (
+                      !fetchAPIs.value?.some(
+                        api => api.metadata.name === item,
+                      ) &&
+                      !value?.some(oldInput => oldInput === item)
+                    ) {
+                      const result = apiSchema
+                        .pick({ name: true })
+                        .safeParse({ name: item });
+                      if (result.success) {
+                        appendHandler('API', item);
+                      }
+                    }
+                    return item;
+                  }
+                  return item.metadata.name;
+                });
                 onChange(names);
               }}
               options={fetchAPIs.value || []}
