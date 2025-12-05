@@ -52,7 +52,7 @@ export const catalogCreatorMessages = {
         tooltipText: 'The lifecycle state of the component.',
         placeholder: 'Select lifecycle state',
       },
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the component.',
         placeholder: 'Select type',
@@ -62,14 +62,14 @@ export const catalogCreatorMessages = {
         tooltipText: 'Reference to the system which the component belongs to.',
         placeholder: 'Select system',
       },
-      providesAPIs: {
+      providesApis: {
         fieldName: 'Provides APIs',
         tooltipText:
           'References to all the APIs the component may provide. This does not define the API-entity itself.',
         placeholder: 'Select or add API...',
       },
 
-      consumesAPIs: {
+      consumesApis: {
         fieldName: 'Consumes APIs',
         tooltipText: 'APIs that are consumed by the component.',
         placeholder: 'Select or add API...',
@@ -88,7 +88,7 @@ export const catalogCreatorMessages = {
         tooltipText: 'The lifecycle state of the API.',
         placeholder: 'Select lifecycle state',
       },
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the API.',
         placeholder: 'Select type',
@@ -111,7 +111,7 @@ export const catalogCreatorMessages = {
     },
 
     systemForm: {
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the system.',
         placeholder: 'Select type',
@@ -124,7 +124,7 @@ export const catalogCreatorMessages = {
     },
 
     resourceForm: {
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the resource.',
         placeholder: 'Select or add type',
@@ -143,7 +143,7 @@ export const catalogCreatorMessages = {
     },
 
     domainForm: {
-      type: {
+      entityType: {
         fieldname: 'Type',
         tooltipText: 'The type of the domain',
         placeholder: 'Select or add type',
@@ -278,25 +278,25 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Livssyklusstadiet til en komponent.',
           'form.componentForm.lifecycle.placeholder': 'Velg livssyklusstadie',
 
-          'form.componentForm.type.fieldName': 'Type',
-          'form.componentForm.type.tooltipText': 'Typen til komponenten.',
-          'form.componentForm.type.placeholder': 'Velg type',
+          'form.componentForm.entityType.fieldName': 'Type',
+          'form.componentForm.entityType.tooltipText': 'Typen til komponenten.',
+          'form.componentForm.entityType.placeholder': 'Velg type',
 
           'form.componentForm.system.fieldName': 'System',
           'form.componentForm.system.tooltipText':
             'Referanse til systemet som komponenten tilhører.',
           'form.componentForm.system.placeholder': 'Velg system',
 
-          'form.componentForm.providesAPIs.fieldName': 'Tilbyr APIer',
-          'form.componentForm.providesAPIs.tooltipText':
+          'form.componentForm.providesApis.fieldName': 'Tilbyr APIer',
+          'form.componentForm.providesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.providesAPIs.placeholder':
+          'form.componentForm.providesApis.placeholder':
             'Velg eller legg til APIer...',
 
-          'form.componentForm.consumesAPIs.fieldName': 'Bruker APIer',
-          'form.componentForm.consumesAPIs.tooltipText':
+          'form.componentForm.consumesApis.fieldName': 'Bruker APIer',
+          'form.componentForm.consumesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.consumesAPIs.placeholder':
+          'form.componentForm.consumesApis.placeholder':
             'Velg eller legg til APIer...',
 
           'form.componentForm.dependsOn.fieldName': 'Avhenger av',
@@ -309,9 +309,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.APIForm.lifecycle.tooltipText': 'Livssyklusstadiet til et API.',
           'form.APIForm.lifecycle.placeholder': 'Velg livssyklusstadie',
 
-          'form.APIForm.type.fieldName': 'Type',
-          'form.APIForm.type.tooltipText': 'Typen til APIet.',
-          'form.APIForm.type.placeholder': 'Velg type',
+          'form.APIForm.entityType.fieldName': 'Type',
+          'form.APIForm.entityType.tooltipText': 'Typen til APIet.',
+          'form.APIForm.entityType.placeholder': 'Velg type',
 
           'form.APIForm.system.fieldName': 'System',
           'form.APIForm.system.tooltipText':
@@ -323,18 +323,19 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.APIForm.inlineDefinitionInfo.text':
             'Inline API-definisjon oppdaget. Denne GitHub-URL-en eller filstien fra rot i repoet vil erstatte det eksisterende inline-innholdet.',
 
-          'form.systemForm.type.fieldName': 'Type',
-          'form.systemForm.type.tooltipText': 'Systemets type.',
-          'form.systemForm.type.placeholder':
+          'form.systemForm.entityType.fieldName': 'Type',
+          'form.systemForm.entityType.tooltipText': 'Systemets type.',
+          'form.systemForm.entityType.placeholder':
             'Velg eller legg til systemets type',
           'form.systemForm.domain.fieldName': 'Domene',
           'form.systemForm.domain.tooltipText':
             'Referanse til domenet som systemet tilhører.',
           'form.systemForm.domain.placeholder': 'Velg domene',
 
-          'form.resourceForm.type.fieldName': 'Type',
-          'form.resourceForm.type.tooltipText': 'Typen til ressursen',
-          'form.resourceForm.type.placeholder': 'Velg eller skriv inn type',
+          'form.resourceForm.entityType.fieldName': 'Type',
+          'form.resourceForm.entityType.tooltipText': 'Typen til ressursen',
+          'form.resourceForm.entityType.placeholder':
+            'Velg eller skriv inn type',
 
           'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
           'form.resourceForm.dependencyof.tooltipText':
@@ -347,9 +348,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Referanse til systemet som ressursen tilhører',
           'form.resourceForm.system.placeholder': 'Velg system',
 
-          'form.domainForm.type.fieldname': 'Type',
-          'form.domainForm.type.tooltipText': 'Typen til domenet.',
-          'form.domainForm.type.placeholder': 'Velg type',
+          'form.domainForm.entityType.fieldname': 'Type',
+          'form.domainForm.entityType.tooltipText': 'Typen til domenet.',
+          'form.domainForm.entityType.placeholder': 'Velg type',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',

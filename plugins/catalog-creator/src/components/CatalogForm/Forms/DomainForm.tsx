@@ -40,7 +40,7 @@ export const DomainForm = ({
             control={control}
             errors={errors}
             formname="componentForm"
-            fieldname="type"
+            fieldname="entityType"
             freeSolo
             options={Object.values(DomainTypes)}
           />

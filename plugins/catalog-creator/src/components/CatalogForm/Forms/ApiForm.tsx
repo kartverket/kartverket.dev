@@ -66,7 +66,7 @@ export const ApiForm = ({
             control={control}
             errors={errors}
             formname="APIForm"
-            fieldname="type"
+            fieldname="entityType"
             freeSolo
             options={Object.values(ApiTypes)}
           />

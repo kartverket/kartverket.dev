@@ -95,7 +95,7 @@ export const ComponentForm = ({
             control={control}
             errors={errors}
             formname="componentForm"
-            fieldname="type"
+            fieldname="entityType"
             freeSolo
             options={Object.values(ComponentTypes)}
           />
@@ -113,8 +113,8 @@ export const ComponentForm = ({
       </div>
       <div>
         <FieldHeader
-          fieldName={t('form.componentForm.providesAPIs.fieldName')}
-          tooltipText={t('form.componentForm.providesAPIs.tooltipText')}
+          fieldName={t('form.componentForm.providesApis.fieldName')}
+          tooltipText={t('form.componentForm.providesApis.tooltipText')}
         />
         <Controller
           name={`entities.${index}.providesApis`}
@@ -183,7 +183,7 @@ export const ComponentForm = ({
               renderInput={params => (
                 <MuiTextField
                   {...params}
-                  placeholder={t('form.componentForm.providesAPIs.placeholder')}
+                  placeholder={t('form.componentForm.providesApis.placeholder')}
                   InputProps={{
                     ...params.InputProps,
                     sx: {
@@ -215,7 +215,7 @@ export const ComponentForm = ({
           control={control}
           errors={errors}
           formname="componentForm"
-          fieldname="consumesAPIs"
+          fieldname="consumesApis"
           entities={fetchAPIs.value || []}
           freeSolo
         />

@@ -29,7 +29,7 @@ type MultipleEntitiesAutocompleteProps = {
     | 'system'
     | 'domain'
     | 'dependencyof'
-    | 'consumesAPIs';
+    | 'consumesApis';
 };
 
 export const MultipleEntitiesAutocomplete = ({

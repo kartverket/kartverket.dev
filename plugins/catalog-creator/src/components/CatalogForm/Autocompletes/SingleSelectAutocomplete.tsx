@@ -25,7 +25,7 @@ type SingleSelectAutocompleteProps = {
     | 'tags'
     | 'owner'
     | 'lifecycle'
-    | 'type'
+    | 'entityType'
     | 'system'
     | 'domain'
     | 'dependencyof';

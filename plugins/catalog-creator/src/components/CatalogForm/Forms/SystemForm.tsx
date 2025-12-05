@@ -53,7 +53,7 @@ export const SystemForm = ({
             control={control}
             errors={errors}
             formname="systemForm"
-            fieldname="type"
+            fieldname="entityType"
             freeSolo
             options={Object.values(SystemTypes)}
           />

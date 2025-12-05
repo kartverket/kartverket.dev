@@ -26,7 +26,7 @@ type SingleEntityAutocompleteProps = {
     | 'tags'
     | 'owner'
     | 'lifecycle'
-    | 'type'
+    | 'entityType'
     | 'system'
     | 'domain'
     | 'dependencyof';

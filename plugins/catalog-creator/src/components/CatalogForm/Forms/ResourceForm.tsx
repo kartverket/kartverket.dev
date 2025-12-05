@@ -63,7 +63,7 @@ export const ResourceForm = ({
             control={control}
             errors={errors}
             formname="resourceForm"
-            fieldname="type"
+            fieldname="entityType"
             freeSolo
             options={Object.values(ResourceTypes)}
           />
