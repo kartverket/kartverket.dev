@@ -153,7 +153,7 @@ export const ResourceForm = ({
           tooltipText={t('form.resourceForm.dependencyof.tooltipText')}
         />
         <Controller
-          name={`entities.${index}.dependencyof`}
+          name={`entities.${index}.dependencyOf`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
@@ -215,11 +215,11 @@ export const ResourceForm = ({
           style={{
             color: 'red',
             fontSize: '0.75rem',
-            visibility: errors?.dependencyof ? 'visible' : 'hidden',
+            visibility: errors?.dependencyOf ? 'visible' : 'hidden',
           }}
         >
-          {errors?.dependencyof?.message
-            ? t(errors?.dependencyof?.message as keyof typeof t)
+          {errors?.dependencyOf?.message
+            ? t(errors?.dependencyOf?.message as keyof typeof t)
             : '\u00A0'}
         </span>
       </div>

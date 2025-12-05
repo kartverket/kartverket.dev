@@ -170,7 +170,7 @@ export const resourceSchema = baseEntitySchema.extend({
         message: 'form.errors.systemNoSpace',
       }),
   ),
-  dependencyof: z
+  dependencyOf: z
     .array(z.string())
     .refine(
       entries =>
