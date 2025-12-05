@@ -19,7 +19,7 @@ import { FieldHeader } from '../FieldHeader';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { TagField } from '../Autocompletes/TagField';
-import { SingleSelectAutocomplete } from '../Autocompletes/singleSelectAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 

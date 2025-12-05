@@ -15,7 +15,7 @@ import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import Alert from '@mui/material/Alert';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
-import { SingleSelectAutocomplete } from '../Autocompletes/singleSelectAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 
 export type ApiFormProps = {
   index: number;

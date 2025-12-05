@@ -9,7 +9,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
-import { SingleSelectAutocomplete } from '../Autocompletes/singleSelectAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 
 export type SystemFormProps = {
   index: number;

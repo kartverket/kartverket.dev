@@ -7,7 +7,7 @@ import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
-import { SingleSelectAutocomplete } from '../Autocompletes/singleSelectAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 
 export type DomainFormProps = {
   index: number;
