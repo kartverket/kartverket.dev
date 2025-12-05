@@ -1,21 +1,26 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
-import { EntityErrors, SystemTypes } from '../../../types/types';
+import {
+  Control,
+  Controller,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
+import { EntityErrors, Kinds, SystemTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
-import { useAsync } from 'react-use';
-import { useApi } from '@backstage/core-plugin-api';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { FieldHeader } from '../FieldHeader';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { AutocompleteField } from '../AutocompleteField';
 import { TagField } from '../TagField';
+import { useFetchEntities } from '../../../hooks/useFetchEntities';
+import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 
 export type SystemFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
+  setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'System'>;
   groups: Entity[];
 };
@@ -23,20 +28,25 @@ export type SystemFormProps = {
 export const SystemForm = ({
   index,
   control,
+  setValue,
   errors,
   groups,
 }: SystemFormProps) => {
-  const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  const fetchDomains = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'Domain',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
+  const fetchDomains = useFetchEntities(control, Kinds.Domain);
+
+  const domainVal = useWatch({
+    control,
+    name: `entities.${index}.domain`,
+  });
+
+  useUpdateDependentFormFields(
+    fetchDomains.value,
+    domainVal ? [domainVal] : undefined,
+    `entities.${index}.domain`,
+    setValue,
+  );
 
   return (
     <Flex direction="column" justify="start">
