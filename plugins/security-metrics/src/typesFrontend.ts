@@ -69,6 +69,7 @@ export type SecretAlert = {
   createdAt: string;
   summary: string;
   secretValue: string;
+  htmlUrl?: string;
   bypassed: boolean;
   bypassedBy?: GithubBypassed;
 };

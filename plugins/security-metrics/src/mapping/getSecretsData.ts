@@ -15,6 +15,7 @@ export const getSecrets = (
         createdAt: a.createdAt,
         summary: a.summary,
         secretValue: a.secretValue,
+        htmlUrl: a.htmlUrl,
         bypassed: a.bypassed,
         bypassedBy: a.bypassedBy,
       })) ?? [],
