@@ -28,7 +28,7 @@ const CardWrapper = ({
 }: {
   title: string;
   children: React.ReactNode;
-  action: React.ReactNode;
+  action?: React.ReactNode;
 }) => (
   <Card>
     <CardHeader sx={{ mb: 2 }} title={title} action={action} />
@@ -131,7 +131,6 @@ export const SecurityChampion = ({
           onSuccess: () => {
             refetch();
             setEdit(false);
-            setSelectedUser(null);
           },
           onError: () => {
             setIsMutationError(true);
@@ -168,6 +167,7 @@ export const SecurityChampion = ({
   };
 
   const onEdit = () => {
+    setSelectedUser(null);
     setEdit(!edit);
   };
 
@@ -233,19 +233,7 @@ export const SecurityChampion = ({
 
   if (isPending)
     return (
-      <CardWrapper
-        title="Security champion: "
-        action={
-          <IconButton
-            disabled
-            aria-label="Download a CSV file containing all security champions for this entity."
-            aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
-            onClick={() => generateSecurityChampionCSV(groupedChampions)}
-          >
-            <DownloadIcon />
-          </IconButton>
-        }
-      >
+      <CardWrapper title="Security champion: ">
         <CircularProgress />
       </CardWrapper>
     );
@@ -269,6 +257,7 @@ export const SecurityChampion = ({
             key={0}
             champion={data[0]}
             repositories={[data[0].repositoryName]}
+            selectedUser={selectedUser}
           />
           <MissingReposItem
             reposWithSecChamps={[data[0].repositoryName]}
@@ -284,6 +273,7 @@ export const SecurityChampion = ({
             key={index}
             champion={element[1].champ}
             repositories={element[1].repositoryNames}
+            selectedUser={selectedUser}
           />
         ))}
         <MissingReposItem
@@ -304,20 +294,20 @@ export const SecurityChampion = ({
             ? 'Security champions: '
             : 'Security champion: '
         }
-        action={
-          <Tooltip title="Download CSV">
-            <IconButton
-              aria-label="Download a CSV file containing all security champions for this entity."
-              aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
-              disabled={groupedChampions.size === 0}
-              onClick={() => {
-                generateSecurityChampionCSV(groupedChampions);
-              }}
-            >
-              <DownloadIcon />
-            </IconButton>
-          </Tooltip>
-        }
+        {...(groupedChampions.size !== 0 && {
+          action: (
+            <Tooltip title="Download CSV">
+              <IconButton
+                aria-label="Download a CSV file containing all security champions for this entity."
+                onClick={() => {
+                  generateSecurityChampionCSV(groupedChampions);
+                }}
+              >
+                <DownloadIcon />
+              </IconButton>
+            </Tooltip>
+          ),
+        })}
       >
         <List>
           <List
@@ -347,19 +337,7 @@ export const SecurityChampion = ({
   }
 
   return (
-    <CardWrapper
-      title="Security champion: "
-      action={
-        <IconButton
-          disabled
-          aria-label="Download a CSV file containing all security champions for this entity."
-          aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
-          onClick={() => generateSecurityChampionCSV(groupedChampions)}
-        >
-          <DownloadIcon />
-        </IconButton>
-      }
-    >
+    <CardWrapper title="Security champion: ">
       <ErrorBanner errorMessage="Kunne ikke koble til security champion API" />
     </CardWrapper>
   );

@@ -51,10 +51,11 @@ export const CatalogCreatorPage = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   useEffect(() => {
+    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
     if (originLocation && !url) {
       setUrl(originLocation);
     }
-  }, [originLocation, url, setUrl]);
+  }, [originLocation, url, setUrl, t]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
