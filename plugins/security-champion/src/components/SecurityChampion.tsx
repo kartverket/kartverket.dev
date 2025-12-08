@@ -49,6 +49,7 @@ export const SecurityChampion = ({
     useSecurityChampionsQuery(repositoryNames);
 
   const [edit, setEdit] = useState<boolean>(false);
+  const [editMissing, setEditMissing] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<UserEntity | null>(null);
   const securityChampionMutation = useSetSecurityChampionMutation();
   const securityChampionForMultipleReposMutation =
@@ -84,6 +85,14 @@ export const SecurityChampion = ({
     });
     return champMap;
   }, [data]);
+
+  const reposWithSecChamps: string[] = Array.from(
+    groupedChampions.values(),
+  ).flatMap(e => e.repositoryNames);
+
+  const reposWithNoSecChamps: string[] = repositoryNames.filter(
+    repositoryName => !reposWithSecChamps.includes(repositoryName),
+  );
 
   const generateSecurityChampionCSV = (
     groupOfChampions: Map<
@@ -128,14 +137,20 @@ export const SecurityChampion = ({
           },
         });
       } else {
+        const batchRepositoryNames = editMissing
+          ? reposWithNoSecChamps
+          : repositoryNames;
+
         const secChampBatch: SecurityChampionBatchUpdate = {
-          repositoryNames: repositoryNames,
+          repositoryNames: batchRepositoryNames,
           securityChampionEmail: selectedUser.spec.profile?.email,
         };
         securityChampionForMultipleReposMutation.mutate(secChampBatch, {
           onSuccess: () => {
             refetch();
             setEdit(false);
+            setEditMissing(false);
+            setSelectedUser(null);
           },
           onError: () => {
             setIsMutationError(true);
@@ -145,18 +160,45 @@ export const SecurityChampion = ({
     }
   };
 
+  const onCancel = () => {
+    setEdit(false);
+    setEditMissing(false);
+    setSelectedUser(null);
+  };
+
   const onEdit = () => {
     setSelectedUser(null);
     setEdit(!edit);
   };
 
+  const onEditMissing = () => {
+    setEdit(!edit);
+    setEditMissing(!editMissing);
+  };
+
   if (edit) {
+    const getTitle = () => {
+      if (entity.kind === 'Component') {
+        return 'Change security champion';
+      }
+      if (editMissing) {
+        return `Set security champion for components with no champ in this ${entity.kind.toLowerCase()}`;
+      }
+      return `Change security champion for all components in this ${entity.kind.toLowerCase()}`;
+    };
+
     return (
       <CardWrapper
-        title={
-          entity.kind === 'Component'
-            ? 'Change security champion'
-            : `Change security champion for all components in this ${entity.kind.toLowerCase()}`
+        title={getTitle()}
+        action={
+          <IconButton
+            disabled
+            aria-label="Download a CSV file containing all security champions for this entity."
+            aria-description="Download is disabled because there is only one security champion with one component, or no security champions available."
+            onClick={() => generateSecurityChampionCSV(groupedChampions)}
+          >
+            <DownloadIcon />
+          </IconButton>
         }
       >
         <UserSearch
@@ -167,17 +209,24 @@ export const SecurityChampion = ({
         {isMutationError && (
           <ErrorBanner errorMessage="Failed to set security champion" />
         )}
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button
+            style={{
+              marginTop: 8,
+              backgroundColor: selectedUser
+                ? ''
+                : 'var(--bui-bg-solid-disabled)',
+            }}
+            onClick={setSecurityChampion}
+            isDisabled={!selectedUser}
+          >
+            Confirm change
+          </Button>
 
-        <Button
-          style={{
-            marginTop: 8,
-            backgroundColor: selectedUser ? '' : 'var(--bui-bg-solid-disabled)',
-          }}
-          onClick={setSecurityChampion}
-          isDisabled={!selectedUser}
-        >
-          Confirm change
-        </Button>
+          <Button style={{ marginTop: 8 }} onClick={onCancel}>
+            Cancel
+          </Button>
+        </div>
       </CardWrapper>
     );
   }
@@ -270,13 +319,19 @@ export const SecurityChampion = ({
             {renderSecurityChampions()}
           </List>
         </List>
-        {(entity.kind === 'Component' ||
-          entity.kind === 'System' ||
-          entity.kind === 'Group') && (
-          <Button onClick={onEdit}>
-            {entity.kind === 'Component' ? 'Edit' : 'Edit all'}
-          </Button>
-        )}
+        <div style={{ display: 'flex', gap: '8px' }}>
+          {(entity.kind === 'Component' ||
+            entity.kind === 'System' ||
+            entity.kind === 'Group') && (
+            <Button onClick={onEdit}>
+              {entity.kind === 'Component' ? 'Edit' : 'Edit all'}
+            </Button>
+          )}
+          {(entity.kind === 'System' || entity.kind === 'Group') &&
+            reposWithNoSecChamps.length > 0 && (
+              <Button onClick={onEditMissing}>Edit missing</Button>
+            )}
+        </div>
       </CardWrapper>
     );
   }
