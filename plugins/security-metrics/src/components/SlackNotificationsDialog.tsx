@@ -124,7 +124,8 @@ export const SlackNotificationDialog = ({
         />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Typography>
-            NB! For å varsle i riktig Slack-kanal må appen “Sårbarhetsvarsler” være lagt til.
+            NB! For å varsle i riktig Slack-kanal må appen “Sårbarhetsvarsler”
+            være lagt til.
           </Typography>
           <Tooltip title="Tips: Gå til kanalen, skriv /add, og legg til appen.">
             <InfoOutlinedIcon
