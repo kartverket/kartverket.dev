@@ -1,0 +1,12 @@
+apiVersion: mycompany.net/v1alpha1
+kind: Function
+metadata:
+  name: testfunksjon
+  description: Tester funksjon
+spec:
+  type: Viktigfunksjon
+  lifecycle: production
+  owner: skvis
+  system: utviklerportal
+  runtime: nodejs18
+  region: us-east-1
