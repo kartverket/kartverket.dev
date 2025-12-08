@@ -2,6 +2,7 @@ import { createBackend } from '@backstage/backend-defaults';
 import { authModuleMicrosoftProvider } from './plugins/extensions/auth';
 import { msGroupTransformerCatalogModule } from './plugins/extensions/catalog';
 import { catalogNotificationsModule } from './plugins/extensions/catalogNotificationsModule';
+import { catalogModuleFunctionKind } from './plugins/extensions/functionEntity';
 
 const backend = createBackend();
 
@@ -61,5 +62,7 @@ backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
 backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(catalogNotificationsModule);
 backend.add(import('@backstage/plugin-signals-backend'));
+
+backend.add(catalogModuleFunctionKind);
 
 backend.start();

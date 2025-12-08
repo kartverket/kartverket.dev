@@ -3910,6 +3910,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-catalog-node@backstage:^::backstage=1.44.2&npm=1.19.1, @backstage/plugin-catalog-node@npm:^1.19.0":
+  version: 1.20.0
+  resolution: "@backstage/plugin-catalog-node@npm:1.20.0"
+  dependencies:
+    "@backstage/backend-plugin-api": "npm:^1.5.0"
+    "@backstage/catalog-client": "npm:^1.12.1"
+    "@backstage/catalog-model": "npm:^1.7.6"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/plugin-catalog-common": "npm:^1.1.7"
+    "@backstage/plugin-permission-common": "npm:^0.9.3"
+    "@backstage/plugin-permission-node": "npm:^0.10.6"
+    "@backstage/types": "npm:^1.2.2"
+    lodash: "npm:^4.17.21"
+    yaml: "npm:^2.0.0"
+  checksum: 10c0/df33a1ecaf6de60109606030114e482b4c1b60c96cc2cfd11c9c7dabd47e8978c1b4c4df3f3cb492537bc0016ba55436c1cd69a40c7665c3c17b12e7aac5c007
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-catalog-node@npm:^1.16.0":
   version: 1.19.0
   resolution: "@backstage/plugin-catalog-node@npm:1.19.0"
@@ -3925,24 +3943,6 @@ __metadata:
     lodash: "npm:^4.17.21"
     yaml: "npm:^2.0.0"
   checksum: 10c0/760606e58dbabb1fc7ccdad330aeab44ac056286dd3617ec256d95f0e5a1f738d4053f86f80b6579171b118fe5b572892af227388ed54afedaaf3190064d0700
-  languageName: node
-  linkType: hard
-
-"@backstage/plugin-catalog-node@npm:^1.19.0":
-  version: 1.20.0
-  resolution: "@backstage/plugin-catalog-node@npm:1.20.0"
-  dependencies:
-    "@backstage/backend-plugin-api": "npm:^1.5.0"
-    "@backstage/catalog-client": "npm:^1.12.1"
-    "@backstage/catalog-model": "npm:^1.7.6"
-    "@backstage/errors": "npm:^1.2.7"
-    "@backstage/plugin-catalog-common": "npm:^1.1.7"
-    "@backstage/plugin-permission-common": "npm:^0.9.3"
-    "@backstage/plugin-permission-node": "npm:^0.10.6"
-    "@backstage/types": "npm:^1.2.2"
-    lodash: "npm:^4.17.21"
-    yaml: "npm:^2.0.0"
-  checksum: 10c0/df33a1ecaf6de60109606030114e482b4c1b60c96cc2cfd11c9c7dabd47e8978c1b4c4df3f3cb492537bc0016ba55436c1cd69a40c7665c3c17b12e7aac5c007
   languageName: node
   linkType: hard
 
@@ -17939,6 +17939,8 @@ __metadata:
     "@backstage/plugin-catalog-backend-module-msgraph": "backstage:^"
     "@backstage/plugin-catalog-backend-module-openapi": "backstage:^"
     "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "backstage:^"
+    "@backstage/plugin-catalog-common": "backstage:^"
+    "@backstage/plugin-catalog-node": "backstage:^"
     "@backstage/plugin-devtools-backend": "backstage:^"
     "@backstage/plugin-notifications-backend": "backstage:^"
     "@backstage/plugin-notifications-node": "backstage:^"

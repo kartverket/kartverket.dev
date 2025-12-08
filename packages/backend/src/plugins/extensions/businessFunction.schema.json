@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "BusinessFunctionV1alpha1",
+  "description": "yo",
+  "allOf": [
+    {
+      "$ref": "Entity"
+    },
+    {
+      "type": "object",
+      "required": ["spec"],
+      "properties": {
+        "apiVersion": {
+          "enum": ["backstage.io/v1alpha1", "backstage.io/v1beta1"]
+        },
+        "kind": {
+          "enum": ["System"]
+        }
+      },
+      "spec": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "parentFunction": {
+            "type": "string",
+            "description": "An entity reference to the parent function.",
+            "minLength": 1
+          },
+          "childFunctions": {
+            "type": "array",
+            "description": "An array of entity references to child functions.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "systems": {
+            "type": "array",
+            "description": "An array of entity references to the systems that support the function.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  ]
+}
