@@ -413,6 +413,7 @@ const groupPage = (
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityOwnershipCard
+            entityLimit={9}
             variant="gridItem"
             entityFilterKind={[
               'Domain',
@@ -421,6 +422,7 @@ const groupPage = (
               'API',
               'Template',
               'Resource',
+              'Function',
             ]}
           />
         </Grid>

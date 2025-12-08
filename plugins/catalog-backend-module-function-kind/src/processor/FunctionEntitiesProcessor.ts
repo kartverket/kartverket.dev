@@ -4,7 +4,7 @@ import {
   processingResult,
 } from '@backstage/plugin-catalog-node';
 import { LocationSpec } from '@backstage/plugin-catalog-common';
-import { Entity, stringifyEntityRef } from '@backstage/catalog-model';
+import { Entity } from '@backstage/catalog-model';
 import { entityKindSchemaValidator } from '@backstage/catalog-model';
 import {
   FunctionEntityV1alpha1,
@@ -58,7 +58,7 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
    */
   async preProcessEntity(
     entity: Entity,
-    location: LocationSpec,
+    _location: LocationSpec,
     _emit: CatalogProcessorEmit,
   ): Promise<Entity> {
     // Only process Function entities
@@ -72,15 +72,6 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     // Example: Add a default annotation for monitoring
     if (!annotations['mycompany.net/monitoring-enabled']) {
       annotations['mycompany.net/monitoring-enabled'] = 'true';
-    }
-
-    // Example: Add source location if not present
-    if (!annotations['backstage.io/managed-by-location']) {
-      annotations['backstage.io/managed-by-location'] = stringifyEntityRef({
-        kind: location.type,
-        namespace: 'default',
-        name: location.target,
-      });
     }
 
     return {
@@ -110,6 +101,16 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
 
     // Emit ownership relation
     // This creates a link: Function --ownedBy--> Group/User
+    // Parse owner format: "group:skvis" or "user:john" or "group:default/skvis"
+    const ownerParts = functionEntity.spec.owner.split(':');
+    const ownerKind = ownerParts[0] || 'group';
+    const ownerRef = ownerParts[1] || functionEntity.spec.owner;
+    const ownerNameParts = ownerRef.split('/');
+    const ownerNamespace =
+      ownerNameParts.length > 1 ? ownerNameParts[0] : 'default';
+    const ownerName =
+      ownerNameParts.length > 1 ? ownerNameParts[1] : ownerNameParts[0];
+
     emit(
       processingResult.relation({
         source: {
@@ -119,12 +120,9 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
         },
         type: 'ownedBy',
         target: {
-          kind: functionEntity.spec.owner.split(':')[0] || 'group',
-          namespace:
-            functionEntity.spec.owner.split(':')[1]?.split('/')[0] || 'default',
-          name:
-            functionEntity.spec.owner.split(':')[1]?.split('/')[1] ||
-            functionEntity.spec.owner,
+          kind: ownerKind,
+          namespace: ownerNamespace,
+          name: ownerName,
         },
       }),
     );

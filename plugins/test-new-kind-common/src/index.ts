@@ -16,7 +16,7 @@ export { functionEntityV1alpha1Validator, schemas } from './schema';
  */
 export interface FunctionEntityV1alpha1 extends Entity {
   apiVersion: 'mycompany.net/v1alpha1';
-  kind: 'Database';
+  kind: 'Function';
   spec: {
     /**
      * The type of database (e.g., 'postgres', 'mysql', 'mongodb')
@@ -62,14 +62,14 @@ export function isFunctionEntity(
   entity: Entity,
 ): entity is FunctionEntityV1alpha1 {
   return (
-    entity.apiVersion === 'mycompany.net/v1alpha1' && entity.kind === 'Database'
+    entity.apiVersion === 'mycompany.net/v1alpha1' && entity.kind === 'Function'
   );
 }
 
 /**
  * Constants for Database entity
  */
-export const FUNCTION_ENTITY_KIND = 'Database';
+export const FUNCTION_ENTITY_KIND = 'Function';
 export const FUNCTION_API_VERSION = 'mycompany.net/v1alpha1';
 
 /**
