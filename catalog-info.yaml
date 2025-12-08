@@ -12,3 +12,11 @@ spec:
   lifecycle: 'production'
   owner: 'skvis'
   system: 'utviklerportal'
+---
+apiVersion: 'kartverket.dev/v1alpha1'
+kind: 'Funksjon'
+metadata:
+  name: 'test1'
+spec:
+  systems:
+    - 'funksjon-skjema-register'
