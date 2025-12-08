@@ -185,5 +185,4 @@ yarn dev
 <br>
 
 ## Plugins
-
-[Linguist](https://github.com/backstage/community-plugins/blob/main/workspaces/linguist/plugins/linguist) - Plugin to show languages in github repositories
+[Linguist](https://github.com/backstage/community-plugins/blob/main/workspaces/linguist/plugins/linguist) - Plugin to show languages in github repositories. _NB:_ currently removed, but could be reintroduced.

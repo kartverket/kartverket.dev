@@ -20,10 +20,12 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 export interface CatalogCreatorPageProps {
   originLocation?: string;
+  docsLink?: string;
 }
 
 export const CatalogCreatorPage = ({
   originLocation,
+  docsLink,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
@@ -51,10 +53,11 @@ export const CatalogCreatorPage = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   useEffect(() => {
+    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
     if (originLocation && !url) {
       setUrl(originLocation);
     }
-  }, [originLocation, url, setUrl]);
+  }, [originLocation, url, setUrl, t]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,7 +148,7 @@ export const CatalogCreatorPage = ({
           )}
         </Box>
         <Box flex-shrink="1" width="500px">
-          <EditOrGenerateCatalogInfoBox />
+          <EditOrGenerateCatalogInfoBox docsLink={docsLink} />
         </Box>
       </Flex>
     </Content>

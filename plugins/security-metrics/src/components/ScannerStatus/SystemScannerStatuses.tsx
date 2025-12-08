@@ -14,6 +14,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
+import { ScannerInfo } from './ScannerInfo';
 
 interface SystemScannerStatusProps {
   data: RepositorySummary[];
@@ -43,8 +44,8 @@ export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
           <TableBody>
             {aggregatedStatus.map((status: AggregatedScannerStatus) => (
               <StyledTableRow key={status.scannerName}>
-                <TableCell>
-                  <Typography>{status.scannerName}</Typography>
+                <TableCell sx={{ pl: 0.5 }}>
+                  <ScannerInfo name={status.scannerName} />
                 </TableCell>
                 <TableCell>
                   <ScannerStatusDialog scannerStatus={status} />

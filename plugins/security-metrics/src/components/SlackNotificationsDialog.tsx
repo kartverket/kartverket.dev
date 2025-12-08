@@ -47,6 +47,7 @@ export const SlackNotificationDialog = ({
   );
 
   const configureNotification = useConfigureSlackNotificationsQuery();
+  const [showChannelError, setShowChannelError] = useState(false);
 
   const handleToggleComponent = (name: string, checked: boolean) => {
     setSelectedComponents(prev =>
@@ -61,6 +62,11 @@ export const SlackNotificationDialog = ({
   };
 
   const handleSave = () => {
+    if (!channel.trim()) {
+      setShowChannelError(true);
+      return;
+    }
+
     configureNotification.mutate(
       {
         teamName: entity.metadata.name,
@@ -105,13 +111,21 @@ export const SlackNotificationDialog = ({
         <TextField
           label="Slack-kanal ID (Eks: G98XYZ1234)"
           value={channel}
-          onChange={e => setChannel(e.target.value)}
+          onChange={e => {
+            setChannel(e.target.value);
+            if (showChannelError) {
+              setShowChannelError(false);
+            }
+          }}
           fullWidth
+          required
+          error={showChannelError}
+          helperText={showChannelError ? 'Slack-kanal ID må oppgis' : ''}
         />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Typography>
-            NB! For å varsle i riktig Slack-kanal må appen “Vulnerability
-            Alerts” være lagt til.
+            NB! For å varsle i riktig Slack-kanal må appen “Sårbarhetsvarsler”
+            være lagt til.
           </Typography>
           <Tooltip title="Tips: Gå til kanalen, skriv /add, og legg til appen.">
             <InfoOutlinedIcon
