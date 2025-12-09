@@ -21,15 +21,24 @@ type MultipleEntitiesAutocompleteProps = {
     | 'systemForm'
     | 'resourceForm'
     | 'domainForm';
-  fieldname:
-    | 'tags'
-    | 'owner'
-    | 'lifecycle'
-    | 'type'
-    | 'system'
-    | 'domain'
-    | 'dependencyof'
-    | 'consumesApis';
+  fieldname: 'dependencyof' | 'consumesApis';
+};
+
+type TranslationKeyWithFormName =
+  `form.${NonNullable<MultipleEntitiesAutocompleteProps['formname']>}.${MultipleEntitiesAutocompleteProps['fieldname']}.${'fieldName' | 'tooltipText' | 'placeholder'}`;
+
+type TranslationKeyWithoutFormName =
+  `form.${MultipleEntitiesAutocompleteProps['fieldname']}.${'fieldName' | 'tooltipText' | 'placeholder'}`;
+
+type TranslationKey =
+  | TranslationKeyWithFormName
+  | TranslationKeyWithoutFormName;
+
+const hasFieldError = (
+  errors: EntityErrors<Kind> | undefined,
+  field: MultipleEntitiesAutocompleteProps['fieldname'],
+): errors is EntityErrors<Kind> & Record<typeof field, { message: string }> => {
+  return !!errors && field in errors && !!errors[field as keyof typeof errors];
 };
 
 export const MultipleEntitiesAutocomplete = ({
@@ -45,16 +54,20 @@ export const MultipleEntitiesAutocomplete = ({
 
   const getTranslationKey = (
     suffix: 'fieldName' | 'tooltipText' | 'placeholder',
-  ) => {
+  ): TranslationKey => {
     if (formname) {
-      return `form.${formname}.${fieldname}.${suffix}` as any;
+      return `form.${formname}.${fieldname}.${suffix}`;
     }
-    return `form.${fieldname}.${suffix}` as any;
+    return `form.${fieldname}.${suffix}`;
   };
 
-  const fieldNameText = t(getTranslationKey('fieldName'), {});
-  const tooltipText = t(getTranslationKey('tooltipText'), {});
-  const placeholder = t(getTranslationKey('placeholder'), {});
+  const translateField = (key: TranslationKey) => {
+    return t(key as Parameters<typeof t>[0], {});
+  };
+
+  const fieldNameText = translateField(getTranslationKey('fieldName'));
+  const tooltipText = translateField(getTranslationKey('tooltipText'));
+  const placeholder = translateField(getTranslationKey('placeholder'));
 
   const filter = createFilterOptions<Entity | string>();
 
@@ -62,7 +75,7 @@ export const MultipleEntitiesAutocomplete = ({
     <>
       <FieldHeader fieldName={fieldNameText} tooltipText={tooltipText} />
       <Controller
-        name={`entities.${index}.${fieldname}` as any}
+        name={`entities.${index}.${fieldname}`}
         control={control}
         render={({ field: { value, onChange, onBlur } }) => (
           <div>
@@ -82,7 +95,7 @@ export const MultipleEntitiesAutocomplete = ({
               onBlur={onBlur}
               onChange={(_, newValue) => {
                 const names = newValue.map(item =>
-                  typeof item === 'string' ? item : item.metadata.name,
+                  typeof item === 'string' ? item.trim() : item.metadata.name,
                 );
                 onChange(names);
               }}
@@ -141,11 +154,11 @@ export const MultipleEntitiesAutocomplete = ({
         style={{
           color: 'red',
           fontSize: '0.75rem',
-          visibility: (errors as any)?.[fieldname] ? 'visible' : 'hidden',
+          visibility: hasFieldError(errors, fieldname) ? 'visible' : 'hidden',
         }}
       >
-        {(errors as any)?.[fieldname]?.message
-          ? t((errors as any)[fieldname]?.message as any, {})
+        {hasFieldError(errors, fieldname) && errors[fieldname]?.message
+          ? translateField(errors[fieldname].message as TranslationKey)
           : '\u00A0'}
       </span>
     </>

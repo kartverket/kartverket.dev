@@ -22,14 +22,24 @@ type SingleEntityAutocompleteProps = {
     | 'systemForm'
     | 'resourceForm'
     | 'domainForm';
-  fieldname:
-    | 'tags'
-    | 'owner'
-    | 'lifecycle'
-    | 'entityType'
-    | 'system'
-    | 'domain'
-    | 'dependencyof';
+  fieldname: 'owner' | 'system' | 'domain';
+};
+
+type TranslationKeyWithFormName =
+  `form.${NonNullable<SingleEntityAutocompleteProps['formname']>}.${SingleEntityAutocompleteProps['fieldname']}.${'fieldName' | 'tooltipText' | 'placeholder'}`;
+
+type TranslationKeyWithoutFormName =
+  `form.${SingleEntityAutocompleteProps['fieldname']}.${'fieldName' | 'tooltipText' | 'placeholder'}`;
+
+type TranslationKey =
+  | TranslationKeyWithFormName
+  | TranslationKeyWithoutFormName;
+
+const hasFieldError = (
+  errors: EntityErrors<Kind> | undefined,
+  field: SingleEntityAutocompleteProps['fieldname'],
+): errors is EntityErrors<Kind> & Record<typeof field, { message: string }> => {
+  return !!errors && field in errors && !!errors[field as keyof typeof errors];
 };
 
 export const SingleEntityAutocomplete = ({
@@ -45,24 +55,28 @@ export const SingleEntityAutocomplete = ({
 
   const getTranslationKey = (
     suffix: 'fieldName' | 'tooltipText' | 'placeholder',
-  ) => {
+  ): TranslationKey => {
     if (formname) {
-      return `form.${formname}.${fieldname}.${suffix}` as any;
+      return `form.${formname}.${fieldname}.${suffix}`;
     }
-    return `form.${fieldname}.${suffix}` as any;
+    return `form.${fieldname}.${suffix}`;
   };
 
-  const fieldNameText = t(getTranslationKey('fieldName'), {});
-  const tooltipText = t(getTranslationKey('tooltipText'), {});
-  const placeholder = t(getTranslationKey('placeholder'), {});
+  const translateField = (key: TranslationKey) => {
+    return t(key as Parameters<typeof t>[0], {});
+  };
 
-  const filter = createFilterOptions<Entity | string>();
+  const fieldNameText = translateField(getTranslationKey('fieldName'));
+  const tooltipText = translateField(getTranslationKey('tooltipText'));
+  const placeholder = translateField(getTranslationKey('placeholder'));
+
+  const filter = createFilterOptions<Entity>();
 
   return (
     <>
       <FieldHeader fieldName={fieldNameText} tooltipText={tooltipText} />
       <Controller
-        name={`entities.${index}.${fieldname}` as any}
+        name={`entities.${index}.${fieldname}`}
         control={control}
         render={({ field: { value, onChange, onBlur } }) => (
           <div>
@@ -92,6 +106,7 @@ export const SingleEntityAutocomplete = ({
                 const filtered = filter(options, params);
 
                 const { inputValue: filterInput } = params;
+
                 const isExisting = options.some(
                   option =>
                     filterInput ===
@@ -101,7 +116,12 @@ export const SingleEntityAutocomplete = ({
                 );
 
                 if (filterInput !== '' && !isExisting && freeSolo) {
-                  filtered.push(filterInput);
+                  const newEntity = {
+                    metadata: {
+                      name: filterInput,
+                    },
+                  } as Entity;
+                  filtered.push(newEntity);
                 }
 
                 return filtered;
@@ -156,11 +176,11 @@ export const SingleEntityAutocomplete = ({
         style={{
           color: 'red',
           fontSize: '0.75rem',
-          visibility: (errors as any)?.[fieldname] ? 'visible' : 'hidden',
+          visibility: hasFieldError(errors, fieldname) ? 'visible' : 'hidden',
         }}
       >
-        {(errors as any)?.[fieldname]?.message
-          ? t((errors as any)[fieldname]?.message as any, {})
+        {hasFieldError(errors, fieldname) && errors[fieldname]?.message
+          ? translateField(errors[fieldname].message as TranslationKey)
           : '\u00A0'}
       </span>
     </>
