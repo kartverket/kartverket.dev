@@ -1,6 +1,5 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
-
+import { Control, Controller, FieldError, Merge } from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ComponentTypes,
@@ -23,6 +22,8 @@ import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocompl
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 
+import style from '../../../catalog.module.css';
+
 export type ComponentFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
@@ -42,6 +43,19 @@ export const ComponentForm = ({
 }: ComponentFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const errorText = (
+    text:
+      | FieldError
+      | undefined
+      | Merge<FieldError, (FieldError | undefined)[]>,
+  ) => {
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
+      </span>
+    );
+  };
 
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
@@ -186,10 +200,7 @@ export const ComponentForm = ({
                   placeholder={t('form.componentForm.providesApis.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
@@ -197,17 +208,7 @@ export const ComponentForm = ({
           )}
         />
 
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.providesApis ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.providesApis?.message
-            ? t(errors?.providesApis?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.providesApis)}
       </div>
       <div>
         <MultipleEntitiesAutocomplete
@@ -273,28 +274,14 @@ export const ComponentForm = ({
                   placeholder={t('form.componentForm.dependsOn.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
             />
           )}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.dependsOn ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.dependsOn?.message
-            ? t(errors?.dependsOn?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.dependsOn)}
       </div>
       <TagField
         index={index}

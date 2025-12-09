@@ -1,5 +1,5 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldError } from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ApiTypes,
@@ -16,6 +16,8 @@ import Alert from '@mui/material/Alert';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
+
+import style from '../../../catalog.module.css';
 
 export type ApiFormProps = {
   index: number;
@@ -37,6 +39,15 @@ export const ApiForm = ({
   id,
 }: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const errorText = (text: FieldError | undefined) => {
+    return (
+      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
+        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
+      </span>
+    );
+  };
+
   return (
     <Flex direction="column" justify="start">
       <div>
@@ -59,7 +70,6 @@ export const ApiForm = ({
             options={Object.values(AllowedLifecycleStages)}
           />
         </div>
-
         <div style={{ flexGrow: 1, width: '50%' }}>
           <SingleSelectAutocomplete
             index={index}
@@ -105,27 +115,13 @@ export const ApiForm = ({
                 fullWidth
                 size="small"
                 inputProps={{
-                  style: {
-                    fontSize: '0.85rem',
-                    fontFamily: 'system-ui',
-                  },
+                  className: style.textField,
                 }}
               />
             </div>
           )}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.definition ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.definition?.message
-            ? t(errors?.definition?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
+        {errorText(errors?.definition)}
       </div>
       <TagField
         index={index}

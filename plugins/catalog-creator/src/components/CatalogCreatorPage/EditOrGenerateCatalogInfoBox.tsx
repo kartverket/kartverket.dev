@@ -4,6 +4,7 @@ import Link from '@material-ui/core/Link';
 import Divider from '@mui/material/Divider';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
+import style from '../../catalog.module.css';
 
 interface EditOrGenerateCatalogInfoBoxProps {
   docsLink?: string;
@@ -30,11 +31,11 @@ export const EditOrGenerateCatalogInfoBox = ({
         <h4>{t('infoBox.resourceTitle')}</h4>
         <p>{t('infoBox.resourceParagraph')}</p>
         {docsLink && (
-          <Box my="1.5rem">
+          <div className={style.learnMoreLink}>
             <Link href={docsLink}>{t('infoBox.linkText')}</Link>
-          </Box>
+          </div>
         )}
-        <Box my="1.5rem">
+        <div className={style.learnMoreLink}>
           <Link
             href="https://backstage.io/docs/features/software-catalog/"
             target="_blank"
@@ -43,7 +44,7 @@ export const EditOrGenerateCatalogInfoBox = ({
             {t('infoBox.linkText2')}
             <OpenInNewIcon fontSize="inherit" />
           </Link>
-        </Box>
+        </div>
       </Box>
     </Card>
   );
