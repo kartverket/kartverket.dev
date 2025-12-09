@@ -6,7 +6,29 @@ metadata:
 spec:
   type: Viktigfunksjon
   lifecycle: production
-  owner: group:default/skvis
+  owner: skvis
   system: utviklerportal
-  runtime: nodejs18
-  region: us-east-1
+  childSystems: [utviklerportal, geonorge]
+  childFunctions: [test1, test2]
+---
+apiVersion: mycompany.net/v1alpha1
+kind: Function
+metadata:
+  name: test1
+  description: Tester funksjon
+spec:
+  type: Viktigfunksjon
+  lifecycle: production
+  owner: skvis
+  system: utviklerportal
+---
+apiVersion: mycompany.net/v1alpha1
+kind: Function
+metadata:
+  name: test2
+  description: Tester funksjon
+spec:
+  type: Viktigfunksjon
+  lifecycle: production
+  owner: skvis
+  system: utviklerportal

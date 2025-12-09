@@ -10,9 +10,9 @@ import { Entity } from '@backstage/catalog-model';
 export { functionEntityV1alpha1Validator, schemas } from './schema';
 
 /**
- * Database entity definition - version 1 alpha 1
+ * Function entity definition - version 1 alpha 1
  *
- * This represents a database instance in your infrastructure
+ * This represents a function instance in your infrastructure
  */
 export interface FunctionEntityV1alpha1 extends Entity {
   apiVersion: 'mycompany.net/v1alpha1';
@@ -37,6 +37,16 @@ export interface FunctionEntityV1alpha1 extends Entity {
      * Optional: The system this database belongs to
      */
     system?: string;
+
+    /**
+     * Optional: The systems this function is a parent of
+     */
+    childSystems?: string[];
+
+    /**
+     * Optional: The functions this function is a parent of
+     */
+    childFunctions?: string[];
 
     /**
      * Optional: Connection endpoint (without credentials)

@@ -4,7 +4,17 @@ import {
   processingResult,
 } from '@backstage/plugin-catalog-node';
 import { LocationSpec } from '@backstage/plugin-catalog-common';
-import { Entity } from '@backstage/catalog-model';
+import {
+  Entity,
+  getCompoundEntityRef,
+  parseEntityRef,
+  RELATION_CHILD_OF,
+  RELATION_HAS_PART,
+  RELATION_OWNED_BY,
+  RELATION_OWNER_OF,
+  RELATION_PARENT_OF,
+  RELATION_PART_OF,
+} from '@backstage/catalog-model';
 import { entityKindSchemaValidator } from '@backstage/catalog-model';
 import {
   FunctionEntityV1alpha1,
@@ -96,56 +106,77 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     if (!isFunctionEntity(entity)) {
       return entity;
     }
+    const selfRef = getCompoundEntityRef(entity);
+
+    function doEmit(
+      targets: string | string[] | undefined,
+      context: { defaultKind?: string; defaultNamespace: string },
+      outgoingRelation: string,
+      incomingRelation: string,
+    ): void {
+      if (!targets) {
+        return;
+      }
+
+      for (const target of [targets].flat()) {
+        const targetRef = parseEntityRef(target, context);
+        emit(
+          processingResult.relation({
+            source: selfRef,
+            type: outgoingRelation,
+            target: {
+              kind: targetRef.kind,
+              namespace: targetRef.namespace,
+              name: targetRef.name,
+            },
+          }),
+        );
+        emit(
+          processingResult.relation({
+            source: {
+              kind: targetRef.kind,
+              namespace: targetRef.namespace,
+              name: targetRef.name,
+            },
+            type: incomingRelation,
+            target: selfRef,
+          }),
+        );
+      }
+    }
 
     const functionEntity = entity as FunctionEntityV1alpha1;
 
-    // Emit ownership relation
-    // This creates a link: Function --ownedBy--> Group/User
-    // Parse owner format: "group:skvis" or "user:john" or "group:default/skvis"
-    const ownerParts = functionEntity.spec.owner.split(':');
-    const ownerKind = ownerParts[0] || 'group';
-    const ownerRef = ownerParts[1] || functionEntity.spec.owner;
-    const ownerNameParts = ownerRef.split('/');
-    const ownerNamespace =
-      ownerNameParts.length > 1 ? ownerNameParts[0] : 'default';
-    const ownerName =
-      ownerNameParts.length > 1 ? ownerNameParts[1] : ownerNameParts[0];
+    doEmit(
+      functionEntity.spec.owner,
+      { defaultKind: 'Group', defaultNamespace: selfRef.namespace },
+      RELATION_OWNED_BY,
+      RELATION_OWNER_OF,
+    );
 
-    emit(
-      processingResult.relation({
-        source: {
-          kind: functionEntity.kind,
-          namespace: functionEntity.metadata.namespace || 'default',
-          name: functionEntity.metadata.name,
-        },
-        type: 'ownedBy',
-        target: {
-          kind: ownerKind,
-          namespace: ownerNamespace,
-          name: ownerName,
-        },
-      }),
+    doEmit(
+      functionEntity.spec.system,
+      { defaultKind: 'System', defaultNamespace: selfRef.namespace },
+      RELATION_PART_OF,
+      RELATION_HAS_PART,
+    );
+
+    doEmit(
+      functionEntity.spec.childSystems,
+      { defaultKind: 'System', defaultNamespace: selfRef.namespace },
+      RELATION_PARENT_OF,
+      RELATION_CHILD_OF,
+    );
+
+    doEmit(
+      functionEntity.spec.childFunctions,
+      { defaultKind: 'Function', defaultNamespace: selfRef.namespace },
+      RELATION_PARENT_OF,
+      RELATION_CHILD_OF,
     );
 
     // Emit system relation if system is specified
     // This creates a link: Function --partOf--> System
-    if (functionEntity.spec.system) {
-      emit(
-        processingResult.relation({
-          source: {
-            kind: functionEntity.kind,
-            namespace: functionEntity.metadata.namespace || 'default',
-            name: functionEntity.metadata.name,
-          },
-          type: 'partOf',
-          target: {
-            kind: 'system',
-            namespace: 'default',
-            name: functionEntity.spec.system,
-          },
-        }),
-      );
-    }
 
     // Example: Emit a custom relation for functions in the same region
     // This could be useful for showing related functions
