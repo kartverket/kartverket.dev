@@ -2,6 +2,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { Entity } from '@backstage/catalog-model';
 
+import style from '../../catalog.module.css';
+
 type AutocompleteFieldProps = {
   type: 'select';
   value: string | undefined;
@@ -48,10 +50,7 @@ export const AutocompleteField = (
             placeholder={placeholder}
             InputProps={{
               ...params.InputProps,
-              sx: {
-                fontSize: '0.85rem',
-                fontFamily: 'system-ui',
-              },
+              className: style.textField,
             }}
           />
         )}
@@ -99,10 +98,7 @@ export const AutocompleteField = (
           placeholder={placeholder}
           InputProps={{
             ...params.InputProps,
-            sx: {
-              fontSize: '0.85rem',
-              font: 'system-ui',
-            },
+            className: style.textField,
           }}
         />
       )}
