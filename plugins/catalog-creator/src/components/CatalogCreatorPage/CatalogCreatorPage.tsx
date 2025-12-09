@@ -22,10 +22,12 @@ import style from '../../catalog.module.css';
 
 export interface CatalogCreatorPageProps {
   originLocation?: string;
+  docsLink?: string;
 }
 
 export const CatalogCreatorPage = ({
   originLocation,
+  docsLink,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
@@ -140,7 +142,7 @@ export const CatalogCreatorPage = ({
           )}
         </Box>
         <Box flex-shrink="1" width="500px">
-          <EditOrGenerateCatalogInfoBox />
+          <EditOrGenerateCatalogInfoBox docsLink={docsLink} />
         </Box>
       </Flex>
     </Content>
