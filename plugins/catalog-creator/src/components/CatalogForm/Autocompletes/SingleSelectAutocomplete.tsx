@@ -9,6 +9,8 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { useState } from 'react';
 
+import style from '../../../catalog.module.css';
+
 type SingleSelectAutocompleteProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
@@ -115,11 +117,7 @@ export const SingleSelectAutocomplete = ({
       />
 
       <span
-        style={{
-          color: 'red',
-          fontSize: '0.75rem',
-          visibility: hasFieldError(errors, fieldname) ? 'visible' : 'hidden',
-        }}
+        className={`${style.errorText} ${hasFieldError(errors, fieldname) ? '' : style.hidden}`}
       >
         {hasFieldError(errors, fieldname) && errors[fieldname]?.message
           ? translateField(errors[fieldname].message as TranslationKey)

@@ -8,6 +8,8 @@ import { EntityErrors, Kind } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { Entity } from '@backstage/catalog-model';
+import style from '../../../catalog.module.css';
+
 
 type MultipleEntitiesAutocompleteProps = {
   index: number;
@@ -151,11 +153,7 @@ export const MultipleEntitiesAutocomplete = ({
       />
 
       <span
-        style={{
-          color: 'red',
-          fontSize: '0.75rem',
-          visibility: hasFieldError(errors, fieldname) ? 'visible' : 'hidden',
-        }}
+        className={`${style.errorText} ${hasFieldError(errors, fieldname) ? '' : style.hidden}`}
       >
         {hasFieldError(errors, fieldname) && errors[fieldname]?.message
           ? translateField(errors[fieldname].message as TranslationKey)
