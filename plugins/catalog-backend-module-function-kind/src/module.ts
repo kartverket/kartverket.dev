@@ -10,7 +10,7 @@ export const catalogModuleFunctionKind = createBackendModule({
     reg.registerInit({
       deps: { logger: coreServices.logger },
       async init({ logger }) {
-        logger.info('Hello World!');
+        logger.info('Function-processor started');
       },
     });
   },

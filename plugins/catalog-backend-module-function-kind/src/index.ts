@@ -1,4 +1,3 @@
-// src/index.ts
 import { createBackendModule } from '@backstage/backend-plugin-api';
 import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node/alpha';
 import { FunctionEntitiesProcessor } from './processor/FunctionEntitiesProcessor';

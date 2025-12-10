@@ -15,28 +15,23 @@ export { functionEntityV1alpha1Validator, schemas } from './schema';
  * This represents a function instance in your infrastructure
  */
 export interface FunctionEntityV1alpha1 extends Entity {
-  apiVersion: 'mycompany.net/v1alpha1';
+  apiVersion: 'kartverket.dev/v1alpha1';
   kind: 'Function';
   spec: {
     /**
-     * The type of database (e.g., 'postgres', 'mysql', 'mongodb')
+     * The type of function (e.g., '?', '??' Dette må fylles inn når vi vet hvilke typer som kan eksistere.)
      */
     type: string;
 
     /**
-     * The lifecycle stage of the database
+     * The lifecycle stage of the function
      */
     lifecycle: string;
 
     /**
-     * The owner of the database - typically a team
+     * The owner of the function - typically a team
      */
     owner: string;
-
-    /**
-     * Optional: The system this database belongs to
-     */
-    system?: string;
 
     /**
      * Optional: The systems this function is a parent of
@@ -47,46 +42,30 @@ export interface FunctionEntityV1alpha1 extends Entity {
      * Optional: The functions this function is a parent of
      */
     childFunctions?: string[];
-
-    /**
-     * Optional: Connection endpoint (without credentials)
-     */
-    endpoint?: string;
-
-    /**
-     * Optional: Cloud provider where this database is hosted
-     */
-    provider?: 'aws' | 'gcp' | 'azure' | 'on-premise';
-
-    /**
-     * Optional: Region where the database is deployed
-     */
-    region?: string;
   };
 }
 
 /**
- * Type guard to check if an entity is a DatabaseEntity
+ * Type guard to check if an entity is a functionEntity
  */
 export function isFunctionEntity(
   entity: Entity,
 ): entity is FunctionEntityV1alpha1 {
   return (
-    entity.apiVersion === 'mycompany.net/v1alpha1' && entity.kind === 'Function'
+    entity.apiVersion === 'kartverket.dev/v1alpha1' &&
+    entity.kind === 'Function'
   );
 }
 
 /**
- * Constants for Database entity
+ * Constants for function entity
  */
 export const FUNCTION_ENTITY_KIND = 'Function';
-export const FUNCTION_API_VERSION = 'mycompany.net/v1alpha1';
+export const FUNCTION_API_VERSION = 'kartverket.dev/v1alpha1';
 
 /**
- * Well-known database types
+ * Well-known function types
  */
-export const FUNCTION_TYPES = {
-  VIKTIKGFUNKSJON: 'Viktigfunksjon',
-} as const;
+export const FUNCTION_TYPES = {} as const;
 
 export type FunctionType = (typeof FUNCTION_TYPES)[keyof typeof FUNCTION_TYPES];

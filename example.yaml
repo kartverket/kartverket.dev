@@ -1,34 +1,26 @@
-apiVersion: mycompany.net/v1alpha1
+apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: testfunksjon
+  name: eiendom-funksjon
   description: Tester funksjon
 spec:
-  type: Viktigfunksjon
-  lifecycle: production
   owner: skvis
-  system: utviklerportal
-  childSystems: [utviklerportal, geonorge]
-  childFunctions: [test1, test2]
+  childFunctions: [kart-funksjon, tinglysning-funksjon]
 ---
-apiVersion: mycompany.net/v1alpha1
+apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: test1
+  name: kart-funksjon
   description: Tester funksjon
 spec:
-  type: Viktigfunksjon
-  lifecycle: production
   owner: skvis
-  system: utviklerportal
+  childSystems: [funksjon-skjema-register]
 ---
-apiVersion: mycompany.net/v1alpha1
+apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: test2
+  name: tinglysning-funksjon
   description: Tester funksjon
 spec:
-  type: Viktigfunksjon
-  lifecycle: production
   owner: skvis
-  system: utviklerportal
+  childSystems: [norgeskart]

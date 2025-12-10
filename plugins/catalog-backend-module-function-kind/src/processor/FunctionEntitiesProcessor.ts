@@ -9,18 +9,18 @@ import {
   getCompoundEntityRef,
   parseEntityRef,
   RELATION_CHILD_OF,
-  RELATION_HAS_PART,
+  RELATION_DEPENDENCY_OF,
+  RELATION_DEPENDS_ON,
   RELATION_OWNED_BY,
   RELATION_OWNER_OF,
   RELATION_PARENT_OF,
-  RELATION_PART_OF,
 } from '@backstage/catalog-model';
 import { entityKindSchemaValidator } from '@backstage/catalog-model';
 import {
   FunctionEntityV1alpha1,
   isFunctionEntity,
   functionEntityV1alpha1Validator,
-} from '@internal/plugin-test-new-kind-common';
+} from '@internal/plugin-function-kind-common';
 
 /**
  * Processor for Function entities
@@ -80,8 +80,8 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     const annotations = entity.metadata.annotations || {};
 
     // Example: Add a default annotation for monitoring
-    if (!annotations['mycompany.net/monitoring-enabled']) {
-      annotations['mycompany.net/monitoring-enabled'] = 'true';
+    if (!annotations['kartverket.dev/monitoring-enabled']) {
+      annotations['kartverket.dev/monitoring-enabled'] = 'true';
     }
 
     return {
@@ -155,17 +155,10 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     );
 
     doEmit(
-      functionEntity.spec.system,
-      { defaultKind: 'System', defaultNamespace: selfRef.namespace },
-      RELATION_PART_OF,
-      RELATION_HAS_PART,
-    );
-
-    doEmit(
       functionEntity.spec.childSystems,
       { defaultKind: 'System', defaultNamespace: selfRef.namespace },
-      RELATION_PARENT_OF,
-      RELATION_CHILD_OF,
+      RELATION_DEPENDS_ON,
+      RELATION_DEPENDENCY_OF,
     );
 
     doEmit(
@@ -174,29 +167,6 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
       RELATION_PARENT_OF,
       RELATION_CHILD_OF,
     );
-
-    // Emit system relation if system is specified
-    // This creates a link: Function --partOf--> System
-
-    // Example: Emit a custom relation for functions in the same region
-    // This could be useful for showing related functions
-    if (functionEntity.spec.region) {
-      emit(
-        processingResult.relation({
-          source: {
-            kind: functionEntity.kind,
-            namespace: functionEntity.metadata.namespace || 'default',
-            name: functionEntity.metadata.name,
-          },
-          type: 'regionOf',
-          target: {
-            kind: 'resource',
-            namespace: 'default',
-            name: `region-${functionEntity.spec.region}`,
-          },
-        }),
-      );
-    }
 
     return entity;
   }

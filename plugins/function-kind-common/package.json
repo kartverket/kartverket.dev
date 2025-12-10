@@ -1,9 +1,9 @@
 {
-  "name": "@internal/plugin-test-new-kind-common",
+  "name": "@internal/plugin-function-kind-common",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "private": true,
-  "description": "Common functionalities for the test-new-kind plugin",
+  "description": "Common functionalities for the function-kind plugin",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "publishConfig": {
@@ -14,7 +14,7 @@
   },
   "backstage": {
     "role": "common-library",
-    "pluginId": "test-new-kind"
+    "pluginId": "function-kind"
   },
   "sideEffects": false,
   "scripts": {
