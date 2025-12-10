@@ -40,7 +40,7 @@ export const SlackNotificationDialog = ({
   channel,
   setChannel,
   componentNames,
-  notPermitted
+  notPermitted,
 }: Props) => {
   const { entity } = useEntity();
 
@@ -186,12 +186,7 @@ export const SlackNotificationDialog = ({
             <FormControlLabel
               key={name}
               disabled
-              control={
-                <Checkbox
-                  checked={false}
-                  disabled
-                />
-              }
+              control={<Checkbox checked={false} disabled />}
               label={name}
             />
           ))}
