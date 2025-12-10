@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
 import { formatDate } from 'date-fns';
-
+import { Link } from '@backstage/core-components';
 import { SecretAlert } from '../../typesFrontend';
 import Chip from '@mui/material/Chip';
 import ListItem from '@mui/material/ListItem';
@@ -45,6 +45,14 @@ export const Secret = ({ secret }: Props) => {
           <Typography>
             Oppdaget: {formatDate(secret.createdAt, 'dd.MM.yyyy HH:mm')}
           </Typography>
+          {secret.htmlUrl && (
+            <Typography>
+              GitHub-link:{' '}
+              <Link to={new URL(secret.htmlUrl).href}>
+                {new URL(secret.htmlUrl).href}
+              </Link>
+            </Typography>
+          )}
           {secret.bypassedBy && (
             <Typography>
               {`Omgått av: ${secret.bypassedBy.name}`}{' '}
