@@ -22,14 +22,15 @@ interface Props {
   channel: string;
   setChannel: React.Dispatch<React.SetStateAction<string>>;
   componentNames: string[];
+  notPermitted: string[];
 }
 
 const SEVERITIES = [
-  { value: 'critical', label: 'Critical' },
-  { value: 'high', label: 'High' },
+  { value: 'critical', label: 'Kritisk' },
+  { value: 'high', label: 'Høy' },
   { value: 'medium', label: 'Medium' },
-  { value: 'low', label: 'Low' },
-  { value: 'unknown', label: 'Unknown' },
+  { value: 'low', label: 'Lav' },
+  { value: 'unknown', label: 'Ubetydelig' },
 ];
 
 export const SlackNotificationDialog = ({
@@ -38,6 +39,7 @@ export const SlackNotificationDialog = ({
   channel,
   setChannel,
   componentNames,
+  notPermitted
 }: Props) => {
   const { entity } = useEntity();
 
@@ -179,9 +181,22 @@ export const SlackNotificationDialog = ({
               label={name}
             />
           ))}
+          {notPermitted.map(name => (
+            <FormControlLabel
+              key={name}
+              disabled
+              control={
+                <Checkbox
+                  checked={false}
+                  disabled
+                />
+              }
+              label={name}
+            />
+          ))}
         </FormGroup>
       </DialogContent>
-      <DialogActions style={{ backgroundColor: '#f5f5f5fc' }}>
+      <DialogActions>
         <Box sx={{ pb: 2, pr: 2 }}>
           <Button
             sx={{ mr: '5px' }}
