@@ -10,7 +10,6 @@ import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { Entity } from '@backstage/catalog-model';
 import style from '../../../catalog.module.css';
 
-
 type SingleEntityAutocompleteProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
