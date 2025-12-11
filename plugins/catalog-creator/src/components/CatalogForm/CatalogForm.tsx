@@ -107,7 +107,10 @@ export const CatalogForm = ({
             if (!isKind(entry.kind)) return [];
             const definition =
               typeof entry.spec.definition !== 'string'
-                ? entry.spec.definition?.$text
+                ? (entry.spec.definition?.$text ??
+                  entry.spec.definition?.$openapi ??
+                  entry.spec.definition?.$graphql ??
+                  entry.spec.definition?.$asyncapi)
                 : undefined;
 
             return {
