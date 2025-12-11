@@ -136,11 +136,6 @@ catalog:
           Domain,
           Function,
         ]
-  locations:
-    - type: file
-      target: ../../example.yaml
-      rules:
-        - allow: [Function]
   providers:
     github:
       providerId:
