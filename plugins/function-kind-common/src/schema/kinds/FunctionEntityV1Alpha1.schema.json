@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "FunctionEntityV1alpha1",
+  "description": "A Function describes a function instance in your infrastructure",
+
+  "allOf": [
+    {
+      "$ref": "Entity"
+    },
+    {
+      "type": "object",
+      "required": ["apiVersion", "kind", "spec"],
+      "properties": {
+        "apiVersion": {
+          "enum": ["kartverket.dev/v1alpha1"]
+        },
+        "kind": {
+          "enum": ["Function"]
+        },
+        "spec": {
+          "type": "object",
+          "required": ["owner"],
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "An entity reference to the owner of the function",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  ]
+}

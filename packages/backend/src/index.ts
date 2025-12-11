@@ -61,5 +61,6 @@ backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
 backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(catalogNotificationsModule);
 backend.add(import('@backstage/plugin-signals-backend'));
+backend.add(import('@internal/plugin-catalog-backend-module-function-kind'));
 
 backend.start();

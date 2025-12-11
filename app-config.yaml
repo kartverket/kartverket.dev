@@ -124,7 +124,18 @@ scaffolder:
 catalog:
   orphanStrategy: delete
   rules:
-    - allow: [Component, Group, User, Resource, Location, System, API, Domain]
+    - allow:
+        [
+          Component,
+          Group,
+          User,
+          Resource,
+          Location,
+          System,
+          API,
+          Domain,
+          Function,
+        ]
   providers:
     github:
       providerId:
