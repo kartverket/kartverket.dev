@@ -31,6 +31,7 @@ export const DomainForm = ({
           errors={errors}
           fieldname="owner"
           entities={groups || []}
+          required
         />
       </div>
       <Flex>

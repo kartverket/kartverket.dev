@@ -89,6 +89,7 @@ export const ComponentForm = ({
           errors={errors}
           fieldname="owner"
           entities={groups || []}
+          required
         />
       </div>
       <Flex>
@@ -100,6 +101,7 @@ export const ComponentForm = ({
             formname="componentForm"
             fieldname="lifecycle"
             options={Object.values(AllowedLifecycleStages)}
+            required
           />
         </div>
 
@@ -110,8 +112,8 @@ export const ComponentForm = ({
             errors={errors}
             formname="componentForm"
             fieldname="entityType"
-            freeSolo
             options={Object.values(ComponentTypes)}
+            required
           />
         </div>
       </Flex>

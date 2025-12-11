@@ -57,6 +57,7 @@ export const ApiForm = ({
           errors={errors}
           fieldname="owner"
           entities={groups || []}
+          required
         />
       </div>
       <Flex>
@@ -68,6 +69,7 @@ export const ApiForm = ({
             formname="APIForm"
             fieldname="lifecycle"
             options={Object.values(AllowedLifecycleStages)}
+            required
           />
         </div>
         <div style={{ flexGrow: 1, width: '50%' }}>
@@ -79,6 +81,7 @@ export const ApiForm = ({
             fieldname="entityType"
             freeSolo
             options={Object.values(ApiTypes)}
+            required
           />
         </div>
       </Flex>

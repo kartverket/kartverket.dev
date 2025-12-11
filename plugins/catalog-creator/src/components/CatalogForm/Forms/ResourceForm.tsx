@@ -69,6 +69,7 @@ export const ResourceForm = ({
           errors={errors}
           fieldname="owner"
           entities={groups || []}
+          required
         />
       </div>
       <Flex>
@@ -81,6 +82,7 @@ export const ResourceForm = ({
             fieldname="entityType"
             freeSolo
             options={Object.values(ResourceTypes)}
+            required
           />
         </div>
       </Flex>

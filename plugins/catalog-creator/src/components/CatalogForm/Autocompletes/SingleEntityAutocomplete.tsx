@@ -24,6 +24,7 @@ type SingleEntityAutocompleteProps = {
     | 'resourceForm'
     | 'domainForm';
   fieldname: 'owner' | 'system' | 'domain';
+  required?: boolean;
 };
 
 type TranslationKeyWithFormName =
@@ -51,6 +52,7 @@ export const SingleEntityAutocomplete = ({
   freeSolo,
   formname,
   fieldname,
+  required
 }: SingleEntityAutocompleteProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -75,7 +77,7 @@ export const SingleEntityAutocomplete = ({
 
   return (
     <>
-      <FieldHeader fieldName={fieldNameText} tooltipText={tooltipText} />
+      <FieldHeader fieldName={fieldNameText} tooltipText={tooltipText} required={required}/>
       <Controller
         name={`entities.${index}.${fieldname}`}
         control={control}

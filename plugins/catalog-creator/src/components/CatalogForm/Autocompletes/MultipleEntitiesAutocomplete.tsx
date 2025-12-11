@@ -23,6 +23,7 @@ type MultipleEntitiesAutocompleteProps = {
     | 'resourceForm'
     | 'domainForm';
   fieldname: 'dependencyof' | 'consumesApis';
+  required?: boolean;
 };
 
 type TranslationKeyWithFormName =
@@ -50,6 +51,7 @@ export const MultipleEntitiesAutocomplete = ({
   freeSolo,
   formname,
   fieldname,
+  required,
 }: MultipleEntitiesAutocompleteProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -74,7 +76,11 @@ export const MultipleEntitiesAutocomplete = ({
 
   return (
     <>
-      <FieldHeader fieldName={fieldNameText} tooltipText={tooltipText} />
+      <FieldHeader
+        fieldName={fieldNameText}
+        tooltipText={tooltipText}
+        required={required}
+      />
       <Controller
         name={`entities.${index}.${fieldname}`}
         control={control}
