@@ -24,11 +24,16 @@ export const EditOrGenerateCatalogInfoBox = ({
         <Divider />
         <h2> {t('infoBox.subtitle')}</h2>
         <p>{t('infoBox.p3')}</p>
-        <h4>{t('infoBox.componentTitle')}</h4>{' '}
+        <h3>{t('infoBox.systemTitle')}</h3>{' '}
+        <p>{t('infoBox.systemParagraph')}</p>
+        <h3>{t('infoBox.componentTitle')}</h3>{' '}
         <p>{t('infoBox.componentParagraph')}</p>
-        <h4>{t('infoBox.APITitle')}</h4>
+        <h3>{t('infoBox.APITitle')}</h3>
         <p>{t('infoBox.APIParagraph')}</p>
-        <h4>{t('infoBox.resourceTitle')}</h4>
+        <p>
+          <i>{t('infoBox.APIremark')}</i>
+        </p>
+        <h3>{t('infoBox.resourceTitle')}</h3>
         <p>{t('infoBox.resourceParagraph')}</p>
         {docsLink && (
           <div className={style.learnMoreLink}>
