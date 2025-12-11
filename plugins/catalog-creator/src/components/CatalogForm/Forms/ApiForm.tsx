@@ -12,9 +12,10 @@ import { FieldHeader } from '../FieldHeader';
 import MuiTextField from '@mui/material/TextField';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
-import { AutocompleteField } from '../AutocompleteField';
 import Alert from '@mui/material/Alert';
-import { TagField } from '../TagField';
+import { TagField } from '../Autocompletes/TagField';
+import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 
 import style from '../../../catalog.module.css';
 
@@ -50,94 +51,50 @@ export const ApiForm = ({
   return (
     <Flex direction="column" justify="start">
       <div>
-        <FieldHeader
-          fieldName={t('form.owner.fieldName')}
-          tooltipText={t('form.name.tooltipText')}
+        <SingleEntityAutocomplete
+          index={index}
+          control={control}
+          errors={errors}
+          fieldname="owner"
+          entities={groups || []}
           required
         />
-        <Controller
-          name={`entities.${index}.owner`}
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <AutocompleteField
-              value={value}
-              onBlur={onBlur}
-              onChange={onChange}
-              placeholder={t('form.owner.placeholder')}
-              entities={groups || []}
-              type="search"
-            />
-          )}
-        />
-        {errorText(errors?.owner)}
       </div>
       <Flex>
         <div style={{ width: '50%' }}>
-          <FieldHeader
-            fieldName={t('form.APIForm.lifecycle.fieldName')}
-            tooltipText={t('form.APIForm.lifecycle.tooltipText')}
+          <SingleSelectAutocomplete
+            index={index}
+            control={control}
+            errors={errors}
+            formname="APIForm"
+            fieldname="lifecycle"
+            options={Object.values(AllowedLifecycleStages)}
             required
           />
-          <Controller
-            name={`entities.${index}.lifecycle`}
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AutocompleteField
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder={t('form.APIForm.lifecycle.placeholder')}
-                type="select"
-                options={Object.values(AllowedLifecycleStages)}
-              />
-            )}
-          />
-          {errorText(errors?.lifecycle)}
         </div>
         <div style={{ flexGrow: 1, width: '50%' }}>
-          <FieldHeader
-            fieldName={t('form.APIForm.type.fieldName')}
-            tooltipText={t('form.APIForm.type.tooltipText')}
+          <SingleSelectAutocomplete
+            index={index}
+            control={control}
+            errors={errors}
+            formname="APIForm"
+            fieldname="entityType"
+            freeSolo
+            options={Object.values(ApiTypes)}
             required
           />
-          <Controller
-            name={`entities.${index}.entityType`}
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AutocompleteField
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder={t('form.APIForm.type.placeholder')}
-                type="select"
-                options={Object.values(ApiTypes)}
-              />
-            )}
-          />
-          {errorText(errors?.entityType)}
         </div>
       </Flex>
 
       <div>
-        <FieldHeader
-          fieldName={t('form.APIForm.system.fieldName')}
-          tooltipText={t('form.APIForm.system.tooltipText')}
-        />
-        <Controller
-          name={`entities.${index}.system`}
+        <SingleEntityAutocomplete
+          index={index}
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <AutocompleteField
-              value={value}
-              onBlur={onBlur}
-              onChange={onChange}
-              placeholder={t('form.APIForm.system.placeholder')}
-              entities={systems}
-              type="search"
-            />
-          )}
+          errors={errors}
+          formname="APIForm"
+          fieldname="system"
+          entities={systems || []}
         />
-        {errorText(errors?.system)}
       </div>
       <div>
         {inlineApiIndexes.includes(id) && (
