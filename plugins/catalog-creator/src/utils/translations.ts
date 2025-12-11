@@ -37,7 +37,7 @@ export const catalogCreatorMessages = {
     tags: {
       fieldName: 'Tags',
       tooltipText: 'A list of custom tags used to classify catalog entities.',
-      placeholder: 'Add tags',
+      placeholder: 'Select or add tags',
     },
     addEntity: {
       title: 'Add Entity',
@@ -52,7 +52,7 @@ export const catalogCreatorMessages = {
         tooltipText: 'The lifecycle state of the component.',
         placeholder: 'Select lifecycle state',
       },
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the component.',
         placeholder: 'Select type',
@@ -62,14 +62,14 @@ export const catalogCreatorMessages = {
         tooltipText: 'Reference to the system which the component belongs to.',
         placeholder: 'Select system',
       },
-      providesAPIs: {
+      providesApis: {
         fieldName: 'Provides APIs',
         tooltipText:
           'References to all the APIs the component may provide. This does not define the API-entity itself.',
         placeholder: 'Select or add API...',
       },
 
-      consumesAPIs: {
+      consumesApis: {
         fieldName: 'Consumes APIs',
         tooltipText: 'APIs that are consumed by the component.',
         placeholder: 'Select or add API...',
@@ -88,7 +88,7 @@ export const catalogCreatorMessages = {
         tooltipText: 'The lifecycle state of the API.',
         placeholder: 'Select lifecycle state',
       },
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the API.',
         placeholder: 'Select type',
@@ -111,7 +111,7 @@ export const catalogCreatorMessages = {
     },
 
     systemForm: {
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the system.',
         placeholder: 'Select type',
@@ -124,7 +124,7 @@ export const catalogCreatorMessages = {
     },
 
     resourceForm: {
-      type: {
+      entityType: {
         fieldName: 'Type',
         tooltipText: 'The type of the resource.',
         placeholder: 'Select or add type',
@@ -143,7 +143,7 @@ export const catalogCreatorMessages = {
     },
 
     domainForm: {
-      type: {
+      entityType: {
         fieldname: 'Type',
         tooltipText: 'The type of the domain',
         placeholder: 'Select or add type',
@@ -202,22 +202,18 @@ export const catalogCreatorMessages = {
        These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
         Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.
          Organizational entities include Group and User. Below is a brief explanation of the core entities.`,
+    systemTitle: 'System',
+    systemParagraph:
+      'A system is a collection of components that work together to fulfil a clear purpose within a specific domain. Together, they deliver complete functionality.',
     componentTitle: 'Component',
-    componentParagraph: `A Component is a piece of software, such as a service, library or a
-          website. Components will often correspond to a repository. Components can provide APIs that other components consume, and often
-          depend on APIs and resources.`,
-    APITitle: 'API',
-    APIParagraph: `An API entity describes an API that a component provides and that
-          other components consume. Public APIs are the primary ways which
-          components interact. The API specification should be included in the
-          API entity and the file path to this document should be added to the
-          API entity, with the file path to the API definition so that
-          the developer portal can provide detailed information.`,
+    componentParagraph: `A component is an independent part of a system — for example a service, a library, or an app. It often has its own repository and can be developed, built, and deployed separately from the rest of the system.`,
+    APITitle: 'API ',
+    APIParagraph: `An API describes the interface a component provides or consumes, and shows how systems and components communicate. The definition field for APIs is required.`,
+    APIremark:
+      'Note: External APIs should be registered as Resource, not as an API.',
     resourceTitle: 'Resource',
-    resourceParagraph: `Resource entities represent shared shared resources that a component
-          requires during runtime, such as object storage or other cloud
-          services.`,
-    linkText: `Read more about entities in your organization `,
+    resourceParagraph: `A Resource is an external or shared asset that a system or component depends on, but which is not necessarily owned by the same team. This can include technical infrastructure or external integrations.`,
+    linkText: `Read more about entities in your organization.`,
     linkText2: `Read more about entities in the Backstage documentation `,
   },
   successPage: {
@@ -264,7 +260,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.tags.fieldName': 'Tags',
           'form.tags.tooltipText':
             'En liste over tags (merkelapper) som kan brukes til å klassifisere entiteter i systemkatalogen.',
-          'form.tags.placeholder': 'Legg til tags',
+          'form.tags.placeholder': 'Velg eller legg til tag',
 
           'form.addEntity.title': 'Legg til entitet',
           'form.addEntity.label': 'Velg entitet',
@@ -277,25 +273,25 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Livssyklusstadiet til en komponent.',
           'form.componentForm.lifecycle.placeholder': 'Velg livssyklusstadie',
 
-          'form.componentForm.type.fieldName': 'Type',
-          'form.componentForm.type.tooltipText': 'Typen til komponenten.',
-          'form.componentForm.type.placeholder': 'Velg type',
+          'form.componentForm.entityType.fieldName': 'Type',
+          'form.componentForm.entityType.tooltipText': 'Typen til komponenten.',
+          'form.componentForm.entityType.placeholder': 'Velg type',
 
           'form.componentForm.system.fieldName': 'System',
           'form.componentForm.system.tooltipText':
             'Referanse til systemet som komponenten tilhører.',
           'form.componentForm.system.placeholder': 'Velg system',
 
-          'form.componentForm.providesAPIs.fieldName': 'Tilbyr APIer',
-          'form.componentForm.providesAPIs.tooltipText':
+          'form.componentForm.providesApis.fieldName': 'Tilbyr APIer',
+          'form.componentForm.providesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.providesAPIs.placeholder':
+          'form.componentForm.providesApis.placeholder':
             'Velg eller legg til APIer...',
 
-          'form.componentForm.consumesAPIs.fieldName': 'Bruker APIer',
-          'form.componentForm.consumesAPIs.tooltipText':
+          'form.componentForm.consumesApis.fieldName': 'Bruker APIer',
+          'form.componentForm.consumesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.consumesAPIs.placeholder':
+          'form.componentForm.consumesApis.placeholder':
             'Velg eller legg til APIer...',
 
           'form.componentForm.dependsOn.fieldName': 'Avhenger av',
@@ -308,9 +304,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.APIForm.lifecycle.tooltipText': 'Livssyklusstadiet til et API.',
           'form.APIForm.lifecycle.placeholder': 'Velg livssyklusstadie',
 
-          'form.APIForm.type.fieldName': 'Type',
-          'form.APIForm.type.tooltipText': 'Typen til APIet.',
-          'form.APIForm.type.placeholder': 'Velg type',
+          'form.APIForm.entityType.fieldName': 'Type',
+          'form.APIForm.entityType.tooltipText': 'Typen til APIet.',
+          'form.APIForm.entityType.placeholder': 'Velg type',
 
           'form.APIForm.system.fieldName': 'System',
           'form.APIForm.system.tooltipText':
@@ -322,17 +318,19 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.APIForm.inlineDefinitionInfo.text':
             'Inline API-definisjon oppdaget. Denne GitHub-URL-en eller filstien fra rot i repoet vil erstatte det eksisterende inline-innholdet.',
 
-          'form.systemForm.type.fieldName': 'Type',
-          'form.systemForm.type.tooltipText': 'Systemets type.',
-          'form.systemForm.type.placeholder': 'Velg system',
+          'form.systemForm.entityType.fieldName': 'Type',
+          'form.systemForm.entityType.tooltipText': 'Systemets type.',
+          'form.systemForm.entityType.placeholder':
+            'Velg eller legg til systemets type',
           'form.systemForm.domain.fieldName': 'Domene',
           'form.systemForm.domain.tooltipText':
             'Referanse til domenet som systemet tilhører.',
           'form.systemForm.domain.placeholder': 'Velg domene',
 
-          'form.resourceForm.type.fieldName': 'Type',
-          'form.resourceForm.type.tooltipText': 'Typen til ressursen',
-          'form.resourceForm.type.placeholder': 'Velg eller skriv inn type',
+          'form.resourceForm.entityType.fieldName': 'Type',
+          'form.resourceForm.entityType.tooltipText': 'Typen til ressursen',
+          'form.resourceForm.entityType.placeholder':
+            'Velg eller skriv inn type',
 
           'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
           'form.resourceForm.dependencyof.tooltipText':
@@ -345,9 +343,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Referanse til systemet som ressursen tilhører',
           'form.resourceForm.system.placeholder': 'Velg system',
 
-          'form.domainForm.type.fieldname': 'Type',
-          'form.domainForm.type.tooltipText': 'Typen til domenet.',
-          'form.domainForm.type.placeholder': 'Velg type',
+          'form.domainForm.entityType.fieldname': 'Type',
+          'form.domainForm.entityType.tooltipText': 'Typen til domenet.',
+          'form.domainForm.entityType.placeholder': 'Velg type',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',
@@ -393,23 +391,28 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.errors.tagRegEx':
             'Tags kan kun inneholde alfanumeriske tegn og :, + eller # separert med -, og de kan ikke være lengre enn 63 tegn.',
 
-          'infoBox.title': 'Hvordan funker skjemaet?',
+          'infoBox.title': 'Hvordan fungerer skjemaet?',
           'infoBox.p1':
             'Dette skjemaet lar deg opprette eller redigere catalog-info.yaml-filer som Backstage bruker for å oppdage og administrere komponenter. Oppgi enten URL til et GitHub-repository for å legge det til i utviklerportalen, eller en lenke til en eksisterende fil for å redigere den.',
           'infoBox.p2':
             'Når du er ferdig, klikker du Opprett Pull Request for å foreslå endringer i repositoryet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
           'infoBox.subtitle': 'Hva er entiteter i Backstage?',
           'infoBox.p3':
-            'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen. Disse entitetene er delt inn i tre grupper: kjerneentiteter, økosystementiteter og organisatoriske entiteter. Kjerneentiteter inkluderer Component, API og Resource. Økosystementiteter inkluderer System og Domain. Organisatoriske entiteter inkluderer Group og User. Nedenfor finner du en kort forklaring av kjerneentiteter.',
+            'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen.',
+          'infoBox.systemTitle': 'System',
+          'infoBox.systemParagraph':
+            'Et system er en samling av komponenter som sammen løser et tydelig formål. Systemet kan bestå av flere komponenter som samarbeider for å levere en funksjonalitet.',
           'infoBox.componentTitle': 'Component',
           'infoBox.componentParagraph':
-            'En Component er et stykke programvare, for eksempel en tjeneste, et bibliotek eller et nettsted. Komponenter tilsvarer ofte et eget kodelager. Komponenter kan tilby API-er som andre komponenter bruker, og avhenger ofte av API-er og ressurser selv.',
+            'En komponent er en selvstendig del av et system – for eksempel en tjeneste, et bibliotek eller en app. Den har ofte sitt eget repository og kan utvikles, bygges og deployes uavhengig av andre deler av systemet.',
           'infoBox.APITitle': 'API',
           'infoBox.APIParagraph':
-            'En API-entitet beskriver et API som en komponent tilbyr, og som andre komponenter bruker. Offentlige API-er er den primære måten komponenter samhandler på. API-spesifikasjonen bør inkluderes i API-entiteter, og filbanen til dette dokumentet bør legges til i API-entiteter slik at utviklerportalen kan vise detaljert informasjon.',
+            'Et API beskriver grensesnittet en komponent tilbyr eller bruker, og viser hvordan systemer og komponenter kommuniserer. Definisjonsfeltet for API-er er påkrevd.',
+          'infoBox.APIremark':
+            'Merk: Eksterne API-er skal registreres som Resource, ikke som et API.',
           'infoBox.resourceTitle': 'Resource',
           'infoBox.resourceParagraph':
-            'Resource-entiteter representerer delte ressurser som en komponent trenger under kjøring, for eksempel objektlagring eller andre skytjenester.',
+            'En Resource er en ekstern eller delt ressurs som et system eller en komponent er avhengig av, men som ikke nødvendigvis eies av samme team. Dette kan være teknisk infrastruktur eller eksterne integrasjoner.',
           'infoBox.linkText': 'Les mer om entiteter i din organisasjon ',
           'infoBox.linkText2':
             'Les mer om entiteter i Backstage-dokumentasjonen ',

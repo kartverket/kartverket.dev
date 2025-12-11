@@ -16,6 +16,7 @@ export enum ComponentTypes {
   service = 'service',
   ops = 'ops',
   documentation = 'documentation',
+  job = 'job',
 }
 
 export enum ApiTypes {
@@ -101,9 +102,13 @@ export type RequiredYamlFields = {
     consumesApis?: string[];
     dependsOn?: string[];
     implementsApis?: string[];
+    dependencyOf?: string[];
     definition?:
       | {
-          $text: string | undefined;
+          $text?: string | undefined;
+          $openapi?: string | undefined;
+          $graphql?: string | undefined;
+          $asyncapi?: string | undefined;
         }
       | string;
     target?: string;
