@@ -18,25 +18,32 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
-          tags: form?.tags || initial.metadata?.tags || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
         },
         spec: {
           ...initial.spec,
           owner: form.owner || initial.spec.owner || undefined,
           lifecycle: form.lifecycle || initial.spec.lifecycle || undefined,
-          system: form.system?.length
-            ? form.system
-            : initial.spec.system || undefined,
+          system:
+            form.system?.length === 0
+              ? undefined
+              : form.system || initial.spec.system,
           type: form.entityType! || initial.spec.type,
-          providesApis: form.providesApis?.length
-            ? form.providesApis
-            : initial.spec.providesApis || undefined,
-          consumesApis: form.consumesApis?.length
-            ? form.consumesApis
-            : initial.spec.consumesApis || undefined,
-          dependsOn: form.dependsOn?.length
-            ? form.dependsOn
-            : initial.spec.dependsOn || undefined,
+          providesApis:
+            form.providesApis?.length === 0
+              ? undefined
+              : form.providesApis || initial.spec.providesApis,
+          consumesApis:
+            form.consumesApis?.length === 0
+              ? undefined
+              : form.consumesApis || initial.spec.consumesApis,
+          dependsOn:
+            form.dependsOn?.length === 0
+              ? undefined
+              : form.dependsOn || initial.spec.dependsOn,
         },
       };
       break;
@@ -77,15 +84,19 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
-          tags: form?.tags || initial.metadata?.tags || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
         },
         spec: {
           ...initial.spec,
           owner: form.owner || initial.spec.owner || undefined,
           lifecycle: form.lifecycle || initial.spec.lifecycle || undefined,
-          system: form.system?.length
-            ? form.system
-            : initial.spec.system || undefined,
+          system:
+            form.system?.length === 0
+              ? undefined
+              : form.system || initial.spec.system,
           type: form.entityType! || initial.spec.type,
           definition: definition,
         },
@@ -100,17 +111,22 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
-          tags: form?.tags || initial.metadata?.tags || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
         },
         spec: {
           ...initial.spec,
           owner: form.owner || initial.spec.owner || undefined,
-          type: form.entityType?.length
-            ? form.entityType
-            : initial.spec.entityType || undefined,
-          domain: form.domain?.length
-            ? form.domain
-            : initial.spec.domain || undefined,
+          type:
+            form.entityType?.length === 0
+              ? undefined
+              : form.entityType || initial.spec.type,
+          domain:
+            form.domain?.length === 0
+              ? undefined
+              : form.domain || initial.spec.domain,
         },
       };
       break;
@@ -122,14 +138,18 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
-          tags: form?.tags || initial.metadata?.tags || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
         },
         spec: {
           ...initial.spec,
           owner: form.owner || initial.spec.owner || undefined,
-          type: form.entityType?.length
-            ? form.entityType
-            : initial.spec.entityType || undefined,
+          type:
+            form.entityType?.length === 0
+              ? undefined
+              : form.entityType || initial.spec.type,
         },
       };
       break;
@@ -141,20 +161,26 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
-          tags: form?.tags || initial.metadata?.tags || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
         },
         spec: {
           ...initial.spec,
           owner: form.owner || initial.spec.owner || undefined,
-          type: form.entityType?.length
-            ? form.entityType
-            : initial.spec.entityType || undefined,
-          system: form.system?.length
-            ? form.system
-            : initial.spec.system || undefined,
-          dependencyof: form.dependencyof?.length
-            ? form.dependencyof
-            : initial.spec.dependencyof || undefined,
+          type:
+            form.entityType?.length === 0
+              ? undefined
+              : form.entityType || initial.spec.type,
+          system:
+            form.system?.length === 0
+              ? undefined
+              : form.system || initial.spec.system,
+          dependencyOf:
+            form.dependencyOf?.length === 0
+              ? undefined
+              : form.dependencyOf || initial.spec.dependencyOf,
         },
       };
       break;

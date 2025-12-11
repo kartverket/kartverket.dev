@@ -102,7 +102,7 @@ export const ResourceForm = ({
           tooltipText={t('form.resourceForm.dependencyof.tooltipText')}
         />
         <Controller
-          name={`entities.${index}.dependencyof`}
+          name={`entities.${index}.dependencyOf`}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <Autocomplete
@@ -156,7 +156,7 @@ export const ResourceForm = ({
             />
           )}
         />
-        {errorText(errors?.dependencyof)}
+        {errorText(errors?.dependencyOf)}
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
