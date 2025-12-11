@@ -30,7 +30,8 @@ const SEVERITIES = [
   { value: 'high', label: 'Høy' },
   { value: 'medium', label: 'Medium' },
   { value: 'low', label: 'Lav' },
-  { value: 'unknown', label: 'Ubetydelig' },
+  { value: 'negligible', label: 'Ubetydelig' },
+  { value: 'unknown', label: 'Uvisst' },
 ];
 
 export const SlackNotificationDialog = ({
