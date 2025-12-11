@@ -52,7 +52,7 @@ export const SingleSelectAutocomplete = ({
   freeSolo,
   formname,
   fieldname,
-  required
+  required,
 }: SingleSelectAutocompleteProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const [inputValue, setInputValue] = useState<string>('');
@@ -80,7 +80,11 @@ export const SingleSelectAutocomplete = ({
 
   return (
     <>
-      <FieldHeader fieldName={fieldNameText} tooltipText={tooltipText} required={required}/>
+      <FieldHeader
+        fieldName={fieldNameText}
+        tooltipText={tooltipText}
+        required={required}
+      />
       <Controller
         name={`entities.${index}.${fieldname}`}
         control={control}
