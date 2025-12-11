@@ -103,7 +103,10 @@ export type RequiredYamlFields = {
     implementsApis?: string[];
     definition?:
       | {
-          $text: string | undefined;
+          $text?: string | undefined;
+          $openapi?: string | undefined;
+          $graphql?: string | undefined;
+          $asyncapi?: string | undefined;
         }
       | string;
     target?: string;

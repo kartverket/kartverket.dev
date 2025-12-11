@@ -44,7 +44,26 @@ export const updateYaml = (
       let definition;
 
       if (form.definition) {
-        definition = { $text: form.definition };
+        if (
+          initial.spec.definition &&
+          typeof initial.spec.definition !== 'string'
+        ) {
+          switch (true) {
+            case Object.hasOwn(initial.spec.definition, '$openapi'):
+              definition = { $openapi: form.definition };
+              break;
+            case Object.hasOwn(initial.spec.definition, '$graphql'):
+              definition = { $graphql: form.definition };
+              break;
+            case Object.hasOwn(initial.spec.definition, '$asyncapi'):
+              definition = { $asyncapi: form.definition };
+              break;
+            default:
+              definition = { $text: form.definition };
+          }
+        } else {
+          definition = { $text: form.definition };
+        }
       } else if (initial.spec.definition !== 'string') {
         definition = initial.spec.definition;
       } else {
