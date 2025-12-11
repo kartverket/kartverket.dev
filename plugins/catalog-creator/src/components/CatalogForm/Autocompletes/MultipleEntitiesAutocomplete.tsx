@@ -22,7 +22,7 @@ type MultipleEntitiesAutocompleteProps = {
     | 'systemForm'
     | 'resourceForm'
     | 'domainForm';
-  fieldname: 'dependencyof' | 'consumesApis';
+  fieldname: 'dependencyOf' | 'consumesApis';
   required?: boolean;
 };
 

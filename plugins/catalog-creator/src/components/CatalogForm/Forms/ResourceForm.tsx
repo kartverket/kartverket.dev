@@ -156,7 +156,7 @@ export const ResourceForm = ({
             />
           )}
         />
-        {errorText(errors?.dependencyof)}
+        {errorText(errors?.dependencyOf)}
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
