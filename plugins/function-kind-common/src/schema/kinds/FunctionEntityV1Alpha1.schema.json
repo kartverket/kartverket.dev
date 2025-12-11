@@ -24,8 +24,7 @@
             "owner": {
               "type": "string",
               "description": "An entity reference to the owner of the function",
-              "minLength": 1,
-              "examples": ["platform-team", "data-team"]
+              "minLength": 1
             }
           }
         }
