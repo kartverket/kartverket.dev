@@ -102,7 +102,6 @@ export type RequiredYamlFields = {
     consumesApis?: string[];
     dependsOn?: string[];
     implementsApis?: string[];
-    dependencyOf?: string[];
     definition?:
       | {
           $text?: string | undefined;
