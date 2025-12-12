@@ -87,7 +87,7 @@ export const componentSchema = baseEntitySchema.extend({
       { message: 'form.errors.dependenciesNoSpace' },
     )
     .optional(),
-  depencencyOf: z.array(z.string()).optional(),
+  dependencyOf: z.array(z.string()).optional(),
 });
 
 export const apiSchema = baseEntitySchema.extend({
@@ -193,6 +193,14 @@ export const domainSchema = baseEntitySchema.extend({
       .trim()
       .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
   ),
+  subdomainOf: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.domainNoSpace' },
+    )
+    .optional(),
 });
 
 export const templateSchema = baseEntitySchema.extend({

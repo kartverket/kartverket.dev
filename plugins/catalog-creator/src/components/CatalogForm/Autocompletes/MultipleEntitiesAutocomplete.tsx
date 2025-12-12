@@ -4,7 +4,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
-import { EntityErrors, Kind } from '../../../types/types';
+import { EntityErrors, Kind, Kinds } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { Entity } from '@backstage/catalog-model';
@@ -22,8 +22,14 @@ type MultipleEntitiesAutocompleteProps = {
     | 'systemForm'
     | 'resourceForm'
     | 'domainForm';
-  fieldname: 'dependencyOf' | 'consumesApis';
+  fieldname:
+    | 'dependencyOf'
+    | 'consumesApis'
+    | 'subdomainOf'
+    | 'providesApis'
+    | 'dependsOn';
   required?: boolean;
+  kind?: Kind;
 };
 
 type TranslationKeyWithFormName =
@@ -52,6 +58,7 @@ export const MultipleEntitiesAutocomplete = ({
   formname,
   fieldname,
   required,
+  kind = Kinds.Component,
 }: MultipleEntitiesAutocompleteProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -68,11 +75,15 @@ export const MultipleEntitiesAutocomplete = ({
     return t(key as Parameters<typeof t>[0], {});
   };
 
+  const formatEntityString = (entity: Entity): string => {
+    return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+  };
+
   const fieldNameText = translateField(getTranslationKey('fieldName'));
   const tooltipText = translateField(getTranslationKey('tooltipText'));
   const placeholder = translateField(getTranslationKey('placeholder'));
 
-  const filter = createFilterOptions<Entity | string>();
+  const filter = createFilterOptions<Entity>();
 
   return (
     <>
@@ -90,20 +101,23 @@ export const MultipleEntitiesAutocomplete = ({
               multiple
               freeSolo={freeSolo}
               value={
-                value && Array.isArray(value)
-                  ? value.map(
-                      name =>
-                        entities.find(
-                          entity => entity.metadata.name === name,
-                        ) ?? name,
-                    )
-                  : []
+                (value || [])
+                  .map(str => {
+                    return (entities || []).find(entity => {
+                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                      return entityStr === str;
+                    });
+                  })
+                  .filter(Boolean) as Entity[]
               }
               onBlur={onBlur}
               onChange={(_, newValue) => {
-                const names = newValue.map(item =>
-                  typeof item === 'string' ? item.trim() : item.metadata.name,
-                );
+                const names = newValue.map(item => {
+                  if (typeof item === 'string') {
+                    return `${kind}:default/${item}`;
+                  }
+                  return formatEntityString(item);
+                });
                 onChange(names);
               }}
               options={entities}
@@ -120,13 +134,20 @@ export const MultipleEntitiesAutocomplete = ({
                 );
 
                 if (filterInput !== '' && !isExisting && freeSolo) {
-                  filtered.push(filterInput);
+                  const newEntity = {
+                    kind: kind,
+                    metadata: {
+                      name: filterInput,
+                    },
+                  } as Entity;
+                  filtered.push(newEntity);
                 }
-
                 return filtered;
               }}
               getOptionLabel={option => {
                 if (typeof option === 'string') return option;
+                if (fieldname === 'dependencyOf' || fieldname === 'dependsOn')
+                  return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
                 return option.metadata.title ?? option.metadata.name;
               }}
               isOptionEqualToValue={(option, selectedValue) => {

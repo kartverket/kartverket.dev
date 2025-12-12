@@ -150,6 +150,10 @@ export const updateYaml = (
             form.entityType?.length === 0
               ? undefined
               : form.entityType || initial.spec.type,
+          subdomainOf:
+            form.subdomainOf?.length === 0
+              ? undefined
+              : form.subdomainOf || initial.spec.subdomainOf,
         },
       };
       break;

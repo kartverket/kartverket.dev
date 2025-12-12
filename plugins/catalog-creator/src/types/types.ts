@@ -102,7 +102,6 @@ export type RequiredYamlFields = {
     consumesApis?: string[];
     dependsOn?: string[];
     implementsApis?: string[];
-    dependencyOf?: string[];
     definition?:
       | {
           $text?: string | undefined;
@@ -112,6 +111,7 @@ export type RequiredYamlFields = {
         }
       | string;
     target?: string;
+    dependencyOf?: string[];
     [key: string]: any; // Allow additional spec fields
   };
 };
