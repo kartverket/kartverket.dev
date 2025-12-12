@@ -128,6 +128,7 @@ export const GroupPage = () => {
           channel={channel}
           setChannel={setChannel}
           componentNames={componentNames}
+          notPermitted={notPermitted}
         />
         <SupportButton />
       </Stack>
