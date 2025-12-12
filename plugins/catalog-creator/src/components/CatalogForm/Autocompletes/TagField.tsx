@@ -1,12 +1,15 @@
 import { Control, Controller } from 'react-hook-form';
-import { FieldHeader } from './FieldHeader';
+import { FieldHeader } from '../FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { formSchema } from '../../schemas/formSchema';
+import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
-import { EntityErrors, Kind } from '../../types/types';
+import { EntityErrors, Kind } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { catalogCreatorTranslationRef } from '../../../utils/translations';
+import { useState } from 'react';
+
+import style from '../../../catalog.module.css';
 
 type TagFieldProps = {
   index: number;
@@ -22,6 +25,7 @@ export const TagField = ({
   options,
 }: TagFieldProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+  const [inputValue, setInputValue] = useState<string>('');
   return (
     <div>
       <FieldHeader
@@ -36,10 +40,18 @@ export const TagField = ({
             <Autocomplete
               {...field}
               onChange={(_, value) => field.onChange(value)}
+              inputValue={inputValue}
+              onInputChange={(_, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
               value={field.value || []}
               multiple
               freeSolo
-              options={options}
+              options={
+                inputValue && !options.includes(inputValue)
+                  ? [...options, inputValue]
+                  : options
+              }
               size="small"
               renderInput={params => (
                 <TextField
@@ -47,10 +59,7 @@ export const TagField = ({
                   placeholder={t('form.tags.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      font: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
@@ -60,11 +69,7 @@ export const TagField = ({
       />
 
       <span
-        style={{
-          color: 'red',
-          fontSize: '0.75rem',
-          visibility: errors?.tags ? 'visible' : 'hidden',
-        }}
+        className={`${style.errorText} ${errors?.tags ? '' : style.hidden}`}
       >
         {errors?.tags?.message
           ? t(errors?.tags?.message as keyof typeof t)

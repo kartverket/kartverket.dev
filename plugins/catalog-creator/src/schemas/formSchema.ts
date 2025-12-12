@@ -187,11 +187,12 @@ export const domainSchema = baseEntitySchema.extend({
     .trim()
     .min(1, 'form.errors.noOwner')
     .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
-  entityType: z
-    .string('form.errors.noType')
-    .trim()
-    .min(1, 'form.errors.noType')
-    .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
+  entityType: z.optional(
+    z
+      .string('form.errors.noType')
+      .trim()
+      .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
+  ),
   subdomainOf: z
     .array(z.string())
     .refine(

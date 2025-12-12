@@ -4,6 +4,8 @@ import Alert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 
+import style from '../../catalog.module.css';
+
 interface SuccessMessageProps {
   prUrl?: string;
   onReset: () => void;
@@ -19,10 +21,7 @@ export const SuccessMessage = ({ prUrl, onReset }: SuccessMessageProps) => {
           align={{ xs: 'start', md: 'center' }}
           py="2rem"
         >
-          <Alert
-            sx={{ fontWeight: 'bold', textAlign: 'center' }}
-            severity="success"
-          >
+          <Alert className={style.alert} severity="success">
             {t('successPage.successfullyCreatedPR')}:{' '}
             {prUrl ? (
               <Link

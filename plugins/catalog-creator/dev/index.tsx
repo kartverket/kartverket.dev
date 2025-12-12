@@ -4,7 +4,9 @@ import { catalogCreatorPlugin, CatalogCreatorPage } from '../src/plugin';
 createDevApp()
   .registerPlugin(catalogCreatorPlugin)
   .addPage({
-    element: <CatalogCreatorPage />,
+    element: (
+      <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
+    ),
     title: 'Root Page',
     path: '/catalog-creator',
   })

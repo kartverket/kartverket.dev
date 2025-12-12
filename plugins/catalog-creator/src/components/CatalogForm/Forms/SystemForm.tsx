@@ -1,20 +1,13 @@
 import { Flex } from '@backstage/ui';
-import {
-  Control,
-  Controller,
-  UseFormSetValue,
-  useWatch,
-} from 'react-hook-form';
+import { Control, UseFormSetValue, useWatch } from 'react-hook-form';
 import { EntityErrors, SystemTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
-import { FieldHeader } from '../FieldHeader';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogCreatorTranslationRef } from '../../../utils/translations';
-import { AutocompleteField } from '../AutocompleteField';
-import { TagField } from '../TagField';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
+import { TagField } from '../Autocompletes/TagField';
+import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 
 export type SystemFormProps = {
   index: number;
@@ -33,8 +26,6 @@ export const SystemForm = ({
   groups,
   domains,
 }: SystemFormProps) => {
-  const { t } = useTranslationRef(catalogCreatorTranslationRef);
-
   const domainVal = useWatch({
     control,
     name: `entities.${index}.domain`,
@@ -50,103 +41,36 @@ export const SystemForm = ({
   return (
     <Flex direction="column" justify="start">
       <div>
-        <FieldHeader
-          fieldName={t('form.owner.fieldName')}
-          tooltipText={t('form.name.tooltipText')}
-          required
-        />
-        <Controller
-          name={`entities.${index}.owner`}
+        <SingleEntityAutocomplete
+          index={index}
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <AutocompleteField
-              value={value}
-              onBlur={onBlur}
-              onChange={onChange}
-              placeholder={t('form.owner.placeholder')}
-              entities={groups || []}
-              type="search"
-            />
-          )}
+          errors={errors}
+          fieldname="owner"
+          entities={groups || []}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.owner ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.owner?.message
-            ? t(errors.owner?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <Flex>
         <div style={{ flexGrow: 1, width: '50%' }}>
-          <FieldHeader
-            fieldName={t('form.systemForm.type.fieldName')}
-            tooltipText={t('form.systemForm.type.tooltipText')}
-          />
-          <Controller
-            name={`entities.${index}.systemType`}
+          <SingleSelectAutocomplete
+            index={index}
             control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AutocompleteField
-                value={value}
-                onBlur={onBlur}
-                onChange={onChange}
-                options={Object.values(SystemTypes)}
-                placeholder={t('form.systemForm.type.placeholder')}
-                type="select"
-              />
-            )}
+            errors={errors}
+            formname="systemForm"
+            fieldname="entityType"
+            freeSolo
+            options={Object.values(SystemTypes)}
           />
-
-          <span
-            style={{
-              color: 'red',
-              fontSize: '0.75rem',
-              visibility: errors?.entityType ? 'visible' : 'hidden',
-            }}
-          >
-            {errors?.entityType?.message
-              ? t(errors?.entityType?.message as keyof typeof t)
-              : '\u00A0'}
-          </span>
         </div>
       </Flex>
       <div>
-        <FieldHeader
-          fieldName={t('form.systemForm.domain.fieldName')}
-          tooltipText={t('form.systemForm.domain.tooltipText')}
-        />
-        <Controller
-          name={`entities.${index}.domain`}
+        <SingleEntityAutocomplete
+          index={index}
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <AutocompleteField
-              onChange={onChange}
-              onBlur={onBlur}
-              value={value}
-              entities={domains || []}
-              type="search"
-              placeholder={t('form.systemForm.domain.placeholder')}
-            />
-          )}
+          errors={errors}
+          formname="systemForm"
+          fieldname="domain"
+          entities={domains || []}
         />
-
-        <span
-          style={{
-            color: 'red',
-            fontSize: '0.75rem',
-            visibility: errors?.domain ? 'visible' : 'hidden',
-          }}
-        >
-          {errors?.domain?.message
-            ? t(errors?.domain?.message as keyof typeof t)
-            : '\u00A0'}
-        </span>
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>

@@ -33,6 +33,8 @@ import { ResourceForm } from './Forms/ResourceForm';
 import { DomainForm } from './Forms/DomainForm';
 import { useFetchEntities } from '../../hooks/useFetchEntities';
 
+import style from '../../catalog.module.css';
+
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
   currentYaml: RequiredYamlFields[] | null;
@@ -98,7 +100,10 @@ export const CatalogForm = ({
             if (!isKind(entry.kind)) return [];
             const definition =
               typeof entry.spec.definition !== 'string'
-                ? entry.spec.definition?.$text
+                ? (entry.spec.definition?.$text ??
+                  entry.spec.definition?.$openapi ??
+                  entry.spec.definition?.$graphql ??
+                  entry.spec.definition?.$asyncapi)
                 : undefined;
 
             return {
@@ -286,127 +291,100 @@ export const CatalogForm = ({
       >
         <Box px="2rem">
           <h2>{t('form.title')}</h2>
-          <p style={{ fontSize: '0.85rem', color: 'gray' }}>
+          <p className={style.formInfoText}>
             {t('form.requiredFields')}
-            <span style={{ color: '#ff0000', fontSize: '1rem' }}>*</span>
+            <span className={style.requiredMark}>*</span>
           </p>
           {fields.map((entity, index) => {
             return (
-              <Card
-                style={{
-                  marginRight: '1rem',
-                  marginBottom: '1rem',
-                  padding: '1rem',
-                  position: 'relative',
-                  overflow: 'visible',
-                }}
-                key={entity.key}
-              >
-                <Flex direction="column" justify="start">
-                  <Flex justify="between">
-                    <div>
-                      <Controller
-                        name={`entities.${index}.kind`}
-                        control={control}
-                        render={({ field: { value } }) => (
-                          <h3 aria-label="entity-header">
-                            {' '}
-                            {`${value}${t('form.entity')}`}{' '}
-                          </h3>
-                        )}
-                      />
-                    </div>
-                    {index !== 0 && (
-                      <Button
-                        style={{ width: '40px', alignSelf: 'flex-end' }}
-                        onClick={() => remove(index)}
-                      >
-                        <DeleteIcon />
-                      </Button>
+              <Card className={style.entityCard} key={entity.key}>
+                <Flex justify="between">
+                  <Controller
+                    name={`entities.${index}.kind`}
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <h3 aria-label="entity-header">
+                        {' '}
+                        {`${value}${t('form.entity')}`}{' '}
+                      </h3>
                     )}
-                  </Flex>
-
-                  <div style={{ width: '100%' }}>
-                    <FieldHeader
-                      fieldName={t('form.name.fieldName')}
-                      required
-                      tooltipText={t('form.name.tooltipText')}
-                    />
-                    <Controller
-                      name={`entities.${index}.name`}
-                      control={control}
-                      render={({ field }) => (
-                        <MuiTextField
-                          {...field}
-                          name="Name"
-                          fullWidth
-                          size="small"
-                          inputProps={{
-                            style: {
-                              fontSize: '0.85rem',
-                              fontFamily: 'system-ui',
-                            },
-                          }}
-                        />
-                      )}
-                    />
-                    <span
-                      style={{
-                        color: 'red',
-                        fontSize: '0.75rem',
-                        visibility: errors?.entities ? 'visible' : 'hidden',
-                      }}
+                  />
+                  {index !== 0 && (
+                    <Button
+                      className={style.deleteEntityButton}
+                      onClick={() => remove(index)}
                     >
-                      {errors?.entities?.[index]?.name?.message
-                        ? t(
-                            errors.entities[index]?.name
-                              ?.message as keyof typeof t,
-                          )
-                        : '\u00A0'}
-                    </span>
-                  </div>
-                  <div>
-                    <FieldHeader
-                      fieldName={t('form.titleField.fieldName')}
-                      tooltipText={t('form.titleField.tooltipText')}
-                    />
-                    <Controller
-                      name={`entities.${index}.title`}
-                      control={control}
-                      render={({ field }) => (
-                        <MuiTextField
-                          {...field}
-                          name="Title"
-                          fullWidth
-                          size="small"
-                          inputProps={{
-                            style: {
-                              fontSize: '0.85rem',
-                              fontFamily: 'system-ui',
-                            },
-                          }}
-                        />
-                      )}
-                    />
-                    <span
-                      style={{
-                        color: 'red',
-                        fontSize: '0.75rem',
-                        visibility: errors?.entities ? 'visible' : 'hidden',
-                      }}
-                    >
-                      {errors?.entities?.[index]?.title?.message || '\u00A0'}
-                    </span>
-                  </div>
-
-                  {getEntityForm(entity, index)}
+                      <DeleteIcon />
+                    </Button>
+                  )}
                 </Flex>
+
+                <div style={{ width: '100%' }}>
+                  <FieldHeader
+                    fieldName={t('form.name.fieldName')}
+                    required
+                    tooltipText={t('form.name.tooltipText')}
+                  />
+                  <Controller
+                    name={`entities.${index}.name`}
+                    control={control}
+                    render={({ field }) => (
+                      <MuiTextField
+                        {...field}
+                        name="Name"
+                        fullWidth
+                        size="small"
+                        inputProps={{
+                          className: style.textField,
+                        }}
+                      />
+                    )}
+                  />
+                  <span
+                    className={`${style.errorText} ${errors?.entities ? '' : style.hidden}`}
+                  >
+                    {errors?.entities?.[index]?.name?.message
+                      ? t(
+                          errors.entities[index]?.name
+                            ?.message as keyof typeof t,
+                        )
+                      : '\u00A0'}
+                  </span>
+                </div>
+                <div>
+                  <FieldHeader
+                    fieldName={t('form.titleField.fieldName')}
+                    tooltipText={t('form.titleField.tooltipText')}
+                  />
+                  <Controller
+                    name={`entities.${index}.title`}
+                    control={control}
+                    render={({ field }) => (
+                      <MuiTextField
+                        {...field}
+                        name="Title"
+                        fullWidth
+                        size="small"
+                        inputProps={{
+                          className: style.textField,
+                        }}
+                      />
+                    )}
+                  />
+                  <span
+                    className={`${style.errorText} ${errors?.entities ? '' : style.hidden}`}
+                  >
+                    {errors?.entities?.[index]?.title?.message || '\u00A0'}
+                  </span>
+                </div>
+
+                {getEntityForm(entity, index)}
               </Card>
             );
           })}
 
           <Flex direction="column">
-            <Text style={{ fontWeight: 'bold', marginTop: '1.5rem' }}>
+            <Text className={style.addEntityTitle}>
               {t('form.addEntity.title')}
             </Text>
             <Flex align="end" justify="start">
@@ -429,12 +407,12 @@ export const CatalogForm = ({
               </Button>
             </Flex>
           </Flex>
-          <Divider sx={{ marginY: '1.5rem' }} />
+          <Divider className={style.endOfFormDivider} />
           <Flex justify="end">
             <Button
               variant="primary"
               type="submit"
-              style={{ marginBottom: '0.75rem' }}
+              className={style.createPRButton}
             >
               {t('form.createPR')}
             </Button>
