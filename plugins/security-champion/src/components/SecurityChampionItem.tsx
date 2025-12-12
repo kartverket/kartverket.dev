@@ -9,11 +9,11 @@ import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import { UserEntity } from '@backstage/catalog-model';
-import style from './securityCard.module.css';
 
 const KVSecurityChampionItem = ({
   champion,
@@ -85,7 +85,30 @@ export const SecurityChampionItem = ({
 }) => {
   return (
     <ListItem>
-      <Stack className={style.item}>
+      <Stack
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          '@container securityChampionList (max-width: 500px)': {
+            flexDirection: 'column',
+            alignItems: 'baseline',
+          },
+        }}
+        width="100%"
+        justifyContent="space-between"
+        divider={
+          <Divider
+            sx={{
+              orientation: 'horisontal',
+              '@container securityChampionList (max-width: 500px)': {
+                orientation: 'vertical',
+              },
+            }}
+            flexItem
+          />
+        }
+      >
         {champion.securityChampionEmail && (
           <KVSecurityChampionItem
             champion={champion}
@@ -97,7 +120,9 @@ export const SecurityChampionItem = ({
         )}
         {repositories && (
           <CustomTooltip
-            className={style.toolTip}
+            sx={{
+              backgroundColor: 'var(--bui-bg-surface-1	)',
+            }}
             title={
               <List>
                 {repositories.map(repository => (

@@ -39,34 +39,26 @@ export const useSetSecurityChampionMutation = () => {
     onMutate: async (newChampion: SecurityChamp) => {
       const queryKey = ['security-champions', [newChampion.repositoryName]];
 
-      // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey });
 
-      // Snapshot the previous value
       const previousChampions =
         queryClient.getQueryData<SecurityChamp[]>(queryKey);
 
-      // Optimistically update to the new value
       queryClient.setQueryData<SecurityChamp[]>(queryKey, old => {
         if (!old) return [newChampion];
 
-        // Find and replace the champion for this repository
         const existingIndex = old.findIndex(
           champ => champ.repositoryName === newChampion.repositoryName,
         );
 
         if (existingIndex >= 0) {
-          // Replace existing champion
           const updated = [...old];
           updated[existingIndex] = newChampion;
           return updated;
-        } 
-          // Add new champion
-          return [...old, newChampion];
-        
+        }
+        return [...old, newChampion];
       });
 
-      // Return context for rollback
       return { previousChampions, queryKey };
     },
   });
