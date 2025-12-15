@@ -34,6 +34,7 @@ import { DomainForm } from './Forms/DomainForm';
 import { useFetchEntities } from '../../hooks/useFetchEntities';
 
 import style from '../../catalog.module.css';
+import { toEntityRef, toEntityRefList } from '../../utils/toEntityRef';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -113,13 +114,22 @@ export const CatalogForm = ({
               owner: entry.spec.owner,
               lifecycle: entry.spec.lifecycle as AllowedLifecycleStages,
               entityType: entry.spec.type as string,
-              system: entry.spec.system,
-              providesApis: entry.spec.providesApis,
-              consumesApis: entry.spec.consumesApis,
+              system: entry.spec.system
+                ? toEntityRef(Kinds.System, entry.spec.system)
+                : undefined,
+              providesApis: toEntityRefList(
+                Kinds.API,
+                entry.spec.providesApis ?? [],
+              ),
+              consumesApis: toEntityRefList(
+                Kinds.API,
+                entry.spec.consumesApis ?? [],
+              ),
               dependencyOf: entry.spec.dependencyOf,
               definition: definition,
               title: entry.metadata.title || '',
               tags: entry.metadata.tags || [],
+              dependsOn: entry.spec.dependsOn,
             };
           })
         : [

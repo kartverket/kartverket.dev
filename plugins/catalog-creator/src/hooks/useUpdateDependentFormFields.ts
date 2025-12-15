@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { FieldPath, UseFormSetValue } from 'react-hook-form';
 import z from 'zod/v4';
 import { formSchema } from '../schemas/formSchema';
-import { Kinds } from '../types/types';
 
 export const useUpdateDependentFormFields = (
   options: Entity[],
@@ -12,15 +11,20 @@ export const useUpdateDependentFormFields = (
   setValue: UseFormSetValue<z.infer<typeof formSchema>>,
 ) => {
   const formatEntityString = (entity: Entity): string => {
-    if (entity.kind === Kinds.System) {
-      return entity.metadata.name;
-    }
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
   };
 
   useEffect(() => {
-    if (valueToWatch && valueToWatch.length > 0 && options.length > 0) {
+    if (
+      valueToWatch &&
+      valueToWatch.length > 0 &&
+      valueToWatch[0] !== '' &&
+      options.length > 0
+    ) {
       const intersection = options.flatMap(value => {
+        if (valueToWatch.includes(value.metadata.name)) {
+          return value.metadata.name;
+        }
         if (valueToWatch.includes(formatEntityString(value))) {
           return formatEntityString(value);
         }

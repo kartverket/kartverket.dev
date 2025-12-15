@@ -108,6 +108,8 @@ export const SingleEntityAutocomplete = ({
                   onChange(`${kind}:default/${newValue}`);
                 } else if (newValue) {
                   onChange(formatEntityString(newValue));
+                } else {
+                  onChange('');
                 }
               }}
               onInputChange={(_, newInputValue) => {
@@ -143,7 +145,7 @@ export const SingleEntityAutocomplete = ({
               getOptionLabel={option => {
                 return typeof option === 'string'
                   ? option
-                  : option.metadata.name;
+                  : (option.metadata.title ?? option.metadata.name);
               }}
               renderOption={(optionprops, option) => {
                 const label =
