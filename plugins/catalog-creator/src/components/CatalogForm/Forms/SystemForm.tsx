@@ -1,12 +1,10 @@
 import { Flex } from '@backstage/ui';
-import { Control } from 'react-hook-form';
+import { Control, UseFormSetValue, useWatch } from 'react-hook-form';
 import { EntityErrors, SystemTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
-import { useAsync } from 'react-use';
-import { useApi } from '@backstage/core-plugin-api';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
@@ -14,26 +12,31 @@ import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocompl
 export type SystemFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
+  setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'System'>;
   groups: Entity[];
+  domains: Entity[];
 };
 
 export const SystemForm = ({
   index,
   control,
+  setValue,
   errors,
   groups,
+  domains,
 }: SystemFormProps) => {
-  const catalogApi = useApi(catalogApiRef);
+  const domainVal = useWatch({
+    control,
+    name: `entities.${index}.domain`,
+  });
 
-  const fetchDomains = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'Domain',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
+  useUpdateDependentFormFields(
+    domains,
+    domainVal ? [domainVal] : undefined,
+    `entities.${index}.domain`,
+    setValue,
+  );
 
   return (
     <Flex direction="column" justify="start">
@@ -66,7 +69,7 @@ export const SystemForm = ({
           errors={errors}
           formname="systemForm"
           fieldname="domain"
-          entities={fetchDomains.value || []}
+          entities={domains || []}
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
