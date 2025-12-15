@@ -66,13 +66,13 @@ export const catalogCreatorMessages = {
         fieldName: 'Provides APIs',
         tooltipText:
           'References to all the APIs the component may provide. This does not define the API-entity itself.',
-        placeholder: 'Select or add API...',
+        placeholder: 'Select API...',
       },
 
       consumesApis: {
         fieldName: 'Consumes APIs',
         tooltipText: 'APIs that are consumed by the component.',
-        placeholder: 'Select or add API...',
+        placeholder: 'Select API...',
       },
       dependsOn: {
         fieldName: 'Depends on',
@@ -129,7 +129,7 @@ export const catalogCreatorMessages = {
         tooltipText: 'The type of the resource.',
         placeholder: 'Select or add type',
       },
-      dependencyof: {
+      dependencyOf: {
         fieldName: 'Dependency of',
         tooltipText:
           'Which components or systems that depends on this resource',
@@ -144,9 +144,15 @@ export const catalogCreatorMessages = {
 
     domainForm: {
       entityType: {
-        fieldname: 'Type',
+        fieldName: 'Type',
         tooltipText: 'The type of the domain',
         placeholder: 'Select or add type',
+      },
+      subdomainOf: {
+        fieldName: 'Subdomain',
+        tooltipText:
+          'A reference to other domains which is a part of this domain.',
+        placeholder: 'Select subdomains',
       },
     },
     errors: {
@@ -285,14 +291,12 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.providesApis.fieldName': 'Tilbyr APIer',
           'form.componentForm.providesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.providesApis.placeholder':
-            'Velg eller legg til APIer...',
+          'form.componentForm.providesApis.placeholder': 'Velg APIer...',
 
           'form.componentForm.consumesApis.fieldName': 'Bruker APIer',
           'form.componentForm.consumesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.consumesApis.placeholder':
-            'Velg eller legg til APIer...',
+          'form.componentForm.consumesApis.placeholder': 'Velg APIer...',
 
           'form.componentForm.dependsOn.fieldName': 'Avhenger av',
           'form.componentForm.dependsOn.tooltipText':
@@ -332,10 +336,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.resourceForm.entityType.placeholder':
             'Velg eller skriv inn type',
 
-          'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
-          'form.resourceForm.dependencyof.tooltipText':
+          'form.resourceForm.dependencyOf.fieldName': 'Avhengigheter til',
+          'form.resourceForm.dependencyOf.tooltipText':
             'Hvilke komponenter eller systemer som er avhengige av denne ressursen',
-          'form.resourceForm.dependencyof.placeholder':
+          'form.resourceForm.dependencyOf.placeholder':
             'Velg komponenter/ressurser',
 
           'form.resourceForm.system.fieldName': 'System',
@@ -343,9 +347,14 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Referanse til systemet som ressursen tilhører',
           'form.resourceForm.system.placeholder': 'Velg system',
 
-          'form.domainForm.entityType.fieldname': 'Type',
+          'form.domainForm.entityType.fieldName': 'Type',
           'form.domainForm.entityType.tooltipText': 'Typen til domenet.',
           'form.domainForm.entityType.placeholder': 'Velg type',
+
+          'form.domainForm.subdomainOf.fieldName': 'Subdomene',
+          'form.domainForm.subdomainOf.tooltipText':
+            'En eller flere referanser til underseksjoner av dette domenet.',
+          'form.domainForm.subdomainOf.placeholder': 'Velg subdomener',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',

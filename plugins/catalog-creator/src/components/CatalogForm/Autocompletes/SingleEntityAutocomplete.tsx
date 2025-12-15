@@ -4,7 +4,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import MuiTextField from '@mui/material/TextField';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
-import { EntityErrors, Kind } from '../../../types/types';
+import { EntityErrors, Kind, Kinds } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { Entity } from '@backstage/catalog-model';
@@ -25,6 +25,7 @@ type SingleEntityAutocompleteProps = {
     | 'domainForm';
   fieldname: 'owner' | 'system' | 'domain';
   required?: boolean;
+  kind?: Kind;
 };
 
 type TranslationKeyWithFormName =
@@ -53,6 +54,7 @@ export const SingleEntityAutocomplete = ({
   formname,
   fieldname,
   required,
+  kind = Kinds.Component,
 }: SingleEntityAutocompleteProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -75,6 +77,10 @@ export const SingleEntityAutocomplete = ({
 
   const filter = createFilterOptions<Entity>();
 
+  const formatEntityString = (entity: Entity): string => {
+    return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+  };
+
   return (
     <>
       <FieldHeader
@@ -91,17 +97,20 @@ export const SingleEntityAutocomplete = ({
               freeSolo={freeSolo}
               value={
                 value
-                  ? (entities.find(entity => entity.metadata.name === value) ??
-                    value)
+                  ? (entities.find(
+                      entity => formatEntityString(entity) === value,
+                    ) ?? value)
                   : null
               }
               onBlur={onBlur}
               onChange={(_, newValue) => {
-                const names =
-                  typeof newValue === 'string'
-                    ? newValue
-                    : (newValue?.metadata?.name ?? '');
-                onChange(names);
+                if (typeof newValue === 'string') {
+                  onChange(`${kind}:default/${newValue}`);
+                } else if (newValue) {
+                  onChange(formatEntityString(newValue));
+                } else {
+                  onChange('');
+                }
               }}
               onInputChange={(_, newInputValue) => {
                 if (freeSolo) {
@@ -136,7 +145,7 @@ export const SingleEntityAutocomplete = ({
               getOptionLabel={option => {
                 return typeof option === 'string'
                   ? option
-                  : option.metadata.name;
+                  : (option.metadata.title ?? option.metadata.name);
               }}
               renderOption={(optionprops, option) => {
                 const label =
