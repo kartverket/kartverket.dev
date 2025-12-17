@@ -79,11 +79,6 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     // Add default annotations if not present
     const annotations = entity.metadata.annotations || {};
 
-    // Example: Add a default annotation for monitoring:
-    // if (!annotations['kartverket.dev/monitoring-enabled']) {
-    //   annotations['kartverket.dev/monitoring-enabled'] = 'true';
-    // }
-
     return {
       ...entity,
       metadata: {
