@@ -54,6 +54,14 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
                 </Tooltip>
               </Box>
             </TableCell>
+            <TableCell>
+              <Box display="flex" alignItems="center" gap={1}>
+                MTTH
+                <Tooltip title="Mean time to handle: gjennomsnittlig antall dager siden en sårbarhet ble oppdaget, fram til den blir løst eller akseptert – eller til dagens dato hvis den fortsatt er åpen">
+                  <InfoIcon fontSize="small" />
+                </Tooltip>
+              </Box>
+            </TableCell>
             <TableCell>Inaktive skannere</TableCell>
             <TableCell width="30%">Sårbarheter</TableCell>
           </TableRow>
@@ -76,7 +84,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              colSpan={6}
+              colSpan={7}
               {...paginationProps}
               count={allRows.length}
             />

@@ -1,0 +1,96 @@
+app:
+  baseUrl: https://kartverket-dev-env-914366947816.europe-west1.run.app
+
+backend:
+  baseUrl: https://kartverket-dev-env-914366947816.europe-west1.run.app
+  listen:
+    port: 7007
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin:
+      [
+        'https://kartverket-dev-env-914366947816.europe-west1.run.app',
+        'http://localhost:7007',
+      ]
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+proxy:
+  endpoints:
+    '/opencost':
+      target: https://opencost.dev.skip.statkart.no
+    '/lighthouse':
+      target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
+    '/grafana/api':
+      target: https://monitoring.kartverket.cloud
+      headers:
+        Authorization: Bearer ${GRAFANA_TOKEN}
+    '/risc-proxy':
+      target: http://localhost:8080
+      allowedHeaders:
+        ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
+    '/opencost-cacher':
+      target: http://localhost:8080
+      credentials: forward
+      changeOrigin: true
+    '/security-champion-proxy':
+      target: https://security-champion-api-914366947816.europe-west1.run.app
+      changeOrigin: true
+
+integrations:
+  github:
+    - host: github.com
+      token: ${PERSONAL_GITHUB_TOKEN}
+
+auth:
+  environment: production
+  providers:
+    microsoft:
+      production:
+        clientId: ${MICROSOFT_CLIENT_ID}
+        clientSecret: ${MICROSOFT_CLIENT_SECRET}
+        tenantId: ${MICROSOFT_TENANT_ID}
+    github:
+      production:
+        clientId: ${GITHUB_CLIENT_ID}
+        clientSecret: ${GITHUB_CLIENT_SECRET}
+
+catalog:
+  providers:
+    microsoftGraphOrg:
+      default:
+        tenantId: ${MICROSOFT_TENANT_ID}
+        queryMode: 'advanced'
+        user:
+          filter: accountEnabled eq true and userType eq 'member' and startsWith(companyName, 'Staten')
+          select:
+            [
+              'accountEnabled',
+              'displayName',
+              'givenName',
+              'id',
+              'mail',
+              'mailNickname',
+              'userPrincipalName',
+              'surname',
+              'companyName',
+              'userType',
+            ]
+        group:
+          filter: >
+            startswith(displayName, 'AAD - TF - TEAM') or startswith(displayName, 'AAD - TF - BUSINESS UNIT')
+        schedule:
+          frequency: PT1H
+          timeout: PT50M
+        clientId: ${MICROSOFT_CLIENT_ID}
+        clientSecret: ${MICROSOFT_CLIENT_SECRET}
+
+sikkerhetsmetrikker:
+  baseUrl: https://kartverket-dev-env-914366947816.europe-west1.run.app
+
+security-champion:
+  baseUrl: https://security-champion-api-914366947816.europe-west1.run.app

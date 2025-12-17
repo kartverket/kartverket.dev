@@ -21,6 +21,7 @@ export type SecretAlert = {
   createdAt: string;
   summary: string;
   secretValue: string;
+  htmlUrl?: string;
   bypassed: boolean;
   bypassedBy?: GithubBypassed;
 };
@@ -42,12 +43,11 @@ export type PharosSpecificInfo = {
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
-  container_name: string;
-  namespace: string;
-  cluster: string[];
+  containerNames: string[];
+  locations: { cluster: string; namespace: string }[];
   isExploitable: Boolean;
   isRunning: Boolean;
-  packages: string;
+  packages: string[];
 };
 
 export type ScannerSpecificInfo = {
@@ -64,10 +64,18 @@ export type Repository = {
   rosStatus: RosStatusData;
   scannerConfig: ScannerConfig;
   vulnerabilities: Vulnerability[];
+  averageTimeToSolveVulnerabilityDays?: number;
+};
+
+export type VulnerabilityIdInfo = {
+  type: string;
+  id: string;
+  url?: string;
 };
 
 export type Vulnerability = {
   vulnerabilityId: string;
+  vulnerabilityIdInfo: VulnerabilityIdInfo[];
   severity: Severity;
   scanners: Scanner[];
   summary: string;
@@ -85,6 +93,7 @@ export type RepositorySummary = {
   scannerConfig: ScannerConfig;
   harRos: Boolean;
   rosStatus: RosStatus;
+  averageTimeToSolveVulnerabilityDays?: number;
 };
 
 export type SikkerhetsmetrikkerTotal = {
@@ -162,4 +171,12 @@ export type AcceptVulnerabilityRequestBody = {
   comment?: string;
   acceptedBy?: string;
   entraIdToken: string;
+};
+
+export type ConfigureNotificationsRequestBody = {
+  teamName: string;
+  componentNames: string[];
+  channelId: string;
+  entraIdToken: string;
+  severity?: string[];
 };

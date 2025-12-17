@@ -18,16 +18,14 @@ import {
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
 import { makeStyles } from '@material-ui/core';
-import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
+import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
-import ExtensionIcon from '@material-ui/icons/Extension';
 import HomeIcon from '@material-ui/icons/Home';
-import LayersIcon from '@material-ui/icons/Layers';
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import MenuIcon from '@material-ui/icons/Menu';
 import GroupIcon from '@material-ui/icons/People';
 import SearchIcon from '@material-ui/icons/Search';
 import SpeedIcon from '@material-ui/icons/Speed';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { PropsWithChildren } from 'react';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -68,25 +66,24 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
         <SidebarSearchModal />
       </SidebarGroup>
+      <SidebarItem icon={HomeIcon} to="/" text="Home" />
+
       <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
+      <SidebarGroup label="mygroup" icon={<MenuIcon />}>
         {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="/" text="Home" />
-        <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
         <MyGroupsSidebarItem
           singularTitle="My Group"
           pluralTitle="My Groups"
           icon={GroupIcon}
         />
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        <SidebarItem icon={LayersIcon} to="explore" text="Explore" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
         <SidebarItem
-          icon={CreateComponentIcon}
+          icon={EditIcon}
           to="catalog-creator"
-          text="Create..."
+          text="Edit or Create"
         />
-        <NotificationsSidebarItem />
+
+        <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
+        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
 
         {/* End global nav */}
         <SidebarDivider />
@@ -96,6 +93,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={WarningIcon} to="opencost" text="SKIPcost" />
       </SidebarGroup>
       <SidebarSpace />
+      <SidebarDivider />
+      <NotificationsSidebarItem />
       <SidebarDivider />
       <SidebarGroup
         label="Settings"

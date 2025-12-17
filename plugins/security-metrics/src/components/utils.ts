@@ -1,15 +1,13 @@
-import { Scanner, Severity, TrendSeverityCounts } from '../typesFrontend';
+import {
+  FilterEnum,
+  Scanner,
+  Severity,
+  SikkerhetsmetrikkerSystemTotal,
+  TrendSeverityCounts,
+  Vulnerability,
+} from '../typesFrontend';
 import { SCANNER_COLORS, SEVERITY_COLORS } from '../colors';
 import { Entity } from '@backstage/catalog-model';
-
-export const getCveURL = (id: String): string => {
-  return `https://nvd.nist.gov/vuln/detail/${id}`;
-};
-
-export const getCweURL = (id: String): string => {
-  const cweId = id.toString().split('-')[1];
-  return `https://cwe.mitre.org/data/definitions/${cweId}.html`;
-};
 
 export const getStandardSeverityFormat = (severity: Severity) => {
   switch (severity) {
@@ -125,4 +123,43 @@ export const getRepositoryNames = (entities: Entity[]): string[] => {
       return match ? match[1] : undefined;
     })
     .filter((name): name is string => Boolean(name));
+};
+
+export const findBestId = (vulnerability: Vulnerability) => {
+  const cveId = vulnerability.vulnerabilityIdInfo.filter(
+    vulnerabilityId => vulnerabilityId.type === 'CVE',
+  );
+  const cweIds = vulnerability.vulnerabilityIdInfo.filter(
+    vulnerabilityId => vulnerabilityId.type === 'cwe',
+  );
+  const otherIds = vulnerability.vulnerabilityIdInfo.filter(
+    vulnerabilityId =>
+      vulnerabilityId.type !== 'cwe' && vulnerabilityId.type !== 'CVE',
+  );
+
+  let shownId = [];
+  if (cveId.length !== 0) shownId = cveId;
+  else if (cweIds.length !== 0) shownId = cweIds;
+  else shownId = otherIds;
+  return shownId[0].id;
+};
+
+export const filterSystemsByComponents = (
+  data: SikkerhetsmetrikkerSystemTotal[] | undefined,
+  componentNames: Set<string>,
+  filter: FilterEnum,
+): SikkerhetsmetrikkerSystemTotal[] | undefined => {
+  if (!data || filter === 'all') return data;
+
+  return data
+    .map(system => ({
+      ...system,
+      metrics: {
+        ...system.metrics,
+        permittedMetrics: system.metrics.permittedMetrics.filter(pm =>
+          componentNames.has(pm.componentName),
+        ),
+      },
+    }))
+    .filter(system => system.metrics.permittedMetrics.length > 0);
 };

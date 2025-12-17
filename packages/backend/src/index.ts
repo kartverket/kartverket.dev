@@ -38,9 +38,6 @@ backend.add(import('@backstage/plugin-devtools-backend'));
 // Lighthouse
 backend.add(import('@backstage-community/plugin-lighthouse-backend'));
 
-// Linguist
-backend.add(import('@backstage-community/plugin-linguist-backend'));
-
 // Proxy
 backend.add(import('@backstage/plugin-proxy-backend'));
 
@@ -63,5 +60,6 @@ backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
 // Notifications
 backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(catalogNotificationsModule);
+backend.add(import('@backstage/plugin-signals-backend'));
 
 backend.start();

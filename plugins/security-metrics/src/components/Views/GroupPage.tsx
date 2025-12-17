@@ -7,9 +7,8 @@ import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import Stack from '@mui/material/Stack';
-import { useEntity } from '@backstage/plugin-catalog-react';
+import { useEntity, useStarredEntities } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../ErrorBanner';
-import { RepositorySummary } from '../../typesFrontend';
 import {
   getAllNotPermittedComponents,
   getAllPermittedMetrics,
@@ -21,6 +20,13 @@ import { SystemsTable } from '../SystemsTable/SystemsTable';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
 import { useFetchComponentNamesByGroup } from '../../hooks/useFetchRepositoryNames';
 import NoAccessAlert from '../NoAccessAlert';
+import Button from '@mui/material/Button';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { SlackNotificationDialog } from '../SlackNotificationsDialog';
+import { useStarredRefFilter } from '../../hooks/useStarredRefFilter';
+import { RepositorySummary } from '../../typesFrontend';
+import { StarFilterButton } from '../StarFilterButton';
+import { filterSystemsByComponents } from '../utils';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -29,16 +35,36 @@ enum TabEnum {
 
 export const GroupPage = () => {
   const { entity } = useEntity();
+  const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
+  const [channel, setChannel] = useState('');
+  const { starredEntities } = useStarredEntities();
+  const [selectedTab, setSelectedTab] = useState<TabEnum>(TabEnum.COMPONENT);
 
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesByGroup(entity);
-
   const { data, isPending, error } = useMetricsQuery(componentNames);
 
-  const [selectedTab, setSelectedTab] = useState<TabEnum>(0);
-  const handleTabChange = (_: React.SyntheticEvent, newValue: TabEnum) => {
-    setSelectedTab(newValue);
-  };
+  const permitted: RepositorySummary[] = getAllPermittedMetrics(data ?? []);
+  const notPermitted: string[] = getAllNotPermittedComponents(data ?? []);
+
+  const permittedWithRef = permitted.map(p => ({
+    ...p,
+    ref: `component:default/${p.componentName}`,
+  }));
+
+  const { hasStarred, effectiveFilter, visibleRefs, setFilterChoice } =
+    useStarredRefFilter({
+      allRefs: permittedWithRef.map(p => p.ref),
+      starredEntities,
+    });
+
+  const filteredPermitted = permittedWithRef.filter(p =>
+    visibleRefs.has(p.ref),
+  );
+
+  const filteredComponentNames = new Set(
+    filteredPermitted.map(c => c.componentName),
+  );
 
   if (error || componentNamesError)
     return (
@@ -50,27 +76,60 @@ export const GroupPage = () => {
 
   if (componentNamesIsLoading || isPending) return <Progress />;
 
+  const filteredSystemsData = filterSystemsByComponents(
+    data,
+    filteredComponentNames,
+    effectiveFilter,
+  );
+
   const secrets: Secrets[] = getAllSecrets(data);
-  const permitted: RepositorySummary[] = getAllPermittedMetrics(data);
-  const notPermitted: string[] = getAllNotPermittedComponents(data);
+
+  const handleOpenNotificationsDialog = () => {
+    setOpenNotificationsDialog(true);
+  };
+
+  const handleCloseNotificationsDialog = () => {
+    setOpenNotificationsDialog(false);
+  };
 
   return (
     <Stack gap={2}>
-      <Stack flexDirection="row" gap={2}>
+      <Stack flexDirection="row" alignItems="center">
         <Stack
           flexDirection="row"
           gap={2}
           flex={1}
           flexWrap="wrap"
-          sx={{
-            '& > *': {
-              flex: 1,
-            },
-          }}
+          sx={{ '& > *': { flex: 1 } }}
         >
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
+        <Box display="flex" alignItems="center" mr={2} ml={2}>
+          <StarFilterButton
+            hasStarred={hasStarred}
+            effectiveFilter={effectiveFilter}
+            onToggle={() =>
+              setFilterChoice(prev => (prev === 'starred' ? 'all' : 'starred'))
+            }
+          />
+        </Box>
+        <Button
+          variant="text"
+          startIcon={<SettingsIcon />}
+          color="primary"
+          onClick={handleOpenNotificationsDialog}
+        >
+          Konfigurer varsling
+        </Button>
+        <SlackNotificationDialog
+          openNotificationsDialog={openNotificationsDialog}
+          handleCloseNotificationsDialog={handleCloseNotificationsDialog}
+          channel={channel}
+          setChannel={setChannel}
+          componentNames={componentNames}
+          notPermitted={notPermitted}
+        />
         <SupportButton />
       </Stack>
 
@@ -83,24 +142,33 @@ export const GroupPage = () => {
         gap={2}
         gridAutoRows="minmax(320px, 1fr)"
       >
-        <SystemScannerStatuses data={permitted} />
-        <VulnerabilityCountsOverview data={permitted} />
+        <SystemScannerStatuses data={filteredPermitted} />
+        <VulnerabilityCountsOverview data={filteredPermitted} />
         <Trend
-          componentNames={permitted.map(component => component.componentName)}
+          componentNames={filteredPermitted.map(
+            component => component.componentName,
+          )}
         />
       </Box>
 
-      <Tabs value={selectedTab} onChange={handleTabChange} sx={{ mb: 1 }}>
-        <Tab label="Metrikker per komponent" />
-        <Tab label="Metrikker per system" />
+      <Tabs
+        value={selectedTab}
+        onChange={(_, v) => setSelectedTab(v)}
+        sx={{ mb: 1 }}
+      >
+        <Tab label="Metrikker per komponent" value={TabEnum.COMPONENT} />
+        <Tab label="Metrikker per system" value={TabEnum.SYSTEM} />
       </Tabs>
+
       {selectedTab === TabEnum.COMPONENT && (
         <RepositoriesTable
-          data={permitted}
+          data={filteredPermitted}
           notPermittedComponents={notPermitted}
         />
       )}
-      {selectedTab === TabEnum.SYSTEM && <SystemsTable data={data} />}
+      {selectedTab === TabEnum.SYSTEM && filteredSystemsData && (
+        <SystemsTable data={filteredSystemsData} />
+      )}
     </Stack>
   );
 };

@@ -51,13 +51,18 @@ import { searchPage } from './components/search/SearchPage';
 import {
   CatalogCreatorPage,
   catalogCreatorPlugin,
-} from '@kartverket/plugin-catalog-creator';
+  catalogCreatorNorwegianTranslation,
+} from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
+import { SignalsDisplay } from '@backstage/plugin-signals';
 
 const app = createApp({
   __experimentalTranslations: {
     availableLanguages: ['en', 'no'],
-    resources: [pluginRiScNorwegianTranslation],
+    resources: [
+      pluginRiScNorwegianTranslation,
+      catalogCreatorNorwegianTranslation,
+    ],
   },
   components: {
     SignInPage: props => {
@@ -150,13 +155,27 @@ const routes = (
       {searchPage}
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
-    <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    <Route
+      path="/catalog-graph"
+      element={
+        <CatalogGraphPage
+          initialState={{
+            selectedKinds: ['component', 'domain', 'system', 'api', 'resource'],
+          }}
+        />
+      }
+    />
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
-    <Route path="/catalog-creator" element={<CatalogCreatorPage />} />
+    <Route
+      path="/catalog-creator"
+      element={
+        <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
+      }
+    />
     <Route path="/notifications" element={<NotificationsPage />} />
   </FlatRoutes>
 );
@@ -165,6 +184,8 @@ export default app.createRoot(
   <>
     <AlertDisplay />
     <OAuthRequestDialog />
+    <SignalsDisplay />
+
     <AppRouter>
       <VisitListener />
       <Root>{routes}</Root>

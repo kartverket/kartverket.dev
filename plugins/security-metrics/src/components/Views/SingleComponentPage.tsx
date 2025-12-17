@@ -73,7 +73,10 @@ export const SingleComponentPage = () => {
           repositoryName={componentName}
           rosStatus={data.rosStatus}
         />
-        <VulnerabilityCountsOverview data={data} />
+        <VulnerabilityCountsOverview
+          data={data}
+          averageDays={data.averageTimeToSolveVulnerabilityDays}
+        />
         <Trend componentNames={componentName} />
       </Box>
 
@@ -83,6 +86,7 @@ export const SingleComponentPage = () => {
             <VulnerabilityTable
               vulnerabilities={data.vulnerabilities}
               componentName={componentName}
+              initialRowsPerPage={10}
             />
           ) : (
             <>
@@ -98,6 +102,7 @@ export const SingleComponentPage = () => {
                 <VulnerabilityTable
                   vulnerabilities={data.vulnerabilities}
                   componentName={componentName}
+                  initialRowsPerPage={10}
                 />
               )}
               {selectedTab === TabEnum.RUNTIME_VULNERABILITIES && (

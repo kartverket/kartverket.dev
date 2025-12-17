@@ -2,7 +2,6 @@ import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
-  EntityConsumingComponentsCard,
   EntityHasApisCard,
   EntityProvidedApisCard,
   EntityProvidingComponentsCard,
@@ -57,7 +56,6 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { Mermaid } from 'backstage-plugin-techdocs-addon-mermaid';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-import { EntityLinguistCard } from '@backstage-community/plugin-linguist';
 import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse';
 import {
   EntityGrafanaAlertsCard,
@@ -69,7 +67,8 @@ import {
 } from '@backstage-community/plugin-grafana';
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
-import { SecurityChampionCard } from '@kartverket/plugin-security-champion';
+import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
+import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -168,22 +167,19 @@ const entityWarningContent = (
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid item md={6}>
+    <Grid item md={6} xs={12}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
     <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-    <Grid item xs={4}>
+    <Grid item md={4} xs={12}>
       <SecurityChampionCard />
     </Grid>
-    <Grid item md={8}>
-      <EntityLinguistCard />
-    </Grid>
-    <Grid item md={4} xs={12}>
+    <Grid item md={8} xs={12}>
       <EntityLinksCard />
     </Grid>
-    <Grid item md={8} xs={12}>
+    <Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
     {grafanaContent}
@@ -195,7 +191,9 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
@@ -226,7 +224,7 @@ const serviceEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="ROS">
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
@@ -240,6 +238,9 @@ const websiteEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
@@ -265,7 +266,7 @@ const websiteEntityPage = (
       <EntityLighthouseContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="Risk Scorecard">
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
@@ -280,13 +281,31 @@ const opsEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="Risk Scorecard">
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
       <SecurityMetricsPage />
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
+const experimentEntityPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {overviewContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/docs" title="Docs">
+      {techdocsContent}
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -326,6 +345,9 @@ const componentPage = (
     <EntitySwitch.Case if={isComponentType('library')}>
       {opsEntityPage}
     </EntitySwitch.Case>
+    <EntitySwitch.Case if={isComponentType('experiment')}>
+      {experimentEntityPage}
+    </EntitySwitch.Case>
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
@@ -349,13 +371,12 @@ const apiPage = (
           <Grid item md={6}>
             <EntityProvidingComponentsCard />
           </Grid>
-          <Grid item md={6}>
-            <EntityConsumingComponentsCard />
-          </Grid>
         </Grid>
       </Grid>
     </EntityLayout.Route>
-
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -402,6 +423,9 @@ const groupPage = (
               'Resource',
             ]}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <SecurityChampionCard />
         </Grid>
         <Grid item xs={12}>
           <EntityMembersListCard showAggregateMembersToggle />
@@ -462,7 +486,7 @@ const systemPage = (
       />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="ROS">
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
     </EntityLayout.Route>
 
@@ -484,9 +508,34 @@ const domainPage = (
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
         <Grid item md={6}>
+          <SecurityChampionCard />
+        </Grid>
+        <Grid item md={6}>
           <EntityHasSystemsCard variant="gridItem" />
         </Grid>
       </Grid>
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
+const resourcePage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      <Grid container spacing={3} alignItems="stretch">
+        {entityWarningContent}
+        <Grid item md={6}>
+          <EntityAboutCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityCatalogGraphCard variant="gridItem" height={400} />
+        </Grid>
+        <Grid item md={4} xs={12}>
+          <EntityLinksCard />
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/docs" title="Docs">
+      {techdocsContent}
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -499,6 +548,7 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('user')} children={userPage} />
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
+    <EntitySwitch.Case if={isKind('resource')} children={resourcePage} />
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>

@@ -22,12 +22,11 @@ export type PharosSpecificInfo = {
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
-  container_name: string;
-  namespace: string;
-  cluster: string[];
+  containerNames: string[];
+  locations: { cluster: string; namespace: string }[];
   isExploitable: Boolean;
   isRunning: Boolean;
-  packages: string;
+  packages: string[];
 };
 
 export type ScannerSpecificInfo = {
@@ -44,10 +43,18 @@ export type Repository = {
   rosStatus: RosStatusData;
   scannerConfig: ScannerConfig;
   vulnerabilities: Vulnerability[];
+  averageTimeToSolveVulnerabilityDays?: number;
+};
+
+export type VulnerabilityIdInfo = {
+  type: string;
+  id: string;
+  url?: string;
 };
 
 export type Vulnerability = {
   vulnerabilityId: string;
+  vulnerabilityIdInfo: VulnerabilityIdInfo[];
   severity: Severity;
   scanners: Scanner[];
   summary: string;
@@ -58,20 +65,11 @@ export type Vulnerability = {
   scannerSpecificInfo: ScannerSpecificInfo;
 };
 
-export interface SysdigInfo {
-  container_name: string;
-  namespace: string;
-  htmlUrl: URL;
-  cluster: string[];
-  isExploitable: boolean;
-  packages: string[];
-  severityCount: SeverityCount;
-}
-
 export type SecretAlert = {
   createdAt: string;
   summary: string;
   secretValue: string;
+  htmlUrl?: string;
   bypassed: boolean;
   bypassedBy?: GithubBypassed;
 };
@@ -90,6 +88,7 @@ export type RepositorySummary = {
   scannerConfig: ScannerConfig;
   harRos: Boolean;
   rosStatus: RosStatus;
+  averageTimeToSolveVulnerabilityDays?: number;
 };
 
 export type SikkerhetsmetrikkerTotal = {
@@ -165,3 +164,16 @@ export type SecretsOverview = {
   componentName: string;
   alerts: SecretAlert[];
 };
+
+export type ClusterSummary = {
+  clusterName: string;
+  groups: {
+    namespaces: string[];
+    vulnerabilities: Vulnerability[];
+  }[];
+};
+
+export type NamespaceMap = Map<string, Vulnerability[]>;
+export type ClusterMap = Map<string, NamespaceMap>;
+
+export type FilterEnum = 'all' | 'starred';
