@@ -1,5 +1,8 @@
 import { createDevApp } from '@backstage/dev-utils';
-import { frontendCustomComponentsPlugin, FrontendCustomComponentsPage } from '../src/plugin';
+import {
+  frontendCustomComponentsPlugin,
+  FrontendCustomComponentsPage,
+} from '../src/plugin';
 
 createDevApp()
   .registerPlugin(frontendCustomComponentsPlugin)
