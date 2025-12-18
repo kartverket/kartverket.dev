@@ -55,6 +55,7 @@ import {
 } from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
+import { RegelrettSchemasPage } from '@internal/plugin-regelrett-schemas';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -177,6 +178,7 @@ const routes = (
       }
     />
     <Route path="/notifications" element={<NotificationsPage />} />
+    <Route path="/regelrett-schemas" element={<RegelrettSchemasPage />} />
   </FlatRoutes>
 );
 

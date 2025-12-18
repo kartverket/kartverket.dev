@@ -69,6 +69,7 @@ import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
 import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
+import { RegelrettCard } from '@internal/plugin-regelrett-schemas';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -196,6 +197,9 @@ const functionEntityPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard variant="gridItem" height={400} />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <RegelrettCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
