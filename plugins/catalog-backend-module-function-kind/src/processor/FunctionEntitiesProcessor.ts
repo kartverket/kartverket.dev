@@ -79,11 +79,6 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     // Add default annotations if not present
     const annotations = entity.metadata.annotations || {};
 
-    // Example: Add a default annotation for monitoring
-    if (!annotations['kartverket.dev/monitoring-enabled']) {
-      annotations['kartverket.dev/monitoring-enabled'] = 'true';
-    }
-
     return {
       ...entity,
       metadata: {
@@ -166,6 +161,13 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
       { defaultKind: 'Function', defaultNamespace: selfRef.namespace },
       RELATION_PARENT_OF,
       RELATION_CHILD_OF,
+    );
+
+    doEmit(
+      functionEntity.spec.dependsOn,
+      { defaultKind: 'Function', defaultNamespace: selfRef.namespace },
+      RELATION_DEPENDS_ON,
+      RELATION_DEPENDENCY_OF,
     );
 
     return entity;
