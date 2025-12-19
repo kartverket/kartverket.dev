@@ -1253,6 +1253,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-common@npm:15.13.3":
+  version: 15.13.3
+  resolution: "@azure/msal-common@npm:15.13.3"
+  checksum: 10c0/0d71c31ad098153985cb918c2bda9698aae0a15b659da5c0867728313ba6743854cc112332b39ba1a187b81dfc0abba22b1c22ee6f245e511c5ecec179832b03
+  languageName: node
+  linkType: hard
+
 "@azure/msal-node@npm:^2.10.0":
   version: 2.16.3
   resolution: "@azure/msal-node@npm:2.16.3"
@@ -1272,6 +1279,17 @@ __metadata:
     jsonwebtoken: "npm:^9.0.0"
     uuid: "npm:^8.3.0"
   checksum: 10c0/80dd7f535856d1e99b5344ce4d584eeb4631560ccfef3a66b9a8dfb590299f41628fbb8150c84613c69977f428575a2eab1bd76443e4084d406d7ebf9dd3b281
+  languageName: node
+  linkType: hard
+
+"@azure/msal-node@npm:^3.8.4":
+  version: 3.8.4
+  resolution: "@azure/msal-node@npm:3.8.4"
+  dependencies:
+    "@azure/msal-common": "npm:15.13.3"
+    jsonwebtoken: "npm:^9.0.0"
+    uuid: "npm:^8.3.0"
+  checksum: 10c0/8f61c2172c31cae156c42ada15bd7795ce7ef2b12c33e2c2e4e5802678596c53985f560cb40a93647064f1866d643f75c62699130121aa368ef9b69b87e5f071
   languageName: node
   linkType: hard
 
@@ -7706,10 +7724,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@internal/plugin-regelrett-schemas-backend-backend@workspace:^, @internal/plugin-regelrett-schemas-backend-backend@workspace:plugins/regelrett-schemas-backend-backend":
+"@internal/plugin-regelrett-schemas-backend@workspace:^, @internal/plugin-regelrett-schemas-backend@workspace:plugins/regelrett-schemas-backend":
   version: 0.0.0-use.local
-  resolution: "@internal/plugin-regelrett-schemas-backend-backend@workspace:plugins/regelrett-schemas-backend-backend"
+  resolution: "@internal/plugin-regelrett-schemas-backend@workspace:plugins/regelrett-schemas-backend"
   dependencies:
+    "@azure/msal-node": "npm:^3.8.4"
     "@backstage/backend-defaults": "backstage:^"
     "@backstage/backend-plugin-api": "backstage:^"
     "@backstage/backend-test-utils": "backstage:^"
@@ -18577,7 +18596,7 @@ __metadata:
     "@backstage/plugin-signals-node": "backstage:^"
     "@backstage/plugin-techdocs-backend": "backstage:^"
     "@internal/plugin-catalog-backend-module-function-kind": "workspace:^"
-    "@internal/plugin-regelrett-schemas-backend-backend": "workspace:^"
+    "@internal/plugin-regelrett-schemas-backend": "workspace:^"
     "@kartverket/backstage-plugin-security-metrics-backend": "workspace:"
     "@kartverket/plugin-dask-onboarding-backend": "npm:^0.1.15"
     app: "link:../app"

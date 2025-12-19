@@ -4,11 +4,11 @@ This plugin backend was templated using the Backstage CLI. You should replace th
 
 ## Installation
 
-This plugin is installed via the `@internal/plugin-regelrett-schemas-backend-backend` package. To install it to your backend package, run the following command:
+This plugin is installed via the `@internal/plugin-regelrett-schemas-backend` package. To install it to your backend package, run the following command:
 
 ```bash
 # From your root directory
-yarn --cwd packages/backend add @internal/plugin-regelrett-schemas-backend-backend
+yarn --cwd packages/backend add @internal/plugin-regelrett-schemas-backend
 ```
 
 Then add the plugin to your backend in `packages/backend/src/index.ts`:
@@ -16,7 +16,7 @@ Then add the plugin to your backend in `packages/backend/src/index.ts`:
 ```ts
 const backend = createBackend();
 // ...
-backend.add(import('@internal/plugin-regelrett-schemas-backend-backend'));
+backend.add(import('@internal/plugin-regelrett-schemas-backend'));
 ```
 
 ## Development

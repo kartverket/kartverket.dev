@@ -10,7 +10,7 @@ import { createRouter } from './services/ApiService/router';
  * @public
  */
 export const regelrettSchemasBackendPlugin = createBackendPlugin({
-  pluginId: 'regelrett-schemas-backend',
+  pluginId: 'regelrett-schemas',
   register(env) {
     env.registerInit({
       deps: {

@@ -1,5 +1,5 @@
 {
-  "name": "@internal/plugin-regelrett-schemas-backend-backend",
+  "name": "@internal/plugin-regelrett-schemas-backend",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "private": true,
@@ -12,7 +12,7 @@
   },
   "backstage": {
     "role": "backend-plugin",
-    "pluginId": "regelrett-schemas-backend"
+    "pluginId": "regelrett-schemas"
   },
   "scripts": {
     "start": "backstage-cli package start",
@@ -24,6 +24,7 @@
     "postpack": "backstage-cli package postpack"
   },
   "dependencies": {
+    "@azure/msal-node": "^3.8.4",
     "@backstage/backend-defaults": "backstage:^",
     "@backstage/backend-plugin-api": "backstage:^",
     "@backstage/catalog-client": "backstage:^",

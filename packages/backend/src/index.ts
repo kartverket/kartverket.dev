@@ -63,5 +63,5 @@ backend.add(catalogNotificationsModule);
 backend.add(import('@backstage/plugin-signals-backend'));
 backend.add(import('@internal/plugin-catalog-backend-module-function-kind'));
 
-backend.add(import('@internal/plugin-regelrett-schemas-backend-backend'));
+backend.add(import('@internal/plugin-regelrett-schemas-backend'));
 backend.start();
