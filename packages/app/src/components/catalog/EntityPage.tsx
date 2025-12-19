@@ -204,6 +204,9 @@ const functionEntityPage = (
         <Grid item md={12} xs={12}>
           <EntityDependenciesCard />
         </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityLinksCard />
+        </Grid>
       </Grid>
     </EntityLayout.Route>
   </EntityLayout>
