@@ -150,8 +150,15 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     );
 
     doEmit(
-      functionEntity.spec.childSystems,
+      functionEntity.spec.dependsOnSystems,
       { defaultKind: 'System', defaultNamespace: selfRef.namespace },
+      RELATION_DEPENDS_ON,
+      RELATION_DEPENDENCY_OF,
+    );
+
+    doEmit(
+      functionEntity.spec.dependsOnComponents,
+      { defaultKind: 'Component', defaultNamespace: selfRef.namespace },
       RELATION_DEPENDS_ON,
       RELATION_DEPENDENCY_OF,
     );
@@ -164,7 +171,7 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     );
 
     doEmit(
-      functionEntity.spec.dependsOn,
+      functionEntity.spec.dependsOnFunctions,
       { defaultKind: 'Function', defaultNamespace: selfRef.namespace },
       RELATION_DEPENDS_ON,
       RELATION_DEPENDENCY_OF,
