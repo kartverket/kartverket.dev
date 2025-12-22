@@ -30,9 +30,7 @@ export type EntityDependenciesCardProps = {
 const ENTITY_KIND = ['System', 'Component', 'Resource', 'Api'];
 const HIGHER_LEVEL_ENTITIES = ['Function'];
 
-export const EntityDependenciesCard = (
-  props: EntityDependenciesCardProps,
-) => {
+export const EntityDependenciesCard = (props: EntityDependenciesCardProps) => {
   const { variant = 'gridItem', title = 'Dependencies' } = props;
   const catalog = useApi(catalogApiRef);
   const { entity } = useEntity();
