@@ -19,29 +19,34 @@ export interface FunctionEntityV1alpha1 extends Entity {
   kind: 'Function';
   spec: {
     /**
-     * The type of function (e.g., '?', '??' Dette må fylles inn når vi vet hvilke typer som kan eksistere.)
-     */
-    type: string;
-
-    /**
-     * The lifecycle stage of the function
-     */
-    lifecycle: string;
-
-    /**
      * The owner of the function - typically a team
      */
     owner: string;
 
     /**
-     * Optional: The systems this function is a parent of
+     * How critical the function is - typically "High", "Medium" or "Low"
      */
-    childSystems?: string[];
+    criticality: string;
+
+    /**
+     * Optional: The systems this function depends on
+     */
+    dependsOnSystems?: string[];
+
+    /**
+     * Optional: The systems this function depends on
+     */
+    dependsOnComponents?: string[];
 
     /**
      * Optional: The functions this function is a parent of
      */
     childFunctions?: string[];
+
+    /**
+     * Optional: The functions this function depends on.
+     */
+    dependsOnFunctions?: string[];
   };
 }
 
