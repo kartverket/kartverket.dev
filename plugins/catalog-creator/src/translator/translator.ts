@@ -200,6 +200,10 @@ export const updateYaml = (
             form.tags?.length === 0
               ? undefined
               : form.tags || initial.spec.tags,
+          links:
+            form.links?.length === 0
+              ? undefined
+              : form.links || initial.spec.links,
         },
         spec: {
           ...initial.spec,

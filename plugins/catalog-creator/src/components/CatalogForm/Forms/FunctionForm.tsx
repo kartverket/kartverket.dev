@@ -9,6 +9,7 @@ import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocompl
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
+import { LinksField } from '../Autocompletes/LinksField';
 
 export type FunctionFormProps = {
   index: number;
@@ -96,7 +97,6 @@ export const FunctionForm = ({
             fieldname="entityType"
             freeSolo
             options={Object.values(FunctionTypes)}
-            required
           />
         </div>
       </Flex>
@@ -142,6 +142,13 @@ export const FunctionForm = ({
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
+      <LinksField
+        index={index}
+        control={control}
+        errors={errors}
+        options={[]}
+        formname="functionForm"
+      />
     </Flex>
   );
 };
