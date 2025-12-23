@@ -6,7 +6,7 @@ export const EntityCatalogCreatorWrapper = () => {
 
   // Extract git URL from entity metadata
   const sourceLocation =
-    entity.metadata.annotations?.['backstage.io/managed-by-origin-location'];
+    entity.metadata.annotations?.['backstage.io/managed-by-location'];
 
   // Remove 'url:' prefix if it exists in source-location
   let gitUrl = sourceLocation;
