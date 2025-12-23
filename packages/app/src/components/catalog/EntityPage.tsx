@@ -402,18 +402,16 @@ const apiPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item md={6}>
-          <EntityAboutCard />
+          <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
-        <Grid item md={4} xs={12}>
-          <EntityLinksCard />
+        <Grid item md={6} xs={12}>
+          <EntityLinksCard variant="gridItem" />
         </Grid>
-        <Grid container item md={12}>
-          <Grid item md={6}>
-            <EntityProvidingComponentsCard />
-          </Grid>
+        <Grid item md={6}>
+          <EntityProvidingComponentsCard variant="gridItem" />
         </Grid>
       </Grid>
     </EntityLayout.Route>
