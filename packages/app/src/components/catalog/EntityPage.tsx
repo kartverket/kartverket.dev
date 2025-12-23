@@ -199,6 +199,9 @@ const functionEntityPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
   </EntityLayout>
 );
 

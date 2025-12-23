@@ -188,7 +188,46 @@ export const updateYaml = (
         },
       };
       break;
+    case 'Function':
+      updated = {
+        ...initial,
+        kind: form.kind || initial.kind,
+        metadata: {
+          ...initial.metadata,
+          name: form.name || initial.metadata.name,
+          title: form?.title || initial.metadata?.title || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
+        },
+        spec: {
+          ...initial.spec,
+          owner: form.owner || initial.spec.owner || undefined,
+          type:
+            form.entityType?.length === 0
+              ? undefined
+              : form.entityType || initial.spec.type,
 
+          dependsOnSystems:
+            form.dependsOnSystems?.length === 0
+              ? undefined
+              : form.dependsOnSystems || initial.spec.dependsOnSystems,
+          dependsOnComponents:
+            form.dependsOnComponents?.length === 0
+              ? undefined
+              : form.dependsOnComponents || initial.spec.dependsOnComponents,
+          dependsOnFunctions:
+            form.dependsOnFunctions?.length === 0
+              ? undefined
+              : form.dependsOnFunctions || initial.spec.dependsOnFunctions,
+          childFunctions:
+            form.childFunctions?.length === 0
+              ? undefined
+              : form.childFunctions || initial.spec.childFunctions,
+        },
+      };
+      break;
     default:
       updated = {
         ...initial,

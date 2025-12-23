@@ -35,6 +35,7 @@ import { useFetchEntities } from '../../hooks/useFetchEntities';
 
 import style from '../../catalog.module.css';
 import { toEntityRef, toEntityRefList } from '../../utils/toEntityRef';
+import { FunctionForm } from './Forms/FunctionForm';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -156,6 +157,7 @@ export const CatalogForm = ({
   const fetchComponents = useFetchEntities(control, Kinds.Component);
   const fetchResources = useFetchEntities(control, Kinds.Resource);
   const fetchDomains = useFetchEntities(control, Kinds.Domain);
+  const fetchFunctions = useFetchEntities(control, Kinds.Function);
 
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
@@ -282,6 +284,19 @@ export const CatalogForm = ({
             errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
             groups={fetchGroups.value || []}
             domains={fetchDomains.value || []}
+          />
+        );
+      case 'Function':
+        return (
+          <FunctionForm
+            index={index}
+            control={control}
+            errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
+            groups={fetchGroups.value || []}
+            components={fetchComponents.value}
+            functions={fetchFunctions.value}
+            systems={fetchSystems.value}
+            setValue={setValue}
           />
         );
       default:
