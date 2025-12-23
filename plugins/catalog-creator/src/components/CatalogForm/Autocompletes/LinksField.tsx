@@ -91,7 +91,6 @@ export const LinksField = ({
                 setInputValue(newInputValue);
               }}
               value={
-                // ⭐ CHANGED: Extract url from objects for display
                 field.value
                   ? field.value.map(
                       (link: { url: string; title: string }) => link.url,
