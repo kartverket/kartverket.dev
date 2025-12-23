@@ -286,6 +286,9 @@ export const SecurityChampion = ({
     );
   };
 
+  if (data && data.length === 1 && data[0].repositoryName === '') {
+    return <></>;
+  }
   if (data) {
     return (
       <CardWrapper
