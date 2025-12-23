@@ -248,6 +248,24 @@ export const functionSchema = baseEntitySchema.extend({
       { message: 'form.errors.childFunctionsNoSpace' },
     )
     .optional(),
+  links: z
+    .array(
+      z.object({
+        url: z.string(),
+        title: z.string(),
+      }),
+    )
+    .refine(
+      entries =>
+        entries.every(
+          entry => entry.url.trim().length > 0 && !entry.url.includes(' '),
+        ),
+      { message: 'form.errors.linksNoSpace' },
+    )
+    .refine(entries => entries.every(entry => entry.url.trim().length <= 63), {
+      message: 'form.errors.linksLength',
+    })
+    .optional(),
 });
 
 export const templateSchema = baseEntitySchema.extend({
