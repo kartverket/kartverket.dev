@@ -42,6 +42,12 @@ backend:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
   baseUrl: http://localhost:7007
+
+  reading:
+    allow:
+      - host: matrikkel.no
+      - host: grunnbok.no
+
   listen:
     port: 7007
     host: 0.0.0.0
