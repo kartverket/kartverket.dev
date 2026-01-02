@@ -262,9 +262,6 @@ export const functionSchema = baseEntitySchema.extend({
         ),
       { message: 'form.errors.linksNoSpace' },
     )
-    .refine(entries => entries.every(entry => entry.url.trim().length <= 63), {
-      message: 'form.errors.linksLength',
-    })
     .optional(),
 });
 
