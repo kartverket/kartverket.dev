@@ -45,7 +45,10 @@ export enum DomainTypes {
   bundle = 'bundle',
 }
 
-export enum FunctionTypes {}
+export enum FunctionTypes {
+  corefunction = 'core-function',
+  supportfunction = 'support-function',
+}
 
 export const Kinds = {
   API: 'API',
