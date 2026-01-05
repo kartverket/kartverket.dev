@@ -1,5 +1,10 @@
-import { Flex } from '@backstage/ui';
-import { Control, UseFormSetValue, useWatch } from 'react-hook-form';
+import { Button, Flex } from '@backstage/ui';
+import {
+  Control,
+  useFieldArray,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
 import { EntityErrors, FunctionTypes } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
@@ -9,7 +14,8 @@ import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocompl
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
-import { LinksField } from '../Autocompletes/LinksField';
+import { LinkCard } from '../Autocompletes/LinkCard';
+import { FieldHeader } from '../FieldHeader';
 
 export type FunctionFormProps = {
   index: number;
@@ -74,6 +80,15 @@ export const FunctionForm = ({
     `entities.${index}.system`,
     setValue,
   );
+
+  const {
+    fields: links,
+    append: appendLink,
+    remove: removeLink,
+  } = useFieldArray({
+    name: `entities.${index}.links` as `entities.0.links`,
+    control,
+  });
 
   return (
     <Flex direction="column" justify="start">
@@ -142,13 +157,26 @@ export const FunctionForm = ({
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
-      <LinksField
-        index={index}
-        control={control}
-        errors={errors}
-        options={[]}
-        formname="functionForm"
-      />
+      <FieldHeader fieldName="Lenker" tooltipText="Helper text" />
+      {links.map((link, linkIndex) => {
+        return (
+          <div key={link.id}>
+            <LinkCard
+              index={index}
+              linkIndex={linkIndex}
+              control={control}
+              errors={errors}
+              removeLink={removeLink}
+            />
+          </div>
+        );
+      })}
+      <Button
+        variant="secondary"
+        onClick={() => appendLink({ url: '', title: '' })}
+      >
+        Ny lenke
+      </Button>
     </Flex>
   );
 };
