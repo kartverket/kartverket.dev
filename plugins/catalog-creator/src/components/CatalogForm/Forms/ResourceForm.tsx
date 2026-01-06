@@ -43,6 +43,7 @@ export const ResourceForm = ({
     typeof systemVal === 'string' ? [systemVal] : undefined,
     `entities.${index}.system`,
     setValue,
+    true,
   );
   useUpdateDependentFormFields(
     componentsAndResources,

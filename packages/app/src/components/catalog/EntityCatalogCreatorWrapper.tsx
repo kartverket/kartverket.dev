@@ -1,3 +1,4 @@
+import { EntityRelationWarning } from '@backstage/plugin-catalog';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { CatalogCreatorPage } from '@kartverket/backstage-plugin-catalog-creator';
 
@@ -15,9 +16,12 @@ export const EntityCatalogCreatorWrapper = () => {
   }
 
   return (
-    <CatalogCreatorPage
-      docsLink="/docs/default/Component/kartverket.dev"
-      originLocation={gitUrl}
-    />
+    <>
+      <EntityRelationWarning />
+      <CatalogCreatorPage
+        docsLink="/docs/default/Component/kartverket.dev"
+        originLocation={gitUrl}
+      />
+    </>
   );
 };

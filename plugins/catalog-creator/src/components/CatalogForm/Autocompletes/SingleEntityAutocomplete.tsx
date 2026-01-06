@@ -174,9 +174,7 @@ export const SingleEntityAutocomplete = ({
                   }
                   return false;
                 }
-                if (typeof option === 'object') {
-                  return false;
-                }
+
                 return false;
               }}
               size="small"
