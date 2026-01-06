@@ -29,7 +29,7 @@ export const LinkCard = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
     <>
-      <Card style={{ padding: '1rem' }}>
+      <Card className={style.linkCard}>
         <Flex justify="between">
           <h4>
             {t('form.functionForm.links.cardTitle')} {linkIndex + 1}
