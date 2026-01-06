@@ -29,9 +29,14 @@ export interface FunctionEntityV1alpha1 extends Entity {
     criticality: string;
 
     /**
-     * Optional: The systems this function is a parent of
+     * Optional: The systems this function depends on
      */
-    childSystems?: string[];
+    dependsOnSystems?: string[];
+
+    /**
+     * Optional: The systems this function depends on
+     */
+    dependsOnComponents?: string[];
 
     /**
      * Optional: The functions this function is a parent of
@@ -41,7 +46,7 @@ export interface FunctionEntityV1alpha1 extends Entity {
     /**
      * Optional: The functions this function depends on.
      */
-    dependsOn?: string[];
+    dependsOnFunctions?: string[];
   };
 }
 

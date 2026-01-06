@@ -30,16 +30,20 @@
               "type": "array",
               "description": "Entity references to children of the function"
             },
-            "childSystems": {
+            "dependsOnSystems": {
               "type": "array",
-              "description": "Entity references to systems of this function"
+              "description": "Entity references to systems this function depends on"
+            },
+            "dependsOnComponents": {
+              "type": "array",
+              "description": "Entity references to components this function depends on"
             },
             "criticality": {
               "type": "string",
               "description": "Criticality of the function",
               "minLength": 1
             },
-            "dependsOn": {
+            "dependsOnFunctions": {
               "type": "array",
               "description": "Entity references to other functions this function depends on"
             }
