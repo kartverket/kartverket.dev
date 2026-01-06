@@ -1,21 +1,21 @@
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
-import { FieldHeader } from '../FieldHeader';
 import TextField from '@mui/material/TextField';
-import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
-import { EntityErrors, Kind } from '../../../types/types';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import style from '../../../catalog.module.css';
+import style from '../../catalog.module.css';
 import { Button, Card, Flex } from '@backstage/ui';
+import { formSchema } from '../../schemas/formSchema';
+import { EntityErrors } from '../../types/types';
+import { FieldHeader } from './FieldHeader';
+import { catalogCreatorTranslationRef } from '../../utils/translations';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 type LinkCardProps = {
   index: number;
   linkIndex: number;
   control: Control<z.infer<typeof formSchema>>;
-  errors: EntityErrors<Kind>;
+  errors: EntityErrors<'Function'>;
   required?: boolean;
   removeLink: UseFieldArrayRemove;
 };
@@ -24,14 +24,16 @@ export const LinkCard = ({
   index,
   linkIndex,
   control,
-  errors,
   removeLink,
 }: LinkCardProps) => {
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
     <>
       <Card style={{ padding: '1rem' }}>
         <Flex justify="between">
-          <h4>Lenke {linkIndex + 1}</h4>
+          <h4>
+            {t('form.functionForm.links.cardTitle')} {linkIndex + 1}
+          </h4>
           <Button
             className={style.deleteEntityButton}
             onClick={() => removeLink(linkIndex)}
@@ -39,7 +41,10 @@ export const LinkCard = ({
             <DeleteIcon />
           </Button>
         </Flex>
-        <FieldHeader fieldName="URL" tooltipText="Helper text" />
+        <FieldHeader
+          fieldName={t('form.functionForm.links.urlName')}
+          tooltipText={t('form.functionForm.links.urlTooltipText')}
+        />
         <Controller
           name={`entities.${index}.links.${linkIndex}.url`}
           control={control}
@@ -56,7 +61,10 @@ export const LinkCard = ({
           )}
         />
 
-        <FieldHeader fieldName="Title" tooltipText="Helper text" />
+        <FieldHeader
+          fieldName={t('form.functionForm.links.titleName')}
+          tooltipText={t('form.functionForm.links.titleTooltipText')}
+        />
         <Controller
           name={`entities.${index}.links.${linkIndex}.title`}
           control={control}

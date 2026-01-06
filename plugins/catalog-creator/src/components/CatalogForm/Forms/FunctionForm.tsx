@@ -14,8 +14,10 @@ import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocompl
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
-import { LinkCard } from '../Autocompletes/LinkCard';
 import { FieldHeader } from '../FieldHeader';
+import { LinkCard } from '../LinkCard';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { catalogCreatorTranslationRef } from '../../../utils/translations';
 
 export type FunctionFormProps = {
   index: number;
@@ -38,6 +40,7 @@ export const FunctionForm = ({
   functions,
   systems,
 }: FunctionFormProps) => {
+  const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const systemVal = useWatch({
     control,
     name: `entities.${index}.system`,
@@ -157,7 +160,10 @@ export const FunctionForm = ({
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
-      <FieldHeader fieldName="Lenker" tooltipText="Helper text" />
+      <FieldHeader
+        fieldName={t('form.functionForm.links.fieldName')}
+        tooltipText={t('form.functionForm.links.tooltipText')}
+      />
       {links.map((link, linkIndex) => {
         return (
           <div key={link.id}>

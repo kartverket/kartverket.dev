@@ -255,13 +255,6 @@ export const functionSchema = baseEntitySchema.extend({
         title: z.string(),
       }),
     )
-    .refine(
-      entries =>
-        entries.every(
-          entry => entry.url.trim().length > 0 && !entry.url.includes(' '),
-        ),
-      { message: 'form.errors.linksNoSpace' },
-    )
     .optional(),
 });
 
