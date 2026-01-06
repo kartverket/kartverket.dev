@@ -29,11 +29,21 @@ export const ResourceForm = ({
   groups,
   componentsAndResources,
 }: ResourceFormProps) => {
+  const systemVal = useWatch({
+    control,
+    name: `entities.${index}.system`,
+  });
   const dependencyOfVal = useWatch({
     control,
     name: `entities.${index}.dependencyOf`,
   });
 
+  useUpdateDependentFormFields(
+    systems,
+    typeof systemVal === 'string' ? [systemVal] : undefined,
+    `entities.${index}.system`,
+    setValue,
+  );
   useUpdateDependentFormFields(
     componentsAndResources,
     dependencyOfVal,

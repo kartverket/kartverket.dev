@@ -143,9 +143,13 @@ export const SingleEntityAutocomplete = ({
                 return filtered;
               }}
               getOptionLabel={option => {
-                return typeof option === 'string'
-                  ? option
-                  : (option.metadata.title ?? option.metadata.name);
+                if (typeof option === 'string') {
+                  return option;
+                }
+                if (typeof option === 'object' && option.metadata) {
+                  return option.metadata.title ?? option.metadata.name;
+                }
+                return value ?? '';
               }}
               renderOption={(optionprops, option) => {
                 const label =
@@ -165,7 +169,13 @@ export const SingleEntityAutocomplete = ({
                   typeof option !== 'string' &&
                   typeof selectedValue !== 'string'
                 ) {
-                  return option.metadata.name === selectedValue.metadata.name;
+                  if (option.metadata && selectedValue.metadata) {
+                    return option.metadata.name === selectedValue.metadata.name;
+                  }
+                  return false;
+                }
+                if (typeof option === 'object') {
+                  return false;
                 }
                 return false;
               }}
