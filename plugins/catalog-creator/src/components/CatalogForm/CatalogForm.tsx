@@ -133,8 +133,8 @@ export const CatalogForm = ({
               dependsOn: entry.spec.dependsOn,
               links: entry.metadata.links || [
                 {
-                  url: '',
-                  title: '',
+                  url: undefined,
+                  title: undefined,
                 },
               ],
             };
