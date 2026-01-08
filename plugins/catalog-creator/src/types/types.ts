@@ -45,6 +45,11 @@ export enum DomainTypes {
   bundle = 'bundle',
 }
 
+export enum FunctionTypes {
+  corefunction = 'core-function',
+  supportfunction = 'support-function',
+}
+
 export const Kinds = {
   API: 'API',
   Component: 'Component',
@@ -55,6 +60,7 @@ export const Kinds = {
   Group: 'Group',
   User: 'User',
   Location: 'Location',
+  Function: 'Function',
 } as const;
 
 export type Kind = (typeof Kinds)[keyof typeof Kinds];

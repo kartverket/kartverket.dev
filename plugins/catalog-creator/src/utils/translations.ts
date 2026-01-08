@@ -142,6 +142,43 @@ export const catalogCreatorMessages = {
       },
     },
 
+    functionForm: {
+      entityType: {
+        fieldName: 'Type',
+        tooltipText: 'The type of the function.',
+        placeholder: 'Select or add type',
+      },
+      dependsOnSystems: {
+        fieldName: 'Depends on Systems',
+        tooltipText: 'Systems that this function depends on.',
+        placeholder: 'Select systems',
+      },
+      dependsOnComponents: {
+        fieldName: 'Depends on Components',
+        tooltipText: 'Components that this function depends on.',
+        placeholder: 'Select components',
+      },
+      dependsOnFunctions: {
+        fieldName: 'Depends on Functions',
+        tooltipText: 'Other functions that this function depends on.',
+        placeholder: 'Select functions',
+      },
+      childFunctions: {
+        fieldName: 'Child Functions',
+        tooltipText: 'Functions that are part of or belong to this function.',
+        placeholder: 'Select functions',
+      },
+      links: {
+        fieldName: 'Links',
+        cardTitle: 'Link',
+        tooltipText: 'Links to Regelrett form',
+        urlName: 'URL',
+        urlTooltipText: 'URL to Reglrett form',
+        titleName: 'Title',
+        titleTooltipText: 'Link title in the developer portal',
+      },
+    },
+
     domainForm: {
       entityType: {
         fieldName: 'Type',
@@ -181,6 +218,9 @@ export const catalogCreatorMessages = {
       tagNoSpace: 'Tags cannot contain space',
       tagRegEx:
         'Tags can only contain alphanumerical characters and :,+, or # seperated by -, and they cannot be longer than 63 characters.',
+
+      linksNoSpace: 'Url cannot contain space',
+      linksLength: 'Url cannot be longer than 63 characters',
     },
 
     infoAlerts: {
@@ -356,6 +396,44 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'En eller flere referanser til underseksjoner av dette domenet.',
           'form.domainForm.subdomainOf.placeholder': 'Velg subdomener',
 
+          'form.functionForm.entityType.fieldName': 'Type',
+          'form.functionForm.entityType.tooltipText': 'Typen til funksjonen.',
+          'form.functionForm.entityType.placeholder':
+            'Velg eller legg til type',
+
+          'form.functionForm.dependsOnSystems.fieldName':
+            'Avhenger av systemer',
+          'form.functionForm.dependsOnSystems.tooltipText':
+            'Systemer som denne funksjonen er avhengig av.',
+          'form.functionForm.dependsOnSystems.placeholder': 'Velg systemer',
+
+          'form.functionForm.dependsOnComponents.fieldName':
+            'Avhenger av komponenter',
+          'form.functionForm.dependsOnComponents.tooltipText':
+            'Komponenter som denne funksjonen er avhengig av.',
+          'form.functionForm.dependsOnComponents.placeholder':
+            'Velg komponenter',
+
+          'form.functionForm.dependsOnFunctions.fieldName':
+            'Avhenger av funksjoner',
+          'form.functionForm.dependsOnFunctions.tooltipText':
+            'Andre funksjoner som denne funksjonen er avhengig av.',
+          'form.functionForm.dependsOnFunctions.placeholder': 'Velg funksjoner',
+
+          'form.functionForm.childFunctions.fieldName': 'Underfunksjoner',
+          'form.functionForm.childFunctions.tooltipText':
+            'Funksjoner som er en del av eller tilhører denne funksjonen.',
+          'form.functionForm.childFunctions.placeholder': 'Velg funksjoner',
+
+          'form.functionForm.links.fieldName': 'Lenker',
+          'form.functionForm.links.cardTitle': 'Lenke',
+          'form.functionForm.links.tooltipText': 'Lenker til Regelrettskjema.',
+          'form.functionForm.links.urlName': 'URL',
+          'form.functionForm.links.urlTooltipText': 'URL til Regelrettskjema',
+          'form.functionForm.links.titleName': 'Tittel',
+          'form.functionForm.links.titleTooltipText':
+            'Tittel som vises i utviklerportalen',
+
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',
           'form.infoAlerts.doesNotExist':
@@ -399,6 +477,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.errors.tagNoSpace': 'Tags kan ikke inneholde mellomrom',
           'form.errors.tagRegEx':
             'Tags kan kun inneholde alfanumeriske tegn og :, + eller # separert med -, og de kan ikke være lengre enn 63 tegn.',
+
+          'form.errors.linksNoSpace': 'Url kan ikke inneholde mellomrom',
+          'form.errors.linksLength': 'url kan ikke være lengre enn 63 tegn',
 
           'infoBox.title': 'Hvordan fungerer skjemaet?',
           'infoBox.p1':
