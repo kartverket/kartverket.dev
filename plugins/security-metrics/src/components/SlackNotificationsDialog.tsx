@@ -13,8 +13,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useConfigureSlackNotificationsQuery } from '../hooks/useConfigureSlackNotificationsQuery';
+import { useSlackNotificationsConfigQuery } from '../hooks/useSlackNotificationsConfigQuery';
 
 interface Props {
   openNotificationsDialog: boolean;
@@ -43,11 +44,33 @@ export const SlackNotificationDialog = ({
   notPermitted,
 }: Props) => {
   const { entity } = useEntity();
+  const teamName = entity.metadata.name;
+
+  const configQuery = useSlackNotificationsConfigQuery(teamName);
 
   const [selectedComponents, setSelectedComponents] = useState(componentNames);
   const [selectedSeverities, setSelectedSeverities] = useState<string[]>(
     SEVERITIES.map(s => s.value),
   );
+
+  useEffect(() => {
+    if (!openNotificationsDialog) return;
+
+    const config = configQuery.data;
+
+    if (config) {
+      setChannel(config.channelId);
+      setSelectedComponents(config.componentNames);
+      setSelectedSeverities(
+        config.severity?.length
+          ? config.severity
+          : SEVERITIES.map(s => s.value),
+      );
+    } else {
+      setSelectedComponents(componentNames);
+      setSelectedSeverities(SEVERITIES.map(s => s.value));
+    }
+  }, [openNotificationsDialog, configQuery.data, componentNames, setChannel]);
 
   const configureNotification = useConfigureSlackNotificationsQuery();
   const [showChannelError, setShowChannelError] = useState(false);

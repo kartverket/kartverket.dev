@@ -180,3 +180,10 @@ export type ConfigureNotificationsRequestBody = {
   entraIdToken: string;
   severity?: string[];
 };
+
+export type SlackNotificationConfig = {
+  teamName: string;
+  channelId: string;
+  severity: string[];
+  componentNames: string[];
+};
