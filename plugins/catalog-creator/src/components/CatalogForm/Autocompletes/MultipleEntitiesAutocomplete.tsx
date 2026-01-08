@@ -21,13 +21,18 @@ type MultipleEntitiesAutocompleteProps = {
     | 'APIForm'
     | 'systemForm'
     | 'resourceForm'
-    | 'domainForm';
+    | 'domainForm'
+    | 'functionForm';
   fieldname:
     | 'dependencyOf'
     | 'consumesApis'
     | 'subdomainOf'
     | 'providesApis'
-    | 'dependsOn';
+    | 'dependsOn'
+    | 'dependsOnComponents'
+    | 'dependsOnFunctions'
+    | 'dependsOnSystems'
+    | 'childFunctions';
   required?: boolean;
   kind?: Kind;
 };
