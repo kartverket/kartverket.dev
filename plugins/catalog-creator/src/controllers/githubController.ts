@@ -25,9 +25,16 @@ export class GithubController {
       },
     };
 
-    const yamlStrings = catalogInfo.map(val =>
-      updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val),
-    );
+    let doTargetFunctionKind = false;
+    let functionName = '';
+
+    const yamlStrings = catalogInfo.map(val => {
+      if (val && val.kind === 'Function') {
+        doTargetFunctionKind = true;
+        functionName = val.name;
+      }
+      updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val);
+    });
 
     const completeYaml = yamlStrings.join('\n---\n');
 
@@ -62,10 +69,14 @@ export class GithubController {
         const result = await octokit.createPullRequest({
           owner: owner,
           repo: repo,
-          title: 'Create/update catalog-info.yaml',
+          title: doTargetFunctionKind
+            ? `Update ${functionName} function`
+            : 'Create/update catalog-info.yaml',
           body: 'Creates or updates catalog-info.yaml',
           base: default_branch,
-          head: 'Update-or-create-catalog-info',
+          head: doTargetFunctionKind
+            ? `update-${functionName}-function`
+            : 'Update-or-create-catalog-info',
           changes: [
             {
               files: {
