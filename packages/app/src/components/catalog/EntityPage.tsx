@@ -175,8 +175,14 @@ const overviewContent = (
       <EntityAboutCard variant="gridItem" />
     </Grid>
     <Grid item md={6} xs={12}>
-      <EntityCatalogGraphCard variant="gridItem" height={400} />
+      <EntityCatalogGraphCard
+        variant="gridItem"
+        height={400}
+        kinds={['component', 'api', 'system', 'resource']}
+        maxDepth={2}
+      />
     </Grid>
+
     <Grid item md={4} xs={12}>
       <SecurityChampionCard />
     </Grid>
@@ -391,7 +397,11 @@ const apiPage = (
           <EntityAboutCard />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard
+            height={400}
+            variant="gridItem"
+            kinds={['component', 'api', 'system', 'resource']}
+          />
         </Grid>
         <Grid item md={4} xs={12}>
           <EntityLinksCard />
@@ -478,7 +488,12 @@ const systemPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            height={400}
+            kinds={['component', 'system', 'domain', 'resource']}
+            maxDepth={2}
+          />
         </Grid>
         <Grid item md={4} xs={12}>
           <SecurityChampionCard />
@@ -514,6 +529,8 @@ const systemPage = (
           RELATION_DEPENDS_ON,
         ]}
         unidirectional={false}
+        kinds={['System', 'Component', 'Api', 'Resource', 'Domain']}
+        maxDepth={3}
       />
     </EntityLayout.Route>
 
@@ -536,7 +553,11 @@ const domainPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            height={400}
+            kinds={['System', 'Group', 'Domain']}
+          />
         </Grid>
         <Grid item md={6}>
           <SecurityChampionCard />
@@ -558,7 +579,11 @@ const resourcePage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            height={400}
+            kinds={['Component', 'Api', 'System']}
+          />
         </Grid>
         <Grid item md={4} xs={12}>
           <EntityLinksCard />
