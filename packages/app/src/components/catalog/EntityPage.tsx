@@ -69,6 +69,10 @@ import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
 import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
+import {
+  EntityDependenciesCard,
+  FunctionAboutCard,
+} from '@internal/plugin-frontend-custom-components';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -184,6 +188,31 @@ const overviewContent = (
     </Grid>
     {grafanaContent}
   </Grid>
+);
+
+const functionEntityPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      <Grid container spacing={3} alignItems="stretch">
+        {entityWarningContent}
+        <Grid item md={6}>
+          <FunctionAboutCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityCatalogGraphCard variant="gridItem" height={400} />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityDependenciesCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityLinksCard />
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
+  </EntityLayout>
 );
 
 const serviceEntityPage = (
@@ -413,6 +442,7 @@ const groupPage = (
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityOwnershipCard
+            entityLimit={9}
             variant="gridItem"
             entityFilterKind={[
               'Domain',
@@ -421,6 +451,7 @@ const groupPage = (
               'API',
               'Template',
               'Resource',
+              'Function',
             ]}
           />
         </Grid>
@@ -549,6 +580,7 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
     <EntitySwitch.Case if={isKind('resource')} children={resourcePage} />
+    <EntitySwitch.Case if={isKind('function')} children={functionEntityPage} />
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>

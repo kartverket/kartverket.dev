@@ -66,13 +66,13 @@ export const catalogCreatorMessages = {
         fieldName: 'Provides APIs',
         tooltipText:
           'References to all the APIs the component may provide. This does not define the API-entity itself.',
-        placeholder: 'Select or add API...',
+        placeholder: 'Select API...',
       },
 
       consumesApis: {
         fieldName: 'Consumes APIs',
         tooltipText: 'APIs that are consumed by the component.',
-        placeholder: 'Select or add API...',
+        placeholder: 'Select API...',
       },
       dependsOn: {
         fieldName: 'Depends on',
@@ -129,7 +129,7 @@ export const catalogCreatorMessages = {
         tooltipText: 'The type of the resource.',
         placeholder: 'Select or add type',
       },
-      dependencyof: {
+      dependencyOf: {
         fieldName: 'Dependency of',
         tooltipText:
           'Which components or systems that depends on this resource',
@@ -142,11 +142,54 @@ export const catalogCreatorMessages = {
       },
     },
 
+    functionForm: {
+      entityType: {
+        fieldName: 'Type',
+        tooltipText: 'The type of the function.',
+        placeholder: 'Select or add type',
+      },
+      dependsOnSystems: {
+        fieldName: 'Depends on Systems',
+        tooltipText: 'Systems that this function depends on.',
+        placeholder: 'Select systems',
+      },
+      dependsOnComponents: {
+        fieldName: 'Depends on Components',
+        tooltipText: 'Components that this function depends on.',
+        placeholder: 'Select components',
+      },
+      dependsOnFunctions: {
+        fieldName: 'Depends on Functions',
+        tooltipText: 'Other functions that this function depends on.',
+        placeholder: 'Select functions',
+      },
+      childFunctions: {
+        fieldName: 'Child Functions',
+        tooltipText: 'Functions that are part of or belong to this function.',
+        placeholder: 'Select functions',
+      },
+      links: {
+        fieldName: 'Links',
+        cardTitle: 'Link',
+        tooltipText: 'Links to Regelrett form',
+        urlName: 'URL',
+        urlTooltipText: 'URL to Reglrett form',
+        titleName: 'Title',
+        titleTooltipText: 'Link title in the developer portal',
+      },
+    },
+
     domainForm: {
       entityType: {
-        fieldname: 'Type',
+        fieldName: 'Type',
         tooltipText: 'The type of the domain',
         placeholder: 'Select or add type',
+      },
+      subdomainOf: {
+        fieldName: 'Subdomain',
+        tooltipText:
+          'A reference to other domains which is a part of this domain.',
+        placeholder: 'Select subdomains',
       },
     },
     errors: {
@@ -175,6 +218,9 @@ export const catalogCreatorMessages = {
       tagNoSpace: 'Tags cannot contain space',
       tagRegEx:
         'Tags can only contain alphanumerical characters and :,+, or # seperated by -, and they cannot be longer than 63 characters.',
+
+      linksNoSpace: 'Url cannot contain space',
+      linksLength: 'Url cannot be longer than 63 characters',
     },
 
     infoAlerts: {
@@ -285,14 +331,12 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.providesApis.fieldName': 'Tilbyr APIer',
           'form.componentForm.providesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.providesApis.placeholder':
-            'Velg eller legg til APIer...',
+          'form.componentForm.providesApis.placeholder': 'Velg APIer...',
 
           'form.componentForm.consumesApis.fieldName': 'Bruker APIer',
           'form.componentForm.consumesApis.tooltipText':
             'Referanse til alle APIer komponenten tilbyr. Et API som ikke finnes i listen må defineres i denne eller i en annen catalog-info.yaml.',
-          'form.componentForm.consumesApis.placeholder':
-            'Velg eller legg til APIer...',
+          'form.componentForm.consumesApis.placeholder': 'Velg APIer...',
 
           'form.componentForm.dependsOn.fieldName': 'Avhenger av',
           'form.componentForm.dependsOn.tooltipText':
@@ -332,10 +376,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.resourceForm.entityType.placeholder':
             'Velg eller skriv inn type',
 
-          'form.resourceForm.dependencyof.fieldName': 'Avhengigheter til',
-          'form.resourceForm.dependencyof.tooltipText':
+          'form.resourceForm.dependencyOf.fieldName': 'Avhengigheter til',
+          'form.resourceForm.dependencyOf.tooltipText':
             'Hvilke komponenter eller systemer som er avhengige av denne ressursen',
-          'form.resourceForm.dependencyof.placeholder':
+          'form.resourceForm.dependencyOf.placeholder':
             'Velg komponenter/ressurser',
 
           'form.resourceForm.system.fieldName': 'System',
@@ -343,9 +387,52 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Referanse til systemet som ressursen tilhører',
           'form.resourceForm.system.placeholder': 'Velg system',
 
-          'form.domainForm.entityType.fieldname': 'Type',
+          'form.domainForm.entityType.fieldName': 'Type',
           'form.domainForm.entityType.tooltipText': 'Typen til domenet.',
           'form.domainForm.entityType.placeholder': 'Velg type',
+
+          'form.domainForm.subdomainOf.fieldName': 'Subdomene',
+          'form.domainForm.subdomainOf.tooltipText':
+            'En eller flere referanser til underseksjoner av dette domenet.',
+          'form.domainForm.subdomainOf.placeholder': 'Velg subdomener',
+
+          'form.functionForm.entityType.fieldName': 'Type',
+          'form.functionForm.entityType.tooltipText': 'Typen til funksjonen.',
+          'form.functionForm.entityType.placeholder':
+            'Velg eller legg til type',
+
+          'form.functionForm.dependsOnSystems.fieldName':
+            'Avhenger av systemer',
+          'form.functionForm.dependsOnSystems.tooltipText':
+            'Systemer som denne funksjonen er avhengig av.',
+          'form.functionForm.dependsOnSystems.placeholder': 'Velg systemer',
+
+          'form.functionForm.dependsOnComponents.fieldName':
+            'Avhenger av komponenter',
+          'form.functionForm.dependsOnComponents.tooltipText':
+            'Komponenter som denne funksjonen er avhengig av.',
+          'form.functionForm.dependsOnComponents.placeholder':
+            'Velg komponenter',
+
+          'form.functionForm.dependsOnFunctions.fieldName':
+            'Avhenger av funksjoner',
+          'form.functionForm.dependsOnFunctions.tooltipText':
+            'Andre funksjoner som denne funksjonen er avhengig av.',
+          'form.functionForm.dependsOnFunctions.placeholder': 'Velg funksjoner',
+
+          'form.functionForm.childFunctions.fieldName': 'Underfunksjoner',
+          'form.functionForm.childFunctions.tooltipText':
+            'Funksjoner som er en del av eller tilhører denne funksjonen.',
+          'form.functionForm.childFunctions.placeholder': 'Velg funksjoner',
+
+          'form.functionForm.links.fieldName': 'Lenker',
+          'form.functionForm.links.cardTitle': 'Lenke',
+          'form.functionForm.links.tooltipText': 'Lenker til Regelrettskjema.',
+          'form.functionForm.links.urlName': 'URL',
+          'form.functionForm.links.urlTooltipText': 'URL til Regelrettskjema',
+          'form.functionForm.links.titleName': 'Tittel',
+          'form.functionForm.links.titleTooltipText':
+            'Tittel som vises i utviklerportalen',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',
@@ -390,6 +477,9 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.errors.tagNoSpace': 'Tags kan ikke inneholde mellomrom',
           'form.errors.tagRegEx':
             'Tags kan kun inneholde alfanumeriske tegn og :, + eller # separert med -, og de kan ikke være lengre enn 63 tegn.',
+
+          'form.errors.linksNoSpace': 'Url kan ikke inneholde mellomrom',
+          'form.errors.linksLength': 'url kan ikke være lengre enn 63 tegn',
 
           'infoBox.title': 'Hvordan fungerer skjemaet?',
           'infoBox.p1':

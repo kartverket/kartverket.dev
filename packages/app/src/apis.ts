@@ -11,6 +11,12 @@ import {
   identityApiRef,
 } from '@backstage/core-plugin-api';
 import { VisitsStorageApi, visitsApiRef } from '@backstage/plugin-home';
+import {
+  catalogApiRef,
+  entityPresentationApiRef,
+} from '@backstage/plugin-catalog-react';
+import { DefaultEntityPresentationApi } from '@backstage/plugin-catalog';
+import MuiAssignmentIcon from '@material-ui/icons/Assignment';
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
@@ -26,6 +32,19 @@ export const apis: AnyApiFactory[] = [
     },
     factory: ({ storageApi, identityApi }) =>
       VisitsStorageApi.create({ storageApi, identityApi }),
+  }),
+  createApiFactory({
+    api: entityPresentationApiRef,
+    deps: {
+      catalogApi: catalogApiRef,
+    },
+    factory: ({ catalogApi }) =>
+      DefaultEntityPresentationApi.create({
+        catalogApi,
+        kindIcons: {
+          function: MuiAssignmentIcon,
+        },
+      }),
   }),
   ScmAuth.createDefaultApiFactory(),
 ];

@@ -87,7 +87,7 @@ export const componentSchema = baseEntitySchema.extend({
       { message: 'form.errors.dependenciesNoSpace' },
     )
     .optional(),
-  depencencyOf: z.array(z.string()).optional(),
+  dependencyOf: z.array(z.string()).optional(),
 });
 
 export const apiSchema = baseEntitySchema.extend({
@@ -193,6 +193,69 @@ export const domainSchema = baseEntitySchema.extend({
       .trim()
       .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
   ),
+  subdomainOf: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.domainNoSpace' },
+    )
+    .optional(),
+});
+
+export const functionSchema = baseEntitySchema.extend({
+  kind: z.literal('Function'),
+  owner: z
+    .string()
+    .trim()
+    .min(1, 'form.errors.noOwner')
+    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
+  entityType: z.optional(
+    z
+      .string('form.errors.noType')
+      .trim()
+      .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
+  ),
+  dependsOnSystems: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.dependsOnSystemsNoSpace' },
+    )
+    .optional(),
+  dependsOnFunctions: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.dependsOnFunctionsNoSpace' },
+    )
+    .optional(),
+  dependsOnComponents: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.dependsOnComponentsNoSpace' },
+    )
+    .optional(),
+  childFunctions: z
+    .array(z.string())
+    .refine(
+      entries =>
+        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
+      { message: 'form.errors.childFunctionsNoSpace' },
+    )
+    .optional(),
+  links: z
+    .array(
+      z.object({
+        url: z.string(),
+        title: z.string(),
+      }),
+    )
+    .optional(),
 });
 
 export const templateSchema = baseEntitySchema.extend({
@@ -221,6 +284,7 @@ export const entitySchema = z.discriminatedUnion('kind', [
   groupSchema,
   userSchema,
   locationSchema,
+  functionSchema,
 ]);
 
 export const formSchema = z.object({

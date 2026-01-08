@@ -31,8 +31,11 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { ResourceForm } from './Forms/ResourceForm';
 import { DomainForm } from './Forms/DomainForm';
+import { useFetchEntities } from '../../hooks/useFetchEntities';
 
 import style from '../../catalog.module.css';
+import { toEntityRef, toEntityRefList } from '../../utils/toEntityRef';
+import { FunctionForm } from './Forms/FunctionForm';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -72,15 +75,6 @@ export const CatalogForm = ({
     return results.items as Entity[];
   }, [catalogApi]);
 
-  const fetchSystems = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'system',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
-
   const isKind = (input_kind: string): input_kind is Kind => {
     return Object.values(Kinds).includes(input_kind as Kind);
   };
@@ -100,6 +94,7 @@ export const CatalogForm = ({
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       entities: currentYaml
@@ -120,13 +115,28 @@ export const CatalogForm = ({
               owner: entry.spec.owner,
               lifecycle: entry.spec.lifecycle as AllowedLifecycleStages,
               entityType: entry.spec.type as string,
-              system: entry.spec.system,
-              providesApis: entry.spec.providesApis,
-              consumesApis: entry.spec.consumesApis,
+              system: entry.spec.system
+                ? toEntityRef(Kinds.System, entry.spec.system)
+                : undefined,
+              providesApis: toEntityRefList(
+                Kinds.API,
+                entry.spec.providesApis ?? [],
+              ),
+              consumesApis: toEntityRefList(
+                Kinds.API,
+                entry.spec.consumesApis ?? [],
+              ),
               dependencyOf: entry.spec.dependencyOf,
               definition: definition,
               title: entry.metadata.title || '',
               tags: entry.metadata.tags || [],
+              dependsOn: entry.spec.dependsOn,
+              links: entry.metadata.links || [
+                {
+                  url: undefined,
+                  title: undefined,
+                },
+              ],
             };
           })
         : [
@@ -148,6 +158,12 @@ export const CatalogForm = ({
     keyName: 'key',
     control,
   });
+
+  const fetchSystems = useFetchEntities(control, Kinds.System);
+  const fetchComponents = useFetchEntities(control, Kinds.Component);
+  const fetchResources = useFetchEntities(control, Kinds.Resource);
+  const fetchDomains = useFetchEntities(control, Kinds.Domain);
+  const fetchFunctions = useFetchEntities(control, Kinds.Function);
 
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
@@ -219,9 +235,13 @@ export const CatalogForm = ({
             index={index}
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'Component'>}
-            appendHandler={appendHandler}
+            setValue={setValue}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}
+            componentsAndResources={[
+              ...fetchComponents.value,
+              ...fetchResources.value,
+            ]}
           />
         );
       case 'API':
@@ -241,8 +261,10 @@ export const CatalogForm = ({
           <SystemForm
             index={index}
             control={control}
+            setValue={setValue}
             errors={errors?.entities?.[index] as EntityErrors<'System'>}
             groups={fetchGroups.value || []}
+            domains={fetchDomains.value || []}
           />
         );
       case 'Resource':
@@ -250,9 +272,14 @@ export const CatalogForm = ({
           <ResourceForm
             index={index}
             control={control}
+            setValue={setValue}
             errors={errors?.entities?.[index] as EntityErrors<'Resource'>}
             systems={fetchSystems.value || []}
             groups={fetchGroups.value || []}
+            componentsAndResources={[
+              ...fetchComponents.value,
+              ...fetchResources.value,
+            ]}
           />
         );
       case 'Domain':
@@ -262,6 +289,20 @@ export const CatalogForm = ({
             control={control}
             errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
             groups={fetchGroups.value || []}
+            domains={fetchDomains.value || []}
+          />
+        );
+      case 'Function':
+        return (
+          <FunctionForm
+            index={index}
+            control={control}
+            errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
+            groups={fetchGroups.value || []}
+            components={fetchComponents.value}
+            functions={fetchFunctions.value}
+            systems={fetchSystems.value}
+            setValue={setValue}
           />
         );
       default:

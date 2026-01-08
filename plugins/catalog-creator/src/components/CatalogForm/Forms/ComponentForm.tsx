@@ -1,84 +1,89 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller, FieldError, Merge } from 'react-hook-form';
+import { Control, UseFormSetValue, useWatch } from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ComponentTypes,
   EntityErrors,
-  Kind,
+  Kinds,
 } from '../../../types/types';
-import { apiSchema, formSchema } from '../../../schemas/formSchema';
+import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
-import { useAsync } from 'react-use';
-import { useApi } from '@backstage/core-plugin-api';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import MuiTextField from '@mui/material/TextField';
-import { FieldHeader } from '../FieldHeader';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogCreatorTranslationRef } from '../../../utils/translations';
+import { useFetchEntities } from '../../../hooks/useFetchEntities';
+import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 
-import style from '../../../catalog.module.css';
-
 export type ComponentFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
+  setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Component'>;
-  appendHandler: (entityKindToAdd: Kind, name?: string) => void;
   systems: Entity[];
   groups: Entity[];
+  componentsAndResources: Entity[];
 };
 
 export const ComponentForm = ({
   index,
   control,
+  setValue,
   errors,
-  appendHandler,
   systems,
   groups,
+  componentsAndResources,
 }: ComponentFormProps) => {
-  const catalogApi = useApi(catalogApiRef);
-  const { t } = useTranslationRef(catalogCreatorTranslationRef);
+  const fetchAPIs = useFetchEntities(control, 'API');
 
-  const errorText = (
-    text:
-      | FieldError
-      | undefined
-      | Merge<FieldError, (FieldError | undefined)[]>,
-  ) => {
-    return (
-      <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
-        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
-      </span>
-    );
-  };
+  const systemVal = useWatch({
+    control,
+    name: `entities.${index}.system`,
+  });
 
-  const formatEntityString = (entity: Entity): string => {
-    return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
-  };
+  const providesApisVal = useWatch({
+    control,
+    name: `entities.${index}.providesApis`,
+  });
 
-  const fetchAPIs = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: {
-        kind: 'API',
-      },
-    });
-    return results.items as Entity[];
-  }, [catalogApi]);
+  const consumesApisVal = useWatch({
+    control,
+    name: `entities.${index}.consumesApis`,
+  });
 
-  const fetchComponentsAndResources = useAsync(async () => {
-    const results = await catalogApi.getEntities({
-      filter: [{ kind: ['Component', 'Resource'] }],
-    });
+  const dependsOnVal = useWatch({
+    control,
+    name: `entities.${index}.dependsOn`,
+  });
 
-    return results.items as Entity[];
-  }, [catalogApi]);
+  useUpdateDependentFormFields(
+    systems,
+    typeof systemVal === 'string' ? [systemVal] : undefined,
+    `entities.${index}.system`,
+    setValue,
+  );
 
-  const filter = createFilterOptions<Entity | string>();
+  useUpdateDependentFormFields(
+    fetchAPIs.value,
+    providesApisVal,
+    `entities.${index}.providesApis`,
+    setValue,
+  );
+
+  useUpdateDependentFormFields(
+    fetchAPIs.value,
+    consumesApisVal,
+    `entities.${index}.consumesApis`,
+    setValue,
+  );
+
+  useUpdateDependentFormFields(
+    componentsAndResources,
+    dependsOnVal,
+    `entities.${index}.dependsOn`,
+    setValue,
+  );
 
   return (
     <Flex direction="column" justify="start">
@@ -128,89 +133,15 @@ export const ComponentForm = ({
         />
       </div>
       <div>
-        <FieldHeader
-          fieldName={t('form.componentForm.providesApis.fieldName')}
-          tooltipText={t('form.componentForm.providesApis.tooltipText')}
-        />
-        <Controller
-          name={`entities.${index}.providesApis`}
+        <MultipleEntitiesAutocomplete
+          index={index}
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Autocomplete
-              multiple
-              freeSolo
-              value={value || []}
-              onBlur={onBlur}
-              onChange={(_, newValue) => {
-                const names = newValue.map(item => {
-                  if (typeof item === 'string') {
-                    if (
-                      !fetchAPIs.value?.some(
-                        api => api.metadata.name === item,
-                      ) &&
-                      !value?.some(oldInput => oldInput === item)
-                    ) {
-                      const result = apiSchema
-                        .pick({ name: true })
-                        .safeParse({ name: item });
-                      if (result.success) {
-                        appendHandler('API', item);
-                      }
-                    }
-                    return item;
-                  }
-                  return item.metadata.name;
-                });
-                onChange(names);
-              }}
-              options={(fetchAPIs.value || []) as (Entity | string)[]}
-              filterOptions={(options, params) => {
-                const filtered = filter(options, params);
-
-                const { inputValue: filterInput } = params;
-                const isExisting = options.some(
-                  option =>
-                    filterInput ===
-                    (typeof option === 'string'
-                      ? option
-                      : option.metadata.name),
-                );
-
-                if (filterInput !== '' && !isExisting) {
-                  filtered.push(filterInput);
-                }
-
-                return filtered;
-              }}
-              getOptionLabel={option => {
-                if (typeof option === 'string') return option;
-                return option.metadata.title ?? option.metadata.name;
-              }}
-              isOptionEqualToValue={(option, selectedValue) => {
-                const optionName =
-                  typeof option === 'string' ? option : option.metadata.name;
-                const valueName =
-                  typeof selectedValue === 'string'
-                    ? selectedValue
-                    : selectedValue.metadata?.name;
-                return optionName === valueName;
-              }}
-              size="small"
-              renderInput={params => (
-                <MuiTextField
-                  {...params}
-                  placeholder={t('form.componentForm.providesApis.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    className: style.textField,
-                  }}
-                />
-              )}
-            />
-          )}
+          errors={errors}
+          formname="componentForm"
+          fieldname="providesApis"
+          entities={fetchAPIs.value || []}
+          kind={Kinds.API}
         />
-
-        {errorText(errors?.providesApis)}
       </div>
       <div>
         <MultipleEntitiesAutocomplete
@@ -220,70 +151,17 @@ export const ComponentForm = ({
           formname="componentForm"
           fieldname="consumesApis"
           entities={fetchAPIs.value || []}
-          freeSolo
         />
       </div>
       <div>
-        <FieldHeader
-          fieldName={t('form.componentForm.dependsOn.fieldName')}
-          tooltipText={t('form.componentForm.dependsOn.tooltipText')}
-        />
-        <Controller
-          name={`entities.${index}.dependsOn`}
+        <MultipleEntitiesAutocomplete
+          index={index}
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Autocomplete
-              multiple
-              value={
-                (value || [])
-                  .map(str => {
-                    return (fetchComponentsAndResources.value || []).find(
-                      entity => {
-                        const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
-                        return entityStr === str;
-                      },
-                    );
-                  })
-                  .filter(Boolean) as Entity[]
-              }
-              onBlur={onBlur}
-              onChange={(_, newValue) => {
-                const names = newValue.map(item => {
-                  return formatEntityString(item);
-                });
-                onChange(names);
-              }}
-              options={fetchComponentsAndResources.value || []}
-              getOptionLabel={option => {
-                return `${option.metadata.title ?? option.metadata.name} (${option.kind.toLowerCase()})`;
-              }}
-              isOptionEqualToValue={(option, selectedValue) => {
-                const optionName = formatEntityString(option);
-                const valueName = formatEntityString(selectedValue);
-                return optionName === valueName;
-              }}
-              size="small"
-              sx={{
-                '& .MuiInputBase-input': {
-                  fontSize: 10,
-                  height: 1,
-                  padding: 1,
-                },
-              }}
-              renderInput={params => (
-                <MuiTextField
-                  {...params}
-                  placeholder={t('form.componentForm.dependsOn.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    className: style.textField,
-                  }}
-                />
-              )}
-            />
-          )}
+          errors={errors}
+          formname="componentForm"
+          fieldname="dependsOn"
+          entities={componentsAndResources || []}
         />
-        {errorText(errors?.dependsOn)}
       </div>
       <TagField
         index={index}
