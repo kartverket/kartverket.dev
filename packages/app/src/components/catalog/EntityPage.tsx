@@ -182,7 +182,7 @@ const overviewContent = (
       <SecurityChampionCard />
     </Grid>
     <Grid item md={8} xs={12}>
-      <FunctionLinksCard />
+      <EntityLinksCard />
     </Grid>
     <Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
@@ -209,6 +209,9 @@ const functionEntityPage = (
           <FunctionLinksCard />
         </Grid>
       </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
     </EntityLayout.Route>
   </EntityLayout>
 );
