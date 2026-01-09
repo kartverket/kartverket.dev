@@ -14,8 +14,6 @@ export const EntityCatalogCreatorWrapper = () => {
     gitUrl = gitUrl.substring(4);
   }
 
-  //Force rebuild
-
   return (
     <CatalogCreatorPage
       docsLink="/docs/default/Component/kartverket.dev"
