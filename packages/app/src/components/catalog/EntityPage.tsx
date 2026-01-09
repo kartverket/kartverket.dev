@@ -72,6 +72,7 @@ import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
 import {
   EntityDependenciesCard,
   FunctionAboutCard,
+  FunctionLinksCard,
 } from '@internal/plugin-frontend-custom-components';
 
 const techdocsContent = (
@@ -205,7 +206,7 @@ const functionEntityPage = (
           <EntityDependenciesCard />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityLinksCard />
+          <FunctionLinksCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
