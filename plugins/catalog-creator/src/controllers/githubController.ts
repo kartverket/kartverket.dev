@@ -33,7 +33,7 @@ export class GithubController {
         doTargetFunctionKind = true;
         functionName = val.name;
       }
-      updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val);
+      return updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val);
     });
 
     const completeYaml = yamlStrings.join('\n---\n');
