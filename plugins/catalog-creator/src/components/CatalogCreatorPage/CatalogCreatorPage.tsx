@@ -102,6 +102,7 @@ export const CatalogCreatorPage = ({
                 onSubmit={handleFormSubmit}
                 disableTextField={originLocation !== undefined}
               />
+
               <StatusMessages
                 hasExistingCatalogFile={hasExistingCatalogFile}
                 shouldCreateNewFile={shouldCreateNewFile}
