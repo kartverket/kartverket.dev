@@ -178,6 +178,25 @@ const overviewContent = (
     <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
+    <Grid item md={8} xs={12}>
+      <EntityLinksCard />
+    </Grid>
+    <Grid item md={12} xs={12}>
+      <EntityHasSubcomponentsCard variant="gridItem" />
+    </Grid>
+    {grafanaContent}
+  </Grid>
+);
+
+const defaultComponentContent = (
+  <Grid container spacing={3} alignItems="stretch">
+    {entityWarningContent}
+    <Grid item md={6} xs={12}>
+      <EntityAboutCard variant="gridItem" />
+    </Grid>
+    <Grid item md={6} xs={12}>
+      <EntityCatalogGraphCard variant="gridItem" height={400} />
+    </Grid>
     <Grid item md={4} xs={12}>
       <SecurityChampionCard />
     </Grid>
@@ -219,7 +238,7 @@ const functionEntityPage = (
 const serviceEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
+      {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
       <EntityCatalogCreatorWrapper />
@@ -267,7 +286,7 @@ const serviceEntityPage = (
 const websiteEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
+      {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
       <EntityCatalogCreatorWrapper />
@@ -309,7 +328,7 @@ const websiteEntityPage = (
 const opsEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
+      {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
       <EntityCatalogCreatorWrapper />
@@ -328,7 +347,7 @@ const opsEntityPage = (
 const experimentEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
+      {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
       <EntityCatalogCreatorWrapper />
@@ -352,7 +371,6 @@ const defaultEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
@@ -379,7 +397,16 @@ const componentPage = (
       {experimentEntityPage}
     </EntitySwitch.Case>
 
-    <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
+    <EntitySwitch.Case>
+      <EntityLayout>
+        <EntityLayout.Route path="/" title="Overview">
+          {defaultComponentContent}
+        </EntityLayout.Route>
+        <EntityLayout.Route path="/docs" title="Docs">
+          {techdocsContent}
+        </EntityLayout.Route>
+      </EntityLayout>
+    </EntitySwitch.Case>
   </EntitySwitch>
 );
 
@@ -389,18 +416,16 @@ const apiPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item md={6}>
-          <EntityAboutCard />
+          <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
-        <Grid item md={4} xs={12}>
-          <EntityLinksCard />
+        <Grid item md={6} xs={12}>
+          <EntityLinksCard variant="gridItem" />
         </Grid>
-        <Grid container item md={12}>
-          <Grid item md={6}>
-            <EntityProvidingComponentsCard />
-          </Grid>
+        <Grid item md={6}>
+          <EntityProvidingComponentsCard variant="gridItem" />
         </Grid>
       </Grid>
     </EntityLayout.Route>
