@@ -481,11 +481,11 @@ const groupPage = (
             ]}
           />
         </Grid>
-        <Grid item xs={12}>
-          <SecurityChampionCard />
-        </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <EntityMembersListCard showAggregateMembersToggle />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SecurityChampionCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
