@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useConfig } from './getConfig';
 import { MetricTypes } from '../utils/MetricTypes';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
@@ -15,6 +15,8 @@ export const useConfigureSlackNotificationsQuery = () => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
     MetricTypes.configureNotifications,
   );
+
+  const qc = useQueryClient();
 
   return useMutation<any, unknown, SlackNotificationPayload>({
     mutationFn: async ({ teamName, componentNames, channelId, severity }) => {
@@ -38,6 +40,11 @@ export const useConfigureSlackNotificationsQuery = () => {
         channelId,
         entraIdToken,
         severity,
+      });
+    },
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({
+        queryKey: ['slackNotificationsConfig', vars.teamName],
       });
     },
   });

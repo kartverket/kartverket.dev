@@ -1,7 +1,7 @@
 import { Control, Controller } from 'react-hook-form';
 import { FieldHeader } from '../FieldHeader';
 import Autocomplete from '@mui/material/Autocomplete';
-import MuiTextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { EntityErrors, Kind } from '../../../types/types';
@@ -11,12 +11,11 @@ import { useState } from 'react';
 
 import style from '../../../catalog.module.css';
 
-type SingleSelectAutocompleteProps = {
+type LinksFieldProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<Kind>;
   options: string[];
-  freeSolo?: boolean;
   formname?:
     | 'componentForm'
     | 'APIForm'
@@ -24,15 +23,14 @@ type SingleSelectAutocompleteProps = {
     | 'resourceForm'
     | 'domainForm'
     | 'functionForm';
-  fieldname: 'lifecycle' | 'entityType';
   required?: boolean;
 };
 
 type TranslationKeyWithFormName =
-  `form.${NonNullable<SingleSelectAutocompleteProps['formname']>}.${SingleSelectAutocompleteProps['fieldname']}.${'fieldName' | 'tooltipText' | 'placeholder'}`;
+  `form.${NonNullable<LinksFieldProps['formname']>}.links.${'fieldName' | 'tooltipText' | 'placeholder'}`;
 
 type TranslationKeyWithoutFormName =
-  `form.${SingleSelectAutocompleteProps['fieldname']}.${'fieldName' | 'tooltipText' | 'placeholder'}`;
+  `form.links.${'fieldName' | 'tooltipText' | 'placeholder'}`;
 
 type TranslationKey =
   | TranslationKeyWithFormName
@@ -40,21 +38,18 @@ type TranslationKey =
 
 const hasFieldError = (
   errors: EntityErrors<Kind> | undefined,
-  field: SingleSelectAutocompleteProps['fieldname'],
+  field: 'links',
 ): errors is EntityErrors<Kind> & Record<typeof field, { message: string }> => {
   return !!errors && field in errors && !!errors[field as keyof typeof errors];
 };
 
-export const SingleSelectAutocomplete = ({
+export const LinksField = ({
   index,
   control,
   errors,
   options,
-  freeSolo,
   formname,
-  fieldname,
-  required,
-}: SingleSelectAutocompleteProps) => {
+}: LinksFieldProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -62,9 +57,9 @@ export const SingleSelectAutocomplete = ({
     suffix: 'fieldName' | 'tooltipText' | 'placeholder',
   ): TranslationKey => {
     if (formname) {
-      return `form.${formname}.${fieldname}.${suffix}`;
+      return `form.${formname}.links.${suffix}`;
     }
-    return `form.${fieldname}.${suffix}`;
+    return `form.links.${suffix}`;
   };
   const translateField = (key: TranslationKey) => {
     return t(key as Parameters<typeof t>[0], {});
@@ -74,47 +69,61 @@ export const SingleSelectAutocomplete = ({
   const tooltipText = translateField(getTranslationKey('tooltipText'));
   const placeholder = translateField(getTranslationKey('placeholder'));
 
-  const optionsWithInput =
-    freeSolo && inputValue && !options.includes(inputValue)
-      ? [...options, inputValue]
-      : options;
-
   return (
-    <>
-      <FieldHeader
-        fieldName={fieldNameText}
-        tooltipText={tooltipText}
-        required={required}
-      />
+    <div>
+      <FieldHeader fieldName={fieldNameText} tooltipText={tooltipText} />
       <Controller
-        name={`entities.${index}.${fieldname}`}
+        name={`entities.${index}.links`}
         control={control}
-        render={({ field: { value, onChange, onBlur } }) => (
+        render={({ field }) => (
           <div>
             <Autocomplete
-              value={value ? (options.find(x => x === value) ?? null) : null}
-              onChange={(_, newValue) => {
-                onChange(newValue ?? '');
+              {...field}
+              onChange={(_, value) => {
+                const transformedValue = value.map(item => ({
+                  url: item,
+                  title: item,
+                }));
+                field.onChange(transformedValue);
               }}
+              inputValue={inputValue}
               onInputChange={(_, newInputValue) => {
                 setInputValue(newInputValue);
-                onChange(newInputValue);
               }}
-              onBlur={onBlur}
-              freeSolo={freeSolo}
-              options={optionsWithInput}
-              getOptionLabel={option => option}
+              value={
+                field.value
+                  ? field.value.map(
+                      (link: { url: string; title: string }) => link.url,
+                    )
+                  : []
+              }
+              multiple
+              freeSolo
+              options={
+                inputValue && !options.includes(inputValue)
+                  ? [...options, inputValue]
+                  : options
+              }
               size="small"
+              getOptionLabel={(
+                option: string | { url: string; title: string },
+              ) => {
+                if (typeof option === 'string') return option;
+                return option.url || '';
+              }}
+              isOptionEqualToValue={(option, value) => {
+                if (typeof option === 'string' && typeof value === 'string') {
+                  return option === value;
+                }
+                return option === value;
+              }}
               renderInput={params => (
-                <MuiTextField
+                <TextField
                   {...params}
                   placeholder={placeholder}
                   InputProps={{
                     ...params.InputProps,
-                    sx: {
-                      fontSize: '0.85rem',
-                      fontFamily: 'system-ui',
-                    },
+                    className: style.textField,
                   }}
                 />
               )}
@@ -124,12 +133,12 @@ export const SingleSelectAutocomplete = ({
       />
 
       <span
-        className={`${style.errorText} ${hasFieldError(errors, fieldname) ? '' : style.hidden}`}
+        className={`${style.errorText} ${hasFieldError(errors, 'links') ? '' : style.hidden}`}
       >
-        {hasFieldError(errors, fieldname) && errors[fieldname]?.message
-          ? translateField(errors[fieldname].message as TranslationKey)
+        {hasFieldError(errors, 'links') && errors.links?.message
+          ? translateField(errors.links.message as TranslationKey)
           : '\u00A0'}
       </span>
-    </>
+    </div>
   );
 };
