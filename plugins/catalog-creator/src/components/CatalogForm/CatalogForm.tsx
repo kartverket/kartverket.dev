@@ -133,8 +133,8 @@ export const CatalogForm = ({
               dependsOn: entry.spec.dependsOn,
               links: entry.metadata.links || [
                 {
-                  url: '',
-                  title: '',
+                  url: undefined,
+                  title: undefined,
                 },
               ],
             };
@@ -254,6 +254,7 @@ export const CatalogForm = ({
             groups={fetchGroups.value || []}
             inlineApiIndexes={getEntitiesWithInlineAPIDef(currentYaml || [])}
             id={entity.id}
+            setValue={setValue}
           />
         );
       case 'System':

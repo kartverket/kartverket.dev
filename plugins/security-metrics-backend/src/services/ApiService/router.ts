@@ -300,5 +300,42 @@ export const createRouter = async (
     }
   });
 
+  router.get('/proxy/configure-notifications/', async (req, res) => {
+    const backstageToken = req.header('Authorization');
+    const validToken = validateToken(backstageToken, auth);
+
+    const teamName = String(req.query.teamName ?? '');
+    const entraIdToken = req.header('EntraId') ?? '';
+
+    if (!validToken || !backstageToken) {
+      res.status(401).send({ frontendMessage: 'Token is not valid' });
+      return;
+    }
+
+    if (!teamName) {
+      res.status(400).send({ frontendMessage: 'teamName is required' });
+      return;
+    }
+
+    if (!entraIdToken) {
+      res.status(400).send({ frontendMessage: 'entraIdToken is required' });
+      return;
+    }
+
+    const apiResult = await apiService.getNotificationsConfig(
+      teamName,
+      entraIdToken,
+    );
+
+    if (apiResult.isRight()) {
+      res.status(200).json(apiResult.value);
+    } else {
+      res.status(apiResult.error.statusCode).send({
+        frontendMessage: apiResult.error.frontendMessage,
+      });
+      logger.error(apiResult.error.error);
+    }
+  });
+
   return router;
 };

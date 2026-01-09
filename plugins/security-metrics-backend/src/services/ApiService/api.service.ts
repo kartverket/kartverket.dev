@@ -4,6 +4,7 @@ import {
   SecurityChamp,
   SeverityCounts,
   SikkerhetsmetrikkerSystemTotal,
+  SlackNotificationConfig,
   VulnerabilitySeverityCounts,
 } from './typesBackend';
 import { LoggerService } from '@backstage/backend-plugin-api';
@@ -268,6 +269,41 @@ export class ApiService {
 
       if (response.status === 204) {
         return Right.create(undefined);
+      }
+      return errorHandling(response);
+    } catch (error) {
+      this.logger.error(
+        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
+      );
+      return Left.create({
+        statusCode: 500,
+        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
+        error,
+      });
+    }
+  }
+
+  async getNotificationsConfig(
+    teamName: string,
+    entraIdToken: string,
+  ): Promise<Either<ApiError, SlackNotificationConfig>> {
+    const endpointUrl = `${this.baseUrl}/api/slack/configure-notifications?teamName=${encodeURIComponent(teamName)}`;
+    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
+
+    if (!smapiToken)
+      throw new Error('Failed to fetch token for Security-metrics API');
+
+    try {
+      const response = await fetch(endpointUrl, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${smapiToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        return Right.create(await response.json());
       }
       return errorHandling(response);
     } catch (error) {
