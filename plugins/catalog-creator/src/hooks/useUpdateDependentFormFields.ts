@@ -9,6 +9,7 @@ export const useUpdateDependentFormFields = (
   valueToWatch: string[] | undefined,
   fieldPath: FieldPath<z.infer<typeof formSchema>>,
   setValue: UseFormSetValue<z.infer<typeof formSchema>>,
+  singleValue: boolean = false,
 ) => {
   const formatEntityString = (entity: Entity): string => {
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
@@ -34,11 +35,11 @@ export const useUpdateDependentFormFields = (
         ...valueToWatch.filter(e => !intersection.includes(e)),
       ];
       if (elementsToDelete.length > 0) {
-        if (
-          valueToWatch.length === 1 &&
-          intersection.includes(valueToWatch[0])
-        ) {
+        if (singleValue && intersection.includes(valueToWatch[0])) {
           setValue(fieldPath, valueToWatch[0]);
+        }
+        if (singleValue && !intersection.includes(valueToWatch[0])) {
+          setValue(fieldPath, '');
         } else {
           setValue(fieldPath, [
             ...valueToWatch.filter(e => intersection.includes(e)),
@@ -46,5 +47,5 @@ export const useUpdateDependentFormFields = (
         }
       }
     }
-  }, [valueToWatch, options, fieldPath, setValue]);
+  }, [valueToWatch, options, fieldPath, setValue, singleValue]);
 };

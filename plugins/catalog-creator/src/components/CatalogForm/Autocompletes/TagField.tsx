@@ -42,7 +42,7 @@ export const TagField = ({
               onChange={(_, value) => field.onChange(value)}
               inputValue={inputValue}
               onInputChange={(_, newInputValue) => {
-                setInputValue(newInputValue);
+                setInputValue(newInputValue.trim());
               }}
               value={field.value || []}
               multiple
