@@ -1,5 +1,11 @@
 import { Flex } from '@backstage/ui';
-import { Control, Controller, FieldError } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldError,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
 import {
   AllowedLifecycleStages,
   ApiTypes,
@@ -18,6 +24,7 @@ import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocompl
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 
 import style from '../../../catalog.module.css';
+import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 
 export type ApiFormProps = {
   index: number;
@@ -27,6 +34,7 @@ export type ApiFormProps = {
   groups: Entity[];
   inlineApiIndexes: number[];
   id: number;
+  setValue: UseFormSetValue<z.infer<typeof formSchema>>;
 };
 
 export const ApiForm = ({
@@ -37,8 +45,22 @@ export const ApiForm = ({
   groups,
   inlineApiIndexes,
   id,
+  setValue,
 }: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const systemVal = useWatch({
+    control,
+    name: `entities.${index}.system`,
+  });
+
+  useUpdateDependentFormFields(
+    systems,
+    typeof systemVal === 'string' ? [systemVal] : undefined,
+    `entities.${index}.system`,
+    setValue,
+    true,
+  );
 
   const errorText = (text: FieldError | undefined) => {
     return (
