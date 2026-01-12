@@ -1,7 +1,7 @@
 import {
   HomePageToolkit,
   HomePageCompanyLogo,
-  HomePageTopVisited,
+  HomePageStarredEntities,
   HomePageRecentlyVisited,
 } from '@backstage/plugin-home';
 import { Content, Page } from '@backstage/core-components';
@@ -80,7 +80,7 @@ export const HomePage = () => {
                 <HomePageRecentlyVisited />
               </Grid>
               <Grid item xs={12} md={6}>
-                <HomePageTopVisited />
+                <HomePageStarredEntities title="Favorites" />
               </Grid>
             </Grid>
             <Grid item xs={12}>

@@ -254,6 +254,7 @@ export const CatalogForm = ({
             groups={fetchGroups.value || []}
             inlineApiIndexes={getEntitiesWithInlineAPIDef(currentYaml || [])}
             id={entity.id}
+            setValue={setValue}
           />
         );
       case 'System':

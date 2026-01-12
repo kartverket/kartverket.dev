@@ -34,7 +34,7 @@ export const useFetchEntities = (
             apiVersion: 'backstage.io/v1alpha1',
             kind: e.kind,
             metadata: {
-              name: e.name,
+              name: e.name.trim(),
             },
             spec: {
               title: e.title,
