@@ -13,6 +13,8 @@ export class GithubController {
     catalogInfo: FormEntity[],
     githubAuthApi: OAuthApi,
     couldNotCreatePRErrorMsg: string,
+    entityKind?: string,
+    entityName?: string,
   ): Promise<Status | undefined> => {
     const emptyRequiredYaml: RequiredYamlFields = {
       apiVersion: 'backstage.io/v1alpha1',
@@ -25,16 +27,9 @@ export class GithubController {
       },
     };
 
-    let doTargetFunctionKind = false;
-    let functionName = '';
-
-    const yamlStrings = catalogInfo.map(val => {
-      if (val && val.kind === 'Function') {
-        doTargetFunctionKind = true;
-        functionName = val.name;
-      }
-      return updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val);
-    });
+    const yamlStrings = catalogInfo.map(val =>
+      updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val),
+    );
 
     const completeYaml = yamlStrings.join('\n---\n');
 
@@ -69,14 +64,16 @@ export class GithubController {
         const result = await octokit.createPullRequest({
           owner: owner,
           repo: repo,
-          title: doTargetFunctionKind
-            ? `Update ${functionName} function`
-            : 'Create/update catalog-info.yaml',
+          title:
+            entityKind && entityKind === 'Function'
+              ? `Update ${entityName} function`
+              : 'Create/update catalog-info.yaml',
           body: 'Creates or updates catalog-info.yaml',
           base: default_branch,
-          head: doTargetFunctionKind
-            ? `update-${functionName}-function`
-            : 'Update-or-create-catalog-info',
+          head:
+            entityKind && entityKind === 'Function'
+              ? `update-${entityName}-function`
+              : 'Update-or-create-catalog-info',
           changes: [
             {
               files: {
