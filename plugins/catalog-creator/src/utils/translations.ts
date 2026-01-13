@@ -13,6 +13,8 @@ export const catalogCreatorMessages = {
     fetchButton: 'Fetch!',
   },
 
+  repositoryFetch: 'Fetching from',
+
   form: {
     title: 'Catalog-info.yaml Form',
     requiredFields: 'Required fields marked with: ',
@@ -285,6 +287,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'repositorySearch.label': 'Lim inn URL til GitHub-repository under',
           'repositorySearch.placeholder': 'Skriv inn en URL',
           'repositorySearch.fetchButton': 'Hent!',
+          'repositoryFetch': 'Henter fra',
 
           'form.title': 'Catalog-info.yaml skjema',
           'form.requiredFields': 'Obligatoriske felter er markert med: ',

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Card, Flex } from '@backstage/ui';
+import { Box, Card, Flex, Link, Text} from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
 import { useTheme } from '@material-ui/core/styles';
@@ -104,12 +104,18 @@ export const CatalogCreatorPage = ({
             />
           ) : (
             <Card className={style.repositoryCard}>
-              <RepositoryForm
-                url={originLocation || url}
-                onUrlChange={setUrl}
-                onSubmit={handleFormSubmit}
-                disableTextField={originLocation !== undefined}
-              />
+              <Box px="2rem">
+                {originLocation? (
+                  <Text>{t('repositoryFetch')} <Link>{url}</Link></Text> 
+                ):(
+                  <RepositoryForm
+                    url={originLocation || url}
+                    onUrlChange={setUrl}
+                    onSubmit={handleFormSubmit}
+                    disableTextField={originLocation !== undefined}
+                  />
+                )}
+              </Box>
 
               <StatusMessages
                 hasExistingCatalogFile={hasExistingCatalogFile}

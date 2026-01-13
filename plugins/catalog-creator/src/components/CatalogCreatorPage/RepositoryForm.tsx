@@ -19,7 +19,6 @@ export const RepositoryForm = ({
 
   return (
     <form onSubmit={onSubmit}>
-      <Box px="2rem">
         <Flex align="end">
           <div style={{ flexGrow: 1 }}>
             <TextField
@@ -34,7 +33,6 @@ export const RepositoryForm = ({
           </div>
           <Button type="submit"> {t('repositorySearch.fetchButton')} </Button>
         </Flex>
-      </Box>
     </form>
   );
 };
