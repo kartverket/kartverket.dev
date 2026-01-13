@@ -21,6 +21,8 @@ export const EntityCatalogCreatorWrapper = () => {
       <CatalogCreatorPage
         docsLink="/docs/default/Component/kartverket.dev"
         originLocation={gitUrl}
+        entityKind={entity.kind}
+        entityName={entity.metadata.name}
       />
     </>
   );

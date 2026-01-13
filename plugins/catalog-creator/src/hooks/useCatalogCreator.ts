@@ -30,11 +30,13 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
   );
 
   const [repoInfo, doGetRepoInfo] = useAsyncFn(
-    async () =>
+    async (entityKind?: string, entityName?: string) =>
       await getRepoInfo(
         url,
         githubAuthApi,
         t('form.knownErrorAlerts.repoNotFound'),
+        entityKind,
+        entityName,
       ),
     [url, githubAuthApi],
   );
@@ -92,7 +94,12 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
   ]);
 
   const [repoState, doSubmitToGithub] = useAsyncFn(
-    async (submitUrl: string, catalogInfoFormList?: FormEntity[]) => {
+    async (
+      submitUrl: string,
+      catalogInfoFormList?: FormEntity[],
+      entityKind?: string,
+      entityName?: string,
+    ) => {
       scrollToTop();
 
       if (!catalogInfoFormList) {
@@ -106,6 +113,8 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
         catalogInfoFormList,
         githubAuthApi,
         t('form.knownErrorAlerts.couldNotCreatePR'),
+        entityKind,
+        entityName,
       );
     },
     [
