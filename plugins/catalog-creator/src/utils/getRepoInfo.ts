@@ -5,6 +5,8 @@ export async function getRepoInfo(
   url: string,
   githubAuthApi: OAuthApi,
   canNotFindRepoErrorMsg: string,
+  entityKind?: string,
+  entityName?: string,
 ) {
   const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
 
@@ -54,9 +56,15 @@ export async function getRepoInfo(
       },
     });
 
-    const matchingPr = response.data.find(
-      pr => pr.title === 'Create/update catalog-info.yaml',
-    );
+    const matchingPr = response.data.find(pr => {
+      if (entityKind === 'Function') {
+        return pr.title === `Update ${entityName} function`;
+      }
+      if (entityKind !== 'Function') {
+        return pr.title === 'Create/update catalog-info.yaml';
+      }
+      return false;
+    });
 
     if (matchingPr) {
       returnObject.existingPrUrl = matchingPr.html_url;
