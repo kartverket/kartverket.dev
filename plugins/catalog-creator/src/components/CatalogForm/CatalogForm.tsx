@@ -414,31 +414,32 @@ export const CatalogForm = ({
               </Card>
             );
           })}
-
-          <Flex direction="column">
-            <Text className={style.addEntityTitle}>
-              {t('form.addEntity.title')}
-            </Text>
-            <Flex align="end" justify="start">
-              <Select
-                label={t('form.addEntity.label')}
-                value={addEntityKind}
-                onChange={value => setAddEntityKind(value as Kind)}
-                options={Object.values(AllowedEntityKinds).map(
-                  lifecycleStage => ({
-                    value: lifecycleStage as string,
-                    label: lifecycleStage,
-                  }),
-                )}
-              />
-              <Button
-                type="button"
-                onClick={() => appendHandler(addEntityKind)}
-              >
-                {t('form.addEntity.buttonText')}
-              </Button>
+          {fields.find(x => x.kind === 'Function') === undefined && (
+            <Flex direction="column">
+              <Text className={style.addEntityTitle}>
+                {t('form.addEntity.title')}
+              </Text>
+              <Flex align="end" justify="start">
+                <Select
+                  label={t('form.addEntity.label')}
+                  value={addEntityKind}
+                  onChange={value => setAddEntityKind(value as Kind)}
+                  options={Object.values(AllowedEntityKinds).map(
+                    lifecycleStage => ({
+                      value: lifecycleStage as string,
+                      label: lifecycleStage,
+                    }),
+                  )}
+                />
+                <Button
+                  type="button"
+                  onClick={() => appendHandler(addEntityKind)}
+                >
+                  {t('form.addEntity.buttonText')}
+                </Button>
+              </Flex>
             </Flex>
-          </Flex>
+          )}
           <Divider className={style.endOfFormDivider} />
           <Flex justify="end">
             <Button
