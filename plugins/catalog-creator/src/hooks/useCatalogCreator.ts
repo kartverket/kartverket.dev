@@ -10,7 +10,10 @@ import { FormEntity } from '../types/types';
 import { catalogCreatorTranslationRef } from '../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
-export const useCatalogCreator = (githubAuthApi: OAuthApi, initialUrl: string) => {
+export const useCatalogCreator = (
+  githubAuthApi: OAuthApi,
+  initialUrl: string,
+) => {
   const catalogImportApi = useApi(catalogImportApiRef);
   const githubController = new GithubController();
   const { t } = useTranslationRef(catalogCreatorTranslationRef);

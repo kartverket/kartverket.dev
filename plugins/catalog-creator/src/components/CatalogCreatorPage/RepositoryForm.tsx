@@ -19,20 +19,20 @@ export const RepositoryForm = ({
 
   return (
     <form onSubmit={onSubmit}>
-        <Flex align="end">
-          <div style={{ flexGrow: 1 }}>
-            <TextField
-              label={t('repositorySearch.label')}
-              size="small"
-              placeholder={t('repositorySearch.placeholder')}
-              name="url"
-              value={url}
-              onChange={onUrlChange}
-              isDisabled={disableTextField}
-            />
-          </div>
-          <Button type="submit"> {t('repositorySearch.fetchButton')} </Button>
-        </Flex>
+      <Flex align="end">
+        <div style={{ flexGrow: 1 }}>
+          <TextField
+            label={t('repositorySearch.label')}
+            size="small"
+            placeholder={t('repositorySearch.placeholder')}
+            name="url"
+            value={url}
+            onChange={onUrlChange}
+            isDisabled={disableTextField}
+          />
+        </div>
+        <Button type="submit"> {t('repositorySearch.fetchButton')} </Button>
+      </Flex>
     </form>
   );
 };

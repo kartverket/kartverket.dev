@@ -37,15 +37,11 @@ export const StatusMessages = ({
       {hasExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (
-          <Alert severity="info">
-            {t('form.infoAlerts.alreadyExists')}
-          </Alert>
+          <Alert severity="info">{t('form.infoAlerts.alreadyExists')}</Alert>
         )}
 
       {shouldCreateNewFile && !(hasError || isLoading || repoStateError) && (
-        <Alert  severity="info">
-          {t('form.infoAlerts.doesNotExist')}
-        </Alert>
+        <Alert severity="info">{t('form.infoAlerts.doesNotExist')}</Alert>
       )}
 
       {existingPrUrl && !isLoading && (
@@ -62,28 +58,16 @@ export const StatusMessages = ({
         </Alert>
       )}
 
-      {analysisError && (
-        <Alert severity="error">
-          {analysisError.message}
-        </Alert>
-      )}
+      {analysisError && <Alert severity="error">{analysisError.message}</Alert>}
 
       {repoStateError && (
-        <Alert  severity="error">
-          {repoStateErrorMessage}
-        </Alert>
+        <Alert severity="error">{repoStateErrorMessage}</Alert>
       )}
 
-      {repoInfoError && (
-        <Alert  severity="error">
-          {repoInfoError.message}
-        </Alert>
-      )}
+      {repoInfoError && <Alert severity="error">{repoInfoError.message}</Alert>}
 
       {catalogInfoError && (
-        <Alert severity="error">
-          {catalogInfoError.message}
-        </Alert>
+        <Alert severity="error">{catalogInfoError.message}</Alert>
       )}
     </Box>
   );

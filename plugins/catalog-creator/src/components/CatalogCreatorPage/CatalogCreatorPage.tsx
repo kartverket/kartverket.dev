@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Card, Flex, Link, Text} from '@backstage/ui';
+import { Box, Card, Flex, Link, Text } from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
 import { useTheme } from '@material-ui/core/styles';
@@ -55,7 +55,7 @@ export const CatalogCreatorPage = ({
     hasExistingCatalogFile,
     shouldCreateNewFile,
     shouldShowForm,
-  } = useCatalogCreator(githubAuthApi, originLocation??'');
+  } = useCatalogCreator(githubAuthApi, originLocation ?? '');
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   const fetchCatalogInfoFromGithub = () => {
@@ -64,18 +64,18 @@ export const CatalogCreatorPage = ({
     setDefaultName(getDefaultNameFromUrl(url));
     doSubmitToGithub('', undefined);
     setShowForm(false);
-  }
+  };
 
   useEffect(() => {
     document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
   }, [originLocation, url, setUrl, t]);
 
   useEffect(() => {
-    if (url && originLocation && catalogInfoState.value === undefined){    
-      fetchCatalogInfoFromGithub()
+    if (url && originLocation && catalogInfoState.value === undefined) {
+      fetchCatalogInfoFromGithub();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[url]);
+  }, [url]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,9 +114,11 @@ export const CatalogCreatorPage = ({
           ) : (
             <Card className={style.repositoryCard}>
               <Box px="2rem">
-                {originLocation? (
-                  <Text>{t('repositoryFetch')} <Link>{url}</Link></Text> 
-                ):(
+                {originLocation ? (
+                  <Text>
+                    {t('repositoryFetch')} <Link>{url}</Link>
+                  </Text>
+                ) : (
                   <RepositoryForm
                     url={originLocation || url}
                     onUrlChange={setUrl}
