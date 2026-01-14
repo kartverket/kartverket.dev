@@ -1,4 +1,4 @@
-import { TextField, Button, Box, Flex } from '@backstage/ui';
+import { TextField, Button, Flex } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 
