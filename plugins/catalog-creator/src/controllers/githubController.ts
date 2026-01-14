@@ -13,6 +13,8 @@ export class GithubController {
     catalogInfo: FormEntity[],
     githubAuthApi: OAuthApi,
     couldNotCreatePRErrorMsg: string,
+    entityKind?: string,
+    entityName?: string,
   ): Promise<Status | undefined> => {
     const emptyRequiredYaml: RequiredYamlFields = {
       apiVersion: 'backstage.io/v1alpha1',
@@ -62,10 +64,16 @@ export class GithubController {
         const result = await octokit.createPullRequest({
           owner: owner,
           repo: repo,
-          title: 'Create/update catalog-info.yaml',
+          title:
+            entityKind && entityKind === 'Function'
+              ? `Update ${entityName} function`
+              : 'Create/update catalog-info.yaml',
           body: 'Creates or updates catalog-info.yaml',
           base: default_branch,
-          head: 'Update-or-create-catalog-info',
+          head:
+            entityKind && entityKind === 'Function'
+              ? `update-${entityName}-function`
+              : 'Update-or-create-catalog-info',
           changes: [
             {
               files: {

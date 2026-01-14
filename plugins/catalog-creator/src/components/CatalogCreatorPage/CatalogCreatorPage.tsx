@@ -23,11 +23,15 @@ import style from '../../catalog.module.css';
 export interface CatalogCreatorPageProps {
   originLocation?: string;
   docsLink?: string;
+  entityKind?: string;
+  entityName?: string;
 }
 
 export const CatalogCreatorPage = ({
   originLocation,
   docsLink,
+  entityKind,
+  entityName,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
@@ -63,7 +67,7 @@ export const CatalogCreatorPage = ({
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    doGetRepoInfo();
+    doGetRepoInfo(entityKind, entityName);
     doAnalyzeUrl();
     setDefaultName(getDefaultNameFromUrl(url));
     doSubmitToGithub('', undefined);
@@ -71,7 +75,12 @@ export const CatalogCreatorPage = ({
   };
 
   const handleCatalogFormSubmit = (data: FormEntity[]) => {
-    doSubmitToGithub(getSubmitUrl(analysisResult.value!), data);
+    doSubmitToGithub(
+      getSubmitUrl(analysisResult.value!),
+      data,
+      entityKind,
+      entityName,
+    );
   };
 
   const handleResetForm = () => {
@@ -102,6 +111,7 @@ export const CatalogCreatorPage = ({
                 onSubmit={handleFormSubmit}
                 disableTextField={originLocation !== undefined}
               />
+
               <StatusMessages
                 hasExistingCatalogFile={hasExistingCatalogFile}
                 shouldCreateNewFile={shouldCreateNewFile}
