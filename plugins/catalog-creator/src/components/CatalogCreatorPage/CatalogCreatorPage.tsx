@@ -129,7 +129,9 @@ export const CatalogCreatorPage = ({
               </Box>
 
               <StatusMessages
-                hasExistingCatalogFile={hasExistingCatalogFile}
+                hasUnexpectedExistingCatalogFile={
+                  originLocation ? false : hasExistingCatalogFile
+                }
                 shouldCreateNewFile={shouldCreateNewFile}
                 hasError={hasError}
                 isLoading={isLoading}

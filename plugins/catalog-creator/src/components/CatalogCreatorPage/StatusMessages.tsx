@@ -5,7 +5,7 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { Box } from '@backstage/ui';
 
 interface StatusMessagesProps {
-  hasExistingCatalogFile: boolean;
+  hasUnexpectedExistingCatalogFile: boolean;
   shouldCreateNewFile: boolean;
   hasError: boolean;
   isLoading: boolean;
@@ -19,7 +19,7 @@ interface StatusMessagesProps {
 }
 
 export const StatusMessages = ({
-  hasExistingCatalogFile,
+  hasUnexpectedExistingCatalogFile,
   shouldCreateNewFile,
   hasError,
   isLoading,
@@ -34,7 +34,7 @@ export const StatusMessages = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
     <Box px="2rem">
-      {hasExistingCatalogFile &&
+      {hasUnexpectedExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (
           <Alert severity="info">{t('form.infoAlerts.alreadyExists')}</Alert>
