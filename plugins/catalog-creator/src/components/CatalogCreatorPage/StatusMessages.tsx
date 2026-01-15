@@ -2,6 +2,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Alert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
+import style from '../../catalog.module.css';
 
 interface StatusMessagesProps {
   hasExistingCatalogFile: boolean;
@@ -32,23 +33,19 @@ export const StatusMessages = ({
 }: StatusMessagesProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
-    <>
+    <div className={style.alert}>
       {hasExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (
-          <Alert sx={{ mx: 2 }} severity="info">
-            {t('form.infoAlerts.alreadyExists')}
-          </Alert>
+          <Alert severity="info">{t('form.infoAlerts.alreadyExists')}</Alert>
         )}
 
       {shouldCreateNewFile && !(hasError || isLoading || repoStateError) && (
-        <Alert sx={{ mx: 2 }} severity="info">
-          {t('form.infoAlerts.doesNotExist')}
-        </Alert>
+        <Alert severity="info">{t('form.infoAlerts.doesNotExist')}</Alert>
       )}
 
       {existingPrUrl && !isLoading && (
-        <Alert sx={{ mx: 2 }} severity="error">
+        <Alert severity="error">
           {t('form.knownErrorAlerts.PRExists')}:{' '}
           <Link
             href={existingPrUrl}
@@ -61,29 +58,17 @@ export const StatusMessages = ({
         </Alert>
       )}
 
-      {analysisError && (
-        <Alert sx={{ mx: 2 }} severity="error">
-          {analysisError.message}
-        </Alert>
-      )}
+      {analysisError && <Alert severity="error">{analysisError.message}</Alert>}
 
       {repoStateError && (
-        <Alert sx={{ mx: 2 }} severity="error">
-          {repoStateErrorMessage}
-        </Alert>
+        <Alert severity="error">{repoStateErrorMessage}</Alert>
       )}
 
-      {repoInfoError && (
-        <Alert sx={{ mx: 2 }} severity="error">
-          {repoInfoError.message}
-        </Alert>
-      )}
+      {repoInfoError && <Alert severity="error">{repoInfoError.message}</Alert>}
 
       {catalogInfoError && (
-        <Alert sx={{ mx: 2 }} severity="error">
-          {catalogInfoError.message}
-        </Alert>
+        <Alert severity="error">{catalogInfoError.message}</Alert>
       )}
-    </>
+    </div>
   );
 };
