@@ -11,6 +11,7 @@ import {
   useSidebarOpenState,
   WarningIcon,
 } from '@backstage/core-components';
+import { FeatureFlagged } from '@backstage/core-app-api';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
@@ -83,6 +84,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         />
 
         <SidebarItem icon={CategoryIcon} to="catalog" text="Catalog" />
+        <FeatureFlagged with="show-functions-page">
+          <SidebarItem icon={CategoryIcon} to="functions" text="Functions" />
+        </FeatureFlagged>
         <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
 
         {/* End global nav */}
