@@ -230,7 +230,7 @@ export const createRouter = async (
     }
   });
 
-  router.post('/proxy/accept-vulnerability/', async (req, res) => {
+  router.put('/proxy/change-status-vulnerability/', async (req, res) => {
     try {
       const backstageToken = req.header('Authorization');
       const validToken = validateToken(backstageToken, auth);
@@ -241,11 +241,12 @@ export const createRouter = async (
         return;
       }
 
-      const apiResult = await apiService.acceptVulnerability(
+      const apiResult = await apiService.changeStatusVulnerability(
         request.componentName,
         request.vulnerabilityId,
+        request.status,
         request.comment,
-        request.acceptedBy,
+        request.changedBy,
         request.entraIdToken,
       );
 
