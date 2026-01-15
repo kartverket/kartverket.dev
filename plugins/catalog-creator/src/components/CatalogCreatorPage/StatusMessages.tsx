@@ -33,19 +33,23 @@ export const StatusMessages = ({
 }: StatusMessagesProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
-    <div className={style.alert}>
+    <div>
       {hasExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (
-          <Alert severity="info">{t('form.infoAlerts.alreadyExists')}</Alert>
+          <Alert className={style.alert} severity="info">
+            {t('form.infoAlerts.alreadyExists')}
+          </Alert>
         )}
 
       {shouldCreateNewFile && !(hasError || isLoading || repoStateError) && (
-        <Alert severity="info">{t('form.infoAlerts.doesNotExist')}</Alert>
+        <Alert className={style.alert} severity="info">
+          {t('form.infoAlerts.doesNotExist')}
+        </Alert>
       )}
 
       {existingPrUrl && !isLoading && (
-        <Alert severity="error">
+        <Alert className={style.alert} severity="error">
           {t('form.knownErrorAlerts.PRExists')}:{' '}
           <Link
             href={existingPrUrl}
@@ -58,16 +62,28 @@ export const StatusMessages = ({
         </Alert>
       )}
 
-      {analysisError && <Alert severity="error">{analysisError.message}</Alert>}
-
-      {repoStateError && (
-        <Alert severity="error">{repoStateErrorMessage}</Alert>
+      {analysisError && (
+        <Alert className={style.alert} severity="error">
+          {analysisError.message}
+        </Alert>
       )}
 
-      {repoInfoError && <Alert severity="error">{repoInfoError.message}</Alert>}
+      {repoStateError && (
+        <Alert className={style.alert} severity="error">
+          {repoStateErrorMessage}
+        </Alert>
+      )}
+
+      {repoInfoError && (
+        <Alert className={style.alert} severity="error">
+          {repoInfoError.message}
+        </Alert>
+      )}
 
       {catalogInfoError && (
-        <Alert severity="error">{catalogInfoError.message}</Alert>
+        <Alert className={style.alert} severity="error">
+          {catalogInfoError.message}
+        </Alert>
       )}
     </div>
   );
