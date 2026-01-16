@@ -130,13 +130,7 @@ const routes = (
     <Route path="/" element={<HomepageCompositionRoot />}>
       <HomePage />
     </Route>
-    <Route path="/catalog" element={<CatalogIndexPage key="catalog" />} />
-    <FeatureFlagged with="show-functions-page">
-      <Route
-        path="/functions"
-        element={<CatalogIndexPage key="functions" initialKind="function" />}
-      />
-    </FeatureFlagged>
+    <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
