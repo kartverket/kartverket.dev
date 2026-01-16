@@ -55,6 +55,7 @@ import {
 } from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
+import { FunctionsPage } from './components/functions/FunctionsPage';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -130,11 +131,11 @@ const routes = (
     <Route path="/" element={<HomepageCompositionRoot />}>
       <HomePage />
     </Route>
-    <Route path="/catalog" element={<CatalogIndexPage key="catalog" />} />
+    <Route path="/catalog" element={<CatalogIndexPage />} />
     <FeatureFlagged with="show-functions-page">
       <Route
         path="/functions"
-        element={<CatalogIndexPage key="functions" initialKind="function" />}
+        element={<FunctionsPage />}
       />
     </FeatureFlagged>
     <Route
