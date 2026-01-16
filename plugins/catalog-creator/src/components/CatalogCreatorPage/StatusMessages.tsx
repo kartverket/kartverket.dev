@@ -2,6 +2,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Alert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
+import style from '../../catalog.module.css';
 
 interface StatusMessagesProps {
   hasExistingCatalogFile: boolean;
@@ -32,23 +33,23 @@ export const StatusMessages = ({
 }: StatusMessagesProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
-    <>
+    <div>
       {hasExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (
-          <Alert sx={{ mx: 2 }} severity="info">
+          <Alert className={style.alert} severity="info">
             {t('form.infoAlerts.alreadyExists')}
           </Alert>
         )}
 
       {shouldCreateNewFile && !(hasError || isLoading || repoStateError) && (
-        <Alert sx={{ mx: 2 }} severity="info">
+        <Alert className={style.alert} severity="info">
           {t('form.infoAlerts.doesNotExist')}
         </Alert>
       )}
 
       {existingPrUrl && !isLoading && (
-        <Alert sx={{ mx: 2 }} severity="error">
+        <Alert className={style.alert} severity="error">
           {t('form.knownErrorAlerts.PRExists')}:{' '}
           <Link
             href={existingPrUrl}
@@ -62,28 +63,28 @@ export const StatusMessages = ({
       )}
 
       {analysisError && (
-        <Alert sx={{ mx: 2 }} severity="error">
+        <Alert className={style.alert} severity="error">
           {analysisError.message}
         </Alert>
       )}
 
       {repoStateError && (
-        <Alert sx={{ mx: 2 }} severity="error">
+        <Alert className={style.alert} severity="error">
           {repoStateErrorMessage}
         </Alert>
       )}
 
       {repoInfoError && (
-        <Alert sx={{ mx: 2 }} severity="error">
+        <Alert className={style.alert} severity="error">
           {repoInfoError.message}
         </Alert>
       )}
 
       {catalogInfoError && (
-        <Alert sx={{ mx: 2 }} severity="error">
+        <Alert className={style.alert} severity="error">
           {catalogInfoError.message}
         </Alert>
       )}
-    </>
+    </div>
   );
 };
