@@ -55,6 +55,7 @@ import {
 } from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
+import { sidebarNorwegianTranslation } from './utils/translations';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -62,6 +63,7 @@ const app = createApp({
     resources: [
       pluginRiScNorwegianTranslation,
       catalogCreatorNorwegianTranslation,
+      sidebarNorwegianTranslation,
     ],
   },
   components: {
