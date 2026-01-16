@@ -52,6 +52,8 @@ export type VulnerabilityIdInfo = {
   url?: string;
 };
 
+export type Status = 'IKKE_STARTET' | 'PABEGYNT' | 'AKSEPTERT';
+
 export type Vulnerability = {
   vulnerabilityId: string;
   vulnerabilityIdInfo: VulnerabilityIdInfo[];
@@ -59,9 +61,10 @@ export type Vulnerability = {
   scanners: Scanner[];
   summary: string;
   dateFirstSeen: string;
-  acceptedAt: Date;
+  status: Status;
+  changedAt: Date;
   comment: string;
-  acceptedBy: string;
+  changedBy: string;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
 

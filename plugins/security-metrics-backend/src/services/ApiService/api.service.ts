@@ -5,6 +5,7 @@ import {
   SeverityCounts,
   SikkerhetsmetrikkerSystemTotal,
   SlackNotificationConfig,
+  Status,
   VulnerabilitySeverityCounts,
 } from './typesBackend';
 import { LoggerService } from '@backstage/backend-plugin-api';
@@ -191,14 +192,15 @@ export class ApiService {
     }
   }
 
-  async acceptVulnerability(
+  async changeStatusVulnerability(
     componentName: string,
     vulnerabilityId: string,
+    status: Status,
     comment: string | undefined,
-    acceptedBy: string | undefined,
+    changedBy: string | undefined,
     entraIdToken: string,
   ): Promise<Either<ApiError, void>> {
-    const endpointUrl = `${this.baseUrl}/api/oppdateringer/alertsMetadata/accept`;
+    const endpointUrl = `${this.baseUrl}/api/oppdateringer/alertsMetadata/status`;
     const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
 
     if (!smapiToken) {
@@ -207,7 +209,7 @@ export class ApiService {
 
     try {
       const response = await fetch(endpointUrl, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -216,8 +218,9 @@ export class ApiService {
         body: JSON.stringify({
           componentName,
           vulnerabilityId,
+          status,
           comment,
-          acceptedBy,
+          changedBy,
         }),
       });
 
