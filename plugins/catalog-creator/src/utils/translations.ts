@@ -5,7 +5,8 @@ import {
 
 export const catalogCreatorMessages = {
   contentHeader: {
-    title: 'Edit or Create Components',
+    title: 'Edit or Create Entities',
+    editTitle: 'Edit the',
   },
   repositorySearch: {
     label: 'Paste GitHub repository URL',
@@ -282,7 +283,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
     no: () =>
       Promise.resolve({
         default: {
-          'contentHeader.title': 'Rediger eller lag komponenter',
+          'contentHeader.title': 'Rediger eller lag entiteter',
+          'contentHeader.editTitle': 'Rediger',
 
           'repositorySearch.label': 'Lim inn URL til GitHub-repository under',
           'repositorySearch.placeholder': 'Skriv inn en URL',

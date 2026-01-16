@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Card, Flex, Link } from '@backstage/ui';
+import { Box, Card, Flex } from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
 import { useTheme } from '@material-ui/core/styles';
@@ -101,14 +101,13 @@ export const CatalogCreatorPage = ({
   return (
     <Content>
       <Flex justify="between" align="center">
-        <Flex align="baseline">
+        {entityKind ? (
+          <h1>
+            {t('contentHeader.editTitle')} {` ${entityKind}`}
+          </h1>
+        ) : (
           <h1>{t('contentHeader.title')}</h1>
-          {(isLoading || shouldShowForm) && (
-            <p>
-              {t('repositoryFetch')} <Link>{url}</Link>
-            </p>
-          )}
-        </Flex>
+        )}
         <SupportButton />
       </Flex>
       <Flex>
@@ -172,9 +171,11 @@ export const CatalogCreatorPage = ({
             </Card>
           )}
         </Box>
-        <Box flex-shrink="1" width="500px">
-          <EditOrGenerateCatalogInfoBox docsLink={docsLink} />
-        </Box>
+        {entityKind !== 'Function' && (
+          <Box flex-shrink="1" width="500px">
+            <EditOrGenerateCatalogInfoBox docsLink={docsLink} />
+          </Box>
+        )}
       </Flex>
     </Content>
   );
