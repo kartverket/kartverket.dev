@@ -41,3 +41,30 @@ export const sidebarNorwegianTranslation = createTranslationResource({
       }),
   },
 });
+
+export const homepageMessages = {
+  homepage: {
+    recentlyVisited: 'Recently Visited',
+    favorites: 'Favorites',
+    toolkit: 'Toolkit',
+  },
+};
+
+export const homepageTranslationRef = createTranslationRef({
+  id: 'homepage',
+  messages: homepageMessages,
+});
+
+export const homepageNorwegianTranslation = createTranslationResource({
+  ref: homepageTranslationRef,
+  translations: {
+    no: () =>
+      Promise.resolve({
+        default: {
+          'homepage.recentlyVisited': 'Nylig besøkt',
+          'homepage.favorites': 'Favoritter',
+          'homepage.toolkit': 'Verktøysett',
+        },
+      }),
+  },
+});
