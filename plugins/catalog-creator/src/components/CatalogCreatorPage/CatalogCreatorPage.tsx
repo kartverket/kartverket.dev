@@ -93,7 +93,13 @@ export const CatalogCreatorPage = ({
   return (
     <Content>
       <Flex justify="between" align="center">
-        <h1>{t('contentHeader.title')}</h1>
+        {entityKind ? (
+          <h1>
+            {t('contentHeader.editTitle')} {` ${entityKind}`}
+          </h1>
+        ) : (
+          <h1>{t('contentHeader.title')}</h1>
+        )}
         <SupportButton />
       </Flex>
       <Flex>
@@ -151,9 +157,11 @@ export const CatalogCreatorPage = ({
             </Card>
           )}
         </Box>
-        <Box flex-shrink="1" width="500px">
-          <EditOrGenerateCatalogInfoBox docsLink={docsLink} />
-        </Box>
+        {entityKind !== 'Function' && (
+          <Box flex-shrink="1" width="500px">
+            <EditOrGenerateCatalogInfoBox docsLink={docsLink} />
+          </Box>
+        )}
       </Flex>
     </Content>
   );
