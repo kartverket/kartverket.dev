@@ -168,7 +168,7 @@ export type SecurityChamp = {
   securityChampionEmail: string;
 };
 
-export type AcceptVulnerabilityRequestBody = {
+export type ChangeStatusRequestBody = {
   componentName: string;
   vulnerabilityId: string;
   status: Status;
