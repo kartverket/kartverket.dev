@@ -19,6 +19,8 @@ import databricksLogo from './logos/Databricks.png';
 import githubLogo from './logos/Github.png';
 import daskLogo from './logos/DASK.png';
 import skipLogo from './logos/SKIP.png';
+import { useTranslationRef } from '@backstage/frontend-plugin-api';
+import { homepageTranslationRef } from '../../utils/translations';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -54,6 +56,7 @@ export const HomePage = () => {
   const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
+  const { t } = useTranslationRef(homepageTranslationRef);
 
   return (
     <SearchContextProvider>
@@ -77,14 +80,17 @@ export const HomePage = () => {
             </Grid>
             <Grid container item xs={12}>
               <Grid item xs={12} md={6}>
-                <HomePageRecentlyVisited />
+                <HomePageRecentlyVisited
+                  title={t('homepage.recentlyVisited')}
+                />
               </Grid>
               <Grid item xs={12} md={6}>
-                <HomePageStarredEntities title="Favorites" />
+                <HomePageStarredEntities title={t('homepage.favorites')} />
               </Grid>
             </Grid>
             <Grid item xs={12}>
               <HomePageToolkit
+                title={t('homepage.toolkit')}
                 tools={[
                   {
                     url: 'https://monitoring.kartverket.cloud',
