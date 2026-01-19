@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { SpinnerButton } from './VulnerabilityTable/AcceptRisk/SpinnerButton';
+import { SpinnerButton } from './VulnerabilityTable/ChangeStatus/SpinnerButton';
 import TextField from '@mui/material/TextField';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import Typography from '@mui/material/Typography';
