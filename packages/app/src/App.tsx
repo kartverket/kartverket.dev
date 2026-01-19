@@ -133,10 +133,7 @@ const routes = (
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <FeatureFlagged with="show-functions-page">
-      <Route
-        path="/functions"
-        element={<FunctionsPage />}
-      />
+      <Route path="/functions" element={<FunctionsPage />} />
     </FeatureFlagged>
     <Route
       path="/catalog/:namespace/:kind/:name"
