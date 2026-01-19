@@ -27,24 +27,24 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@azure/msal-node": "^2.10.0",
+    "@azure/msal-node": "^3.8.5",
     "@backstage/backend-defaults": "backstage:^",
     "@backstage/backend-plugin-api": "backstage:^",
     "@backstage/config": "backstage:^",
     "@backstage/core-plugin-api": "backstage:^",
-    "@types/express": "^4.17.12",
-    "express": "^4.21.1",
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1",
     "express-promise-router": "^4.1.1",
     "http-status-codes": "^2.3.0",
     "node-fetch": "^3.3.2",
-    "winston": "^3.15.0",
-    "yn": "^5.0.0"
+    "winston": "^3.19.0",
+    "yn": "^5.1.0"
   },
   "devDependencies": {
     "@backstage/cli": "backstage:^",
     "@backstage/plugin-auth-backend": "backstage:^",
     "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
-    "msw": "^2.5.1"
+    "msw": "^2.12.7"
   },
   "files": [
     "dist"

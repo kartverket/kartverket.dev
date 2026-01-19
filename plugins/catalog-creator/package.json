@@ -36,13 +36,13 @@
     "@backstage/theme": "backstage:^",
     "@backstage/ui": "backstage:^",
     "@hookform/resolvers": "^5.2.2",
-    "@mui/icons-material": "^7.3.4",
-    "@octokit/core": "^7.0.5",
-    "@octokit/rest": "^22.0.0",
+    "@mui/icons-material": "^7.3.7",
+    "@octokit/core": "^7.0.6",
+    "@octokit/rest": "^22.0.1",
     "octokit-plugin-create-pull-request": "^6.0.1",
-    "react-hook-form": "^7.63.0",
-    "react-use": "^17.2.4",
-    "yaml": "^2.8.1"
+    "react-hook-form": "^7.71.1",
+    "react-use": "^17.6.0",
+    "yaml": "^2.8.2"
   },
   "peerDependencies": {
     "@material-ui/core": "^4.9.13",
@@ -56,8 +56,8 @@
     "@backstage/cli": "backstage:^",
     "@backstage/core-app-api": "backstage:^",
     "@backstage/dev-utils": "backstage:^",
-    "msw": "^1.0.0",
-    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+    "msw": "^2.12.7",
+    "react": "^18"
   },
   "files": [
     "dist"
