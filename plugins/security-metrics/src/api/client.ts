@@ -62,9 +62,16 @@ export const put = async <RequestBody, ResponseBody>(
     body: JSON.stringify(requestBody),
   });
 
-  return handleResponse<ResponseBody>(response, async res =>
-    res.status === 204 ? (res.text() as unknown as ResponseBody) : res.json(),
-  );
+  return handleResponse<ResponseBody>(response, async res => {
+    if (res.status === 204) return undefined as unknown as ResponseBody;
+
+    const ct = res.headers.get('content-type') ?? '';
+    if (ct.includes('application/json'))
+      return (await res.json()) as ResponseBody;
+
+    const text = await res.text();
+    return text as unknown as ResponseBody;
+  });
 };
 
 export const get = async <ResponseBody>(

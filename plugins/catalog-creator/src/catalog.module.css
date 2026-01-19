@@ -31,13 +31,43 @@
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-.learnMoreLink {
-  margin: 1.5rem 0;
+.catalogCreatorBox {
+  width: 100%;
+  max-width: 50rem;
+  margin: auto;
+}
+
+.learnMoreLinks {
+  margin-top: 0.5rem;
+  padding-left: 2.5rem;
+}
+
+.infoText {
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: var(--bui-bg-surface-2);
+  border-color: var(--bui-border);
+}
+
+.icon {
+  margin-right: 1rem;
 }
 
 .alert {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: solid 1px var(--bui-border);
+}
+
+.successAlert {
   font-weight: bold;
   text-align: center;
+}
+
+.entityText {
+  color: gray;
 }
 
 .errorText {
@@ -78,10 +108,14 @@
   font-family: system-ui!;
 }
 
+.catalogForm {
+  margin: 0 auto 1rem;
+}
+
 .entityCard {
   margin-right: 1rem;
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 2rem;
   position: relative;
   overflow: visible;
   display: flex;
@@ -115,4 +149,8 @@
 
 .linkCard {
   padding: 1rem;
+}
+
+.selectKind {
+  width: 10rem;
 }
