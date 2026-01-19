@@ -349,6 +349,20 @@ const opsEntityPage = (
   </EntityLayout>
 );
 
+const libraryEntityPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {defaultComponentContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+      <SecurityMetricsPage />
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
 const simpleComponentPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
@@ -415,7 +429,7 @@ const componentPage = (
       {opsEntityPage}
     </EntitySwitch.Case>
     <EntitySwitch.Case if={isComponentType('library')}>
-      {simpleComponentPage}
+      {libraryEntityPage}
     </EntitySwitch.Case>
     <EntitySwitch.Case if={isComponentType('experiment')}>
       {simpleComponentPage}
