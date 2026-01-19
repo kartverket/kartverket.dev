@@ -19,8 +19,6 @@ export const EntityDescription = ({ entityKind }: { entityKind: string }) => {
           <Text className={style.entityText}>
             {t('formInfo.APIParagraph')}{' '}
           </Text>
-
-          <Text className={style.entityText}>{t('formInfo.APIremark')}</Text>
         </div>
       );
     case 'System':
