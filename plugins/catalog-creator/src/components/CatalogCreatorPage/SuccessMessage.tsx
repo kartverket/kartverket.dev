@@ -21,7 +21,7 @@ export const SuccessMessage = ({ prUrl, onReset }: SuccessMessageProps) => {
           align={{ xs: 'start', md: 'center' }}
           py="2rem"
         >
-          <Alert className={style.alert} severity="success">
+          <Alert className={style.successAlert} severity="success">
             {t('successPage.successfullyCreatedPR')}:{' '}
             {prUrl ? (
               <Link
