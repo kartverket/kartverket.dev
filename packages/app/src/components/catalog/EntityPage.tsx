@@ -357,6 +357,9 @@ const libraryEntityPage = (
     <EntityLayout.Route path="/edit" title="Edit">
       <EntityCatalogCreatorWrapper />
     </EntityLayout.Route>
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
+      <RiScPage />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
       <SecurityMetricsPage />
     </EntityLayout.Route>
