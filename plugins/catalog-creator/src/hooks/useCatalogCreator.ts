@@ -128,9 +128,9 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
     repoInfo.loading || analysisResult.loading || catalogInfoState.loading;
   const hasError = Boolean(
     repoInfo.error ||
-    analysisResult.error ||
-    catalogInfoState.error ||
-    repoInfo.value?.existingPrUrl,
+      analysisResult.error ||
+      catalogInfoState.error ||
+      repoInfo.value?.existingPrUrl,
   );
 
   const hasExistingCatalogFile = analysisResult.value?.type === 'locations';

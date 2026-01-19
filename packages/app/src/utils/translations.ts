@@ -31,7 +31,7 @@ export const sidebarNorwegianTranslation = createTranslationResource({
           'sidebar.searchTitle': 'Søk',
           'sidebar.homeTitle': 'Hjem',
           'sidebar.myGroupTitle': 'Min gruppe',
-          'sidebar.editOrCreateTitle': 'Rediger eller opprett',
+          'sidebar.editOrCreateTitle': 'Rediger/opprett',
           'sidebar.catalogTitle': 'Katalog',
           'sidebar.functionTitle': 'Funksjoner',
           'sidebar.docsTitle': 'Dokumentasjon',
