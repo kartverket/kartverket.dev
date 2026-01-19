@@ -2,10 +2,11 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Alert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
+
 import style from '../../catalog.module.css';
 
 interface StatusMessagesProps {
-  hasExistingCatalogFile: boolean;
+  hasUnexpectedExistingCatalogFile: boolean;
   shouldCreateNewFile: boolean;
   hasError: boolean;
   isLoading: boolean;
@@ -19,7 +20,7 @@ interface StatusMessagesProps {
 }
 
 export const StatusMessages = ({
-  hasExistingCatalogFile,
+  hasUnexpectedExistingCatalogFile,
   shouldCreateNewFile,
   hasError,
   isLoading,
@@ -34,7 +35,7 @@ export const StatusMessages = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
     <div>
-      {hasExistingCatalogFile &&
+      {hasUnexpectedExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (
           <Alert className={style.alert} severity="info">

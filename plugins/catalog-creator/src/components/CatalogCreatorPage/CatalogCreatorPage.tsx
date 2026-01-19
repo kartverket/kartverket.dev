@@ -53,23 +53,31 @@ export const CatalogCreatorPage = ({
     hasExistingCatalogFile,
     shouldCreateNewFile,
     shouldShowForm,
-  } = useCatalogCreator(githubAuthApi);
+  } = useCatalogCreator(githubAuthApi, originLocation ?? '');
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  useEffect(() => {
-    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
-    if (originLocation && !url) {
-      setUrl(originLocation);
-    }
-  }, [originLocation, url, setUrl, t]);
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    doGetRepoInfo(entityKind, entityName);
+  const fetchCatalogInfoFromGithub = () => {
+    doGetRepoInfo();
     doAnalyzeUrl();
     setDefaultName(getDefaultNameFromUrl(url));
     doSubmitToGithub('', undefined);
     setShowForm(false);
+  };
+
+  useEffect(() => {
+    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
+  }, [originLocation, url, setUrl, t]);
+
+  useEffect(() => {
+    if (url && originLocation && catalogInfoState.value === undefined) {
+      fetchCatalogInfoFromGithub();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url]);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchCatalogInfoFromGithub();
   };
 
   const handleCatalogFormSubmit = (data: FormEntity[]) => {
@@ -110,16 +118,22 @@ export const CatalogCreatorPage = ({
               />
             ) : (
               <div className={style.repositoryCard}>
-                <RepositoryForm
-                  url={originLocation || url}
-                  onUrlChange={setUrl}
-                  onSubmit={handleFormSubmit}
-                  disableTextField={originLocation !== undefined}
-                  docsLink={docsLink}
-                />
+                <Box px="2rem">
+                  {originLocation === undefined && (
+                    <RepositoryForm
+                      url={originLocation || url}
+                      onUrlChange={setUrl}
+                      onSubmit={handleFormSubmit}
+                      disableTextField={originLocation !== undefined}
+                      docsLink={docsLink}
+                    />
+                  )}
+                </Box>
 
                 <StatusMessages
-                  hasExistingCatalogFile={hasExistingCatalogFile}
+                  hasUnexpectedExistingCatalogFile={
+                    originLocation ? false : hasExistingCatalogFile
+                  }
                   shouldCreateNewFile={shouldCreateNewFile}
                   hasError={hasError}
                   isLoading={isLoading}
