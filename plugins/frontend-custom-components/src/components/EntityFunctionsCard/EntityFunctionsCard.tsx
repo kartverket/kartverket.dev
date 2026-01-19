@@ -174,8 +174,7 @@ export const EntityFunctionsCard = (props: EntityFunctionsCardProps) => {
       emptyContent={
         <div style={{ textAlign: 'center' }}>
           <Typography variant="body1">
-            No entities found that this function or its child functions depend
-            on.
+            No functions found that depends on this {entity.kind.toLowerCase()}
           </Typography>
           <Typography variant="body2">
             <Link to={EntityHelpLink} externalLinkIcon>
