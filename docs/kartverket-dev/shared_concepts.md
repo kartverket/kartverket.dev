@@ -71,17 +71,11 @@ An API describes an interface that a component provides or consumes. APIs make i
 
 - openapi, asyncapi, graphql, wsdl, or a custom type.
 
-**Note:**  
-External APIs (for example Altinn, FREG) should not be registered as an API under the component, but as a Resource of type *external-api*. This makes it possible to model dependencies between internal components and external services. See the Resource section for details.
-
 ### Resource
-A resource is an external or shared dependency that a system or component relies on, but which is not necessarily owned by the same team. This can be either technical infrastructure components or external integrations.
+A resource is an external or shared dependency that a system or component relies on.
 
 **Examples**
-
-- Technical resource: internally hosted resources (databases, queues, storage, clusters)
-
-- External integration: third-party or government services (Altinn, Digdir, Facebook API, BankID)  
+- Internally hosted resources such as databases, queues, storage, clusters etc.
 
 ### Other
 **Groups** and **users** are fetched from Kartverket’s Entra ID. Groups are only fetched if they have the prefix *AAD - TF - TEAM*.
@@ -98,7 +92,7 @@ Systems are mainly defined in a shared centralized repository, but we do not wan
 A combination of centralization and team-owned definitions. Platform resources will live in a centralized repository, while teams can add resources they use in their own repositories or directly in their designated area in the centralized repository.
 
 ### Components and APIs
-Teams own these definitions and are responsible for placing them in a repository they own.
+Teams own these definitions and are responsible for placing them in a repository they own. Some external APIs that are widely used across systems are defined in a centralized repository with Kartverket as the owner. Other APIs that are used by a system can be defined in each individual repository.
 
 ## Modeling Examples
 
