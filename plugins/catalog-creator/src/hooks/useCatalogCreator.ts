@@ -124,6 +124,22 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
     ],
   );
 
+  const [repoFunctionState, doSubmitFunctionToGithub] = useAsyncFn(
+    async (catalogInfoFormList?: FormEntity[]) => {
+      scrollToTop();
+
+      return await githubController.submitFunctionCatalogInfoToGithub(
+        githubAuthApi,
+        t('form.knownErrorAlerts.couldNotCreatePR'),
+      );
+    },
+    [
+      githubController.submitCatalogInfoToGithub,
+      githubAuthApi,
+      catalogInfoState.value,
+    ],
+  );
+
   const isLoading =
     repoInfo.loading || analysisResult.loading || catalogInfoState.loading;
   const hasError = Boolean(
@@ -153,11 +169,13 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
     repoInfo,
     analysisResult,
     repoState,
+    repoFunctionState,
 
     doFetchCatalogInfo,
     doAnalyzeUrl,
     doGetRepoInfo,
     doSubmitToGithub,
+    doSubmitFunctionToGithub,
 
     isLoading,
     hasError,

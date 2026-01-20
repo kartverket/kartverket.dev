@@ -23,6 +23,7 @@ export interface CatalogCreatorPageProps {
   docsLink?: string;
   entityKind?: string;
   entityName?: string;
+  createFunction: boolean;
 }
 
 export const CatalogCreatorPage = ({
@@ -30,6 +31,7 @@ export const CatalogCreatorPage = ({
   entityKind,
   entityName,
   docsLink,
+  createFunction,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
@@ -45,9 +47,11 @@ export const CatalogCreatorPage = ({
     analysisResult,
     repoInfo,
     repoState,
+    repoFunctionState,
     doAnalyzeUrl,
     doGetRepoInfo,
     doSubmitToGithub,
+    doSubmitFunctionToGithub,
     isLoading,
     hasError,
     hasExistingCatalogFile,
@@ -55,6 +59,8 @@ export const CatalogCreatorPage = ({
     shouldShowForm,
   } = useCatalogCreator(githubAuthApi);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
+  const state = createFunction ? repoFunctionState : repoState;
 
   useEffect(() => {
     document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
@@ -81,6 +87,10 @@ export const CatalogCreatorPage = ({
     );
   };
 
+  const handleFunctionCatalogFormSubmit = (data: FormEntity[]) => {
+    doSubmitFunctionToGithub();
+  };
+
   const handleResetForm = () => {
     setUrl('');
     setDefaultName('');
@@ -103,9 +113,9 @@ export const CatalogCreatorPage = ({
         </Flex>
         <Flex>
           <Box flex-grow="1" width="100%">
-            {repoState.value?.severity === 'success' ? (
+            {state.value?.severity === 'success' ? (
               <SuccessMessage
-                prUrl={repoState.value.prUrl}
+                prUrl={state.value.prUrl}
                 onReset={handleResetForm}
               />
             ) : (
@@ -123,11 +133,11 @@ export const CatalogCreatorPage = ({
                   shouldCreateNewFile={shouldCreateNewFile}
                   hasError={hasError}
                   isLoading={isLoading}
-                  repoStateError={Boolean(repoState.error)}
+                  repoStateError={Boolean(state.error)}
                   showForm={showForm}
                   existingPrUrl={repoInfo.value?.existingPrUrl}
                   analysisError={analysisResult.error}
-                  repoStateErrorMessage={repoState.error?.message}
+                  repoStateErrorMessage={state.error?.message}
                   repoInfoError={repoInfo.error}
                   catalogInfoError={catalogInfoState.error}
                 />
@@ -140,13 +150,17 @@ export const CatalogCreatorPage = ({
                     {shouldShowForm && (
                       <div style={{ position: 'relative' }}>
                         {/* Submission Loading Overlay */}
-                        {repoState.loading && (
+                        {state.loading && (
                           <LoadingOverlay
                             isDarkTheme={theme.palette.type === 'dark'}
                           />
                         )}
                         <CatalogForm
-                          onSubmit={handleCatalogFormSubmit}
+                          onSubmit={
+                            createFunction
+                              ? handleFunctionCatalogFormSubmit
+                              : handleCatalogFormSubmit
+                          }
                           currentYaml={catalogInfoState.value!}
                           defaultName={defaultName}
                         />

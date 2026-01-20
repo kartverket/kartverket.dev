@@ -99,4 +99,50 @@ export class GithubController {
       }
     }
   };
+
+  submitFunctionCatalogInfoToGithub = async (
+    githubAuthApi: OAuthApi,
+    couldNotCreatePRErrorMsg: string,
+  ): Promise<Status | undefined> => {
+    const newFileContent = 'testcontent';
+    const newFilePath = 'folder/newfile.yaml';
+
+    const existingFilePath = 'catalog-info.yaml';
+    const updatedContent = `locations: ${newFilePath}`;
+
+    const OctokitPlugin = Octokit.plugin(createPullRequest);
+    const token = await githubAuthApi.getAccessToken();
+    const octokit = new OctokitPlugin({ auth: token });
+
+    try {
+      const result = await octokit.createPullRequest({
+        owner: 'kartverket',
+        repo: 'funksjonsregister-PoC',
+        title: 'Test function',
+        body: 'Creates new catalog file and updates existing catalog with reference',
+        head: 'add-catalog-file',
+        changes: [
+          {
+            files: {
+              [newFilePath]: newFileContent,
+              [existingFilePath]: updatedContent,
+            },
+            commit: 'Test test test',
+          },
+        ],
+      });
+      return {
+        message: 'created a pull request',
+        severity: 'success',
+        prUrl: result?.data.html_url,
+      };
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        error.message = couldNotCreatePRErrorMsg;
+        throw error;
+      } else {
+        throw new Error('Unknown error when trying to create a PR.');
+      }
+    }
+  };
 }
