@@ -176,6 +176,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
         break;
       case 'API' as Kind:
@@ -189,6 +190,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
         break;
       case 'System' as Kind:
@@ -202,6 +204,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
         break;
       default:
@@ -215,6 +218,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
     }
     setIndexCount(prev => prev + 1);

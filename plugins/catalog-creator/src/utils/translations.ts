@@ -166,10 +166,10 @@ export const catalogCreatorMessages = {
         tooltipText: 'Other functions that this function depends on.',
         placeholder: 'Select functions',
       },
-      childFunctions: {
-        fieldName: 'Child Functions',
-        tooltipText: 'Functions that are part of or belong to this function.',
-        placeholder: 'Select functions',
+      parentFunction: {
+        fieldName: 'Parent Function',
+        tooltipText: 'Function that this function enable',
+        placeholder: 'Select function',
       },
       links: {
         fieldName: 'Links',
@@ -224,6 +224,8 @@ export const catalogCreatorMessages = {
 
       linksNoSpace: 'Url cannot contain space',
       linksLength: 'Url cannot be longer than 63 characters',
+
+      noParentFunction: 'Add a parent function',
     },
 
     infoAlerts: {
@@ -420,10 +422,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Andre funksjoner som denne funksjonen er avhengig av.',
           'form.functionForm.dependsOnFunctions.placeholder': 'Velg funksjoner',
 
-          'form.functionForm.childFunctions.fieldName': 'Underfunksjoner',
-          'form.functionForm.childFunctions.tooltipText':
-            'Funksjoner som er en del av eller tilhører denne funksjonen.',
-          'form.functionForm.childFunctions.placeholder': 'Velg funksjoner',
+          'form.functionForm.parentFunction.fieldName': 'Forelderfunksjon',
+          'form.functionForm.parentFunction.tooltipText':
+            'Funksjon som denne funksjonen muliggjør.',
+          'form.functionForm.parentFunction.placeholder': 'Velg funksjon',
 
           'form.functionForm.links.fieldName': 'Lenker',
           'form.functionForm.links.cardTitle': 'Lenke',
@@ -457,6 +459,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
 
           'form.errors.noOwner': 'Legg til eier',
           'form.errors.ownerNoSpace': 'Eier kan ikke inneholde mellomrom',
+
+          'form.errors.noParentFunction': 'Legg til forelderfunksjon',
 
           'form.errors.systemNoSpace': 'System kan ikke inneholde mellomrom',
 

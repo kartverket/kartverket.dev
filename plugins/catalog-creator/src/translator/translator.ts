@@ -225,10 +225,10 @@ export const updateYaml = (
             form.dependsOnFunctions?.length === 0
               ? undefined
               : form.dependsOnFunctions || initial.spec.dependsOnFunctions,
-          childFunctions:
-            form.childFunctions?.length === 0
+          parentFunction:
+            form.parentFunction?.length === 0
               ? undefined
-              : form.childFunctions || initial.spec.childFunctions,
+              : form.parentFunction || initial.spec.parentFunction,
         },
       };
       break;
