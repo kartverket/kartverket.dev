@@ -68,7 +68,7 @@ import {
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
-import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
+import { CatalogCreatorContainer } from './CatalogCreatorContainer';
 import {
   EntityDependenciesCard,
   FunctionAboutCard,
@@ -235,7 +235,7 @@ const functionEntityPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper createFunction />
+      <CatalogCreatorContainer createFunction />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -246,7 +246,7 @@ const serviceEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
@@ -294,7 +294,7 @@ const websiteEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
@@ -336,7 +336,7 @@ const opsEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Kodenær RoS">
@@ -355,7 +355,7 @@ const experimentEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
@@ -439,7 +439,7 @@ const apiPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
