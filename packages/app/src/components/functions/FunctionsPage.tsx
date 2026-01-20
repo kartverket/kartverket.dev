@@ -3,7 +3,7 @@ import {
   CatalogTable,
   CatalogTableColumnsFunc,
 } from '@backstage/plugin-catalog';
-import { Content, Header, Page } from '@backstage/core-components';
+import { Content, Header, InfoCard, Page } from '@backstage/core-components';
 import {
   catalogApiRef,
   EntityKindPicker,
@@ -22,7 +22,7 @@ type RootEntityNamesType = {
 const functionColumns: CatalogTableColumnsFunc = entityListContext => {
   if (entityListContext.filters.kind?.value === 'function') {
     return [
-      CatalogTable.columns.createNameColumn(),
+      CatalogTable.columns.createNameColumn({ defaultKind: 'function' }),
       CatalogTable.columns.createOwnerColumn(),
       CatalogTable.columns.createSpecTypeColumn(),
     ];
@@ -32,17 +32,15 @@ const functionColumns: CatalogTableColumnsFunc = entityListContext => {
 };
 
 export const FunctionsPage = () => {
-  const [coreFunctionEntities, setCoreFunctionEntities] = useState<
-    RootEntityNamesType[]
-  >([]);
+  const [rootEntity, setRootEntity] = useState<RootEntityNamesType[]>([]);
   const catalogApi = useApi(catalogApiRef);
 
   useEffect(() => {
     catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
       const filteredResponse = response.items.filter(item =>
-        item.spec?.type === 'core-function' ? item : null,
+        item.metadata.name === 'rootfunction' ? item : null,
       );
-      setCoreFunctionEntities(
+      setRootEntity(
         filteredResponse.map(item => ({
           kind: item.kind,
           namespace: item.metadata.namespace || 'default',
@@ -69,10 +67,13 @@ export const FunctionsPage = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <EntityRelationsGraph
-                rootEntityNames={coreFunctionEntities}
-                kinds={['function']}
-              />
+              <InfoCard title="Funksjonshierarki">
+                <EntityRelationsGraph
+                  rootEntityNames={rootEntity}
+                  kinds={['function']}
+                  maxDepth={2}
+                />
+              </InfoCard>
             </Grid>
           </Grid>
         </EntityListProvider>
