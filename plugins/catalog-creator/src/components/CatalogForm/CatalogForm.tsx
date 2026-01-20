@@ -36,6 +36,8 @@ import { useFetchEntities } from '../../hooks/useFetchEntities';
 import style from '../../catalog.module.css';
 import { toEntityRef, toEntityRefList } from '../../utils/toEntityRef';
 import { FunctionForm } from './Forms/FunctionForm';
+import { EntityDescription } from './EntityDescription';
+import CallMergeIcon from '@mui/icons-material/CallMerge';
 
 export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
@@ -131,12 +133,7 @@ export const CatalogForm = ({
               title: entry.metadata.title || '',
               tags: entry.metadata.tags || [],
               dependsOn: entry.spec.dependsOn,
-              links: entry.metadata.links || [
-                {
-                  url: undefined,
-                  title: undefined,
-                },
-              ],
+              links: entry.metadata.links ?? undefined,
             };
           })
         : [
@@ -321,7 +318,7 @@ export const CatalogForm = ({
         })}
         onKeyDown={handleKeyDown}
       >
-        <Box px="2rem">
+        <Box className={style.catalogForm}>
           <h2>{t('form.title')}</h2>
           <p className={style.formInfoText}>
             {t('form.requiredFields')}
@@ -350,6 +347,13 @@ export const CatalogForm = ({
                     </Button>
                   )}
                 </Flex>
+                <Controller
+                  name={`entities.${index}.kind`}
+                  control={control}
+                  render={({ field: { value } }) => (
+                    <EntityDescription entityKind={value} />
+                  )}
+                />
 
                 <div style={{ width: '100%' }}>
                   <FieldHeader
@@ -414,6 +418,7 @@ export const CatalogForm = ({
               </Card>
             );
           })}
+
           {fields.find(x => x.kind === 'Function') === undefined && (
             <Flex direction="column">
               <Text className={style.addEntityTitle}>
@@ -423,6 +428,7 @@ export const CatalogForm = ({
                 <Select
                   label={t('form.addEntity.label')}
                   value={addEntityKind}
+                  className={style.selectKind}
                   onChange={value => setAddEntityKind(value as Kind)}
                   options={Object.values(AllowedEntityKinds).map(
                     lifecycleStage => ({
@@ -438,9 +444,18 @@ export const CatalogForm = ({
                   {t('form.addEntity.buttonText')}
                 </Button>
               </Flex>
+              <EntityDescription entityKind={addEntityKind} />
             </Flex>
           )}
           <Divider className={style.endOfFormDivider} />
+          <Box className={style.infoText}>
+            <Flex align="center" gap="sm">
+              <CallMergeIcon className={style.icon} />
+              <Flex direction="column">
+                <Text>{t('formInfo.p2')}</Text>
+              </Flex>
+            </Flex>
+          </Box>
           <Flex justify="end">
             <Button
               variant="primary"

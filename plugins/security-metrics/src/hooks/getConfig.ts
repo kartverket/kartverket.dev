@@ -32,8 +32,8 @@ export const useConfig = (type: MetricTypes): UseConfigReturn => {
   const backendUrl = config.getString('backend.baseUrl');
 
   const endpointUrl = new URL(
-    type === MetricTypes.acceptVulnerability ||
-    type === MetricTypes.configureNotifications
+    type === MetricTypes.changeStatusVulnerability ||
+      type === MetricTypes.configureNotifications
       ? `${backendUrl}/api/security-metrics/proxy/${type}`
       : `${backendUrl}/api/security-metrics/proxy/fetch-${type}`,
   );
