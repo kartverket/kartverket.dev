@@ -1,7 +1,7 @@
 import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FeatureFlagged, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -130,13 +130,7 @@ const routes = (
     <Route path="/" element={<HomepageCompositionRoot />}>
       <HomePage />
     </Route>
-    <Route path="/catalog" element={<CatalogIndexPage key="catalog" />} />
-    <FeatureFlagged with="show-functions-page">
-      <Route
-        path="/functions"
-        element={<CatalogIndexPage key="functions" initialKind="function" />}
-      />
-    </FeatureFlagged>
+    <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}

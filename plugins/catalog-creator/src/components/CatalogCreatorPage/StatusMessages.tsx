@@ -2,7 +2,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Alert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
-import { Box } from '@backstage/ui';
+import style from '../../catalog.module.css';
 
 interface StatusMessagesProps {
   hasUnexpectedExistingCatalogFile: boolean;
@@ -33,19 +33,23 @@ export const StatusMessages = ({
 }: StatusMessagesProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   return (
-    <Box px="2rem">
+    <div>
       {hasUnexpectedExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (
-          <Alert severity="info">{t('form.infoAlerts.alreadyExists')}</Alert>
+          <Alert className={style.alert} severity="info">
+            {t('form.infoAlerts.alreadyExists')}
+          </Alert>
         )}
 
       {shouldCreateNewFile && !(hasError || isLoading || repoStateError) && (
-        <Alert severity="info">{t('form.infoAlerts.doesNotExist')}</Alert>
+        <Alert className={style.alert} severity="info">
+          {t('form.infoAlerts.doesNotExist')}
+        </Alert>
       )}
 
       {existingPrUrl && !isLoading && (
-        <Alert severity="error">
+        <Alert className={style.alert} severity="error">
           {t('form.knownErrorAlerts.PRExists')}:{' '}
           <Link
             href={existingPrUrl}
@@ -58,17 +62,29 @@ export const StatusMessages = ({
         </Alert>
       )}
 
-      {analysisError && <Alert severity="error">{analysisError.message}</Alert>}
+      {analysisError && (
+        <Alert className={style.alert} severity="error">
+          {analysisError.message}
+        </Alert>
+      )}
 
       {repoStateError && (
-        <Alert severity="error">{repoStateErrorMessage}</Alert>
+        <Alert className={style.alert} severity="error">
+          {repoStateErrorMessage}
+        </Alert>
       )}
 
-      {repoInfoError && <Alert severity="error">{repoInfoError.message}</Alert>}
+      {repoInfoError && (
+        <Alert className={style.alert} severity="error">
+          {repoInfoError.message}
+        </Alert>
+      )}
 
       {catalogInfoError && (
-        <Alert severity="error">{catalogInfoError.message}</Alert>
+        <Alert className={style.alert} severity="error">
+          {catalogInfoError.message}
+        </Alert>
       )}
-    </Box>
+    </div>
   );
 };
