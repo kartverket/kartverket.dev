@@ -44,6 +44,7 @@ export const TagField = ({
                   typeof v === 'string' ? v.toLowerCase() : v,
                 );
                 field.onChange(lowercasedValue);
+                field.onBlur();
               }}
               onBlur={() => {
                 if (inputValue.trim()) {
@@ -53,6 +54,7 @@ export const TagField = ({
                   ];
                   field.onChange(newValue);
                   setInputValue('');
+                  field.onBlur();
                 }
               }}
               inputValue={inputValue}
