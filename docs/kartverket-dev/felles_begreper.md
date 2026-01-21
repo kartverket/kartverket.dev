@@ -54,7 +54,12 @@ En komponent er en selvstendig del av et system — en tjeneste, et bibliotek el
 
 **Typer**:
 
-- website, library, service, ops, documentation
+_website_- applikasjoner med nettside <br>
+_service_- applikasjoner som typisk tilbyr et api, men ingen gui<br>
+_library_- en samling, typisk komponentbibliotek, samlinger av maler, eller npmpakker<br>
+_ops_- komponenter spesifikt for drift av kartverkets tjenester <br>
+_documentation_- beskrivelse av bruk, teknisk arkitektur eller annet på confluence eller techDocs i kartverket.dev<br>
+_jobs_- cronjobber eller andre bakgrunnsprosesser<br>
 
 
 ### API

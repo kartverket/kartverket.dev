@@ -56,7 +56,12 @@ A component is an independent part of a system — a service, library, or applic
 
 **Types:**
 
-- website, library, service, ops, documentation
+_website_   <br>
+_library_ <br>
+_service_ <br>
+_ops_ <br>
+_documentation_ <br>
+_jobs_ <br>
 
 ### API
 An API describes an interface that a component provides or consumes. APIs make it visible how systems and components communicate.
