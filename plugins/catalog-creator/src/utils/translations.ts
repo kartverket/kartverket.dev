@@ -43,7 +43,7 @@ export const catalogCreatorMessages = {
       placeholder: 'Select or add tags',
     },
     addEntity: {
-      title: 'Add Entity',
+      title: 'Add a related entity',
       label: 'Select kind',
       buttonText: 'Add entity',
     },
@@ -308,7 +308,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'En liste over tags (merkelapper) som kan brukes til å klassifisere entiteter i systemkatalogen.',
           'form.tags.placeholder': 'Velg eller legg til tag',
 
-          'form.addEntity.title': 'Legg til entitet',
+          'form.addEntity.title': 'Legg til ny entitet',
           'form.addEntity.label': 'Velg entitet',
           'form.addEntity.buttonText': 'Legg til entitet',
 
@@ -484,7 +484,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'formInfo.p1':
             'Dette skjemaet lar deg opprette eller redigere catalog-info.yaml-filer som Backstage bruker for å oppdage og administrere komponenter. Oppgi enten URL til et GitHub-repository for å legge det til i utviklerportalen, eller en lenke til en eksisterende fil for å redigere den.',
           'formInfo.p2':
-            'Når du er ferdig, klikker du Opprett Pull Request for å foreslå endringer i repositoryet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
+            'Når du er ferdig, klikker du Opprett Pull Request for å foreslå endringer på yaml-fil i repoet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
           'formInfo.p3':
             'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen.',
           'formInfo.systemParagraph':
