@@ -17,6 +17,7 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
 import style from '../../catalog.module.css';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
 
 export interface CatalogCreatorPageProps {
   originLocation?: string;
@@ -31,10 +32,11 @@ export const CatalogCreatorPage = ({
   entityKind,
   entityName,
   docsLink,
-  createFunction,
+  createFunction = false,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
+  const catalogApi = useApi(catalogApiRef);
 
   const {
     url,
@@ -94,7 +96,7 @@ export const CatalogCreatorPage = ({
   };
 
   const handleFunctionCatalogFormSubmit = (data: FormEntity[]) => {
-    doSubmitFunctionToGithub();
+    doSubmitFunctionToGithub(catalogApi, data);
   };
 
   const handleResetForm = () => {
@@ -102,6 +104,14 @@ export const CatalogCreatorPage = ({
     setDefaultName('');
     setShowForm(false);
     doSubmitToGithub('', undefined);
+  };
+
+  const handleShowForm = () => {
+    if (createFunction) {
+      if (repoInfo.value && repoInfo.value.existingPrUrl) return false;
+      return true;
+    }
+    return shouldShowForm;
   };
 
   return (
@@ -131,38 +141,40 @@ export const CatalogCreatorPage = ({
               />
             ) : (
               <div className={style.repositoryCard}>
-                {originLocation === undefined && (
-                  <RepositoryForm
-                    url={originLocation || url}
-                    onUrlChange={setUrl}
-                    onSubmit={handleFormSubmit}
-                    disableTextField={originLocation !== undefined}
-                    docsLink={docsLink}
-                  />
-                )}
+                <>
+                  {originLocation === undefined && !createFunction && (
+                    <RepositoryForm
+                      url={originLocation || url}
+                      onUrlChange={setUrl}
+                      onSubmit={handleFormSubmit}
+                      disableTextField={originLocation !== undefined}
+                      docsLink={docsLink}
+                    />
+                  )}
+                  <StatusMessages
+                    hasUnexpectedExistingCatalogFile={
+                      originLocation ? false : hasExistingCatalogFile
+                    }
+                    shouldCreateNewFile={shouldCreateNewFile}
+                    hasError={hasError}
+                    isLoading={isLoading}
+                    repoStateError={Boolean(state.error)}
+                    showForm={showForm}
+                    existingPrUrl={repoInfo.value?.existingPrUrl}
+                    analysisError={analysisResult.error}
+                    repoStateErrorMessage={state.error?.message}
+                    repoInfoError={repoInfo.error}
+                    catalogInfoError={catalogInfoState.error}
+                  />{' '}
+                </>
 
-                <StatusMessages
-                  hasUnexpectedExistingCatalogFile={
-                    originLocation ? false : hasExistingCatalogFile
-                  }
-                  shouldCreateNewFile={shouldCreateNewFile}
-                  hasError={hasError}
-                  isLoading={isLoading}
-                  repoStateError={Boolean(state.error)}
-                  showForm={showForm}
-                  existingPrUrl={repoInfo.value?.existingPrUrl}
-                  analysisError={analysisResult.error}
-                  repoStateErrorMessage={state.error?.message}
-                  repoInfoError={repoInfo.error}
-                  catalogInfoError={catalogInfoState.error}
-                />
                 {isLoading ? (
                   <div className={style.loadingContainer}>
                     <CircularProgress />
                   </div>
                 ) : (
                   <>
-                    {shouldShowForm && (
+                    {handleShowForm() && (
                       <div style={{ position: 'relative' }}>
                         {/* Submission Loading Overlay */}
                         {state.loading && (
@@ -178,6 +190,7 @@ export const CatalogCreatorPage = ({
                           }
                           currentYaml={catalogInfoState.value!}
                           defaultName={defaultName}
+                          createFunction={createFunction}
                         />
                       </div>
                     )}

@@ -43,12 +43,14 @@ export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
   currentYaml: RequiredYamlFields[] | null;
   defaultName?: string;
+  createFunction?: boolean;
 };
 
 export const CatalogForm = ({
   onSubmit,
   currentYaml,
   defaultName = '',
+  createFunction,
 }: CatalogFormProps) => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
@@ -139,8 +141,8 @@ export const CatalogForm = ({
         : [
             {
               id: 0,
-              kind: 'Component',
-              name: defaultName,
+              kind: createFunction ? 'Function' : 'Component',
+              name: createFunction ? '' : defaultName,
               owner: '',
               title: '',
             },
@@ -422,33 +424,35 @@ export const CatalogForm = ({
               </Card>
             );
           })}
-
-          <Flex direction="column">
-            <Text className={style.addEntityTitle}>
-              {t('form.addEntity.title')}
-            </Text>
-            <Flex align="end" justify="start">
-              <Select
-                label={t('form.addEntity.label')}
-                value={addEntityKind}
-                className={style.selectKind}
-                onChange={value => setAddEntityKind(value as Kind)}
-                options={Object.values(AllowedEntityKinds).map(
-                  lifecycleStage => ({
-                    value: lifecycleStage as string,
-                    label: lifecycleStage,
-                  }),
-                )}
-              />
-              <Button
-                type="button"
-                onClick={() => appendHandler(addEntityKind)}
-              >
-                {t('form.addEntity.buttonText')}
-              </Button>
+          {((currentYaml && currentYaml[0].kind !== 'Function') ||
+            !createFunction) && (
+            <Flex direction="column">
+              <Text className={style.addEntityTitle}>
+                {t('form.addEntity.title')}
+              </Text>
+              <Flex align="end" justify="start">
+                <Select
+                  label={t('form.addEntity.label')}
+                  value={addEntityKind}
+                  className={style.selectKind}
+                  onChange={value => setAddEntityKind(value as Kind)}
+                  options={Object.values(AllowedEntityKinds).map(
+                    lifecycleStage => ({
+                      value: lifecycleStage as string,
+                      label: lifecycleStage,
+                    }),
+                  )}
+                />
+                <Button
+                  type="button"
+                  onClick={() => appendHandler(addEntityKind)}
+                >
+                  {t('form.addEntity.buttonText')}
+                </Button>
+              </Flex>
+              <EntityDescription entityKind={addEntityKind} />
             </Flex>
-            <EntityDescription entityKind={addEntityKind} />
-          </Flex>
+          )}
           <Divider className={style.endOfFormDivider} />
           <Box className={style.infoText}>
             <Flex align="center" gap="sm">

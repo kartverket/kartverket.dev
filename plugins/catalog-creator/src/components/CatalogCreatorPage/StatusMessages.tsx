@@ -32,6 +32,7 @@ export const StatusMessages = ({
   catalogInfoError,
 }: StatusMessagesProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
+
   return (
     <div>
       {hasUnexpectedExistingCatalogFile &&

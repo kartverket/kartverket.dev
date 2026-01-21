@@ -9,6 +9,7 @@ import { scrollToTop } from '../utils/pageUtils';
 import { FormEntity } from '../types/types';
 import { catalogCreatorTranslationRef } from '../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { CatalogApi } from '@backstage/plugin-catalog-react';
 
 export const useCatalogCreator = (
   githubAuthApi: OAuthApi,
@@ -128,12 +129,18 @@ export const useCatalogCreator = (
   );
 
   const [repoFunctionState, doSubmitFunctionToGithub] = useAsyncFn(
-    async (catalogInfoFormList?: FormEntity[]) => {
+    async (catalogApi: CatalogApi, catalogInfoFormList?: FormEntity[]) => {
       scrollToTop();
+
+      if (!catalogInfoFormList) {
+        return undefined;
+      }
 
       return await githubController.submitFunctionCatalogInfoToGithub(
         githubAuthApi,
         t('form.knownErrorAlerts.couldNotCreatePR'),
+        catalogInfoFormList,
+        catalogApi,
       );
     },
     [

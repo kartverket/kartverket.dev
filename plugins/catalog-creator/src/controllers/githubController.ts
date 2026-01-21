@@ -1,9 +1,14 @@
 import type { FormEntity, RequiredYamlFields, Status } from '../types/types.ts';
 
-import { updateYaml } from '../translator/translator';
+import {
+  updateFunctionLocationsFile,
+  updateYaml,
+} from '../translator/translator';
 import { Octokit } from '@octokit/core';
 import { createPullRequest } from 'octokit-plugin-create-pull-request';
 import { OAuthApi } from '@backstage/core-plugin-api';
+import { getCatalogInfo } from '../utils/getCatalogInfo.ts';
+import { CatalogApi } from '@backstage/plugin-catalog-react';
 
 export class GithubController {
   submitCatalogInfoToGithub = async (
@@ -16,22 +21,7 @@ export class GithubController {
     entityKind?: string,
     entityName?: string,
   ): Promise<Status | undefined> => {
-    const emptyRequiredYaml: RequiredYamlFields = {
-      apiVersion: 'backstage.io/v1alpha1',
-      kind: '',
-      metadata: {
-        name: '',
-      },
-      spec: {
-        type: '',
-      },
-    };
-
-    const yamlStrings = catalogInfo.map(val =>
-      updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val),
-    );
-
-    const completeYaml = yamlStrings.join('\n---\n');
+    const completeYaml = this.createNewYaml(catalogInfo, initialYaml);
 
     const OctokitPlugin = Octokit.plugin(createPullRequest);
     const token = await githubAuthApi.getAccessToken();
@@ -103,12 +93,55 @@ export class GithubController {
   submitFunctionCatalogInfoToGithub = async (
     githubAuthApi: OAuthApi,
     couldNotCreatePRErrorMsg: string,
+    catalogInfo: FormEntity[],
+    catalogApi: CatalogApi,
   ): Promise<Status | undefined> => {
-    const newFileContent = 'testcontent';
-    const newFilePath = 'folder/newfile.yaml';
+    if (!(catalogInfo[0].kind === 'Function')) {
+      const message = couldNotCreatePRErrorMsg;
+      throw new Error(message);
+    }
 
-    const existingFilePath = 'catalog-info.yaml';
-    const updatedContent = `locations: ${newFilePath}`;
+    const fetchedEntity = await catalogApi.getEntityByRef(
+      catalogInfo[0].parentFunction,
+    );
+
+    const managedbylocation =
+      fetchedEntity?.metadata.annotations?.['backstage.io/managed-by-location'];
+    const managedbyoriginlocation =
+      fetchedEntity?.metadata.annotations?.[
+        'backstage.io/managed-by-origin-location'
+      ];
+
+    if (!(managedbylocation && managedbyoriginlocation)) {
+      throw new Error(couldNotCreatePRErrorMsg);
+    }
+
+    const parentFolderPath = managedbylocation
+      .match(/tree\/main\/(.+)/)?.[1]
+      ?.replace(/\/[^/]+$/, '');
+
+    const locationsYamlContent = await getCatalogInfo(
+      managedbyoriginlocation.replace(/^url:/, ''),
+      githubAuthApi,
+    );
+
+    if (!locationsYamlContent) {
+      throw new Error(couldNotCreatePRErrorMsg);
+    }
+
+    const updatedLocationsYamlContent = locationsYamlContent.map(content =>
+      updateFunctionLocationsFile(
+        content,
+        `./${parentFolderPath}/${catalogInfo[0].name}/${catalogInfo[0].name}.yaml`,
+      ),
+    );
+
+    const completeUpdatedLocationsYamlContent =
+      updatedLocationsYamlContent.join('\n---\n');
+
+    const newFilePath = `${parentFolderPath}/${catalogInfo[0].name}/${catalogInfo[0].name}.yaml`;
+
+    const completeYaml = this.createNewYaml(catalogInfo, undefined, true);
 
     const OctokitPlugin = Octokit.plugin(createPullRequest);
     const token = await githubAuthApi.getAccessToken();
@@ -118,16 +151,16 @@ export class GithubController {
       const result = await octokit.createPullRequest({
         owner: 'kartverket',
         repo: 'funksjonsregister-PoC',
-        title: 'Test function',
+        title: `Create ${catalogInfo[0].name} function`,
         body: 'Creates new catalog file and updates existing catalog with reference',
-        head: 'add-catalog-file',
+        head: `create-${catalogInfo[0].name}-function`,
         changes: [
           {
             files: {
-              [newFilePath]: newFileContent,
-              [existingFilePath]: updatedContent,
+              [newFilePath]: completeYaml,
+              ['catalog-info.yaml']: completeUpdatedLocationsYamlContent,
             },
-            commit: 'Test test test',
+            commit: 'New function',
           },
         ],
       });
@@ -145,4 +178,33 @@ export class GithubController {
       }
     }
   };
+
+  private createNewYaml(
+    catalogInfo: FormEntity[],
+    initialYaml: RequiredYamlFields[] | undefined = undefined,
+    isCreateFunction: boolean = false,
+  ) {
+    const emptyRequiredYaml: RequiredYamlFields = {
+      apiVersion: isCreateFunction
+        ? 'kartverket.dev/v1alpha1'
+        : 'backstage.io/v1alpha1',
+      kind: '',
+      metadata: {
+        name: '',
+      },
+      spec: {
+        type: '',
+      },
+    };
+    let yamlStrings: string[];
+    if (initialYaml) {
+      yamlStrings = catalogInfo.map(val =>
+        updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val),
+      );
+    } else {
+      yamlStrings = catalogInfo.map(val => updateYaml(emptyRequiredYaml, val));
+    }
+
+    return yamlStrings.join('\n---\n');
+  }
 }
