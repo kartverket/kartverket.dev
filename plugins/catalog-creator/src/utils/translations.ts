@@ -16,7 +16,7 @@ export const catalogCreatorMessages = {
 
   repositoryFetch: 'Fetching data from:',
 
-  docLinkSharedConseptsPath: '/kartverket-dev/shared_concepts/', 
+  docLinkSharedConseptsPath: '/kartverket-dev/shared_concepts/',
 
   form: {
     title: 'Catalog-info.yaml Form',
@@ -286,8 +286,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'repositorySearch.label': 'Lim inn URL til GitHub-repository under',
           'repositorySearch.placeholder': 'Skriv inn en URL',
           'repositorySearch.fetchButton': 'Hent!',
-          'repositoryFetch': 'Henter data fra:',
-          'docLinkSharedConseptsPath': '/kartverket-dev/felles_begreper/',
+          repositoryFetch: 'Henter data fra:',
+          docLinkSharedConseptsPath: '/kartverket-dev/felles_begreper/',
 
           'form.title': 'Catalog-info.yaml skjema',
           'form.requiredFields': 'Obligatoriske felter er markert med: ',
