@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Flex } from '@backstage/ui';
+import { Box, Flex, Link } from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
 import { useTheme } from '@material-ui/core/styles';
@@ -111,6 +111,11 @@ export const CatalogCreatorPage = ({
         </Flex>
         <Flex>
           <Box flex-grow="1" width="100%">
+            {(isLoading || shouldShowForm) && originLocation && (
+              <p>
+                {t('repositoryFetch')} <Link>{url}</Link>
+              </p>
+            )}
             {repoState.value?.severity === 'success' ? (
               <SuccessMessage
                 prUrl={repoState.value.prUrl}
@@ -118,17 +123,15 @@ export const CatalogCreatorPage = ({
               />
             ) : (
               <div className={style.repositoryCard}>
-                <Box px="2rem">
-                  {originLocation === undefined && (
-                    <RepositoryForm
-                      url={originLocation || url}
-                      onUrlChange={setUrl}
-                      onSubmit={handleFormSubmit}
-                      disableTextField={originLocation !== undefined}
-                      docsLink={docsLink}
-                    />
-                  )}
-                </Box>
+                {originLocation === undefined && (
+                  <RepositoryForm
+                    url={originLocation || url}
+                    onUrlChange={setUrl}
+                    onSubmit={handleFormSubmit}
+                    disableTextField={originLocation !== undefined}
+                    docsLink={docsLink}
+                  />
+                )}
 
                 <StatusMessages
                   hasUnexpectedExistingCatalogFile={

@@ -3,6 +3,6 @@ export enum MetricTypes {
   metrics = 'metrics',
   trends = 'trends',
   rosStatus = 'ros-status',
-  acceptVulnerability = 'accept-vulnerability',
+  changeStatusVulnerability = 'change-status-vulnerability',
   configureNotifications = 'configure-notifications',
 }

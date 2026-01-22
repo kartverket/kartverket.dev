@@ -2,6 +2,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Alert from '@mui/material/Alert';
 import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
+import style from '../../catalog.module.css';
 
 import style from '../../catalog.module.css';
 

@@ -21,11 +21,11 @@ export const securityMetricBackendPlugin = createBackendPlugin({
       },
       async init({ httpRouter, auth, logger, config }) {
         httpRouter.use(
-          await createRouter({
+          (await createRouter({
             auth,
             logger,
             config,
-          }),
+          })) as any,
         );
         httpRouter.addAuthPolicy({
           path: '/proxy',
