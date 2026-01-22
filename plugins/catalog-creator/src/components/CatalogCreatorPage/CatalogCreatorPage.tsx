@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Flex } from '@backstage/ui';
+import { Box, Flex, Link } from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
 import { useTheme } from '@material-ui/core/styles';
@@ -53,23 +53,31 @@ export const CatalogCreatorPage = ({
     hasExistingCatalogFile,
     shouldCreateNewFile,
     shouldShowForm,
-  } = useCatalogCreator(githubAuthApi);
+  } = useCatalogCreator(githubAuthApi, originLocation ?? '');
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  useEffect(() => {
-    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
-    if (originLocation && !url) {
-      setUrl(originLocation);
-    }
-  }, [originLocation, url, setUrl, t]);
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    doGetRepoInfo(entityKind, entityName);
+  const fetchCatalogInfoFromGithub = () => {
+    doGetRepoInfo();
     doAnalyzeUrl();
     setDefaultName(getDefaultNameFromUrl(url));
     doSubmitToGithub('', undefined);
     setShowForm(false);
+  };
+
+  useEffect(() => {
+    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
+  }, [originLocation, url, setUrl, t]);
+
+  useEffect(() => {
+    if (url && originLocation && catalogInfoState.value === undefined) {
+      fetchCatalogInfoFromGithub();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url]);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchCatalogInfoFromGithub();
   };
 
   const handleCatalogFormSubmit = (data: FormEntity[]) => {
@@ -103,6 +111,11 @@ export const CatalogCreatorPage = ({
         </Flex>
         <Flex>
           <Box flex-grow="1" width="100%">
+            {(isLoading || shouldShowForm) && originLocation && (
+              <p>
+                {t('repositoryFetch')} <Link>{url}</Link>
+              </p>
+            )}
             {repoState.value?.severity === 'success' ? (
               <SuccessMessage
                 prUrl={repoState.value.prUrl}
@@ -110,16 +123,20 @@ export const CatalogCreatorPage = ({
               />
             ) : (
               <div className={style.repositoryCard}>
-                <RepositoryForm
-                  url={originLocation || url}
-                  onUrlChange={setUrl}
-                  onSubmit={handleFormSubmit}
-                  disableTextField={originLocation !== undefined}
-                  docsLink={docsLink}
-                />
+                {originLocation === undefined && (
+                  <RepositoryForm
+                    url={originLocation || url}
+                    onUrlChange={setUrl}
+                    onSubmit={handleFormSubmit}
+                    disableTextField={originLocation !== undefined}
+                    docsLink={docsLink}
+                  />
+                )}
 
                 <StatusMessages
-                  hasExistingCatalogFile={hasExistingCatalogFile}
+                  hasUnexpectedExistingCatalogFile={
+                    originLocation ? false : hasExistingCatalogFile
+                  }
                   shouldCreateNewFile={shouldCreateNewFile}
                   hasError={hasError}
                   isLoading={isLoading}

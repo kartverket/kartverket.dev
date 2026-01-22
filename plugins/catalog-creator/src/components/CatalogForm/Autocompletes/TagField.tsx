@@ -39,7 +39,24 @@ export const TagField = ({
           <div>
             <Autocomplete
               {...field}
-              onChange={(_, value) => field.onChange(value)}
+              onChange={(_, value) => {
+                const lowercasedValue = value?.map(v =>
+                  typeof v === 'string' ? v.toLowerCase() : v,
+                );
+                field.onChange(lowercasedValue);
+                field.onBlur();
+              }}
+              onBlur={() => {
+                if (inputValue.trim()) {
+                  const newValue = [
+                    ...(field.value || []),
+                    inputValue.toLowerCase(),
+                  ];
+                  field.onChange(newValue);
+                  setInputValue('');
+                  field.onBlur();
+                }
+              }}
               inputValue={inputValue}
               onInputChange={(_, newInputValue) => {
                 setInputValue(newInputValue.trim());
