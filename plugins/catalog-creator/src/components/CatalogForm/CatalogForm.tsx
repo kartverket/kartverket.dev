@@ -419,32 +419,34 @@ export const CatalogForm = ({
             );
           })}
 
-          <Flex direction="column">
-            <Text className={style.addEntityTitle}>
-              {t('form.addEntity.title')}
-            </Text>
-            <Flex align="end" justify="start">
-              <Select
-                label={t('form.addEntity.label')}
-                value={addEntityKind}
-                className={style.selectKind}
-                onChange={value => setAddEntityKind(value as Kind)}
-                options={Object.values(AllowedEntityKinds).map(
-                  lifecycleStage => ({
-                    value: lifecycleStage as string,
-                    label: lifecycleStage,
-                  }),
-                )}
-              />
-              <Button
-                type="button"
-                onClick={() => appendHandler(addEntityKind)}
-              >
-                {t('form.addEntity.buttonText')}
-              </Button>
+          {fields.find(x => x.kind === 'Function') === undefined && (
+            <Flex direction="column">
+              <Text className={style.addEntityTitle}>
+                {t('form.addEntity.title')}
+              </Text>
+              <Flex align="end" justify="start">
+                <Select
+                  label={t('form.addEntity.label')}
+                  value={addEntityKind}
+                  className={style.selectKind}
+                  onChange={value => setAddEntityKind(value as Kind)}
+                  options={Object.values(AllowedEntityKinds).map(
+                    lifecycleStage => ({
+                      value: lifecycleStage as string,
+                      label: lifecycleStage,
+                    }),
+                  )}
+                />
+                <Button
+                  type="button"
+                  onClick={() => appendHandler(addEntityKind)}
+                >
+                  {t('form.addEntity.buttonText')}
+                </Button>
+              </Flex>
+              <EntityDescription entityKind={addEntityKind} />
             </Flex>
-            <EntityDescription entityKind={addEntityKind} />
-          </Flex>
+          )}
           <Divider className={style.endOfFormDivider} />
           <Box className={style.infoText}>
             <Flex align="center" gap="sm">
