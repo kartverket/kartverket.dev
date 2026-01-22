@@ -10,12 +10,15 @@ import { FormEntity } from '../types/types';
 import { catalogCreatorTranslationRef } from '../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 
-export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
+export const useCatalogCreator = (
+  githubAuthApi: OAuthApi,
+  initialUrl: string,
+) => {
   const catalogImportApi = useApi(catalogImportApiRef);
   const githubController = new GithubController();
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(initialUrl);
   const [defaultName, setDefaultName] = useState('');
   const [showForm, setShowForm] = useState(false);
 
@@ -128,9 +131,9 @@ export const useCatalogCreator = (githubAuthApi: OAuthApi) => {
     repoInfo.loading || analysisResult.loading || catalogInfoState.loading;
   const hasError = Boolean(
     repoInfo.error ||
-      analysisResult.error ||
-      catalogInfoState.error ||
-      repoInfo.value?.existingPrUrl,
+    analysisResult.error ||
+    catalogInfoState.error ||
+    repoInfo.value?.existingPrUrl,
   );
 
   const hasExistingCatalogFile = analysisResult.value?.type === 'locations';

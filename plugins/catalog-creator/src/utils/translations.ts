@@ -14,6 +14,8 @@ export const catalogCreatorMessages = {
     fetchButton: 'Fetch!',
   },
 
+  repositoryFetch: 'Fetching data from:',
+
   form: {
     title: 'Catalog-info.yaml Form',
     requiredFields: 'Required fields marked with: ',
@@ -240,26 +242,21 @@ export const catalogCreatorMessages = {
         'Failed to identify or parse the file. Provide a URL to either the repository root or a full file path to a valid catalog-info.yaml file.',
     },
   },
-  infoBox: {
-    title: 'How does the form work?',
-    p1: `This form allows you to create or edit catalog-info.yaml files used by Backstage to discover and manage components. Enter the URL of a GitHub repository to add it to the developer portal, or provide a link to an existing file to edit it.`,
+  formInfo: {
+    p1: `This form allows you to create or edit catalog-info.yaml files used by Backstage to discover and manage entities in your organization. Enter the URL of a GitHub repository to add it to the developer portal, or provide a link to an existing file to edit it.`,
     p2: `When you're done, click Create Pull Request to propose changes in the repository. The updates take effect once the pull request has been merged and the catalog has been refreshed.`,
-    subtitle: 'What are entities in Backstage?',
     p3: `The developer portal is built using Backstage, which defines a set of entities used to build the software catalog.
        These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
-        Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.
-         Organizational entities include Group and User. Below is a brief explanation of the core entities.`,
-    systemTitle: 'System',
+        Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.`,
     systemParagraph:
-      'A system is a collection of components that work together to fulfil a clear purpose within a specific domain. Together, they deliver complete functionality.',
-    componentTitle: 'Component',
+      'A system is a collection of components that work together to fulfill a clear purpose within a specific domain. Together, they deliver complete functionality.',
     componentParagraph: `A component is an independent part of a system — for example a service, a library, or an app. It often has its own repository and can be developed, built, and deployed separately from the rest of the system.`,
-    APITitle: 'API ',
     APIParagraph: `An API describes the interface a component provides or consumes, and shows how systems and components communicate. The definition field for APIs is required.`,
     APIremark:
       'Note: External APIs should be registered as Resource, not as an API.',
-    resourceTitle: 'Resource',
     resourceParagraph: `A Resource is an external or shared asset that a system or component depends on, but which is not necessarily owned by the same team. This can include technical infrastructure or external integrations.`,
+    domainParagraph: `A domain represents a higher-level business area or product area. It is used to group systems that naturally belong together based on function, ownership, or business value.`,
+    functionParagraph: `A Function is a business function that the organization delivers. It represents a capability the organization performs to deliver and it is enabled by systems and their underlying entities.`,
     linkText: `Read more about entities in your organization.`,
     linkText2: `Read more about entities in the Backstage documentation `,
   },
@@ -287,6 +284,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'repositorySearch.label': 'Lim inn URL til GitHub-repository under',
           'repositorySearch.placeholder': 'Skriv inn en URL',
           'repositorySearch.fetchButton': 'Hent!',
+          repositoryFetch: 'Henter data fra:',
 
           'form.title': 'Catalog-info.yaml skjema',
           'form.requiredFields': 'Obligatoriske felter er markert med: ',
@@ -483,30 +481,28 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.errors.linksNoSpace': 'Url kan ikke inneholde mellomrom',
           'form.errors.linksLength': 'url kan ikke være lengre enn 63 tegn',
 
-          'infoBox.title': 'Hvordan fungerer skjemaet?',
-          'infoBox.p1':
+          'formInfo.p1':
             'Dette skjemaet lar deg opprette eller redigere catalog-info.yaml-filer som Backstage bruker for å oppdage og administrere komponenter. Oppgi enten URL til et GitHub-repository for å legge det til i utviklerportalen, eller en lenke til en eksisterende fil for å redigere den.',
-          'infoBox.p2':
+          'formInfo.p2':
             'Når du er ferdig, klikker du Opprett Pull Request for å foreslå endringer i repositoryet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
-          'infoBox.subtitle': 'Hva er entiteter i Backstage?',
-          'infoBox.p3':
+          'formInfo.p3':
             'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen.',
-          'infoBox.systemTitle': 'System',
-          'infoBox.systemParagraph':
+          'formInfo.systemParagraph':
             'Et system er en samling av komponenter som sammen løser et tydelig formål. Systemet kan bestå av flere komponenter som samarbeider for å levere en funksjonalitet.',
-          'infoBox.componentTitle': 'Component',
-          'infoBox.componentParagraph':
+          'formInfo.componentParagraph':
             'En komponent er en selvstendig del av et system – for eksempel en tjeneste, et bibliotek eller en app. Den har ofte sitt eget repository og kan utvikles, bygges og deployes uavhengig av andre deler av systemet.',
-          'infoBox.APITitle': 'API',
-          'infoBox.APIParagraph':
+          'formInfo.APIParagraph':
             'Et API beskriver grensesnittet en komponent tilbyr eller bruker, og viser hvordan systemer og komponenter kommuniserer. Definisjonsfeltet for API-er er påkrevd.',
-          'infoBox.APIremark':
+          'formInfo.APIremark':
             'Merk: Eksterne API-er skal registreres som Resource, ikke som et API.',
-          'infoBox.resourceTitle': 'Resource',
-          'infoBox.resourceParagraph':
+          'formInfo.resourceParagraph':
             'En Resource er en ekstern eller delt ressurs som et system eller en komponent er avhengig av, men som ikke nødvendigvis eies av samme team. Dette kan være teknisk infrastruktur eller eksterne integrasjoner.',
-          'infoBox.linkText': 'Les mer om entiteter i din organisasjon ',
-          'infoBox.linkText2':
+          'formInfo.domainParagraph':
+            'Et domene representerer et overordnet forretningsområde eller produktområde. Brukes for å gruppere systemer som hører naturlig sammen basert på funksjon, eierskap eller forretningsverdi.',
+          'formInfo.functionParagraph':
+            'En funksjon er en forretningsfunksjon. Den representerer en kapasitet organisasjonen leverer, og den muliggjøres av systemer og deres underliggende enheter.',
+          'formInfo.linkText': 'Les mer om entiteter i din organisasjon ',
+          'formInfo.linkText2':
             'Les mer om entiteter i Backstage-dokumentasjonen ',
 
           'successPage.successfullyCreatedPR': 'Opprettet en pull request: ',

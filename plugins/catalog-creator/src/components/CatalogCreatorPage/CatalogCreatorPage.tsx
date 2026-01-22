@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Card, Flex } from '@backstage/ui';
+import { Box, Flex, Link } from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
 import { useTheme } from '@material-ui/core/styles';
@@ -9,8 +9,6 @@ import { CatalogForm } from '../CatalogForm';
 import { FormEntity } from '../../types/types';
 import { getDefaultNameFromUrl, getSubmitUrl } from '../../utils/pageUtils';
 import { useCatalogCreator } from '../../hooks/useCatalogCreator';
-
-import { EditOrGenerateCatalogInfoBox } from './EditOrGenerateCatalogInfoBox';
 import { SuccessMessage } from './SuccessMessage';
 import { StatusMessages } from './StatusMessages';
 import { RepositoryForm } from './RepositoryForm';
@@ -29,9 +27,9 @@ export interface CatalogCreatorPageProps {
 
 export const CatalogCreatorPage = ({
   originLocation,
-  docsLink,
   entityKind,
   entityName,
+  docsLink,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
@@ -55,23 +53,31 @@ export const CatalogCreatorPage = ({
     hasExistingCatalogFile,
     shouldCreateNewFile,
     shouldShowForm,
-  } = useCatalogCreator(githubAuthApi);
+  } = useCatalogCreator(githubAuthApi, originLocation ?? '');
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
-  useEffect(() => {
-    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
-    if (originLocation && !url) {
-      setUrl(originLocation);
-    }
-  }, [originLocation, url, setUrl, t]);
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    doGetRepoInfo(entityKind, entityName);
+  const fetchCatalogInfoFromGithub = () => {
+    doGetRepoInfo();
     doAnalyzeUrl();
     setDefaultName(getDefaultNameFromUrl(url));
     doSubmitToGithub('', undefined);
     setShowForm(false);
+  };
+
+  useEffect(() => {
+    document.title = `${t('contentHeader.title')} | ${window.location.hostname}`;
+  }, [originLocation, url, setUrl, t]);
+
+  useEffect(() => {
+    if (url && originLocation && catalogInfoState.value === undefined) {
+      fetchCatalogInfoFromGithub();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url]);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchCatalogInfoFromGithub();
   };
 
   const handleCatalogFormSubmit = (data: FormEntity[]) => {
@@ -92,77 +98,84 @@ export const CatalogCreatorPage = ({
 
   return (
     <Content>
-      <Flex justify="between" align="center">
-        {entityKind ? (
-          <h1>
-            {t('contentHeader.editTitle')} {` ${entityKind}`}
-          </h1>
-        ) : (
-          <h1>{t('contentHeader.title')}</h1>
-        )}
-        <SupportButton />
-      </Flex>
-      <Flex>
-        <Box flex-shrink="0" width="600px">
-          {repoState.value?.severity === 'success' ? (
-            <SuccessMessage
-              prUrl={repoState.value.prUrl}
-              onReset={handleResetForm}
-            />
+      <Box className={style.catalogCreatorBox}>
+        <Flex justify="between" align="center">
+          {entityKind ? (
+            <h1>
+              {t('contentHeader.editTitle')} {` ${entityKind}`}
+            </h1>
           ) : (
-            <Card className={style.repositoryCard}>
-              <RepositoryForm
-                url={originLocation || url}
-                onUrlChange={setUrl}
-                onSubmit={handleFormSubmit}
-                disableTextField={originLocation !== undefined}
-              />
-
-              <StatusMessages
-                hasExistingCatalogFile={hasExistingCatalogFile}
-                shouldCreateNewFile={shouldCreateNewFile}
-                hasError={hasError}
-                isLoading={isLoading}
-                repoStateError={Boolean(repoState.error)}
-                showForm={showForm}
-                existingPrUrl={repoInfo.value?.existingPrUrl}
-                analysisError={analysisResult.error}
-                repoStateErrorMessage={repoState.error?.message}
-                repoInfoError={repoInfo.error}
-                catalogInfoError={catalogInfoState.error}
-              />
-              {isLoading ? (
-                <div className={style.loadingContainer}>
-                  <CircularProgress />
-                </div>
-              ) : (
-                <>
-                  {shouldShowForm && (
-                    <div style={{ position: 'relative' }}>
-                      {/* Submission Loading Overlay */}
-                      {repoState.loading && (
-                        <LoadingOverlay
-                          isDarkTheme={theme.palette.type === 'dark'}
-                        />
-                      )}
-                      <CatalogForm
-                        onSubmit={handleCatalogFormSubmit}
-                        currentYaml={catalogInfoState.value!}
-                        defaultName={defaultName}
-                      />
-                    </div>
-                  )}
-                </>
-              )}
-            </Card>
+            <h1>{t('contentHeader.title')}</h1>
           )}
-        </Box>
-        {entityKind !== 'Function' && (
-          <Box flex-shrink="1" width="500px">
-            <EditOrGenerateCatalogInfoBox docsLink={docsLink} />
+          <SupportButton />
+        </Flex>
+        <Flex>
+          <Box flex-grow="1" width="100%">
+            {(isLoading || shouldShowForm) && originLocation && (
+              <p>
+                {t('repositoryFetch')} <Link>{url}</Link>
+              </p>
+            )}
+            {repoState.value?.severity === 'success' ? (
+              <SuccessMessage
+                prUrl={repoState.value.prUrl}
+                onReset={handleResetForm}
+              />
+            ) : (
+              <div className={style.repositoryCard}>
+                {originLocation === undefined && (
+                  <RepositoryForm
+                    url={originLocation || url}
+                    onUrlChange={setUrl}
+                    onSubmit={handleFormSubmit}
+                    disableTextField={originLocation !== undefined}
+                    docsLink={docsLink}
+                  />
+                )}
+
+                <StatusMessages
+                  hasUnexpectedExistingCatalogFile={
+                    originLocation ? false : hasExistingCatalogFile
+                  }
+                  shouldCreateNewFile={shouldCreateNewFile}
+                  hasError={hasError}
+                  isLoading={isLoading}
+                  repoStateError={Boolean(repoState.error)}
+                  showForm={showForm}
+                  existingPrUrl={repoInfo.value?.existingPrUrl}
+                  analysisError={analysisResult.error}
+                  repoStateErrorMessage={repoState.error?.message}
+                  repoInfoError={repoInfo.error}
+                  catalogInfoError={catalogInfoState.error}
+                />
+                {isLoading ? (
+                  <div className={style.loadingContainer}>
+                    <CircularProgress />
+                  </div>
+                ) : (
+                  <>
+                    {shouldShowForm && (
+                      <div style={{ position: 'relative' }}>
+                        {/* Submission Loading Overlay */}
+                        {repoState.loading && (
+                          <LoadingOverlay
+                            isDarkTheme={theme.palette.type === 'dark'}
+                          />
+                        )}
+                        <CatalogForm
+                          onSubmit={handleCatalogFormSubmit}
+                          currentYaml={catalogInfoState.value!}
+                          defaultName={defaultName}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </Box>
-        )}
-      </Flex>
+        </Flex>
+      </Box>
     </Content>
   );
 };

@@ -353,7 +353,24 @@ const opsEntityPage = (
   </EntityLayout>
 );
 
-const experimentEntityPage = (
+const libraryEntityPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {defaultComponentContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
+      <RiScPage />
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+      <SecurityMetricsPage />
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
+const simpleComponentPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {defaultComponentContent}
@@ -364,6 +381,25 @@ const experimentEntityPage = (
 
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
+    </EntityLayout.Route>
+  </EntityLayout>
+);
+
+const defaultComponentPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      {defaultComponentContent}
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <EntityCatalogCreatorWrapper />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/risc" title="Kodenær RoS">
+      <RiScPage />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
+      <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -400,22 +436,16 @@ const componentPage = (
       {opsEntityPage}
     </EntitySwitch.Case>
     <EntitySwitch.Case if={isComponentType('library')}>
-      {opsEntityPage}
+      {libraryEntityPage}
     </EntitySwitch.Case>
     <EntitySwitch.Case if={isComponentType('experiment')}>
-      {experimentEntityPage}
+      {simpleComponentPage}
+    </EntitySwitch.Case>
+    <EntitySwitch.Case if={isComponentType('documentation')}>
+      {simpleComponentPage}
     </EntitySwitch.Case>
 
-    <EntitySwitch.Case>
-      <EntityLayout>
-        <EntityLayout.Route path="/" title="Overview">
-          {defaultComponentContent}
-        </EntityLayout.Route>
-        <EntityLayout.Route path="/docs" title="Docs">
-          {techdocsContent}
-        </EntityLayout.Route>
-      </EntityLayout>
-    </EntitySwitch.Case>
+    <EntitySwitch.Case>{defaultComponentPage}</EntitySwitch.Case>
   </EntitySwitch>
 );
 

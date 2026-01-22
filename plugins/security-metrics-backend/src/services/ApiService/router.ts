@@ -5,7 +5,7 @@ import { Config } from '@backstage/config';
 import { ApiService } from './api.service';
 import { EntraIdService } from '../EntraIdService/auth.service';
 import {
-  AcceptVulnerabilityRequestBody,
+  ChangeStatusRequestBody,
   ConfigureNotificationsRequestBody,
   FetchMetricsRequestBody,
   FetchTrendsRequestBody,
@@ -230,22 +230,23 @@ export const createRouter = async (
     }
   });
 
-  router.post('/proxy/accept-vulnerability/', async (req, res) => {
+  router.put('/proxy/change-status-vulnerability/', async (req, res) => {
     try {
       const backstageToken = req.header('Authorization');
       const validToken = validateToken(backstageToken, auth);
-      const request = req.body as AcceptVulnerabilityRequestBody;
+      const request = req.body as ChangeStatusRequestBody;
 
       if (!validToken || !backstageToken) {
         res.status(401).send({ frontendMessage: 'Token is not valid' });
         return;
       }
 
-      const apiResult = await apiService.acceptVulnerability(
+      const apiResult = await apiService.changeStatusVulnerability(
         request.componentName,
         request.vulnerabilityId,
+        request.status,
         request.comment,
-        request.acceptedBy,
+        request.changedBy,
         request.entraIdToken,
       );
 
@@ -260,7 +261,7 @@ export const createRouter = async (
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to accept vulnerability: ${error}`);
+      logger.error(`Failed to change status of vulnerability: ${error}`);
       throw new Error(errorMessage);
     }
   });
