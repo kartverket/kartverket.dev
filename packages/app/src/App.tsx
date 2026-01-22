@@ -1,7 +1,7 @@
 import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FeatureFlagged, FlatRoutes } from '@backstage/core-app-api';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -59,6 +59,7 @@ import {
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
 } from './utils/translations';
+import { FunctionsPage } from './components/functions/FunctionsPage';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -137,6 +138,9 @@ const routes = (
       <HomePage />
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
+    <FeatureFlagged with="show-functions-page">
+      <Route path="/functions" element={<FunctionsPage />} />
+    </FeatureFlagged>
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
