@@ -24,7 +24,7 @@ export interface CatalogCreatorPageProps {
   docsLink?: string;
   entityKind?: string;
   entityName?: string;
-  createFunction: boolean;
+  createFunction?: boolean;
 }
 
 export const CatalogCreatorPage = ({

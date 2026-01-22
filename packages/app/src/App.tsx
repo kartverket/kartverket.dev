@@ -182,6 +182,10 @@ const routes = (
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route
+      path="/catalog-creator-function"
+      element={<CatalogCreatorPage createFunction />}
+    />
+    <Route
       path="/catalog-creator"
       element={
         <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
