@@ -119,7 +119,7 @@ export const CatalogCreatorPage = ({
             {repoState.value?.severity === 'success' ? (
               <SuccessMessage
                 prUrl={repoState.value.prUrl}
-                onReset={handleResetForm}
+                onReset={originLocation ? undefined : handleResetForm}
               />
             ) : (
               <div className={style.repositoryCard}>
