@@ -424,8 +424,8 @@ export const CatalogForm = ({
               </Card>
             );
           })}
-          {((currentYaml && currentYaml[0].kind !== 'Function') ||
-            !createFunction) && (
+
+          {fields.find(x => x.kind === 'Function') === undefined && (
             <Flex direction="column">
               <Text className={style.addEntityTitle}>
                 {t('form.addEntity.title')}

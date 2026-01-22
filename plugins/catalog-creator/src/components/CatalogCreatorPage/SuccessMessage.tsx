@@ -8,7 +8,7 @@ import style from '../../catalog.module.css';
 
 interface SuccessMessageProps {
   prUrl?: string;
-  onReset: () => void;
+  onReset?: () => void;
 }
 
 export const SuccessMessage = ({ prUrl, onReset }: SuccessMessageProps) => {
@@ -36,9 +36,11 @@ export const SuccessMessage = ({ prUrl, onReset }: SuccessMessageProps) => {
               <p>{t('successPage.couldNotRetrieveURL')}</p>
             )}
           </Alert>
-          <Link color="inherit" onClick={onReset}>
-            {t('successPage.registerNew')}
-          </Link>
+          {onReset && (
+            <Link color="inherit" onClick={onReset}>
+              {t('successPage.registerNew')}
+            </Link>
+          )}
         </Flex>
       </Box>
     </Card>

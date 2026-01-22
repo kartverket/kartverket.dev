@@ -73,6 +73,7 @@ import {
   EntityDependenciesCard,
   FunctionAboutCard,
   FunctionLinksCard,
+  EntityFunctionsCard,
 } from '@internal/plugin-frontend-custom-components';
 
 const techdocsContent = (
@@ -210,6 +211,9 @@ const defaultComponentContent = (
     </Grid>
     <Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
+    </Grid>
+    <Grid item md={12} xs={12}>
+      <EntityFunctionsCard title="Functions" variant="gridItem" />
     </Grid>
     {grafanaContent}
   </Grid>
@@ -564,6 +568,9 @@ const systemPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityLinksCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityFunctionsCard title="Functions" />
         </Grid>
       </Grid>
     </EntityLayout.Route>
