@@ -4,8 +4,6 @@ import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import style from '../../catalog.module.css';
 
-import style from '../../catalog.module.css';
-
 interface StatusMessagesProps {
   hasUnexpectedExistingCatalogFile: boolean;
   shouldCreateNewFile: boolean;
