@@ -80,7 +80,7 @@ export type Status = {
 export type FormEntity = z.infer<typeof entitySchema>;
 
 export type RequiredYamlFields = {
-  apiVersion: 'backstage.io/v1alpha1';
+  apiVersion: string;
   kind: string;
   metadata: {
     name: string;
@@ -116,7 +116,7 @@ export type RequiredYamlFields = {
           $asyncapi?: string | undefined;
         }
       | string;
-    target?: string;
+    targets?: string[];
     dependencyOf?: string[];
     [key: string]: any; // Allow additional spec fields
   };

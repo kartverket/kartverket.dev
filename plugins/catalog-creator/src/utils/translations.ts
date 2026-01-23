@@ -166,10 +166,10 @@ export const catalogCreatorMessages = {
         tooltipText: 'Other functions that this function depends on.',
         placeholder: 'Select functions',
       },
-      childFunctions: {
-        fieldName: 'Child Functions',
-        tooltipText: 'Functions that are part of or belong to this function.',
-        placeholder: 'Select functions',
+      parentFunction: {
+        fieldName: 'Parent Function',
+        tooltipText: 'Function that this function enable',
+        placeholder: 'Select function',
       },
       links: {
         fieldName: 'Links',
@@ -224,6 +224,9 @@ export const catalogCreatorMessages = {
 
       linksNoSpace: 'Url cannot contain space',
       linksLength: 'Url cannot be longer than 63 characters',
+
+      noParentFunction: 'Add a parent function',
+      parentFunctionNoSpace: 'Parent function cannot contain space',
     },
 
     infoAlerts: {
@@ -252,9 +255,7 @@ export const catalogCreatorMessages = {
       'A system is a collection of components that work together to fulfill a clear purpose within a specific domain. Together, they deliver complete functionality.',
     componentParagraph: `A component is an independent part of a system — for example a service, a library, or an app. It often has its own repository and can be developed, built, and deployed separately from the rest of the system.`,
     APIParagraph: `An API describes the interface a component provides or consumes, and shows how systems and components communicate. The definition field for APIs is required.`,
-    APIremark:
-      'Note: External APIs should be registered as Resource, not as an API.',
-    resourceParagraph: `A Resource is an external or shared asset that a system or component depends on, but which is not necessarily owned by the same team. This can include technical infrastructure or external integrations.`,
+    resourceParagraph: `A Resource is an external or shared asset that a system or component depends on, but which is not necessarily owned by the same team.`,
     domainParagraph: `A domain represents a higher-level business area or product area. It is used to group systems that naturally belong together based on function, ownership, or business value.`,
     functionParagraph: `A Function is a business function that the organization delivers. It represents a capability the organization performs to deliver and it is enabled by systems and their underlying entities.`,
     linkText: `Read more about entities in your organization.`,
@@ -420,10 +421,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Andre funksjoner som denne funksjonen er avhengig av.',
           'form.functionForm.dependsOnFunctions.placeholder': 'Velg funksjoner',
 
-          'form.functionForm.childFunctions.fieldName': 'Underfunksjoner',
-          'form.functionForm.childFunctions.tooltipText':
-            'Funksjoner som er en del av eller tilhører denne funksjonen.',
-          'form.functionForm.childFunctions.placeholder': 'Velg funksjoner',
+          'form.functionForm.parentFunction.fieldName': 'Forelderfunksjon',
+          'form.functionForm.parentFunction.tooltipText':
+            'Funksjon som denne funksjonen muliggjør.',
+          'form.functionForm.parentFunction.placeholder': 'Velg funksjon',
 
           'form.functionForm.links.fieldName': 'Lenker',
           'form.functionForm.links.cardTitle': 'Lenke',
@@ -457,6 +458,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
 
           'form.errors.noOwner': 'Legg til eier',
           'form.errors.ownerNoSpace': 'Eier kan ikke inneholde mellomrom',
+
+          'form.errors.noParentFunction': 'Legg til forelderfunksjon',
+          'form.errors.parentFunctionNoSpace':
+            'Forelderfunksjon kan ikke inneholde mellomrom',
 
           'form.errors.systemNoSpace': 'System kan ikke inneholde mellomrom',
 
@@ -493,10 +498,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'En komponent er en selvstendig del av et system – for eksempel en tjeneste, et bibliotek eller en app. Den har ofte sitt eget repository og kan utvikles, bygges og deployes uavhengig av andre deler av systemet.',
           'formInfo.APIParagraph':
             'Et API beskriver grensesnittet en komponent tilbyr eller bruker, og viser hvordan systemer og komponenter kommuniserer. Definisjonsfeltet for API-er er påkrevd.',
-          'formInfo.APIremark':
-            'Merk: Eksterne API-er skal registreres som Resource, ikke som et API.',
           'formInfo.resourceParagraph':
-            'En Resource er en ekstern eller delt ressurs som et system eller en komponent er avhengig av, men som ikke nødvendigvis eies av samme team. Dette kan være teknisk infrastruktur eller eksterne integrasjoner.',
+            'En ressurs er en ekstern eller delt ressurs som et system eller en komponent er avhengig av, men som ikke nødvendigvis eies av samme team.',
           'formInfo.domainParagraph':
             'Et domene representerer et overordnet forretningsområde eller produktområde. Brukes for å gruppere systemer som hører naturlig sammen basert på funksjon, eierskap eller forretningsverdi.',
           'formInfo.functionParagraph':
