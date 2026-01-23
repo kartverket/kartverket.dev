@@ -270,7 +270,7 @@ export class ApiService {
         }),
       });
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 204) {
         return Right.create(undefined);
       }
       return errorHandling(response);
