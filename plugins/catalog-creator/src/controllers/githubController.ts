@@ -27,27 +27,7 @@ export class GithubController {
     const token = await githubAuthApi.getAccessToken();
     const octokit = new OctokitPlugin({ auth: token });
 
-    let owner;
-    let repo;
-    let relative_path;
-
-    if (url.includes('blob') || url.includes('tree')) {
-      const match = url.match(
-        /github\.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/[^\/]+\/(.+)/,
-      );
-      if (match) {
-        owner = match[1];
-        repo = match[2];
-        relative_path = match[4] ? match[4] : 'catalog-info.yaml';
-      }
-    } else {
-      const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)(.*)/);
-      if (match) {
-        owner = match[1];
-        repo = match[2];
-        relative_path = match[3] ? match[3] : 'catalog-info.yaml';
-      }
-    }
+    const { repo, owner, relative_path } = this.extractUrlInfo(url);
 
     try {
       if (owner && repo && relative_path && default_branch) {
@@ -120,6 +100,8 @@ export class GithubController {
       .match(/tree\/main\/(.+)/)?.[1]
       ?.replace(/\/[^/]+$/, '');
 
+    const { repo, owner } = this.extractUrlInfo(managedbylocation);
+
     const locationsYamlContent = await getCatalogInfo(
       managedbyoriginlocation.replace(/^url:/, ''),
       githubAuthApi,
@@ -141,34 +123,37 @@ export class GithubController {
 
     const newFilePath = `${parentFolderPath}/${catalogInfo[0].name}/${catalogInfo[0].name}.yaml`;
 
-    const completeYaml = this.createNewYaml(catalogInfo, undefined, true);
+    const completeYaml = this.createNewYaml(catalogInfo, undefined);
 
     const OctokitPlugin = Octokit.plugin(createPullRequest);
     const token = await githubAuthApi.getAccessToken();
     const octokit = new OctokitPlugin({ auth: token });
 
     try {
-      const result = await octokit.createPullRequest({
-        owner: 'kartverket',
-        repo: 'funksjonsregister-PoC',
-        title: `Create ${catalogInfo[0].name} function`,
-        body: 'Creates new catalog file and updates existing catalog with reference',
-        head: `create-${catalogInfo[0].name}-function`,
-        changes: [
-          {
-            files: {
-              [newFilePath]: completeYaml,
-              ['catalog-info.yaml']: completeUpdatedLocationsYamlContent,
+      if (owner && repo) {
+        const result = await octokit.createPullRequest({
+          owner: owner,
+          repo: repo,
+          title: `Create ${catalogInfo[0].name} function`,
+          body: 'Creates new catalog file and updates existing catalog with reference',
+          head: `create-${catalogInfo[0].name}-function`,
+          changes: [
+            {
+              files: {
+                [newFilePath]: completeYaml,
+                ['catalog-info.yaml']: completeUpdatedLocationsYamlContent,
+              },
+              commit: `Created new function`,
             },
-            commit: 'New function',
-          },
-        ],
-      });
-      return {
-        message: 'created a pull request',
-        severity: 'success',
-        prUrl: result?.data.html_url,
-      };
+          ],
+        });
+        return {
+          message: 'created a pull request',
+          severity: 'success',
+          prUrl: result?.data.html_url,
+        };
+      }
+      throw new Error();
     } catch (error: unknown) {
       if (error instanceof Error) {
         error.message = couldNotCreatePRErrorMsg;
@@ -182,12 +167,9 @@ export class GithubController {
   private createNewYaml(
     catalogInfo: FormEntity[],
     initialYaml: RequiredYamlFields[] | undefined = undefined,
-    isCreateFunction: boolean = false,
   ) {
     const emptyRequiredYaml: RequiredYamlFields = {
-      apiVersion: isCreateFunction
-        ? 'kartverket.dev/v1alpha1'
-        : 'backstage.io/v1alpha1',
+      apiVersion: '',
       kind: '',
       metadata: {
         name: '',
@@ -206,5 +188,30 @@ export class GithubController {
     }
 
     return yamlStrings.join('\n---\n');
+  }
+
+  private extractUrlInfo(url: string) {
+    let owner;
+    let repo;
+    let relative_path;
+
+    if (url.includes('blob') || url.includes('tree')) {
+      const match = url.match(
+        /github\.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/[^\/]+\/(.+)/,
+      );
+      if (match) {
+        owner = match[1];
+        repo = match[2];
+        relative_path = match[4] ? match[4] : 'catalog-info.yaml';
+      }
+    } else {
+      const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)(.*)/);
+      if (match) {
+        owner = match[1];
+        repo = match[2];
+        relative_path = match[3] ? match[3] : 'catalog-info.yaml';
+      }
+    }
+    return { owner, repo, relative_path };
   }
 }
