@@ -243,8 +243,10 @@ export const functionSchema = baseEntitySchema.extend({
   parentFunction: z
     .string('form.errors.noParentFunction')
     .trim()
-    .min(1, 'form.errors.noOwner')
-    .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
+    .min(1, 'form.errors.noParentFunction')
+    .refine(s => !s.includes(' '), {
+      message: 'form.errors.parentFunctionNoSpace',
+    }),
   links: z
     .array(
       z.object({

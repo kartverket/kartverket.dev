@@ -226,6 +226,7 @@ export const catalogCreatorMessages = {
       linksLength: 'Url cannot be longer than 63 characters',
 
       noParentFunction: 'Add a parent function',
+      parentFunctionNoSpace: 'Parent function cannot contain space',
     },
 
     infoAlerts: {
@@ -459,6 +460,8 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.errors.ownerNoSpace': 'Eier kan ikke inneholde mellomrom',
 
           'form.errors.noParentFunction': 'Legg til forelderfunksjon',
+          'form.errors.parentFunctionNoSpace':
+            'Forelderfunksjon kan ikke inneholde mellomrom',
 
           'form.errors.systemNoSpace': 'System kan ikke inneholde mellomrom',
 
