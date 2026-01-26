@@ -60,7 +60,10 @@ import {
   sidebarNorwegianTranslation,
 } from './utils/translations';
 import { FunctionsPage } from './components/functions/FunctionsPage';
-import { SupportButton } from '@internal/plugin-frontend-custom-components';
+import {
+  SupportButton,
+  supportNorwegianTranslation,
+} from '@internal/plugin-frontend-custom-components';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -70,6 +73,7 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      supportNorwegianTranslation,
     ],
   },
   components: {
