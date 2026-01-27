@@ -3,7 +3,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import { useAsync } from 'react-use';
 import { UserEntity } from '@backstage/catalog-model';
 
-export const useUserInfo = (id: string) => {
+export const useUserInfo = (id?: string) => {
   const catalogApi = useApi(catalogApiRef);
 
   const {
@@ -11,6 +11,9 @@ export const useUserInfo = (id: string) => {
     loading,
     error,
   } = useAsync(async () => {
+    if (!id) {
+      return undefined;
+    }
     const users = await catalogApi.getEntities({
       filter: {
         kind: 'User',
