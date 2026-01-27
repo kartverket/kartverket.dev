@@ -29,6 +29,38 @@ export class GithubController {
 
     const { repo, owner, relative_path } = this.extractUrlInfo(url);
 
+    const hasMore = catalogInfo.length > initialYaml.length;
+    const hasLess = catalogInfo.length < initialYaml.length;
+    const removedEntities = initialYaml.filter(
+      item =>
+        !catalogInfo.some(
+          u => u.kind === item.kind && u.name === item.metadata.name,
+        ),
+    );
+    const addedEntities = catalogInfo.filter(
+      item =>
+        !initialYaml.some(
+          i => i.kind === item.kind && i.metadata.name === item.name,
+        ),
+    );
+
+    const prBody = `catalog-info.yaml ${hasMore ? 'now includes more entities' : (hasLess ? 'now includes fewer entities' : 'has been updated')}
+
+        ${removedEntities.length > 0 ? `Removed entities:` : ''}
+        ${removedEntities
+          .map(entity => `name: ${entity.metadata.name}, kind: ${entity.kind}`)
+          .join('\n        ')}
+
+        ${addedEntities.length > 0 ? `Added entities:` : ''}
+        ${addedEntities
+          .map(entity => `name: ${entity.name}, kind: ${entity.kind}`)
+          .join('\n        ')}
+
+        All entities in catalog-info.yaml:
+        ${catalogInfo.map(info => `name: ${info.name}, kind: ${info.kind}`).join('\n        ')} 
+        
+        \n\n This PR was created using the Catalog Creator plugin in Backstage.`;
+
     try {
       if (owner && repo && relative_path && default_branch) {
         const result = await octokit.createPullRequest({
@@ -37,19 +69,26 @@ export class GithubController {
           title:
             entityKind && entityKind === 'Function'
               ? `Update ${entityName} function`
-              : 'Create/update catalog-info.yaml',
-          body: 'Creates or updates catalog-info.yaml',
+              : (initialYaml === null
+                ? `Create catalog-info.yaml`
+                : `Update catalog-info.yaml`),
+          body: prBody,
           base: default_branch,
           head:
             entityKind && entityKind === 'Function'
               ? `update-${entityName}-function`
-              : 'Update-or-create-catalog-info',
+              : (initialYaml === null
+                ? `create-catalog-info`
+                : `update-catalog-info`),
           changes: [
             {
               files: {
                 [relative_path]: completeYaml,
               },
-              commit: 'New or updated catalog-info.yaml',
+              commit:
+                (initialYaml === null
+                  ? `New catalog-info.yaml`
+                  : `Updated catalog-info.yaml`),
             },
           ],
         });
