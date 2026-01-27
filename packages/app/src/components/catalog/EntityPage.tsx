@@ -37,7 +37,7 @@ import {
   EntityOwnershipCard,
 } from '@backstage/plugin-org';
 import { EntityTechdocsContent } from '@backstage/plugin-techdocs';
-import { EmptyState } from '@backstage/core-components';
+import { EmptyState, InfoCard } from '@backstage/core-components';
 import {
   Direction,
   EntityCatalogGraphCard,
@@ -74,7 +74,9 @@ import {
   FunctionAboutCard,
   FunctionLinksCard,
   EntityFunctionsCard,
+  LinkCard,
 } from '@internal/plugin-frontend-custom-components';
+import { Flex } from '@backstage/ui';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -528,7 +530,10 @@ const groupPage = (
           <EntityMembersListCard showAggregateMembersToggle />
         </Grid>
         <Grid item xs={12} md={6}>
-          <SecurityChampionCard />
+          <Flex direction="column">
+            <LinkCard title="Regelrett forms" link=""/>
+            <SecurityChampionCard />
+          </Flex>
         </Grid>
       </Grid>
     </EntityLayout.Route>
