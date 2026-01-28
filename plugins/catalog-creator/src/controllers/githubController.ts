@@ -5,6 +5,8 @@ import { Octokit } from '@octokit/core';
 import { createPullRequest } from 'octokit-plugin-create-pull-request';
 import { OAuthApi } from '@backstage/core-plugin-api';
 
+/* eslint-disable no-nested-ternary */
+
 export class GithubController {
   submitCatalogInfoToGithub = async (
     url: string,
@@ -74,7 +76,7 @@ export class GithubController {
         ),
     );
 
-    const prBody = `catalog-info.yaml ${hasMore ? 'now includes more entities' : (hasLess ? 'now includes fewer entities' : 'has been updated')}
+    const prBody = `catalog-info.yaml ${hasMore ? 'now includes more entities' : hasLess ? 'now includes fewer entities' : 'has been updated'}
 
         ${removedEntities.length > 0 ? `Removed entities:` : ''}
         ${removedEntities
@@ -99,26 +101,26 @@ export class GithubController {
           title:
             entityKind && entityKind === 'Function'
               ? `Update ${entityName} function`
-              : (initialYaml === null
+              : initialYaml === null
                 ? `Create catalog-info.yaml`
-                : `Update catalog-info.yaml`),
+                : `Update catalog-info.yaml`,
           body: prBody,
           base: default_branch,
           head:
             entityKind && entityKind === 'Function'
               ? `update-${entityName}-function`
-              : (initialYaml === null
+              : initialYaml === null
                 ? `create-catalog-info`
-                : `update-catalog-info`),
+                : `update-catalog-info`,
           changes: [
             {
               files: {
                 [relative_path]: completeYaml,
               },
               commit:
-                (initialYaml === null
+                initialYaml === null
                   ? `New catalog-info.yaml`
-                  : `Updated catalog-info.yaml`),
+                  : `Updated catalog-info.yaml`,
             },
           ],
         });
