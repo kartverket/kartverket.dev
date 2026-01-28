@@ -9,10 +9,13 @@ export const updateYaml = (
 ): string => {
   let updated: RequiredYamlFields;
 
+  const defaultApiVersion = 'backstage.io/v1alpha1';
+
   switch (form.kind) {
     case 'Component':
       updated = {
         ...initial,
+        apiVersion: defaultApiVersion,
         kind: form.kind || initial.kind,
         metadata: {
           ...initial.metadata,
@@ -79,6 +82,7 @@ export const updateYaml = (
 
       updated = {
         ...initial,
+        apiVersion: defaultApiVersion,
         kind: form.kind || initial.kind,
         metadata: {
           ...initial.metadata,
@@ -106,6 +110,7 @@ export const updateYaml = (
     case 'System':
       updated = {
         ...initial,
+        apiVersion: defaultApiVersion,
         kind: form.kind || initial.kind,
         metadata: {
           ...initial.metadata,
@@ -133,6 +138,7 @@ export const updateYaml = (
     case 'Domain':
       updated = {
         ...initial,
+        apiVersion: defaultApiVersion,
         kind: form.kind || initial.kind,
         metadata: {
           ...initial.metadata,
@@ -160,6 +166,7 @@ export const updateYaml = (
     case 'Resource':
       updated = {
         ...initial,
+        apiVersion: defaultApiVersion,
         kind: form.kind || initial.kind,
         metadata: {
           ...initial.metadata,
@@ -191,6 +198,7 @@ export const updateYaml = (
     case 'Function':
       updated = {
         ...initial,
+        apiVersion: 'kartverket.dev/v1alpha1',
         kind: form.kind || initial.kind,
         metadata: {
           ...initial.metadata,
@@ -225,16 +233,17 @@ export const updateYaml = (
             form.dependsOnFunctions?.length === 0
               ? undefined
               : form.dependsOnFunctions || initial.spec.dependsOnFunctions,
-          childFunctions:
-            form.childFunctions?.length === 0
+          parentFunction:
+            form.parentFunction?.length === 0
               ? undefined
-              : form.childFunctions || initial.spec.childFunctions,
+              : form.parentFunction || initial.spec.parentFunction,
         },
       };
       break;
     default:
       updated = {
         ...initial,
+        apiVersion: defaultApiVersion,
         kind: form.kind || initial.kind,
         metadata: {
           ...initial.metadata,
@@ -248,4 +257,23 @@ export const updateYaml = (
       };
   }
   return yaml.stringify(updated);
+};
+
+export const updateFunctionLocationsFile = (
+  originalContent: RequiredYamlFields,
+  newTarget: string,
+) => {
+  if (originalContent.kind === 'Location') {
+    const updated = {
+      ...originalContent,
+      spec: {
+        ...originalContent.spec,
+        targets: originalContent.spec.targets
+          ? [...originalContent.spec.targets, newTarget]
+          : [newTarget],
+      },
+    };
+    return yaml.stringify(updated);
+  }
+  return yaml.stringify(originalContent);
 };

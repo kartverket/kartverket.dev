@@ -56,6 +56,7 @@ import {
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import {
+  functionPageNorwegianTranslation,
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
 } from './utils/translations';
@@ -69,6 +70,7 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      functionPageNorwegianTranslation,
     ],
   },
   components: {
@@ -187,6 +189,10 @@ const routes = (
     <Route path="/devtools" element={<DevToolsPage />} />
     <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
+    <Route
+      path="/catalog-creator-function"
+      element={<CatalogCreatorPage createFunction />}
+    />
     <Route
       path="/catalog-creator"
       element={

@@ -164,10 +164,10 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
     );
 
     doEmit(
-      functionEntity.spec.childFunctions,
+      functionEntity.spec.parentFunction,
       { defaultKind: 'Function', defaultNamespace: selfRef.namespace },
-      RELATION_PARENT_OF,
       RELATION_CHILD_OF,
+      RELATION_PARENT_OF,
     );
 
     doEmit(
