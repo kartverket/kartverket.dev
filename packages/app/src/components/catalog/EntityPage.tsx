@@ -74,6 +74,7 @@ import {
   FunctionAboutCard,
   FunctionLinksCard,
   EntityFunctionsCard,
+  FunctionGroupPageCard,
 } from '@internal/plugin-frontend-custom-components';
 
 const techdocsContent = (
@@ -523,6 +524,9 @@ const groupPage = (
               'Function',
             ]}
           />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FunctionGroupPageCard />
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityMembersListCard showAggregateMembersToggle />
