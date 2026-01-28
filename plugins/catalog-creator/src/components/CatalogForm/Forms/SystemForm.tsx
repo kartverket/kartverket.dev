@@ -14,8 +14,16 @@ export type SystemFormProps = {
   control: Control<z.infer<typeof formSchema>>;
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'System'>;
-  groups: Entity[];
-  domains: Entity[];
+  groups: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
+  domains: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
 };
 
 export const SystemForm = ({
@@ -46,7 +54,7 @@ export const SystemForm = ({
           control={control}
           errors={errors}
           fieldname="owner"
-          entities={groups || []}
+          entities={groups.value || []}
         />
       </div>
       <Flex>
@@ -69,7 +77,7 @@ export const SystemForm = ({
           errors={errors}
           formname="systemForm"
           fieldname="domain"
-          entities={domains || []}
+          entities={domains.value || []}
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />

@@ -14,8 +14,16 @@ export type DomainFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Domain'>;
-  groups: Entity[];
-  domains: Entity[];
+  groups: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
+  domains: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
 };
 
 export const DomainForm = ({
@@ -33,7 +41,7 @@ export const DomainForm = ({
           control={control}
           errors={errors}
           fieldname="owner"
-          entities={groups || []}
+          entities={groups.value || []}
           required
         />
       </div>
@@ -58,7 +66,7 @@ export const DomainForm = ({
           formname="domainForm"
           fieldname="subdomainOf"
           freeSolo
-          entities={domains || []}
+          entities={domains.value || []}
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />

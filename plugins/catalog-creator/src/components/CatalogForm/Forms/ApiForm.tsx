@@ -30,8 +30,16 @@ export type ApiFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'API'>;
-  systems: Entity[];
-  groups: Entity[];
+  systems: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
+  groups: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
   inlineApiIndexes: number[];
   id: number;
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;
@@ -78,7 +86,7 @@ export const ApiForm = ({
           control={control}
           errors={errors}
           fieldname="owner"
-          entities={groups || []}
+          entities={groups.value || []}
           required
         />
       </div>
@@ -115,7 +123,7 @@ export const ApiForm = ({
           errors={errors}
           formname="APIForm"
           fieldname="system"
-          entities={systems || []}
+          entities={systems.value || []}
         />
       </div>
       <div>
