@@ -12,6 +12,7 @@ import {
 import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
 import { useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
+import { ButtonLink, Flex } from '@backstage/ui';
 
 type RootEntityNamesType = {
   kind: string;
@@ -57,6 +58,12 @@ export const FunctionsPage = () => {
         subtitle="Oversikt over hva Kartverket må kunne gjøre for å levere på sitt samfunnsoppdrag, og hvordan dette støttes av del-funksjoner, systemer og team."
       />
       <Content>
+        <Flex justify="end" style={{ marginBottom: '1rem' }}>
+          <ButtonLink href="/catalog-creator-function">
+            Create new function
+          </ButtonLink>
+        </Flex>
+
         <EntityListProvider>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
