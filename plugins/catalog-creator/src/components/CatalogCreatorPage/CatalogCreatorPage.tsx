@@ -15,7 +15,6 @@ import { RepositoryForm } from './RepositoryForm';
 import { LoadingOverlay } from './LoadingOverlay';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-
 import style from '../../catalog.module.css';
 
 export interface CatalogCreatorPageProps {
@@ -23,6 +22,7 @@ export interface CatalogCreatorPageProps {
   docsLink?: string;
   entityKind?: string;
   entityName?: string;
+  supportButton?: React.ReactNode;
 }
 
 export const CatalogCreatorPage = ({
@@ -30,6 +30,7 @@ export const CatalogCreatorPage = ({
   entityKind,
   entityName,
   docsLink,
+  supportButton = <SupportButton />,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
@@ -107,7 +108,7 @@ export const CatalogCreatorPage = ({
           ) : (
             <h1>{t('contentHeader.title')}</h1>
           )}
-          <SupportButton />
+          {supportButton}
         </Flex>
         <Flex>
           <Box flex-grow="1" width="100%">
