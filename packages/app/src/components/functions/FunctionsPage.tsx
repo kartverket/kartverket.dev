@@ -10,8 +10,16 @@ import {
   EntityListProvider,
 } from '@backstage/plugin-catalog-react';
 import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
-import { useApi } from '@backstage/core-plugin-api';
+import {
+  configApiRef,
+  identityApiRef,
+  microsoftAuthApiRef,
+  useApi,
+} from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
+import { Button } from '@backstage/ui';
+import { getContext } from '../../utils/api';
+import { getAuthenticationTokens } from '../../utils/authenticationUtils';
 
 type RootEntityNamesType = {
   kind: string;
@@ -34,6 +42,9 @@ const functionColumns: CatalogTableColumnsFunc = entityListContext => {
 export const FunctionsPage = () => {
   const [rootEntity, setRootEntity] = useState<RootEntityNamesType[]>([]);
   const catalogApi = useApi(catalogApiRef);
+  const config = useApi(configApiRef);
+  const backstageAuthApi = useApi(identityApiRef);
+  const microsoftAuthApi = useApi(microsoftAuthApiRef);
 
   useEffect(() => {
     catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
@@ -50,8 +61,22 @@ export const FunctionsPage = () => {
     });
   }, [catalogApi]);
 
+  async function getContextOnClick() {
+    const { entraIdToken, backstageToken } = await getAuthenticationTokens(
+      config,
+      backstageAuthApi,
+      microsoftAuthApi,
+    );
+    const url = new URL(
+      `${config.getString('backend.baseUrl')}/api/regelrett-schemas/proxy/fetch-regelrett-form`,
+    );
+    url.searchParams.set('contextId', 'c74c477e-0516-449d-9f0f-4236543fde62');
+    getContext(url, backstageToken, entraIdToken);
+  }
+
   return (
     <Page themeId="functions">
+      <Button onClick={() => getContextOnClick()}> Click me to test!</Button>
       <Header
         title="Forretningsfunksjoner i Kartverket"
         subtitle="Oversikt over hva Kartverket må kunne gjøre for å levere på sitt samfunnsoppdrag, og hvordan dette støttes av del-funksjoner, systemer og team."

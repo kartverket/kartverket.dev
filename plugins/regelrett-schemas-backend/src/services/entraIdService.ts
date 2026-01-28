@@ -8,41 +8,52 @@ import { LoggerService } from '@backstage/backend-plugin-api';
 
 export class EntraIdService {
   private entraIdConfig: EntraIdConfiguration;
-  private clientApplication: ConfidentialClientApplication;
+  private azureAdClient: ConfidentialClientApplication;
+  private logger: LoggerService;
 
-  constructor(entraIdConfig: EntraIdConfiguration) {
+  constructor(entraIdConfig: EntraIdConfiguration, logger: LoggerService) {
+    this.logger = logger;
     this.entraIdConfig = entraIdConfig;
     const msalConfig: Configuration = {
       auth: {
-        clientId: this.entraIdConfig.clientId, // Backstage client ID
-        clientSecret: this.entraIdConfig.clientSecret, // Backstage client secret
+        clientId: this.entraIdConfig.clientId,
+        clientSecret: this.entraIdConfig.clientSecret,
         authority: `https://login.microsoftonline.com/${this.entraIdConfig.tenantId}`,
       },
     };
-
-    this.clientApplication = new ConfidentialClientApplication(msalConfig);
+    this.azureAdClient = new ConfidentialClientApplication(msalConfig);
   }
 
-  async acquireTokenOnBehalfOfUser(token: string) {
-    const request: OnBehalfOfRequest = {
-      oboAssertion: token, // The assertion is the Token FE
-      scopes: [this.entraIdConfig.scope], // <API-A-audience>/.default
-    };
+  async getOboToken(token: string): Promise<string | undefined> {
+    try {
+      const oboRequest: OnBehalfOfRequest = {
+        oboAssertion: token,
+        scopes: [this.entraIdConfig.scope],
+      };
 
-    const response =
-      await this.clientApplication.acquireTokenOnBehalfOf(request);
+      const response =
+        await this.azureAdClient.acquireTokenOnBehalfOf(oboRequest);
 
-    return response?.accessToken; // The output is Token A
+      return response?.accessToken;
+    } catch (error) {
+      // @ts-ignore
+      this.logger.error(error.message);
+      throw new Error(
+        `OBO Token acquisition failed: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
+      );
+    }
   }
 }
 
 // This does the OBO flow and the calling
 export class ProxyService {
-  private readonly baseUrlApiA: string;
+  private readonly regelrettBaseUrl: string;
   private entraIdService: EntraIdService;
 
-  constructor(baseUrlApiA: string, entraIdService: EntraIdService) {
-    this.baseUrlApiA = baseUrlApiA;
+  constructor(regelrettBaseUrl: string, entraIdService: EntraIdService) {
+    this.regelrettBaseUrl = regelrettBaseUrl;
     this.entraIdService = entraIdService;
   }
 
@@ -51,19 +62,23 @@ export class ProxyService {
     clientToken: string,
     endpoint: string,
   ): Promise<any> {
-    const tokenA =
-      await this.entraIdService.acquireTokenOnBehalfOfUser(clientToken);
-
-    logger.info(`Proxy made a GET request to ${this.baseUrlApiA}/${endpoint}`);
-    if (!tokenA) return null;
-    const response = await fetch(`${this.baseUrlApiA}/${endpoint}`, {
+    const token = await this.entraIdService.getOboToken(clientToken);
+    logger.info(
+      `Proxy made a GET request to ${this.regelrettBaseUrl}/${endpoint}`,
+    );
+    if (!token) return null;
+    const response = await fetch(`${this.regelrettBaseUrl}/${endpoint}`, {
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${tokenA}`,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       method: 'GET',
     });
 
-    return response.json();
+    if (response.ok) {
+      return await response.json();
+    }
+    throw Error('Did not return proper json');
   }
 }
