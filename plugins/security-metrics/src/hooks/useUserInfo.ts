@@ -17,7 +17,6 @@ export const useUserInfo = (id: string) => {
       });
       return users.items[0] as UserEntity | undefined;
     },
-    enabled: Boolean(id),
     staleTime: 5 * 60 * 1000,
   });
 };
