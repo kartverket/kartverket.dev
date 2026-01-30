@@ -1,7 +1,7 @@
 import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FeatureFlagged, FlatRoutes } from '@backstage/core-app-api';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -39,7 +39,6 @@ import {
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
-import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
 import { Route } from 'react-router-dom';
@@ -55,6 +54,11 @@ import {
 } from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
+import {
+  homepageNorwegianTranslation,
+  sidebarNorwegianTranslation,
+} from './utils/translations';
+import { FunctionsPage } from './components/functions/FunctionsPage';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -62,6 +66,8 @@ const app = createApp({
     resources: [
       pluginRiScNorwegianTranslation,
       catalogCreatorNorwegianTranslation,
+      sidebarNorwegianTranslation,
+      homepageNorwegianTranslation,
     ],
   },
   components: {
@@ -131,6 +137,9 @@ const routes = (
       <HomePage />
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
+    <FeatureFlagged with="show-functions-page">
+      <Route path="/functions" element={<FunctionsPage />} />
+    </FeatureFlagged>
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
@@ -175,7 +184,6 @@ const routes = (
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
-    <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route
       path="/catalog-creator"

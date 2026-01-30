@@ -75,16 +75,12 @@ APIer gjør det synlig hvordan systemer og komponenter kommuniserer.
 
 - openapi, asyncapi, graphql, wsdl, eller en egendefinert type.
 
-**Merk**:
-Eksterne API-er (for eksempel Altinn, FREG) skal ikke registreres som API under komponenten, men som en Resource med typen external-api. Dette gjør det mulig å modellere avhengigheter mellom interne komponenter og eksterne tjenester. Se Resource-seksjonen for detaljer.
-
 ### Resource
-En Resource er en ekstern eller delt ressurs som et system eller en komponent er avhengig av, men som ikke nødvendigvis eies av samme team. Dette kan være enten tekniske infrastrukturkomponenter eller eksterne integrasjoner.
+En Resource er en ekstern eller delt ressurs som et system eller en komponent er avhengig av.
 
 **Eksempler**
 
-- Teknisk ressurs: internt driftede ressurser (databaser, køer, lagring, cluster)
-- Ekstern integrasjon: tredjeparts- eller myndighetstjenester (Altinn, Digdir, Facebook API, BankID)
+- Internt driftede ressurser som databaser, køer, lagring, cluster etc.
 
 ### Andre
 **Grupper** og **brukere** blir hentet fra Kartverkets Entra ID. Grupper blir bare hentet hvis hvis de har prefikset *AAD - TF - TEAM*
@@ -99,8 +95,7 @@ Systemer defineres hovedsakelig i et felles sentralisert repo, men vi ønsker ik
 ### Ressurser
 En kombinasjon av sentralisering og egne definisjoner. Definisjonen av plattform-ressurser vil leve i et sentralisert repo og teamene kan selv legge til ressurser de bruker i egne repoer eller direkte inn på et eget område i det sentraliserte repoet. 
 ### Komponenter og APIer
-Teamene eier definisjonen og har ansvar for å plassere dem i et repo de eier.
-
+Teamene eier definisjonen og har ansvar for å plassere dem i et repo de eier. Noen eksterne APIer som er mye brukt på tvers av systemer defineres i et sentralisert repo med Kartverket som eier. Andre APIer som blir brukt av et system kan defineres i hvert repo.
 
 
 ## Modelleringseksempler

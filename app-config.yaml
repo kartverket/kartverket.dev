@@ -46,7 +46,7 @@ backend:
   reading:
     allow:
       - host: matrikkel.no
-      - host: grunnbok.no
+      - host: www.grunnbok.no
 
   listen:
     port: 7007
