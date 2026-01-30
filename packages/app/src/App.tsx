@@ -60,6 +60,7 @@ import {
 } from './utils/translations';
 import { FunctionsPage } from './components/functions/FunctionsPage';
 import {
+  functionGroupPageNorwegianTranslation,
   SupportButton,
   supportNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
@@ -72,6 +73,7 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      functionGroupPageNorwegianTranslation,
       supportNorwegianTranslation,
     ],
   },
