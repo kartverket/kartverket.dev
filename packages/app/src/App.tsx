@@ -39,7 +39,6 @@ import {
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
-import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
 import { Route } from 'react-router-dom';
@@ -185,7 +184,6 @@ const routes = (
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
-    <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route
       path="/catalog-creator"
