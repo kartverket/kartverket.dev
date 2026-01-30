@@ -39,7 +39,6 @@ import {
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
-import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
 import { Route } from 'react-router-dom';
@@ -60,7 +59,11 @@ import {
   sidebarNorwegianTranslation,
 } from './utils/translations';
 import { FunctionsPage } from './components/functions/FunctionsPage';
-import { functionGroupPageNorwegianTranslation } from '@internal/plugin-frontend-custom-components';
+import {
+  functionGroupPageNorwegianTranslation,
+  SupportButton,
+  supportNorwegianTranslation,
+} from '@internal/plugin-frontend-custom-components';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -71,6 +74,7 @@ const app = createApp({
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
       functionGroupPageNorwegianTranslation,
+      supportNorwegianTranslation,
     ],
   },
   components: {
@@ -187,12 +191,18 @@ const routes = (
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
-    <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
+    <Route
+      path="/catalog-creator-function"
+      element={<CatalogCreatorPage createFunction />}
+    />
     <Route
       path="/catalog-creator"
       element={
-        <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
+        <CatalogCreatorPage
+          docsLink="/docs/default/Component/kartverket.dev"
+          supportButton={<SupportButton />}
+        />
       }
     />
     <Route path="/notifications" element={<NotificationsPage />} />

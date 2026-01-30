@@ -22,8 +22,9 @@ type SingleEntityAutocompleteProps = {
     | 'APIForm'
     | 'systemForm'
     | 'resourceForm'
-    | 'domainForm';
-  fieldname: 'owner' | 'system' | 'domain';
+    | 'domainForm'
+    | 'functionForm';
+  fieldname: 'owner' | 'system' | 'domain' | 'parentFunction';
   required?: boolean;
   kind?: Kind;
 };
