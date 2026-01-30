@@ -21,6 +21,8 @@ import daskLogo from './logos/DASK.png';
 import skipLogo from './logos/SKIP.png';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { homepageTranslationRef } from '../../utils/translations';
+import { SupportButton } from '@internal/plugin-frontend-custom-components';
+import { Flex } from '@backstage/ui';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -62,6 +64,9 @@ export const HomePage = () => {
     <SearchContextProvider>
       <Page themeId="home">
         <Content>
+          <Flex justify="end">
+            <SupportButton />
+          </Flex>
           <Grid container justifyContent="center" spacing={6}>
             <HomePageCompanyLogo
               className={container}

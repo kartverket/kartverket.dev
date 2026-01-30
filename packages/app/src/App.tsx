@@ -59,6 +59,10 @@ import {
   sidebarNorwegianTranslation,
 } from './utils/translations';
 import { FunctionsPage } from './components/functions/FunctionsPage';
+import {
+  SupportButton,
+  supportNorwegianTranslation,
+} from '@internal/plugin-frontend-custom-components';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -68,6 +72,7 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      supportNorwegianTranslation,
     ],
   },
   components: {
@@ -192,7 +197,10 @@ const routes = (
     <Route
       path="/catalog-creator"
       element={
-        <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
+        <CatalogCreatorPage
+          docsLink="/docs/default/Component/kartverket.dev"
+          supportButton={<SupportButton />}
+        />
       }
     />
     <Route path="/notifications" element={<NotificationsPage />} />

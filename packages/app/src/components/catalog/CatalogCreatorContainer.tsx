@@ -1,5 +1,6 @@
 import { EntityRelationWarning } from '@backstage/plugin-catalog';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { SupportButton } from '@internal/plugin-frontend-custom-components';
 import { CatalogCreatorPage } from '@kartverket/backstage-plugin-catalog-creator';
 
 export const CatalogCreatorContainer = ({
@@ -28,6 +29,7 @@ export const CatalogCreatorContainer = ({
         entityKind={entity.kind}
         entityName={entity.metadata.name}
         createFunction={createFunction}
+        supportButton={<SupportButton />}
       />
     </>
   );
