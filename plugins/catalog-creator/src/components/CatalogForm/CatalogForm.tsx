@@ -445,6 +445,7 @@ export const CatalogForm = ({
                 />
                 <Button
                   type="button"
+                  variant="secondary"
                   onClick={() => appendHandler(addEntityKind)}
                 >
                   {t('form.addEntity.buttonText')}
