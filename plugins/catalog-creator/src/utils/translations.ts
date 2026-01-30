@@ -43,7 +43,7 @@ export const catalogCreatorMessages = {
       placeholder: 'Select or add tags',
     },
     addEntity: {
-      title: 'Add Entity',
+      title: 'Add entity',
       label: 'Select kind',
       buttonText: 'Add entity',
     },
@@ -247,7 +247,7 @@ export const catalogCreatorMessages = {
   },
   formInfo: {
     p1: `This form allows you to create or edit catalog-info.yaml files used by Backstage to discover and manage entities in your organization. Enter the URL of a GitHub repository to add it to the developer portal, or provide a link to an existing file to edit it.`,
-    p2: `When you're done, click Create Pull Request to propose changes in the repository. The updates take effect once the pull request has been merged and the catalog has been refreshed.`,
+    p2: `When you're done, click Create Pull Request to propose changes to the yaml-file in the repository. The updates take effect once the pull request has been merged and the catalog has been refreshed.`,
     p3: `The developer portal is built using Backstage, which defines a set of entities used to build the software catalog.
        These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
         Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.`,
@@ -309,7 +309,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'En liste over tags (merkelapper) som kan brukes til å klassifisere entiteter i systemkatalogen.',
           'form.tags.placeholder': 'Velg eller legg til tag',
 
-          'form.addEntity.title': 'Legg til entitet',
+          'form.addEntity.title': 'Legg til ny entitet',
           'form.addEntity.label': 'Velg entitet',
           'form.addEntity.buttonText': 'Legg til entitet',
 
@@ -489,7 +489,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'formInfo.p1':
             'Dette skjemaet lar deg opprette eller redigere catalog-info.yaml-filer som Backstage bruker for å oppdage og administrere komponenter. Oppgi enten URL til et GitHub-repository for å legge det til i utviklerportalen, eller en lenke til en eksisterende fil for å redigere den.',
           'formInfo.p2':
-            'Når du er ferdig, klikker du Opprett Pull Request for å foreslå endringer i repositoryet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
+            'Når du er ferdig, klikker du Lag Pull Request for å foreslå endringer på yaml-fil i repoet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
           'formInfo.p3':
             'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen.',
           'formInfo.systemParagraph':
