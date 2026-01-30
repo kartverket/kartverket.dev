@@ -186,6 +186,10 @@ const routes = (
     <Route path="/devtools" element={<DevToolsPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route
+      path="/catalog-creator-function"
+      element={<CatalogCreatorPage createFunction />}
+    />
+    <Route
       path="/catalog-creator"
       element={
         <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
