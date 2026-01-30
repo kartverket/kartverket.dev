@@ -68,12 +68,13 @@ import {
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
-import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
+import { CatalogCreatorContainer } from './CatalogCreatorContainer';
 import {
   EntityDependenciesCard,
   FunctionAboutCard,
   FunctionLinksCard,
   EntityFunctionsCard,
+  FunctionGroupPageCard,
 } from '@internal/plugin-frontend-custom-components';
 
 const techdocsContent = (
@@ -239,7 +240,7 @@ const functionEntityPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -250,7 +251,7 @@ const serviceEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
@@ -298,7 +299,7 @@ const websiteEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
@@ -340,7 +341,7 @@ const opsEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Kodenær RoS">
@@ -359,7 +360,7 @@ const libraryEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
@@ -376,7 +377,7 @@ const simpleComponentPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
@@ -391,7 +392,7 @@ const defaultComponentPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Kodenær RoS">
@@ -473,7 +474,7 @@ const apiPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
@@ -523,6 +524,9 @@ const groupPage = (
               'Function',
             ]}
           />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FunctionGroupPageCard />
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityMembersListCard showAggregateMembersToggle />

@@ -38,12 +38,14 @@ export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
   currentYaml: RequiredYamlFields[] | null;
   defaultName?: string;
+  createFunction?: boolean;
 };
 
 export const CatalogForm = ({
   onSubmit,
   currentYaml,
   defaultName = '',
+  createFunction,
 }: CatalogFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -123,8 +125,8 @@ export const CatalogForm = ({
         : [
             {
               id: 0,
-              kind: 'Component',
-              name: defaultName,
+              kind: createFunction ? 'Function' : 'Component',
+              name: createFunction ? '' : defaultName,
               owner: '',
               title: '',
             },
@@ -167,6 +169,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
         break;
       case 'API' as Kind:
@@ -180,6 +183,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
         break;
       case 'System' as Kind:
@@ -193,6 +197,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
         break;
       default:
@@ -206,6 +211,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          parentFunction: '',
         };
     }
     setIndexCount(prev => prev + 1);
@@ -424,6 +430,7 @@ export const CatalogForm = ({
                 />
                 <Button
                   type="button"
+                  variant="secondary"
                   onClick={() => appendHandler(addEntityKind)}
                 >
                   {t('form.addEntity.buttonText')}

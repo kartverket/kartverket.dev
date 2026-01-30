@@ -89,7 +89,7 @@ export const FunctionForm = ({
   useUpdateDependentFormFields(
     functions,
     typeof functionVal === 'string' ? [functionVal] : undefined,
-    `entities.${index}.childFunctions`,
+    `entities.${index}.parentFunction`,
     setValue,
   );
 
@@ -118,6 +118,17 @@ export const FunctionForm = ({
           errors={errors}
           fieldname="owner"
           entities={groups.value || []}
+          required
+        />
+      </div>
+      <div>
+        <SingleEntityAutocomplete
+          index={index}
+          control={control}
+          errors={errors}
+          formname="functionForm"
+          fieldname="parentFunction"
+          entities={functions || []}
           required
         />
       </div>
@@ -162,16 +173,6 @@ export const FunctionForm = ({
           errors={errors}
           formname="functionForm"
           fieldname="dependsOnFunctions"
-          entities={functions.value || []}
-        />
-      </div>
-      <div>
-        <MultipleEntitiesAutocomplete
-          index={index}
-          control={control}
-          errors={errors}
-          formname="functionForm"
-          fieldname="childFunctions"
           entities={functions.value || []}
         />
       </div>

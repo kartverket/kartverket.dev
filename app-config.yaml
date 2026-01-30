@@ -2,35 +2,6 @@ app:
   title: Kartverket.dev
   baseUrl: http://localhost:3000
 
-  support:
-    url: https://skip.kartverket.no # Used by common ErrorPage
-    items: # Used by common SupportButton component
-      - title: Documentation
-        icon: article
-        links:
-          - url: https://skip.kartverket.no/docs
-            title: SKIPDOK
-      - title: Slack Channel
-        icon: chat
-        links:
-          - url: https://kartverketgroup.slack.com/archives/C028ZEED280
-            title: '#gen-skip'
-      - title: RISC Feedback Channel
-        icon: chat
-        links:
-          - url: https://kartverketgroup.slack.com/archives/C075KCPTURY
-            title: '#kodenær-ros-tilbakemelding'
-      - title: RISC Documentation
-        icon: article
-        links:
-          - url: https://kartverket.atlassian.net/wiki/spaces/SIK/pages/1176142023/Koden+r+RoS
-            title: Confluence - RISC
-      - title: Security Metrics Feedback Channel
-        icon: chat
-        links:
-          - url: https://kartverketgroup.slack.com/archives/C07RNB2LPUZ
-            title: '#sikkerhetsmetrikker-tilbakemelding'
-
 organization:
   name: Kartverket
 
@@ -46,7 +17,7 @@ backend:
   reading:
     allow:
       - host: matrikkel.no
-      - host: grunnbok.no
+      - host: www.grunnbok.no
 
   listen:
     port: 7007

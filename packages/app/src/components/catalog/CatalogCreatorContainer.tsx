@@ -1,8 +1,13 @@
 import { EntityRelationWarning } from '@backstage/plugin-catalog';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { SupportButton } from '@internal/plugin-frontend-custom-components';
 import { CatalogCreatorPage } from '@kartverket/backstage-plugin-catalog-creator';
 
-export const EntityCatalogCreatorWrapper = () => {
+export const CatalogCreatorContainer = ({
+  createFunction = false,
+}: {
+  createFunction?: boolean;
+}) => {
   const { entity } = useEntity();
 
   // Extract git URL from entity metadata
@@ -23,6 +28,8 @@ export const EntityCatalogCreatorWrapper = () => {
         originLocation={gitUrl}
         entityKind={entity.kind}
         entityName={entity.metadata.name}
+        createFunction={createFunction}
+        supportButton={<SupportButton />}
       />
     </>
   );
