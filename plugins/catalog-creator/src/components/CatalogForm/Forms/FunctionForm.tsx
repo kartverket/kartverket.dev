@@ -128,7 +128,7 @@ export const FunctionForm = ({
           errors={errors}
           formname="functionForm"
           fieldname="parentFunction"
-          entities={functions || []}
+          entities={functions.value || []}
           required
         />
       </div>
