@@ -26,7 +26,7 @@ export interface FunctionEntityV1alpha1 extends Entity {
     /**
      * How critical the function is - typically "High", "Medium" or "Low"
      */
-    criticality: string;
+    criticality?: string;
 
     /**
      * Optional: The systems this function depends on
