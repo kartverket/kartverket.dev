@@ -166,6 +166,11 @@ export class GithubController {
 
     const completeYaml = this.createNewYaml(catalogInfo, undefined);
 
+    const prBody = `This pull requests adds a function to the developer portal. A new catalog info file with the function definition is created at ${newFilePath}. 
+        The catalog-info.yaml file at root is updated to reference this function definition.
+        
+        \n\n This PR was created using the Catalog Creator plugin in Backstage.`;
+
     const OctokitPlugin = Octokit.plugin(createPullRequest);
     const token = await githubAuthApi.getAccessToken();
     const octokit = new OctokitPlugin({ auth: token });
@@ -176,7 +181,7 @@ export class GithubController {
           owner: owner,
           repo: repo,
           title: `Create ${catalogInfo[0].name} function`,
-          body: 'Creates new catalog file and updates existing catalog with reference',
+          body: prBody,
           head: `create-${catalogInfo[0].name}-function`,
           changes: [
             {
