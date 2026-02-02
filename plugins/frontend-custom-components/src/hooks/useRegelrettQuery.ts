@@ -28,7 +28,7 @@ export const useRegelrettQuery = (functionName: string) => {
       );
 
       url.searchParams.set('name', functionName);
-      const response = await await fetch(url, {
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${backstageToken}`,

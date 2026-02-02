@@ -26,21 +26,18 @@ export class ProxyApiService {
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
-      this.logger.info(
-        `Proxy made a GET request to ${this.regelrettBaseUrl}/api/name/${name}`,
-      );
+      const url = new URL(`${this.regelrettBaseUrl}api/contexts/name`);
+      url.searchParams.set('name', name);
+      this.logger.info(`Proxy made a GET request to ${url.toString()}`);
 
-      const response = await fetch(
-        `${this.regelrettBaseUrl}/api/name/${name}`,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'GET',
+      const response = await fetch(url, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-      );
+        method: 'GET',
+      });
 
       if (response.ok) {
         const context: Context = await response.json();
