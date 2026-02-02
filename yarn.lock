@@ -6445,21 +6445,25 @@ __metadata:
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
     "@backstage/dev-utils": "backstage:^"
+    "@backstage/frontend-plugin-api": "backstage:^"
     "@backstage/plugin-catalog": "backstage:^"
     "@backstage/plugin-catalog-common": "backstage:^"
     "@backstage/plugin-catalog-react": "backstage:^"
     "@backstage/test-utils": "backstage:^"
     "@backstage/theme": "backstage:^"
     "@backstage/types": "backstage:^"
+    "@backstage/ui": "backstage:^"
     "@material-ui/core": "npm:^4.12.4"
     "@material-ui/icons": "npm:^4.11.3"
     "@material-ui/lab": "npm:^4.0.0-alpha.61"
+    "@mui/material": "npm:^7.3.7"
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:^16.3.1"
     "@testing-library/user-event": "npm:^14.6.1"
     msw: "npm:^2.12.7"
     react: "npm:^18"
     react-use: "npm:^17.6.0"
+    remixicon: "npm:^4.8.0"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
   languageName: unknown
@@ -34568,7 +34572,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remixicon@npm:^4.6.0":
+"remixicon@npm:^4.6.0, remixicon@npm:^4.8.0":
   version: 4.8.0
   resolution: "remixicon@npm:4.8.0"
   checksum: 10c0/48dd42264a44917a0b1cd1accb8ed7255cfed9d3712d7ae75692e93d5450b22b1f6c5051d9f6ea212479b308c0899020c6638a67576749c6a4039ecacc5e618d

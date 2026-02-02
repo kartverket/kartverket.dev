@@ -5,7 +5,11 @@ import z from 'zod/v4';
 import { formSchema } from '../schemas/formSchema';
 
 export const useUpdateDependentFormFields = (
-  options: Entity[],
+  options: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  },
   valueToWatch: string[] | undefined,
   fieldPath: FieldPath<z.infer<typeof formSchema>>,
   setValue: UseFormSetValue<z.infer<typeof formSchema>>,
@@ -16,13 +20,16 @@ export const useUpdateDependentFormFields = (
   };
 
   useEffect(() => {
+    if (options.loading) {
+      return;
+    }
     if (
       valueToWatch &&
       valueToWatch.length > 0 &&
       valueToWatch[0] !== '' &&
-      options.length > 0
+      options.value.length > 0
     ) {
-      const intersection = options.flatMap(value => {
+      const intersection = options.value.flatMap(value => {
         if (valueToWatch.includes(value.metadata.name)) {
           return value.metadata.name;
         }
@@ -34,6 +41,7 @@ export const useUpdateDependentFormFields = (
       const elementsToDelete = [
         ...valueToWatch.filter(e => !intersection.includes(e)),
       ];
+
       if (elementsToDelete.length > 0) {
         if (singleValue && intersection.includes(valueToWatch[0])) {
           setValue(fieldPath, valueToWatch[0]);

@@ -1,0 +1,44 @@
+.subtitle {
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+
+.deleteButton {
+  color: #d32f2f;
+  padding-left: 0;
+}
+
+.deleteButtonIcon {
+  font-size: 16px;
+}
+
+.matrixDialog {
+  width: 1050px;
+  margin: 32px;
+  padding: 24px;
+  border-radius: 4px;
+}
+
+.matrixDialogBody {
+  padding-bottom: 32px;
+}
+
+.supportDialog {
+  padding: 16px 12px;
+  gap: 16px;
+  border-radius: 4px;
+  width: 600px;
+}
+
+.accordionContainer {
+  border: 1px solid var(--ros-gray-200);
+  border-radius: 4px;
+}
+
+[data-theme-mode='dark'] .accordionContainer {
+  border: 1px solid var(--bui-white);
+}
+
+.feedbackDialogRemark {
+  color: #d32f2f;
+}
