@@ -147,7 +147,7 @@ export const CatalogForm = ({
   const fetchResources = useFetchEntities(control, Kinds.Resource);
   const fetchDomains = useFetchEntities(control, Kinds.Domain);
   const fetchFunctions = useFetchEntities(control, Kinds.Function);
-  const fetchGroups = useFetchEntities(control, Kinds.Location);
+  const fetchGroups = useFetchEntities(control, Kinds.Group);
 
   const componentsAndResources = {
     loading: fetchComponents.loading || fetchResources.loading,
