@@ -26,7 +26,7 @@ export class ProxyApiService {
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
-      const url = new URL(`${this.regelrettBaseUrl}api/contexts/name`);
+      const url = new URL(`${this.regelrettBaseUrl}/api/contexts/name`);
       url.searchParams.set('name', name);
       this.logger.info(`Proxy made a GET request to ${url.toString()}`);
 
