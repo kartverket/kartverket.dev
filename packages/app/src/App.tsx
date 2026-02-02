@@ -135,6 +135,11 @@ const app = createApp({
       name: 'show-functions-page',
       description: 'Enable the functions page',
     },
+    {
+      pluginId: '',
+      name: 'entraid-for-status',
+      description: 'Use entraid info for changing status on vulnerabilities',
+    },
   ],
 });
 
