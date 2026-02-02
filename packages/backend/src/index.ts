@@ -29,9 +29,6 @@ backend.add(import('@backstage/plugin-catalog-backend-module-openapi'));
 // Explore
 backend.add(import('@backstage-community/plugin-explore-backend'));
 
-// DASK
-backend.add(import('@kartverket/plugin-dask-onboarding-backend'));
-
 // Devtools
 backend.add(import('@backstage/plugin-devtools-backend'));
 

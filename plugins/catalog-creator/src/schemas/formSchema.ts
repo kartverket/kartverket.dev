@@ -240,14 +240,13 @@ export const functionSchema = baseEntitySchema.extend({
       { message: 'form.errors.dependsOnComponentsNoSpace' },
     )
     .optional(),
-  childFunctions: z
-    .array(z.string())
-    .refine(
-      entries =>
-        entries.every(entry => entry.trim().length > 0 && !entry.includes(' ')),
-      { message: 'form.errors.childFunctionsNoSpace' },
-    )
-    .optional(),
+  parentFunction: z
+    .string('form.errors.noParentFunction')
+    .trim()
+    .min(1, 'form.errors.noParentFunction')
+    .refine(s => !s.includes(' '), {
+      message: 'form.errors.parentFunctionNoSpace',
+    }),
   links: z
     .array(
       z.object({

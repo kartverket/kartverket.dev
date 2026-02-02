@@ -15,9 +15,21 @@ export type ResourceFormProps = {
   control: Control<z.infer<typeof formSchema>>;
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Resource'>;
-  systems: Entity[];
-  groups: Entity[];
-  componentsAndResources: Entity[];
+  systems: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
+  groups: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
+  componentsAndResources: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
 };
 
 export const ResourceForm = ({
@@ -60,7 +72,7 @@ export const ResourceForm = ({
           control={control}
           errors={errors}
           fieldname="owner"
-          entities={groups || []}
+          entities={groups.value || []}
           required
         />
       </div>
@@ -85,7 +97,7 @@ export const ResourceForm = ({
           errors={errors}
           formname="componentForm"
           fieldname="system"
-          entities={systems || []}
+          entities={systems.value || []}
         />
       </div>
       <div>
@@ -95,7 +107,7 @@ export const ResourceForm = ({
           errors={errors}
           formname="resourceForm"
           fieldname="dependencyOf"
-          entities={componentsAndResources || []}
+          entities={componentsAndResources.value || []}
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />

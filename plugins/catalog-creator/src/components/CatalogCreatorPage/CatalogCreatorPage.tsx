@@ -15,14 +15,16 @@ import { RepositoryForm } from './RepositoryForm';
 import { LoadingOverlay } from './LoadingOverlay';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-
 import style from '../../catalog.module.css';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
 
 export interface CatalogCreatorPageProps {
   originLocation?: string;
   docsLink?: string;
   entityKind?: string;
   entityName?: string;
+  createFunction?: boolean;
+  supportButton?: React.ReactNode;
 }
 
 export const CatalogCreatorPage = ({
@@ -30,9 +32,12 @@ export const CatalogCreatorPage = ({
   entityKind,
   entityName,
   docsLink,
+  createFunction = false,
+  supportButton = <SupportButton />,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
+  const catalogApi = useApi(catalogApiRef);
 
   const {
     url,
@@ -45,9 +50,11 @@ export const CatalogCreatorPage = ({
     analysisResult,
     repoInfo,
     repoState,
+    repoFunctionState,
     doAnalyzeUrl,
     doGetRepoInfo,
     doSubmitToGithub,
+    doSubmitFunctionToGithub,
     isLoading,
     hasError,
     hasExistingCatalogFile,
@@ -55,9 +62,9 @@ export const CatalogCreatorPage = ({
     shouldShowForm,
   } = useCatalogCreator(githubAuthApi, originLocation ?? '');
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
-
+  const state = createFunction ? repoFunctionState : repoState;
   const fetchCatalogInfoFromGithub = () => {
-    doGetRepoInfo();
+    doGetRepoInfo(entityKind, entityName);
     doAnalyzeUrl();
     setDefaultName(getDefaultNameFromUrl(url));
     doSubmitToGithub('', undefined);
@@ -89,11 +96,23 @@ export const CatalogCreatorPage = ({
     );
   };
 
+  const handleFunctionCatalogFormSubmit = (data: FormEntity[]) => {
+    doSubmitFunctionToGithub(catalogApi, data);
+  };
+
   const handleResetForm = () => {
     setUrl('');
     setDefaultName('');
     setShowForm(false);
     doSubmitToGithub('', undefined);
+  };
+
+  const handleShowForm = () => {
+    if (createFunction) {
+      if (repoInfo.value && repoInfo.value.existingPrUrl) return false;
+      return true;
+    }
+    return shouldShowForm;
   };
 
   return (
@@ -107,7 +126,7 @@ export const CatalogCreatorPage = ({
           ) : (
             <h1>{t('contentHeader.title')}</h1>
           )}
-          <SupportButton />
+          {supportButton}
         </Flex>
         <Flex>
           <Box flex-grow="1" width="100%">
@@ -116,56 +135,63 @@ export const CatalogCreatorPage = ({
                 {t('repositoryFetch')} <Link>{url}</Link>
               </p>
             )}
-            {repoState.value?.severity === 'success' ? (
+            {state.value?.severity === 'success' ? (
               <SuccessMessage
-                prUrl={repoState.value.prUrl}
-                onReset={originLocation ? undefined : handleResetForm}
+                prUrl={state.value.prUrl}
+                onReset={handleResetForm}
               />
             ) : (
               <div className={style.repositoryCard}>
-                {originLocation === undefined && (
-                  <RepositoryForm
-                    url={originLocation || url}
-                    onUrlChange={setUrl}
-                    onSubmit={handleFormSubmit}
-                    disableTextField={originLocation !== undefined}
-                    docsLink={docsLink}
-                  />
-                )}
+                <>
+                  {originLocation === undefined && !createFunction && (
+                    <RepositoryForm
+                      url={originLocation || url}
+                      onUrlChange={setUrl}
+                      onSubmit={handleFormSubmit}
+                      disableTextField={originLocation !== undefined}
+                      docsLink={docsLink}
+                    />
+                  )}
+                  <StatusMessages
+                    hasUnexpectedExistingCatalogFile={
+                      originLocation ? false : hasExistingCatalogFile
+                    }
+                    shouldCreateNewFile={shouldCreateNewFile}
+                    hasError={hasError}
+                    isLoading={isLoading}
+                    repoStateError={Boolean(state.error)}
+                    showForm={showForm}
+                    existingPrUrl={repoInfo.value?.existingPrUrl}
+                    analysisError={analysisResult.error}
+                    repoStateErrorMessage={state.error?.message}
+                    repoInfoError={repoInfo.error}
+                    catalogInfoError={catalogInfoState.error}
+                  />{' '}
+                </>
 
-                <StatusMessages
-                  hasUnexpectedExistingCatalogFile={
-                    originLocation ? false : hasExistingCatalogFile
-                  }
-                  shouldCreateNewFile={shouldCreateNewFile}
-                  hasError={hasError}
-                  isLoading={isLoading}
-                  repoStateError={Boolean(repoState.error)}
-                  showForm={showForm}
-                  existingPrUrl={repoInfo.value?.existingPrUrl}
-                  analysisError={analysisResult.error}
-                  repoStateErrorMessage={repoState.error?.message}
-                  repoInfoError={repoInfo.error}
-                  catalogInfoError={catalogInfoState.error}
-                />
                 {isLoading ? (
                   <div className={style.loadingContainer}>
                     <CircularProgress />
                   </div>
                 ) : (
                   <>
-                    {shouldShowForm && (
+                    {handleShowForm() && (
                       <div style={{ position: 'relative' }}>
                         {/* Submission Loading Overlay */}
-                        {repoState.loading && (
+                        {state.loading && (
                           <LoadingOverlay
                             isDarkTheme={theme.palette.type === 'dark'}
                           />
                         )}
                         <CatalogForm
-                          onSubmit={handleCatalogFormSubmit}
+                          onSubmit={
+                            createFunction
+                              ? handleFunctionCatalogFormSubmit
+                              : handleCatalogFormSubmit
+                          }
                           currentYaml={catalogInfoState.value!}
                           defaultName={defaultName}
+                          createFunction={createFunction}
                         />
                       </div>
                     )}

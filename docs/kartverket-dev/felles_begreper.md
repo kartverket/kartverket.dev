@@ -77,6 +77,11 @@ En Resource er en ekstern eller delt ressurs som et system eller en komponent er
 
 - Internt driftede ressurser som databaser, køer, lagring, cluster etc.
 
+### Funksjoner
+Forretningsfunksjoner representerer kapabiliteter organisasjonen har for å oppnå sine mål og levere verdi. En forretningsfunksjon realiseres ved at andre entiteter, som systemer og komponenter, leverer funksjonalitet som alene eller sammen realiserer funksjonen. Ved å modellere avhengigheter mellom funksjoner og andre entiteter kan man identifisere hvilke entiteter som leverer tjenester for å oppfylle en forretningsfunksjon, samt hvilke kapabiliteter organisasjonen mister dersom disse entitetene slutter å levere sine tjenester.
+
+Funksjoner organiseres i et funksjonshierarki, hvor mindre underfunksjoner sammen utgjør større funksjoner.
+
 ### Andre
 **Grupper** og **brukere** blir hentet fra Kartverkets Entra ID. Grupper blir bare hentet hvis hvis de har prefikset *AAD - TF - TEAM*
 
@@ -90,7 +95,10 @@ Systemer defineres hovedsakelig i et felles sentralisert repo, men vi ønsker ik
 ### Ressurser
 En kombinasjon av sentralisering og egne definisjoner. Definisjonen av plattform-ressurser vil leve i et sentralisert repo og teamene kan selv legge til ressurser de bruker i egne repoer eller direkte inn på et eget område i det sentraliserte repoet. 
 ### Komponenter og APIer
-Teamene eier definisjonen og har ansvar for å plassere dem i et repo de eier. Noen eksterne APIer som er mye brukt på tvers av systemer defineres i et sentralisert repo med Kartverket som eier. Andre APIer som blir brukt av et system kan defineres i hvert repo.
+Teamene eier definisjonen og har ansvar for å plassere dem i et repo de eier.
+### Funksjoner
+I et felles repo som sentraliserer funksjonene og underfunksjonene.
+
 
 
 ## Modelleringseksempler

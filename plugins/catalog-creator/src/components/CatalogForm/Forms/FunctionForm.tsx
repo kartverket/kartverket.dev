@@ -23,11 +23,27 @@ export type FunctionFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Function'>;
-  groups: Entity[];
+  groups: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;
-  components: Entity[];
-  functions: Entity[];
-  systems: Entity[];
+  components: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
+  functions: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
+  systems: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
 };
 
 export const FunctionForm = ({
@@ -73,7 +89,7 @@ export const FunctionForm = ({
   useUpdateDependentFormFields(
     functions,
     typeof functionVal === 'string' ? [functionVal] : undefined,
-    `entities.${index}.childFunctions`,
+    `entities.${index}.parentFunction`,
     setValue,
   );
 
@@ -101,7 +117,18 @@ export const FunctionForm = ({
           control={control}
           errors={errors}
           fieldname="owner"
-          entities={groups || []}
+          entities={groups.value || []}
+          required
+        />
+      </div>
+      <div>
+        <SingleEntityAutocomplete
+          index={index}
+          control={control}
+          errors={errors}
+          formname="functionForm"
+          fieldname="parentFunction"
+          entities={functions.value || []}
           required
         />
       </div>
@@ -126,7 +153,7 @@ export const FunctionForm = ({
           errors={errors}
           formname="functionForm"
           fieldname="dependsOnComponents"
-          entities={components || []}
+          entities={components.value || []}
         />
       </div>
       <div>
@@ -136,7 +163,7 @@ export const FunctionForm = ({
           errors={errors}
           formname="functionForm"
           fieldname="dependsOnSystems"
-          entities={systems || []}
+          entities={systems.value || []}
         />
       </div>
       <div>
@@ -146,17 +173,7 @@ export const FunctionForm = ({
           errors={errors}
           formname="functionForm"
           fieldname="dependsOnFunctions"
-          entities={functions || []}
-        />
-      </div>
-      <div>
-        <MultipleEntitiesAutocomplete
-          index={index}
-          control={control}
-          errors={errors}
-          formname="functionForm"
-          fieldname="childFunctions"
-          entities={functions || []}
+          entities={functions.value || []}
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
