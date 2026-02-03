@@ -64,7 +64,10 @@ export async function getRepoInfo(
         );
       }
       if (entityKind !== 'Function') {
-        return pr.title === 'Create/update catalog-info.yaml';
+        return (
+          pr.title === 'Create catalog-info.yaml' ||
+          pr.title === 'Update catalog-info.yaml'
+        );
       }
       return false;
     });

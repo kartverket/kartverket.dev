@@ -40,8 +40,7 @@
             },
             "criticality": {
               "type": "string",
-              "description": "Criticality of the function",
-              "minLength": 1
+              "description": "Criticality of the function"
             },
             "dependsOnFunctions": {
               "type": "array",

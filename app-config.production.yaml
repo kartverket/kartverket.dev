@@ -117,3 +117,8 @@ sikkerhetsmetrikker:
   enable: true
   baseUrl: http://sikkerhetsmetrikker.sikkerhetsmetrikker-main:8080
   clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
+
+regelrett:
+  enable: true
+  baseUrl: http://regelrett-backend.regelrett-main:8080
+  clientId: ${REGELRETT_CLIENT_ID}
