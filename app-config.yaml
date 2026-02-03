@@ -18,6 +18,11 @@ backend:
     allow:
       - host: matrikkel.no
       - host: www.grunnbok.no
+      - host: api.swaggerhub.com
+      - host: data.brreg.no
+      - host: docs.altinn.studio
+      - host: docs.digdir.no
+      - host: www.landbruksdirektoratet.no
 
   listen:
     port: 7007

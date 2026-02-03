@@ -15,14 +15,18 @@
  */
 
 import { useEntity } from '@backstage/plugin-catalog-react';
-import LanguageIcon from '@material-ui/icons/Language';
 import { EntityLinksEmptyState } from './FunctionLinksEmptyState';
 import { LinksGridList } from './LinksGridList';
 import { ColumnBreakpoints } from './types';
-import { IconComponent, useApp } from '@backstage/core-plugin-api';
-import { InfoCard, InfoCardVariants } from '@backstage/core-components';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogTranslationRef } from './translation';
+import {
+  InfoCard,
+  InfoCardVariants,
+  Progress,
+} from '@backstage/core-components';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useRegelrettQuery } from '../../hooks/useRegelrettQuery';
+import Alert from '@mui/material/Alert';
+import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 
 /** @public */
 export interface EntityLinksCardProps {
@@ -30,36 +34,55 @@ export interface EntityLinksCardProps {
   variant?: InfoCardVariants;
 }
 
-export const FunctionLinksCard = (props: EntityLinksCardProps) => {
-  const { cols = undefined, variant } = props;
-  const { entity } = useEntity();
-  const app = useApp();
-  const { t } = useTranslationRef(catalogTranslationRef);
+const queryClient = new QueryClient();
 
-  const iconResolver = (key?: string): IconComponent =>
-    key ? (app.getSystemIcon(key) ?? LanguageIcon) : LanguageIcon;
-
-  const links = entity?.metadata?.links;
-
-  const searchParams = new URLSearchParams({
-    redirectBackUrl: window.location.href,
-    redirectBackTitle: 'Kartverket.dev',
-  });
-
+export const FunctionLinksCard = () => {
   return (
-    <InfoCard title={t('entityLinksCard.title')} variant={variant}>
-      {!links || links.length === 0 ? (
-        <EntityLinksEmptyState />
-      ) : (
-        <LinksGridList
-          cols={cols}
-          items={links.map(({ url, title, icon }) => ({
-            text: title ?? url,
-            href: `${url}?${searchParams.toString()}`,
-            Icon: iconResolver(icon),
-          }))}
-        />
-      )}
-    </InfoCard>
+    <QueryClientProvider client={queryClient}>
+      <FunctionLinksCardItem />
+    </QueryClientProvider>
   );
 };
+
+function FunctionLinksCardItem(props: EntityLinksCardProps) {
+  const { cols = undefined, variant } = props;
+  const config = useApi(configApiRef);
+  const { entity } = useEntity();
+  const { data, isLoading, error } = useRegelrettQuery(entity.metadata.name);
+  const regelrettBaseUrl = config.getString(`regelrett.baseUrl`);
+
+  const FORM_TYPE_MAP: Record<string, string> = {
+    '816cc808-9188-44a9-8f4b-5642fc2932c4': 'Tjenestenivå og driftskontinuitet',
+    '248f16c3-9c0e-4177-bf57-aa7d10d2671c': 'IP og DPIA (BETA – UNDER ARBEID)',
+    '570e9285-3228-4396-b82b-e9752e23cd73': 'Sikkerhetskontrollere',
+    'e3ab7a6c-c54e-4240-8314-45990e1d7cf1': 'Datasettvurdering',
+  };
+
+  const getFormType = (formId: string): string => {
+    return FORM_TYPE_MAP[formId] || 'Unknown';
+  };
+
+  const showData = () => {
+    if (data && data.length !== 0 && !error) {
+      return (
+        <LinksGridList
+          cols={cols}
+          items={data.map(({ formId }) => ({
+            text: getFormType(formId),
+            href: `${regelrettBaseUrl}/context/${formId}`,
+          }))}
+        />
+      );
+    } else if (error) {
+      return (
+        <Alert severity="error"> Klarte ikke hente regelrett-skjemaer</Alert>
+      );
+    }
+    return <EntityLinksEmptyState />;
+  };
+  return (
+    <InfoCard title="Regelrett Forms" variant={variant}>
+      {isLoading ? <Progress /> : showData()}
+    </InfoCard>
+  );
+}
