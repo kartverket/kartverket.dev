@@ -6,3 +6,4 @@ export { FunctionGroupPageCard } from './components/FunctionGroupPageCard/Functi
 export { functionGroupPageNorwegianTranslation } from './components/FunctionGroupPageCard/translation';
 export { SupportButton } from './components/SupportButton/SupportButton';
 export { supportNorwegianTranslation } from './components/SupportButton/supportTranslations';
+export { GroupFormLinksCard } from './components/GroupFormLinksCard/GroupFormLinksCard';

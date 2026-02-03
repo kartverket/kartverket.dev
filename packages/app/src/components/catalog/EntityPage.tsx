@@ -75,6 +75,7 @@ import {
   FunctionLinksCard,
   EntityFunctionsCard,
   FunctionGroupPageCard,
+  GroupFormLinksCard,
 } from '@internal/plugin-frontend-custom-components';
 
 const techdocsContent = (
@@ -533,6 +534,9 @@ const groupPage = (
         </Grid>
         <Grid item xs={12} md={6}>
           <SecurityChampionCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <GroupFormLinksCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
