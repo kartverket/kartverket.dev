@@ -54,6 +54,9 @@ backend.add(import('@backstage/plugin-techdocs-backend'));
 // Security metrics
 backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
 
+// Regelrett forms
+backend.add(import('@internal/backstage-plugin-regelrett-schemas-backend'));
+
 // Notifications
 backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(catalogNotificationsModule);

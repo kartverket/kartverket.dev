@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@backstage/catalog-model": "backstage:^",
+    "@backstage/config": "backstage:^",
     "@backstage/core-components": "backstage:^",
     "@backstage/core-plugin-api": "backstage:^",
     "@backstage/frontend-plugin-api": "backstage:^",
@@ -39,6 +40,7 @@
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@mui/material": "^7.3.7",
+    "@tanstack/react-query": "^5.90.20",
     "react-use": "^17.6.0",
     "remixicon": "^4.8.0"
   },
