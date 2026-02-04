@@ -39,14 +39,15 @@ export async function createRouter(
   const { auth, logger, config } = options;
   const externalAPI = 'regelrett';
   const backendBaseUrl = config.getString(`${externalAPI}.baseUrl`);
+  const environment = config.getString('auth.environment');
   const clientId = config.getString(
-    'auth.providers.microsoft.development.clientId',
+    `auth.providers.microsoft.${environment}.clientId`,
   );
   const clientSecret = config.getString(
-    'auth.providers.microsoft.development.clientSecret',
+    `auth.providers.microsoft.${environment}.clientSecret`,
   );
   const tenantId = config.getString(
-    'auth.providers.microsoft.development.tenantId',
+    `auth.providers.microsoft.${environment}.tenantId`,
   );
   const scope = `${config.getString(`${externalAPI}.clientId`)}/.default`;
 
@@ -131,11 +132,18 @@ export async function createRouter(
         if (typeof name !== 'string')
           throw new Error('No name parameter provided');
         if (!eidToken) throw new Error('No token');
-        if (typeof formId !== 'string') throw new Error('No formId parameter provided');
-        if (typeof teamId !== 'string') throw new Error('No teamId parameter provided');
+        if (typeof formId !== 'string')
+          throw new Error('No formId parameter provided');
+        if (typeof teamId !== 'string')
+          throw new Error('No teamId parameter provided');
 
         const response: Result<ApiError, Context> =
-          await proxyService.createRegelrettContext(eidToken, name, formId, teamId);
+          await proxyService.createRegelrettContext(
+            eidToken,
+            name,
+            formId,
+            teamId,
+          );
         if (response.ok) {
           res.status(200).send(response.data);
         } else {
