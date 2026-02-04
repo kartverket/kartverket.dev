@@ -22,7 +22,7 @@ interface Props {
   handleCloseNotificationsDialog: () => void;
   channel: string;
   setChannel: React.Dispatch<React.SetStateAction<string>>;
-  componentNames: string[];
+  permittedComponents: string[];
   notPermitted: string[];
 }
 
@@ -40,7 +40,7 @@ export const SlackNotificationDialog = ({
   handleCloseNotificationsDialog,
   channel,
   setChannel,
-  componentNames,
+  permittedComponents,
   notPermitted,
 }: Props) => {
   const { entity } = useEntity();
@@ -48,7 +48,8 @@ export const SlackNotificationDialog = ({
 
   const configQuery = useSlackNotificationsConfigQuery(teamName);
 
-  const [selectedComponents, setSelectedComponents] = useState(componentNames);
+  const [selectedComponents, setSelectedComponents] =
+    useState(permittedComponents);
   const [selectedSeverities, setSelectedSeverities] = useState<string[]>(
     SEVERITIES.map(s => s.value),
   );
@@ -67,10 +68,15 @@ export const SlackNotificationDialog = ({
           : SEVERITIES.map(s => s.value),
       );
     } else {
-      setSelectedComponents(componentNames);
+      setSelectedComponents(permittedComponents);
       setSelectedSeverities(SEVERITIES.map(s => s.value));
     }
-  }, [openNotificationsDialog, configQuery.data, componentNames, setChannel]);
+  }, [
+    openNotificationsDialog,
+    configQuery.data,
+    permittedComponents,
+    setChannel,
+  ]);
 
   const configureNotification = useConfigureSlackNotificationsQuery();
   const [showChannelError, setShowChannelError] = useState(false);
@@ -191,7 +197,7 @@ export const SlackNotificationDialog = ({
           row
           sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}
         >
-          {componentNames.map(name => (
+          {permittedComponents.map(name => (
             <FormControlLabel
               key={name}
               control={
