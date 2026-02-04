@@ -55,6 +55,7 @@ import {
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import {
+  functionPageNorwegianTranslation,
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
 } from './utils/translations';
@@ -73,6 +74,7 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      functionPageNorwegianTranslation,
       functionGroupPageNorwegianTranslation,
       supportNorwegianTranslation,
     ],
@@ -134,6 +136,11 @@ const app = createApp({
       pluginId: '',
       name: 'show-functions-page',
       description: 'Enable the functions page',
+    },
+    {
+      pluginId: '',
+      name: 'entraid-for-status',
+      description: 'Use entraid info for changing status on vulnerabilities',
     },
   ],
 });
