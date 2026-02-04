@@ -15,7 +15,6 @@
  */
 
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { EntityLinksEmptyState } from './FunctionLinksEmptyState';
 import { LinksGridList } from './LinksGridList';
 import { ColumnBreakpoints } from './types';
 import {
@@ -25,8 +24,13 @@ import {
 } from '@backstage/core-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRegelrettQuery } from '../../hooks/useRegelrettQuery';
+import { useRegelrettCreateContextQuery } from '../../hooks/useRegelrettCreateContextQuery';
 import Alert from '@mui/material/Alert';
+import { Divider } from '@material-ui/core';
+import { useState, useEffect } from 'react';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import { Button, Flex, Select } from '@backstage/ui';
 
 /** @public */
 export interface EntityLinksCardProps {
@@ -35,6 +39,13 @@ export interface EntityLinksCardProps {
 }
 
 const queryClient = new QueryClient();
+
+const FORM_TYPE_MAP: Record<string, string> = {
+  '816cc808-9188-44a9-8f4b-5642fc2932c4': 'Tjenestenivå og driftskontinuitet',
+  '248f16c3-9c0e-4177-bf57-aa7d10d2671c': 'IP og DPIA (BETA – UNDER ARBEID)',
+  '570e9285-3228-4396-b82b-e9752e23cd73': 'Sikkerhetskontroller',
+  'e3ab7a6c-c54e-4240-8314-45990e1d7cf1': 'Datasettvurdering',
+};
 
 export const FunctionLinksCard = () => {
   return (
@@ -47,20 +58,71 @@ export const FunctionLinksCard = () => {
 function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const { cols = undefined, variant } = props;
   const config = useApi(configApiRef);
+  const catalogApi = useApi(catalogApiRef);
   const { entity } = useEntity();
-  const { data, isLoading, error } = useRegelrettQuery(entity.metadata.name);
+  const functionName = entity.metadata.name;
   const regelrettBaseUrl = config.getString(`regelrett.baseUrl`);
 
-  const FORM_TYPE_MAP: Record<string, string> = {
-    '816cc808-9188-44a9-8f4b-5642fc2932c4': 'Tjenestenivå og driftskontinuitet',
-    '248f16c3-9c0e-4177-bf57-aa7d10d2671c': 'IP og DPIA (BETA – UNDER ARBEID)',
-    '570e9285-3228-4396-b82b-e9752e23cd73': 'Sikkerhetskontrollere',
-    'e3ab7a6c-c54e-4240-8314-45990e1d7cf1': 'Datasettvurdering',
-  };
+  const [teamId, setTeamId] = useState('');
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  useEffect(() => {
+    const fetchOwner = async () => {
+      const ownerRelation = entity.relations?.find(
+        rel => rel.type === 'ownedBy',
+      );
+      if (!ownerRelation) return;
+
+      const { items } = await catalogApi.getEntitiesByRefs({
+        entityRefs: [ownerRelation.targetRef],
+      });
+
+      if (items[0]) {
+        setTeamId(
+          items[0].metadata.annotations?.['graph.microsoft.com/group-id'] || '',
+        );
+      }
+    };
+    fetchOwner();
+  }, [entity, catalogApi]);
+
+  const { data, isLoading, error, refetch } = useRegelrettQuery(functionName);
+
+  const [selectedFormId, setSelectedFormId] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const { isLoading: isCreating, error: createError } =
+    useRegelrettCreateContextQuery(
+      functionName,
+      selectedFormId,
+      teamId,
+      submitted,
+    );
+
+  useEffect(() => {
+    if (submitted && !isCreating && !createError) {
+      refetch();
+      setSubmitted(false);
+      setSelectedFormId('');
+      setShowCreateForm(false);
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 2000);
+    }
+  }, [submitted, isCreating, createError, refetch]);
 
   const getFormType = (formId: string): string => {
     return FORM_TYPE_MAP[formId] || 'Unknown';
   };
+
+  const handleSubmit = () => {
+    if (!selectedFormId || !teamId) return;
+    setSubmitted(true);
+  };
+
+  const availableFormsExist = Object.keys(FORM_TYPE_MAP).some(
+    formId => !data?.some(form => form.formId === formId),
+  );
 
   const showData = () => {
     if (data && data.length !== 0 && !error) {
@@ -74,15 +136,81 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
         />
       );
     } else if (error) {
-      return (
-        <Alert severity="error"> Klarte ikke hente regelrett-skjemaer</Alert>
-      );
+      return <Alert severity="error">Could not fetch regelrett forms</Alert>;
     }
-    return <EntityLinksEmptyState />;
+    return <p>No regelrett forms created yet</p>;
   };
+
   return (
     <InfoCard title="Regelrett Forms" variant={variant}>
-      {isLoading ? <Progress /> : showData()}
+      {isLoading && <Progress />}
+
+      {!isLoading && showData()}
+
+      {showSuccessMessage && (
+        <Alert severity="success" style={{ margin: '1rem' }}>
+          Form was created
+        </Alert>
+      )}
+
+      {availableFormsExist && (
+        <>
+          <Divider style={{ margin: '1rem' }} />
+
+          {!showCreateForm && (
+            <Button onClick={() => setShowCreateForm(true)}>
+              Create new form
+            </Button>
+          )}
+
+          {showCreateForm && (
+            <Flex style={{ marginTop: '5px', gap: '8px' }}>
+              <Select
+                style={{ flex: 1, minWidth: 0 }}
+                placeholder="Velg skjema"
+                value={selectedFormId}
+                isDisabled={isCreating}
+                options={Object.entries(FORM_TYPE_MAP)
+                  .filter(
+                    ([formId]) => !data?.some(form => form.formId === formId),
+                  )
+                  .map(([formId, formName]) => ({
+                    value: formId,
+                    label: formName,
+                  }))}
+                onChange={key => setSelectedFormId(key as string)}
+              />
+
+              <Button
+                variant="primary"
+                isDisabled={!selectedFormId || !teamId || isCreating}
+                onClick={handleSubmit}
+              >
+                {isCreating ? 'Creating...' : 'Create'}
+              </Button>
+
+              <Button
+                variant="secondary"
+                isDisabled={isCreating}
+                onClick={() => {
+                  setShowCreateForm(false);
+                  setSelectedFormId('');
+                }}
+              >
+                Cancel
+              </Button>
+            </Flex>
+          )}
+
+          {isCreating && <Progress />}
+
+          {createError && (
+            <Alert severity="error" style={{ margin: '1rem 0 0' }}>
+              Could not create form
+            </Alert>
+          )}
+        </>
+      )}
     </InfoCard>
   );
 }

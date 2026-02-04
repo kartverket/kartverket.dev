@@ -58,4 +58,52 @@ export class ProxyApiService {
       );
     }
   }
+
+  async createRegelrettContext(
+    clientToken: string,
+    name: string,
+    formId: string,
+    teamId: string,
+  ): Promise<Result<ApiError, Context>> {
+    const token = await this.entraIdService.getOboToken(clientToken);
+    if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
+
+    try {
+      const url = new URL(`${this.regelrettBaseUrl}/api/contexts`);
+      url.searchParams.set('name', name);
+      this.logger.info(`Proxy made a GET request to ${url.toString()}`);
+
+      const response = await fetch(url, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          teamId,
+          formId,
+        }),
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const context: Context = await response.json();
+        return { ok: true, data: context };
+      }
+      return { ok: false, error: errorHandling(response) };
+    } catch (error) {
+      if (error instanceof Error) {
+        this.logger.error(
+          `Failed to fetch from Regelrett API with the following error: ${error}`,
+        );
+        throw new Error(
+          `Failed to fetch context by function name from Regelrett API with following error: ${error.message}`,
+        );
+      }
+      throw new Error(
+        `Failed to fetch context by function name from Regelrett API with an unkown error: ${error}`,
+      );
+    }
+  }
 }
