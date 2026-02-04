@@ -16,6 +16,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useEffect, useState } from 'react';
 import { useConfigureSlackNotificationsQuery } from '../hooks/useConfigureSlackNotificationsQuery';
 import { useSlackNotificationsConfigQuery } from '../hooks/useSlackNotificationsConfigQuery';
+import { ErrorBanner } from './ErrorBanner';
 
 interface Props {
   openNotificationsDialog: boolean;
@@ -78,7 +79,11 @@ export const SlackNotificationDialog = ({
     setChannel,
   ]);
 
-  const configureNotification = useConfigureSlackNotificationsQuery();
+  const {
+    mutate: configureNotification,
+    error,
+    isPending,
+  } = useConfigureSlackNotificationsQuery();
   const [showChannelError, setShowChannelError] = useState(false);
 
   const handleToggleComponent = (name: string, checked: boolean) => {
@@ -99,7 +104,7 @@ export const SlackNotificationDialog = ({
       return;
     }
 
-    configureNotification.mutate(
+    configureNotification(
       {
         teamName: entity.metadata.name,
         channelId: channel,
@@ -107,9 +112,7 @@ export const SlackNotificationDialog = ({
         severity: selectedSeverities,
       },
       {
-        onSuccess: () => {
-          handleCloseNotificationsDialog();
-        },
+        onSuccess: () => handleCloseNotificationsDialog(),
       },
     );
   };
@@ -220,6 +223,7 @@ export const SlackNotificationDialog = ({
             />
           ))}
         </FormGroup>
+        {error && <ErrorBanner errorTitle="Kunne ikke lagre konfigurasjonen" />}
       </DialogContent>
       <DialogActions>
         <Box sx={{ pb: 2, pr: 2 }}>
@@ -230,10 +234,7 @@ export const SlackNotificationDialog = ({
           >
             Avbryt
           </Button>
-          <SpinnerButton
-            loading={configureNotification.isPending}
-            onClick={handleSave}
-          >
+          <SpinnerButton loading={isPending} onClick={handleSave}>
             Lagre
           </SpinnerButton>
         </Box>
