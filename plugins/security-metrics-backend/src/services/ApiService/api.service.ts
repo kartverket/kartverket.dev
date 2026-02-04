@@ -270,7 +270,7 @@ export class ApiService {
         }),
       });
 
-      if (response.status === 200 || response.status === 204) {
+      if (response.ok) {
         return Right.create(undefined);
       }
       return errorHandling(response);
@@ -305,7 +305,7 @@ export class ApiService {
         },
       });
 
-      if (response.status === 200) {
+      if (response.ok) {
         return Right.create(await response.json());
       }
       return errorHandling(response);
