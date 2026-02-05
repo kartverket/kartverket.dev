@@ -39,14 +39,15 @@ export async function createRouter(
   const { auth, logger, config } = options;
   const externalAPI = 'regelrett';
   const backendBaseUrl = config.getString(`${externalAPI}.baseUrl`);
+  const environment = config.getString('auth.environment');
   const clientId = config.getString(
-    'auth.providers.microsoft.development.clientId',
+    `auth.providers.microsoft.${environment}.clientId`,
   );
   const clientSecret = config.getString(
-    'auth.providers.microsoft.development.clientSecret',
+    `auth.providers.microsoft.${environment}.clientSecret`,
   );
   const tenantId = config.getString(
-    'auth.providers.microsoft.development.tenantId',
+    `auth.providers.microsoft.${environment}.tenantId`,
   );
   const scope = `${config.getString(`${externalAPI}.clientId`)}/.default`;
 
