@@ -286,6 +286,7 @@ export const createRouter = async (
       );
 
       if (apiResult.isRight()) {
+        console.log('Notifications configured successfully');
         res.sendStatus(204);
       } else {
         res.status(apiResult.error.statusCode).send({
@@ -329,6 +330,7 @@ export const createRouter = async (
     );
 
     if (apiResult.isRight()) {
+      console.log('Notifications config fetched successfully');
       res.status(200).json(apiResult.value);
     } else {
       res.status(apiResult.error.statusCode).send({
