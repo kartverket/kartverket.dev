@@ -5,7 +5,7 @@ import {
   updateYaml,
 } from '../translator/translator';
 import { Octokit } from '@octokit/core';
-import { createPullRequest } from 'octokit-plugin-create-pull-request';
+import { createPullRequest, DELETE_FILE } from 'octokit-plugin-create-pull-request';
 import { OAuthApi } from '@backstage/core-plugin-api';
 import { getCatalogInfo } from '../utils/getCatalogInfo.ts';
 import { CatalogApi } from '@backstage/plugin-catalog-react';
@@ -20,6 +20,7 @@ export class GithubController {
     couldNotCreatePRErrorMsg: string,
     entityKind?: string,
     entityName?: string,
+    catalogApi?: CatalogApi,
   ): Promise<Status | undefined> => {
     const completeYaml = this.createNewYaml(catalogInfo, initialYaml);
 
@@ -28,6 +29,17 @@ export class GithubController {
     const octokit = new OctokitPlugin({ auth: token });
 
     const { repo, owner, relative_path } = this.extractUrlInfo(url);
+
+    if(entityKind && entityKind === 'Function' && this.parentIsNew(catalogInfo[0], initialYaml[0])){
+      // eslint-disable-next-line no-console
+      console.log("new parentSpotted", relative_path);
+      // define new relative path -> kan gjøres i "submitnew"
+
+      if(catalogApi){
+            return this.submitFunctionCatalogInfoToGithub(githubAuthApi, couldNotCreatePRErrorMsg,catalogInfo,catalogApi,relative_path)
+      }
+      
+    }
 
     try {
       if (owner && repo && relative_path && default_branch) {
@@ -70,17 +82,20 @@ export class GithubController {
     }
   };
 
+  // fjerne mulighet for foreldre funksjon, eller "fikse" flyttingen?
   submitFunctionCatalogInfoToGithub = async (
     githubAuthApi: OAuthApi,
     couldNotCreatePRErrorMsg: string,
     catalogInfo: FormEntity[],
     catalogApi: CatalogApi,
+    oldPath?: string | undefined
   ): Promise<Status | undefined> => {
     if (!(catalogInfo[0].kind === 'Function')) {
       const message = couldNotCreatePRErrorMsg;
       throw new Error(message);
     }
 
+    /* henter parent-function, og finner lokation/path*/
     const fetchedEntity = await catalogApi.getEntityByRef(
       catalogInfo[0].parentFunction,
     );
@@ -99,9 +114,11 @@ export class GithubController {
     const parentFolderPath = managedbylocation
       .match(/tree\/main\/(.+)/)?.[1]
       ?.replace(/\/[^/]+$/, '');
-
+    /* henter parent-function, og finner lokation/path*/
+    
     const { repo, owner } = this.extractUrlInfo(managedbylocation);
 
+    /* henter parent yaml*/
     const locationsYamlContent = await getCatalogInfo(
       managedbyoriginlocation.replace(/^url:/, ''),
       githubAuthApi,
@@ -111,12 +128,18 @@ export class GithubController {
       throw new Error(couldNotCreatePRErrorMsg);
     }
 
+    // eslint-disable-next-line no-console
+    console.log("gammal path", oldPath)
     const updatedLocationsYamlContent = locationsYamlContent.map(content =>
       updateFunctionLocationsFile(
         content,
         `./${parentFolderPath}/${catalogInfo[0].name}/${catalogInfo[0].name}.yaml`,
+        `./${oldPath}`
       ),
     );
+
+    // eslint-disable-next-line no-console
+    console.log(updatedLocationsYamlContent)
 
     const completeUpdatedLocationsYamlContent =
       updatedLocationsYamlContent.join('\n---\n');
@@ -129,6 +152,25 @@ export class GithubController {
     const token = await githubAuthApi.getAccessToken();
     const octokit = new OctokitPlugin({ auth: token });
 
+
+
+    const changes = oldPath? {
+      files: {
+                [newFilePath]: completeYaml,
+                ['catalog-info.yaml']: completeUpdatedLocationsYamlContent,
+                [oldPath]: DELETE_FILE,
+
+              },
+              commit: `Moved function ${catalogInfo[0].name}`, 
+    }:
+    {
+      files: {
+                [newFilePath]: completeYaml,
+                ['catalog-info.yaml']: completeUpdatedLocationsYamlContent,
+              },
+              commit: `Created new function`,
+    }
+
     try {
       if (owner && repo) {
         const result = await octokit.createPullRequest({
@@ -137,15 +179,7 @@ export class GithubController {
           title: `Create ${catalogInfo[0].name} function`,
           body: 'Creates new catalog file and updates existing catalog with reference',
           head: `create-${catalogInfo[0].name}-function`,
-          changes: [
-            {
-              files: {
-                [newFilePath]: completeYaml,
-                ['catalog-info.yaml']: completeUpdatedLocationsYamlContent,
-              },
-              commit: `Created new function`,
-            },
-          ],
+          changes: changes,
         });
         return {
           message: 'created a pull request',
@@ -163,6 +197,29 @@ export class GithubController {
       }
     }
   };
+
+  SubmitChangedParentForFunctionToGithub = (): createPullRequest.Changes => {
+
+    
+    return {
+      files: {
+        'oldlocation': 'locations minus this target',
+        'new path for this file': 'old file content',
+        'old path for this file': DELETE_FILE,
+        'new location': 'locations plus this target'
+      }, 
+      commit: 'changedParent'
+    }
+  }
+
+  private parentIsNew(catalogInfo: FormEntity,
+    initialYaml: RequiredYamlFields | undefined = undefined){
+      if( catalogInfo.kind === 'Function' && initialYaml?.kind === 'Function'){
+        return catalogInfo.parentFunction !== initialYaml?.spec.parentFunction
+      }
+      return false
+  }
+
 
   private createNewYaml(
     catalogInfo: FormEntity[],

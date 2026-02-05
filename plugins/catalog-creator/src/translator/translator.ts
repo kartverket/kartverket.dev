@@ -262,6 +262,7 @@ export const updateYaml = (
 export const updateFunctionLocationsFile = (
   originalContent: RequiredYamlFields,
   newTarget: string,
+  oldTarget?: string
 ) => {
   if (originalContent.kind === 'Location') {
     const updated = {
@@ -269,8 +270,26 @@ export const updateFunctionLocationsFile = (
       spec: {
         ...originalContent.spec,
         targets: originalContent.spec.targets
-          ? [...originalContent.spec.targets, newTarget]
+          ? [...originalContent.spec.targets.filter((it => it!== oldTarget)), newTarget]
           : [newTarget],
+      },
+    };
+    return yaml.stringify(updated);
+  }
+  return yaml.stringify(originalContent);
+};
+
+export const removeFunctionFromLocationsFile = (
+  originalContent: RequiredYamlFields,
+  oldTarget: string,
+) => {
+  if (originalContent.kind === 'Location') {
+    const filteredTargets = originalContent.spec.targets?.filter( it => it !== oldTarget)
+    const updated = {
+      ...originalContent,
+      spec: {
+        ...originalContent.spec,
+        targets: filteredTargets? filteredTargets : [],
       },
     };
     return yaml.stringify(updated);
