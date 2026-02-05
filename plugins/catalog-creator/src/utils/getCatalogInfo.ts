@@ -7,7 +7,9 @@ export async function getCatalogInfo(
   url: string,
   githubAuthApi: OAuthApi,
 ): Promise<RequiredYamlFields[] | null> {
-  const match = url.match(
+  const decodedUrl = decodeURI(url);
+
+  const match = decodedUrl.match(
     /github\.com\/([^\/]+)\/([^\/]+)\/(?:blob|tree)\/([^\/]+)\/(.+)/,
   );
 
@@ -15,10 +17,10 @@ export async function getCatalogInfo(
     throw new Error('Invalid GitHub repository URL');
   }
 
-  const owner = match[1] ? decodeURIComponent(match[1]) : '';
-  const repo = match[2] ? decodeURIComponent(match[2]) : '';
-  const ref = match[3] ? decodeURIComponent(match[3]) : '';
-  const path = match[4] ? decodeURIComponent(match[4]) : '';
+  const owner = match[1] ? match[1] : '';
+  const repo = match[2] ? match[2] : '';
+  const ref = match[3] ? match[3] : '';
+  const path = match[4] ? match[4] : '';
 
   try {
     const octokit = new Octokit({
