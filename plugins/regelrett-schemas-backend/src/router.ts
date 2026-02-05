@@ -170,5 +170,45 @@ export async function createRouter(
     }),
   );
 
+  router.get('/proxy/fetch-regelrett-forms-by-team-id', async (req, res) => {
+    try {
+      const validToken = validateToken(req.header('Authorization'), auth);
+      if (!validToken) {
+        res.status(401).send({
+          frontendMessage: 'Token is not valid',
+        });
+      }
+      const eidToken = req.header('Entraid');
+      const teamId = req.query.teamId;
+      if (typeof teamId !== 'string')
+        throw new Error('No name parameter provided');
+      if (!eidToken) throw new Error('No token');
+      const response: Result<ApiError, Context> =
+        await proxyService.fetchContextByTeamId(eidToken, teamId);
+      if (response.ok) {
+        res.status(200).send(response.data);
+      } else {
+        res
+          .status(response.error.statusCode)
+          .send({ frontendMessage: response.error.message });
+        logger.error(
+          `Recieved a ${response.error.statusCode} status code when trying to fetch context by team id from Regelrett API.`,
+        );
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.error(`Failed to fetch context by team id: ${error.message}`);
+        res.status(500).send({
+          message: `Failed to fetch context by team id: ${error.message}`,
+        });
+      } else {
+        logger.error(`Failed to fetch context by team id: ${error}`);
+        res
+          .status(500)
+          .send({ message: `Failed to fetch context by team id: ${error}` });
+      }
+    }
+  });
+
   return router;
 }

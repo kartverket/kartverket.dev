@@ -75,7 +75,9 @@ import {
   FunctionLinksCard,
   EntityFunctionsCard,
   FunctionGroupPageCard,
+  GroupFormLinksCard,
 } from '@internal/plugin-frontend-custom-components';
+import { FeatureFlagged } from '@backstage/core-app-api';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -511,28 +513,51 @@ const groupPage = (
           <EntityGroupProfileCard variant="gridItem" />
         </Grid>
         <Grid item xs={12} md={6}>
-          <EntityOwnershipCard
-            entityLimit={9}
-            variant="gridItem"
-            entityFilterKind={[
-              'Domain',
-              'System',
-              'Component',
-              'API',
-              'Template',
-              'Resource',
-              'Function',
-            ]}
-          />
+          <FeatureFlagged with="show-functions-page">
+            <EntityOwnershipCard
+              entityLimit={9}
+              variant="gridItem"
+              entityFilterKind={[
+                'Domain',
+                'System',
+                'Component',
+                'API',
+                'Template',
+                'Resource',
+                'Function',
+              ]}
+            />
+          </FeatureFlagged>
+          <FeatureFlagged without="show-functions-page">
+            <EntityOwnershipCard
+              entityLimit={9}
+              variant="gridItem"
+              entityFilterKind={[
+                'Domain',
+                'System',
+                'Component',
+                'API',
+                'Template',
+                'Resource',
+              ]}
+            />
+          </FeatureFlagged>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FunctionGroupPageCard />
+          <FeatureFlagged with="show-functions-page">
+            <FunctionGroupPageCard />
+          </FeatureFlagged>
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityMembersListCard showAggregateMembersToggle />
         </Grid>
         <Grid item xs={12} md={6}>
           <SecurityChampionCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <FeatureFlagged with="show-functions-page">
+            <GroupFormLinksCard />
+          </FeatureFlagged>
         </Grid>
       </Grid>
     </EntityLayout.Route>
