@@ -18,7 +18,7 @@ export const useConfigureSlackNotificationsQuery = () => {
 
   const qc = useQueryClient();
 
-  return useMutation<any, unknown, SlackNotificationPayload>({
+  return useMutation<any, Error, SlackNotificationPayload>({
     mutationFn: async ({ teamName, componentNames, channelId, severity }) => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,

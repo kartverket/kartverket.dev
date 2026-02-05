@@ -62,6 +62,10 @@ export const GroupPage = () => {
     visibleRefs.has(p.ref),
   );
 
+  const permittedComponents = filteredPermitted.map(
+    component => component.componentName,
+  );
+
   const filteredComponentNames = new Set(
     filteredPermitted.map(c => c.componentName),
   );
@@ -127,7 +131,7 @@ export const GroupPage = () => {
           handleCloseNotificationsDialog={handleCloseNotificationsDialog}
           channel={channel}
           setChannel={setChannel}
-          componentNames={componentNames}
+          permittedComponents={permittedComponents}
           notPermitted={notPermitted}
         />
         <SupportButton />
@@ -144,11 +148,7 @@ export const GroupPage = () => {
       >
         <SystemScannerStatuses data={filteredPermitted} />
         <VulnerabilityCountsOverview data={filteredPermitted} />
-        <Trend
-          componentNames={filteredPermitted.map(
-            component => component.componentName,
-          )}
-        />
+        <Trend componentNames={permittedComponents} />
       </Box>
 
       <Tabs

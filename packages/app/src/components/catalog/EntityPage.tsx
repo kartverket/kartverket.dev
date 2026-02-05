@@ -75,6 +75,7 @@ import {
   FunctionLinksCard,
   EntityFunctionsCard,
   FunctionGroupPageCard,
+  GroupFormLinksCard,
 } from '@internal/plugin-frontend-custom-components';
 import { FeatureFlagged } from '@backstage/core-app-api';
 
@@ -552,6 +553,11 @@ const groupPage = (
         </Grid>
         <Grid item xs={12} md={6}>
           <SecurityChampionCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <FeatureFlagged with="show-functions-page">
+            <GroupFormLinksCard />
+          </FeatureFlagged>
         </Grid>
       </Grid>
     </EntityLayout.Route>
