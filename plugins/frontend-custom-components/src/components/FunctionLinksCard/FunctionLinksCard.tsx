@@ -24,7 +24,7 @@ import {
 } from '@backstage/core-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRegelrettQuery } from '../../hooks/useRegelrettQuery';
-import { useRegelrettCreateContextQuery } from '../../hooks/useRegelrettCreateContextQuery';
+import { useRegelrettCreateContextMutation } from '../../hooks/useRegelrettCreateContextMutation';
 import Alert from '@mui/material/Alert';
 import { Divider } from '@material-ui/core';
 import { useState, useEffect } from 'react';
@@ -64,6 +64,11 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const [teamId, setTeamId] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const {
+    mutate,
+    isPending: isCreating,
+    error: createError,
+  } = useRegelrettCreateContextMutation();
 
   useEffect(() => {
     const fetchOwner = async () => {
@@ -90,14 +95,6 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const [selectedFormId, setSelectedFormId] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const { isLoading: isCreating, error: createError } =
-    useRegelrettCreateContextQuery(
-      functionName,
-      selectedFormId,
-      teamId,
-      submitted,
-    );
-
   useEffect(() => {
     if (submitted && !isCreating && !createError) {
       refetch();
@@ -116,6 +113,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const handleSubmit = () => {
     if (!selectedFormId || !teamId) return;
     setSubmitted(true);
+    mutate({ functionName, formId: selectedFormId, teamId });
   };
 
   const availableFormsExist = Object.keys(FORM_TYPE_MAP).some(

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import {
   configApiRef,
@@ -8,20 +8,17 @@ import {
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
 
-export const useRegelrettCreateContextQuery = (
-  functionName: string,
-  formId: string,
-  teamId: string,
-  submit: boolean,
-) => {
+export const useRegelrettCreateContextMutation = () => {
   const config = useApi(configApiRef);
   const backstageAuthApi = useApi(identityApiRef);
   const microsoftAuthApi = useApi(microsoftAuthApiRef);
 
-  return useQuery<RegelrettForm>({
-    queryKey: ['create-regelrett-forms', functionName],
-    enabled: submit,
-    queryFn: async () => {
+  return useMutation<
+    RegelrettForm,
+    Error,
+    { functionName: string; formId: string; teamId: string }
+  >({
+    mutationFn: async ({ functionName, formId, teamId }) => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
         backstageAuthApi,
