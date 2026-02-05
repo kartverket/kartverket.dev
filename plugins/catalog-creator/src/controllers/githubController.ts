@@ -241,8 +241,10 @@ export class GithubController {
     let repo;
     let relative_path;
 
-    if (url.includes('blob') || url.includes('tree')) {
-      const match = url.match(
+    const decodedUrl = decodeURI(url);
+
+    if (decodedUrl.includes('blob') || decodedUrl.includes('tree')) {
+      const match = decodedUrl.match(
         /github\.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/[^\/]+\/(.+)/,
       );
       if (match) {
