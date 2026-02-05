@@ -5,13 +5,12 @@ import {
   UseFormSetValue,
   useWatch,
 } from 'react-hook-form';
-import { EntityErrors, FunctionTypes } from '../../../types/types';
+import { EntityErrors } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
-import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 import { FieldHeader } from '../FieldHeader';
@@ -132,20 +131,6 @@ export const FunctionForm = ({
           required
         />
       </div>
-      <Flex>
-        <div style={{ flexGrow: 1, width: '50%' }}>
-          <SingleSelectAutocomplete
-            index={index}
-            control={control}
-            errors={errors}
-            formname="functionForm"
-            fieldname="entityType"
-            freeSolo
-            options={Object.values(FunctionTypes)}
-          />
-        </div>
-      </Flex>
-
       <div>
         <MultipleEntitiesAutocomplete
           index={index}

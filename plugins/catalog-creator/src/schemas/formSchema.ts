@@ -210,12 +210,6 @@ export const functionSchema = baseEntitySchema.extend({
     .trim()
     .min(1, 'form.errors.noOwner')
     .refine(s => !s.includes(' '), { message: 'form.errors.ownerNoSpace' }),
-  entityType: z.optional(
-    z
-      .string('form.errors.noType')
-      .trim()
-      .refine(s => !s.includes(' '), { message: 'form.errors.typeNoSpace' }),
-  ),
   dependsOnSystems: z
     .array(z.string())
     .refine(
