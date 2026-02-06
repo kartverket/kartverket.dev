@@ -83,6 +83,11 @@ A resource is an external or shared dependency that a system or component relies
 **Examples**
 - Internally hosted resources such as databases, queues, storage, clusters etc.
 
+### Functions
+Business functions represent the capabilities an organization possesses to achieve its objectives and deliver value. A business function is realized through other entities, such as systems and components, that provide functionality which individually or collectively realizes the function. By modeling dependencies between business functions and other entities, it is possible to identify which entities deliver services to fulfill a business function, as well as which capabilities the organization loses if these entities cease to deliver their services.
+
+Functions are organized in a functional hierarchy, where smaller sub-functions collectively constitute larger functions.
+
 ### Other
 **Groups** and **users** are fetched from Kartverket’s Entra ID. Groups are only fetched if they have the prefix *AAD - TF - TEAM*.
 
@@ -99,6 +104,9 @@ A combination of centralization and team-owned definitions. Platform resources w
 
 ### Components and APIs
 Teams own these definitions and are responsible for placing them in a repository they own. Some external APIs that are widely used across systems are defined in a centralized repository with Kartverket as the owner. Other APIs that are used by a system can be defined in each individual repository.
+
+### Funksjoner
+In a shared repository that centralizes functions and sub-functions.
 
 ## Modeling Examples
 

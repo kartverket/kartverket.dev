@@ -26,9 +26,9 @@
               "description": "An entity reference to the owner of the function",
               "minLength": 1
             },
-            "childFunctions": {
-              "type": "array",
-              "description": "Entity references to children of the function"
+            "parentFunction": {
+              "type": "string",
+              "description": "Entity reference to parent of the function"
             },
             "dependsOnSystems": {
               "type": "array",
@@ -40,8 +40,7 @@
             },
             "criticality": {
               "type": "string",
-              "description": "Criticality of the function",
-              "minLength": 1
+              "description": "Criticality of the function"
             },
             "dependsOnFunctions": {
               "type": "array",

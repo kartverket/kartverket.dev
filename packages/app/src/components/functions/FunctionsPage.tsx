@@ -12,6 +12,9 @@ import {
 import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
 import { useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
+import { ButtonLink, Flex } from '@backstage/ui';
+import { useTranslationRef } from '@backstage/frontend-plugin-api';
+import { functionPageTranslationRef } from '../../utils/translations';
 
 type RootEntityNamesType = {
   kind: string;
@@ -34,6 +37,7 @@ const functionColumns: CatalogTableColumnsFunc = entityListContext => {
 export const FunctionsPage = () => {
   const [rootEntity, setRootEntity] = useState<RootEntityNamesType[]>([]);
   const catalogApi = useApi(catalogApiRef);
+  const { t } = useTranslationRef(functionPageTranslationRef);
 
   useEffect(() => {
     catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
@@ -53,21 +57,27 @@ export const FunctionsPage = () => {
   return (
     <Page themeId="functions">
       <Header
-        title="Forretningsfunksjoner i Kartverket"
-        subtitle="Oversikt over hva Kartverket må kunne gjøre for å levere på sitt samfunnsoppdrag, og hvordan dette støttes av del-funksjoner, systemer og team."
+        title={t('functionpage.title')}
+        subtitle={t('functionpage.subtitle')}
       />
       <Content>
+        <Flex justify="end" style={{ marginBottom: '1rem' }}>
+          <ButtonLink href="/catalog-creator-function">
+            {t('functionpage.createButton')}
+          </ButtonLink>
+        </Flex>
+
         <EntityListProvider>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <EntityKindPicker initialFilter="function" hidden />
               <CatalogTable
-                title="Alle forretningsfunksjoner"
+                title={t('functionpage.catalogtableTitle')}
                 columns={functionColumns}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <InfoCard title="Funksjonshierarki">
+              <InfoCard title={t('functionpage.graphTitle')}>
                 <EntityRelationsGraph
                   rootEntityNames={rootEntity}
                   kinds={['function']}

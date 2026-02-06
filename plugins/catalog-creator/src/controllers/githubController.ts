@@ -1,9 +1,16 @@
 import type { FormEntity, RequiredYamlFields, Status } from '../types/types.ts';
 
-import { updateYaml } from '../translator/translator';
+import {
+  updateFunctionLocationsFile,
+  updateYaml,
+} from '../translator/translator';
 import { Octokit } from '@octokit/core';
 import { createPullRequest } from 'octokit-plugin-create-pull-request';
 import { OAuthApi } from '@backstage/core-plugin-api';
+import { getCatalogInfo } from '../utils/getCatalogInfo.ts';
+import { CatalogApi } from '@backstage/plugin-catalog-react';
+
+/* eslint-disable no-nested-ternary */
 
 export class GithubController {
   submitCatalogInfoToGithub = async (
@@ -16,8 +23,199 @@ export class GithubController {
     entityKind?: string,
     entityName?: string,
   ): Promise<Status | undefined> => {
+    const completeYaml = this.createNewYaml(catalogInfo, initialYaml);
+
+    const OctokitPlugin = Octokit.plugin(createPullRequest);
+    const token = await githubAuthApi.getAccessToken();
+    const octokit = new OctokitPlugin({ auth: token });
+
+    const { repo, owner, relative_path } = this.extractUrlInfo(url);
+
+    const hasMore = catalogInfo.length > initialYaml.length;
+    const hasLess = catalogInfo.length < initialYaml.length;
+    const removedEntities = initialYaml.filter(
+      item =>
+        !catalogInfo.some(
+          u => u.kind === item.kind && u.name === item.metadata.name,
+        ),
+    );
+    const addedEntities = catalogInfo.filter(
+      item =>
+        !initialYaml.some(
+          i => i.kind === item.kind && i.metadata.name === item.name,
+        ),
+    );
+
+    const prBody = `catalog-info.yaml ${hasMore ? 'now includes more entities' : hasLess ? 'now includes fewer entities' : 'has been updated'}
+
+        ${removedEntities.length > 0 ? `Removed entities:` : ''}
+        ${removedEntities
+          .map(entity => `name: ${entity.metadata.name}, kind: ${entity.kind}`)
+          .join('\n        ')}
+
+        ${addedEntities.length > 0 ? `Added entities:` : ''}
+        ${addedEntities
+          .map(entity => `name: ${entity.name}, kind: ${entity.kind}`)
+          .join('\n        ')}
+
+        All entities in catalog-info.yaml:
+        ${catalogInfo.map(info => `name: ${info.name}, kind: ${info.kind}`).join('\n        ')} 
+        
+        \n\n This PR was created using the Catalog Creator plugin in Backstage.`;
+
+    try {
+      if (owner && repo && relative_path && default_branch) {
+        const result = await octokit.createPullRequest({
+          owner: owner,
+          repo: repo,
+          title:
+            entityKind && entityKind === 'Function'
+              ? `Update ${entityName} function`
+              : initialYaml === null
+                ? `Create catalog-info.yaml`
+                : `Update catalog-info.yaml`,
+          body: prBody,
+          base: default_branch,
+          head:
+            entityKind && entityKind === 'Function'
+              ? `update-${entityName}-function`
+              : initialYaml === null
+                ? `create-catalog-info`
+                : `update-catalog-info`,
+          changes: [
+            {
+              files: {
+                [relative_path]: completeYaml,
+              },
+              commit:
+                initialYaml === null
+                  ? `New catalog-info.yaml`
+                  : `Updated catalog-info.yaml`,
+            },
+          ],
+        });
+        return {
+          message: 'created a pull request',
+          severity: 'success',
+          prUrl: result?.data.html_url,
+        };
+      }
+      throw new Error();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        error.message = couldNotCreatePRErrorMsg;
+        throw error;
+      } else {
+        throw new Error('Unkown error when trying to create a PR.');
+      }
+    }
+  };
+
+  submitFunctionCatalogInfoToGithub = async (
+    githubAuthApi: OAuthApi,
+    couldNotCreatePRErrorMsg: string,
+    catalogInfo: FormEntity[],
+    catalogApi: CatalogApi,
+  ): Promise<Status | undefined> => {
+    if (!(catalogInfo[0].kind === 'Function')) {
+      const message = couldNotCreatePRErrorMsg;
+      throw new Error(message);
+    }
+
+    const fetchedEntity = await catalogApi.getEntityByRef(
+      catalogInfo[0].parentFunction,
+    );
+
+    const managedbylocation =
+      fetchedEntity?.metadata.annotations?.['backstage.io/managed-by-location'];
+    const managedbyoriginlocation =
+      fetchedEntity?.metadata.annotations?.[
+        'backstage.io/managed-by-origin-location'
+      ];
+
+    if (!(managedbylocation && managedbyoriginlocation)) {
+      throw new Error(couldNotCreatePRErrorMsg);
+    }
+
+    const parentFolderPath = managedbylocation
+      .match(/tree\/main\/(.+)/)?.[1]
+      ?.replace(/\/[^/]+$/, '');
+
+    const { repo, owner } = this.extractUrlInfo(managedbylocation);
+
+    const locationsYamlContent = await getCatalogInfo(
+      managedbyoriginlocation.replace(/^url:/, ''),
+      githubAuthApi,
+    );
+
+    if (!locationsYamlContent) {
+      throw new Error(couldNotCreatePRErrorMsg);
+    }
+
+    const updatedLocationsYamlContent = locationsYamlContent.map(content =>
+      updateFunctionLocationsFile(
+        content,
+        `./${parentFolderPath}/${catalogInfo[0].name}/${catalogInfo[0].name}.yaml`,
+      ),
+    );
+
+    const completeUpdatedLocationsYamlContent =
+      updatedLocationsYamlContent.join('\n---\n');
+
+    const newFilePath = `${parentFolderPath}/${catalogInfo[0].name}/${catalogInfo[0].name}.yaml`;
+
+    const completeYaml = this.createNewYaml(catalogInfo, undefined);
+
+    const prBody = `This pull requests adds a function to the developer portal. A new catalog info file with the function definition is created at ${newFilePath}. 
+        The catalog-info.yaml file at root is updated to reference this function definition.
+        
+        \n\n This PR was created using the Catalog Creator plugin in Backstage.`;
+
+    const OctokitPlugin = Octokit.plugin(createPullRequest);
+    const token = await githubAuthApi.getAccessToken();
+    const octokit = new OctokitPlugin({ auth: token });
+
+    try {
+      if (owner && repo) {
+        const result = await octokit.createPullRequest({
+          owner: owner,
+          repo: repo,
+          title: `Create ${catalogInfo[0].name} function`,
+          body: prBody,
+          head: `create-${catalogInfo[0].name}-function`,
+          changes: [
+            {
+              files: {
+                [newFilePath]: completeYaml,
+                ['catalog-info.yaml']: completeUpdatedLocationsYamlContent,
+              },
+              commit: `Created new function`,
+            },
+          ],
+        });
+        return {
+          message: 'created a pull request',
+          severity: 'success',
+          prUrl: result?.data.html_url,
+        };
+      }
+      throw new Error();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        error.message = couldNotCreatePRErrorMsg;
+        throw error;
+      } else {
+        throw new Error('Unknown error when trying to create a PR.');
+      }
+    }
+  };
+
+  private createNewYaml(
+    catalogInfo: FormEntity[],
+    initialYaml: RequiredYamlFields[] | undefined = undefined,
+  ) {
     const emptyRequiredYaml: RequiredYamlFields = {
-      apiVersion: 'backstage.io/v1alpha1',
+      apiVersion: '',
       kind: '',
       metadata: {
         name: '',
@@ -26,17 +224,19 @@ export class GithubController {
         type: '',
       },
     };
+    let yamlStrings: string[];
+    if (initialYaml) {
+      yamlStrings = catalogInfo.map(val =>
+        updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val),
+      );
+    } else {
+      yamlStrings = catalogInfo.map(val => updateYaml(emptyRequiredYaml, val));
+    }
 
-    const yamlStrings = catalogInfo.map(val =>
-      updateYaml(initialYaml[val.id] ?? emptyRequiredYaml, val),
-    );
+    return yamlStrings.join('\n---\n');
+  }
 
-    const completeYaml = yamlStrings.join('\n---\n');
-
-    const OctokitPlugin = Octokit.plugin(createPullRequest);
-    const token = await githubAuthApi.getAccessToken();
-    const octokit = new OctokitPlugin({ auth: token });
-
+  private extractUrlInfo(url: string) {
     let owner;
     let repo;
     let relative_path;
@@ -58,45 +258,6 @@ export class GithubController {
         relative_path = match[3] ? match[3] : 'catalog-info.yaml';
       }
     }
-
-    try {
-      if (owner && repo && relative_path && default_branch) {
-        const result = await octokit.createPullRequest({
-          owner: owner,
-          repo: repo,
-          title:
-            entityKind && entityKind === 'Function'
-              ? `Update ${entityName} function`
-              : 'Create/update catalog-info.yaml',
-          body: 'Creates or updates catalog-info.yaml',
-          base: default_branch,
-          head:
-            entityKind && entityKind === 'Function'
-              ? `update-${entityName}-function`
-              : 'Update-or-create-catalog-info',
-          changes: [
-            {
-              files: {
-                [relative_path]: completeYaml,
-              },
-              commit: 'New or updated catalog-info.yaml',
-            },
-          ],
-        });
-        return {
-          message: 'created a pull request',
-          severity: 'success',
-          prUrl: result?.data.html_url,
-        };
-      }
-      throw new Error();
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        error.message = couldNotCreatePRErrorMsg;
-        throw error;
-      } else {
-        throw new Error('Unkown error when trying to create a PR.');
-      }
-    }
-  };
+    return { owner, repo, relative_path };
+  }
 }

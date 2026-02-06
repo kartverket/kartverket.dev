@@ -58,10 +58,16 @@ export async function getRepoInfo(
 
     const matchingPr = response.data.find(pr => {
       if (entityKind === 'Function') {
-        return pr.title === `Update ${entityName} function`;
+        return (
+          pr.title === `Update ${entityName} function` ||
+          pr.title === `Create ${entityName} function`
+        );
       }
       if (entityKind !== 'Function') {
-        return pr.title === 'Create/update catalog-info.yaml';
+        return (
+          pr.title === 'Create catalog-info.yaml' ||
+          pr.title === 'Update catalog-info.yaml'
+        );
       }
       return false;
     });

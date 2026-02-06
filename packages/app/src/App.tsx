@@ -55,10 +55,16 @@ import {
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import {
+  functionPageNorwegianTranslation,
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
 } from './utils/translations';
 import { FunctionsPage } from './components/functions/FunctionsPage';
+import {
+  functionGroupPageNorwegianTranslation,
+  SupportButton,
+  supportNorwegianTranslation,
+} from '@internal/plugin-frontend-custom-components';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -68,6 +74,9 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      functionPageNorwegianTranslation,
+      functionGroupPageNorwegianTranslation,
+      supportNorwegianTranslation,
     ],
   },
   components: {
@@ -128,6 +137,11 @@ const app = createApp({
       name: 'show-functions-page',
       description: 'Enable the functions page',
     },
+    {
+      pluginId: '',
+      name: 'entraid-for-status',
+      description: 'Use entraid info for changing status on vulnerabilities',
+    },
   ],
 });
 
@@ -186,9 +200,16 @@ const routes = (
     <Route path="/devtools" element={<DevToolsPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route
+      path="/catalog-creator-function"
+      element={<CatalogCreatorPage createFunction />}
+    />
+    <Route
       path="/catalog-creator"
       element={
-        <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
+        <CatalogCreatorPage
+          docsLink="/docs/default/Component/kartverket.dev"
+          supportButton={<SupportButton />}
+        />
       }
     />
     <Route path="/notifications" element={<NotificationsPage />} />

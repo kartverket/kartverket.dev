@@ -68,13 +68,15 @@ import {
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
-import { EntityCatalogCreatorWrapper } from './EntityCatalogCreatorWrapper';
+import { CatalogCreatorContainer } from './CatalogCreatorContainer';
 import {
   EntityDependenciesCard,
   FunctionAboutCard,
   FunctionLinksCard,
   EntityFunctionsCard,
+  FunctionGroupPageCard,
 } from '@internal/plugin-frontend-custom-components';
+import { FeatureFlagged } from '@backstage/core-app-api';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -239,7 +241,7 @@ const functionEntityPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -250,7 +252,7 @@ const serviceEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
@@ -298,7 +300,7 @@ const websiteEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
@@ -340,7 +342,7 @@ const opsEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Kodenær RoS">
@@ -359,7 +361,7 @@ const libraryEntityPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/risc" title="Kodenær RoS">
       <RiScPage />
@@ -376,7 +378,7 @@ const simpleComponentPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
@@ -391,7 +393,7 @@ const defaultComponentPage = (
       {defaultComponentContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Kodenær RoS">
@@ -473,7 +475,7 @@ const apiPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
-      <EntityCatalogCreatorWrapper />
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
@@ -510,19 +512,40 @@ const groupPage = (
           <EntityGroupProfileCard variant="gridItem" />
         </Grid>
         <Grid item xs={12} md={6}>
-          <EntityOwnershipCard
-            entityLimit={9}
-            variant="gridItem"
-            entityFilterKind={[
-              'Domain',
-              'System',
-              'Component',
-              'API',
-              'Template',
-              'Resource',
-              'Function',
-            ]}
-          />
+          <FeatureFlagged with="show-functions-page">
+            <EntityOwnershipCard
+              entityLimit={9}
+              variant="gridItem"
+              entityFilterKind={[
+                'Domain',
+                'System',
+                'Component',
+                'API',
+                'Template',
+                'Resource',
+                'Function',
+              ]}
+            />
+          </FeatureFlagged>
+          <FeatureFlagged without="show-functions-page">
+            <EntityOwnershipCard
+              entityLimit={9}
+              variant="gridItem"
+              entityFilterKind={[
+                'Domain',
+                'System',
+                'Component',
+                'API',
+                'Template',
+                'Resource',
+              ]}
+            />
+          </FeatureFlagged>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FeatureFlagged with="show-functions-page">
+            <FunctionGroupPageCard />
+          </FeatureFlagged>
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityMembersListCard showAggregateMembersToggle />

@@ -26,7 +26,7 @@ export interface FunctionEntityV1alpha1 extends Entity {
     /**
      * How critical the function is - typically "High", "Medium" or "Low"
      */
-    criticality: string;
+    criticality?: string;
 
     /**
      * Optional: The systems this function depends on
@@ -39,9 +39,9 @@ export interface FunctionEntityV1alpha1 extends Entity {
     dependsOnComponents?: string[];
 
     /**
-     * Optional: The functions this function is a parent of
+     * Optional: The function this function is a parent of
      */
-    childFunctions?: string[];
+    parentFunction?: string;
 
     /**
      * Optional: The functions this function depends on.

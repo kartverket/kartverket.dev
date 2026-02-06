@@ -31,8 +31,8 @@ type MultipleEntitiesAutocompleteProps = {
     | 'dependsOn'
     | 'dependsOnComponents'
     | 'dependsOnFunctions'
-    | 'dependsOnSystems'
-    | 'childFunctions';
+    | 'dependsOnSystems';
+
   required?: boolean;
   kind?: Kind;
 };
