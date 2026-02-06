@@ -88,7 +88,7 @@ export const FunctionsPage = () => {
                 <EntityRelationsGraph
                   rootEntityNames={rootEntity}
                   kinds={['function']}
-                  maxDepth={2}
+                  maxDepth={1}
                 />
               </InfoCard>
             </Grid>

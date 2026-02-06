@@ -132,7 +132,10 @@ export const CatalogCreatorPage = ({
           <Box flex-grow="1" width="100%">
             {(isLoading || shouldShowForm) && originLocation && (
               <p>
-                {t('repositoryFetch')} <Link>{url}</Link>
+                {t('repositoryFetch')}{' '}
+                <Link href={url} target="_blank">
+                  {decodeURIComponent(url)}
+                </Link>
               </p>
             )}
             {state.value?.severity === 'success' ? (
