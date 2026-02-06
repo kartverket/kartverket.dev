@@ -103,6 +103,7 @@ export const useCatalogCreator = (
       catalogInfoFormList?: FormEntity[],
       entityKind?: string,
       entityName?: string,
+      catalogApi?: CatalogApi
     ) => {
       scrollToTop();
 
@@ -119,6 +120,7 @@ export const useCatalogCreator = (
         t('form.knownErrorAlerts.couldNotCreatePR'),
         entityKind,
         entityName,
+        catalogApi
       );
     },
     [
