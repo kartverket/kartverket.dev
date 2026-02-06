@@ -1,23 +1,14 @@
-import { Button, Flex } from '@backstage/ui';
-import {
-  Control,
-  useFieldArray,
-  UseFormSetValue,
-  useWatch,
-} from 'react-hook-form';
-import { EntityErrors, FunctionTypes } from '../../../types/types';
+import { UseFormSetValue, useWatch } from 'react-hook-form';
+import { Flex } from '@backstage/ui';
+import { Control } from 'react-hook-form';
+import { EntityErrors } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
-import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
-import { FieldHeader } from '../FieldHeader';
-import { LinkCard } from '../LinkCard';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogCreatorTranslationRef } from '../../../utils/translations';
 
 export type FunctionFormProps = {
   index: number;
@@ -56,7 +47,6 @@ export const FunctionForm = ({
   functions,
   systems,
 }: FunctionFormProps) => {
-  const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const systemVal = useWatch({
     control,
     name: `entities.${index}.system`,
@@ -100,15 +90,6 @@ export const FunctionForm = ({
     setValue,
   );
 
-  const {
-    fields: links,
-    append: appendLink,
-    remove: removeLink,
-  } = useFieldArray({
-    name: `entities.${index}.links` as `entities.0.links`,
-    control,
-  });
-
   return (
     <Flex direction="column" justify="start">
       <div>
@@ -132,20 +113,6 @@ export const FunctionForm = ({
           required
         />
       </div>
-      <Flex>
-        <div style={{ flexGrow: 1, width: '50%' }}>
-          <SingleSelectAutocomplete
-            index={index}
-            control={control}
-            errors={errors}
-            formname="functionForm"
-            fieldname="entityType"
-            freeSolo
-            options={Object.values(FunctionTypes)}
-          />
-        </div>
-      </Flex>
-
       <div>
         <MultipleEntitiesAutocomplete
           index={index}
@@ -177,29 +144,6 @@ export const FunctionForm = ({
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />
-      <FieldHeader
-        fieldName={t('form.functionForm.links.fieldName')}
-        tooltipText={t('form.functionForm.links.tooltipText')}
-      />
-      {links.map((link, linkIndex) => {
-        return (
-          <div key={link.id}>
-            <LinkCard
-              index={index}
-              linkIndex={linkIndex}
-              control={control}
-              errors={errors}
-              removeLink={removeLink}
-            />
-          </div>
-        );
-      })}
-      <Button
-        variant="secondary"
-        onClick={() => appendLink({ url: '', title: '' })}
-      >
-        Ny lenke
-      </Button>
     </Flex>
   );
 };

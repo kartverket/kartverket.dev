@@ -8,6 +8,7 @@ import {
   catalogApiRef,
   EntityKindPicker,
   EntityListProvider,
+  FavoriteEntity,
 } from '@backstage/plugin-catalog-react';
 import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
 import { useApi } from '@backstage/core-plugin-api';
@@ -27,7 +28,12 @@ const functionColumns: CatalogTableColumnsFunc = entityListContext => {
     return [
       CatalogTable.columns.createNameColumn({ defaultKind: 'function' }),
       CatalogTable.columns.createOwnerColumn(),
-      CatalogTable.columns.createSpecTypeColumn(),
+      {
+        title: 'Favorite',
+        sorting: false,
+        align: 'right',
+        render: row => <FavoriteEntity entity={row.entity} />,
+      },
     ];
   }
 
@@ -74,6 +80,7 @@ export const FunctionsPage = () => {
               <CatalogTable
                 title={t('functionpage.catalogtableTitle')}
                 columns={functionColumns}
+                actions={[]}
               />
             </Grid>
             <Grid item xs={12} md={6}>
