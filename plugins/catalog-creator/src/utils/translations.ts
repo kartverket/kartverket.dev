@@ -146,11 +146,6 @@ export const catalogCreatorMessages = {
     },
 
     functionForm: {
-      entityType: {
-        fieldName: 'Type',
-        tooltipText: 'The type of the function.',
-        placeholder: 'Select or add type',
-      },
       dependsOnSystems: {
         fieldName: 'Depends on Systems',
         tooltipText: 'Systems that this function depends on.',
@@ -387,11 +382,6 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.domainForm.subdomainOf.tooltipText':
             'En eller flere referanser til underseksjoner av dette domenet.',
           'form.domainForm.subdomainOf.placeholder': 'Velg subdomener',
-
-          'form.functionForm.entityType.fieldName': 'Type',
-          'form.functionForm.entityType.tooltipText': 'Typen til funksjonen.',
-          'form.functionForm.entityType.placeholder':
-            'Velg eller legg til type',
 
           'form.functionForm.dependsOnSystems.fieldName':
             'Avhenger av systemer',

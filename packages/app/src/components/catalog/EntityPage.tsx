@@ -231,7 +231,11 @@ const functionEntityPage = (
           <FunctionAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            height={400}
+            kinds={['function', 'component', 'system', 'resource']}
+          />
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityDependenciesCard />

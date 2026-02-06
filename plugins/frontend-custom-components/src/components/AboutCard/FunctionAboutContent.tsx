@@ -188,13 +188,14 @@ export function AboutContent(props: AboutContentProps) {
         isTemplate ||
         isGroup ||
         isLocation ||
-        typeof entity?.spec?.type === 'string') && (
-        <AboutField
-          label={t('aboutCard.typeField.label')}
-          value={entity?.spec?.type as string}
-          gridSizes={{ xs: 12, sm: 6, lg: 4 }}
-        />
-      )}
+        typeof entity?.spec?.type === 'string') &&
+        !isFunction && (
+          <AboutField
+            label={t('aboutCard.typeField.label')}
+            value={entity?.spec?.type as string}
+            gridSizes={{ xs: 12, sm: 6, lg: 4 }}
+          />
+        )}
       {(isAPI ||
         isComponent ||
         typeof entity?.spec?.lifecycle === 'string') && (

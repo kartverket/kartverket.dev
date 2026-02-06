@@ -212,11 +212,6 @@ export const updateYaml = (
         spec: {
           ...initial.spec,
           owner: form.owner || initial.spec.owner || undefined,
-          type:
-            form.entityType?.length === 0
-              ? undefined
-              : form.entityType || initial.spec.type,
-
           dependsOnSystems:
             form.dependsOnSystems?.length === 0
               ? undefined
