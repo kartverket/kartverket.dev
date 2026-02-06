@@ -152,7 +152,7 @@ export const CatalogCreatorPage = ({
                       onUrlChange={setUrl}
                       onSubmit={handleFormSubmit}
                       disableTextField={originLocation !== undefined}
-                      docsLink={docsLink}
+                      docsLink={docsLink + t('docLinkSharedConseptsPath')}
                     />
                   )}
                   <StatusMessages

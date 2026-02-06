@@ -16,6 +16,8 @@ export const catalogCreatorMessages = {
 
   repositoryFetch: 'Fetching data from:',
 
+  docLinkSharedConseptsPath: '/kartverket-dev/shared_concepts/',
+
   form: {
     title: 'Catalog-info.yaml Form',
     requiredFields: 'Required fields marked with: ',
@@ -272,6 +274,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'repositorySearch.placeholder': 'Skriv inn en URL',
           'repositorySearch.fetchButton': 'Hent!',
           repositoryFetch: 'Henter data fra:',
+          docLinkSharedConseptsPath: '/kartverket-dev/felles_begreper/',
 
           'form.title': 'Catalog-info.yaml skjema',
           'form.requiredFields': 'Obligatoriske felter er markert med: ',
