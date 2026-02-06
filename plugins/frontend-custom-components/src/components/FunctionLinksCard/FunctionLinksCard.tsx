@@ -125,9 +125,9 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
       return (
         <LinksGridList
           cols={cols}
-          items={data.map(({ formId }) => ({
+          items={data.map(({ id, formId }) => ({
             text: getFormType(formId),
-            href: `${regelrettBaseUrl}/context/${formId}`,
+            href: `${regelrettBaseUrl}/context/${id}`,
           }))}
         />
       );
