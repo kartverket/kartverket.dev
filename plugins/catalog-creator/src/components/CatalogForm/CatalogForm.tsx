@@ -119,7 +119,6 @@ export const CatalogForm = ({
               title: entry.metadata.title || '',
               tags: entry.metadata.tags || [],
               dependsOn: entry.spec.dependsOn,
-              links: entry.metadata.links ?? undefined,
             };
           })
         : [
