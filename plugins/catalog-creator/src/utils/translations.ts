@@ -166,15 +166,6 @@ export const catalogCreatorMessages = {
         tooltipText: 'Function that this function enable',
         placeholder: 'Select function',
       },
-      links: {
-        fieldName: 'Links',
-        cardTitle: 'Link',
-        tooltipText: 'Links to Regelrett form',
-        urlName: 'URL',
-        urlTooltipText: 'URL to Reglrett form',
-        titleName: 'Title',
-        titleTooltipText: 'Link title in the developer portal',
-      },
     },
 
     domainForm: {
@@ -415,15 +406,6 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.functionForm.parentFunction.tooltipText':
             'Funksjon som denne funksjonen muliggjør.',
           'form.functionForm.parentFunction.placeholder': 'Velg funksjon',
-
-          'form.functionForm.links.fieldName': 'Lenker',
-          'form.functionForm.links.cardTitle': 'Lenke',
-          'form.functionForm.links.tooltipText': 'Lenker til Regelrettskjema.',
-          'form.functionForm.links.urlName': 'URL',
-          'form.functionForm.links.urlTooltipText': 'URL til Regelrettskjema',
-          'form.functionForm.links.titleName': 'Tittel',
-          'form.functionForm.links.titleTooltipText':
-            'Tittel som vises i utviklerportalen',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',
