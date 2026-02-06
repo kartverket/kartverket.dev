@@ -93,6 +93,7 @@ export const CatalogCreatorPage = ({
       data,
       entityKind,
       entityName,
+      catalogApi,
     );
   };
 
