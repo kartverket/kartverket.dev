@@ -56,7 +56,13 @@ A component is an independent part of a system — a service, library, or applic
 
 **Types:**
 
-- website, library, service, ops, documentation
+_website_- An application with a website. <br>
+_service_- An application typically  offering an api, but no gui.<br>
+_library_- A collection, typically a framework, component library, a collection of templates or npm-packages.<br>
+_ops_- A component for infrastructure. These components handle builds and deployments.<br>
+_documentation_- A userguide, a description of technical architecture or other information on confluence, in ADRs or techDocs in kartverket.dev.<br>
+_jobs_- A cronjob, other background processes or a script.<br>
+
 
 ### API
 An API describes an interface that a component provides or consumes. APIs make it visible how systems and components communicate.
@@ -77,6 +83,11 @@ A resource is an external or shared dependency that a system or component relies
 **Examples**
 - Internally hosted resources such as databases, queues, storage, clusters etc.
 
+### Functions
+Business functions represent the capabilities an organization possesses to achieve its objectives and deliver value. A business function is realized through other entities, such as systems and components, that provide functionality which individually or collectively realizes the function. By modeling dependencies between business functions and other entities, it is possible to identify which entities deliver services to fulfill a business function, as well as which capabilities the organization loses if these entities cease to deliver their services.
+
+Functions are organized in a functional hierarchy, where smaller sub-functions collectively constitute larger functions.
+
 ### Other
 **Groups** and **users** are fetched from Kartverket’s Entra ID. Groups are only fetched if they have the prefix *AAD - TF - TEAM*.
 
@@ -93,6 +104,9 @@ A combination of centralization and team-owned definitions. Platform resources w
 
 ### Components and APIs
 Teams own these definitions and are responsible for placing them in a repository they own. Some external APIs that are widely used across systems are defined in a centralized repository with Kartverket as the owner. Other APIs that are used by a system can be defined in each individual repository.
+
+### Funksjoner
+In a shared repository that centralizes functions and sub-functions.
 
 ## Modeling Examples
 

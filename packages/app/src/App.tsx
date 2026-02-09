@@ -39,7 +39,6 @@ import {
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
-import { DaskOnboardingPage } from '@kartverket/backstage-plugin-dask-onboarding';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
 import { Route } from 'react-router-dom';
@@ -55,7 +54,18 @@ import {
 } from '@kartverket/backstage-plugin-catalog-creator';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
+import {
+  functionPageNorwegianTranslation,
+  homepageNorwegianTranslation,
+  sidebarNorwegianTranslation,
+} from './utils/translations';
 import { FunctionsPage } from './components/functions/FunctionsPage';
+import {
+  functionGroupPageNorwegianTranslation,
+  SupportButton,
+  supportNorwegianTranslation,
+  functionLinkCardNorwegianTranslation,
+} from '@internal/plugin-frontend-custom-components';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -63,6 +73,12 @@ const app = createApp({
     resources: [
       pluginRiScNorwegianTranslation,
       catalogCreatorNorwegianTranslation,
+      sidebarNorwegianTranslation,
+      homepageNorwegianTranslation,
+      functionPageNorwegianTranslation,
+      functionGroupPageNorwegianTranslation,
+      supportNorwegianTranslation,
+      functionLinkCardNorwegianTranslation,
     ],
   },
   components: {
@@ -123,6 +139,11 @@ const app = createApp({
       name: 'show-functions-page',
       description: 'Enable the functions page',
     },
+    {
+      pluginId: '',
+      name: 'entraid-for-status',
+      description: 'Use entraid info for changing status on vulnerabilities',
+    },
   ],
 });
 
@@ -179,7 +200,6 @@ const routes = (
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
-    <Route path="/dask-onboarding" element={<DaskOnboardingPage />} />
     <Route path="/opencost" element={<OpencostPage />} />
     <Route
       path="/catalog-creator-function"
@@ -188,7 +208,10 @@ const routes = (
     <Route
       path="/catalog-creator"
       element={
-        <CatalogCreatorPage docsLink="/docs/default/Component/kartverket.dev" />
+        <CatalogCreatorPage
+          docsLink="/docs/default/Component/kartverket.dev"
+          supportButton={<SupportButton />}
+        />
       }
     />
     <Route path="/notifications" element={<NotificationsPage />} />

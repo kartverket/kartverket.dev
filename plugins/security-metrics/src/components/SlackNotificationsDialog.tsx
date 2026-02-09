@@ -13,16 +13,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useConfigureSlackNotificationsQuery } from '../hooks/useConfigureSlackNotificationsQuery';
 import { useSlackNotificationsConfigQuery } from '../hooks/useSlackNotificationsConfigQuery';
+import { ErrorBanner } from './ErrorBanner';
 
 interface Props {
   openNotificationsDialog: boolean;
   handleCloseNotificationsDialog: () => void;
   channel: string;
   setChannel: React.Dispatch<React.SetStateAction<string>>;
-  componentNames: string[];
+  permittedComponents: string[];
   notPermitted: string[];
 }
 
@@ -40,7 +41,7 @@ export const SlackNotificationDialog = ({
   handleCloseNotificationsDialog,
   channel,
   setChannel,
-  componentNames,
+  permittedComponents,
   notPermitted,
 }: Props) => {
   const { entity } = useEntity();
@@ -48,10 +49,21 @@ export const SlackNotificationDialog = ({
 
   const configQuery = useSlackNotificationsConfigQuery(teamName);
 
-  const [selectedComponents, setSelectedComponents] = useState(componentNames);
+  const [selectedComponents, setSelectedComponents] =
+    useState(permittedComponents);
   const [selectedSeverities, setSelectedSeverities] = useState<string[]>(
     SEVERITIES.map(s => s.value),
   );
+
+  const [showChannelError, setShowChannelError] = useState(false);
+  const channelEditedRef = useRef(false);
+
+  useEffect(() => {
+    if (openNotificationsDialog) {
+      channelEditedRef.current = false;
+      setShowChannelError(false);
+    }
+  }, [openNotificationsDialog]);
 
   useEffect(() => {
     if (!openNotificationsDialog) return;
@@ -59,7 +71,7 @@ export const SlackNotificationDialog = ({
     const config = configQuery.data;
 
     if (config) {
-      setChannel(config.channelId);
+      if (!channelEditedRef.current) setChannel(config.channelId);
       setSelectedComponents(config.componentNames);
       setSelectedSeverities(
         config.severity?.length
@@ -67,13 +79,21 @@ export const SlackNotificationDialog = ({
           : SEVERITIES.map(s => s.value),
       );
     } else {
-      setSelectedComponents(componentNames);
+      setSelectedComponents(permittedComponents);
       setSelectedSeverities(SEVERITIES.map(s => s.value));
     }
-  }, [openNotificationsDialog, configQuery.data, componentNames, setChannel]);
+  }, [
+    openNotificationsDialog,
+    configQuery.data,
+    permittedComponents,
+    setChannel,
+  ]);
 
-  const configureNotification = useConfigureSlackNotificationsQuery();
-  const [showChannelError, setShowChannelError] = useState(false);
+  const {
+    mutate: configureNotification,
+    error,
+    isPending,
+  } = useConfigureSlackNotificationsQuery();
 
   const handleToggleComponent = (name: string, checked: boolean) => {
     setSelectedComponents(prev =>
@@ -93,7 +113,7 @@ export const SlackNotificationDialog = ({
       return;
     }
 
-    configureNotification.mutate(
+    configureNotification(
       {
         teamName: entity.metadata.name,
         channelId: channel,
@@ -101,9 +121,7 @@ export const SlackNotificationDialog = ({
         severity: selectedSeverities,
       },
       {
-        onSuccess: () => {
-          handleCloseNotificationsDialog();
-        },
+        onSuccess: () => handleCloseNotificationsDialog(),
       },
     );
   };
@@ -138,10 +156,9 @@ export const SlackNotificationDialog = ({
           label="Slack-kanal ID (Eks: G98XYZ1234)"
           value={channel}
           onChange={e => {
+            channelEditedRef.current = true;
             setChannel(e.target.value);
-            if (showChannelError) {
-              setShowChannelError(false);
-            }
+            if (showChannelError) setShowChannelError(false);
           }}
           fullWidth
           required
@@ -191,7 +208,7 @@ export const SlackNotificationDialog = ({
           row
           sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}
         >
-          {componentNames.map(name => (
+          {permittedComponents.map(name => (
             <FormControlLabel
               key={name}
               control={
@@ -214,6 +231,7 @@ export const SlackNotificationDialog = ({
             />
           ))}
         </FormGroup>
+        {error && <ErrorBanner errorTitle="Kunne ikke lagre konfigurasjonen" />}
       </DialogContent>
       <DialogActions>
         <Box sx={{ pb: 2, pr: 2 }}>
@@ -224,10 +242,7 @@ export const SlackNotificationDialog = ({
           >
             Avbryt
           </Button>
-          <SpinnerButton
-            loading={configureNotification.isPending}
-            onClick={handleSave}
-          >
+          <SpinnerButton loading={isPending} onClick={handleSave}>
             Lagre
           </SpinnerButton>
         </Box>

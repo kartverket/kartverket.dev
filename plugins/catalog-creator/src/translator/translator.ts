@@ -208,19 +208,10 @@ export const updateYaml = (
             form.tags?.length === 0
               ? undefined
               : form.tags || initial.spec.tags,
-          links:
-            form.links?.length === 0
-              ? undefined
-              : form.links || initial.spec.links,
         },
         spec: {
           ...initial.spec,
           owner: form.owner || initial.spec.owner || undefined,
-          type:
-            form.entityType?.length === 0
-              ? undefined
-              : form.entityType || initial.spec.type,
-
           dependsOnSystems:
             form.dependsOnSystems?.length === 0
               ? undefined

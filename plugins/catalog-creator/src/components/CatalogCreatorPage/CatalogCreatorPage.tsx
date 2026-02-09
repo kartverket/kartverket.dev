@@ -15,7 +15,6 @@ import { RepositoryForm } from './RepositoryForm';
 import { LoadingOverlay } from './LoadingOverlay';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-
 import style from '../../catalog.module.css';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 
@@ -25,6 +24,7 @@ export interface CatalogCreatorPageProps {
   entityKind?: string;
   entityName?: string;
   createFunction?: boolean;
+  supportButton?: React.ReactNode;
 }
 
 export const CatalogCreatorPage = ({
@@ -33,6 +33,7 @@ export const CatalogCreatorPage = ({
   entityName,
   docsLink,
   createFunction = false,
+  supportButton = <SupportButton />,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
   const theme = useTheme();
@@ -125,13 +126,16 @@ export const CatalogCreatorPage = ({
           ) : (
             <h1>{t('contentHeader.title')}</h1>
           )}
-          <SupportButton />
+          {supportButton}
         </Flex>
         <Flex>
           <Box flex-grow="1" width="100%">
             {(isLoading || shouldShowForm) && originLocation && (
               <p>
-                {t('repositoryFetch')} <Link>{url}</Link>
+                {t('repositoryFetch')}{' '}
+                <Link href={url} target="_blank">
+                  {decodeURIComponent(url)}
+                </Link>
               </p>
             )}
             {state.value?.severity === 'success' ? (
@@ -148,7 +152,7 @@ export const CatalogCreatorPage = ({
                       onUrlChange={setUrl}
                       onSubmit={handleFormSubmit}
                       disableTextField={originLocation !== undefined}
-                      docsLink={docsLink}
+                      docsLink={docsLink + t('docLinkSharedConseptsPath')}
                     />
                   )}
                   <StatusMessages

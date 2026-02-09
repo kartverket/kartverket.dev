@@ -16,6 +16,8 @@ export const catalogCreatorMessages = {
 
   repositoryFetch: 'Fetching data from:',
 
+  docLinkSharedConseptsPath: '/kartverket-dev/shared_concepts/',
+
   form: {
     title: 'Catalog-info.yaml Form',
     requiredFields: 'Required fields marked with: ',
@@ -43,7 +45,7 @@ export const catalogCreatorMessages = {
       placeholder: 'Select or add tags',
     },
     addEntity: {
-      title: 'Add Entity',
+      title: 'Add entity',
       label: 'Select kind',
       buttonText: 'Add entity',
     },
@@ -146,11 +148,6 @@ export const catalogCreatorMessages = {
     },
 
     functionForm: {
-      entityType: {
-        fieldName: 'Type',
-        tooltipText: 'The type of the function.',
-        placeholder: 'Select or add type',
-      },
       dependsOnSystems: {
         fieldName: 'Depends on Systems',
         tooltipText: 'Systems that this function depends on.',
@@ -170,15 +167,6 @@ export const catalogCreatorMessages = {
         fieldName: 'Parent Function',
         tooltipText: 'Function that this function enable',
         placeholder: 'Select function',
-      },
-      links: {
-        fieldName: 'Links',
-        cardTitle: 'Link',
-        tooltipText: 'Links to Regelrett form',
-        urlName: 'URL',
-        urlTooltipText: 'URL to Reglrett form',
-        titleName: 'Title',
-        titleTooltipText: 'Link title in the developer portal',
       },
     },
 
@@ -247,7 +235,7 @@ export const catalogCreatorMessages = {
   },
   formInfo: {
     p1: `This form allows you to create or edit catalog-info.yaml files used by Backstage to discover and manage entities in your organization. Enter the URL of a GitHub repository to add it to the developer portal, or provide a link to an existing file to edit it.`,
-    p2: `When you're done, click Create Pull Request to propose changes in the repository. The updates take effect once the pull request has been merged and the catalog has been refreshed.`,
+    p2: `When you're done, click Create Pull Request to propose changes to the yaml-file in the repository. The updates take effect once the pull request has been merged and the catalog has been refreshed.`,
     p3: `The developer portal is built using Backstage, which defines a set of entities used to build the software catalog.
        These entities are seperated into three groups: core entities, ecosystem entities, and organizational entities.
         Core entities include Component, API, and Resource. Ecosystem entities include System and Domain.`,
@@ -286,6 +274,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'repositorySearch.placeholder': 'Skriv inn en URL',
           'repositorySearch.fetchButton': 'Hent!',
           repositoryFetch: 'Henter data fra:',
+          docLinkSharedConseptsPath: '/kartverket-dev/felles_begreper/',
 
           'form.title': 'Catalog-info.yaml skjema',
           'form.requiredFields': 'Obligatoriske felter er markert med: ',
@@ -309,7 +298,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'En liste over tags (merkelapper) som kan brukes til å klassifisere entiteter i systemkatalogen.',
           'form.tags.placeholder': 'Velg eller legg til tag',
 
-          'form.addEntity.title': 'Legg til entitet',
+          'form.addEntity.title': 'Legg til ny entitet',
           'form.addEntity.label': 'Velg entitet',
           'form.addEntity.buttonText': 'Legg til entitet',
 
@@ -397,11 +386,6 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'En eller flere referanser til underseksjoner av dette domenet.',
           'form.domainForm.subdomainOf.placeholder': 'Velg subdomener',
 
-          'form.functionForm.entityType.fieldName': 'Type',
-          'form.functionForm.entityType.tooltipText': 'Typen til funksjonen.',
-          'form.functionForm.entityType.placeholder':
-            'Velg eller legg til type',
-
           'form.functionForm.dependsOnSystems.fieldName':
             'Avhenger av systemer',
           'form.functionForm.dependsOnSystems.tooltipText':
@@ -425,15 +409,6 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.functionForm.parentFunction.tooltipText':
             'Funksjon som denne funksjonen muliggjør.',
           'form.functionForm.parentFunction.placeholder': 'Velg funksjon',
-
-          'form.functionForm.links.fieldName': 'Lenker',
-          'form.functionForm.links.cardTitle': 'Lenke',
-          'form.functionForm.links.tooltipText': 'Lenker til Regelrettskjema.',
-          'form.functionForm.links.urlName': 'URL',
-          'form.functionForm.links.urlTooltipText': 'URL til Regelrettskjema',
-          'form.functionForm.links.titleName': 'Tittel',
-          'form.functionForm.links.titleTooltipText':
-            'Tittel som vises i utviklerportalen',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',
@@ -489,7 +464,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'formInfo.p1':
             'Dette skjemaet lar deg opprette eller redigere catalog-info.yaml-filer som Backstage bruker for å oppdage og administrere komponenter. Oppgi enten URL til et GitHub-repository for å legge det til i utviklerportalen, eller en lenke til en eksisterende fil for å redigere den.',
           'formInfo.p2':
-            'Når du er ferdig, klikker du Opprett Pull Request for å foreslå endringer i repositoryet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
+            'Når du er ferdig, klikker du Lag Pull Request for å foreslå endringer på yaml-fil i repoet. Endringene gjelder først når pull request-en er slått sammen og katalogen er oppdatert.',
           'formInfo.p3':
             'Utviklerportalen er bygget med Backstage, som definerer et sett med entiteter som brukes til å bygge programvarekatalogen.',
           'formInfo.systemParagraph':

@@ -13,8 +13,18 @@ export interface Config {
            * @visibility frontend
            */
           clientId: string;
+          /**
+           * @visibility secret
+           */
+          clientSecret: string;
         };
       };
     };
+  };
+  regelrett: {
+    /**
+     * @visibility frontend
+     */
+    baseUrl: string;
   };
 }
