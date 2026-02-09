@@ -56,7 +56,13 @@ A component is an independent part of a system — a service, library, or applic
 
 **Types:**
 
-- website, library, service, ops, documentation
+_website_- An application with a website. <br>
+_service_- An application typically  offering an api, but no gui.<br>
+_library_- A collection, typically a framework, component library, a collection of templates or npm-packages.<br>
+_ops_- A component for infrastructure. These components handle builds and deployments.<br>
+_documentation_- A userguide, a description of technical architecture or other information on confluence, in ADRs or techDocs in kartverket.dev.<br>
+_jobs_- A cronjob, other background processes or a script.<br>
+
 
 ### API
 An API describes an interface that a component provides or consumes. APIs make it visible how systems and components communicate.
