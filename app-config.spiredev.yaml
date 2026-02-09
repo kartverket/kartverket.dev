@@ -6,38 +6,38 @@ backend:
   listen:
     port: 7007
   csp:
-    connect-src: ["'self'", 'http:', 'https:']
+    connect-src: ["'self'", "http:", "https:"]
   cors:
     origin:
       [
-        'https://kartverket-dev-env-914366947816.europe-west1.run.app',
-        'http://localhost:7007',
+        "https://kartverket-dev-env-914366947816.europe-west1.run.app",
+        "http://localhost:7007",
       ]
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   database:
     client: better-sqlite3
-    connection: ':memory:'
+    connection: ":memory:"
 
 proxy:
   endpoints:
-    '/opencost':
+    "/opencost":
       target: https://opencost.dev.skip.statkart.no
-    '/lighthouse':
+    "/lighthouse":
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
-    '/grafana/api':
+    "/grafana/api":
       target: https://monitoring.kartverket.cloud
       headers:
         Authorization: Bearer ${GRAFANA_TOKEN}
-    '/risc-proxy':
+    "/risc-proxy":
       target: http://localhost:8080
       allowedHeaders:
-        ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
-    '/opencost-cacher':
+        ["Authorization", "GCP-Access-Token", "GitHub-Access-Token"]
+    "/opencost-cacher":
       target: http://localhost:8080
       credentials: forward
       changeOrigin: true
-    '/security-champion-proxy':
+    "/security-champion-proxy":
       target: https://security-champion-api-914366947816.europe-west1.run.app
       changeOrigin: true
 
@@ -64,21 +64,21 @@ catalog:
     microsoftGraphOrg:
       default:
         tenantId: ${MICROSOFT_TENANT_ID}
-        queryMode: 'advanced'
+        queryMode: "advanced"
         user:
           filter: accountEnabled eq true and userType eq 'member' and startsWith(companyName, 'Staten')
           select:
             [
-              'accountEnabled',
-              'displayName',
-              'givenName',
-              'id',
-              'mail',
-              'mailNickname',
-              'userPrincipalName',
-              'surname',
-              'companyName',
-              'userType',
+              "accountEnabled",
+              "displayName",
+              "givenName",
+              "id",
+              "mail",
+              "mailNickname",
+              "userPrincipalName",
+              "surname",
+              "companyName",
+              "userType",
             ]
         group:
           filter: >
@@ -94,3 +94,8 @@ sikkerhetsmetrikker:
 
 security-champion:
   baseUrl: https://security-champion-api-914366947816.europe-west1.run.app
+
+regelrett:
+  enable: true
+  baseUrl: http://regelrett-backend.regelrett-main:8080
+  clientId: ${REGELRETT_CLIENT_ID}
