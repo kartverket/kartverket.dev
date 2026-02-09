@@ -64,6 +64,7 @@ import {
   functionGroupPageNorwegianTranslation,
   SupportButton,
   supportNorwegianTranslation,
+  functionLinkCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 
 const app = createApp({
@@ -77,6 +78,7 @@ const app = createApp({
       functionPageNorwegianTranslation,
       functionGroupPageNorwegianTranslation,
       supportNorwegianTranslation,
+      functionLinkCardNorwegianTranslation,
     ],
   },
   components: {

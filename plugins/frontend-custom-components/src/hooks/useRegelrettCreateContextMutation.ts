@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import {
   configApiRef,
@@ -8,15 +8,17 @@ import {
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
 
-export const useRegelrettQuery = (functionName: string) => {
+export const useRegelrettCreateContextMutation = () => {
   const config = useApi(configApiRef);
   const backstageAuthApi = useApi(identityApiRef);
   const microsoftAuthApi = useApi(microsoftAuthApiRef);
 
-  return useQuery<RegelrettForm[]>({
-    queryKey: ['fetch-regelrett-forms', functionName],
-    enabled: !!functionName,
-    queryFn: async () => {
+  return useMutation<
+    RegelrettForm,
+    Error,
+    { functionName: string; formId: string; teamId: string }
+  >({
+    mutationFn: async ({ functionName, formId, teamId }) => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
         backstageAuthApi,
@@ -24,12 +26,15 @@ export const useRegelrettQuery = (functionName: string) => {
       );
 
       const url = new URL(
-        `${config.getString('backend.baseUrl')}/api/regelrett-schemas/proxy/fetch-regelrett-form`,
+        `${config.getString('backend.baseUrl')}/api/regelrett-schemas/proxy/create-regelrett-form`,
       );
 
       url.searchParams.set('name', functionName);
+      url.searchParams.set('formId', formId);
+      url.searchParams.set('teamId', teamId);
+
       const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${backstageToken}`,
           EntraId: entraIdToken,

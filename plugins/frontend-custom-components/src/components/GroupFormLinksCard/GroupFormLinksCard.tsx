@@ -77,7 +77,7 @@ function GroupFormLinksCardItem(props: EntityLinksCardProps) {
               cols={1}
               items={forms.map(form => ({
                 text: `${form.name}`,
-                href: `${regelrettBaseUrl}/context/${form.formId}`,
+                href: `${regelrettBaseUrl}/context/${form.id}`,
               }))}
             />
           </>

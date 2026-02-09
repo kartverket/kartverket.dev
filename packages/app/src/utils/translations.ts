@@ -73,11 +73,11 @@ export const homepageNorwegianTranslation = createTranslationResource({
 
 export const functionPageMessages = {
   functionpage: {
-    title: 'Businessfunctions in Kartverket',
+    title: 'Business Functions in Kartverket',
     subtitle:
       'Overview of what the company must be able to do to deliver on its societal mission, and how these capabilities are supported by sub-functions, systems and teams.',
     createButton: 'Create new function',
-    catalogtableTitle: 'All businessfunctions',
+    catalogtableTitle: 'All Business Functions',
     graphTitle: 'Function hierarchy',
   },
 };

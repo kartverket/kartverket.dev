@@ -74,45 +74,101 @@ export async function createRouter(
   const router = express.Router();
   router.use(express.json());
 
-  router.get('/proxy/fetch-regelrett-form', async (req, res) => {
-    try {
-      const validToken = validateToken(req.header('Authorization'), auth);
-      if (!validToken) {
-        res.status(401).send({
-          frontendMessage: 'Token is not valid',
-        });
+  router.get(
+    '/proxy/fetch-regelrett-form',
+    async (req, res) => {
+      try {
+        const validToken = validateToken(req.header('Authorization'), auth);
+        if (!validToken) {
+          res.status(401).send({
+            frontendMessage: 'Token is not valid',
+          });
+        }
+        const eidToken = req.header('Entraid');
+        const name = req.query.name;
+        if (typeof name !== 'string')
+          throw new Error('No name parameter provided');
+        if (!eidToken) throw new Error('No token');
+        const response: Result<ApiError, Context> =
+          await proxyService.fetchContextByFunctionName(eidToken, name);
+        if (response.ok) {
+          res.status(200).send(response.data);
+        } else {
+          res
+            .status(response.error.statusCode)
+            .send({ frontendMessage: response.error.message });
+          logger.error(
+            `Recieved a ${response.error.statusCode} status code when trying to fetch context by name from Regelrett API.`,
+          );
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          logger.error(`Failed to fetch context by name: ${error.message}`);
+          res.status(500).send({
+            message: `Failed to fetch context by name: ${error.message}`,
+          });
+        } else {
+          logger.error(`Failed to fetch context by name: ${error}`);
+          res
+            .status(500)
+            .send({ message: `Failed to fetch context by name: ${error}` });
+        }
       }
-      const eidToken = req.header('Entraid');
-      const name = req.query.name;
-      if (typeof name !== 'string')
-        throw new Error('No name parameter provided');
-      if (!eidToken) throw new Error('No token');
-      const response: Result<ApiError, Context> =
-        await proxyService.fetchContextByFunctionName(eidToken, name);
-      if (response.ok) {
-        res.status(200).send(response.data);
-      } else {
-        res
-          .status(response.error.statusCode)
-          .send({ frontendMessage: response.error.message });
-        logger.error(
-          `Recieved a ${response.error.statusCode} status code when trying to fetch context by name from Regelrett API.`,
-        );
+    },
+
+    router.post('/proxy/create-regelrett-form', async (req, res) => {
+      try {
+        const validToken = validateToken(req.header('Authorization'), auth);
+        if (!validToken) {
+          res.status(401).send({
+            frontendMessage: 'Token is not valid',
+          });
+        }
+        const eidToken = req.header('Entraid');
+        const name = req.query.name;
+        const formId = req.query.formId;
+        const teamId = req.query.teamId;
+
+        if (typeof name !== 'string')
+          throw new Error('No name parameter provided');
+        if (!eidToken) throw new Error('No token');
+        if (typeof formId !== 'string')
+          throw new Error('No formId parameter provided');
+        if (typeof teamId !== 'string')
+          throw new Error('No teamId parameter provided');
+
+        const response: Result<ApiError, Context> =
+          await proxyService.createRegelrettContext(
+            eidToken,
+            name,
+            formId,
+            teamId,
+          );
+        if (response.ok) {
+          res.status(200).send(response.data);
+        } else {
+          res
+            .status(response.error.statusCode)
+            .send({ frontendMessage: response.error.message });
+          logger.error(
+            `Recieved a ${response.error.statusCode} status code when trying to fetch context by name from Regelrett API.`,
+          );
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          logger.error(`Failed to fetch context by name: ${error.message}`);
+          res.status(500).send({
+            message: `Failed to fetch context by name: ${error.message}`,
+          });
+        } else {
+          logger.error(`Failed to fetch context by name: ${error}`);
+          res
+            .status(500)
+            .send({ message: `Failed to fetch context by name: ${error}` });
+        }
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        logger.error(`Failed to fetch context by name: ${error.message}`);
-        res.status(500).send({
-          message: `Failed to fetch context by name: ${error.message}`,
-        });
-      } else {
-        logger.error(`Failed to fetch context by name: ${error}`);
-        res
-          .status(500)
-          .send({ message: `Failed to fetch context by name: ${error}` });
-      }
-    }
-  });
+    }),
+  );
 
   router.get('/proxy/fetch-regelrett-forms-by-team-id', async (req, res) => {
     try {

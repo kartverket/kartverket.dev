@@ -7,3 +7,4 @@ export { functionGroupPageNorwegianTranslation } from './components/FunctionGrou
 export { SupportButton } from './components/SupportButton/SupportButton';
 export { supportNorwegianTranslation } from './components/SupportButton/supportTranslations';
 export { GroupFormLinksCard } from './components/GroupFormLinksCard/GroupFormLinksCard';
+export { functionLinkCardNorwegianTranslation } from './components/FunctionLinksCard/translation';
