@@ -31,6 +31,8 @@ import { useState, useEffect } from 'react';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { Button, Flex, Select } from '@backstage/ui';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { functionLinkCardTranslationRef } from './translation';
 
 /** @public */
 export interface EntityLinksCardProps {
@@ -55,6 +57,7 @@ export const FunctionLinksCard = () => {
 
 function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const { cols = 1, variant } = props;
+  const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);
   const { entity } = useEntity();
@@ -132,20 +135,20 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
         />
       );
     } else if (error) {
-      return <Alert severity="error">Could not fetch regelrett forms</Alert>;
+      return <Alert severity="error">{t('functionLinkCard.fetchError')}</Alert>;
     }
-    return <p>No regelrett forms created yet</p>;
+    return <p>{t('functionLinkCard.noFormsYet')}</p>;
   };
 
   return (
-    <InfoCard title="Regelrett Forms" variant={variant}>
+    <InfoCard title={t('functionLinkCard.title')} variant={variant}>
       {isLoading && <Progress />}
 
       {!isLoading && showData()}
 
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>
-          Form was created
+          {t('functionLinkCard.formCreatedSuccess')}
         </Alert>
       )}
 
@@ -155,7 +158,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
 
           {!showCreateForm && (
             <Button onClick={() => setShowCreateForm(true)}>
-              Create new form
+              {t('functionLinkCard.createNewForm')}
             </Button>
           )}
 
@@ -163,7 +166,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
             <Flex style={{ marginTop: '5px', gap: '8px' }}>
               <Select
                 style={{ flex: 1, minWidth: 0 }}
-                placeholder="Velg skjema"
+                placeholder={t('functionLinkCard.selectForm')}
                 value={selectedFormId}
                 isDisabled={isCreating}
                 options={Object.entries(FORM_TYPE_MAP)
@@ -182,7 +185,9 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
                 isDisabled={!selectedFormId || !teamId || isCreating}
                 onClick={handleSubmit}
               >
-                {isCreating ? 'Creating...' : 'Create'}
+                {isCreating
+                  ? t('functionLinkCard.creating')
+                  : t('functionLinkCard.create')}
               </Button>
 
               <Button
@@ -193,7 +198,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
                   setSelectedFormId('');
                 }}
               >
-                Cancel
+                {t('functionLinkCard.cancel')}
               </Button>
             </Flex>
           )}
@@ -202,7 +207,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
 
           {createError && (
             <Alert severity="error" style={{ margin: '1rem 0 0' }}>
-              Could not create form
+              {t('functionLinkCard.createError')}
             </Alert>
           )}
         </>

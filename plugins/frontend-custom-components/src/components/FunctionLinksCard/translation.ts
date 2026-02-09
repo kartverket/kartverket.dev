@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-import { createTranslationRef } from '@backstage/core-plugin-api/alpha';
+import {
+  createTranslationRef,
+  createTranslationResource,
+} from '@backstage/core-plugin-api/alpha';
 
 /** @alpha */
 export const catalogTranslationRef = createTranslationRef({
@@ -163,5 +166,42 @@ export const catalogTranslationRef = createTranslationRef({
         dependsOn: 'depends on',
       },
     },
+  },
+});
+export const functionLinkCardTranslationRef = createTranslationRef({
+  id: 'functionLinkCard',
+  messages: {
+    'functionLinkCard.title': 'Security Forms',
+    'functionLinkCard.createNewForm': 'Create new form',
+    'functionLinkCard.selectForm': 'Select form',
+    'functionLinkCard.create': 'Create',
+    'functionLinkCard.creating': 'Creating...',
+    'functionLinkCard.cancel': 'Cancel',
+    'functionLinkCard.noFormsYet': 'No security forms created yet',
+    'functionLinkCard.formCreatedSuccess': 'Form was created',
+    'functionLinkCard.fetchError': 'Could not fetch security forms',
+    'functionLinkCard.createError': 'Could not create form',
+  },
+});
+
+export const functionLinkCardNorwegianTranslation = createTranslationResource({
+  ref: functionLinkCardTranslationRef,
+  translations: {
+    no: () =>
+      Promise.resolve({
+        default: {
+          'functionLinkCard.title': 'Sikkerhetsskjemaer',
+          'functionLinkCard.createNewForm': 'Opprett nytt skjema',
+          'functionLinkCard.selectForm': 'Velg skjema',
+          'functionLinkCard.create': 'Opprett',
+          'functionLinkCard.creating': 'Oppretter...',
+          'functionLinkCard.cancel': 'Avbryt',
+          'functionLinkCard.noFormsYet':
+            'Ingen sikkerhetsskjemaer opprettet ennå',
+          'functionLinkCard.formCreatedSuccess': 'Skjema ble opprettet',
+          'functionLinkCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
+          'functionLinkCard.createError': 'Kunne ikke opprette skjema',
+        },
+      }),
   },
 });
