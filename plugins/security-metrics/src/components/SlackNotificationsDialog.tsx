@@ -13,7 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useConfigureSlackNotificationsQuery } from '../hooks/useConfigureSlackNotificationsQuery';
 import { useSlackNotificationsConfigQuery } from '../hooks/useSlackNotificationsConfigQuery';
 import { ErrorBanner } from './ErrorBanner';
@@ -55,13 +55,23 @@ export const SlackNotificationDialog = ({
     SEVERITIES.map(s => s.value),
   );
 
+  const [showChannelError, setShowChannelError] = useState(false);
+  const channelEditedRef = useRef(false);
+
+  useEffect(() => {
+    if (openNotificationsDialog) {
+      channelEditedRef.current = false;
+      setShowChannelError(false);
+    }
+  }, [openNotificationsDialog]);
+
   useEffect(() => {
     if (!openNotificationsDialog) return;
 
     const config = configQuery.data;
 
     if (config) {
-      setChannel(config.channelId);
+      if (!channelEditedRef.current) setChannel(config.channelId);
       setSelectedComponents(config.componentNames);
       setSelectedSeverities(
         config.severity?.length
@@ -84,7 +94,6 @@ export const SlackNotificationDialog = ({
     error,
     isPending,
   } = useConfigureSlackNotificationsQuery();
-  const [showChannelError, setShowChannelError] = useState(false);
 
   const handleToggleComponent = (name: string, checked: boolean) => {
     setSelectedComponents(prev =>
@@ -147,10 +156,9 @@ export const SlackNotificationDialog = ({
           label="Slack-kanal ID (Eks: G98XYZ1234)"
           value={channel}
           onChange={e => {
+            channelEditedRef.current = true;
             setChannel(e.target.value);
-            if (showChannelError) {
-              setShowChannelError(false);
-            }
+            if (showChannelError) setShowChannelError(false);
           }}
           fullWidth
           required
