@@ -28,6 +28,7 @@ export type SecretAlert = {
 
 export type DependabotSpecificInfo = {
   htmlUrl: string;
+  isDirect: boolean;
 };
 
 export type CodeQlSpecificInfo = {
