@@ -78,6 +78,7 @@ import {
   GroupFormLinksCard,
 } from '@internal/plugin-frontend-custom-components';
 import { FeatureFlagged } from '@backstage/core-app-api';
+import { Flex } from '@backstage/ui';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -552,16 +553,16 @@ const groupPage = (
             <FunctionGroupPageCard />
           </FeatureFlagged>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <EntityMembersListCard showAggregateMembersToggle />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <SecurityChampionCard />
-        </Grid>
         <Grid item md={6} xs={12}>
-          <FeatureFlagged with="show-functions-page">
-            <GroupFormLinksCard />
-          </FeatureFlagged>
+          <Flex direction="column" gap="24px">
+            <SecurityChampionCard />
+            <FeatureFlagged with="show-functions-page">
+              <GroupFormLinksCard />
+            </FeatureFlagged>
+          </Flex>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <EntityMembersListCard showAggregateMembersToggle />
         </Grid>
       </Grid>
     </EntityLayout.Route>
