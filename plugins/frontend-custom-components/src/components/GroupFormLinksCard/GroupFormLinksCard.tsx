@@ -34,7 +34,7 @@ function GroupFormLinksCardItem(props: EntityLinksCardProps) {
   const config = useApi(configApiRef);
   const { entity } = useEntity();
   const { data, isLoading, error } = useTeamRegelrettQuery(entity);
-  const regelrettBaseUrl = config.getString(`regelrett.baseUrl`);
+  const regelrettBaseUrl = config.getString(`regelrett.url`);
 
   const FORM_TYPE_MAP: Record<string, string> = {
     '816cc808-9188-44a9-8f4b-5642fc2932c4': 'Tjenestenivå og driftskontinuitet',
