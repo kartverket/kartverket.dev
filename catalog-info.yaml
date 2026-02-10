@@ -10,4 +10,5 @@ spec:
   type: website
   lifecycle: production
   owner: skvis
-  system: system:default/utviklerportal
+  consumesApis:
+    - api:default/meldingstjeneste-api
