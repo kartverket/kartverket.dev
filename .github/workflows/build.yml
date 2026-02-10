@@ -198,23 +198,23 @@ jobs:
       - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
         id: octo-sts
         with:
-          scope: kartverket/skip-apps
+          scope: kartverket/skvis-apps
           identity: utviklerportal
 
       - name: Checkout apps repo
         uses: actions/checkout@v4
         with:
-          repository: kartverket/skip-apps
+          repository: kartverket/skvis-apps
           token: ${{ steps.octo-sts.outputs.token }}
 
       - name: Deploy to ${{ matrix.env }}
         run: |
           kubectl patch --type=merge --local \
-            -f ./env/${{ matrix.env }}/backstage/patches/application.yaml \
+            -f ./env/${{ matrix.env }}/utviklerportal-main/patches/application.yaml \
             -p '{"spec":{"image":"ghcr.io/kartverket/kartverket.dev@${{needs.build.outputs.image_digest}}"}}' \
-            -o yaml > ./env/${{ matrix.env }}/backstage/patches/application.yaml.new
-          mv ./env/${{ matrix.env }}/backstage/patches/application.yaml.new ./env/${{ matrix.env }}/backstage/patches/application.yaml
-          git add ./env/${{ matrix.env }}/backstage/patches/application.yaml
+            -o yaml > ./env/${{ matrix.env }}/utviklerportal-main/patches/application.yaml.new
+          mv ./env/${{ matrix.env }}/utviklerportal-main/patches/application.yaml.new ./env/${{ matrix.env }}/utviklerportal-main/patches/application.yaml
+          git add ./env/${{ matrix.env }}/utviklerportal-main/patches/application.yaml
           git config --global user.email "noreply@kartverket.no"
           git config --global user.name "GitHub Actions"
           git commit -m "Deploy ${{ matrix.env }} version ${{github.ref_name}}"
