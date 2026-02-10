@@ -227,12 +227,12 @@ export const catalogCreatorMessages = {
       couldNotCheckIfPRExists:
         'Could not check if the pull request already exists for: ',
       apiDefinitionNotFetchable:
-        'Catalog-info file was found, but it contains at least one API-definition that could not be fetched. Contact team SKVIS.',
+        'Catalog-info file was found, but it contains at least one API-definition that could not be fetched. Reach out to the developers of kartverket.dev through the support button.',
       PRExists: 'There already exists a pull request: ',
       couldNotCreatePR:
         'Could not create a pull request. Make sure the URL is a github repo and that a pull request does not already exist.',
       analyzeLocationError:
-        'Failed to identify or parse the file. Provide a URL to either the repository root or a full file path to a valid catalog-info.yaml file. ',
+        'Failed to identify or parse the file. Provide a URL to either the repository root or a full file path to a valid catalog-info.yaml file.',
     },
   },
   formInfo: {
@@ -422,7 +422,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.knownErrorAlerts.PRExists':
             'Det finnes allerede en pull request: ',
           'form.knownErrorAlerts.apiDefinitionNotFetchable':
-            'Catalog-info filen eksisterer, men inneholder en API-definisjon som kartverket.dev ikke klarer å nå. Ta kontakt med team SKVIS.',
+            'Catalog-info filen eksisterer, men inneholder en API-definisjon som kartverket.dev ikke klarer å nå. Trykk på supportknappen for å ta kontakt med utviklerne til kartverket.dev.',
           'form.knownErrorAlerts.couldNotCheckIfPRExists':
             'Kunne ikke sjekke om PR finnes fra før for GitHub-kodelager med URL: ',
           'form.knownErrorAlerts.couldNotCreatePR':
