@@ -51,7 +51,18 @@ export const useCatalogCreator = (
       result = await catalogImportApi.analyzeUrl(url);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(t('form.knownErrorAlerts.analyzeLocationError'));
+        const causeMessage =
+          error.cause instanceof Error
+            ? error.cause.message
+            : String(error.cause);
+
+        if (
+          causeMessage.includes('Placeholder $text could not read location')
+        ) {
+          throw new Error(t('form.knownErrorAlerts.apiDefinitionNotFetchable'));
+        } else {
+          throw new Error(t('form.knownErrorAlerts.analyzeLocationError'));
+        }
       } else {
         throw error;
       }
