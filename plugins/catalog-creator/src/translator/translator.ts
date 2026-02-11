@@ -240,7 +240,10 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
-          tags: form?.tags || initial.metadata?.tags || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
         },
         spec: {
           ...initial.spec,
