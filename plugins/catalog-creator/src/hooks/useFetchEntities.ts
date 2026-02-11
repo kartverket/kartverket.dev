@@ -58,6 +58,18 @@ export const useFetchEntities = (
           })
         : []),
     ];
+
+    if (entityKind === 'Function') {
+      return fetchedEntities.filter(
+        e =>
+          !fromFormEntities.some(
+            formEntity =>
+              `${e.kind}:default/${e.metadata.name}` ===
+              `${formEntity.kind}:default/${formEntity.metadata.name}`,
+          ),
+      );
+    }
+
     return [...fromFormEntities, ...fetchedEntities];
   }, [fetchEntities.value, formEntities, entityKind]);
 
