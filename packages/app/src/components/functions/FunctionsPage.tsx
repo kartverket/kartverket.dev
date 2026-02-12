@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Box, Grid, Typography, makeStyles } from '@material-ui/core';
 import {
   CatalogTable,
   CatalogTableColumnsFunc,
@@ -45,6 +45,15 @@ export const FunctionsPage = () => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
 
+  const useStyles = makeStyles(theme => ({
+    subtitle: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(1),
+    },
+  }));
+
+  const classes = useStyles();
+
   useEffect(() => {
     catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
       const filteredResponse = response.items.filter(item =>
@@ -60,12 +69,22 @@ export const FunctionsPage = () => {
     });
   }, [catalogApi]);
 
+  const subtitleContent = (
+    <Box sx={{ mt: 1 }}>
+      <Typography variant="subtitle2">{t('functionpage.subtitle')}</Typography>
+      <Typography variant="body2" className={classes.subtitle}>
+        {t('functionpage.subtitle2')}
+      </Typography>
+      <Typography variant="body2">
+        <strong>{t('functionpage.structure')}</strong>{' '}
+        {t('functionpage.structureDescription')}
+      </Typography>
+    </Box>
+  );
+
   return (
     <Page themeId="functions">
-      <Header
-        title={t('functionpage.title')}
-        subtitle={t('functionpage.subtitle')}
-      />
+      <Header title={t('functionpage.title')} subtitle={subtitleContent} />
       <Content>
         <Flex justify="end" style={{ marginBottom: '1rem' }}>
           <ButtonLink href="/catalog-creator-function">
