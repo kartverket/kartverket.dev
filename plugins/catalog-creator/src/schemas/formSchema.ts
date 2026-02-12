@@ -15,7 +15,8 @@ const baseEntitySchema = z.object({
           s,
         ),
       'form.errors.ownerNoSpace',
-    ),
+    )
+    .max(63, 'form.errors.longName'),
   title: z.string().optional(),
   tags: z
     .array(z.string())
