@@ -185,6 +185,7 @@ export const catalogCreatorMessages = {
     },
     errors: {
       noName: 'Add a name',
+      longName: 'Name cannot contain more than 63 characters',
       nameNoSpace: 'Name cannot contain space',
       nameNoSpecialChar: 'Name cannot start or end with special characters',
 
@@ -437,6 +438,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
 
           'form.errors.noOwner': 'Legg til eier',
           'form.errors.ownerNoSpace': 'Eier kan ikke inneholde mellomrom',
+          'form.errors.longName': 'Navn kan ikke ha mer enn 63 tegn',
 
           'form.errors.noParentFunction': 'Legg til forelderfunksjon',
           'form.errors.parentFunctionNoSpace':
