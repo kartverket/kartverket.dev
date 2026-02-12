@@ -256,6 +256,7 @@ export const updateYaml = (
 export const updateFunctionLocationsFile = (
   originalContent: RequiredYamlFields,
   newTarget: string,
+  oldTarget?: string,
 ) => {
   if (originalContent.kind === 'Location') {
     const updated = {
@@ -263,7 +264,10 @@ export const updateFunctionLocationsFile = (
       spec: {
         ...originalContent.spec,
         targets: originalContent.spec.targets
-          ? [...originalContent.spec.targets, newTarget]
+          ? [
+              ...originalContent.spec.targets.filter(it => it !== oldTarget),
+              newTarget,
+            ]
           : [newTarget],
       },
     };
