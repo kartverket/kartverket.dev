@@ -32,7 +32,8 @@
     "pipeline": "yarn run ci && yarn run prettier:check && yarn run lint:all && yarn run tsc",
     "self-update//": "Upgrade package manager to the latest version",
     "self-update": "corepack up",
-    "clean-cache": "yarn cache clean --all"
+    "clean-cache": "yarn cache clean --all",
+    "prepare": "husky"
   },
   "workspaces": {
     "packages": [
@@ -44,8 +45,10 @@
     "@backstage/cli": "backstage:^",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.0.9",
+    "husky": "^9.1.7",
     "jest": "^30.2.0",
     "lerna": "^9.0.3",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.8.0",
     "typescript": "^5.9.3"
   },

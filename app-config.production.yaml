@@ -56,7 +56,7 @@ proxy:
       target: http://security-champion-api.sikkerhetsmetrikker-main:8080
       credentials: forward
     '/opencost-cacher':
-      target: http://opencost-cacher:8080
+      target: http://opencost-cacher.opencost-cacher.svc.cluster.local:8080
       credentials: forward
       changeOrigin: true
 
