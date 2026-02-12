@@ -5,7 +5,7 @@ import {
 
 export const functionGroupPageMessages = {
   functioncard: {
-    title: 'Functions',
+    title: 'Functions this team delivers to',
     subtitle:
       'Functions that this team enables through its systems or components',
   },
@@ -22,7 +22,7 @@ export const functionGroupPageNorwegianTranslation = createTranslationResource({
     no: () =>
       Promise.resolve({
         default: {
-          'functioncard.title': 'Funksjoner',
+          'functioncard.title': 'Funksjoner gruppen leverer til',
           'functioncard.subtitle':
             'Funksjoner denne gruppen muliggjør gjennom sine systemer og komponenter',
         },
