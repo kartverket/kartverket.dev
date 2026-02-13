@@ -240,7 +240,10 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
-          tags: form?.tags || initial.metadata?.tags || undefined,
+          tags:
+            form.tags?.length === 0
+              ? undefined
+              : form.tags || initial.spec.tags,
         },
         spec: {
           ...initial.spec,
@@ -253,6 +256,7 @@ export const updateYaml = (
 export const updateFunctionLocationsFile = (
   originalContent: RequiredYamlFields,
   newTarget: string,
+  oldTarget?: string,
 ) => {
   if (originalContent.kind === 'Location') {
     const updated = {
@@ -260,7 +264,10 @@ export const updateFunctionLocationsFile = (
       spec: {
         ...originalContent.spec,
         targets: originalContent.spec.targets
-          ? [...originalContent.spec.targets, newTarget]
+          ? [
+              ...originalContent.spec.targets.filter(it => it !== oldTarget),
+              newTarget,
+            ]
           : [newTarget],
       },
     };
