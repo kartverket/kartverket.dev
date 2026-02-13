@@ -7,6 +7,8 @@ export enum Scanner {
 
 export type DependabotSpecificInfo = {
   htmlUrl: string;
+  isDirect: boolean;
+  isFixable: boolean;
 };
 
 export type CodeQlSpecificInfo = {
@@ -24,9 +26,11 @@ export type SysdigSpecificInfo = {
   htmlUrl: string;
   containerNames: string[];
   locations: { cluster: string; namespace: string }[];
-  isExploitable: Boolean;
-  isRunning: Boolean;
+  isExploitable: boolean;
+  isRunning: boolean;
   packages: string[];
+  isFixable: boolean;
+  isCisaKEV: boolean;
 };
 
 export type ScannerSpecificInfo = {

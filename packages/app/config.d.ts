@@ -26,5 +26,9 @@ export interface Config {
      * @visibility frontend
      */
     baseUrl: string;
+    /**
+     * @visibility frontend
+     */
+    url: string;
   };
 }
