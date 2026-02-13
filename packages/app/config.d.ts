@@ -8,7 +8,7 @@ export interface Config {
         /**
          * @visibility frontend
          */
-        production: {
+        development: {
           /**
            * @visibility frontend
            */
