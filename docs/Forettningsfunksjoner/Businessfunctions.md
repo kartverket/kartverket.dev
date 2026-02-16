@@ -20,7 +20,7 @@ Functions is an extension created by the Kartverket to link together:
 - the business requirements we must meet 
 This makes it easier to understand how technical solutions are related to what the Norwegian Mapping Authority actually delivers to society.
 
-# Hvordan opprette en funksjon?
+# How to create a function?
 1. Go to the Functions tab 
 2. Select Create New Functions 
 3. Fill in: 
