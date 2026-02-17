@@ -7,6 +7,7 @@ export const catalogCreatorMessages = {
   contentHeader: {
     title: 'Edit or Create Entities',
     editTitle: 'Edit the',
+    subFunctionTitle: 'Create new subfunction under ',
   },
   repositorySearch: {
     label: 'Paste GitHub repository URL',
@@ -271,6 +272,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
         default: {
           'contentHeader.title': 'Rediger eller lag entiteter',
           'contentHeader.editTitle': 'Rediger',
+          'contentHeader.subFunctionTitle': 'Opprett ny funksjon under ',
 
           'repositorySearch.label': 'Lim inn URL til GitHub-repository under',
           'repositorySearch.placeholder': 'Skriv inn en URL',

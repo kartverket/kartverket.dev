@@ -3,11 +3,7 @@ import { useEntity } from '@backstage/plugin-catalog-react';
 import { SupportButton } from '@internal/plugin-frontend-custom-components';
 import { CatalogCreatorPage } from '@kartverket/backstage-plugin-catalog-creator';
 
-export const CatalogCreatorContainer = ({
-  createFunction = false,
-}: {
-  createFunction?: boolean;
-}) => {
+export const CatalogCreatorContainer = () => {
   const { entity } = useEntity();
 
   // Extract git URL from entity metadata
@@ -28,7 +24,6 @@ export const CatalogCreatorContainer = ({
         originLocation={gitUrl}
         entityKind={entity.kind}
         entityName={entity.metadata.name}
-        createFunction={createFunction}
         supportButton={<SupportButton />}
       />
     </>
