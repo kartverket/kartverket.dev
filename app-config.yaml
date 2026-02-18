@@ -24,6 +24,7 @@ backend:
       - host: docs.digdir.no
       - host: landbruksdirektoratet.no
       - host: '*.kartverket-intern.cloud'
+      - host: raw.githubusercontent.com
 
   listen:
     port: 7007
