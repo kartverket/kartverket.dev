@@ -40,7 +40,16 @@ git checkout -b fix/vulnerability-remediation
 
 ### 4. Fix Dependabot alerts (dependency upgrades)
 
-For each affected manifest (e.g. `package.json`, `yarn.lock`):
+**Always try a Backstage bulk upgrade first** before pinning individual packages. Many Dependabot alerts are caused by outdated Backstage packages, and a single bulk upgrade resolves them all at once:
+
+```bash
+yarn backstage-cli versions:bump
+yarn install
+```
+
+After the bulk upgrade, re-check which Dependabot alerts remain open (the same `gh api` query from step 1). Only proceed to pin individual packages for alerts that were **not** resolved by the Backstage upgrade.
+
+For each remaining affected manifest (e.g. `package.json`, `yarn.lock`):
 
 - Identify the minimum safe version from `patched_version`.
 - Update the version constraint in the relevant manifest file (e.g. `package.json`, `packages/*/package.json`, `plugins/*/package.json`).
@@ -63,16 +72,31 @@ For each code scanning alert:
 - Apply the minimal code change that addresses the rule (e.g. sanitise input, remove hardcoded secret reference, fix prototype pollution, etc.).
 - Do not refactor unrelated code.
 
-### 6. Verify
+### 6. Verify and run the app
 
-After making changes, run the project's existing lint and type-check to confirm nothing is broken:
+After making changes, run the type-check and lint to confirm nothing is broken:
 
 ```bash
 yarn tsc --noEmit
 yarn lint:all
 ```
 
-Fix any issues introduced by your changes before proceeding. Do not fix pre-existing unrelated lint errors.
+Then start the app with `yarn dev` and confirm it boots without errors. Run it in the background, wait for it to become ready, then kill it:
+
+```bash
+yarn dev &
+DEV_PID=$!
+# Wait up to 60 seconds for the app to print a "started" / "Listening" line
+timeout 60 bash -c 'until grep -q -i "started\|listening\|ready" /proc/$DEV_PID/fd/1 2>/dev/null; do sleep 2; done' || true
+kill $DEV_PID 2>/dev/null || true
+```
+
+Examine the startup output for errors or crashes. If `yarn dev` fails:
+1. Use `git diff` and the error message to identify which of your changes caused it.
+2. Fix the error if possible (e.g. missing peer dependency, broken import, incompatible API).
+3. If it cannot be cleanly fixed, **revert the specific change** (`git checkout -- <file>`) and document it in the PR body under "Outstanding issues".
+
+Fix any issues introduced by your changes before proceeding. Do not fix pre-existing unrelated errors.
 
 ### 7. Commit
 
@@ -107,12 +131,13 @@ This PR fixes open security vulnerability alerts surfaced by Dependabot and GitH
 - Ran \`yarn lint:all\` ✅
 
 ## References
-Closes Dependabot alerts: <!-- list numbers -->
-Closes code scanning alerts: <!-- list numbers -->"
+Dependabot alerts fixed: <!-- e.g. [alert 172](https://github.com/kartverket/kartverket.dev/security/dependabot/172), ... -->
+Code scanning alerts fixed: <!-- e.g. [alert 5](https://github.com/kartverket/kartverket.dev/security/code-scanning/5), ... -->"
 ```
 
 ## Important rules
 
+- **Always link to alerts, not PRs/issues** – when referencing Dependabot alerts in the PR body, use full URLs of the form `https://github.com/kartverket/kartverket.dev/security/dependabot/<number>` with link text `alert <number>` (e.g. `[alert 172](https://github.com/kartverket/kartverket.dev/security/dependabot/172)`). Never use `#NNN` notation — GitHub autolinks those to issues/PRs. For code scanning alerts use `https://github.com/kartverket/kartverket.dev/security/code-scanning/<number>`.
 - **Never commit secrets** – if a code scanning alert involves an exposed secret, remove the reference to it but do not print or log the secret value.
 - Only touch files directly related to a vulnerability. Leave all other code unchanged.
 - If a vulnerability cannot be safely fixed automatically (e.g. no patched version exists, or the fix requires a breaking API change), document it clearly in the PR body under an "Outstanding issues" section instead of skipping silently.
