@@ -187,4 +187,5 @@ Always use full URLs — never `#NNN`, which GitHub autolinks to issues and PRs.
 - **Never commit secrets.** If a code scanning alert involves an exposed secret, remove the reference without printing or logging the value.
 - **Minimal changes only.** Only touch files directly related to a vulnerability.
 - **Document what you can't fix.** If an alert has no patched version, requires a breaking change, or would break the app, add it to the "Outstanding issues" section of the PR body with a clear explanation.
+- **Always keep the PR up to date.** After every commit to the branch (additional fixes, reverts, Backstage bumps, etc.), update the PR body via `gh pr edit` to accurately reflect what is currently fixed and what is still outstanding. Never leave the PR body describing a previous state of the branch.
 - **Check the working tree first.** If there are uncommitted changes when you start, stop and ask the user how to proceed.
