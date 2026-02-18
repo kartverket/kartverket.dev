@@ -121,5 +121,5 @@ sikkerhetsmetrikker:
 regelrett:
   enable: true
   baseUrl: http://regelrett-backend.regelrett-main:8080
-  url: https://regelrett.atgcp1-dev.kartverket-intern.cloud
+  url: ${REGELRETT_BASEURL}
   clientId: ${REGELRETT_CLIENT_ID}
