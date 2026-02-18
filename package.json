@@ -71,11 +71,8 @@
     "lodash": "^4.17.23",
     "lodash-es": "^4.17.23",
     "prismjs": "^1.30.0",
-    "@backstage/plugin-techdocs-node": "^1.13.11",
-    "@backstage/backend-defaults": "^0.14.1",
     "@backstage/cli-common": "^0.1.17",
-    "@backstage/plugin-scaffolder-node": "^0.12.3",
-    "@backstage/plugin-scaffolder-backend": "^3.1.1"
+    "@backstage/backend-plugin-api": "1.6.0"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
