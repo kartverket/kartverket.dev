@@ -21,12 +21,14 @@ import { useMetricsQuery } from '../../hooks/useMetricsQuery';
 import { useFetchComponentNamesByGroup } from '../../hooks/useFetchRepositoryNames';
 import NoAccessAlert from '../NoAccessAlert';
 import Button from '@mui/material/Button';
-import SettingsIcon from '@mui/icons-material/Settings';
+import TuneIcon from '@mui/icons-material/Tune';
 import { SlackNotificationDialog } from '../SlackNotificationsDialog';
 import { useStarredRefFilter } from '../../hooks/useStarredRefFilter';
 import { RepositorySummary } from '../../typesFrontend';
-import { StarFilterButton } from '../StarFilterButton';
 import { filterSystemsByComponents } from '../utils';
+import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
+import { ViewSettingsDialog } from '../ViewSettingsDialog';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -35,10 +37,14 @@ enum TabEnum {
 
 export const GroupPage = () => {
   const { entity } = useEntity();
-  const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
-  const [channel, setChannel] = useState('');
   const { starredEntities } = useStarredEntities();
+
+  const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
+  const [openViewSettings, setOpenViewSettings] = useState(false);
+  const [channel, setChannel] = useState('');
   const [selectedTab, setSelectedTab] = useState<TabEnum>(TabEnum.COMPONENT);
+
+  const { showTotal, toggleShowTotal } = useShowTrendTotal();
 
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesByGroup(entity);
@@ -62,10 +68,7 @@ export const GroupPage = () => {
     visibleRefs.has(p.ref),
   );
 
-  const permittedComponents = filteredPermitted.map(
-    component => component.componentName,
-  );
-
+  const permittedComponents = filteredPermitted.map(c => c.componentName);
   const filteredComponentNames = new Set(
     filteredPermitted.map(c => c.componentName),
   );
@@ -88,14 +91,6 @@ export const GroupPage = () => {
 
   const secrets: Secrets[] = getAllSecrets(data);
 
-  const handleOpenNotificationsDialog = () => {
-    setOpenNotificationsDialog(true);
-  };
-
-  const handleCloseNotificationsDialog = () => {
-    setOpenNotificationsDialog(false);
-  };
-
   return (
     <Stack gap={2}>
       <Stack flexDirection="row" alignItems="center">
@@ -109,26 +104,43 @@ export const GroupPage = () => {
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
-        <Box display="flex" alignItems="center" mr={2} ml={2}>
-          <StarFilterButton
-            hasStarred={hasStarred}
-            effectiveFilter={effectiveFilter}
-            onToggle={() =>
-              setFilterChoice(prev => (prev === 'starred' ? 'all' : 'starred'))
-            }
+        <Box display="flex" alignItems="center" mr={0.5} ml={2}>
+          <Button
+            variant="text"
+            startIcon={<TuneIcon />}
+            color="primary"
+            onClick={() => setOpenViewSettings(true)}
+          >
+            Tilpass visning
+          </Button>
+          <ViewSettingsDialog
+            open={openViewSettings}
+            onClose={() => setOpenViewSettings(false)}
+            starFilter={{
+              hasStarred,
+              effectiveFilter,
+              onToggleStarFilter: () =>
+                setFilterChoice(prev =>
+                  prev === 'starred' ? 'all' : 'starred',
+                ),
+            }}
+            showTotal={showTotal}
+            onToggleShowTotal={toggleShowTotal}
           />
         </Box>
         <Button
           variant="text"
           startIcon={<SettingsIcon />}
           color="primary"
-          onClick={handleOpenNotificationsDialog}
+          onClick={() => setOpenNotificationsDialog(true)}
         >
           Konfigurer varsling
         </Button>
         <SlackNotificationDialog
           openNotificationsDialog={openNotificationsDialog}
-          handleCloseNotificationsDialog={handleCloseNotificationsDialog}
+          handleCloseNotificationsDialog={() =>
+            setOpenNotificationsDialog(false)
+          }
           channel={channel}
           setChannel={setChannel}
           permittedComponents={permittedComponents}
@@ -148,7 +160,7 @@ export const GroupPage = () => {
       >
         <SystemScannerStatuses data={filteredPermitted} />
         <VulnerabilityCountsOverview data={filteredPermitted} />
-        <Trend componentNames={permittedComponents} />
+        <Trend componentNames={permittedComponents} showTotal={showTotal} />
       </Box>
 
       <Tabs

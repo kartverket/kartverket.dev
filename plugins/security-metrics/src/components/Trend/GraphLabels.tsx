@@ -53,7 +53,13 @@ export const GraphLabels = ({
   };
 
   return (
-    <Box display="flex" flexDirection="row" justifyContent="center" gap={1}>
+    <Box
+      display="flex"
+      flexDirection="row"
+      justifyContent="center"
+      gap={1}
+      paddingBottom={2}
+    >
       <GraphLabel
         label="1 uke"
         value="oneWeek"

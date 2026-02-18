@@ -10,9 +10,10 @@ import { Progress } from '@backstage/core-components';
 
 interface TrendProps {
   componentNames: string[] | string;
+  showTotal: boolean;
 }
 
-export const Trend = ({ componentNames }: TrendProps) => {
+export const Trend = ({ componentNames, showTotal }: TrendProps) => {
   const toDate = useRef(new Date()).current;
   const [fromDate, setFromDate] = useState<Date>(() =>
     getFromDate('oneMonth', toDate),
@@ -35,7 +36,11 @@ export const Trend = ({ componentNames }: TrendProps) => {
       )}
       {data && (
         <>
-          <Graph trendData={data} graphTimeline={graphTimeline} />
+          <Graph
+            trendData={data}
+            graphTimeline={graphTimeline}
+            showTotal={showTotal}
+          />
           <GraphLabels
             graphTimeline={graphTimeline}
             setGraphTimeline={setGraphTimeline}

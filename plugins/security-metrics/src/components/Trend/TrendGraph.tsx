@@ -7,6 +7,7 @@ import {
   YAxis,
   Tooltip,
   Area,
+  TooltipProps,
 } from 'recharts';
 import { BASIC_COLORS, SEVERITY_COLORS } from '../../colors';
 import { yAxisAdjustment } from '../utils';
@@ -14,15 +15,21 @@ import { LinearGradient } from './LinearGradient';
 import { TrendSeverityCounts } from '../../typesFrontend';
 import { getAggregatedTrends } from './utils';
 import { useTheme } from '@mui/material/styles';
+import { TrendTooltip } from './TrendTooltip';
 
 interface GraphProps {
   trendData: TrendSeverityCounts[];
   graphTimeline: string;
+  showTotal: boolean;
 }
 
-export const Graph = ({ trendData, graphTimeline }: GraphProps) => {
+export const Graph = ({ trendData, graphTimeline, showTotal }: GraphProps) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark';
+
+  const totalStroke = isDarkMode
+    ? BASIC_COLORS.PRIMARY_LIGHT
+    : BASIC_COLORS.PRIMARY_DARK;
 
   const data = useMemo(() => {
     const aggregatedTrends = getAggregatedTrends(trendData);
@@ -43,6 +50,7 @@ export const Graph = ({ trendData, graphTimeline }: GraphProps) => {
           <LinearGradient id="critical" />
           <LinearGradient id="high" />
         </defs>
+
         <XAxis
           dataKey="timestamp"
           tickFormatter={timestamp =>
@@ -52,17 +60,13 @@ export const Graph = ({ trendData, graphTimeline }: GraphProps) => {
           }
         />
         <YAxis type="number" domain={[0, yAxisAdjustment(data)]} />
+
         <Tooltip
-          contentStyle={{
-            backgroundColor: isDarkMode
-              ? BASIC_COLORS.DARK_GREY
-              : BASIC_COLORS.WHITE,
-            outlineColor: BASIC_COLORS.LIGHTER_GREY,
-          }}
-          labelFormatter={timestamp =>
-            format(new Date(timestamp), 'dd-MM-yyyy')
-          }
+          content={(props: TooltipProps<number, string>) => (
+            <TrendTooltip {...props} isDarkMode={isDarkMode} />
+          )}
         />
+
         <Area
           type="monotone"
           dataKey="critical"
@@ -81,6 +85,17 @@ export const Graph = ({ trendData, graphTimeline }: GraphProps) => {
           fillOpacity={1}
           fill="url(#high)"
         />
+
+        {showTotal && (
+          <Area
+            type="monotone"
+            dataKey="total"
+            name="Totalt antall sårbarheter"
+            stroke={totalStroke}
+            strokeWidth={2}
+            fillOpacity={0.05}
+          />
+        )}
       </AreaChart>
     </ResponsiveContainer>
   );
