@@ -89,6 +89,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             <SidebarItem
               icon={TreeIcon}
               to="functions"
+              text={t('sidebar.functionsTitle').concat(" old")}
+            />
+            <SidebarItem
+            icon={TreeIcon}
+            to="func-new"
               text={t('sidebar.functionsTitle')}
             />
           </FeatureFlagged>
