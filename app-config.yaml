@@ -22,7 +22,9 @@ backend:
       - host: data.brreg.no
       - host: docs.altinn.studio
       - host: docs.digdir.no
-      - host: www.landbruksdirektoratet.no
+      - host: landbruksdirektoratet.no
+      - host: '*.kartverket-intern.cloud'
+      - host: raw.githubusercontent.com
 
   listen:
     port: 7007

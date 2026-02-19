@@ -61,7 +61,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);
   const { entity } = useEntity();
-  const functionName = entity.metadata.name;
+  const functionName = entity.metadata.title || entity.metadata.name;
   const regelrettBaseUrl = config.getString(`regelrett.url`);
 
   const [teamId, setTeamId] = useState('');

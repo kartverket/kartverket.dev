@@ -86,7 +86,7 @@ catalog:
             ]
         group:
           filter: >
-            startswith(displayName, 'AAD - TF - TEAM') or startswith(displayName, 'AAD - TF - BUSINESS UNIT')
+            startswith(displayName, 'AAD - TF - TEAM') or startswith(displayName, 'AAD - TF - BUSINESS UNIT') or startswith(displayName, 'AAD - TF - PRODUCT AREA')
         schedule:
           frequency: PT1H
           timeout: PT50M
