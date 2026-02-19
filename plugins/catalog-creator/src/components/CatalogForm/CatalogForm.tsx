@@ -38,14 +38,14 @@ export type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
   currentYaml: RequiredYamlFields[] | null;
   defaultName?: string;
-  createFunction?: boolean;
+  createSubFunction?: boolean;
 };
 
 export const CatalogForm = ({
   onSubmit,
   currentYaml,
   defaultName = '',
-  createFunction,
+  createSubFunction,
 }: CatalogFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -128,8 +128,8 @@ export const CatalogForm = ({
         : [
             {
               id: 0,
-              kind: createFunction ? 'Function' : 'Component',
-              name: createFunction ? '' : defaultName,
+              kind: createSubFunction ? 'Function' : 'Component',
+              name: createSubFunction ? '' : defaultName,
               owner: '',
               title: '',
             },
@@ -295,6 +295,7 @@ export const CatalogForm = ({
             functions={fetchFunctions}
             systems={fetchSystems}
             setValue={setValue}
+            createSubFunction={createSubFunction}
           />
         );
       default:

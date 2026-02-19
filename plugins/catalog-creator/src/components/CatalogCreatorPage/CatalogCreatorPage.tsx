@@ -23,7 +23,7 @@ export interface CatalogCreatorPageProps {
   docsLink?: string;
   entityKind?: string;
   entityName?: string;
-  createFunction?: boolean;
+  createSubFunction?: boolean;
   supportButton?: React.ReactNode;
 }
 
@@ -32,7 +32,7 @@ export const CatalogCreatorPage = ({
   entityKind,
   entityName,
   docsLink,
-  createFunction = false,
+  createSubFunction = false,
   supportButton = <SupportButton />,
 }: CatalogCreatorPageProps) => {
   const githubAuthApi: OAuthApi = useApi(githubAuthApiRef);
@@ -62,7 +62,7 @@ export const CatalogCreatorPage = ({
     shouldShowForm,
   } = useCatalogCreator(githubAuthApi, originLocation ?? '');
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
-  const state = createFunction ? repoFunctionState : repoState;
+  const state = createSubFunction ? repoFunctionState : repoState;
   const fetchCatalogInfoFromGithub = () => {
     doGetRepoInfo(entityKind, entityName);
     doAnalyzeUrl();
@@ -109,7 +109,7 @@ export const CatalogCreatorPage = ({
   };
 
   const handleShowForm = () => {
-    if (createFunction) {
+    if (createSubFunction) {
       if (repoInfo.value && repoInfo.value.existingPrUrl) return false;
       return true;
     }
@@ -120,11 +120,17 @@ export const CatalogCreatorPage = ({
     <Content>
       <Box className={style.catalogCreatorBox}>
         <Flex justify="between" align="center">
-          {entityKind ? (
+          {entityKind && (
             <h1>
               {t('contentHeader.editTitle')} {` ${entityKind}`}
             </h1>
-          ) : (
+          )}
+          {!entityKind && createSubFunction && (
+            <h1>
+              {t('contentHeader.subFunctionTitle')} {`${entityName}`}
+            </h1>
+          )}
+          {!entityKind && !createSubFunction && (
             <h1>{t('contentHeader.title')}</h1>
           )}
           {supportButton}
@@ -147,7 +153,7 @@ export const CatalogCreatorPage = ({
             ) : (
               <div className={style.repositoryCard}>
                 <>
-                  {originLocation === undefined && !createFunction && (
+                  {originLocation === undefined && !createSubFunction && (
                     <RepositoryForm
                       url={originLocation || url}
                       onUrlChange={setUrl}
@@ -189,13 +195,13 @@ export const CatalogCreatorPage = ({
                         )}
                         <CatalogForm
                           onSubmit={
-                            createFunction
+                            createSubFunction
                               ? handleFunctionCatalogFormSubmit
                               : handleCatalogFormSubmit
                           }
                           currentYaml={catalogInfoState.value!}
                           defaultName={defaultName}
-                          createFunction={createFunction}
+                          createSubFunction={createSubFunction}
                         />
                       </div>
                     )}

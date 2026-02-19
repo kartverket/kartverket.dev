@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { UseFormSetValue, useWatch } from 'react-hook-form';
 import { Flex } from '@backstage/ui';
 import { Control } from 'react-hook-form';
@@ -9,11 +10,14 @@ import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
+import { useEntity } from '@backstage/plugin-catalog-react';
+import { toEntityRef } from '../../../utils/toEntityRef';
 
 export type FunctionFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Function'>;
+  createSubFunction?: boolean;
   groups: {
     loading: boolean;
     error: Error | undefined;
@@ -37,7 +41,7 @@ export type FunctionFormProps = {
   };
 };
 
-export const FunctionForm = ({
+const FunctionFormInner = ({
   index,
   control,
   errors,
@@ -46,6 +50,7 @@ export const FunctionForm = ({
   components,
   functions,
   systems,
+  createSubFunction = false,
 }: FunctionFormProps) => {
   const systemVal = useWatch({
     control,
@@ -102,17 +107,19 @@ export const FunctionForm = ({
           required
         />
       </div>
-      <div>
-        <SingleEntityAutocomplete
-          index={index}
-          control={control}
-          errors={errors}
-          formname="functionForm"
-          fieldname="parentFunction"
-          entities={functions.value || []}
-          required
-        />
-      </div>
+      {!createSubFunction && (
+        <div>
+          <SingleEntityAutocomplete
+            index={index}
+            control={control}
+            errors={errors}
+            formname="functionForm"
+            fieldname="parentFunction"
+            entities={functions.value || []}
+            required
+          />
+        </div>
+      )}
       <div>
         <MultipleEntitiesAutocomplete
           index={index}
@@ -146,4 +153,35 @@ export const FunctionForm = ({
       <TagField index={index} control={control} errors={errors} options={[]} />
     </Flex>
   );
+};
+
+const FunctionFormWithEntity = ({
+  index,
+  setValue,
+  createSubFunction,
+  ...rest
+}: FunctionFormProps) => {
+  const { entity } = useEntity();
+  const entityRef = toEntityRef('Function', entity.metadata.name);
+  useEffect(() => {
+    if (createSubFunction && entity) {
+      setValue(`entities.${index}.parentFunction`, entityRef);
+    }
+  }, [createSubFunction, entityRef, index, setValue, entity]);
+
+  return (
+    <FunctionFormInner
+      index={index}
+      setValue={setValue}
+      createSubFunction={createSubFunction}
+      {...rest}
+    />
+  );
+};
+
+export const FunctionForm = (props: FunctionFormProps) => {
+  if (props.createSubFunction) {
+    return <FunctionFormWithEntity {...props} />;
+  }
+  return <FunctionFormInner {...props} />;
 };

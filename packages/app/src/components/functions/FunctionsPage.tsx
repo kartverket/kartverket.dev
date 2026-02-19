@@ -13,7 +13,6 @@ import {
 import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
 import { useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
-import { ButtonLink, Flex } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
 
@@ -86,12 +85,6 @@ export const FunctionsPage = () => {
     <Page themeId="functions">
       <Header title={t('functionpage.title')} subtitle={subtitleContent} />
       <Content>
-        <Flex justify="end" style={{ marginBottom: '1rem' }}>
-          <ButtonLink href="/catalog-creator-function">
-            {t('functionpage.createButton')}
-          </ButtonLink>
-        </Flex>
-
         <EntityListProvider>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
