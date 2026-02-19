@@ -25,7 +25,20 @@ For Dependabot alerts, only fix packages that have a `patched_version` value.
 
 ---
 
-## Step 3 — Create a branch
+## Step 3 — Audit dependencies and existing resolutions
+
+Before fixing anything, do a quick housekeeping pass:
+
+- **Unused dependencies:** Check each package in `dependencies` and `devDependencies` across all `package.json` files. If a package is not imported anywhere in the codebase and has no clear purpose (e.g. a CLI tool or Backstage plugin listed in config), flag it for removal and remove it with `yarn remove <package>` in the relevant workspace.
+- **Stale or unnecessary resolutions:** Review any existing `resolutions` in the root `package.json`. For each entry:
+  - If the resolution is no longer needed (the parent package now naturally resolves to a safe version), remove it.
+  - If the pinned version is outdated but still needed, upgrade it to the latest compatible patched version.
+
+Run `yarn install` after any changes in this step.
+
+---
+
+## Step 4 — Create a branch
 
 ```bash
 git checkout -b fix/vulnerability-remediation
@@ -33,9 +46,9 @@ git checkout -b fix/vulnerability-remediation
 
 ---
 
-## Step 4 — Fix Dependabot alerts
+## Step 5 — Fix Dependabot alerts
 
-### 4a. Try a Backstage bulk upgrade first
+### 5a. Try a Backstage bulk upgrade first
 
 Many alerts stem from outdated Backstage packages. A bulk upgrade often resolves them all at once and keeps the packages mutually compatible:
 
@@ -44,11 +57,15 @@ yarn backstage-cli versions:bump
 yarn install
 ```
 
-Re-run the Dependabot query from Step 1. Only move on to individual package pins for alerts that are **still open** after the bulk upgrade.
+Re-run the Dependabot query from Step 1. Only move on to individual package fixes for alerts that are **still open** after the bulk upgrade.
 
-### 4b. Fix remaining alerts individually
+### 5b. Fix remaining alerts individually
 
-For each remaining alert, add a `resolutions` entry in the root `package.json` and run `yarn install`:
+For each remaining alert, prefer fixing in this order:
+
+1. **Remove the package** — if it is unused (identified in Step 3), removing it resolves the alert without any version pinning.
+2. **Upgrade the direct dependency** — if the vulnerable package is a direct dependency, upgrade it with `yarn up <package>@<patched_version>` (or update the version in the relevant `package.json` and run `yarn install`).
+3. **Resolutions (last resort)** — only use a `resolutions` entry in the root `package.json` if the vulnerable package is a transitive dependency that cannot be upgraded any other way:
 
 ```json
 "resolutions": {
@@ -56,17 +73,13 @@ For each remaining alert, add a `resolutions` entry in the root `package.json` a
 }
 ```
 
-For direct dependencies you can also use:
-
-```bash
-yarn up <package>@<patched_version>
-```
+Run `yarn install` after adding a resolution.
 
 > **Compatibility warning:** Forcing a package to a newer version via resolutions may introduce incompatibilities with other packages in the monorepo. After applying resolutions, verify that all interdependent packages use mutually compatible versions. If a version conflict cannot be cleanly resolved, document the original alert as outstanding.
 
 ---
 
-## Step 5 — Fix code scanning alerts
+## Step 6 — Fix code scanning alerts
 
 For each alert, read the flagged file at the reported line and apply the minimal fix (e.g. sanitise input, remove hardcoded credential reference, fix prototype pollution). Do not refactor unrelated code.
 
@@ -74,7 +87,7 @@ Code scanning alerts may originate from different scanners (e.g. CodeQL for code
 
 ---
 
-## Step 6 — Verify
+## Step 7 — Verify
 
 Run type-check, lint, and format:
 
@@ -88,7 +101,7 @@ Fix any errors your changes introduced. Ignore pre-existing unrelated failures.
 
 ---
 
-## Step 7 — Run the app
+## Step 8 — Run the app
 
 Start the app and confirm it boots without errors:
 
@@ -104,7 +117,7 @@ Watch the output for startup errors or crashes. If the app fails to start:
 
 ---
 
-## Step 8 — Commit
+## Step 9 — Commit
 
 ```bash
 git add <changed files>
@@ -117,7 +130,7 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 
 ---
 
-## Step 9 — Open a pull request
+## Step 10 — Open a pull request
 
 Use `gh pr create` targeting `main` with a title of `fix: remediate Dependabot and code scanning alerts`. The PR body should include:
 
