@@ -549,13 +549,14 @@ const groupPage = (
           </FeatureFlagged>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FeatureFlagged with="show-functions-page">
+          <SecurityChampionCard />
+
+          {/* <FeatureFlagged with="show-functions-page">
             <FunctionGroupPageCard />
-          </FeatureFlagged>
+          </FeatureFlagged> */}
         </Grid>
         <Grid item md={6} xs={12}>
           <Flex direction="column" gap="24px">
-            <SecurityChampionCard />
             <FeatureFlagged with="show-functions-page">
               <GroupFormLinksCard />
             </FeatureFlagged>
