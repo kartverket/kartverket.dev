@@ -58,10 +58,20 @@
     "@mui/material": "5.16.4",
     "jsonpath-plus": "^10.2.0",
     "jws": "^4.0.1",
-    "tar": "^7.5.3",
+    "tar": "^7.5.7",
     "linkifyjs": "^4.3.2",
-    "qs": "^6.14.1",
-    "koa": "^2.16.1"
+    "qs": "^6.14.2",
+    "koa": "^2.16.1",
+    "fast-xml-parser": "^5.3.6",
+    "ajv@npm:^8.0.0": "8.18.0",
+    "markdown-it": "^14.1.1",
+    "jsonpath": "1.1.1",
+    "diff@npm:^4.0.1": "4.0.4",
+    "diff@^5.0.0": "5.2.2",
+    "lodash": "^4.17.23",
+    "lodash-es": "^4.17.23",
+    "prismjs": "^1.30.0",
+    "@backstage/cli-common": "^0.1.17"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
