@@ -4,42 +4,16 @@ description: Fetches open Dependabot and code scanning alerts for kartverket/kar
 tools: ["read", "edit", "search", "shell", "create"]
 ---
 
-You are a security remediation specialist for the `kartverket/kartverket.dev` repository (a Backstage monorepo using Yarn workspaces). Your job is to fetch open vulnerability alerts, fix them, verify the app still starts, and open a pull request.
+Fix open vulnerability alerts in `kartverket/kartverket.dev` (a Backstage monorepo using Yarn workspaces), verify the app still builds and starts, and open a pull request.
 
 ---
 
 ## Step 1 — Fetch open alerts
 
-Run both commands. If an endpoint returns 404 or "not enabled", note it and skip it.
+Use `gh api` with `--paginate` to fetch open alerts from both endpoints. If an endpoint returns 404 or "not enabled", note it and skip it.
 
-```bash
-# Dependabot alerts
-gh api repos/kartverket/kartverket.dev/dependabot/alerts \
-  --paginate \
-  --jq '.[] | select(.state=="open") | {
-    number: .number,
-    severity: .security_vulnerability.severity,
-    package: .security_vulnerability.package.name,
-    ecosystem: .security_vulnerability.package.ecosystem,
-    vulnerable_range: .security_vulnerability.vulnerable_version_range,
-    patched_version: .security_vulnerability.first_patched_version.identifier,
-    summary: .security_advisory.summary,
-    manifest: .dependency.manifest_path
-  }'
-
-# Code scanning alerts
-gh api repos/kartverket/kartverket.dev/code-scanning/alerts \
-  --paginate \
-  --jq '.[] | select(.state=="open") | {
-    number: .number,
-    rule: .rule.id,
-    severity: .rule.severity,
-    description: .rule.description,
-    file: .most_recent_instance.location.path,
-    start_line: .most_recent_instance.location.start_line,
-    message: .most_recent_instance.message.text
-  }'
-```
+- **Dependabot:** `gh api repos/kartverket/kartverket.dev/dependabot/alerts --paginate` — extract number, severity, package name/ecosystem, vulnerable range, patched version, and manifest path.
+- **Code scanning:** `gh api repos/kartverket/kartverket.dev/code-scanning/alerts --paginate` — extract number, rule ID, severity, description, file path, start line, and message.
 
 ---
 
@@ -88,7 +62,7 @@ For direct dependencies you can also use:
 yarn up <package>@<patched_version>
 ```
 
-> **Backstage compatibility warning:** Forcing a Backstage package to a newer version via resolutions can pull in a newer `@backstage/backend-plugin-api` that is incompatible with the current `backend-app-api`. If you see a startup error like `Invalid registration type 'plugin-v1.1'`, pin `@backstage/backend-plugin-api` to the version used by the rest of the Backstage suite (check `node_modules/@backstage/backend-plugin-api/package.json`) and document the original alert as outstanding.
+> **Compatibility warning:** Forcing a package to a newer version via resolutions may introduce incompatibilities with other packages in the monorepo. After applying resolutions, verify that all interdependent packages use mutually compatible versions. If a version conflict cannot be cleanly resolved, document the original alert as outstanding.
 
 ---
 
@@ -96,15 +70,18 @@ yarn up <package>@<patched_version>
 
 For each alert, read the flagged file at the reported line and apply the minimal fix (e.g. sanitise input, remove hardcoded credential reference, fix prototype pollution). Do not refactor unrelated code.
 
+Code scanning alerts may originate from different scanners (e.g. CodeQL for code-level issues, Trivy/defsec for infrastructure and container misconfigurations). Tailor the fix to the scanner's finding — code-level alerts require source changes, while infrastructure alerts may require config file changes.
+
 ---
 
 ## Step 6 — Verify
 
-Run type-check and lint:
+Run type-check, lint, and format:
 
 ```bash
 yarn tsc --noEmit
 yarn lint:all
+yarn run prettier:format
 ```
 
 Fix any errors your changes introduced. Ignore pre-existing unrelated failures.
@@ -133,7 +110,7 @@ Watch the output for startup errors or crashes. If the app fails to start:
 git add <changed files>
 git commit -m "fix: remediate vulnerability alerts
 
-- <one bullet per fix, e.g.: bump lodash 4.17.20 → 4.17.21 (CVE-XXXX-XXXX)>
+- <one bullet per fix, e.g.: bump <package> <old-version> → <new-version> (CVE-XXXX-XXXX)>
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ```
@@ -142,32 +119,14 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 
 ## Step 9 — Open a pull request
 
-```bash
-gh pr create \
-  --repo kartverket/kartverket.dev \
-  --base main \
-  --head fix/vulnerability-remediation \
-  --title "fix: remediate Dependabot and code scanning alerts" \
-  --body "## Summary
-Fixes open security vulnerability alerts from Dependabot and GitHub code scanning.
+Use `gh pr create` targeting `main` with a title of `fix: remediate Dependabot and code scanning alerts`. The PR body should include:
 
-## Changes
-<!-- one bullet per fix -->
-
-## Testing
-- \`yarn tsc --noEmit\` ✅
-- \`yarn lint:all\` ✅
-- \`yarn dev\` starts successfully ✅
-
-## Dependabot alerts fixed
-<!-- [alert 172](https://github.com/kartverket/kartverket.dev/security/dependabot/172) -->
-
-## Code scanning alerts fixed
-<!-- [alert 5](https://github.com/kartverket/kartverket.dev/security/code-scanning/5) -->
-
-## Outstanding issues
-<!-- alerts that could not be safely fixed, and why -->"
-```
+- **Summary** — brief description of what was fixed
+- **Changes** — one bullet per fix
+- **Testing** — confirm `yarn tsc --noEmit`, `yarn lint:all`, and `yarn dev` all pass
+- **Dependabot alerts fixed** — linked list of resolved alerts
+- **Code scanning alerts fixed** — linked list of resolved alerts
+- **Outstanding issues** — alerts that could not be safely fixed, and why
 
 ---
 
@@ -177,10 +136,8 @@ Fixes open security vulnerability alerts from Dependabot and GitHub code scannin
 
 Always use full URLs — never `#NNN`, which GitHub autolinks to issues and PRs.
 
-| Alert type | URL pattern | Example link text |
-|---|---|---|
-| Dependabot | `https://github.com/kartverket/kartverket.dev/security/dependabot/<number>` | `[alert 172](…/dependabot/172)` |
-| Code scanning | `https://github.com/kartverket/kartverket.dev/security/code-scanning/<number>` | `[alert 5](…/code-scanning/5)` |
+- Dependabot: `https://github.com/kartverket/kartverket.dev/security/dependabot/<number>`
+- Code scanning: `https://github.com/kartverket/kartverket.dev/security/code-scanning/<number>`
 
 ### Other rules
 
