@@ -91,6 +91,21 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
               to="functions"
               text={t('sidebar.functionsTitle')}
             />
+            <SidebarItem
+            icon={AppsIcon}
+            to="func2"
+              text={t('sidebar.functionsTitle').concat("2")}
+            />
+            <SidebarItem
+              icon={AppsIcon}
+              to="func3"
+                text={t('sidebar.functionsTitle').concat("3")}
+            />
+            <SidebarItem
+              icon={AppsIcon}
+              to="func4"
+                text={t('sidebar.functionsTitle').concat("4")}
+            />
           </FeatureFlagged>
           <SidebarItem
             icon={EditIcon}

@@ -66,6 +66,9 @@ import {
   supportNorwegianTranslation,
   functionLinkCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
+import { FunctionsPageNew } from './components/functions/FunctionsPageNew';
+import { FunctionsPageNew2 } from './components/functions/FunctionsPageNew2';
+import { FunctionsPageNew3 } from './components/functions/FunctionsPageNew3';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -192,6 +195,9 @@ const routes = (
         />
       }
     />
+    <Route path='/func2' element={<FunctionsPageNew/>} />
+    <Route path='/func3' element={<FunctionsPageNew2/>} />
+    <Route path='/func4' element={<FunctionsPageNew3/>} />
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
