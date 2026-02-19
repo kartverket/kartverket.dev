@@ -14,6 +14,7 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
     if (!aggregated[date]) {
       aggregated[date] = {
         timestamp: date,
+        total: 0,
         unknown: 0,
         low: 0,
         medium: 0,
@@ -22,12 +23,21 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
         negligible: 0,
       };
     }
+
     aggregated[date].unknown += item.unknown;
     aggregated[date].negligible += item.negligible;
     aggregated[date].low += item.low;
     aggregated[date].medium += item.medium;
     aggregated[date].high += item.high;
     aggregated[date].critical += item.critical;
+
+    aggregated[date].total +=
+      item.unknown +
+      item.negligible +
+      item.low +
+      item.medium +
+      item.high +
+      item.critical;
   });
 
   return Object.values(aggregated);

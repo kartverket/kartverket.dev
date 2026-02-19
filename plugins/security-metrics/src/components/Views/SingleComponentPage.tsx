@@ -2,6 +2,7 @@ import { Progress, SupportButton } from '@backstage/core-components';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import { getSecrets } from '../../mapping/getSecretsData';
+import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
 import { ComponentScannerStatus } from '../ScannerStatus/ComponentScannerStatus';
 import { SecretsAlert } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
@@ -16,6 +17,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { RuntimeVulnerabilityTable } from '../VulnerabilityTable/RuntimeVulnerabilityTable';
 import { getScannerStatusData } from '../../mapping/getScannerData';
+import { ViewSettingsDialog } from '../ViewSettingsDialog';
+import TuneIcon from '@mui/icons-material/Tune';
+import Button from '@mui/material/Button';
 
 enum TabEnum {
   ALL_VULNERABILITIES = 0,
@@ -28,6 +32,8 @@ export const SingleComponentPage = () => {
 
   const { data, isPending, error } = useComponentMetricsQuery(componentName);
 
+  const { showTotal, toggleShowTotal } = useShowTrendTotal();
+  const [openViewSettings, setOpenViewSettings] = useState(false);
   const [selectedTab, setSelectedTab] = useState<TabEnum>(0);
   const handleTabChange = (_: React.SyntheticEvent, newValue: TabEnum) => {
     setSelectedTab(newValue);
@@ -54,7 +60,21 @@ export const SingleComponentPage = () => {
             <SecretsAlert secretsOverviewData={secrets} />
           </Box>
         )}
-        <Box ml="auto">
+        <Box ml="auto" display="flex" alignItems="center" gap={1}>
+          <Button
+            variant="text"
+            startIcon={<TuneIcon />}
+            color="primary"
+            onClick={() => setOpenViewSettings(true)}
+          >
+            Tilpass visning
+          </Button>
+          <ViewSettingsDialog
+            open={openViewSettings}
+            onClose={() => setOpenViewSettings(false)}
+            showTotal={showTotal}
+            onToggleShowTotal={toggleShowTotal}
+          />
           <SupportButton />
         </Box>
       </Stack>
@@ -77,7 +97,7 @@ export const SingleComponentPage = () => {
           data={data}
           averageDays={data.averageTimeToSolveVulnerabilityDays}
         />
-        <Trend componentNames={componentName} />
+        <Trend componentNames={componentName} showTotal={showTotal} />
       </Box>
 
       {data.vulnerabilities.length > 0 && (
