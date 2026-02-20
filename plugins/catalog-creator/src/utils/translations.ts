@@ -111,7 +111,10 @@ export const catalogCreatorMessages = {
       },
 
       inlineDefinitionInfo: {
-        text: 'Inline API definition detected. The GitHub URL or path from the repository root will replace the existing inline content.',
+        prefix:
+          'Inline API definition detected. The GitHub URL or path from the repository root will replace the existing inline content in ',
+        linkText: 'catalog-info.yaml',
+        suffix: '.',
       },
     },
 
@@ -352,8 +355,10 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.APIForm.definition.fieldName': 'Definisjon',
           'form.APIForm.definition.tooltipText':
             'GitHub URL eller relativ filsti til API definisjonfilen (openAPI AsyncAPI, GraphQL, eller gRPC). Et eksempel på en relativ filsti kan være /api-schema.json.',
-          'form.APIForm.inlineDefinitionInfo.text':
-            'Inline API-definisjon oppdaget. Denne GitHub-URL-en eller filstien fra rot i repoet vil erstatte det eksisterende inline-innholdet.',
+          'form.APIForm.inlineDefinitionInfo.prefix':
+            'Inline API-definisjon oppdaget. Denne GitHub-URL-en eller filstien fra rot i repoet vil erstatte det eksisterende inline-innholdet i ',
+          'form.APIForm.inlineDefinitionInfo.linkText': 'catalog-info.yaml',
+          'form.APIForm.inlineDefinitionInfo.suffix': '.',
 
           'form.systemForm.entityType.fieldName': 'Type',
           'form.systemForm.entityType.tooltipText': 'Systemets type.',
