@@ -47,7 +47,10 @@ export const SlackNotificationDialog = ({
   const { entity } = useEntity();
   const teamName = entity.metadata.name;
 
-  const configQuery = useSlackNotificationsConfigQuery(teamName);
+  const configQuery = useSlackNotificationsConfigQuery(
+    teamName,
+    openNotificationsDialog,
+  );
 
   const [selectedComponents, setSelectedComponents] =
     useState(permittedComponents);
@@ -59,10 +62,9 @@ export const SlackNotificationDialog = ({
   const channelEditedRef = useRef(false);
 
   useEffect(() => {
-    if (openNotificationsDialog) {
-      channelEditedRef.current = false;
-      setShowChannelError(false);
-    }
+    if (!openNotificationsDialog) return;
+    channelEditedRef.current = false;
+    setShowChannelError(false);
   }, [openNotificationsDialog]);
 
   useEffect(() => {
