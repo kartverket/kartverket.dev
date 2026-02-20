@@ -39,6 +39,7 @@ export type CatalogFormProps = {
   currentYaml: RequiredYamlFields[] | null;
   defaultName?: string;
   createFunction?: boolean;
+  catalogUrl?: string;
 };
 
 export const CatalogForm = ({
@@ -46,6 +47,7 @@ export const CatalogForm = ({
   currentYaml,
   defaultName = '',
   createFunction,
+  catalogUrl,
 }: CatalogFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -249,6 +251,7 @@ export const CatalogForm = ({
             inlineApiIndexes={getEntitiesWithInlineAPIDef(currentYaml || [])}
             id={entity.id}
             setValue={setValue}
+            catalogUrl={catalogUrl}
           />
         );
       case 'System':
