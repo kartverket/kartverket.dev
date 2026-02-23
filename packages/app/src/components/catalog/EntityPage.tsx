@@ -74,7 +74,6 @@ import {
   FunctionAboutCard,
   FunctionLinksCard,
   EntityFunctionsCard,
-  FunctionGroupPageCard,
   GroupFormLinksCard,
 } from '@internal/plugin-frontend-custom-components';
 import { FeatureFlagged } from '@backstage/core-app-api';
