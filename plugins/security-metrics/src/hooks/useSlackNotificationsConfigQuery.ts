@@ -11,7 +11,10 @@ export type SlackNotificationConfig = {
   severity: string[];
 };
 
-export const useSlackNotificationsConfigQuery = (teamName: string) => {
+export const useSlackNotificationsConfigQuery = (
+  teamName: string,
+  enabled = true,
+) => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
     MetricTypes.configureNotifications,
   );
@@ -38,6 +41,7 @@ export const useSlackNotificationsConfigQuery = (teamName: string) => {
         throw e;
       }
     },
-    enabled: !!teamName,
+    enabled: !!teamName && enabled,
+    staleTime: 5 * 60 * 1000,
   });
 };
