@@ -33,6 +33,7 @@ import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { Button, Flex, Select } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
+import { FORM_TYPE_MAP } from '../../constants';
 
 /** @public */
 export interface EntityLinksCardProps {
@@ -41,11 +42,6 @@ export interface EntityLinksCardProps {
 }
 
 const queryClient = new QueryClient();
-
-const FORM_TYPE_MAP: Record<string, string> = {
-  '816cc808-9188-44a9-8f4b-5642fc2932c4': 'Tjenestenivå og driftskontinuitet',
-  'e3ab7a6c-c54e-4240-8314-45990e1d7cf1': 'Datasettvurdering',
-};
 
 export const FunctionLinksCard = () => {
   return (
