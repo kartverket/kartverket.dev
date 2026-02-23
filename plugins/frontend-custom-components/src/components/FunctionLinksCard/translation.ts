@@ -182,8 +182,8 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'functionLinkCard.fetchError': 'Could not fetch security forms',
     'functionLinkCard.createError': 'Could not create form',
     'groupFormCard.title': 'Security Forms',
-    'groupFormCard.teamTab': 'Team',
-    'groupFormCard.functionsTab': 'Functions',
+    'groupFormCard.teamTab': '{{teamName}}',
+    'groupFormCard.functionsTab': 'Owned functions',
     'groupFormCard.noTeamForms': 'No security forms created yet',
     'groupFormCard.noFunctionForms': 'No function forms created yet',
     'groupFormCard.fetchError': 'Could not fetch security forms',
@@ -216,8 +216,8 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'functionLinkCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
           'functionLinkCard.createError': 'Kunne ikke opprette skjema',
           'groupFormCard.title': 'Sikkerhetsskjemaer',
-          'groupFormCard.teamTab': 'Team',
-          'groupFormCard.functionsTab': 'Funksjoner',
+          'groupFormCard.teamTab': '{{teamName}}',
+          'groupFormCard.functionsTab': 'Eide funksjoner',
           'groupFormCard.noTeamForms':
             'Ingen sikkerhetsskjemaer opprettet ennå',
           'groupFormCard.noFunctionForms':
