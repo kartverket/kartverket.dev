@@ -1,8 +1,5 @@
 import { catalogApiRef, useEntity } from '@backstage/plugin-catalog-react';
-import {
-  InfoCard,
-  Progress,
-} from '@backstage/core-components';
+import { InfoCard, Progress } from '@backstage/core-components';
 import {
   QueryClient,
   QueryClientProvider,
@@ -42,19 +39,17 @@ function GroupFormLinksCardWrapper() {
 
   const groupRef = `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`;
 
-  const {
-    data: functionEntities,
-    isLoading: isFunctionEntitiesLoading,
-  } = useQuery({
-    queryKey: ['functionEntities', groupRef],
-    queryFn: () =>
-      catalogApi.getEntities({
-        filter: {
-          kind: 'Function',
-          'relations.ownedBy': groupRef.toLowerCase(),
-        },
-      }),
-  });
+  const { data: functionEntities, isLoading: isFunctionEntitiesLoading } =
+    useQuery({
+      queryKey: ['functionEntities', groupRef],
+      queryFn: () =>
+        catalogApi.getEntities({
+          filter: {
+            kind: 'Function',
+            'relations.ownedBy': groupRef.toLowerCase(),
+          },
+        }),
+    });
 
   const functionNames =
     functionEntities?.items.map(
@@ -105,8 +100,6 @@ function GroupFormLinksCardWrapper() {
   };
 
   return (
-    <InfoCard title={t('groupFormCard.title')}>
-      {renderContent()}
-    </InfoCard>
+    <InfoCard title={t('groupFormCard.title')}>{renderContent()}</InfoCard>
   );
 }

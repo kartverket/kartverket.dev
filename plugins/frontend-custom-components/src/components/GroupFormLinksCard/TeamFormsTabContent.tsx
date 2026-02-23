@@ -46,9 +46,7 @@ export function TeamFormsTabContent({
         <CreateFormSection
           formTypeOptions={availableFormOptions}
           onBuildMutationParams={formId =>
-            teamId
-              ? { functionName: teamName, formId, teamId }
-              : undefined
+            teamId ? { functionName: teamName, formId, teamId } : undefined
           }
           onSuccess={onFormCreated}
         />

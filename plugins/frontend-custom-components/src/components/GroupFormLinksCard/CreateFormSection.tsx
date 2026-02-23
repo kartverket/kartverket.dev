@@ -73,9 +73,7 @@ export function CreateFormSection({
   };
 
   const isSubmitDisabled =
-    !selectedFormId ||
-    isCreating ||
-    (secondarySelect && !secondaryValue);
+    !selectedFormId || isCreating || (secondarySelect && !secondaryValue);
 
   return (
     <>
