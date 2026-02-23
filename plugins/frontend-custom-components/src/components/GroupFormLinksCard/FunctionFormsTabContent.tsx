@@ -41,18 +41,31 @@ export function FunctionFormsTabContent({
     label: e.metadata.title ?? e.metadata.name,
   }));
 
+  const formsByFunction = forms.reduce(
+    (acc: Record<string, RegelrettForm[]>, form) => {
+      if (!acc[form.name]) acc[form.name] = [];
+      acc[form.name].push(form);
+      return acc;
+    },
+    {},
+  );
+
   return (
     <>
       {forms.length === 0 ? (
         <p>{t('groupFormCard.noFunctionForms')}</p>
       ) : (
-        <LinksGridList
-          cols={1}
-          items={forms.map(form => ({
-            text: `${form.name} – ${getFormType(form.formId)}`,
-            href: `${regelrettBaseUrl}/context/${form.id}`,
-          }))}
-        />
+        Object.entries(formsByFunction).map(([funcName, funcForms]) => (
+          <div key={funcName} style={{ marginBottom: '1rem' }}>
+            <LinksGridList
+              cols={1}
+              items={funcForms.map(form => ({
+                text: `${form.name} – ${getFormType(form.formId)}`,
+                href: `${regelrettBaseUrl}/context/${form.id}`,
+              }))}
+            />
+          </div>
+        ))
       )}
 
       {functionEntities.length > 0 && (
