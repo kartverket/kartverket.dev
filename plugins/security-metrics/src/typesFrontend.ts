@@ -117,6 +117,7 @@ export type ScannerConfig = {
 
 export type TrendSeverityCounts = {
   timestamp: string;
+  total: number;
 } & SeverityCount;
 
 export type SeverityCount = {
