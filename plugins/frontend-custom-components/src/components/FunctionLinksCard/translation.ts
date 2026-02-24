@@ -185,7 +185,8 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'groupFormCard.teamTab': '{{teamName}}',
     'groupFormCard.functionsTab': 'Owned functions',
     'groupFormCard.noTeamForms': 'No security forms created yet',
-    'groupFormCard.noFunctionForms': 'No function forms created yet',
+    'groupFormCard.noFunctionForms':
+      'No security forms for functions created yet',
     'groupFormCard.fetchError': 'Could not fetch security forms',
     'groupFormCard.createNewForm': 'Create new form',
     'groupFormCard.selectForm': 'Select form',
@@ -195,6 +196,8 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'groupFormCard.cancel': 'Cancel',
     'groupFormCard.formCreatedSuccess': 'Form was created',
     'groupFormCard.createError': 'Could not create form',
+    'groupFormCard.allFormsCreated':
+      'All form types already created for this function',
   },
 });
 
@@ -221,7 +224,7 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'groupFormCard.noTeamForms':
             'Ingen sikkerhetsskjemaer opprettet ennå',
           'groupFormCard.noFunctionForms':
-            'Ingen funksjonsskjemaer opprettet ennå',
+            'Ingen sikkerhetsskjemaer til funksjoner opprettet ennå',
           'groupFormCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
           'groupFormCard.createNewForm': 'Opprett nytt skjema',
           'groupFormCard.selectForm': 'Velg skjema',
@@ -231,6 +234,8 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'groupFormCard.cancel': 'Avbryt',
           'groupFormCard.formCreatedSuccess': 'Skjema ble opprettet',
           'groupFormCard.createError': 'Kunne ikke opprette skjema',
+          'groupFormCard.allFormsCreated':
+            'Alle skjematyper er allerede opprettet for denne funksjonen',
         },
       }),
   },

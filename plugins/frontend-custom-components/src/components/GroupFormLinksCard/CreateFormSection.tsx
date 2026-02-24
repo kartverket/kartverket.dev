@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Divider } from '@material-ui/core';
 import { Button, Flex, Select } from '@backstage/ui';
 import { Progress } from '@backstage/core-components';
@@ -43,6 +43,11 @@ export function CreateFormSection({
   const [selectedFormId, setSelectedFormId] = useState('');
   const [secondaryValue, setSecondaryValue] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const successTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(successTimeoutRef.current);
+  }, []);
 
   const {
     mutate,
@@ -61,7 +66,10 @@ export function CreateFormSection({
         setSecondaryValue('');
         setShowCreateForm(false);
         setShowSuccessMessage(true);
-        setTimeout(() => setShowSuccessMessage(false), 2000);
+        successTimeoutRef.current = setTimeout(
+          () => setShowSuccessMessage(false),
+          2000,
+        );
       },
     });
   };
@@ -104,24 +112,35 @@ export function CreateFormSection({
             />
           )}
 
-          <Select
-            style={{ flex: 1, minWidth: 0 }}
-            placeholder={t('groupFormCard.selectForm')}
-            value={selectedFormId}
-            isDisabled={isCreating || (!!secondarySelect && !secondaryValue)}
-            options={formTypeOptions}
-            onChange={key => setSelectedFormId(key as string)}
-          />
+          {formTypeOptions.length === 0 &&
+          (!secondarySelect || secondaryValue) ? (
+            <Alert severity="info" style={{ flex: 1 }}>
+              {t('groupFormCard.allFormsCreated')}
+            </Alert>
+          ) : (
+            <>
+              <Select
+                style={{ flex: 1, minWidth: 0 }}
+                placeholder={t('groupFormCard.selectForm')}
+                value={selectedFormId}
+                isDisabled={
+                  isCreating || (!!secondarySelect && !secondaryValue)
+                }
+                options={formTypeOptions}
+                onChange={key => setSelectedFormId(key as string)}
+              />
 
-          <Button
-            variant="primary"
-            isDisabled={!!isSubmitDisabled}
-            onClick={handleSubmit}
-          >
-            {isCreating
-              ? t('groupFormCard.creating')
-              : t('groupFormCard.create')}
-          </Button>
+              <Button
+                variant="primary"
+                isDisabled={!!isSubmitDisabled}
+                onClick={handleSubmit}
+              >
+                {isCreating
+                  ? t('groupFormCard.creating')
+                  : t('groupFormCard.create')}
+              </Button>
+            </>
+          )}
 
           <Button
             variant="secondary"
