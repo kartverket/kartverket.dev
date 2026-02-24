@@ -1,11 +1,11 @@
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { useApi } from '@backstage/core-plugin-api';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
 import { Content, Header, Page } from '@backstage/core-components';
 import { FunctionEntityV1alpha1 } from '@internal/plugin-function-kind-common';
-import { RELATION_CHILD_OF } from '@backstage/catalog-model';
+import { RELATION_CHILD_OF, parseEntityRef } from '@backstage/catalog-model';
 import { FunctionTree } from './FunctionTree';
 
 export type EntityData = {
@@ -27,18 +27,20 @@ const findParent = (entity: FunctionEntityV1alpha1): string => {
   return '';
 };
 
-/** Check if a node or any of its descendants is owned by the given team */
-const hasDescendantOwnedBy = (
+/** Check if a node or any of its descendants is owned by any of the given teams */
+const hasDescendantOwnedByAny = (
   nodeRef: string,
   funcMap: Map<String, EntityData[]>,
-  teamId: string,
+  teamNames: string[],
 ): boolean => {
   const children = funcMap.get(nodeRef) ?? [];
   return children.some(
     child =>
-      child.owner?.toLowerCase().includes(teamId.toLowerCase()) ||
+      teamNames.some(team =>
+        child.owner?.toLowerCase().includes(team.toLowerCase()),
+      ) ||
       (child.ref !== undefined &&
-        hasDescendantOwnedBy(child.ref, funcMap, teamId)),
+        hasDescendantOwnedByAny(child.ref, funcMap, teamNames)),
   );
 };
 
@@ -47,12 +49,20 @@ export const FunctionsPage = () => {
   const [funcMap, setFuncMap] = useState<Map<String, EntityData[]>>(new Map());
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
   const catalogApi = useApi(catalogApiRef);
+  const identityApi = useApi(identityApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
-  const teamId = 'SKVIS';
 
   useEffect(() => {
-    catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
+    Promise.all([
+      catalogApi.getEntities({ filter: { kind: 'function' } }),
+      identityApi.getBackstageIdentity(),
+    ]).then(([response, identity]) => {
       const functions = response.items as FunctionEntityV1alpha1[];
+
+      // Extract group names from ownership refs (e.g. "group:default/skvis" → "skvis")
+      const userGroupNames = identity.ownershipEntityRefs
+        .filter(ref => ref.startsWith('group:'))
+        .map(ref => parseEntityRef(ref).name);
 
       const funcs = functions.map(item => ({
         kind: item.kind,
@@ -70,21 +80,21 @@ export const FunctionsPage = () => {
       const root = funcs.find(item => !item.parent);
       setRootEntity(root);
 
-      // Auto-expand level-1 nodes that have descendants owned by the team
-      if (root?.ref) {
+      // Auto-expand level-1 nodes that have descendants owned by the user's teams
+      if (root?.ref && userGroupNames.length > 0) {
         const level1Children = groupedFuncs.get(root.ref) ?? [];
         const expandedIds = level1Children
           .filter(
             child =>
               child.ref &&
-              hasDescendantOwnedBy(child.ref, groupedFuncs, teamId),
+              hasDescendantOwnedByAny(child.ref, groupedFuncs, userGroupNames),
           )
           .map(child => child.ref!)
           .filter(Boolean);
         setDefaultExpanded(expandedIds);
       }
     });
-  }, [catalogApi]);
+  }, [catalogApi, identityApi]);
 
   if (
     rootEntity === undefined ||
