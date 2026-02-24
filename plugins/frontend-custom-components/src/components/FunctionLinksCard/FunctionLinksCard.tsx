@@ -167,7 +167,8 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
         </Alert>
       )}
 
-      {!isLoading &&
+      {isMember &&
+        !isLoading &&
         availableFormsExist &&
         !((error as any)?.status === 401 || (error as any)?.status === 403) && (
           <>
