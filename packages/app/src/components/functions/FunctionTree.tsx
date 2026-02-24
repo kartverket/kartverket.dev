@@ -58,17 +58,17 @@ function FunctionTreeItems({
           child.ref !== undefined && (funcMap.get(child.ref)?.length ?? 0) > 0;
         return (
           <TreeItem
-            key={child.ref ?? child.name}
+            key={child.ref ?? child.title}
             className={classes.treeItem}
-            nodeId={child.ref ?? child.name}
+            nodeId={child.ref ?? child.title}
             label={
               <span className={classes.labelRow}>
                 <Link
                   className={classes.link}
-                  to={`/catalog/${child.namespace}/${child.kind.toLowerCase()}/${child.name}`}
+                  to={`/catalog/${child.namespace}/${child.kind.toLowerCase()}/${child.title}`}
                   onClick={e => e.stopPropagation()}
                 >
-                  {child.name}
+                  {child.title}
                 </Link>
                 {child.owner && (
                   <Typography component="span" className={classes.owner}>

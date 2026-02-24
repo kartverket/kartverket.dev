@@ -11,7 +11,7 @@ import { FunctionTree } from './FunctionTree';
 export type EntityData = {
   kind: string;
   namespace: string;
-  name: string;
+  title: string;
   ref?: string;
   parent?: string;
   owner?: string;
@@ -67,7 +67,7 @@ export const FunctionsPage = () => {
       const funcs = functions.map(item => ({
         kind: item.kind,
         namespace: item.metadata.namespace || 'default',
-        name: item.metadata.name,
+        title: item.metadata.title ?? item.metadata.name,
         ref: `${item.kind.toLowerCase()}:${item.metadata.namespace}/${item.metadata.name}`,
         parent: findParent(item),
         owner: item.spec.owner,
