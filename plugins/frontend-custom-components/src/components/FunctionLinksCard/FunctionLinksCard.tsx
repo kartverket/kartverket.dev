@@ -25,6 +25,7 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRegelrettQuery } from '../../hooks/useRegelrettQuery';
 import { useRegelrettCreateContextMutation } from '../../hooks/useRegelrettCreateContextMutation';
+import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { Divider } from '@material-ui/core';
 import { useState, useEffect } from 'react';
@@ -59,6 +60,12 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const { entity } = useEntity();
   const functionName = entity.metadata.title || entity.metadata.name;
   const regelrettBaseUrl = config.getString(`regelrett.url`);
+
+  const ownerRef = entity.relations?.find(
+    rel => rel.type === 'ownedBy',
+  )?.targetRef;
+  const { isMember, isLoading: isMembershipLoading } =
+    useIsGroupMember(ownerRef);
 
   const [teamId, setTeamId] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -146,9 +153,13 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
 
   return (
     <InfoCard title={t('functionLinkCard.title')} variant={variant}>
-      {isLoading && <Progress />}
+      {(isMembershipLoading || (isMember && isLoading)) && <Progress />}
 
-      {!isLoading && showData()}
+      {!isMembershipLoading && !isMember && (
+        <Alert severity="info">{t('functionLinkCard.fetchUnauthorized')}</Alert>
+      )}
+
+      {isMember && !isLoading && showData()}
 
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>

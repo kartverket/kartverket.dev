@@ -6,6 +6,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { useTeamRegelrettQuery } from '../../hooks/useTeamRegelrettQuery';
+import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { Tabs, TabList, Tab, TabPanel } from '@backstage/ui';
@@ -35,9 +36,12 @@ function GroupFormLinksCardWrapper() {
     entity.metadata.annotations?.['graph.microsoft.com/group-id'] ?? '';
   const teamName = entity.metadata.title ?? entity.metadata.name;
 
-  const { data, isLoading, error, refetch } = useTeamRegelrettQuery(entity);
-
   const groupRef = `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`;
+
+  const { isMember, isLoading: isMembershipLoading } =
+    useIsGroupMember(groupRef);
+
+  const { data, isLoading, error, refetch } = useTeamRegelrettQuery(entity);
 
   const { data: functionEntities, isLoading: isFunctionEntitiesLoading } =
     useQuery({
@@ -65,6 +69,14 @@ function GroupFormLinksCardWrapper() {
   );
 
   const renderContent = () => {
+    if (isMembershipLoading) {
+      return <Progress />;
+    }
+    if (!isMember) {
+      return (
+        <Alert severity="info">{t('groupFormCard.fetchUnauthorized')}</Alert>
+      );
+    }
     if (isLoading || isFunctionEntitiesLoading) {
       return <Progress />;
     }
