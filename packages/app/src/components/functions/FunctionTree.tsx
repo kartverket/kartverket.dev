@@ -28,6 +28,11 @@ const useStyles = makeStyles(theme => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     paddingBottom: theme.spacing(1.5),
     marginBottom: theme.spacing(1.5),
+    '&:last-child': {
+      borderBottom: 'none',
+      paddingBottom: 0,
+      marginBottom: 0,
+    },
   },
   nestedGroup: {
     borderLeft: `3px solid ${theme.palette.primary.light}`,
