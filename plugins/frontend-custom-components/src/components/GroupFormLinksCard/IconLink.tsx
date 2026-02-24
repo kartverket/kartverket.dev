@@ -17,7 +17,6 @@
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import LanguageIcon from '@material-ui/icons/Language';
 import { Link } from '@backstage/core-components';
 import { IconComponent } from '@backstage/core-plugin-api';
 
@@ -42,11 +41,13 @@ export function IconLink(props: {
 
   return (
     <Box display="flex">
-      <Box mr={1} className={classes.svgIcon}>
-        <Typography component="div">
-          {Icon ? <Icon /> : <LanguageIcon />}
-        </Typography>
-      </Box>
+      {Icon && (
+        <Box mr={1} className={classes.svgIcon}>
+          <Typography component="div">
+            <Icon />
+          </Typography>
+        </Box>
+      )}
       <Box flexGrow="1">
         <Link to={href} target="_blank" rel="noopener">
           {text || href}

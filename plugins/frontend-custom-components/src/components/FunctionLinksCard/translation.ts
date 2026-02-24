@@ -181,6 +181,23 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'functionLinkCard.formCreatedSuccess': 'Form was created',
     'functionLinkCard.fetchError': 'Could not fetch security forms',
     'functionLinkCard.createError': 'Could not create form',
+    'groupFormCard.title': 'Security Forms',
+    'groupFormCard.teamTab': '{{teamName}}',
+    'groupFormCard.functionsTab': 'Owned functions',
+    'groupFormCard.noTeamForms': 'No security forms created yet',
+    'groupFormCard.noFunctionForms':
+      'No security forms for functions created yet',
+    'groupFormCard.fetchError': 'Could not fetch security forms',
+    'groupFormCard.createNewForm': 'Create new form',
+    'groupFormCard.selectForm': 'Select form',
+    'groupFormCard.selectFunction': 'Select function',
+    'groupFormCard.create': 'Create',
+    'groupFormCard.creating': 'Creating...',
+    'groupFormCard.cancel': 'Cancel',
+    'groupFormCard.formCreatedSuccess': 'Form was created',
+    'groupFormCard.createError': 'Could not create form',
+    'groupFormCard.allFormsCreated':
+      'All form types already created for this function',
   },
 });
 
@@ -201,6 +218,24 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'functionLinkCard.formCreatedSuccess': 'Skjema ble opprettet',
           'functionLinkCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
           'functionLinkCard.createError': 'Kunne ikke opprette skjema',
+          'groupFormCard.title': 'Sikkerhetsskjemaer',
+          'groupFormCard.teamTab': '{{teamName}}',
+          'groupFormCard.functionsTab': 'Eide funksjoner',
+          'groupFormCard.noTeamForms':
+            'Ingen sikkerhetsskjemaer opprettet ennå',
+          'groupFormCard.noFunctionForms':
+            'Ingen sikkerhetsskjemaer til funksjoner opprettet ennå',
+          'groupFormCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
+          'groupFormCard.createNewForm': 'Opprett nytt skjema',
+          'groupFormCard.selectForm': 'Velg skjema',
+          'groupFormCard.selectFunction': 'Velg funksjon',
+          'groupFormCard.create': 'Opprett',
+          'groupFormCard.creating': 'Oppretter...',
+          'groupFormCard.cancel': 'Avbryt',
+          'groupFormCard.formCreatedSuccess': 'Skjema ble opprettet',
+          'groupFormCard.createError': 'Kunne ikke opprette skjema',
+          'groupFormCard.allFormsCreated':
+            'Alle skjematyper er allerede opprettet for denne funksjonen',
         },
       }),
   },

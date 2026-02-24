@@ -74,7 +74,6 @@ import {
   FunctionAboutCard,
   FunctionLinksCard,
   EntityFunctionsCard,
-  FunctionGroupPageCard,
   GroupFormLinksCard,
 } from '@internal/plugin-frontend-custom-components';
 import { FeatureFlagged } from '@backstage/core-app-api';
@@ -564,13 +563,10 @@ const groupPage = (
           </FeatureFlagged>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FeatureFlagged with="show-functions-page">
-            <FunctionGroupPageCard />
-          </FeatureFlagged>
+          <SecurityChampionCard />
         </Grid>
         <Grid item md={6} xs={12}>
           <Flex direction="column" gap="24px">
-            <SecurityChampionCard />
             <FeatureFlagged with="show-functions-page">
               <GroupFormLinksCard />
             </FeatureFlagged>
