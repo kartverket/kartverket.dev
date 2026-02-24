@@ -1,7 +1,6 @@
 import { Progress, SupportButton } from '@backstage/core-components';
 import Stack from '@mui/material/Stack';
 import { Box } from '@mui/system';
-
 import { RepositoriesTable } from '../RepositoriesTable/RepositoriesTable';
 import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
 import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
@@ -22,6 +21,11 @@ import {
 } from '../../mapping/getGroupedData';
 import { RepositorySummary } from '../../typesFrontend';
 import NoAccessAlert from '../NoAccessAlert';
+import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
+import { ViewSettingsDialog } from '../ViewSettingsDialog';
+import TuneIcon from '@mui/icons-material/Tune';
+import Button from '@mui/material/Button';
+import { useState } from 'react';
 
 export function getComponentNamesFromSystem(system: Entity) {
   const rels = system.relations ?? [];
@@ -39,6 +43,9 @@ export const SystemPage = () => {
   const { entity: system } = useEntity();
 
   const componentNames = getComponentNamesFromSystem(system);
+
+  const { showTotal, toggleShowTotal } = useShowTrendTotal();
+  const [openViewSettings, setOpenViewSettings] = useState(false);
 
   const { data, isPending, error } = useMetricsQuery(componentNames);
 
@@ -58,22 +65,28 @@ export const SystemPage = () => {
 
   return (
     <Stack gap={2}>
-      <Stack flexDirection="row" gap={2}>
-        <Stack
-          flexDirection="row"
-          gap={2}
-          flex={1}
-          flexWrap="wrap"
-          sx={{
-            '& > *': {
-              flex: 1,
-            },
-          }}
-        >
+      <Stack direction="row" alignItems="center" gap={2}>
+        <Box flex={1}>
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
-        </Stack>
-        <SupportButton />
+        </Box>
+        <Box ml="auto" display="flex" alignItems="center" gap={1}>
+          <Button
+            variant="text"
+            startIcon={<TuneIcon />}
+            color="primary"
+            onClick={() => setOpenViewSettings(true)}
+          >
+            Tilpass visning
+          </Button>
+          <ViewSettingsDialog
+            open={openViewSettings}
+            onClose={() => setOpenViewSettings(false)}
+            showTotal={showTotal}
+            onToggleShowTotal={toggleShowTotal}
+          />
+          <SupportButton />
+        </Box>
       </Stack>
 
       <Box
@@ -87,7 +100,7 @@ export const SystemPage = () => {
       >
         <SystemScannerStatuses data={permitted} />
         <VulnerabilityCountsOverview data={permitted} />
-        <Trend componentNames={componentNames} />
+        <Trend componentNames={componentNames} showTotal={showTotal} />
       </Box>
 
       <RepositoriesTable
