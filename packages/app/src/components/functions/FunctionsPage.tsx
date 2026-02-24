@@ -1,118 +1,112 @@
-import { Box, Grid, Typography, makeStyles } from '@material-ui/core';
-import {
-  CatalogTable,
-  CatalogTableColumnsFunc,
-} from '@backstage/plugin-catalog';
-import { Content, Header, InfoCard, Page } from '@backstage/core-components';
-import {
-  catalogApiRef,
-  EntityKindPicker,
-  EntityListProvider,
-  FavoriteEntity,
-} from '@backstage/plugin-catalog-react';
-import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
-import { ButtonLink, Flex } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
+import { Content, Header, Page } from '@backstage/core-components';
+import { FunctionEntityV1alpha1 } from '@internal/plugin-function-kind-common';
+import { RELATION_CHILD_OF } from '@backstage/catalog-model';
+import { FunctionTree } from './FunctionTree';
 
-type RootEntityNamesType = {
+export type EntityData = {
   kind: string;
   namespace: string;
   name: string;
+  ref?: string;
+  parent?: string;
+  owner?: string;
 };
 
-const functionColumns: CatalogTableColumnsFunc = entityListContext => {
-  if (entityListContext.filters.kind?.value === 'function') {
-    return [
-      CatalogTable.columns.createNameColumn({ defaultKind: 'function' }),
-      CatalogTable.columns.createOwnerColumn(),
-      {
-        title: 'Favorite',
-        sorting: false,
-        align: 'right',
-        render: row => <FavoriteEntity entity={row.entity} />,
-      },
-    ];
+const findParent = (entity: FunctionEntityV1alpha1): string => {
+  const childOfRelation = entity.relations?.find(
+    it => it.type === RELATION_CHILD_OF,
+  );
+  if (childOfRelation) {
+    return childOfRelation.targetRef;
   }
+  return '';
+};
 
-  return CatalogTable.defaultColumnsFunc(entityListContext);
+/** Check if a node or any of its descendants is owned by the given team */
+const hasDescendantOwnedBy = (
+  nodeRef: string,
+  funcMap: Map<String, EntityData[]>,
+  teamId: string,
+): boolean => {
+  const children = funcMap.get(nodeRef) ?? [];
+  return children.some(
+    child =>
+      child.owner?.toLowerCase().includes(teamId.toLowerCase()) ||
+      (child.ref !== undefined &&
+        hasDescendantOwnedBy(child.ref, funcMap, teamId)),
+  );
 };
 
 export const FunctionsPage = () => {
-  const [rootEntity, setRootEntity] = useState<RootEntityNamesType[]>([]);
+  const [rootEntity, setRootEntity] = useState<EntityData>();
+  const [funcMap, setFuncMap] = useState<Map<String, EntityData[]>>(new Map());
+  const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
-
-  const useStyles = makeStyles(theme => ({
-    subtitle: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(1),
-    },
-  }));
-
-  const classes = useStyles();
+  const teamId = 'SKVIS';
 
   useEffect(() => {
     catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
-      const filteredResponse = response.items.filter(item =>
-        item.metadata.name === 'rootfunction' ? item : null,
-      );
-      setRootEntity(
-        filteredResponse.map(item => ({
-          kind: item.kind,
-          namespace: item.metadata.namespace || 'default',
-          name: item.metadata.name,
-        })),
-      );
+      const functions = response.items as FunctionEntityV1alpha1[];
+
+      const funcs = functions.map(item => ({
+        kind: item.kind,
+        namespace: item.metadata.namespace || 'default',
+        name: item.metadata.name,
+        ref: `${item.kind.toLowerCase()}:${item.metadata.namespace}/${item.metadata.name}`,
+        parent: findParent(item),
+        owner: item.spec.owner,
+      }));
+
+      const groupedFuncs = Map.groupBy(funcs, f => f.parent);
+
+      setFuncMap(groupedFuncs);
+      // Find the root node (no parent)
+      const root = funcs.find(item => !item.parent);
+      setRootEntity(root);
+
+      // Auto-expand level-1 nodes that have descendants owned by the team
+      if (root?.ref) {
+        const level1Children = groupedFuncs.get(root.ref) ?? [];
+        const expandedIds = level1Children
+          .filter(
+            child =>
+              child.ref &&
+              hasDescendantOwnedBy(child.ref, groupedFuncs, teamId),
+          )
+          .map(child => child.ref!)
+          .filter(Boolean);
+        setDefaultExpanded(expandedIds);
+      }
     });
   }, [catalogApi]);
 
-  const subtitleContent = (
-    <Box sx={{ mt: 1 }}>
-      <Typography variant="subtitle2">{t('functionpage.subtitle')}</Typography>
-      <Typography variant="body2" className={classes.subtitle}>
-        {t('functionpage.subtitle2')}
-      </Typography>
-      <Typography variant="body2">
-        <strong>{t('functionpage.structure')}</strong>{' '}
-        {t('functionpage.structureDescription')}
-      </Typography>
-    </Box>
-  );
+  if (
+    rootEntity === undefined ||
+    rootEntity.ref === undefined ||
+    funcMap.get(rootEntity.ref)?.length === 0
+  ) {
+    return (
+      <Page themeId="functions">
+        Mangler enten rotfunksjon eller barn til roten.
+      </Page>
+    );
+  }
 
   return (
     <Page themeId="functions">
-      <Header title={t('functionpage.title')} subtitle={subtitleContent} />
+      <Header title={t('functionpage.title')} />
       <Content>
-        <Flex justify="end" style={{ marginBottom: '1rem' }}>
-          <ButtonLink href="/catalog-creator-function">
-            {t('functionpage.createButton')}
-          </ButtonLink>
-        </Flex>
-
-        <EntityListProvider>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <EntityKindPicker initialFilter="function" hidden />
-              <CatalogTable
-                title={t('functionpage.catalogtableTitle')}
-                columns={functionColumns}
-                actions={[]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <InfoCard title={t('functionpage.graphTitle')}>
-                <EntityRelationsGraph
-                  rootEntityNames={rootEntity}
-                  kinds={['function']}
-                  maxDepth={1}
-                />
-              </InfoCard>
-            </Grid>
-          </Grid>
-        </EntityListProvider>
+        <FunctionTree
+          rootRef={rootEntity.ref}
+          funcMap={funcMap}
+          defaultExpanded={defaultExpanded}
+        />
       </Content>
     </Page>
   );

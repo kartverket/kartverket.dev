@@ -59,13 +59,13 @@ import {
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
 } from './utils/translations';
-import { FunctionsPage } from './components/functions/FunctionsPage';
 import {
   functionGroupPageNorwegianTranslation,
   SupportButton,
   supportNorwegianTranslation,
   functionLinkCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
+import { FunctionsPage } from './components/functions/FunctionsPage';
 
 const app = createApp({
   __experimentalTranslations: {
