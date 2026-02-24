@@ -48,7 +48,9 @@ export const useTeamRegelrettQuery = (groupEntity: Entity) => {
       if (response.ok) {
         return data;
       }
-      throw data ?? { message: response.statusText };
+      const error = new Error(data?.message ?? response.statusText);
+      (error as any).status = response.status;
+      throw error;
     },
   });
 };

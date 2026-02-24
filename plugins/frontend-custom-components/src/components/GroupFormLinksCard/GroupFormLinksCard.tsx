@@ -69,7 +69,15 @@ function GroupFormLinksCardWrapper() {
       return <Progress />;
     }
     if (error) {
-      return <Alert severity="error">{t('groupFormCard.fetchError')}</Alert>;
+      const isUnauthorized =
+        (error as any)?.status === 401 || (error as any)?.status === 403;
+      return (
+        <Alert severity={isUnauthorized ? 'info' : 'error'}>
+          {isUnauthorized
+            ? t('groupFormCard.fetchUnauthorized')
+            : t('groupFormCard.fetchError')}
+        </Alert>
+      );
     }
     return (
       <Tabs>

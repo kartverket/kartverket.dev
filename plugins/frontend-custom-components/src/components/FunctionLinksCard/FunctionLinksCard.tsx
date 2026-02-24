@@ -131,7 +131,15 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
         />
       );
     } else if (error) {
-      return <Alert severity="error">{t('functionLinkCard.fetchError')}</Alert>;
+      const isUnauthorized =
+        (error as any)?.status === 401 || (error as any)?.status === 403;
+      return (
+        <Alert severity={isUnauthorized ? 'info' : 'error'}>
+          {isUnauthorized
+            ? t('functionLinkCard.fetchUnauthorized')
+            : t('functionLinkCard.fetchError')}
+        </Alert>
+      );
     }
     return <p>{t('functionLinkCard.noFormsYet')}</p>;
   };
@@ -148,66 +156,68 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
         </Alert>
       )}
 
-      {availableFormsExist && (
-        <>
-          <Divider style={{ margin: '1rem' }} />
+      {!isLoading &&
+        availableFormsExist &&
+        !((error as any)?.status === 401 || (error as any)?.status === 403) && (
+          <>
+            <Divider style={{ margin: '1rem' }} />
 
-          {!showCreateForm && (
-            <Button onClick={() => setShowCreateForm(true)}>
-              {t('functionLinkCard.createNewForm')}
-            </Button>
-          )}
-
-          {showCreateForm && (
-            <Flex style={{ marginTop: '5px', gap: '8px' }}>
-              <Select
-                style={{ flex: 1, minWidth: 0 }}
-                placeholder={t('functionLinkCard.selectForm')}
-                value={selectedFormId}
-                isDisabled={isCreating}
-                options={Object.entries(FORM_TYPE_MAP)
-                  .filter(
-                    ([formId]) => !data?.some(form => form.formId === formId),
-                  )
-                  .map(([formId, formName]) => ({
-                    value: formId,
-                    label: formName,
-                  }))}
-                onChange={key => setSelectedFormId(key as string)}
-              />
-
-              <Button
-                variant="primary"
-                isDisabled={!selectedFormId || !teamId || isCreating}
-                onClick={handleSubmit}
-              >
-                {isCreating
-                  ? t('functionLinkCard.creating')
-                  : t('functionLinkCard.create')}
+            {!showCreateForm && (
+              <Button onClick={() => setShowCreateForm(true)}>
+                {t('functionLinkCard.createNewForm')}
               </Button>
+            )}
 
-              <Button
-                variant="secondary"
-                isDisabled={isCreating}
-                onClick={() => {
-                  setShowCreateForm(false);
-                  setSelectedFormId('');
-                }}
-              >
-                {t('functionLinkCard.cancel')}
-              </Button>
-            </Flex>
-          )}
+            {showCreateForm && (
+              <Flex style={{ marginTop: '5px', gap: '8px' }}>
+                <Select
+                  style={{ flex: 1, minWidth: 0 }}
+                  placeholder={t('functionLinkCard.selectForm')}
+                  value={selectedFormId}
+                  isDisabled={isCreating}
+                  options={Object.entries(FORM_TYPE_MAP)
+                    .filter(
+                      ([formId]) => !data?.some(form => form.formId === formId),
+                    )
+                    .map(([formId, formName]) => ({
+                      value: formId,
+                      label: formName,
+                    }))}
+                  onChange={key => setSelectedFormId(key as string)}
+                />
 
-          {isCreating && <Progress />}
+                <Button
+                  variant="primary"
+                  isDisabled={!selectedFormId || !teamId || isCreating}
+                  onClick={handleSubmit}
+                >
+                  {isCreating
+                    ? t('functionLinkCard.creating')
+                    : t('functionLinkCard.create')}
+                </Button>
 
-          {createError && (
-            <Alert severity="error" style={{ margin: '1rem 0 0' }}>
-              {t('functionLinkCard.createError')}
-            </Alert>
-          )}
-        </>
-      )}
+                <Button
+                  variant="secondary"
+                  isDisabled={isCreating}
+                  onClick={() => {
+                    setShowCreateForm(false);
+                    setSelectedFormId('');
+                  }}
+                >
+                  {t('functionLinkCard.cancel')}
+                </Button>
+              </Flex>
+            )}
+
+            {isCreating && <Progress />}
+
+            {createError && (
+              <Alert severity="error" style={{ margin: '1rem 0 0' }}>
+                {t('functionLinkCard.createError')}
+              </Alert>
+            )}
+          </>
+        )}
     </InfoCard>
   );
 }
