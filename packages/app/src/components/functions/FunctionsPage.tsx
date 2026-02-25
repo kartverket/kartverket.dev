@@ -12,6 +12,7 @@ export type EntityData = {
   kind: string;
   namespace: string;
   title: string;
+  name: string;
   ref?: string;
   parent?: string;
   owner?: string;
@@ -68,6 +69,7 @@ export const FunctionsPage = () => {
         kind: item.kind,
         namespace: item.metadata.namespace || 'default',
         title: item.metadata.title ?? item.metadata.name,
+        name: item.metadata.name,
         ref: `${item.kind.toLowerCase()}:${item.metadata.namespace}/${item.metadata.name}`,
         parent: findParent(item),
         owner: item.spec.owner,

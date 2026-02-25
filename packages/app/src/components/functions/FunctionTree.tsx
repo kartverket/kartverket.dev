@@ -65,7 +65,7 @@ function FunctionTreeItems({
               <span className={classes.labelRow}>
                 <Link
                   className={classes.link}
-                  to={`/catalog/${child.namespace}/${child.kind.toLowerCase()}/${child.title}`}
+                  to={`/catalog/${child.namespace}/${child.kind.toLowerCase()}/${child.name}`}
                   onClick={e => e.stopPropagation()}
                 >
                   {child.title}
