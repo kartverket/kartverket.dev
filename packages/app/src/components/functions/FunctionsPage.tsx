@@ -1,9 +1,15 @@
-import { Box, Grid, Typography, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import {
   CatalogTable,
   CatalogTableColumnsFunc,
 } from '@backstage/plugin-catalog';
-import { Content, Header, InfoCard, Page } from '@backstage/core-components';
+import {
+  Content,
+  Header,
+  HeaderLabel,
+  InfoCard,
+  Page,
+} from '@backstage/core-components';
 import {
   catalogApiRef,
   EntityKindPicker,
@@ -13,7 +19,6 @@ import {
 import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
 import { useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
-import { ButtonLink, Flex } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
 
@@ -45,15 +50,6 @@ export const FunctionsPage = () => {
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
 
-  const useStyles = makeStyles(theme => ({
-    subtitle: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(1),
-    },
-  }));
-
-  const classes = useStyles();
-
   useEffect(() => {
     catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
       const filteredResponse = response.items.filter(item =>
@@ -69,29 +65,18 @@ export const FunctionsPage = () => {
     });
   }, [catalogApi]);
 
-  const subtitleContent = (
-    <Box sx={{ mt: 1 }}>
-      <Typography variant="subtitle2">{t('functionpage.subtitle')}</Typography>
-      <Typography variant="body2" className={classes.subtitle}>
-        {t('functionpage.subtitle2')}
-      </Typography>
-      <Typography variant="body2">
-        <strong>{t('functionpage.structure')}</strong>{' '}
-        {t('functionpage.structureDescription')}
-      </Typography>
-    </Box>
-  );
-
   return (
     <Page themeId="functions">
-      <Header title={t('functionpage.title')} subtitle={subtitleContent} />
+      <Header
+        title={t('functionpage.title')}
+        subtitle={t('functionpage.subtitle')}
+      >
+        <HeaderLabel
+          label={t('functionpage.structure')}
+          value={t('functionpage.structureDescription')}
+        />
+      </Header>
       <Content>
-        <Flex justify="end" style={{ marginBottom: '1rem' }}>
-          <ButtonLink href="/catalog-creator-function">
-            {t('functionpage.createButton')}
-          </ButtonLink>
-        </Flex>
-
         <EntityListProvider>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>

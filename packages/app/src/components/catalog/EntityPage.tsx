@@ -74,11 +74,12 @@ import {
   FunctionAboutCard,
   FunctionLinksCard,
   EntityFunctionsCard,
-  FunctionGroupPageCard,
   GroupFormLinksCard,
 } from '@internal/plugin-frontend-custom-components';
 import { FeatureFlagged } from '@backstage/core-app-api';
 import { Flex } from '@backstage/ui';
+import { CatalogCreatorPageComponent } from '@kartverket/backstage-plugin-catalog-creator';
+import { useEntity } from '@backstage/plugin-catalog-react';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -223,34 +224,47 @@ const defaultComponentContent = (
   </Grid>
 );
 
-const functionEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3} alignItems="stretch">
-        {entityWarningContent}
-        <Grid item md={6}>
-          <FunctionAboutCard variant="gridItem" />
+const FunctionEntityPage = () => {
+  const { entity } = useEntity();
+
+  return (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title="Overview">
+        <Grid container spacing={3} alignItems="stretch">
+          {entityWarningContent}
+          <Grid item md={6}>
+            <FunctionAboutCard variant="gridItem" />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <EntityCatalogGraphCard
+              variant="gridItem"
+              height={400}
+              kinds={['function', 'component', 'system', 'resource']}
+            />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <EntityDependenciesCard />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <FunctionLinksCard />
+          </Grid>
         </Grid>
-        <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard
-            variant="gridItem"
-            height={400}
-            kinds={['function', 'component', 'system', 'resource']}
-          />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <EntityDependenciesCard />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <FunctionLinksCard />
-        </Grid>
-      </Grid>
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/edit" title="Edit">
-      <CatalogCreatorContainer />
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/edit" title="Edit">
+        <CatalogCreatorContainer />
+      </EntityLayout.Route>
+      <EntityLayout.Route
+        path="/create-subfunction"
+        title="Create new subfunction"
+      >
+        <CatalogCreatorPageComponent
+          createSubFunction
+          entityName={entity.metadata.title}
+        />
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
+};
 
 const serviceEntityPage = (
   <EntityLayout>
@@ -549,13 +563,10 @@ const groupPage = (
           </FeatureFlagged>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FeatureFlagged with="show-functions-page">
-            <FunctionGroupPageCard />
-          </FeatureFlagged>
+          <SecurityChampionCard />
         </Grid>
         <Grid item md={6} xs={12}>
           <Flex direction="column" gap="24px">
-            <SecurityChampionCard />
             <FeatureFlagged with="show-functions-page">
               <GroupFormLinksCard />
             </FeatureFlagged>
@@ -701,7 +712,10 @@ export const entityPage = (
     <EntitySwitch.Case if={isKind('system')} children={systemPage} />
     <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
     <EntitySwitch.Case if={isKind('resource')} children={resourcePage} />
-    <EntitySwitch.Case if={isKind('function')} children={functionEntityPage} />
+    <EntitySwitch.Case
+      if={isKind('function')}
+      children={<FunctionEntityPage />}
+    />
 
     <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
   </EntitySwitch>
