@@ -1,9 +1,9 @@
+import { Content, Header, HeaderLabel, Page } from '@backstage/core-components';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
-import { Content, Header, Page } from '@backstage/core-components';
 import { FunctionEntityV1alpha1 } from '@internal/plugin-function-kind-common';
 import { RELATION_CHILD_OF, parseEntityRef } from '@backstage/catalog-model';
 import { FunctionTree } from './FunctionTree';
@@ -110,7 +110,15 @@ export const FunctionsPage = () => {
 
   return (
     <Page themeId="functions">
-      <Header title={t('functionpage.title')} />
+      <Header
+        title={t('functionpage.title')}
+        subtitle={t('functionpage.subtitle')}
+      >
+        <HeaderLabel
+          label={t('functionpage.structure')}
+          value={t('functionpage.structureDescription')}
+        />
+      </Header>
       <Content>
         <FunctionTree
           rootRef={rootEntity.ref}

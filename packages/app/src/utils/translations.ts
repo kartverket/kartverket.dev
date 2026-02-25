@@ -75,9 +75,7 @@ export const functionPageMessages = {
   functionpage: {
     title: 'Business Functions in Kartverket',
     subtitle:
-      'A business function describes what Kartverket must be able to do to deliver on its societal mission.',
-    subtitle2:
-      'Functions are composed of sub-functions that are supported by systems and delivered by teams.',
+      'A business function describes what Kartverket must be able to do to deliver on its societal mission. Functions are composed of sub-functions that are supported by systems and delivered by teams.',
     structure: 'Structure:',
     structureDescription: 'Function → Sub-function → System',
     createButton: 'Create new function',
@@ -99,9 +97,7 @@ export const functionPageNorwegianTranslation = createTranslationResource({
         default: {
           'functionpage.title': 'Forretningsfunksjoner i Kartverket',
           'functionpage.subtitle':
-            'En forretningsfunksjon beskriver hva Kartverket må kunne gjøre for å levere på sitt samfunnsoppdrag.',
-          'functionpage.subtitle2':
-            'Funksjoner består av delfunksjoner som støttes av systemer og leveres av team.',
+            'En forretningsfunksjon beskriver hva Kartverket må kunne gjøre for å levere på sitt samfunnsoppdrag. Funksjoner består av delfunksjoner som støttes av systemer og leveres av team.',
           'functionpage.structure': 'Struktur:',
           'functionpage.structureDescription':
             'Funksjon → Delfunksjon → System',
