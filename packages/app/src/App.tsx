@@ -55,6 +55,7 @@ import {
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import {
+  functionEntityPageNorwegianTranslation,
   functionPageNorwegianTranslation,
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
@@ -65,6 +66,7 @@ import {
   SupportButton,
   supportNorwegianTranslation,
   functionLinkCardNorwegianTranslation,
+  functionDependenciesCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 
 const app = createApp({
@@ -75,10 +77,12 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      functionEntityPageNorwegianTranslation,
       functionPageNorwegianTranslation,
       functionGroupPageNorwegianTranslation,
       supportNorwegianTranslation,
       functionLinkCardNorwegianTranslation,
+      functionDependenciesCardNorwegianTranslation,
     ],
   },
   components: {

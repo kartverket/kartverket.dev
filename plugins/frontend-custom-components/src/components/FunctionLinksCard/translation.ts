@@ -171,15 +171,17 @@ export const catalogTranslationRef = createTranslationRef({
 export const functionLinkCardTranslationRef = createTranslationRef({
   id: 'functionLinkCard',
   messages: {
-    'functionLinkCard.title': 'Security Forms',
+    'functionLinkCard.title': 'Associated forms',
+    'functionLinkCard.subtitle':
+      'Here you can find the current forms for this function. You can create new forms or update existing ones.',
     'functionLinkCard.createNewForm': 'Create new form',
     'functionLinkCard.selectForm': 'Select form',
     'functionLinkCard.create': 'Create',
     'functionLinkCard.creating': 'Creating...',
     'functionLinkCard.cancel': 'Cancel',
-    'functionLinkCard.noFormsYet': 'No security forms created yet',
+    'functionLinkCard.noFormsYet': 'No forms created yet',
     'functionLinkCard.formCreatedSuccess': 'Form was created',
-    'functionLinkCard.fetchError': 'Could not fetch security forms',
+    'functionLinkCard.fetchError': 'Could not fetch forms',
     'functionLinkCard.createError': 'Could not create form',
     'groupFormCard.title': 'Security Forms',
     'groupFormCard.teamTab': '{{teamName}}',
@@ -207,16 +209,17 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
     no: () =>
       Promise.resolve({
         default: {
-          'functionLinkCard.title': 'Sikkerhetsskjemaer',
+          'functionLinkCard.title': 'Tilhørende skjemaer',
+          'functionLinkCard.subtitle':
+            'Her finner du gjeldende skjemaer for funksjonen. Du kan opprette nye eller oppdatere eksisterende.',
           'functionLinkCard.createNewForm': 'Opprett nytt skjema',
           'functionLinkCard.selectForm': 'Velg skjema',
           'functionLinkCard.create': 'Opprett',
           'functionLinkCard.creating': 'Oppretter...',
           'functionLinkCard.cancel': 'Avbryt',
-          'functionLinkCard.noFormsYet':
-            'Ingen sikkerhetsskjemaer opprettet ennå',
+          'functionLinkCard.noFormsYet': 'Ingen skjemaer opprettet ennå',
           'functionLinkCard.formCreatedSuccess': 'Skjema ble opprettet',
-          'functionLinkCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
+          'functionLinkCard.fetchError': 'Kunne ikke hente skjemaer',
           'functionLinkCard.createError': 'Kunne ikke opprette skjema',
           'groupFormCard.title': 'Sikkerhetsskjemaer',
           'groupFormCard.teamTab': '{{teamName}}',

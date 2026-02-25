@@ -87,6 +87,7 @@ const useStyles = makeStyles({
  * @public
  */
 export type AboutCardProps = {
+  title?: string;
   variant?: InfoCardVariants;
 };
 
@@ -145,7 +146,7 @@ export function InternalAboutCard(props: InternalAboutCardProps) {
   return (
     <Card className={cardClass}>
       <CardHeader
-        title={t('aboutCard.title')}
+        title={props.title ?? t('aboutCard.title')}
         action={
           <>
             {allowRefresh && canRefresh && (

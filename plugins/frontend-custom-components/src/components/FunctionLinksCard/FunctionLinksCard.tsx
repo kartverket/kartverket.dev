@@ -34,6 +34,7 @@ import { Button, Flex, Select } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
 import { FORM_TYPE_MAP } from '../../constants';
+import Typography from '@material-ui/core/Typography';
 
 /** @public */
 export interface EntityLinksCardProps {
@@ -137,7 +138,15 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   };
 
   return (
-    <InfoCard title={t('functionLinkCard.title')} variant={variant}>
+    <InfoCard
+      title={t('functionLinkCard.title')}
+      subheader={
+        <Typography variant="subtitle1">
+          {t('functionLinkCard.subtitle')}
+        </Typography>
+      }
+      variant={variant}
+    >
       {isLoading && <Progress />}
 
       {!isLoading && showData()}

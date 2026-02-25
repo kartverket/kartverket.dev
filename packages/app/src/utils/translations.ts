@@ -108,3 +108,36 @@ export const functionPageNorwegianTranslation = createTranslationResource({
       }),
   },
 });
+
+const functionEntityPageMessages = {
+  functionEntityPage: {
+    graphTitle: 'Relations',
+    aboutTitle: 'About the business function',
+    editTitle: 'Edit',
+    createSubFunctionTitle: 'Create new sub-function',
+    overviewTitle: 'Overview',
+  },
+};
+
+export const functionEntityPageTranslationRef = createTranslationRef({
+  id: 'functionEntityPage',
+  messages: functionEntityPageMessages,
+});
+
+export const functionEntityPageNorwegianTranslation = createTranslationResource(
+  {
+    ref: functionEntityPageTranslationRef,
+    translations: {
+      no: () =>
+        Promise.resolve({
+          default: {
+            'functionEntityPage.graphTitle': 'Relasjoner',
+            'functionEntityPage.aboutTitle': 'Om forretningsfunksjonen',
+            'functionEntityPage.editTitle': 'Rediger',
+            'functionEntityPage.createSubFunctionTitle': 'Lag ny delfunksjon',
+            'functionEntityPage.overviewTitle': 'Oversikt',
+          },
+        }),
+    },
+  },
+);

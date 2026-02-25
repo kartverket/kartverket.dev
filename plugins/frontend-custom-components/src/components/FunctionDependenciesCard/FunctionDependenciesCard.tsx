@@ -21,19 +21,26 @@ import {
 import { useApi } from '@backstage/core-plugin-api';
 import Typography from '@material-ui/core/Typography';
 import { useAsync } from 'react-use';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { functionDependenciesCardTranslationRef } from './translations.ts';
 
 export type EntityDependenciesCardProps = {
   variant?: InfoCardVariants;
   title?: string;
+  subtitle?: string;
 };
 
 const ENTITY_KIND = ['System', 'Component', 'Resource', 'Api'];
 const HIGHER_LEVEL_ENTITIES = ['Function'];
 
-export const EntityDependenciesCard = (props: EntityDependenciesCardProps) => {
+export const FunctionDependenciesCard = (
+  props: EntityDependenciesCardProps,
+) => {
   const { variant = 'gridItem', title = 'Dependencies' } = props;
   const catalog = useApi(catalogApiRef);
   const { entity } = useEntity();
+
+  const { t } = useTranslationRef(functionDependenciesCardTranslationRef);
 
   const isEntity = (ent: Entity | undefined): ent is Entity => !!ent;
 
@@ -168,24 +175,35 @@ export const EntityDependenciesCard = (props: EntityDependenciesCardProps) => {
   }
 
   return (
-    <EntityTable
-      title={title}
+    <InfoCard
       variant={variant}
-      emptyContent={
-        <div style={{ textAlign: 'center' }}>
-          <Typography variant="body1">
-            No entities found that this function or its child functions depend
-            on.
-          </Typography>
-          <Typography variant="body2">
-            <Link to={EntityHelpLink} externalLinkIcon>
-              Learn more about entities
-            </Link>
-          </Typography>
-        </div>
+      title={t('functionDependenciesCard.dependenciesTitle')}
+      subheader={
+        <Typography variant="subtitle1">
+          {t('functionDependenciesCard.dependenciesSubtitle')}
+        </Typography>
       }
-      columns={entityColumns}
-      entities={dependencyEntities || []}
-    />
+      noPadding
+    >
+      <EntityTable
+        title={title}
+        tableOptions={{ toolbar: false }}
+        variant={variant}
+        emptyContent={
+          <div style={{ textAlign: 'center' }}>
+            <Typography variant="body1">
+              {t('functionDependenciesCard.noDependenciesFound')}
+            </Typography>
+            <Typography variant="body2">
+              <Link to={EntityHelpLink} externalLinkIcon>
+                {t('functionDependenciesCard.entityHelpLinkText')}
+              </Link>
+            </Typography>
+          </div>
+        }
+        columns={entityColumns}
+        entities={dependencyEntities || []}
+      />
+    </InfoCard>
   );
 };
