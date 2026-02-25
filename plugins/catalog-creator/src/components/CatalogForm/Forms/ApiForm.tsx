@@ -131,15 +131,19 @@ export const ApiForm = ({
       <div>
         {inlineApiIndexes.includes(id) && (
           <Alert sx={{ my: 2 }} severity="info">
-            {t('form.APIForm.inlineDefinitionInfo.prefix')}
-            {catalogUrl ? (
-              <Link href={catalogUrl} target="_blank" rel="noopener noreferrer">
-                {t('form.APIForm.inlineDefinitionInfo.linkText')}
-              </Link>
-            ) : (
-              t('form.APIForm.inlineDefinitionInfo.linkText')
-            )}
-            {t('form.APIForm.inlineDefinitionInfo.suffix')}
+            {t('form.APIForm.inlineDefinitionInfo.text', {
+              link: catalogUrl ? (
+                <Link
+                  href={catalogUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  catalog-info.yaml
+                </Link>
+              ) : (
+                'catalog-info.yaml'
+              ),
+            })}
           </Alert>
         )}
         <FieldHeader
