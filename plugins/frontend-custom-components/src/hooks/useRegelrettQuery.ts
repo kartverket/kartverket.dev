@@ -7,6 +7,7 @@ import {
   useApi,
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
+import { ApiError } from '../errors';
 
 export const useRegelrettQuery = (functionName: string) => {
   const config = useApi(configApiRef);
@@ -41,9 +42,7 @@ export const useRegelrettQuery = (functionName: string) => {
       if (response.ok) {
         return data;
       }
-      const error = new Error(data?.message ?? response.statusText);
-      (error as any).status = response.status;
-      throw error;
+      throw new ApiError(data?.message ?? response.statusText, response.status);
     },
   });
 };

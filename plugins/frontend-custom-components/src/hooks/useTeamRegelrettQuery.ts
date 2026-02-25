@@ -7,6 +7,7 @@ import {
   useApi,
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
+import { ApiError } from '../errors';
 import { Entity } from '@backstage/catalog-model';
 
 export const useTeamRegelrettQuery = (groupEntity: Entity) => {
@@ -48,9 +49,7 @@ export const useTeamRegelrettQuery = (groupEntity: Entity) => {
       if (response.ok) {
         return data;
       }
-      const error = new Error(data?.message ?? response.statusText);
-      (error as any).status = response.status;
-      throw error;
+      throw new ApiError(data?.message ?? response.statusText, response.status);
     },
   });
 };

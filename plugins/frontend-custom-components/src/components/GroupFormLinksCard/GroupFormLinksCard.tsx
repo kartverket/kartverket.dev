@@ -14,6 +14,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
 import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
+import { isUnauthorizedError } from '../../errors';
 
 const queryClient = new QueryClient();
 
@@ -81,8 +82,7 @@ function GroupFormLinksCardWrapper() {
       return <Progress />;
     }
     if (error) {
-      const isUnauthorized =
-        (error as any)?.status === 401 || (error as any)?.status === 403;
+      const isUnauthorized = isUnauthorizedError(error);
       return (
         <Alert severity={isUnauthorized ? 'info' : 'error'}>
           {isUnauthorized

@@ -35,6 +35,7 @@ import { Button, Flex, Select } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
 import { FORM_TYPE_MAP } from '../../constants';
+import { isUnauthorizedError } from '../../errors';
 
 /** @public */
 export interface EntityLinksCardProps {
@@ -138,8 +139,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
         />
       );
     } else if (error) {
-      const isUnauthorized =
-        (error as any)?.status === 401 || (error as any)?.status === 403;
+      const isUnauthorized = isUnauthorizedError(error);
       return (
         <Alert severity={isUnauthorized ? 'info' : 'error'}>
           {isUnauthorized
@@ -170,7 +170,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
       {isMember &&
         !isLoading &&
         availableFormsExist &&
-        !((error as any)?.status === 401 || (error as any)?.status === 403) && (
+        !isUnauthorizedError(error) && (
           <>
             <Divider style={{ margin: '1rem' }} />
 
