@@ -68,6 +68,8 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const { isMember, isLoading: isMembershipLoading } =
     useIsGroupMember(ownerRef);
 
+  const isReady = !isMembershipLoading && isMember;
+
   const [teamId, setTeamId] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -97,7 +99,9 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
     fetchOwner();
   }, [entity, catalogApi]);
 
-  const { data, isLoading, error, refetch } = useRegelrettQuery(functionName);
+  const { data, isLoading, error, refetch } = useRegelrettQuery(functionName, {
+    enabled: isReady,
+  });
 
   const [selectedFormId, setSelectedFormId] = useState('');
   const [submitted, setSubmitted] = useState(false);

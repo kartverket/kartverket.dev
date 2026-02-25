@@ -42,11 +42,16 @@ function GroupFormLinksCardWrapper() {
   const { isMember, isLoading: isMembershipLoading } =
     useIsGroupMember(groupRef);
 
-  const { data, isLoading, error, refetch } = useTeamRegelrettQuery(entity);
+  const isReady = !isMembershipLoading && isMember;
+
+  const { data, isLoading, error, refetch } = useTeamRegelrettQuery(entity, {
+    enabled: isReady,
+  });
 
   const { data: functionEntities, isLoading: isFunctionEntitiesLoading } =
     useQuery({
       queryKey: ['functionEntities', groupRef],
+      enabled: isReady,
       queryFn: () =>
         catalogApi.getEntities({
           filter: {
