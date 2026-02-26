@@ -1,10 +1,10 @@
 ---
-name: fix-vulnerabilities
-description: Fetches open Dependabot and code scanning alerts for kartverket/kartverket.dev via the GitHub CLI, fixes them in the codebase, and opens a pull request with the changes.
+name: fix-vulnerabilities-and-bump-dependencies
+description: Fetches open Dependabot and code scanning alerts for kartverket/kartverket.dev via the GitHub CLI, fixes them, proactively bumps all outdated dependencies (skipping packages newer than 5 days), verifies the app still builds and starts, and opens a pull request with changelog links and package age for each bumped dependency.
 tools: ["read", "edit", "search", "shell", "create"]
 ---
 
-Fix open vulnerability alerts in `kartverket/kartverket.dev` (a Backstage monorepo using Yarn workspaces), verify the app still builds and starts, and open a pull request.
+Fix open vulnerability alerts and bump all outdated dependencies in `kartverket/kartverket.dev` (a Backstage monorepo using Yarn workspaces), verify the app still builds and starts, and open a pull request.
 
 ---
 
@@ -77,6 +77,66 @@ Run `yarn install` after adding a resolution.
 
 > **Compatibility warning:** Forcing a package to a newer version via resolutions may introduce incompatibilities with other packages in the monorepo. After applying resolutions, verify that all interdependent packages use mutually compatible versions. If a version conflict cannot be cleanly resolved, document the original alert as outstanding.
 
+### 5c. Bump all remaining outdated dependencies
+
+After addressing vulnerability alerts, proactively upgrade all remaining outdated packages to their latest compatible versions.
+
+**First, apply the 5-day cooldown filter.** For each outdated package, check when the target version was published and skip it if it is newer than 5 days:
+
+```bash
+# Get publish date for a specific version
+npm view <package>@<target-version> time --json 2>/dev/null | grep '"<target-version>"'
+
+# Or for the latest tag
+npm view <package> time.modified
+```
+
+Skip any package whose target version was published less than 5 days ago. Note it under **Outstanding issues** in the PR body with its publish date, so it can be picked up on the next run.
+
+**For packages that pass the cooldown**, collect the following metadata before bumping (used later in the PR description):
+
+```bash
+# Publish date of the target version
+npm view <package>@<target-version> time --json | grep '"<target-version>"'
+
+# Changelog / repository URL
+npm view <package> repository.url
+```
+
+Derive the changelog URL from the repository URL:
+- GitHub repos: `https://github.com/<owner>/<repo>/blob/HEAD/CHANGELOG.md` (fall back to the releases page: `https://github.com/<owner>/<repo>/releases`)
+- Otherwise link to the npm page: `https://www.npmjs.com/package/<package>?activeTab=versions`
+
+**Then bump all eligible packages:**
+
+```bash
+yarn up '*'
+yarn install
+```
+
+For each workspace that has its own `package.json`, repeat:
+
+```bash
+yarn workspace <workspace-name> up '*'
+```
+
+Verify the upgrade didn't break anything:
+
+```bash
+yarn tsc --noEmit && yarn lint:all
+```
+
+If verification fails:
+
+1. Use `git diff package.json yarn.lock` to identify which packages changed.
+2. Revert each failing package individually to its pre-bump version:
+   ```bash
+   yarn up <package>@<previous-version>
+   yarn install
+   ```
+3. Re-run `yarn tsc --noEmit && yarn lint:all` after each revert until clean.
+4. Document reverted packages under **Outstanding issues** in the PR body with the reason.
+
 ---
 
 ## Step 6 — Fix code scanning alerts
@@ -135,11 +195,14 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 Use `gh pr create` targeting `main` with a title of `fix: remediate Dependabot and code scanning alerts`. The PR body should include:
 
 - **Summary** — brief description of what was fixed
-- **Changes** — one bullet per fix
+- **Changes** — one bullet per fix; for dependency bumps include:
+  - old version → new version
+  - how old the new version was at time of bump (e.g. "published 12 days ago")
+  - a link to the changelog or releases page (derived in Step 5c)
 - **Testing** — confirm `yarn tsc --noEmit`, `yarn lint:all`, and `yarn dev` all pass
 - **Dependabot alerts fixed** — linked list of resolved alerts
 - **Code scanning alerts fixed** — linked list of resolved alerts
-- **Outstanding issues** — alerts that could not be safely fixed, and why
+- **Outstanding issues** — alerts and skipped bumps that could not be safely applied, with reasons (include cooldown-skipped packages with their publish date)
 
 ---
 
@@ -159,4 +222,5 @@ Always use full URLs — never `#NNN`, which GitHub autolinks to issues and PRs.
 - **Minimal changes only.** Only touch files directly related to a vulnerability.
 - **Document what you can't fix.** If an alert has no patched version, requires a breaking change, or would break the app, add it to the "Outstanding issues" section of the PR body with a clear explanation.
 - **Always keep the PR up to date.** After every commit to the branch (additional fixes, reverts, Backstage bumps, etc.), update the PR body via `gh pr edit` to accurately reflect what is currently fixed and what is still outstanding. Never leave the PR body describing a previous state of the branch.
+- **Roll back broken bumps individually.** When a dependency upgrade causes a build or lint failure, revert only the offending package to its previous version (`yarn up <package>@<previous-version>`). Never revert the entire lock file unless all individual reverts still leave the build broken.
 - **Check the working tree first.** If there are uncommitted changes when you start, stop and ask the user how to proceed.
