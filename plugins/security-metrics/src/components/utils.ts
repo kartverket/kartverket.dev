@@ -97,6 +97,9 @@ export const getSeverityColor = (severity: Severity) =>
 export const isExperimentalLifecycle = (value: unknown): value is string =>
   typeof value === 'string' && value.toLowerCase() === 'experimental';
 
+export const isDocumentationType = (value: unknown): value is string =>
+  typeof value === 'string' && value.toLowerCase() === 'documentation';
+
 export const getComponentRefs = (
   entity: Entity,
   relationType: string,
