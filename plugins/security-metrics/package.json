@@ -38,16 +38,16 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.7",
-    "@mui/material": "^7.3.7",
-    "@mui/system": "^7.3.7",
+    "@mui/icons-material": "^7.3.8",
+    "@mui/material": "^7.3.8",
+    "@mui/system": "^7.3.8",
     "@mui/x-charts": "^8.25.0",
     "@mui/x-date-pickers": "^8.25.0",
-    "@tanstack/react-query": "^5.90.17",
-    "@tanstack/react-query-devtools": "^5.91.2",
+    "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-query-devtools": "^5.91.3",
     "date-fns": "^4.1.0",
     "react-use": "^17.6.0",
-    "recharts": "^3.6.0"
+    "recharts": "^3.7.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",
@@ -58,8 +58,8 @@
     "@backstage/cli": "backstage:^",
     "@backstage/core-app-api": "backstage:^",
     "@backstage/dev-utils": "backstage:^",
-    "@tanstack/eslint-plugin-query": "^5.83.1",
-    "msw": "^2.12.7"
+    "@tanstack/eslint-plugin-query": "^5.91.4",
+    "msw": "^2.12.10"
   },
   "files": [
     "dist"
