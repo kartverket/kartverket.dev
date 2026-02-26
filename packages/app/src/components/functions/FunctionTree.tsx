@@ -47,7 +47,7 @@ function FunctionTreeItems({
   classes,
 }: {
   parentRef: string;
-  funcMap: Map<String, EntityData[]>;
+  funcMap: Map<string | undefined, EntityData[]>;
   classes: ReturnType<typeof useStyles>;
 }) {
   const children = funcMap.get(parentRef) ?? [];
@@ -100,7 +100,7 @@ export const FunctionTree = ({
   defaultExpanded = [],
 }: {
   rootRef: string;
-  funcMap: Map<String, EntityData[]>;
+  funcMap: Map<string | undefined, EntityData[]>;
   defaultExpanded?: string[];
 }) => {
   const classes = useStyles();

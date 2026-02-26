@@ -31,7 +31,7 @@ const findParent = (entity: FunctionEntityV1alpha1): string => {
 /** Check if a node or any of its descendants is owned by any of the given teams */
 const hasDescendantOwnedByAny = (
   nodeRef: string,
-  funcMap: Map<String, EntityData[]>,
+  funcMap: Map<string | undefined, EntityData[]>,
   teamNames: string[],
 ): boolean => {
   const children = funcMap.get(nodeRef) ?? [];
@@ -47,7 +47,7 @@ const hasDescendantOwnedByAny = (
 
 export const FunctionsPage = () => {
   const [rootEntity, setRootEntity] = useState<EntityData>();
-  const [funcMap, setFuncMap] = useState<Map<String, EntityData[]>>(new Map());
+  const [childfunctionsMap, setChildfunctionsMap] = useState<Map<string | undefined, EntityData[]>>(new Map());
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
@@ -75,9 +75,18 @@ export const FunctionsPage = () => {
         owner: item.spec.owner,
       }));
 
-      const groupedFuncs = Map.groupBy(funcs, f => f.parent);
+      const groupedFuncs = funcs.reduce(
+        (acc, func) => {
+          const key = func.parent;
+          const existing = acc.get(key) ?? [];
+          existing.push(func);
+          acc.set(key, existing);
+          return acc;
+        },
+        new Map<string | undefined, EntityData[]>(),
+      );
 
-      setFuncMap(groupedFuncs);
+      setChildfunctionsMap(groupedFuncs);
       // Find the root node (no parent)
       const root = funcs.find(item => !item.parent);
       setRootEntity(root);
@@ -101,7 +110,7 @@ export const FunctionsPage = () => {
   if (
     rootEntity === undefined ||
     rootEntity.ref === undefined ||
-    funcMap.get(rootEntity.ref)?.length === 0
+    childfunctionsMap.get(rootEntity.ref)?.length === 0
   ) {
     return (
       <Page themeId="functions">
@@ -124,7 +133,7 @@ export const FunctionsPage = () => {
       <Content>
         <FunctionTree
           rootRef={rootEntity.ref}
-          funcMap={funcMap}
+          funcMap={childfunctionsMap}
           defaultExpanded={defaultExpanded}
         />
       </Content>
