@@ -47,7 +47,9 @@ const hasDescendantOwnedByAny = (
 
 export const FunctionsPage = () => {
   const [rootEntity, setRootEntity] = useState<EntityData>();
-  const [childfunctionsMap, setChildfunctionsMap] = useState<Map<string | undefined, EntityData[]>>(new Map());
+  const [childfunctionsMap, setChildfunctionsMap] = useState<
+    Map<string | undefined, EntityData[]>
+  >(new Map());
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
@@ -75,21 +77,28 @@ export const FunctionsPage = () => {
         owner: item.spec.owner,
       }));
 
-      const groupedFuncs = funcs.reduce(
-        (acc, func) => {
-          const key = func.parent;
-          const existing = acc.get(key) ?? [];
-          existing.push(func);
-          acc.set(key, existing);
-          return acc;
-        },
-        new Map<string | undefined, EntityData[]>(),
-      );
+      const groupedFuncs = funcs.reduce((acc, func) => {
+        const key = func.parent;
+        const existing = acc.get(key) ?? [];
+        existing.push(func);
+        acc.set(key, existing);
+        return acc;
+      }, new Map<string | undefined, EntityData[]>());
 
       setChildfunctionsMap(groupedFuncs);
       // Find the root node (no parent)
       const root = funcs.find(item => !item.parent);
       setRootEntity(root);
+
+      // Find and validate the root node(s) (no parent)
+      const rootCandidates = funcs.filter(item => !item.parent);
+      if (rootCandidates.length !== 1) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `Expected exactly one root function, but found ${rootCandidates.length}, named ${rootCandidates.map(it => it.name).join(', ')}.`,
+        );
+      }
+      setRootEntity(rootCandidates[0]);
 
       // Auto-expand level-1 nodes that have descendants owned by the user's teams
       if (root?.ref && userGroupNames.length > 0) {
