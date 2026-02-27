@@ -8,7 +8,10 @@ import {
   RELATION_PARENT_OF,
 } from '@backstage/catalog-model';
 import { getChildRefs } from '../utils/getChildRefs';
-import { isExperimentalLifecycle } from '../components/utils';
+import {
+  isDocumentationType,
+  isExperimentalLifecycle,
+} from '../components/utils';
 import { useQuery } from '@tanstack/react-query';
 
 const REPOSITORY_ENTITY_KIND = 'Component';
@@ -41,7 +44,8 @@ export const useFetchComponentNamesByGroup = (rootGroupRef: Entity) => {
     resultEntities.forEach(item => {
       if (
         item.kind === REPOSITORY_ENTITY_KIND &&
-        !isExperimentalLifecycle(item.spec?.lifecycle)
+        !isExperimentalLifecycle(item.spec?.lifecycle) &&
+        !isDocumentationType(item.spec?.type)
       ) {
         repositoryEntities.push(item.metadata.name);
       } else if (HIGHER_LEVEL_ENTITIES.includes(item.kind)) {
