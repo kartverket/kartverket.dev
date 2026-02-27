@@ -1,9 +1,38 @@
-import { LinksGridList } from './LinksGridList';
+import { makeStyles } from '@material-ui/core/styles';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
 import { FORM_TYPE_MAP } from '../../constants';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
+
+const useStyles = makeStyles(theme => ({
+  formList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(0.5),
+  },
+  formRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    transition: 'background-color 0.15s ease',
+    '&:hover': {
+      backgroundColor:
+        theme.palette.type === 'dark'
+          ? 'rgba(255, 255, 255, 0.04)'
+          : 'rgba(0, 0, 0, 0.02)',
+    },
+  },
+  formIcon: {
+    color: theme.palette.text.secondary,
+    fontSize: '1.2rem',
+  },
+}));
 
 interface TeamFormsTabContentProps {
   forms: RegelrettForm[];
@@ -20,6 +49,7 @@ export function TeamFormsTabContent({
   teamName,
   onFormCreated,
 }: TeamFormsTabContentProps) {
+  const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
 
@@ -33,18 +63,26 @@ export function TeamFormsTabContent({
       {forms.length === 0 ? (
         <p>{t('groupFormCard.noTeamForms')}</p>
       ) : (
-        <LinksGridList
-          cols={1}
-          items={forms.map(form => ({
-            text: `${form.name} – ${getFormType(form.formId)}`,
-            href: `${regelrettBaseUrl}/context/${form.id}`,
-          }))}
-        />
+        <div className={classes.formList}>
+          {forms.map(form => (
+            <div key={form.id} className={classes.formRow}>
+              <DescriptionOutlinedIcon className={classes.formIcon} />
+              <Link
+                to={`${regelrettBaseUrl}/context/${form.id}`}
+                target="_blank"
+                rel="noopener"
+              >
+                {`${form.name} – ${getFormType(form.formId)}`}
+              </Link>
+            </div>
+          ))}
+        </div>
       )}
 
       {availableFormOptions.length > 0 && (
         <CreateFormSection
           formTypeOptions={availableFormOptions}
+          createButtonLabel={t('groupFormCard.createNewTeamForm')}
           onBuildMutationParams={formId =>
             teamId ? { functionName: teamName, formId, teamId } : undefined
           }

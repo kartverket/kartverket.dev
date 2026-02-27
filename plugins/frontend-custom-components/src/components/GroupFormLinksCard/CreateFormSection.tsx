@@ -29,6 +29,8 @@ interface CreateFormSectionProps {
   ) => { functionName: string; formId: string; teamId: string } | undefined;
   /** Called after a successful form creation */
   onSuccess: () => void;
+  /** Optional custom label for the create button */
+  createButtonLabel?: string;
 }
 
 export function CreateFormSection({
@@ -36,6 +38,7 @@ export function CreateFormSection({
   secondarySelect,
   onBuildMutationParams,
   onSuccess,
+  createButtonLabel,
 }: CreateFormSectionProps) {
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
 
@@ -95,7 +98,7 @@ export function CreateFormSection({
 
       {!showCreateForm && (
         <Button onClick={() => setShowCreateForm(true)}>
-          {t('groupFormCard.createNewForm')}
+          {createButtonLabel ?? t('groupFormCard.createNewForm')}
         </Button>
       )}
 
