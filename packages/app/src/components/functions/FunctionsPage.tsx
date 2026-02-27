@@ -1,4 +1,4 @@
-import { Content, Header, HeaderLabel, Page } from '@backstage/core-components';
+import { Content, EmptyState, Header, HeaderLabel, Page } from '@backstage/core-components';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
@@ -123,7 +123,22 @@ export const FunctionsPage = () => {
   ) {
     return (
       <Page themeId="functions">
-        Mangler enten rotfunksjon eller barn til roten.
+        <Header
+          title={t('functionpage.title')}
+          subtitle={t('functionpage.subtitle')}
+        >
+          <HeaderLabel
+            label={t('functionpage.structure')}
+            value={t('functionpage.structureDescription')}
+          />
+        </Header>
+        <Content>
+          <EmptyState
+            title={t('functionpage.noRootTitle')}
+            description={t('functionpage.noRootDescription')}
+            missing="data"
+          />
+        </Content>
       </Page>
     );
   }
