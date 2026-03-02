@@ -1,4 +1,10 @@
-import { Content, EmptyState, Header, HeaderLabel, Page } from '@backstage/core-components';
+import {
+  Content,
+  EmptyState,
+  Header,
+  HeaderLabel,
+  Page,
+} from '@backstage/core-components';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
