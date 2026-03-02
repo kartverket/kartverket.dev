@@ -182,14 +182,15 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'functionLinkCard.fetchError': 'Could not fetch security forms',
     'functionLinkCard.createError': 'Could not create form',
     'groupFormCard.title': 'Security Forms',
-    'groupFormCard.teamTab': '{{teamName}}',
-    'groupFormCard.functionsTab': 'Owned functions',
+    'groupFormCard.teamTab': 'Team forms',
+    'groupFormCard.functionsTab': 'Forms for this teams owned functions',
     'groupFormCard.noTeamForms': 'No security forms created yet',
     'groupFormCard.noFunctionForms':
       'No security forms for functions created yet',
     'groupFormCard.fetchError': 'Could not fetch security forms',
     'groupFormCard.createNewForm': 'Create new form',
     'groupFormCard.createNewTeamForm': 'Create new team form',
+    'groupFormCard.createNewFunctionForm': 'Create new form for function',
     'groupFormCard.selectForm': 'Select form',
     'groupFormCard.selectFunction': 'Select function',
     'groupFormCard.create': 'Create',
@@ -220,8 +221,8 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'functionLinkCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
           'functionLinkCard.createError': 'Kunne ikke opprette skjema',
           'groupFormCard.title': 'Sikkerhetsskjemaer',
-          'groupFormCard.teamTab': '{{teamName}}',
-          'groupFormCard.functionsTab': 'Eide funksjoner',
+          'groupFormCard.teamTab': 'Skjemaer til teamet',
+          'groupFormCard.functionsTab': 'Skjemaer til teamets funksjoner',
           'groupFormCard.noTeamForms':
             'Ingen sikkerhetsskjemaer opprettet ennå',
           'groupFormCard.noFunctionForms':
@@ -229,6 +230,8 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'groupFormCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
           'groupFormCard.createNewForm': 'Opprett nytt skjema',
           'groupFormCard.createNewTeamForm': 'Opprett nytt teamskjema',
+          'groupFormCard.createNewFunctionForm':
+            'Opprett nytt skjema til funksjon',
           'groupFormCard.selectForm': 'Velg skjema',
           'groupFormCard.selectFunction': 'Velg funksjon',
           'groupFormCard.create': 'Opprett',

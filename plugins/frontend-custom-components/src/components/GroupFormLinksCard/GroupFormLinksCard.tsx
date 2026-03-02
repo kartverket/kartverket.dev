@@ -147,7 +147,7 @@ function GroupFormLinksCardWrapper() {
             onClick={() => setActiveTab('team')}
           >
             <PeopleIcon className={classes.icon} />
-            {t('groupFormCard.teamTab', { teamName })}
+            {t('groupFormCard.teamTab')}
             <span
               className={`${classes.badge} ${activeTab === 'team' ? classes.activeBadge : classes.inactiveBadge}`}
             >

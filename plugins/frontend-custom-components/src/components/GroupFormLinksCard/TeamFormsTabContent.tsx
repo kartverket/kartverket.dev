@@ -20,12 +20,16 @@ const useStyles = makeStyles(theme => ({
     padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? 'rgba(255, 255, 255, 0.04)'
+        : 'rgba(0, 0, 0, 0.03)',
     transition: 'background-color 0.15s ease',
     '&:hover': {
       backgroundColor:
         theme.palette.type === 'dark'
-          ? 'rgba(255, 255, 255, 0.04)'
-          : 'rgba(0, 0, 0, 0.02)',
+          ? 'rgba(255, 255, 255, 0.08)'
+          : 'rgba(0, 0, 0, 0.06)',
     },
   },
   formIcon: {
