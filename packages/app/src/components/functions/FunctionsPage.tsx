@@ -73,15 +73,19 @@ export const FunctionsPage = () => {
         .filter(ref => ref.startsWith('group:'))
         .map(ref => parseEntityRef(ref).name);
 
-      const funcs = functions.map(item => ({
-        kind: item.kind,
-        namespace: item.metadata.namespace || 'default',
-        title: item.metadata.title ?? item.metadata.name,
-        name: item.metadata.name,
-        ref: `${item.kind.toLowerCase()}:${item.metadata.namespace}/${item.metadata.name}`,
-        parent: findParent(item),
-        owner: item.spec.owner,
-      }));
+      const funcs = functions.map(item => {
+        const ns = (item.metadata.namespace || 'default').toLowerCase();
+        const name = item.metadata.name.toLowerCase();
+        return {
+          kind: item.kind,
+          namespace: ns,
+          title: item.metadata.title ?? item.metadata.name,
+          name: name,
+          ref: `${item.kind.toLowerCase()}:${ns}/${name}`,
+          parent: findParent(item),
+          owner: item.spec.owner,
+        };
+      });
 
       const groupedFuncs = funcs.reduce((acc, func) => {
         const key = func.parent;
