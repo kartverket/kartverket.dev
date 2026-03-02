@@ -7,15 +7,19 @@ import {
   useApi,
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
+import { ApiError } from '../errors';
 
-export const useRegelrettQuery = (functionName: string) => {
+export const useRegelrettQuery = (
+  functionName: string,
+  options?: { enabled?: boolean },
+) => {
   const config = useApi(configApiRef);
   const backstageAuthApi = useApi(identityApiRef);
   const microsoftAuthApi = useApi(microsoftAuthApiRef);
 
   return useQuery<RegelrettForm[]>({
     queryKey: ['fetch-regelrett-forms', functionName],
-    enabled: !!functionName,
+    enabled: !!functionName && (options?.enabled ?? true),
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
@@ -41,7 +45,7 @@ export const useRegelrettQuery = (functionName: string) => {
       if (response.ok) {
         return data;
       }
-      throw data ?? { message: response.statusText };
+      throw new ApiError(data?.message ?? response.statusText, response.status);
     },
   });
 };
