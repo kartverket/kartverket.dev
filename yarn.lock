@@ -7795,9 +7795,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:5.1.1":
-  version: 5.1.1
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:5.1.1"
+"@kartverket/backstage-plugin-risk-scorecard@npm:6.0.1":
+  version: 6.0.1
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.0.1"
   dependencies:
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
@@ -7815,6 +7815,7 @@ __metadata:
     classnames: "npm:^2.5.1"
     github-markdown-css: "npm:^5.8.1"
     luxon: "npm:^3.6.1"
+    react-aria-components: "npm:^1.15.1"
     react-dnd: "npm:^16.0.1"
     react-dnd-html5-backend: "npm:^16.0.1"
     react-hook-form: "npm:^7.55.0"
@@ -7826,7 +7827,7 @@ __metadata:
     react-dom: ^18.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 10c0/4284b7f9ca8f4a94916d065191487b1a7c4aac65a10adf4a2b3b192bf9385e4c2c5959b541422d95d5755e0079dca8ca66b8bb7eecd6fcadce37a531c627c8f8
+  checksum: 10c0/0f49103139dfad2f1563ae57a5dc57fb92cdc51f51e118b5d3c4092708f7b84f492fe4ffa8793f4db03615553be211f7faf7a1af4de10ef65bf35549dbb78b65
   languageName: node
   linkType: hard
 
@@ -19191,7 +19192,7 @@ __metadata:
     "@internal/plugin-frontend-custom-components": "workspace:^"
     "@kartverket/backstage-plugin-catalog-creator": "workspace:"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:5.1.1"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.0.1"
     "@kartverket/backstage-plugin-security-champion": "workspace:"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
     "@material-ui/core": "npm:^4.12.4"
@@ -35711,7 +35712,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-aria-components@npm:^1.14.0":
+"react-aria-components@npm:^1.14.0, react-aria-components@npm:^1.15.1":
   version: 1.15.1
   resolution: "react-aria-components@npm:1.15.1"
   dependencies:
