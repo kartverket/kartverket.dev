@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { Divider } from '@material-ui/core';
 import { Button, Flex, Select } from '@backstage/ui';
 import { Progress } from '@backstage/core-components';
 import Alert from '@mui/material/Alert';
@@ -29,6 +28,8 @@ interface CreateFormSectionProps {
   ) => { functionName: string; formId: string; teamId: string } | undefined;
   /** Called after a successful form creation */
   onSuccess: () => void;
+  /** Optional custom label for the create button */
+  createButtonLabel?: string;
 }
 
 export function CreateFormSection({
@@ -36,6 +37,7 @@ export function CreateFormSection({
   secondarySelect,
   onBuildMutationParams,
   onSuccess,
+  createButtonLabel,
 }: CreateFormSectionProps) {
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
 
@@ -84,18 +86,16 @@ export function CreateFormSection({
     !selectedFormId || isCreating || (secondarySelect && !secondaryValue);
 
   return (
-    <>
+    <div style={{ marginTop: '1rem' }}>
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>
           {t('groupFormCard.formCreatedSuccess')}
         </Alert>
       )}
 
-      <Divider style={{ margin: '1rem' }} />
-
       {!showCreateForm && (
         <Button onClick={() => setShowCreateForm(true)}>
-          {t('groupFormCard.createNewForm')}
+          {createButtonLabel ?? t('groupFormCard.createNewForm')}
         </Button>
       )}
 
@@ -163,6 +163,6 @@ export function CreateFormSection({
           {t('groupFormCard.createError')}
         </Alert>
       )}
-    </>
+    </div>
   );
 }
