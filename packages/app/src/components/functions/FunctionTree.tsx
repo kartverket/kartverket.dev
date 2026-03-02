@@ -41,7 +41,6 @@ const useStyles = makeStyles(theme => ({
     height: 28,
     minWidth: 28,
     borderRadius: '50%',
-    backgroundColor: theme.palette.action.hover,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -49,6 +48,12 @@ const useStyles = makeStyles(theme => ({
     flexShrink: 0,
     '& svg': {
       fontSize: '1.1rem',
+      backgroundColor: theme.palette.action.hover,
+      borderRadius: '50%',
+      width: 28,
+      height: 28,
+      padding: 4,
+      boxSizing: 'border-box' as const,
     },
   },
   // The visible card box for each item
@@ -124,7 +129,7 @@ function FunctionTreeItems({
             classes={{
               content: classes.treeContent,
               label: classes.treeLabel,
-              ...(hasChildren ? { iconContainer: classes.iconContainer } : {}),
+              iconContainer: classes.iconContainer,
             }}
             label={
               <Paper
