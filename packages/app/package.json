@@ -10,7 +10,8 @@
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
     "clean": "backstage-cli package clean",
-    "lint": "backstage-cli package lint"
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test"
   },
   "dependencies": {
     "@backstage-community/plugin-explore": "^0.16.0",

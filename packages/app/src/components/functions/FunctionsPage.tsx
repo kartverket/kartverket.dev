@@ -13,16 +13,10 @@ import { functionPageTranslationRef } from '../../utils/translations';
 import { FunctionEntityV1alpha1 } from '@internal/plugin-function-kind-common';
 import { RELATION_CHILD_OF, parseEntityRef } from '@backstage/catalog-model';
 import { FunctionTree } from './FunctionTree';
+import { hasDescendantOwnedByAny } from './hasDescendantOwnedByAny';
+import { EntityData } from './types';
 
-export type EntityData = {
-  kind: string;
-  namespace: string;
-  title: string;
-  name: string;
-  ref?: string;
-  parent?: string;
-  owner?: string;
-};
+export type { EntityData } from './types';
 
 const findParent = (entity: FunctionEntityV1alpha1): string => {
   const childOfRelation = entity.relations?.find(
@@ -32,23 +26,6 @@ const findParent = (entity: FunctionEntityV1alpha1): string => {
     return childOfRelation.targetRef;
   }
   return '';
-};
-
-/** Check if a node or any of its descendants is owned by any of the given teams */
-const hasDescendantOwnedByAny = (
-  nodeRef: string,
-  funcMap: Map<string | undefined, EntityData[]>,
-  teamNames: string[],
-): boolean => {
-  const children = funcMap.get(nodeRef) ?? [];
-  return children.some(
-    child =>
-      teamNames.some(team =>
-        child.owner?.toLowerCase().includes(team.toLowerCase()),
-      ) ||
-      (child.ref !== undefined &&
-        hasDescendantOwnedByAny(child.ref, funcMap, teamNames)),
-  );
 };
 
 export const FunctionsPage = () => {
@@ -96,9 +73,6 @@ export const FunctionsPage = () => {
       }, new Map<string | undefined, EntityData[]>());
 
       setChildfunctionsMap(groupedFuncs);
-      // Find the root node (no parent)
-      const root = funcs.find(item => !item.parent);
-      setRootEntity(root);
 
       // Find and validate the root node(s) (no parent)
       const rootCandidates = funcs.filter(item => !item.parent);
@@ -111,8 +85,8 @@ export const FunctionsPage = () => {
       setRootEntity(rootCandidates[0]);
 
       // Auto-expand level-1 nodes that have descendants owned by the user's teams
-      if (root?.ref && userGroupNames.length > 0) {
-        const level1Children = groupedFuncs.get(root.ref) ?? [];
+      if (rootCandidates[0]?.ref && userGroupNames.length > 0) {
+        const level1Children = groupedFuncs.get(rootCandidates[0].ref) ?? [];
         const expandedIds = level1Children
           .filter(
             child =>

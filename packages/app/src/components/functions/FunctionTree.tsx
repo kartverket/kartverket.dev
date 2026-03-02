@@ -3,8 +3,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { makeStyles } from '@material-ui/core/styles';
 import { Chip, Paper } from '@material-ui/core';
+import { EntityData } from './types';
 import { Link } from '@backstage/core-components';
-import { EntityData } from './FunctionsPage';
 
 // Subtle background tint per nesting depth so hierarchy reads at a glance
 const depthBackgrounds = [
@@ -97,11 +97,13 @@ function FunctionTreeItems({
   funcMap,
   classes,
   depth = 0,
+  visited = new Set<string>(),
 }: {
   parentRef: string;
   funcMap: Map<string | undefined, EntityData[]>;
   classes: ReturnType<typeof useStyles>;
   depth?: number;
+  visited?: Set<string>;
 }) {
   const children = funcMap.get(parentRef) ?? [];
   const bgColor =
@@ -110,6 +112,9 @@ function FunctionTreeItems({
   return (
     <div className={classes.itemsContainer}>
       {children.map(child => {
+        if (child.ref !== undefined && visited.has(child.ref)) return null;
+        const childVisited = new Set(visited);
+        if (child.ref !== undefined) childVisited.add(child.ref);
         const hasChildren =
           child.ref !== undefined && (funcMap.get(child.ref)?.length ?? 0) > 0;
         return (
@@ -154,6 +159,7 @@ function FunctionTreeItems({
                   funcMap={funcMap}
                   classes={classes}
                   depth={depth + 1}
+                  visited={childVisited}
                 />
               </div>
             )}
