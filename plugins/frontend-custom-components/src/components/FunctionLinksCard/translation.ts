@@ -181,16 +181,22 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'functionLinkCard.cancel': 'Cancel',
     'functionLinkCard.noFormsYet': 'No forms created yet',
     'functionLinkCard.formCreatedSuccess': 'Form was created',
-    'functionLinkCard.fetchError': 'Could not fetch forms',
+    'functionLinkCard.fetchError': 'Could not fetch security forms',
+    'functionLinkCard.fetchUnauthorized':
+      'You do not have access to view security forms for this function. You must be a member of the owning group.',
     'functionLinkCard.createError': 'Could not create form',
     'groupFormCard.title': 'Security Forms',
-    'groupFormCard.teamTab': '{{teamName}}',
-    'groupFormCard.functionsTab': 'Owned functions',
+    'groupFormCard.teamTab': 'Team forms',
+    'groupFormCard.functionsTab': 'Forms for this teams owned functions',
     'groupFormCard.noTeamForms': 'No security forms created yet',
     'groupFormCard.noFunctionForms':
       'No security forms for functions created yet',
     'groupFormCard.fetchError': 'Could not fetch security forms',
+    'groupFormCard.fetchUnauthorized':
+      'You do not have access to view security forms for this group. You must be a member of the group.',
     'groupFormCard.createNewForm': 'Create new form',
+    'groupFormCard.createNewTeamForm': 'Create new team form',
+    'groupFormCard.createNewFunctionForm': 'Create new form for function',
     'groupFormCard.selectForm': 'Select form',
     'groupFormCard.selectFunction': 'Select function',
     'groupFormCard.create': 'Create',
@@ -219,17 +225,24 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'functionLinkCard.cancel': 'Avbryt',
           'functionLinkCard.noFormsYet': 'Ingen skjemaer opprettet ennå',
           'functionLinkCard.formCreatedSuccess': 'Skjema ble opprettet',
-          'functionLinkCard.fetchError': 'Kunne ikke hente skjemaer',
+          'functionLinkCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
+          'functionLinkCard.fetchUnauthorized':
+            'Du har ikke tilgang til å se sikkerhetsskjemaer for denne funksjonen. Du må være medlem av gruppen som eier den.',
           'functionLinkCard.createError': 'Kunne ikke opprette skjema',
           'groupFormCard.title': 'Sikkerhetsskjemaer',
-          'groupFormCard.teamTab': '{{teamName}}',
-          'groupFormCard.functionsTab': 'Eide funksjoner',
+          'groupFormCard.teamTab': 'Skjemaer til teamet',
+          'groupFormCard.functionsTab': 'Skjemaer til teamets funksjoner',
           'groupFormCard.noTeamForms':
             'Ingen sikkerhetsskjemaer opprettet ennå',
           'groupFormCard.noFunctionForms':
             'Ingen sikkerhetsskjemaer til funksjoner opprettet ennå',
           'groupFormCard.fetchError': 'Kunne ikke hente sikkerhetsskjemaer',
+          'groupFormCard.fetchUnauthorized':
+            'Du har ikke tilgang til å se sikkerhetsskjemaer for denne gruppen. Du må være medlem av gruppen.',
           'groupFormCard.createNewForm': 'Opprett nytt skjema',
+          'groupFormCard.createNewTeamForm': 'Opprett nytt teamskjema',
+          'groupFormCard.createNewFunctionForm':
+            'Opprett nytt skjema til funksjon',
           'groupFormCard.selectForm': 'Velg skjema',
           'groupFormCard.selectFunction': 'Velg funksjon',
           'groupFormCard.create': 'Opprett',

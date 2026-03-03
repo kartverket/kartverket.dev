@@ -15,18 +15,20 @@
  */
 
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { LinksGridList } from './LinksGridList';
 import { ColumnBreakpoints } from './types';
 import {
   InfoCard,
   InfoCardVariants,
   Progress,
+  Link,
 } from '@backstage/core-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRegelrettQuery } from '../../hooks/useRegelrettQuery';
 import { useRegelrettCreateContextMutation } from '../../hooks/useRegelrettCreateContextMutation';
+import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
-import { Divider } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import { useState, useEffect } from 'react';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
@@ -35,6 +37,38 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
 import { FORM_TYPE_MAP } from '../../constants';
 import Typography from '@material-ui/core/Typography';
+import { isUnauthorizedError } from '../../errors';
+
+const useStyles = makeStyles(theme => ({
+  formList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(0.5),
+  },
+  formRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? 'rgba(255, 255, 255, 0.04)'
+        : 'rgba(0, 0, 0, 0.03)',
+    transition: 'background-color 0.15s ease',
+    '&:hover': {
+      backgroundColor:
+        theme.palette.type === 'dark'
+          ? 'rgba(255, 255, 255, 0.08)'
+          : 'rgba(0, 0, 0, 0.06)',
+    },
+  },
+  formIcon: {
+    color: theme.palette.text.secondary,
+    fontSize: '1.2rem',
+  },
+}));
 
 /** @public */
 export interface EntityLinksCardProps {
@@ -53,13 +87,22 @@ export const FunctionLinksCard = () => {
 };
 
 function FunctionLinksCardItem(props: EntityLinksCardProps) {
-  const { cols = 1, variant } = props;
+  const { variant } = props;
+  const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);
   const { entity } = useEntity();
   const functionName = entity.metadata.title || entity.metadata.name;
   const regelrettBaseUrl = config.getString(`regelrett.url`);
+
+  const ownerRef = entity.relations?.find(
+    rel => rel.type === 'ownedBy',
+  )?.targetRef;
+  const { isMember, isLoading: isMembershipLoading } =
+    useIsGroupMember(ownerRef);
+
+  const isReady = !isMembershipLoading && isMember;
 
   const [teamId, setTeamId] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -90,7 +133,9 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
     fetchOwner();
   }, [entity, catalogApi]);
 
-  const { data, isLoading, error, refetch } = useRegelrettQuery(functionName);
+  const { data, isLoading, error, refetch } = useRegelrettQuery(functionName, {
+    enabled: isReady,
+  });
 
   const [selectedFormId, setSelectedFormId] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -123,16 +168,30 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const showData = () => {
     if (data && data.length !== 0 && !error) {
       return (
-        <LinksGridList
-          cols={cols}
-          items={data.map(({ id, formId }) => ({
-            text: getFormType(formId),
-            href: `${regelrettBaseUrl}/context/${id}`,
-          }))}
-        />
+        <div className={classes.formList}>
+          {data.map(({ id, formId }) => (
+            <div key={id} className={classes.formRow}>
+              <DescriptionOutlinedIcon className={classes.formIcon} />
+              <Link
+                to={`${regelrettBaseUrl}/context/${id}`}
+                target="_blank"
+                rel="noopener"
+              >
+                {getFormType(formId)}
+              </Link>
+            </div>
+          ))}
+        </div>
       );
     } else if (error) {
-      return <Alert severity="error">{t('functionLinkCard.fetchError')}</Alert>;
+      const isUnauthorized = isUnauthorizedError(error);
+      return (
+        <Alert severity={isUnauthorized ? 'info' : 'error'}>
+          {isUnauthorized
+            ? t('functionLinkCard.fetchUnauthorized')
+            : t('functionLinkCard.fetchError')}
+        </Alert>
+      );
     }
     return <p>{t('functionLinkCard.noFormsYet')}</p>;
   };
@@ -147,9 +206,12 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
       }
       variant={variant}
     >
-      {isLoading && <Progress />}
+      {(isMembershipLoading || (isMember && isLoading)) && <Progress />}
+      {!isMembershipLoading && !isMember && (
+        <Alert severity="info">{t('functionLinkCard.fetchUnauthorized')}</Alert>
+      )}
 
-      {!isLoading && showData()}
+      {isMember && !isLoading && showData()}
 
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>
@@ -157,66 +219,67 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
         </Alert>
       )}
 
-      {availableFormsExist && (
-        <>
-          <Divider style={{ margin: '1rem' }} />
-
-          {!showCreateForm && (
-            <Button onClick={() => setShowCreateForm(true)}>
-              {t('functionLinkCard.createNewForm')}
-            </Button>
-          )}
-
-          {showCreateForm && (
-            <Flex style={{ marginTop: '5px', gap: '8px' }}>
-              <Select
-                style={{ flex: 1, minWidth: 0 }}
-                placeholder={t('functionLinkCard.selectForm')}
-                value={selectedFormId}
-                isDisabled={isCreating}
-                options={Object.entries(FORM_TYPE_MAP)
-                  .filter(
-                    ([formId]) => !data?.some(form => form.formId === formId),
-                  )
-                  .map(([formId, formName]) => ({
-                    value: formId,
-                    label: formName,
-                  }))}
-                onChange={key => setSelectedFormId(key as string)}
-              />
-
-              <Button
-                variant="primary"
-                isDisabled={!selectedFormId || !teamId || isCreating}
-                onClick={handleSubmit}
-              >
-                {isCreating
-                  ? t('functionLinkCard.creating')
-                  : t('functionLinkCard.create')}
+      {isMember &&
+        !isLoading &&
+        availableFormsExist &&
+        !isUnauthorizedError(error) && (
+          <div style={{ marginTop: '1rem' }}>
+            {!showCreateForm && (
+              <Button onClick={() => setShowCreateForm(true)}>
+                {t('functionLinkCard.createNewForm')}
               </Button>
+            )}
 
-              <Button
-                variant="secondary"
-                isDisabled={isCreating}
-                onClick={() => {
-                  setShowCreateForm(false);
-                  setSelectedFormId('');
-                }}
-              >
-                {t('functionLinkCard.cancel')}
-              </Button>
-            </Flex>
-          )}
+            {showCreateForm && (
+              <Flex style={{ marginTop: '5px', gap: '8px' }}>
+                <Select
+                  style={{ flex: 1, minWidth: 0 }}
+                  placeholder={t('functionLinkCard.selectForm')}
+                  value={selectedFormId}
+                  isDisabled={isCreating}
+                  options={Object.entries(FORM_TYPE_MAP)
+                    .filter(
+                      ([formId]) => !data?.some(form => form.formId === formId),
+                    )
+                    .map(([formId, formName]) => ({
+                      value: formId,
+                      label: formName,
+                    }))}
+                  onChange={key => setSelectedFormId(key as string)}
+                />
 
-          {isCreating && <Progress />}
+                <Button
+                  variant="primary"
+                  isDisabled={!selectedFormId || !teamId || isCreating}
+                  onClick={handleSubmit}
+                >
+                  {isCreating
+                    ? t('functionLinkCard.creating')
+                    : t('functionLinkCard.create')}
+                </Button>
 
-          {createError && (
-            <Alert severity="error" style={{ margin: '1rem 0 0' }}>
-              {t('functionLinkCard.createError')}
-            </Alert>
-          )}
-        </>
-      )}
+                <Button
+                  variant="secondary"
+                  isDisabled={isCreating}
+                  onClick={() => {
+                    setShowCreateForm(false);
+                    setSelectedFormId('');
+                  }}
+                >
+                  {t('functionLinkCard.cancel')}
+                </Button>
+              </Flex>
+            )}
+
+            {isCreating && <Progress />}
+
+            {createError && (
+              <Alert severity="error" style={{ margin: '1rem 0 0' }}>
+                {t('functionLinkCard.createError')}
+              </Alert>
+            )}
+          </div>
+        )}
     </InfoCard>
   );
 }

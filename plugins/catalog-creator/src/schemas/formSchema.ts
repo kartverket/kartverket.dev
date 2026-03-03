@@ -120,7 +120,8 @@ export const apiSchema = baseEntitySchema.extend({
     .min(1, 'form.errors.noDefinition')
     .refine(s => !s.includes(' '), {
       message: 'form.errors.definitionNoSpace',
-    }),
+    })
+    .optional(),
 });
 
 export const systemSchema = baseEntitySchema.extend({

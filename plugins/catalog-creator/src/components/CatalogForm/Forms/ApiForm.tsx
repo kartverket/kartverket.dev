@@ -1,4 +1,4 @@
-import { Flex } from '@backstage/ui';
+import { Flex, Link } from '@backstage/ui';
 import {
   Control,
   Controller,
@@ -43,6 +43,7 @@ export type ApiFormProps = {
   inlineApiIndexes: number[];
   id: number;
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;
+  catalogUrl?: string;
 };
 
 export const ApiForm = ({
@@ -54,6 +55,7 @@ export const ApiForm = ({
   inlineApiIndexes,
   id,
   setValue,
+  catalogUrl,
 }: ApiFormProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
@@ -129,7 +131,19 @@ export const ApiForm = ({
       <div>
         {inlineApiIndexes.includes(id) && (
           <Alert sx={{ my: 2 }} severity="info">
-            {t('form.APIForm.inlineDefinitionInfo.text')}
+            {t('form.APIForm.inlineDefinitionInfo.text', {
+              link: catalogUrl ? (
+                <Link
+                  href={catalogUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  catalog-info.yaml
+                </Link>
+              ) : (
+                'catalog-info.yaml'
+              ),
+            })}
           </Alert>
         )}
         <FieldHeader

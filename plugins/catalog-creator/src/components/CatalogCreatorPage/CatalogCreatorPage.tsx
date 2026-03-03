@@ -202,6 +202,7 @@ export const CatalogCreatorPage = ({
                           currentYaml={catalogInfoState.value!}
                           defaultName={defaultName}
                           createSubFunction={createSubFunction}
+                          catalogUrl={url}
                         />
                       </div>
                     )}
