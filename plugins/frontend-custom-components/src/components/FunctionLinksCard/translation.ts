@@ -171,9 +171,9 @@ export const catalogTranslationRef = createTranslationRef({
 export const functionLinkCardTranslationRef = createTranslationRef({
   id: 'functionLinkCard',
   messages: {
-    'functionLinkCard.title': 'Associated forms',
+    'functionLinkCard.title': 'Security forms',
     'functionLinkCard.subtitle':
-      'Here you can find the current forms for this function. You can create new forms or update existing ones.',
+      'Here you can find the current security forms for this function. You can create new forms or update existing ones.',
     'functionLinkCard.createNewForm': 'Create new form',
     'functionLinkCard.selectForm': 'Select form',
     'functionLinkCard.create': 'Create',
@@ -215,9 +215,9 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
     no: () =>
       Promise.resolve({
         default: {
-          'functionLinkCard.title': 'Tilhørende skjemaer',
+          'functionLinkCard.title': 'Sikkerhetsskjemaer',
           'functionLinkCard.subtitle':
-            'Her finner du gjeldende skjemaer for funksjonen. Du kan opprette nye eller oppdatere eksisterende.',
+            'Her finner du gjeldende sikkerhetsskjemaer for funksjonen. Du kan opprette nye eller oppdatere eksisterende.',
           'functionLinkCard.createNewForm': 'Opprett nytt skjema',
           'functionLinkCard.selectForm': 'Velg skjema',
           'functionLinkCard.create': 'Opprett',
