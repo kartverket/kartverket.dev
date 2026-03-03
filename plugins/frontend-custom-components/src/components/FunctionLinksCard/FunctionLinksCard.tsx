@@ -173,7 +173,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
             <div key={id} className={classes.formRow}>
               <DescriptionOutlinedIcon className={classes.formIcon} />
               <Link
-                to={`${regelrettBaseUrl}/context/${id}`}
+                to={`${regelrettBaseUrl}/context/${id}?redirectBackUrl=${encodeURIComponent(window.location.href)}`}
                 target="_blank"
                 rel="noopener"
               >

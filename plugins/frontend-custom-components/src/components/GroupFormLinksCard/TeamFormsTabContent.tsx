@@ -72,7 +72,7 @@ export function TeamFormsTabContent({
             <div key={form.id} className={classes.formRow}>
               <DescriptionOutlinedIcon className={classes.formIcon} />
               <Link
-                to={`${regelrettBaseUrl}/context/${form.id}`}
+                to={`${regelrettBaseUrl}/context/${form.id}?redirectBackUrl=${encodeURIComponent(window.location.href)}`}
                 target="_blank"
                 rel="noopener"
               >
