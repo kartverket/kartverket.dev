@@ -10,7 +10,8 @@
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
     "clean": "backstage-cli package clean",
-    "lint": "backstage-cli package lint"
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test"
   },
   "dependencies": {
     "@backstage-community/plugin-explore": "^0.16.0",
@@ -48,6 +49,7 @@
     "@backstage/theme": "backstage:^",
     "@backstage/ui": "backstage:^",
     "@internal/plugin-frontend-custom-components": "workspace:^",
+    "@internal/plugin-function-kind-common": "workspace:^",
     "@kartverket/backstage-plugin-catalog-creator": "workspace:",
     "@kartverket/backstage-plugin-opencost": "^0.1.7",
     "@kartverket/backstage-plugin-risk-scorecard": "6.0.1",
@@ -55,6 +57,7 @@
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
     "backstage-plugin-techdocs-addon-mermaid": "^0.23.0",
     "jwt-decode": "^4.0.0",
     "react": "^18",

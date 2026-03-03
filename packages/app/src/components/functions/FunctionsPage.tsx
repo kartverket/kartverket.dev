@@ -1,69 +1,131 @@
-import { Grid } from '@material-ui/core';
-import {
-  CatalogTable,
-  CatalogTableColumnsFunc,
-} from '@backstage/plugin-catalog';
 import {
   Content,
+  EmptyState,
   Header,
   HeaderLabel,
-  InfoCard,
   Page,
 } from '@backstage/core-components';
-import {
-  catalogApiRef,
-  EntityKindPicker,
-  EntityListProvider,
-  FavoriteEntity,
-} from '@backstage/plugin-catalog-react';
-import { EntityRelationsGraph } from '@backstage/plugin-catalog-graph';
-import { useApi } from '@backstage/core-plugin-api';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
+import { FunctionEntityV1alpha1 } from '@internal/plugin-function-kind-common';
+import { RELATION_CHILD_OF, parseEntityRef } from '@backstage/catalog-model';
+import { FunctionTree } from './FunctionTree';
+import { hasDescendantOwnedByAny } from './hasDescendantOwnedByAny';
+import { EntityData } from './types';
 
-type RootEntityNamesType = {
-  kind: string;
-  namespace: string;
-  name: string;
-};
+export type { EntityData } from './types';
 
-const functionColumns: CatalogTableColumnsFunc = entityListContext => {
-  if (entityListContext.filters.kind?.value === 'function') {
-    return [
-      CatalogTable.columns.createNameColumn({ defaultKind: 'function' }),
-      CatalogTable.columns.createOwnerColumn(),
-      {
-        title: 'Favorite',
-        sorting: false,
-        align: 'right',
-        render: row => <FavoriteEntity entity={row.entity} />,
-      },
-    ];
+const findParent = (entity: FunctionEntityV1alpha1): string => {
+  const childOfRelation = entity.relations?.find(
+    it => it.type === RELATION_CHILD_OF,
+  );
+  if (childOfRelation) {
+    return childOfRelation.targetRef;
   }
-
-  return CatalogTable.defaultColumnsFunc(entityListContext);
+  return '';
 };
 
 export const FunctionsPage = () => {
-  const [rootEntity, setRootEntity] = useState<RootEntityNamesType[]>([]);
+  const [rootEntity, setRootEntity] = useState<EntityData>();
+  const [childfunctionsMap, setChildfunctionsMap] = useState<
+    Map<string | undefined, EntityData[]>
+  >(new Map());
+  const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
   const catalogApi = useApi(catalogApiRef);
+  const identityApi = useApi(identityApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
 
   useEffect(() => {
-    catalogApi.getEntities({ filter: { kind: 'function' } }).then(response => {
-      const filteredResponse = response.items.filter(item =>
-        item.metadata.name === 'rootfunction' ? item : null,
-      );
-      setRootEntity(
-        filteredResponse.map(item => ({
+    Promise.all([
+      catalogApi.getEntities({ filter: { kind: 'function' } }),
+      identityApi.getBackstageIdentity(),
+    ]).then(([response, identity]) => {
+      const functions = response.items as FunctionEntityV1alpha1[];
+
+      // Extract group names from ownership refs (e.g. "group:default/skvis" → "skvis")
+      const userGroupNames = identity.ownershipEntityRefs
+        .filter(ref => ref.startsWith('group:'))
+        .map(ref => parseEntityRef(ref).name);
+
+      const funcs = functions.map(item => {
+        const ns = (item.metadata.namespace || 'default').toLowerCase();
+        const name = item.metadata.name.toLowerCase();
+        return {
           kind: item.kind,
-          namespace: item.metadata.namespace || 'default',
-          name: item.metadata.name,
-        })),
-      );
+          namespace: ns,
+          title: item.metadata.title ?? item.metadata.name,
+          name: name,
+          ref: `${item.kind.toLowerCase()}:${ns}/${name}`,
+          parent: findParent(item),
+          owner: item.spec.owner,
+        };
+      });
+
+      const groupedFuncs = funcs.reduce((acc, func) => {
+        const key = func.parent;
+        const existing = acc.get(key) ?? [];
+        existing.push(func);
+        acc.set(key, existing);
+        return acc;
+      }, new Map<string | undefined, EntityData[]>());
+
+      setChildfunctionsMap(groupedFuncs);
+
+      // Find and validate the root node(s) (no parent)
+      const rootCandidates = funcs.filter(item => !item.parent);
+      if (rootCandidates.length !== 1) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `Expected exactly one root function, but found ${rootCandidates.length}, named ${rootCandidates.map(it => it.name).join(', ')}.`,
+        );
+      }
+      setRootEntity(rootCandidates[0]);
+
+      // Auto-expand level-1 nodes that have descendants owned by the user's teams
+      if (rootCandidates[0]?.ref && userGroupNames.length > 0) {
+        const level1Children = groupedFuncs.get(rootCandidates[0].ref) ?? [];
+        const expandedIds = level1Children
+          .filter(
+            child =>
+              child.ref &&
+              hasDescendantOwnedByAny(child.ref, groupedFuncs, userGroupNames),
+          )
+          .map(child => child.ref!)
+          .filter(Boolean);
+        setDefaultExpanded(expandedIds);
+      }
     });
-  }, [catalogApi]);
+  }, [catalogApi, identityApi]);
+
+  if (
+    rootEntity === undefined ||
+    rootEntity.ref === undefined ||
+    childfunctionsMap.get(rootEntity.ref)?.length === 0
+  ) {
+    return (
+      <Page themeId="functions">
+        <Header
+          title={t('functionpage.title')}
+          subtitle={t('functionpage.subtitle')}
+        >
+          <HeaderLabel
+            label={t('functionpage.structure')}
+            value={t('functionpage.structureDescription')}
+          />
+        </Header>
+        <Content>
+          <EmptyState
+            title={t('functionpage.noRootTitle')}
+            description={t('functionpage.noRootDescription')}
+            missing="data"
+          />
+        </Content>
+      </Page>
+    );
+  }
 
   return (
     <Page themeId="functions">
@@ -77,27 +139,11 @@ export const FunctionsPage = () => {
         />
       </Header>
       <Content>
-        <EntityListProvider>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <EntityKindPicker initialFilter="function" hidden />
-              <CatalogTable
-                title={t('functionpage.catalogtableTitle')}
-                columns={functionColumns}
-                actions={[]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <InfoCard title={t('functionpage.graphTitle')}>
-                <EntityRelationsGraph
-                  rootEntityNames={rootEntity}
-                  kinds={['function']}
-                  maxDepth={1}
-                />
-              </InfoCard>
-            </Grid>
-          </Grid>
-        </EntityListProvider>
+        <FunctionTree
+          rootRef={rootEntity.ref}
+          funcMap={childfunctionsMap}
+          defaultExpanded={defaultExpanded}
+        />
       </Content>
     </Page>
   );

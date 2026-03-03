@@ -81,6 +81,9 @@ export const functionPageMessages = {
     createButton: 'Create new function',
     catalogtableTitle: 'All Business Functions',
     graphTitle: 'Function hierarchy',
+    noRootTitle: 'No functions available',
+    noRootDescription:
+      'The root function or its children could not be found. Please check that function entities are registered in the catalog.',
   },
 };
 
@@ -104,6 +107,9 @@ export const functionPageNorwegianTranslation = createTranslationResource({
           'functionpage.createButton': 'Lag ny funksjon',
           'functionpage.catalogtableTitle': 'Alle forretningsfunksjoner',
           'functionpage.graphTitle': 'Funksjonshierarki',
+          'functionpage.noRootTitle': 'Ingen funksjoner tilgjengelig',
+          'functionpage.noRootDescription':
+            'Rotfunksjonen eller dens barn ble ikke funnet. Sjekk at funksjonsentiteter er registrert i katalogen.',
         },
       }),
   },
