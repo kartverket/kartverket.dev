@@ -10,7 +10,7 @@ import {
 import { CatalogCreatorContainer } from '../CatalogCreatorContainer';
 import { CatalogCreatorPageComponent } from '@kartverket/backstage-plugin-catalog-creator';
 import { entityWarningContent } from './shared';
-import { useTranslationRef } from '@backstage/frontend-plugin-api';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionEntityPageTranslationRef } from '../../../utils/translations';
 
 export const FunctionEntityPage = () => {
@@ -65,4 +65,3 @@ export const FunctionEntityPage = () => {
     </EntityLayout>
   );
 };
-
