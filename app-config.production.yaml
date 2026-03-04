@@ -28,21 +28,19 @@ backend:
         rejectUnauthorized: false
     pluginDivisionMode: schema
   auth:
-    keys:
-      - secret: 56fYRaW0m6JWh6vZLbetkmXhUehJrCf1
     externalAccess:
-      - type: jwks
-        options:
-          url: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/discovery/v2.0/keys
-          issuer: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/v2.0
-          audience: ${ENTRA_WEB_APP_ID}
+    - type: jwks
+      options:
+        url: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/discovery/v2.0/keys
+        issuer: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/v2.0
+        audience: ${ENTRA_WEB_APP_ID}
 
 integrations:
   github:
-    - host: github.com
-      # In production we use an app for secure auth
-      apps:
-        - $include: github-secrets/github-app-backstage-skip-credentials.yaml
+  - host: github.com
+    # In production we use an app for secure auth
+    apps:
+    - $include: github-secrets/github-app-backstage-skip-credentials.yaml
 
 proxy:
   endpoints:
@@ -50,8 +48,7 @@ proxy:
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
     '/risc-proxy':
       target: http://ros-plugin-backend.ros-plugin-main:8080
-      allowedHeaders:
-        ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
+      allowedHeaders: [ 'Authorization', 'GCP-Access-Token', 'GitHub-Access-Token' ]
     '/security-champion-proxy':
       target: http://security-champion-api.sikkerhetsmetrikker-main:8080
       credentials: forward
@@ -71,19 +68,7 @@ catalog:
         queryMode: 'advanced'
         user:
           filter: accountEnabled eq true and userType eq 'member' and startsWith(companyName, 'Staten')
-          select:
-            [
-              'accountEnabled',
-              'displayName',
-              'givenName',
-              'id',
-              'mail',
-              'mailNickname',
-              'userPrincipalName',
-              'surname',
-              'companyName',
-              'userType',
-            ]
+          select: [ 'accountEnabled', 'displayName', 'givenName', 'id', 'mail', 'mailNickname', 'userPrincipalName', 'surname', 'companyName', 'userType' ]
         group:
           filter: >
             startswith(displayName, 'AAD - TF - TEAM') or startswith(displayName, 'AAD - TF - BUSINESS UNIT') or startswith(displayName, 'AAD - TF - PRODUCT AREA')
