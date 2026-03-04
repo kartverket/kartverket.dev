@@ -431,7 +431,7 @@ export const CatalogForm = ({
                         fullWidth
                         size="small"
                         multiline
-                        minRows={3}
+                        rows={2}
                         inputProps={{
                           className: style.textField,
                         }}
