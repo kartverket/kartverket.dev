@@ -11,11 +11,6 @@ const ERROR_MESSAGES: Record<number, string> = {
 const DEFAULT_ERROR_MESSAGE =
   'Kunne ikke hente metrikker for denne ressursen på grunn av en ukjent feil.';
 
-const throwHttpError = (response: Response): never => {
-  const message = ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
-  throw new Error(message);
-};
-
 const handleResponse = async <ResponseBody>(
   response: Response,
   parse: (response: Response) => Promise<ResponseBody>,
@@ -23,7 +18,9 @@ const handleResponse = async <ResponseBody>(
   const result = await parse(response);
 
   if (!response.ok) {
-    throwHttpError(response);
+    const bodyText = typeof result === 'string' && result.trim() ? result.trim() : undefined;
+    const message = bodyText ?? ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
+    throw new Error(message);
   }
 
   return result;
