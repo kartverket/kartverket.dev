@@ -59,6 +59,8 @@ import {
   functionPageNorwegianTranslation,
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
+  catalogNorwegianTranslation,
+  catalogReactNorwegianTranslation,
 } from './utils/translations';
 import {
   functionGroupPageNorwegianTranslation,
@@ -83,6 +85,8 @@ const app = createApp({
       supportNorwegianTranslation,
       functionLinkCardNorwegianTranslation,
       functionDependenciesCardNorwegianTranslation,
+      catalogNorwegianTranslation,
+      catalogReactNorwegianTranslation,
     ],
   },
   components: {
