@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import LayersIcon from '@material-ui/icons/Layers';
 import { Link } from '@backstage/core-components';
+import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { FORM_TYPE_MAP } from '../../constants';
@@ -32,7 +33,6 @@ const useStyles = makeStyles(theme => ({
   sectionName: {
     fontWeight: 600,
     fontSize: '0.9rem',
-    color: theme.palette.text.primary,
   },
   sectionBadge: {
     display: 'inline-flex',
@@ -125,6 +125,10 @@ export function FunctionFormsTabContent({
     {},
   );
 
+  const entityByFuncName = new Map(
+    functionEntities.map(e => [e.metadata.title ?? e.metadata.name, e]),
+  );
+
   return (
     <>
       {forms.length === 0 ? (
@@ -135,7 +139,16 @@ export function FunctionFormsTabContent({
             <div key={funcName}>
               <div className={classes.sectionHeader}>
                 <LayersIcon className={classes.sectionIcon} />
-                <span className={classes.sectionName}>{funcName}</span>
+                {entityByFuncName.has(funcName) ? (
+                  <EntityRefLink
+                    entityRef={entityByFuncName.get(funcName)!}
+                    defaultKind="function"
+                    className={classes.sectionName}
+                    hideIcon
+                  />
+                ) : (
+                  <span className={classes.sectionName}>{funcName}</span>
+                )}
                 <span className={classes.sectionBadge}>{funcForms.length}</span>
               </div>
               <div className={classes.formList}>
