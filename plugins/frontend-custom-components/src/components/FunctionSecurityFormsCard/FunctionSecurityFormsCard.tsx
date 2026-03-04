@@ -78,15 +78,15 @@ export interface EntityLinksCardProps {
 
 const queryClient = new QueryClient();
 
-export const FunctionLinksCard = () => {
+export const FunctionSecurityFormsCard = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <FunctionLinksCardItem />
+      <FunctionSecurityFormsCardItem />
     </QueryClientProvider>
   );
 };
 
-function FunctionLinksCardItem(props: EntityLinksCardProps) {
+function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
   const { variant } = props;
   const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);

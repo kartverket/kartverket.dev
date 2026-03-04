@@ -4,7 +4,7 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import LayersIcon from '@material-ui/icons/Layers';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { FORM_TYPE_MAP } from '../../constants';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
