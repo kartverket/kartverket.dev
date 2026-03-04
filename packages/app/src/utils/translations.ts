@@ -365,7 +365,7 @@ export const catalogReactNorwegianTranslation = createTranslationResource({
           'userListPicker.defaultOrgName': 'Bedrift',
           'userListPicker.orgFilterAllLabel': 'Alle',
           'userListPicker.personalFilter.title': 'Personlig',
-          'userListPicker.personalFilter.ownedLabel': 'Eiet',
+          'userListPicker.personalFilter.ownedLabel': 'Eide',
           'userListPicker.personalFilter.starredLabel': 'Stjernemerket',
           'entityTableColumnTitle.name': 'Navn',
           'entityTableColumnTitle.type': 'Type',
