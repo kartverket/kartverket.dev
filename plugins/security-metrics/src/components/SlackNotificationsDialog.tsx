@@ -233,7 +233,12 @@ export const SlackNotificationDialog = ({
             />
           ))}
         </FormGroup>
-        {error && <ErrorBanner errorTitle="Kunne ikke lagre konfigurasjonen" />}
+        {error && (
+          <ErrorBanner
+            errorTitle="Kunne ikke lagre konfigurasjonen"
+            errorMessage={error.message}
+          />
+        )}
       </DialogContent>
       <DialogActions>
         <Box sx={{ pb: 2, pr: 2 }}>

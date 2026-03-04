@@ -14,11 +14,15 @@ const DEFAULT_ERROR_MESSAGE =
 const handleResponse = async <ResponseBody>(
   response: Response,
   parse: (response: Response) => Promise<ResponseBody>,
+  preferBodyText = false,
 ): Promise<ResponseBody> => {
   const result = await parse(response);
 
   if (!response.ok) {
-    const bodyText = typeof result === 'string' && result.trim() ? result.trim() : undefined;
+    const bodyText =
+      preferBodyText && typeof result === 'string' && result.trim()
+        ? result.trim()
+        : undefined;
     const message = bodyText ?? ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
     throw new Error(message);
   }
@@ -68,7 +72,7 @@ export const put = async <RequestBody, ResponseBody>(
 
     const text = await res.text();
     return text as unknown as ResponseBody;
-  });
+  }, true);
 };
 
 export const get = async <ResponseBody>(
