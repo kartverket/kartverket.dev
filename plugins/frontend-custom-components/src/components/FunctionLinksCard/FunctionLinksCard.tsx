@@ -32,7 +32,10 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import { useState, useEffect } from 'react';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { Button, Flex, Select } from '@backstage/ui';
+import { Button, Flex } from '@backstage/ui';
+import FormControl from '@mui/material/FormControl';
+import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
 import { FORM_TYPE_MAP } from '../../constants';
@@ -232,21 +235,37 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
 
             {showCreateForm && (
               <Flex style={{ marginTop: '5px', gap: '8px' }}>
-                <Select
-                  style={{ flex: 1, minWidth: 0 }}
-                  placeholder={t('functionLinkCard.selectForm')}
-                  value={selectedFormId}
-                  isDisabled={isCreating}
-                  options={Object.entries(FORM_TYPE_MAP)
-                    .filter(
-                      ([formId]) => !data?.some(form => form.formId === formId),
-                    )
-                    .map(([formId, formName]) => ({
-                      value: formId,
-                      label: formName,
-                    }))}
-                  onChange={key => setSelectedFormId(key as string)}
-                />
+                <FormControl size="small" style={{ flex: 1, minWidth: 0 }}>
+                  <MuiSelect
+                    displayEmpty
+                    value={selectedFormId}
+                    disabled={isCreating}
+                    sx={{ fontSize: '0.875rem' }}
+                    onChange={(e: SelectChangeEvent<string>) =>
+                      setSelectedFormId(e.target.value)
+                    }
+                  >
+                    <MenuItem value="" disabled sx={{ fontSize: '0.875rem' }}>
+                      <span style={{ color: 'inherit', opacity: 0.5 }}>
+                        {t('functionLinkCard.selectForm')}
+                      </span>
+                    </MenuItem>
+                    {Object.entries(FORM_TYPE_MAP)
+                      .filter(
+                        ([formId]) =>
+                          !data?.some(form => form.formId === formId),
+                      )
+                      .map(([formId, formName]) => (
+                        <MenuItem
+                          key={formId}
+                          value={formId}
+                          sx={{ fontSize: '0.875rem' }}
+                        >
+                          {formName}
+                        </MenuItem>
+                      ))}
+                  </MuiSelect>
+                </FormControl>
 
                 <Button
                   variant="primary"
