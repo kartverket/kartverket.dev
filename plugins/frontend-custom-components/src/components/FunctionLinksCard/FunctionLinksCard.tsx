@@ -81,16 +81,14 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap' as const,
   },
   expiredWarning: {
-    display: 'flex',
-    alignItems: 'center',
     gap: theme.spacing(0.5),
     fontSize: '0.8rem',
-    color: theme.palette.warning.main,
+    color: theme.palette.error.main,
     whiteSpace: 'nowrap' as const,
   },
   expiredIcon: {
     fontSize: '1rem',
-    color: theme.palette.warning.main,
+    color: theme.palette.error.main,
   },
 }));
 
@@ -213,7 +211,10 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
                   </span>
                   {expiredCount > 0 && (
                     <span className={classes.expiredWarning}>
-                      <WarningAmberOutlined className={classes.expiredIcon} />
+                      <WarningAmberOutlined
+                        className={classes.expiredIcon}
+                        sx={{ verticalAlign: 'middle' }}
+                      />
                       {t('formMetrics.expired', {
                         expired: String(expiredCount),
                       })}
