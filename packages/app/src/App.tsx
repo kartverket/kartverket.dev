@@ -55,17 +55,19 @@ import {
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import {
+  functionEntityPageNorwegianTranslation,
   functionPageNorwegianTranslation,
   homepageNorwegianTranslation,
   sidebarNorwegianTranslation,
 } from './utils/translations';
-import { FunctionsPage } from './components/functions/FunctionsPage';
 import {
   functionGroupPageNorwegianTranslation,
   SupportButton,
   supportNorwegianTranslation,
   functionLinkCardNorwegianTranslation,
+  functionDependenciesCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
+import { FunctionsPage } from './components/functions/FunctionsPage';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -75,10 +77,12 @@ const app = createApp({
       catalogCreatorNorwegianTranslation,
       sidebarNorwegianTranslation,
       homepageNorwegianTranslation,
+      functionEntityPageNorwegianTranslation,
       functionPageNorwegianTranslation,
       functionGroupPageNorwegianTranslation,
       supportNorwegianTranslation,
       functionLinkCardNorwegianTranslation,
+      functionDependenciesCardNorwegianTranslation,
     ],
   },
   components: {

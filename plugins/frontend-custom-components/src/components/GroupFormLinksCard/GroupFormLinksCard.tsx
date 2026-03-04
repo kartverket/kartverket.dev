@@ -7,6 +7,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { useTeamRegelrettQuery } from '../../hooks/useTeamRegelrettQuery';
+import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,6 +17,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
 import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
+import { isUnauthorizedError } from '../../errors';
 
 const useStyles = makeStyles(theme => ({
   tabContainer: {
@@ -100,13 +102,21 @@ function GroupFormLinksCardWrapper() {
     entity.metadata.annotations?.['graph.microsoft.com/group-id'] ?? '';
   const teamName = entity.metadata.title ?? entity.metadata.name;
 
-  const { data, isLoading, error, refetch } = useTeamRegelrettQuery(entity);
-
   const groupRef = `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`;
+
+  const { isMember, isLoading: isMembershipLoading } =
+    useIsGroupMember(groupRef);
+
+  const isReady = !isMembershipLoading && isMember;
+
+  const { data, isLoading, error, refetch } = useTeamRegelrettQuery(entity, {
+    enabled: isReady,
+  });
 
   const { data: functionEntities, isLoading: isFunctionEntitiesLoading } =
     useQuery({
       queryKey: ['functionEntities', groupRef],
+      enabled: isReady,
       queryFn: () =>
         catalogApi.getEntities({
           filter: {
@@ -132,11 +142,26 @@ function GroupFormLinksCardWrapper() {
   const [activeTab, setActiveTab] = useState<'team' | 'functions'>('team');
 
   const renderContent = () => {
+    if (isMembershipLoading) {
+      return <Progress />;
+    }
+    if (!isMember) {
+      return (
+        <Alert severity="info">{t('groupFormCard.fetchUnauthorized')}</Alert>
+      );
+    }
     if (isLoading || isFunctionEntitiesLoading) {
       return <Progress />;
     }
     if (error) {
-      return <Alert severity="error">{t('groupFormCard.fetchError')}</Alert>;
+      const isUnauthorized = isUnauthorizedError(error);
+      return (
+        <Alert severity={isUnauthorized ? 'info' : 'error'}>
+          {isUnauthorized
+            ? t('groupFormCard.fetchUnauthorized')
+            : t('groupFormCard.fetchError')}
+        </Alert>
+      );
     }
     return (
       <>

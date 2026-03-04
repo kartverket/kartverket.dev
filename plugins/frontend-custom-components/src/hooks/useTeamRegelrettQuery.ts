@@ -7,16 +7,20 @@ import {
   useApi,
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
+import { ApiError } from '../errors';
 import { Entity } from '@backstage/catalog-model';
 
-export const useTeamRegelrettQuery = (groupEntity: Entity) => {
+export const useTeamRegelrettQuery = (
+  groupEntity: Entity,
+  options?: { enabled?: boolean },
+) => {
   const config = useApi(configApiRef);
   const backstageAuthApi = useApi(identityApiRef);
   const microsoftAuthApi = useApi(microsoftAuthApiRef);
 
   return useQuery<RegelrettForm[]>({
     queryKey: ['groupEntity', groupEntity],
-    enabled: !!groupEntity,
+    enabled: !!groupEntity && (options?.enabled ?? true),
     queryFn: async () => {
       if (!groupEntity.metadata.annotations) {
         throw new Error('Group entity does not have annotations');
@@ -48,7 +52,7 @@ export const useTeamRegelrettQuery = (groupEntity: Entity) => {
       if (response.ok) {
         return data;
       }
-      throw data ?? { message: response.statusText };
+      throw new ApiError(data?.message ?? response.statusText, response.status);
     },
   });
 };
