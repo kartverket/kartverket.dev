@@ -44,7 +44,10 @@ export const useConfigureSlackNotificationsQuery = () => {
         });
       } catch (e) {
         const INVALID_CHANNEL_PREFIX = 'Invalid Slack channel: ';
-        if (e instanceof Error && e.message.startsWith(INVALID_CHANNEL_PREFIX)) {
+        if (
+          e instanceof Error &&
+          e.message.startsWith(INVALID_CHANNEL_PREFIX)
+        ) {
           const code = e.message.slice(INVALID_CHANNEL_PREFIX.length);
           throw new Error(`Ugyldig Slack-kanal: ${code}`);
         }

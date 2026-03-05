@@ -23,7 +23,8 @@ const handleResponse = async <ResponseBody>(
       preferBodyText && typeof result === 'string' && result.trim()
         ? result.trim()
         : undefined;
-    const message = bodyText ?? ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
+    const message =
+      bodyText ?? ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
     throw new Error(message);
   }
 
@@ -63,16 +64,20 @@ export const put = async <RequestBody, ResponseBody>(
     body: JSON.stringify(requestBody),
   });
 
-  return handleResponse<ResponseBody>(response, async res => {
-    if (res.status === 204) return undefined as unknown as ResponseBody;
+  return handleResponse<ResponseBody>(
+    response,
+    async res => {
+      if (res.status === 204) return undefined as unknown as ResponseBody;
 
-    const ct = res.headers.get('content-type') ?? '';
-    if (ct.includes('application/json'))
-      return (await res.json()) as ResponseBody;
+      const ct = res.headers.get('content-type') ?? '';
+      if (ct.includes('application/json'))
+        return (await res.json()) as ResponseBody;
 
-    const text = await res.text();
-    return text as unknown as ResponseBody;
-  }, true);
+      const text = await res.text();
+      return text as unknown as ResponseBody;
+    },
+    true,
+  );
 };
 
 export const get = async <ResponseBody>(
