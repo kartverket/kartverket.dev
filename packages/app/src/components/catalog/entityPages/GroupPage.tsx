@@ -9,7 +9,7 @@ import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-cham
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { FeatureFlagged } from '@backstage/core-app-api';
 import { Flex } from '@backstage/ui';
-import { GroupFormLinksCard } from '@internal/plugin-frontend-custom-components';
+import { GroupSecurityFormsCard } from '@internal/plugin-frontend-custom-components';
 import { entityWarningContent } from './shared';
 
 export const groupPage = (
@@ -57,7 +57,7 @@ export const groupPage = (
         <Grid item md={6} xs={12}>
           <Flex direction="column" gap="24px">
             <FeatureFlagged with="show-functions-page">
-              <GroupFormLinksCard />
+              <GroupSecurityFormsCard />
             </FeatureFlagged>
           </Flex>
         </Grid>
