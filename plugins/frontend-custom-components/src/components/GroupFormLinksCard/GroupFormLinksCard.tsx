@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 20,
     border: 'none',
     cursor: 'pointer',
-    fontSize: '0.875rem',
+    fontSize: 'var(--bui-font-size-3)',
     fontWeight: 500,
     fontFamily: theme.typography.fontFamily,
     transition: 'all 0.2s ease',

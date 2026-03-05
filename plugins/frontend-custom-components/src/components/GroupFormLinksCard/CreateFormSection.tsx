@@ -110,12 +110,16 @@ export function CreateFormSection({
                 displayEmpty
                 value={secondaryValue}
                 disabled={isCreating}
-                sx={{ fontSize: '0.875rem' }}
+                sx={{ fontSize: 'var(--bui-font-size-3)' }}
                 onChange={(e: SelectChangeEvent<string>) =>
                   handleSecondaryChange(e.target.value)
                 }
               >
-                <MenuItem value="" disabled sx={{ fontSize: '0.875rem' }}>
+                <MenuItem
+                  value=""
+                  disabled
+                  sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                >
                   <span style={{ color: 'inherit', opacity: 0.5 }}>
                     {secondarySelect.placeholder}
                   </span>
@@ -124,7 +128,7 @@ export function CreateFormSection({
                   <MenuItem
                     key={opt.value}
                     value={opt.value}
-                    sx={{ fontSize: '0.875rem' }}
+                    sx={{ fontSize: 'var(--bui-font-size-3)' }}
                   >
                     {opt.label}
                   </MenuItem>
@@ -148,12 +152,16 @@ export function CreateFormSection({
                 <MuiSelect
                   displayEmpty
                   value={selectedFormId}
-                  sx={{ fontSize: '0.875rem' }}
+                  sx={{ fontSize: 'var(--bui-font-size-3)' }}
                   onChange={(e: SelectChangeEvent<string>) =>
                     setSelectedFormId(e.target.value)
                   }
                 >
-                  <MenuItem value="" disabled sx={{ fontSize: '0.875rem' }}>
+                  <MenuItem
+                    value=""
+                    disabled
+                    sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                  >
                     <span style={{ color: 'inherit', opacity: 0.5 }}>
                       {t('groupFormCard.selectForm')}
                     </span>
@@ -162,7 +170,7 @@ export function CreateFormSection({
                     <MenuItem
                       key={opt.value}
                       value={opt.value}
-                      sx={{ fontSize: '0.875rem' }}
+                      sx={{ fontSize: 'var(--bui-font-size-3)' }}
                     >
                       {opt.label}
                     </MenuItem>

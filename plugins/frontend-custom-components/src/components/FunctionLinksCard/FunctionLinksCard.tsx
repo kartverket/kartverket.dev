@@ -240,12 +240,16 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
                     displayEmpty
                     value={selectedFormId}
                     disabled={isCreating}
-                    sx={{ fontSize: '0.875rem' }}
+                    sx={{ fontSize: 'var(--bui-font-size-3)' }}
                     onChange={(e: SelectChangeEvent<string>) =>
                       setSelectedFormId(e.target.value)
                     }
                   >
-                    <MenuItem value="" disabled sx={{ fontSize: '0.875rem' }}>
+                    <MenuItem
+                      value=""
+                      disabled
+                      sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                    >
                       <span style={{ color: 'inherit', opacity: 0.5 }}>
                         {t('functionLinkCard.selectForm')}
                       </span>
@@ -259,7 +263,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
                         <MenuItem
                           key={formId}
                           value={formId}
-                          sx={{ fontSize: '0.875rem' }}
+                          sx={{ fontSize: 'var(--bui-font-size-3)' }}
                         >
                           {formName}
                         </MenuItem>
