@@ -7,6 +7,7 @@ import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { FORM_TYPE_MAP } from '../../constants';
+import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 import { Entity } from '@backstage/catalog-model';
@@ -156,7 +157,7 @@ export function FunctionFormsTabContent({
                   <div key={form.id} className={classes.formRow}>
                     <DescriptionOutlinedIcon className={classes.formIcon} />
                     <Link
-                      to={`${regelrettBaseUrl}/context/${form.id}`}
+                      to={buildFormUrl(regelrettBaseUrl, form.id)}
                       target="_blank"
                       rel="noopener"
                     >

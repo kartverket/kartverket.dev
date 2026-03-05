@@ -53,9 +53,6 @@ export const MissingReposItem = ({
               <Typography>Missing security champion</Typography>
             </Alert>
             <CustomTooltip
-              sx={{
-                backgroundColor: 'var(--bui-bg-surface-1	)',
-              }}
               title={
                 <List>
                   {reposWithNoSecChamps.map(repository => (
