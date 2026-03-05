@@ -1,12 +1,21 @@
-import { styled } from '@mui/system';
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 
-export const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} slotProps={{ tooltip: { className: className } }} />
-))(`
-    font-size: 16px;
-    max-width: 750px;
-    padding: 8px;
-    word-wrap: break-word;
-    border: 1px solid gray;
-`);
+export const CustomTooltip = (props: TooltipProps) => (
+  <Tooltip
+    {...props}
+    slotProps={{
+      ...props.slotProps,
+      tooltip: {
+        ...props.slotProps?.tooltip,
+        sx: {
+          backgroundColor: 'var(--bui-bg-app)',
+          fontSize: 16,
+          maxWidth: 750,
+          padding: 1,
+          wordWrap: 'break-word',
+          border: '1px solid var(--bui-border-1)',
+        },
+      },
+    }}
+  />
+);
