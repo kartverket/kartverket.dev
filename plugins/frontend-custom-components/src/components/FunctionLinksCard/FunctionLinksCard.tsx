@@ -36,6 +36,7 @@ import { Button, Flex, Select } from '@backstage/ui';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
 import { FORM_TYPE_MAP } from '../../constants';
+import { buildFormUrl } from '../../utils/formUrl';
 import Typography from '@material-ui/core/Typography';
 import { isUnauthorizedError } from '../../errors';
 
@@ -173,7 +174,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
             <div key={id} className={classes.formRow}>
               <DescriptionOutlinedIcon className={classes.formIcon} />
               <Link
-                to={`${regelrettBaseUrl}/context/${id}`}
+                to={buildFormUrl(regelrettBaseUrl, id)}
                 target="_blank"
                 rel="noopener"
               >
