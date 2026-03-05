@@ -207,11 +207,18 @@ export const FunctionsPage = () => {
         <Flex justify="end" style={{ marginBottom: '16px' }}>
           <ExportCsvButton functions={allFunctions} />
         </Flex>
-        {activeChild?.ref && (
+        {activeChild?.ref &&
+        (childfunctionsMap.get(activeChild.ref)?.length ?? 0) > 0 ? (
           <FunctionTree
             rootRef={activeChild.ref}
             funcMap={childfunctionsMap}
             defaultExpanded={defaultExpanded}
+          />
+        ) : (
+          <EmptyState
+            title={t('functionpage.noSubFunctionsTitle')}
+            description={t('functionpage.noSubFunctionsDescription')}
+            missing="data"
           />
         )}
       </Content>
