@@ -12,9 +12,11 @@ import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
 import { FunctionEntityV1alpha1 } from '@internal/plugin-function-kind-common';
 import { RELATION_CHILD_OF, parseEntityRef } from '@backstage/catalog-model';
+import { Button, Flex } from '@backstage/ui';
 import { FunctionTree } from './FunctionTree';
 import { hasDescendantOwnedByAny } from './hasDescendantOwnedByAny';
 import { EntityData } from './types';
+import { exportFunctionsToCsv } from './exportCsv';
 
 export type { EntityData } from './types';
 
@@ -28,12 +30,33 @@ const findParent = (entity: FunctionEntityV1alpha1): string => {
   return '';
 };
 
+const ExportCsvButton = ({
+  functions,
+}: {
+  functions: FunctionEntityV1alpha1[];
+}) => {
+  const { t } = useTranslationRef(functionPageTranslationRef);
+
+  return (
+    <Button
+      onClick={() => exportFunctionsToCsv(functions)}
+      variant="secondary"
+      iconStart={<i className="ri-download-2-line" />}
+    >
+      {t('functionpage.exportCsvButton')}
+    </Button>
+  );
+};
+
 export const FunctionsPage = () => {
   const [rootEntity, setRootEntity] = useState<EntityData>();
   const [childfunctionsMap, setChildfunctionsMap] = useState<
     Map<string | undefined, EntityData[]>
   >(new Map());
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
+  const [allFunctions, setAllFunctions] = useState<FunctionEntityV1alpha1[]>(
+    [],
+  );
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
@@ -44,6 +67,7 @@ export const FunctionsPage = () => {
       identityApi.getBackstageIdentity(),
     ]).then(([response, identity]) => {
       const functions = response.items as FunctionEntityV1alpha1[];
+      setAllFunctions(functions);
 
       // Extract group names from ownership refs (e.g. "group:default/skvis" → "skvis")
       const userGroupNames = identity.ownershipEntityRefs
@@ -139,6 +163,9 @@ export const FunctionsPage = () => {
         />
       </Header>
       <Content>
+        <Flex justify="end" style={{ marginBottom: '16px' }}>
+          <ExportCsvButton functions={allFunctions} />
+        </Flex>
         <FunctionTree
           rootRef={rootEntity.ref}
           funcMap={childfunctionsMap}
