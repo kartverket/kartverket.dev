@@ -99,6 +99,10 @@ export const FunctionsPage = () => {
         return acc;
       }, new Map<string | undefined, EntityData[]>());
 
+      for (const children of groupedFuncs.values()) {
+        children.sort((a, b) => a.title.localeCompare(b.title, 'nb'));
+      }
+
       setChildfunctionsMap(groupedFuncs);
 
       // Find and validate the root node(s) (no parent)
