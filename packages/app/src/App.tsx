@@ -1,7 +1,7 @@
 import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FeatureFlagged, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -137,13 +137,7 @@ const app = createApp({
       catalogIndex: catalogPlugin.routes.catalogIndex,
     });
   },
-  featureFlags: [
-    {
-      pluginId: '',
-      name: 'show-functions-page',
-      description: 'Enable the functions page',
-    },
-  ],
+  featureFlags: [],
 });
 
 const routes = (
@@ -152,9 +146,7 @@ const routes = (
       <HomePage />
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
-    <FeatureFlagged with="show-functions-page">
-      <Route path="/functions" element={<FunctionsPage />} />
-    </FeatureFlagged>
+    <Route path="/functions" element={<FunctionsPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}

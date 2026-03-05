@@ -11,7 +11,6 @@ import {
   useSidebarOpenState,
   WarningIcon,
 } from '@backstage/core-components';
-import { FeatureFlagged } from '@backstage/core-app-api';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import { UserSettingsSignInAvatar } from '@backstage/plugin-user-settings';
 import { makeStyles } from '@material-ui/core';
@@ -85,13 +84,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             to="catalog"
             text={t('sidebar.catalogTitle')}
           />
-          <FeatureFlagged with="show-functions-page">
-            <SidebarItem
-              icon={TreeIcon}
-              to="functions"
-              text={t('sidebar.functionsTitle')}
-            />
-          </FeatureFlagged>
+          <SidebarItem
+            icon={TreeIcon}
+            to="functions"
+            text={t('sidebar.functionsTitle')}
+          />
           <SidebarItem
             icon={EditIcon}
             to="catalog-creator"
