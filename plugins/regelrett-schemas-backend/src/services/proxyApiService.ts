@@ -1,6 +1,6 @@
 import { LoggerService } from '@backstage/backend-plugin-api';
 import { EntraIdService } from './entraIdService';
-import { ApiError, Context, Result } from '../types';
+import { ApiError, Context, ContextWithMetrics, Result } from '../types';
 import { errorHandling } from '../Errors';
 
 export class ProxyApiService {
@@ -21,13 +21,14 @@ export class ProxyApiService {
   async fetchContextByFunctionName(
     clientToken: string,
     name: string,
-  ): Promise<Result<ApiError, Context>> {
+  ): Promise<Result<ApiError, ContextWithMetrics>> {
     const token = await this.entraIdService.getOboToken(clientToken);
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
       const url = new URL(`${this.regelrettBaseUrl}/api/contexts/name`);
       url.searchParams.set('name', name);
+      url.searchParams.set('includeMetrics', 'true');
       this.logger.info(`Proxy made a GET request to ${url.toString()}`);
 
       const response = await fetch(url, {
@@ -40,7 +41,7 @@ export class ProxyApiService {
       });
 
       if (response.ok) {
-        const context: Context = await response.json();
+        const context: ContextWithMetrics = await response.json();
         return { ok: true, data: context };
       }
       return { ok: false, error: errorHandling(response) };
@@ -110,13 +111,14 @@ export class ProxyApiService {
   async fetchContextByTeamId(
     clientToken: string,
     teamId: string,
-  ): Promise<Result<ApiError, Context>> {
+  ): Promise<Result<ApiError, ContextWithMetrics>> {
     const token = await this.entraIdService.getOboToken(clientToken);
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
       const url = new URL(`${this.regelrettBaseUrl}/api/contexts`);
       url.searchParams.set('teamId', teamId);
+      url.searchParams.set('includeMetrics', 'true');
       this.logger.info(`Proxy made a GET request to ${url.toString()}`);
 
       const response = await fetch(url, {
@@ -129,7 +131,7 @@ export class ProxyApiService {
       });
 
       if (response.ok) {
-        const context: Context = await response.json();
+        const context: ContextWithMetrics = await response.json();
         return { ok: true, data: context };
       }
       return { ok: false, error: errorHandling(response) };

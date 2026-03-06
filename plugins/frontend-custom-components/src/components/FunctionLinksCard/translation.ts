@@ -206,6 +206,8 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'groupFormCard.createError': 'Could not create form',
     'groupFormCard.allFormsCreated':
       'All form types already created for this function',
+    'formMetrics.answered': '{{answered}}/{{total}} answered',
+    'formMetrics.expired': '{{expired}} expired',
   },
 });
 
@@ -252,6 +254,8 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
           'groupFormCard.createError': 'Kunne ikke opprette skjema',
           'groupFormCard.allFormsCreated':
             'Alle skjematyper er allerede opprettet for denne funksjonen',
+          'formMetrics.answered': '{{answered}}/{{total}} besvart',
+          'formMetrics.expired': '{{expired}} utgått',
         },
       }),
   },

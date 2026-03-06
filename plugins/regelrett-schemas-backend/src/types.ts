@@ -12,6 +12,12 @@ export type Context = {
   name: string;
 };
 
+export type ContextWithMetrics = Context & {
+  answeredCount: number;
+  expiredCount: number;
+  totalCount: number;
+};
+
 export type ApiError = {
   statusCode: number;
   message?: string;

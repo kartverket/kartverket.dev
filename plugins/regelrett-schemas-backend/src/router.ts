@@ -1,5 +1,11 @@
 import express from 'express';
-import { ApiError, Context, EntraIdConfiguration, Result } from './types';
+import {
+  ApiError,
+  Context,
+  ContextWithMetrics,
+  EntraIdConfiguration,
+  Result,
+} from './types';
 import { AuthService, LoggerService } from '@backstage/backend-plugin-api';
 import { Config } from '@backstage/config';
 import { EntraIdService } from './services/entraIdService';
@@ -89,7 +95,7 @@ export async function createRouter(
         if (typeof name !== 'string')
           throw new Error('No name parameter provided');
         if (!eidToken) throw new Error('No token');
-        const response: Result<ApiError, Context> =
+        const response: Result<ApiError, ContextWithMetrics> =
           await proxyService.fetchContextByFunctionName(eidToken, name);
         if (response.ok) {
           res.status(200).send(response.data);
@@ -183,7 +189,7 @@ export async function createRouter(
       if (typeof teamId !== 'string')
         throw new Error('No name parameter provided');
       if (!eidToken) throw new Error('No token');
-      const response: Result<ApiError, Context> =
+      const response: Result<ApiError, ContextWithMetrics> =
         await proxyService.fetchContextByTeamId(eidToken, teamId);
       if (response.ok) {
         res.status(200).send(response.data);

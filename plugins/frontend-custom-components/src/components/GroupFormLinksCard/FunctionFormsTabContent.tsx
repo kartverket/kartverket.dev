@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import LayersIcon from '@material-ui/icons/Layers';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
@@ -80,6 +81,27 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     fontSize: '1.2rem',
   },
+  metricsContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    marginLeft: 'auto',
+  },
+  metricsLabel: {
+    fontSize: '0.8rem',
+    color: theme.palette.text.secondary,
+    whiteSpace: 'nowrap' as const,
+  },
+  expiredWarning: {
+    gap: theme.spacing(0.5),
+    fontSize: '0.8rem',
+    color: theme.palette.error.main,
+    whiteSpace: 'nowrap' as const,
+  },
+  expiredIcon: {
+    fontSize: '1rem',
+    color: theme.palette.error.main,
+  },
 }));
 
 interface FunctionFormsTabContentProps {
@@ -150,6 +172,25 @@ export function FunctionFormsTabContent({
                     >
                       {getFormType(form.formId)}
                     </Link>
+                    <div className={classes.metricsContainer}>
+                      <span className={classes.metricsLabel}>
+                        {t('formMetrics.answered', {
+                          answered: String(form.answeredCount),
+                          total: String(form.totalCount),
+                        })}
+                      </span>
+                      {form.expiredCount > 0 && (
+                        <span className={classes.expiredWarning}>
+                          <WarningAmberOutlined
+                            className={classes.expiredIcon}
+                            sx={{ verticalAlign: 'middle' }}
+                          />
+                          {t('formMetrics.expired', {
+                            expired: String(form.expiredCount),
+                          })}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

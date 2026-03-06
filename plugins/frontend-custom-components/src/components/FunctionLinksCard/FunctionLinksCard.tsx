@@ -29,6 +29,7 @@ import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import { useState, useEffect } from 'react';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
@@ -71,6 +72,27 @@ const useStyles = makeStyles(theme => ({
   formIcon: {
     color: theme.palette.text.secondary,
     fontSize: '1.2rem',
+  },
+  metricsContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    marginLeft: 'auto',
+  },
+  metricsLabel: {
+    fontSize: '0.8rem',
+    color: theme.palette.text.secondary,
+    whiteSpace: 'nowrap' as const,
+  },
+  expiredWarning: {
+    gap: theme.spacing(0.5),
+    fontSize: '0.8rem',
+    color: theme.palette.error.main,
+    whiteSpace: 'nowrap' as const,
+  },
+  expiredIcon: {
+    fontSize: '1rem',
+    color: theme.palette.error.main,
   },
 }));
 
@@ -173,18 +195,39 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
     if (data && data.length !== 0 && !error) {
       return (
         <div className={classes.formList}>
-          {data.map(({ id, formId }) => (
-            <div key={id} className={classes.formRow}>
-              <DescriptionOutlinedIcon className={classes.formIcon} />
-              <Link
-                to={buildFormUrl(regelrettBaseUrl, id)}
-                target="_blank"
-                rel="noopener"
-              >
-                {getFormType(formId)}
-              </Link>
-            </div>
-          ))}
+          {data.map(
+            ({ id, formId, answeredCount, expiredCount, totalCount }) => (
+              <div key={id} className={classes.formRow}>
+                <DescriptionOutlinedIcon className={classes.formIcon} />
+                <Link
+                  to={buildFormUrl(regelrettBaseUrl, id)}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {getFormType(formId)}
+                </Link>
+                <div className={classes.metricsContainer}>
+                  <span className={classes.metricsLabel}>
+                    {t('formMetrics.answered', {
+                      answered: String(answeredCount),
+                      total: String(totalCount),
+                    })}
+                  </span>
+                  {expiredCount > 0 && (
+                    <span className={classes.expiredWarning}>
+                      <WarningAmberOutlined
+                        className={classes.expiredIcon}
+                        sx={{ verticalAlign: 'middle' }}
+                      />
+                      {t('formMetrics.expired', {
+                        expired: String(expiredCount),
+                      })}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ),
+          )}
         </div>
       );
     } else if (error) {
