@@ -1,5 +1,5 @@
 import { Flex } from '@backstage/ui';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip } from '@mui/material';
 import { InfoOutlined } from '@mui/icons-material';
 
 import style from '../../catalog.module.css';

@@ -13,16 +13,16 @@ import {
 } from '@backstage/core-components';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import { UserSettingsSignInAvatar } from '@backstage/plugin-user-settings';
-import { makeStyles } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import AppsIcon from '@material-ui/icons/Apps';
-import TreeIcon from '@material-ui/icons/AccountTree';
-import HomeIcon from '@material-ui/icons/Home';
-import MenuIcon from '@material-ui/icons/Menu';
-import GroupIcon from '@material-ui/icons/People';
-import SearchIcon from '@material-ui/icons/Search';
-import SpeedIcon from '@material-ui/icons/Speed';
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
+import { makeStyles } from 'tss-react/mui';
+import EditIcon from '@mui/icons-material/Edit';
+import AppsIcon from '@mui/icons-material/Apps';
+import TreeIcon from '@mui/icons-material/AccountTree';
+import HomeIcon from '@mui/icons-material/Home';
+import MenuIcon from '@mui/icons-material/Menu';
+import GroupIcon from '@mui/icons-material/People';
+import SearchIcon from '@mui/icons-material/Search';
+import SpeedIcon from '@mui/icons-material/Speed';
+import LibraryBooks from '@mui/icons-material/LibraryBooks';
 import { PropsWithChildren } from 'react';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -30,9 +30,9 @@ import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { sidebarTranslationRef } from '../../utils/translations';
 import { SidebarSearchModal } from '../search/SidebarSearchModal';
-import SettingsIcon from '@material-ui/icons/Settings';
+import SettingsIcon from '@mui/icons-material/Settings';
 
-const useSidebarLogoStyles = makeStyles({
+const useSidebarLogoStyles = makeStyles()(() => ({
   root: {
     width: sidebarConfig.drawerWidthClosed,
     height: 3 * sidebarConfig.logoHeight,
@@ -45,10 +45,10 @@ const useSidebarLogoStyles = makeStyles({
     width: sidebarConfig.drawerWidthClosed,
     marginLeft: 24,
   },
-});
+}));
 
 const SidebarLogo = () => {
-  const classes = useSidebarLogoStyles();
+  const { classes } = useSidebarLogoStyles();
   const { isOpen } = useSidebarOpenState();
 
   return (

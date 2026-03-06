@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Box, Flex, Link } from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { CatalogForm } from '../CatalogForm';

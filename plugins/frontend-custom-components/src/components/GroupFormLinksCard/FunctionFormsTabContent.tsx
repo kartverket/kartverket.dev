@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
-import LayersIcon from '@material-ui/icons/Layers';
+import { makeStyles } from 'tss-react/mui';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import LayersIcon from '@mui/icons-material/Layers';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
@@ -11,7 +11,7 @@ import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 import { Entity } from '@backstage/catalog-model';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()((theme) => ({
   scrollContainer: {
     maxHeight: 400,
     overflowY: 'auto',
@@ -97,7 +97,7 @@ export function FunctionFormsTabContent({
   functionEntities,
   onFormCreated,
 }: FunctionFormsTabContentProps) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
 

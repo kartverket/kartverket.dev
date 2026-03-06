@@ -6,7 +6,7 @@ import {
   EntitySwitch,
   isKind,
 } from '@backstage/plugin-catalog';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
 import {
   entityWarningContent,

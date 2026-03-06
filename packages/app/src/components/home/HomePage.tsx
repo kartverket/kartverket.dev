@@ -7,8 +7,9 @@ import {
 import { Content, Page } from '@backstage/core-components';
 import { HomePageSearchBar } from '@backstage/plugin-search';
 import { SearchContextProvider } from '@backstage/plugin-search-react';
-import { Grid, makeStyles } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { Grid } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
+import { useTheme } from '@mui/material/styles';
 import LogoFull from '../Root/LogoFull';
 import grafanaLogo from './logos/Grafana.png';
 import argoLogo from './logos/Argo.png';
@@ -24,7 +25,7 @@ import { homepageTranslationRef } from '../../utils/translations';
 import { SupportButton } from '@internal/plugin-frontend-custom-components';
 import { Flex } from '@backstage/ui';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()((theme) => ({
   searchBarInput: {
     maxWidth: '60vw',
     margin: 'auto',
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const useLogoStyles = makeStyles(theme => ({
+const useLogoStyles = makeStyles()((theme) => ({
   container: {
     margin: theme.spacing(0, 5),
     width: '100%',
@@ -53,9 +54,9 @@ const useLogoStyles = makeStyles(theme => ({
 }));
 
 export const HomePage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
-  const { svg, path, container } = useLogoStyles();
+  const { classes: { svg, path, container } } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   const { t } = useTranslationRef(homepageTranslationRef);
