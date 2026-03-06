@@ -12,6 +12,11 @@ export type Context = {
   name: string;
 };
 
+export type Form = {
+  id: string;
+  name: string;
+};
+
 export type ApiError = {
   statusCode: number;
   message?: string;
