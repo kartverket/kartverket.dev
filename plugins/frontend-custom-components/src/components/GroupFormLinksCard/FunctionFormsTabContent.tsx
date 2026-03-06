@@ -5,7 +5,6 @@ import LayersIcon from '@material-ui/icons/Layers';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
-import { FORM_TYPE_MAP } from '../../constants';
 import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
@@ -88,6 +87,7 @@ interface FunctionFormsTabContentProps {
   teamId: string;
   functionEntities: Entity[];
   onFormCreated: () => void;
+  formTypeMap: Record<string, string>;
 }
 
 export function FunctionFormsTabContent({
@@ -96,17 +96,18 @@ export function FunctionFormsTabContent({
   teamId,
   functionEntities,
   onFormCreated,
+  formTypeMap,
 }: FunctionFormsTabContentProps) {
   const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
-  const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
+  const getFormType = (formId: string) => formTypeMap[formId] || 'Unknown';
 
   const [selectedFunction, setSelectedFunction] = useState('');
 
   const formsForSelectedFunction = forms.filter(
     f => f.name === selectedFunction,
   );
-  const availableFormOptions = Object.entries(FORM_TYPE_MAP)
+  const availableFormOptions = Object.entries(formTypeMap)
     .filter(
       ([formId]) => !formsForSelectedFunction.some(f => f.formId === formId),
     )

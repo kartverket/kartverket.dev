@@ -38,7 +38,7 @@ import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
-import { FORM_TYPE_MAP } from '../../constants';
+import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
 import { buildFormUrl } from '../../utils/formUrl';
 import Typography from '@material-ui/core/Typography';
 import { isUnauthorizedError } from '../../errors';
@@ -141,6 +141,13 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
     enabled: isReady,
   });
 
+  const { data: formTypes, isLoading: isFormTypesLoading } =
+    useFormTypesQuery();
+
+  const formTypeMap: Record<string, string> = Object.fromEntries(
+    (formTypes ?? []).map(f => [f.id, f.name]),
+  );
+
   const [selectedFormId, setSelectedFormId] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -156,7 +163,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
   }, [submitted, isCreating, createError, refetch]);
 
   const getFormType = (formId: string): string => {
-    return FORM_TYPE_MAP[formId] || 'Unknown';
+    return formTypeMap[formId] || 'Unknown';
   };
 
   const handleSubmit = () => {
@@ -165,7 +172,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
     mutate({ functionName, formId: selectedFormId, teamId });
   };
 
-  const availableFormsExist = Object.keys(FORM_TYPE_MAP).some(
+  const availableFormsExist = Object.keys(formTypeMap).some(
     formId => !data?.some(form => form.formId === formId),
   );
 
@@ -210,12 +217,13 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
       }
       variant={variant}
     >
-      {(isMembershipLoading || (isMember && isLoading)) && <Progress />}
+      {(isMembershipLoading ||
+        (isMember && (isLoading || isFormTypesLoading))) && <Progress />}
       {!isMembershipLoading && !isMember && (
         <Alert severity="info">{t('functionLinkCard.fetchUnauthorized')}</Alert>
       )}
 
-      {isMember && !isLoading && showData()}
+      {isMember && !isLoading && !isFormTypesLoading && showData()}
 
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>
@@ -255,7 +263,7 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
                         {t('functionLinkCard.selectForm')}
                       </span>
                     </MenuItem>
-                    {Object.entries(FORM_TYPE_MAP)
+                    {Object.entries(formTypeMap)
                       .filter(
                         ([formId]) =>
                           !data?.some(form => form.formId === formId),
