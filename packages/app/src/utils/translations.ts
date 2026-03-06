@@ -85,6 +85,7 @@ export const functionPageMessages = {
     noRootDescription:
       'The root function or its children could not be found. Please check that function entities are registered in the catalog.',
     expiredSecurityForm: 'Expired security form',
+    exportCsvButton: 'Export to CSV',
   },
 };
 
@@ -112,6 +113,7 @@ export const functionPageNorwegianTranslation = createTranslationResource({
           'functionpage.noRootDescription':
             'Rotfunksjonen eller dens barn ble ikke funnet. Sjekk at funksjonsentiteter er registrert i katalogen.',
           'functionpage.expiredSecurityForm': 'Utgått sikkerhetsskjema',
+          'functionpage.exportCsvButton': 'Eksporter til CSV',
         },
       }),
   },

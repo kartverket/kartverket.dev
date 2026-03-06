@@ -120,9 +120,6 @@ export const SecurityChampionItem = ({
         )}
         {repositories && (
           <CustomTooltip
-            sx={{
-              backgroundColor: 'var(--bui-bg-surface-1	)',
-            }}
             title={
               <List>
                 {repositories.map(repository => (
