@@ -25,7 +25,7 @@ import { homepageTranslationRef } from '../../utils/translations';
 import { SupportButton } from '@internal/plugin-frontend-custom-components';
 import { Flex } from '@backstage/ui';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(theme => ({
   searchBarInput: {
     maxWidth: '60vw',
     margin: 'auto',
@@ -38,7 +38,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const useLogoStyles = makeStyles()((theme) => ({
+const useLogoStyles = makeStyles()(theme => ({
   container: {
     margin: theme.spacing(0, 5),
     width: '100%',
@@ -56,7 +56,9 @@ const useLogoStyles = makeStyles()((theme) => ({
 export const HomePage = () => {
   const { classes } = useStyles();
 
-  const { classes: { svg, path, container } } = useLogoStyles();
+  const {
+    classes: { svg, path, container },
+  } = useLogoStyles();
   const theme = useTheme();
   const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   const { t } = useTranslationRef(homepageTranslationRef);

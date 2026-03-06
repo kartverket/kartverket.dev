@@ -19,7 +19,7 @@ import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
 import { isUnauthorizedError } from '../../errors';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(theme => ({
   tabContainer: {
     display: 'flex',
     gap: theme.spacing(1),

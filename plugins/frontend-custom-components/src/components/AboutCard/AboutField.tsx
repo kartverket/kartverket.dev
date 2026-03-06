@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
 import { makeStyles } from 'tss-react/mui';
 import { ReactNode } from 'react';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(theme => ({
   value: {
     fontWeight: 'bold',
     overflow: 'hidden',

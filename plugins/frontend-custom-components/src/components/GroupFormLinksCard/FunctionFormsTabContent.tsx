@@ -11,7 +11,7 @@ import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 import { Entity } from '@backstage/catalog-model';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(theme => ({
   scrollContainer: {
     maxHeight: 400,
     overflowY: 'auto',

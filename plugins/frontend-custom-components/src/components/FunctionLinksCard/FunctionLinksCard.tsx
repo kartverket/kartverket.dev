@@ -43,7 +43,7 @@ import { buildFormUrl } from '../../utils/formUrl';
 import Typography from '@mui/material/Typography';
 import { isUnauthorizedError } from '../../errors';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(theme => ({
   formList: {
     display: 'flex',
     flexDirection: 'column',

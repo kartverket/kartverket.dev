@@ -20,7 +20,7 @@ function shortOwnerName(owner: string): string {
   return slashIdx >= 0 ? owner.slice(slashIdx + 1) : owner;
 }
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(theme => ({
   // Remove MUI TreeItem's default hover/selected backgrounds — hover is on the card instead
   treeContent: {
     padding: 0,
@@ -107,7 +107,7 @@ function FunctionTreeItems({
 }: {
   parentRef: string;
   funcMap: Map<string | undefined, EntityData[]>;
-  classes: ReturnType<typeof useStyles>["classes"];
+  classes: ReturnType<typeof useStyles>['classes'];
   depth?: number;
   visited?: Set<string>;
 }) {
@@ -126,7 +126,7 @@ function FunctionTreeItems({
         return (
           <TreeItem
             key={child.ref ?? child.title}
-          itemId={child.ref ?? child.title}
+            itemId={child.ref ?? child.title}
             classes={{
               content: classes.treeContent,
               label: classes.treeLabel,
@@ -188,7 +188,10 @@ export const FunctionTree = ({
   const { classes } = useStyles();
 
   return (
-    <SimpleTreeView slots={{ collapseIcon: ExpandMoreIcon, expandIcon: ChevronRightIcon }} defaultExpandedItems={defaultExpanded}>
+    <SimpleTreeView
+      slots={{ collapseIcon: ExpandMoreIcon, expandIcon: ChevronRightIcon }}
+      defaultExpandedItems={defaultExpanded}
+    >
       <FunctionTreeItems
         parentRef={rootRef}
         funcMap={funcMap}

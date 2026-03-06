@@ -8,7 +8,7 @@ import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(theme => ({
   formList: {
     display: 'flex',
     flexDirection: 'column',
