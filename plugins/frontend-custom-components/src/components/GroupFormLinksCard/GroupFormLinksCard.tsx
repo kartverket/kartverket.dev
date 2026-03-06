@@ -10,16 +10,16 @@ import { useTeamRegelrettQuery } from '../../hooks/useTeamRegelrettQuery';
 import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
-import { makeStyles } from '@material-ui/core/styles';
-import PeopleIcon from '@material-ui/icons/People';
-import LayersIcon from '@material-ui/icons/Layers';
+import { makeStyles } from 'tss-react/mui';
+import PeopleIcon from '@mui/icons-material/People';
+import LayersIcon from '@mui/icons-material/Layers';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
 import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
 import { isUnauthorizedError } from '../../errors';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   tabContainer: {
     display: 'flex',
     gap: theme.spacing(1),
@@ -91,7 +91,7 @@ export const GroupFormLinksCard = () => {
 };
 
 function GroupFormLinksCardWrapper() {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);

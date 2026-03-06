@@ -27,8 +27,8 @@ import { useRegelrettQuery } from '../../hooks/useRegelrettQuery';
 import { useRegelrettCreateContextMutation } from '../../hooks/useRegelrettCreateContextMutation';
 import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
-import { makeStyles } from '@material-ui/core/styles';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import { makeStyles } from 'tss-react/mui';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { useState, useEffect } from 'react';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
@@ -40,10 +40,10 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
 import { FORM_TYPE_MAP } from '../../constants';
 import { buildFormUrl } from '../../utils/formUrl';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { isUnauthorizedError } from '../../errors';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   formList: {
     display: 'flex',
     flexDirection: 'column',
@@ -92,7 +92,7 @@ export const FunctionLinksCard = () => {
 
 function FunctionLinksCardItem(props: EntityLinksCardProps) {
   const { variant } = props;
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);

@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import { makeStyles } from 'tss-react/mui';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
@@ -8,7 +8,7 @@ import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   formList: {
     display: 'flex',
     flexDirection: 'column',
@@ -54,7 +54,7 @@ export function TeamFormsTabContent({
   teamName,
   onFormCreated,
 }: TeamFormsTabContentProps) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
 

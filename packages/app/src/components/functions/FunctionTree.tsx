@@ -1,8 +1,9 @@
-import { TreeView, TreeItem } from '@material-ui/lab';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { makeStyles } from '@material-ui/core/styles';
-import { Chip, Paper } from '@material-ui/core';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { makeStyles } from 'tss-react/mui';
+import { Chip, Paper } from '@mui/material';
 import { EntityData } from './types';
 import { Link } from '@backstage/core-components';
 
@@ -19,7 +20,7 @@ function shortOwnerName(owner: string): string {
   return slashIdx >= 0 ? owner.slice(slashIdx + 1) : owner;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   // Remove MUI TreeItem's default hover/selected backgrounds — hover is on the card instead
   treeContent: {
     padding: 0,
@@ -106,7 +107,7 @@ function FunctionTreeItems({
 }: {
   parentRef: string;
   funcMap: Map<string | undefined, EntityData[]>;
-  classes: ReturnType<typeof useStyles>;
+  classes: ReturnType<typeof useStyles>['classes'];
   depth?: number;
   visited?: Set<string>;
 }) {
@@ -125,7 +126,7 @@ function FunctionTreeItems({
         return (
           <TreeItem
             key={child.ref ?? child.title}
-            nodeId={child.ref ?? child.title}
+            itemId={child.ref ?? child.title}
             classes={{
               content: classes.treeContent,
               label: classes.treeLabel,
@@ -184,19 +185,18 @@ export const FunctionTree = ({
   funcMap: Map<string | undefined, EntityData[]>;
   defaultExpanded?: string[];
 }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
-    <TreeView
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      defaultExpanded={defaultExpanded}
+    <SimpleTreeView
+      slots={{ collapseIcon: ExpandMoreIcon, expandIcon: ChevronRightIcon }}
+      defaultExpandedItems={defaultExpanded}
     >
       <FunctionTreeItems
         parentRef={rootRef}
         funcMap={funcMap}
         classes={classes}
       />
-    </TreeView>
+    </SimpleTreeView>
   );
 };

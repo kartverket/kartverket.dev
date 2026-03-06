@@ -3,7 +3,7 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import style from '../../catalog.module.css';
 import EditDocumentIcon from '@mui/icons-material/EditDocument';
-import Link from '@material-ui/core/Link';
+import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 interface RepositoryFormProps {
