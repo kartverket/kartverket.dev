@@ -25,34 +25,22 @@ export const useConfigureSlackNotificationsQuery = () => {
         backstageAuthApi,
         microsoftAuthApi,
       );
-      try {
-        return await put<
-          {
-            teamName: string;
-            componentNames: string[];
-            channelId: string;
-            entraIdToken: string;
-            severity?: string[];
-          },
-          any
-        >(endpointUrl, backstageToken, {
-          teamName,
-          componentNames,
-          channelId,
-          entraIdToken,
-          severity,
-        });
-      } catch (e) {
-        const INVALID_CHANNEL_PREFIX = 'Invalid Slack channel: ';
-        if (
-          e instanceof Error &&
-          e.message.startsWith(INVALID_CHANNEL_PREFIX)
-        ) {
-          const code = e.message.slice(INVALID_CHANNEL_PREFIX.length);
-          throw new Error(`Ugyldig Slack-kanal: ${code}`);
-        }
-        throw e;
-      }
+      return put<
+        {
+          teamName: string;
+          componentNames: string[];
+          channelId: string;
+          entraIdToken: string;
+          severity?: string[];
+        },
+        any
+      >(endpointUrl, backstageToken, {
+        teamName,
+        componentNames,
+        channelId,
+        entraIdToken,
+        severity,
+      });
     },
     onSuccess: (_data, vars) => {
       qc.invalidateQueries({
