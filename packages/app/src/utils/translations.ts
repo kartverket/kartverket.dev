@@ -84,6 +84,9 @@ export const functionPageMessages = {
     noRootTitle: 'No functions available',
     noRootDescription:
       'The root function or its children could not be found. Please check that function entities are registered in the catalog.',
+    noSubFunctionsTitle: 'No sub-functions',
+    noSubFunctionsDescription:
+      'This function does not have any sub-functions registered yet.',
     exportCsvButton: 'Export to CSV',
   },
 };
@@ -111,6 +114,9 @@ export const functionPageNorwegianTranslation = createTranslationResource({
           'functionpage.noRootTitle': 'Ingen funksjoner tilgjengelig',
           'functionpage.noRootDescription':
             'Rotfunksjonen eller dens barn ble ikke funnet. Sjekk at funksjonsentiteter er registrert i katalogen.',
+          'functionpage.noSubFunctionsTitle': 'Ingen delfunksjoner',
+          'functionpage.noSubFunctionsDescription':
+            'Denne funksjonen har ingen delfunksjoner registrert ennå.',
           'functionpage.exportCsvButton': 'Eksporter til CSV',
         },
       }),
