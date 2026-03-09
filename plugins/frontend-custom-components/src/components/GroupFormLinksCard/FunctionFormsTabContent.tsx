@@ -46,7 +46,7 @@ const useStyles = makeStyles()(theme => ({
     fontSize: '0.75rem',
     fontWeight: 600,
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, 0.12)'
         : 'rgba(0, 0, 0, 0.08)',
     color: theme.palette.text.secondary,
@@ -65,13 +65,13 @@ const useStyles = makeStyles()(theme => ({
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, 0.04)'
         : 'rgba(0, 0, 0, 0.03)',
     transition: 'background-color 0.15s ease',
     '&:hover': {
       backgroundColor:
-        theme.palette.type === 'dark'
+        theme.palette.mode === 'dark'
           ? 'rgba(255, 255, 255, 0.08)'
           : 'rgba(0, 0, 0, 0.06)',
     },

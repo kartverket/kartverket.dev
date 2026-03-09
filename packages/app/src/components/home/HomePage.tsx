@@ -60,7 +60,7 @@ export const HomePage = () => {
     classes: { svg, path, container },
   } = useLogoStyles();
   const theme = useTheme();
-  const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
+  const mode = theme.palette.mode === 'dark' ? 'light' : 'dark';
   const { t } = useTranslationRef(homepageTranslationRef);
 
   return (

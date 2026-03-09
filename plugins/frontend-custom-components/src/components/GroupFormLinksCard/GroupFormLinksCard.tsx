@@ -47,7 +47,7 @@ const useStyles = makeStyles()(theme => ({
   },
   inactiveTab: {
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, 0.08)'
         : 'rgba(0, 0, 0, 0.06)',
     color: theme.palette.text.secondary,
@@ -70,7 +70,7 @@ const useStyles = makeStyles()(theme => ({
   },
   inactiveBadge: {
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, 0.12)'
         : 'rgba(0, 0, 0, 0.1)',
     color: theme.palette.text.secondary,

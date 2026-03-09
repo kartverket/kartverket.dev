@@ -190,7 +190,7 @@ export const CatalogCreatorPage = ({
                         {/* Submission Loading Overlay */}
                         {state.loading && (
                           <LoadingOverlay
-                            isDarkTheme={theme.palette.type === 'dark'}
+                            isDarkTheme={theme.palette.mode === 'dark'}
                           />
                         )}
                         <CatalogForm
