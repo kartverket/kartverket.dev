@@ -45,18 +45,20 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 'auto',
   },
   metricsLabel: {
-    fontSize: '0.8rem',
+    fontSize: 'var(--bui-font-size-2)',
     color: theme.palette.text.secondary,
     whiteSpace: 'nowrap' as const,
   },
   expiredWarning: {
+    display: 'inline-flex',
+    alignItems: 'center',
     gap: theme.spacing(0.5),
-    fontSize: '0.8rem',
+    fontSize: 'var(--bui-font-size-2)',
     color: theme.palette.error.main,
     whiteSpace: 'nowrap' as const,
   },
   expiredIcon: {
-    fontSize: '1rem',
+    fontSize: 'var(--bui-font-size-4)',
     color: theme.palette.error.main,
   },
 }));
@@ -110,10 +112,7 @@ export function TeamFormsTabContent({
                 </span>
                 {form.expiredCount > 0 && (
                   <span className={classes.expiredWarning}>
-                    <WarningAmberOutlined
-                      className={classes.expiredIcon}
-                      sx={{ verticalAlign: 'middle' }}
-                    />
+                    <WarningAmberOutlined className={classes.expiredIcon} />
                     {t('formMetrics.expired', {
                       expired: String(form.expiredCount),
                     })}

@@ -98,6 +98,13 @@ const useStyles = makeStyles(theme => ({
     borderLeft: `2px solid ${theme.palette.divider}`,
     marginTop: theme.spacing(1),
   },
+  warningChip: {
+    color: theme.palette.error.main,
+    borderColor: theme.palette.error.main,
+  },
+  warningIcon: {
+    color: theme.palette.error.main,
+  },
 }));
 
 function FunctionTreeItems({
@@ -163,16 +170,16 @@ function FunctionTreeItems({
                     <Chip
                       icon={
                         <WarningOutlined
+                          className={classes.warningIcon}
                           style={{
-                            fontSize: '1rem',
-                            color: '#d32f2f',
+                            fontSize: 'var(--bui-font-size-4)',
                             verticalAlign: 'middle',
                           }}
                         />
                       }
                       label={t('functionpage.expiredSecurityForm')}
                       size="small"
-                      style={{ color: '#d32f2f', borderColor: '#d32f2f' }}
+                      className={classes.warningChip}
                       variant="outlined"
                     />
                   )}
