@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { useCallback } from 'react';
+import { useCallback, ElementType } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import CachedIcon from '@material-ui/icons/Cached';
-import EditIcon from '@material-ui/icons/Edit';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import CachedIcon from '@mui/icons-material/Cached';
+import EditIcon from '@mui/icons-material/Edit';
 
 import { AppIcon, InfoCardVariants, Link } from '@backstage/core-components';
 import {
@@ -61,24 +61,25 @@ const createFromTemplateRouteRef = createExternalRouteRef({
 // TODO: This hook is duplicated from the Scaffolder plugin for backwards compatibility
 // Remove it when the the legacy frontend system support is dropped.
 
-const useStyles = makeStyles({
-  gridItemCard: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: 'calc(100% - 10px)', // for pages without content header
-    marginBottom: '10px',
-  },
-  fullHeightCard: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
-  gridItemCardContent: {
-    flex: 1,
-  },
-  fullHeightCardContent: {
-    flex: 1,
-  },
+const GridItemCard = styled(Card)({
+  display: 'flex',
+  flexDirection: 'column',
+  height: 'calc(100% - 10px)', // for pages without content header
+  marginBottom: '10px',
+});
+
+const FullHeightCard = styled(Card)({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+});
+
+const GridItemCardContent = styled(CardContent)({
+  flex: 1,
+});
+
+const FullHeightCardContent = styled(CardContent)({
+  flex: 1,
 });
 
 /**
@@ -97,7 +98,6 @@ export interface InternalAboutCardProps extends AboutCardProps {
 
 export function InternalAboutCard(props: InternalAboutCardProps) {
   const { variant } = props;
-  const classes = useStyles();
   const { entity } = useEntity();
   const catalogApi = useApi(catalogApiRef);
   const alertApi = useApi(alertApiRef);
@@ -112,19 +112,19 @@ export function InternalAboutCard(props: InternalAboutCardProps) {
   const entityMetadataEditUrl =
     entity.metadata.annotations?.[ANNOTATION_EDIT_URL];
 
-  let cardClass = '';
-  if (variant === 'gridItem') {
-    cardClass = classes.gridItemCard;
-  } else if (variant === 'fullHeight') {
-    cardClass = classes.fullHeightCard;
-  }
+  const getCardComponent = (): ElementType => {
+    if (variant === 'gridItem') return GridItemCard;
+    if (variant === 'fullHeight') return FullHeightCard;
+    return Card;
+  };
+  const CardComponent = getCardComponent();
 
-  let cardContentClass = '';
-  if (variant === 'gridItem') {
-    cardContentClass = classes.gridItemCardContent;
-  } else if (variant === 'fullHeight') {
-    cardContentClass = classes.fullHeightCardContent;
-  }
+  const getCardContentComponent = (): ElementType => {
+    if (variant === 'gridItem') return GridItemCardContent;
+    if (variant === 'fullHeight') return FullHeightCardContent;
+    return CardContent;
+  };
+  const CardContentComponent = getCardContentComponent();
 
   const entityLocation = entity.metadata.annotations?.[ANNOTATION_LOCATION];
   // Limiting the ability to manually refresh to the less expensive locations
@@ -144,7 +144,7 @@ export function InternalAboutCard(props: InternalAboutCardProps) {
   }, [catalogApi, entity, alertApi, t, errorApi]);
 
   return (
-    <Card className={cardClass}>
+    <CardComponent>
       <CardHeader
         title={props.title ?? t('aboutCard.title')}
         action={
@@ -183,10 +183,10 @@ export function InternalAboutCard(props: InternalAboutCardProps) {
         }
       />
       <Divider />
-      <CardContent className={cardContentClass}>
+      <CardContentComponent>
         <AboutContent entity={entity} />
-      </CardContent>
-    </Card>
+      </CardContentComponent>
+    </CardComponent>
   );
 }
 

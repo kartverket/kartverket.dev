@@ -36,7 +36,6 @@
     "@backstage/theme": "backstage:^",
     "@backstage/ui": "backstage:^",
     "@hookform/resolvers": "^5.2.2",
-    "@mui/icons-material": "^7.3.7",
     "@octokit/core": "^7.0.6",
     "@octokit/rest": "^22.0.1",
     "octokit-plugin-create-pull-request": "^6.0.1",
@@ -45,10 +44,8 @@
     "yaml": "^2.8.2"
   },
   "peerDependencies": {
-    "@material-ui/core": "^4.9.13",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.61",
-    "@mui/material": "^5.16.4",
+    "@mui/icons-material": "7.3.9",
+    "@mui/material": "7.3.9",
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
     "zod": "^3.25.0 || ^4.0.0"
   },

@@ -19,7 +19,7 @@ import {
   stringifyEntityRef,
 } from '@backstage/catalog-model';
 import { useApi } from '@backstage/core-plugin-api';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { useAsync } from 'react-use';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionDependenciesCardTranslationRef } from './translations.ts';

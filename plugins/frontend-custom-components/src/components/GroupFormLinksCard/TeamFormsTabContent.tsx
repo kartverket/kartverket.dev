@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import { styled } from '@mui/material/styles';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
@@ -8,35 +8,35 @@ import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 
-const useStyles = makeStyles(theme => ({
-  formList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(0.5),
-  },
-  formRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius,
+const FormList = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(0.5),
+}));
+
+const FormRow = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+  padding: `${theme.spacing(1)} ${theme.spacing(1.5)}`,
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? 'rgba(255, 255, 255, 0.04)'
+      : 'rgba(0, 0, 0, 0.03)',
+  transition: 'background-color 0.15s ease',
+  '&:hover': {
     backgroundColor:
-      theme.palette.type === 'dark'
-        ? 'rgba(255, 255, 255, 0.04)'
-        : 'rgba(0, 0, 0, 0.03)',
-    transition: 'background-color 0.15s ease',
-    '&:hover': {
-      backgroundColor:
-        theme.palette.type === 'dark'
-          ? 'rgba(255, 255, 255, 0.08)'
-          : 'rgba(0, 0, 0, 0.06)',
-    },
+      theme.palette.mode === 'dark'
+        ? 'rgba(255, 255, 255, 0.08)'
+        : 'rgba(0, 0, 0, 0.06)',
   },
-  formIcon: {
-    color: theme.palette.text.secondary,
-    fontSize: '1.2rem',
-  },
+}));
+
+const StyledFormIcon = styled(DescriptionOutlinedIcon)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontSize: '1.2rem',
 }));
 
 interface TeamFormsTabContentProps {
@@ -54,7 +54,6 @@ export function TeamFormsTabContent({
   teamName,
   onFormCreated,
 }: TeamFormsTabContentProps) {
-  const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
 
@@ -68,10 +67,10 @@ export function TeamFormsTabContent({
       {forms.length === 0 ? (
         <p>{t('groupFormCard.noTeamForms')}</p>
       ) : (
-        <div className={classes.formList}>
+        <FormList>
           {forms.map(form => (
-            <div key={form.id} className={classes.formRow}>
-              <DescriptionOutlinedIcon className={classes.formIcon} />
+            <FormRow key={form.id}>
+              <StyledFormIcon />
               <Link
                 to={buildFormUrl(regelrettBaseUrl, form.id)}
                 target="_blank"
@@ -79,9 +78,9 @@ export function TeamFormsTabContent({
               >
                 {`${form.name} – ${getFormType(form.formId)}`}
               </Link>
-            </div>
+            </FormRow>
           ))}
-        </div>
+        </FormList>
       )}
 
       {availableFormOptions.length > 0 && (
