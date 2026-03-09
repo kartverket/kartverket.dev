@@ -31,9 +31,9 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
   const fetchedKey = useRef('');
 
   useEffect(() => {
-    if (!key || fetchedKey.current === key) return;
-    fetchedKey.current = key;
+    if (!key || fetchedKey.current === key) return () => {};
 
+    let cancelled = false;
     const ids = key.split(',');
     setIsLoading(true);
     setError(undefined);
@@ -73,13 +73,25 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
             expiredMap.set(form.name, false);
           }
         }
-        setData(expiredMap);
+
+        if (!cancelled) {
+          fetchedKey.current = key;
+          setData(expiredMap);
+        }
       } catch (e) {
-        setError(e instanceof Error ? e : new Error(String(e)));
+        if (!cancelled) {
+          setError(e instanceof Error ? e : new Error(String(e)));
+        }
       } finally {
-        setIsLoading(false);
+        if (!cancelled) {
+          setIsLoading(false);
+        }
       }
     })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [key, config, backstageAuthApi, microsoftAuthApi]);
 
   return { data, isLoading, error };
