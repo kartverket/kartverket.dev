@@ -215,7 +215,7 @@ export async function createRouter(
       const validToken = validateToken(req.header('Authorization'), auth);
       if (!validToken) {
         res.status(401).send({
-          frontendMessage: 'Token is not valid',
+          message: 'Token is not valid',
         });
         return;
       }
@@ -228,9 +228,9 @@ export async function createRouter(
       } else {
         res
           .status(response.error.statusCode)
-          .send({ frontendMessage: response.error.message });
+          .send({ message: response.error.message });
         logger.error(
-          `Recieved a ${response.error.statusCode} status code when trying to fetch forms from Regelrett API.`,
+          `Received a ${response.error.statusCode} status code when trying to fetch forms from Regelrett API.`,
         );
       }
     } catch (error) {

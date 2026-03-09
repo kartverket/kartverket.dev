@@ -141,8 +141,11 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
     enabled: isReady,
   });
 
-  const { data: formTypes, isLoading: isFormTypesLoading } =
-    useFormTypesQuery();
+  const {
+    data: formTypes,
+    isLoading: isFormTypesLoading,
+    error: formTypesError,
+  } = useFormTypesQuery();
 
   const formTypeMap: Record<string, string> = Object.fromEntries(
     (formTypes ?? []).map(f => [f.id, f.name]),
@@ -225,6 +228,10 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
 
       {isMember && !isLoading && !isFormTypesLoading && showData()}
 
+      {isMember && !isFormTypesLoading && formTypesError && (
+        <Alert severity="error">{t('functionLinkCard.fetchError')}</Alert>
+      )}
+
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>
           {t('functionLinkCard.formCreatedSuccess')}
@@ -233,6 +240,8 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
 
       {isMember &&
         !isLoading &&
+        !isFormTypesLoading &&
+        !formTypesError &&
         availableFormsExist &&
         !isUnauthorizedError(error) && (
           <div style={{ marginTop: '1rem' }}>

@@ -114,8 +114,11 @@ function GroupFormLinksCardWrapper() {
     enabled: isReady,
   });
 
-  const { data: formTypes, isLoading: isFormTypesLoading } =
-    useFormTypesQuery();
+  const {
+    data: formTypes,
+    isLoading: isFormTypesLoading,
+    error: formTypesError,
+  } = useFormTypesQuery();
 
   const formTypeMap: Record<string, string> = Object.fromEntries(
     (formTypes ?? []).map(f => [f.id, f.name]),
@@ -161,7 +164,7 @@ function GroupFormLinksCardWrapper() {
     if (isLoading || isFunctionEntitiesLoading || isFormTypesLoading) {
       return <Progress />;
     }
-    if (error) {
+    if (error || formTypesError) {
       const isUnauthorized = isUnauthorizedError(error);
       return (
         <Alert severity={isUnauthorized ? 'info' : 'error'}>
