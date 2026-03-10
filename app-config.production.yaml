@@ -28,8 +28,6 @@ backend:
         rejectUnauthorized: false
     pluginDivisionMode: schema
   auth:
-    keys:
-      - secret: 56fYRaW0m6JWh6vZLbetkmXhUehJrCf1
     externalAccess:
       - type: jwks
         options:

@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PeopleIcon from '@material-ui/icons/People';
 import LayersIcon from '@material-ui/icons/Layers';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
 import { isUnauthorizedError } from '../../errors';
@@ -83,15 +83,15 @@ const useStyles = makeStyles(theme => ({
 
 const queryClient = new QueryClient();
 
-export const GroupFormLinksCard = () => {
+export const GroupSecurityFormsCard = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <GroupFormLinksCardWrapper />
+      <GroupSecurityFormsCardWrapper />
     </QueryClientProvider>
   );
 };
 
-function GroupFormLinksCardWrapper() {
+function GroupSecurityFormsCardWrapper() {
   const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
