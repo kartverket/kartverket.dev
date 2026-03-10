@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Progress } from '@backstage/core-components';
 import Alert from '@mui/material/Alert';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { useRegelrettCreateContextMutation } from '../../hooks/useRegelrettCreateContextMutation';
 
 interface SelectOption {
