@@ -42,7 +42,7 @@ export const SingleComponentPage = () => {
   if (error)
     return (
       <ErrorBanner
-        errorTitle={`Kunne ikke hente ${error ? 'metrikker' : 'reponavn'} for ${entity.metadata.name}`}
+        errorTitle={`Kunne ikke hente metrikker for ${entity.metadata.name}`}
         errorMessage={error.message}
       />
     );
