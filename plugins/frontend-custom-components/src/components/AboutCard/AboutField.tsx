@@ -15,27 +15,26 @@
  */
 
 import { useElementFilter } from '@backstage/core-plugin-api';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import { ReactNode } from 'react';
 
-const useStyles = makeStyles(theme => ({
-  value: {
-    fontWeight: 'bold',
-    overflow: 'hidden',
-    lineHeight: '24px',
-    wordBreak: 'break-word',
-  },
-  label: {
-    color: theme.palette.text.secondary,
-    textTransform: 'uppercase',
-    fontSize: '10px',
-    fontWeight: 'bold',
-    letterSpacing: 0.5,
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-  },
+const ValueTypography = styled(Typography)({
+  fontWeight: 'bold',
+  overflow: 'hidden',
+  lineHeight: '24px',
+  wordBreak: 'break-word',
+});
+
+const LabelTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  textTransform: 'uppercase',
+  fontSize: '10px',
+  fontWeight: 'bold',
+  letterSpacing: 0.5,
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
 }));
 
 /**
@@ -54,7 +53,6 @@ export interface AboutFieldProps {
 /** @public */
 export function AboutField(props: AboutFieldProps) {
   const { label, value, gridSizes, children, className } = props;
-  const classes = useStyles();
 
   const childElements = useElementFilter(children, c => c.getElements());
 
@@ -63,15 +61,11 @@ export function AboutField(props: AboutFieldProps) {
     childElements.length > 0 ? (
       childElements
     ) : (
-      <Typography variant="body2" className={classes.value}>
-        {value || `unknown`}
-      </Typography>
+      <ValueTypography variant="body2">{value || `unknown`}</ValueTypography>
     );
   return (
-    <Grid item {...gridSizes} className={className}>
-      <Typography variant="h2" className={classes.label}>
-        {label}
-      </Typography>
+    <Grid size={gridSizes} className={className}>
+      <LabelTypography variant="h2">{label}</LabelTypography>
       {content}
     </Grid>
   );

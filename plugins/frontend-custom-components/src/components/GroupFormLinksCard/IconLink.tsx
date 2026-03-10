@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import { Link } from '@backstage/core-components';
 import { IconComponent } from '@backstage/core-plugin-api';
 
-const useStyles = makeStyles({
-  svgIcon: {
+const SvgIconWrapper = styled('div')({
+  display: 'inline-block',
+  '& svg': {
     display: 'inline-block',
-    '& svg': {
-      display: 'inline-block',
-      fontSize: 'inherit',
-      verticalAlign: 'baseline',
-    },
+    fontSize: 'inherit',
+    verticalAlign: 'baseline',
   },
 });
 
@@ -37,15 +35,16 @@ export function IconLink(props: {
   Icon?: IconComponent;
 }) {
   const { href, text, Icon } = props;
-  const classes = useStyles();
 
   return (
     <Box display="flex">
       {Icon && (
-        <Box mr={1} className={classes.svgIcon}>
-          <Typography component="div">
-            <Icon />
-          </Typography>
+        <Box mr={1}>
+          <SvgIconWrapper>
+            <Typography component="div">
+              <Icon />
+            </Typography>
+          </SvgIconWrapper>
         </Box>
       )}
       <Box flexGrow="1">

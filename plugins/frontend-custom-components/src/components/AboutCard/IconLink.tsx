@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import LanguageIcon from '@material-ui/icons/Language';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import LanguageIcon from '@mui/icons-material/Language';
 import { Link } from '@backstage/core-components';
 import { IconComponent } from '@backstage/core-plugin-api';
 
-const useStyles = makeStyles({
-  svgIcon: {
+const SvgIconWrapper = styled('div')({
+  display: 'inline-block',
+  '& svg': {
     display: 'inline-block',
-    '& svg': {
-      display: 'inline-block',
-      fontSize: 'inherit',
-      verticalAlign: 'baseline',
-    },
+    fontSize: 'inherit',
+    verticalAlign: 'baseline',
   },
 });
 
@@ -38,14 +36,15 @@ export function IconLink(props: {
   Icon?: IconComponent;
 }) {
   const { href, text, Icon } = props;
-  const classes = useStyles();
 
   return (
     <Box display="flex">
-      <Box mr={1} className={classes.svgIcon}>
-        <Typography component="div">
-          {Icon ? <Icon /> : <LanguageIcon />}
-        </Typography>
+      <Box mr={1}>
+        <SvgIconWrapper>
+          <Typography component="div">
+            {Icon ? <Icon /> : <LanguageIcon />}
+          </Typography>
+        </SvgIconWrapper>
       </Box>
       <Box flexGrow="1">
         <Link to={href} target="_blank" rel="noopener">

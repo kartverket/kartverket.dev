@@ -10,75 +10,79 @@ import { useTeamRegelrettQuery } from '../../hooks/useTeamRegelrettQuery';
 import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
-import { makeStyles } from '@material-ui/core/styles';
-import PeopleIcon from '@material-ui/icons/People';
-import LayersIcon from '@material-ui/icons/Layers';
+import { styled } from '@mui/material/styles';
+import PeopleIcon from '@mui/icons-material/People';
+import LayersIcon from '@mui/icons-material/Layers';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
 import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
 import { isUnauthorizedError } from '../../errors';
 
-const useStyles = makeStyles(theme => ({
-  tabContainer: {
-    display: 'flex',
-    gap: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-  },
-  tab: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-    borderRadius: 20,
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: 'var(--bui-font-size-3)',
-    fontWeight: 500,
-    fontFamily: theme.typography.fontFamily,
-    transition: 'all 0.2s ease',
-    '&:hover': {
-      opacity: 0.85,
-    },
-  },
-  activeTab: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-  },
-  inactiveTab: {
-    backgroundColor:
-      theme.palette.type === 'dark'
-        ? 'rgba(255, 255, 255, 0.08)'
-        : 'rgba(0, 0, 0, 0.06)',
-    color: theme.palette.text.secondary,
-  },
-  badge: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 20,
-    height: 20,
-    padding: '0 6px',
-    borderRadius: 10,
-    fontSize: '0.75rem',
-    fontWeight: 600,
-    lineHeight: 1,
-  },
-  activeBadge: {
-    backgroundColor: 'rgba(255, 255, 255, 0.25)',
-    color: theme.palette.primary.contrastText,
-  },
-  inactiveBadge: {
-    backgroundColor:
-      theme.palette.type === 'dark'
-        ? 'rgba(255, 255, 255, 0.12)'
-        : 'rgba(0, 0, 0, 0.1)',
-    color: theme.palette.text.secondary,
-  },
-  icon: {
-    fontSize: '1.1rem',
+const TabContainer = styled('div')(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(1),
+  marginBottom: theme.spacing(2),
+}));
+
+const Tab = styled('button')(({ theme }) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+  padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+  borderRadius: 20,
+  border: 'none',
+  cursor: 'pointer',
+  fontSize: 'var(--bui-font-size-3)',
+  fontWeight: 500,
+  fontFamily: theme.typography.fontFamily,
+  transition: 'all 0.2s ease',
+  '&:hover': {
+    opacity: 0.85,
   },
 }));
+
+const ActiveTab = styled(Tab)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+}));
+
+const InactiveTab = styled(Tab)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? 'rgba(255, 255, 255, 0.08)'
+      : 'rgba(0, 0, 0, 0.06)',
+  color: theme.palette.text.secondary,
+}));
+
+const TabBadge = styled('span')({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minWidth: 20,
+  height: 20,
+  padding: '0 6px',
+  borderRadius: 10,
+  fontSize: '0.75rem',
+  fontWeight: 600,
+  lineHeight: 1,
+});
+
+const ActiveBadge = styled(TabBadge)(({ theme }) => ({
+  backgroundColor: 'rgba(255, 255, 255, 0.25)',
+  color: theme.palette.primary.contrastText,
+}));
+
+const InactiveBadge = styled(TabBadge)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? 'rgba(255, 255, 255, 0.12)'
+      : 'rgba(0, 0, 0, 0.1)',
+  color: theme.palette.text.secondary,
+}));
+
+const StyledPeopleIcon = styled(PeopleIcon)({ fontSize: '1.1rem' });
+const StyledLayersIcon = styled(LayersIcon)({ fontSize: '1.1rem' });
 
 const queryClient = new QueryClient();
 
@@ -91,7 +95,6 @@ export const GroupFormLinksCard = () => {
 };
 
 function GroupFormLinksCardWrapper() {
-  const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);
@@ -165,34 +168,37 @@ function GroupFormLinksCardWrapper() {
     }
     return (
       <>
-        <div className={classes.tabContainer}>
-          <button
-            type="button"
-            className={`${classes.tab} ${activeTab === 'team' ? classes.activeTab : classes.inactiveTab}`}
-            onClick={() => setActiveTab('team')}
-          >
-            <PeopleIcon className={classes.icon} />
-            {t('groupFormCard.teamTab')}
-            <span
-              className={`${classes.badge} ${activeTab === 'team' ? classes.activeBadge : classes.inactiveBadge}`}
+        <TabContainer>
+          {activeTab === 'team' ? (
+            <ActiveTab type="button" onClick={() => setActiveTab('team')}>
+              <StyledPeopleIcon />
+              {t('groupFormCard.teamTab')}
+              <ActiveBadge>{teamForms.length}</ActiveBadge>
+            </ActiveTab>
+          ) : (
+            <InactiveTab type="button" onClick={() => setActiveTab('team')}>
+              <StyledPeopleIcon />
+              {t('groupFormCard.teamTab')}
+              <InactiveBadge>{teamForms.length}</InactiveBadge>
+            </InactiveTab>
+          )}
+          {activeTab === 'functions' ? (
+            <ActiveTab type="button" onClick={() => setActiveTab('functions')}>
+              <StyledLayersIcon />
+              {t('groupFormCard.functionsTab')}
+              <ActiveBadge>{functionForms.length}</ActiveBadge>
+            </ActiveTab>
+          ) : (
+            <InactiveTab
+              type="button"
+              onClick={() => setActiveTab('functions')}
             >
-              {teamForms.length}
-            </span>
-          </button>
-          <button
-            type="button"
-            className={`${classes.tab} ${activeTab === 'functions' ? classes.activeTab : classes.inactiveTab}`}
-            onClick={() => setActiveTab('functions')}
-          >
-            <LayersIcon className={classes.icon} />
-            {t('groupFormCard.functionsTab')}
-            <span
-              className={`${classes.badge} ${activeTab === 'functions' ? classes.activeBadge : classes.inactiveBadge}`}
-            >
-              {functionForms.length}
-            </span>
-          </button>
-        </div>
+              <StyledLayersIcon />
+              {t('groupFormCard.functionsTab')}
+              <InactiveBadge>{functionForms.length}</InactiveBadge>
+            </InactiveTab>
+          )}
+        </TabContainer>
         {activeTab === 'team' ? (
           <TeamFormsTabContent
             forms={teamForms}
