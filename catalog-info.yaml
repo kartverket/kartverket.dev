@@ -11,3 +11,5 @@ spec:
   lifecycle: production
   owner: skvis
   system: system:default/utviklerportal
+  dependsOn:
+    - component:default/entra-id-config
