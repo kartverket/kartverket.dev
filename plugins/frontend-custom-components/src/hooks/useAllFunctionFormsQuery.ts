@@ -67,7 +67,7 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
 
         const expiredMap = new Map<string, boolean>();
         for (const form of results.flat()) {
-          if (form.expiredCount > 0) {
+          if (form.expiredCount && form.expiredCount > 0) {
             expiredMap.set(form.name, true);
           } else if (!expiredMap.has(form.name)) {
             expiredMap.set(form.name, false);

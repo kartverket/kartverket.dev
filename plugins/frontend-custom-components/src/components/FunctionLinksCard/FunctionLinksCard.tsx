@@ -208,22 +208,24 @@ function FunctionLinksCardItem(props: EntityLinksCardProps) {
                 >
                   {getFormType(formId)}
                 </Link>
-                <div className={classes.metricsContainer}>
-                  <span className={classes.metricsLabel}>
-                    {t('formMetrics.answered', {
-                      answered: String(answeredCount),
-                      total: String(totalCount),
-                    })}
-                  </span>
-                  {expiredCount > 0 && (
-                    <span className={classes.expiredWarning}>
-                      <WarningAmberOutlined className={classes.expiredIcon} />
-                      {t('formMetrics.expired', {
-                        expired: String(expiredCount),
+                {answeredCount !== undefined && totalCount !== undefined && (
+                  <div className={classes.metricsContainer}>
+                    <span className={classes.metricsLabel}>
+                      {t('formMetrics.answered', {
+                        answered: String(answeredCount),
+                        total: String(totalCount),
                       })}
                     </span>
-                  )}
-                </div>
+                    {(expiredCount ?? 0) > 0 && (
+                      <span className={classes.expiredWarning}>
+                        <WarningAmberOutlined className={classes.expiredIcon} />
+                        {t('formMetrics.expired', {
+                          expired: String(expiredCount),
+                        })}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             ),
           )}

@@ -111,7 +111,7 @@ export class ProxyApiService {
   async fetchContextByTeamId(
     clientToken: string,
     teamId: string,
-  ): Promise<Result<ApiError, ContextWithMetrics>> {
+  ): Promise<Result<ApiError, ContextWithMetrics[]>> {
     const token = await this.entraIdService.getOboToken(clientToken);
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
@@ -131,7 +131,7 @@ export class ProxyApiService {
       });
 
       if (response.ok) {
-        const context: ContextWithMetrics = await response.json();
+        const context: ContextWithMetrics[] = await response.json();
         return { ok: true, data: context };
       }
       return { ok: false, error: errorHandling(response) };

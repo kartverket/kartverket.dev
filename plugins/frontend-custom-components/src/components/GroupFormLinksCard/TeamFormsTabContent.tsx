@@ -103,22 +103,25 @@ export function TeamFormsTabContent({
               >
                 {`${form.name} – ${getFormType(form.formId)}`}
               </Link>
-              <div className={classes.metricsContainer}>
-                <span className={classes.metricsLabel}>
-                  {t('formMetrics.answered', {
-                    answered: String(form.answeredCount),
-                    total: String(form.totalCount),
-                  })}
-                </span>
-                {form.expiredCount > 0 && (
-                  <span className={classes.expiredWarning}>
-                    <WarningAmberOutlined className={classes.expiredIcon} />
-                    {t('formMetrics.expired', {
-                      expired: String(form.expiredCount),
-                    })}
-                  </span>
+              {form.answeredCount !== undefined &&
+                form.totalCount !== undefined && (
+                  <div className={classes.metricsContainer}>
+                    <span className={classes.metricsLabel}>
+                      {t('formMetrics.answered', {
+                        answered: String(form.answeredCount),
+                        total: String(form.totalCount),
+                      })}
+                    </span>
+                    {(form.expiredCount ?? 0) > 0 && (
+                      <span className={classes.expiredWarning}>
+                        <WarningAmberOutlined className={classes.expiredIcon} />
+                        {t('formMetrics.expired', {
+                          expired: String(form.expiredCount),
+                        })}
+                      </span>
+                    )}
+                  </div>
                 )}
-              </div>
             </div>
           ))}
         </div>

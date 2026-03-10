@@ -89,6 +89,7 @@ export async function createRouter(
           res.status(401).send({
             frontendMessage: 'Token is not valid',
           });
+          return;
         }
         const eidToken = req.header('Entraid');
         const name = req.query.name;
@@ -129,6 +130,7 @@ export async function createRouter(
           res.status(401).send({
             frontendMessage: 'Token is not valid',
           });
+          return;
         }
         const eidToken = req.header('Entraid');
         const name = req.query.name;
@@ -183,13 +185,14 @@ export async function createRouter(
         res.status(401).send({
           frontendMessage: 'Token is not valid',
         });
+        return;
       }
       const eidToken = req.header('Entraid');
       const teamId = req.query.teamId;
       if (typeof teamId !== 'string')
         throw new Error('No name parameter provided');
       if (!eidToken) throw new Error('No token');
-      const response: Result<ApiError, ContextWithMetrics> =
+      const response: Result<ApiError, ContextWithMetrics[]> =
         await proxyService.fetchContextByTeamId(eidToken, teamId);
       if (response.ok) {
         res.status(200).send(response.data);
