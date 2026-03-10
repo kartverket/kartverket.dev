@@ -3,6 +3,7 @@ import {
   EmptyState,
   Header,
   HeaderLabel,
+  HeaderTabs,
   Page,
 } from '@backstage/core-components';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
@@ -54,6 +55,8 @@ export const FunctionsPage = () => {
     Map<string | undefined, EntityData[]>
   >(new Map());
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
+  const [level1Children, setLevel1Children] = useState<EntityData[]>([]);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
   const [allFunctions, setAllFunctions] = useState<FunctionEntityV1alpha1[]>(
     [],
   );
@@ -96,6 +99,10 @@ export const FunctionsPage = () => {
         return acc;
       }, new Map<string | undefined, EntityData[]>());
 
+      for (const children of groupedFuncs.values()) {
+        children.sort((a, b) => a.title.localeCompare(b.title, 'nb'));
+      }
+
       setChildfunctionsMap(groupedFuncs);
 
       // Find and validate the root node(s) (no parent)
@@ -108,17 +115,39 @@ export const FunctionsPage = () => {
       }
       setRootEntity(rootCandidates[0]);
 
-      // Auto-expand level-1 nodes that have descendants owned by the user's teams
-      if (rootCandidates[0]?.ref && userGroupNames.length > 0) {
-        const level1Children = groupedFuncs.get(rootCandidates[0].ref) ?? [];
-        const expandedIds = level1Children
-          .filter(
-            child =>
-              child.ref &&
-              hasDescendantOwnedByAny(child.ref, groupedFuncs, userGroupNames),
-          )
-          .map(child => child.ref!)
-          .filter(Boolean);
+      // Derive level-1 children (direct children of root) for tabs
+      const l1Children = rootCandidates[0]?.ref
+        ? (groupedFuncs.get(rootCandidates[0].ref) ?? [])
+        : [];
+      setLevel1Children(l1Children);
+
+      // Auto-select the first tab whose subtree is owned by the user's teams
+      if (l1Children.length > 0 && userGroupNames.length > 0) {
+        const ownedIndex = l1Children.findIndex(
+          child =>
+            child.ref &&
+            hasDescendantOwnedByAny(child.ref, groupedFuncs, userGroupNames),
+        );
+        if (ownedIndex >= 0) {
+          setSelectedTab(ownedIndex);
+        }
+      }
+
+      // Auto-expand nodes that have descendants owned by the user's teams
+      if (userGroupNames.length > 0) {
+        const expandedIds = l1Children.flatMap(child => {
+          const grandchildren = child.ref
+            ? (groupedFuncs.get(child.ref) ?? [])
+            : [];
+          return grandchildren
+            .filter(
+              gc =>
+                gc.ref &&
+                hasDescendantOwnedByAny(gc.ref, groupedFuncs, userGroupNames),
+            )
+            .map(gc => gc.ref!)
+            .filter(Boolean);
+        });
         setDefaultExpanded(expandedIds);
       }
     });
@@ -127,7 +156,7 @@ export const FunctionsPage = () => {
   if (
     rootEntity === undefined ||
     rootEntity.ref === undefined ||
-    childfunctionsMap.get(rootEntity.ref)?.length === 0
+    level1Children.length === 0
   ) {
     return (
       <Page themeId="functions">
@@ -151,6 +180,13 @@ export const FunctionsPage = () => {
     );
   }
 
+  const tabs = level1Children.map(child => ({
+    id: child.ref ?? child.name,
+    label: child.title,
+  }));
+
+  const activeChild = level1Children[selectedTab];
+
   return (
     <Page themeId="functions">
       <Header
@@ -162,15 +198,29 @@ export const FunctionsPage = () => {
           value={t('functionpage.structureDescription')}
         />
       </Header>
+      <HeaderTabs
+        tabs={tabs}
+        selectedIndex={selectedTab}
+        onChange={index => setSelectedTab(index)}
+      />
       <Content>
         <Flex justify="end" style={{ marginBottom: '16px' }}>
           <ExportCsvButton functions={allFunctions} />
         </Flex>
-        <FunctionTree
-          rootRef={rootEntity.ref}
-          funcMap={childfunctionsMap}
-          defaultExpanded={defaultExpanded}
-        />
+        {activeChild?.ref &&
+        (childfunctionsMap.get(activeChild.ref)?.length ?? 0) > 0 ? (
+          <FunctionTree
+            rootRef={activeChild.ref}
+            funcMap={childfunctionsMap}
+            defaultExpanded={defaultExpanded}
+          />
+        ) : (
+          <EmptyState
+            title={t('functionpage.noSubFunctionsTitle')}
+            description={t('functionpage.noSubFunctionsDescription')}
+            missing="data"
+          />
+        )}
       </Content>
     </Page>
   );
