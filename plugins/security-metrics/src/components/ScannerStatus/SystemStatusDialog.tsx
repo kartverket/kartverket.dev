@@ -49,9 +49,11 @@ export const ScannerStatusDialog = ({ scannerStatus }: Props) => {
                   return (aConfigured ? 1 : 0) - (bConfigured ? 1 : 0);
                 })
                 .map((status: RepositoryScannerStatusData) => (
-                  <TableRow key={status.componentName}>
+                  <TableRow key={status.componentNames.join(',')}>
                     <TableCell>
-                      <Typography>{status.componentName}</Typography>
+                      {status.componentNames.map(name => (
+                        <Typography key={name}>{name}</Typography>
+                      ))}
                     </TableCell>
                     <TableCell>
                       {status.scannerStatus.find(
