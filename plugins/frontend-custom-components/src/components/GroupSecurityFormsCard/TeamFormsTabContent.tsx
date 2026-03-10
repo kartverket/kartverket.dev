@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { FORM_TYPE_MAP } from '../../constants';
 import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
