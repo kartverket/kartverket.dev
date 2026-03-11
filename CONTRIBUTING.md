@@ -125,7 +125,7 @@ catalog:
         filter: accountEnabled eq true and userType eq 'member'
       group:
         filter: >
-          startswith(displayName, 'AAD - TF - TEAM')
+          startswith(displayName, 'AAD - TF - TEAM') or startswith(displayName, 'AAD - TF - BUSINESS UNIT') or startswith(displayName, 'AAD - TF - PRODUCT AREA')
       schedule:
         frequency: PT1H
         timeout: PT50M
