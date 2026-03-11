@@ -22,7 +22,7 @@ backend:
       - host: data.brreg.no
       - host: docs.altinn.studio
       - host: docs.digdir.no
-      - host: landbruksdirektoratet.no
+      - host: '*.landbruksdirektoratet.no'
       - host: '*.kartverket-intern.cloud'
       - host: raw.githubusercontent.com
 
@@ -44,7 +44,6 @@ backend:
       [
         "'self'",
         'backstage.atgcp1-dev.kartverket-intern.cloud',
-        'ph.kartverket.no',
         'skip.instatus.com',
         "'unsafe-eval'",
         "'unsafe-inline'",

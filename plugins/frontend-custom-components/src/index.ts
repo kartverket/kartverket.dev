@@ -1,12 +1,12 @@
 export { FunctionAboutCard } from './components/AboutCard/FunctionAboutCard';
 export { FunctionDependenciesCard } from './components/FunctionDependenciesCard/FunctionDependenciesCard.tsx';
-export { FunctionLinksCard } from './components/FunctionLinksCard/FunctionLinksCard';
+export { FunctionSecurityFormsCard } from './components/FunctionSecurityFormsCard/FunctionSecurityFormsCard';
 export { EntityFunctionsCard } from './components/EntityFunctionsCard/EntityFunctionsCard';
 export { FunctionGroupPageCard } from './components/FunctionGroupPageCard/FunctionGroupPageCard';
 export { functionGroupPageNorwegianTranslation } from './components/FunctionGroupPageCard/translation';
 export { SupportButton } from './components/SupportButton/SupportButton';
 export { supportNorwegianTranslation } from './components/SupportButton/supportTranslations';
-export { GroupFormLinksCard } from './components/GroupFormLinksCard/GroupFormLinksCard';
-export { functionLinkCardNorwegianTranslation } from './components/FunctionLinksCard/translation';
+export { GroupSecurityFormsCard } from './components/GroupSecurityFormsCard/GroupSecurityFormsCard';
+export { functionLinkCardNorwegianTranslation } from './components/FunctionSecurityFormsCard/translation';
 export { functionDependenciesCardNorwegianTranslation } from './components/FunctionDependenciesCard/translations';
 export { useAllFunctionFormsQuery } from './hooks/useAllFunctionFormsQuery';
