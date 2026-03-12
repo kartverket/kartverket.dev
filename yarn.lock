@@ -7177,9 +7177,7 @@ __metadata:
     "@backstage/theme": "backstage:^"
     "@backstage/types": "backstage:^"
     "@backstage/ui": "backstage:^"
-    "@material-ui/core": "npm:^4.12.4"
-    "@material-ui/icons": "npm:^4.11.3"
-    "@material-ui/lab": "npm:^4.0.0-alpha.61"
+    "@mui/icons-material": "npm:^7.3.9"
     "@mui/material": "npm:^7.3.7"
     "@tanstack/react-query": "npm:^5.90.20"
     "@testing-library/jest-dom": "npm:^6.9.1"
@@ -7189,6 +7187,7 @@ __metadata:
     react: "npm:^18"
     react-use: "npm:^17.6.0"
     remixicon: "npm:^4.8.0"
+    tss-react: "npm:^4.9.20"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
   languageName: unknown

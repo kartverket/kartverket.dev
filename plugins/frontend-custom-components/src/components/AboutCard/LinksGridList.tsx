@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import ImageList from '@material-ui/core/ImageList';
-import ImageListItem from '@material-ui/core/ImageListItem';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 import { IconLink } from './IconLink.tsx';
 import { IconComponent } from '@backstage/core-plugin-api';
 import { useDynamicColumns } from './useDynamicColumns.tsx';

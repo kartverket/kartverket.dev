@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import { makeStyles } from 'tss-react/mui';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
@@ -8,7 +8,7 @@ import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   formList: {
     display: 'flex',
     flexDirection: 'column',
@@ -18,17 +18,17 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(1),
-    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
+    padding: `${theme.spacing(1)} ${theme.spacing(1.5)}`,
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, 0.04)'
         : 'rgba(0, 0, 0, 0.03)',
     transition: 'background-color 0.15s ease',
     '&:hover': {
       backgroundColor:
-        theme.palette.type === 'dark'
+        theme.palette.mode === 'dark'
           ? 'rgba(255, 255, 255, 0.08)'
           : 'rgba(0, 0, 0, 0.06)',
     },
@@ -54,7 +54,7 @@ export function TeamFormsTabContent({
   teamName,
   onFormCreated,
 }: TeamFormsTabContentProps) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
 
