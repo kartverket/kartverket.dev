@@ -3,6 +3,9 @@ export type RegelrettForm = {
   teamId: string;
   formId: string;
   name: string;
+  answeredCount?: number;
+  expiredCount?: number;
+  totalCount?: number;
 };
 
 export type FormType = {
