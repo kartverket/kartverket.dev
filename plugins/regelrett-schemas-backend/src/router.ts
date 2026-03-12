@@ -1,5 +1,5 @@
 import express from 'express';
-import { ApiError, Context, EntraIdConfiguration, Result } from './types';
+import { ApiError, Context, EntraIdConfiguration, Form, Result } from './types';
 import { AuthService, LoggerService } from '@backstage/backend-plugin-api';
 import { Config } from '@backstage/config';
 import { EntraIdService } from './services/entraIdService';
@@ -207,6 +207,38 @@ export async function createRouter(
           .status(500)
           .send({ message: `Failed to fetch context by team id: ${error}` });
       }
+    }
+  });
+
+  router.get('/proxy/fetch-regelrett-form-types', async (req, res) => {
+    try {
+      const validToken = validateToken(req.header('Authorization'), auth);
+      if (!validToken) {
+        res.status(401).send({
+          message: 'Token is not valid',
+        });
+        return;
+      }
+      const eidToken = req.header('Entraid');
+      if (!eidToken) throw new Error('No token');
+      const response: Result<ApiError, Form[]> =
+        await proxyService.fetchForms(eidToken);
+      if (response.ok) {
+        res.status(200).send(response.data);
+      } else {
+        res
+          .status(response.error.statusCode)
+          .send({ message: response.error.message });
+        logger.error(
+          `Received a ${response.error.statusCode} status code when trying to fetch forms from Regelrett API.`,
+        );
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : error;
+      logger.error(`Failed to fetch forms: ${errorMessage}`);
+      res
+        .status(500)
+        .send({ message: `Failed to fetch forms: ${errorMessage}` });
     }
   });
 

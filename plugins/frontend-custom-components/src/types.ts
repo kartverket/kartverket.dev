@@ -4,3 +4,8 @@ export type RegelrettForm = {
   formId: string;
   name: string;
 };
+
+export type FormType = {
+  id: string;
+  name: string;
+};
