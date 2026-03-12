@@ -39,7 +39,7 @@ import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
-import { FORM_TYPE_MAP } from '../../constants';
+import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
 import { buildFormUrl } from '../../utils/formUrl';
 import Typography from '@material-ui/core/Typography';
 import { isUnauthorizedError } from '../../errors';
@@ -165,6 +165,16 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
     enabled: isReady,
   });
 
+  const {
+    data: formTypes,
+    isLoading: isFormTypesLoading,
+    error: formTypesError,
+  } = useFormTypesQuery();
+
+  const formTypeMap: Record<string, string> = Object.fromEntries(
+    (formTypes ?? []).map(f => [f.id, f.name]),
+  );
+
   const [selectedFormId, setSelectedFormId] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -180,7 +190,7 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
   }, [submitted, isCreating, createError, refetch]);
 
   const getFormType = (formId: string): string => {
-    return FORM_TYPE_MAP[formId] || 'Unknown';
+    return formTypeMap[formId] || 'Unknown';
   };
 
   const handleSubmit = () => {
@@ -189,7 +199,7 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
     mutate({ functionName, formId: selectedFormId, teamId });
   };
 
-  const availableFormsExist = Object.keys(FORM_TYPE_MAP).some(
+  const availableFormsExist = Object.keys(formTypeMap).some(
     formId => !data?.some(form => form.formId === formId),
   );
 
@@ -254,12 +264,17 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
       }
       variant={variant}
     >
-      {(isMembershipLoading || (isMember && isLoading)) && <Progress />}
+      {(isMembershipLoading ||
+        (isMember && (isLoading || isFormTypesLoading))) && <Progress />}
       {!isMembershipLoading && !isMember && (
         <Alert severity="info">{t('functionLinkCard.fetchUnauthorized')}</Alert>
       )}
 
-      {isMember && !isLoading && showData()}
+      {isMember && !isLoading && !isFormTypesLoading && showData()}
+
+      {isMember && !isFormTypesLoading && formTypesError && (
+        <Alert severity="error">{t('functionLinkCard.fetchError')}</Alert>
+      )}
 
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>
@@ -269,6 +284,8 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
 
       {isMember &&
         !isLoading &&
+        !isFormTypesLoading &&
+        !formTypesError &&
         availableFormsExist &&
         !isUnauthorizedError(error) && (
           <div style={{ marginTop: '1rem' }}>
@@ -299,7 +316,7 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
                         {t('functionLinkCard.selectForm')}
                       </span>
                     </MenuItem>
-                    {Object.entries(FORM_TYPE_MAP)
+                    {Object.entries(formTypeMap)
                       .filter(
                         ([formId]) =>
                           !data?.some(form => form.formId === formId),

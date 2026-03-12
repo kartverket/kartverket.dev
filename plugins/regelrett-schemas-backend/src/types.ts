@@ -18,6 +18,11 @@ export type ContextWithMetrics = Context & {
   totalCount: number;
 };
 
+export type Form = {
+  id: string;
+  name: string;
+};
+
 export type ApiError = {
   statusCode: number;
   message?: string;

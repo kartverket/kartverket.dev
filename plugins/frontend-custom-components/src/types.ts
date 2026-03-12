@@ -7,3 +7,8 @@ export type RegelrettForm = {
   expiredCount?: number;
   totalCount?: number;
 };
+
+export type FormType = {
+  id: string;
+  name: string;
+};

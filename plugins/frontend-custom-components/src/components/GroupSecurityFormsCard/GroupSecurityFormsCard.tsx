@@ -7,6 +7,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { useTeamRegelrettQuery } from '../../hooks/useTeamRegelrettQuery';
+import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
 import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
@@ -113,6 +114,16 @@ function GroupSecurityFormsCardWrapper() {
     enabled: isReady,
   });
 
+  const {
+    data: formTypes,
+    isLoading: isFormTypesLoading,
+    error: formTypesError,
+  } = useFormTypesQuery();
+
+  const formTypeMap: Record<string, string> = Object.fromEntries(
+    (formTypes ?? []).map(f => [f.id, f.name]),
+  );
+
   const { data: functionEntities, isLoading: isFunctionEntitiesLoading } =
     useQuery({
       queryKey: ['functionEntities', groupRef],
@@ -150,10 +161,10 @@ function GroupSecurityFormsCardWrapper() {
         <Alert severity="info">{t('groupFormCard.fetchUnauthorized')}</Alert>
       );
     }
-    if (isLoading || isFunctionEntitiesLoading) {
+    if (isLoading || isFunctionEntitiesLoading || isFormTypesLoading) {
       return <Progress />;
     }
-    if (error) {
+    if (error || formTypesError) {
       const isUnauthorized = isUnauthorizedError(error);
       return (
         <Alert severity={isUnauthorized ? 'info' : 'error'}>
@@ -200,6 +211,7 @@ function GroupSecurityFormsCardWrapper() {
             teamId={teamId}
             teamName={teamName}
             onFormCreated={refetch}
+            formTypeMap={formTypeMap}
           />
         ) : (
           <FunctionFormsTabContent
@@ -208,6 +220,7 @@ function GroupSecurityFormsCardWrapper() {
             teamId={teamId}
             functionEntities={functionEntities?.items ?? []}
             onFormCreated={refetch}
+            formTypeMap={formTypeMap}
           />
         )}
       </>
