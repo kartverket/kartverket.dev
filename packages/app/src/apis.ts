@@ -16,7 +16,7 @@ import {
   entityPresentationApiRef,
 } from '@backstage/plugin-catalog-react';
 import { DefaultEntityPresentationApi } from '@backstage/plugin-catalog';
-import MuiAssignmentIcon from '@material-ui/icons/Assignment';
+import MuiAssignmentIcon from '@mui/icons-material/Assignment';
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({

@@ -1,4 +1,6 @@
-import { makeStyles, Theme, Grid, Paper } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from 'tss-react/mui';
 
 import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 import {
@@ -24,7 +26,7 @@ import {
 } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles()(theme => ({
   bar: {
     padding: theme.spacing(1, 0),
   },
@@ -40,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const SearchPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { types } = useSearch();
   const catalogApi = useApi(catalogApiRef);
 
