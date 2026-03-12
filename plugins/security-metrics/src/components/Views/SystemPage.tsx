@@ -100,7 +100,10 @@ export const SystemPage = () => {
       >
         <SystemScannerStatuses data={permitted} />
         <VulnerabilityCountsOverview data={permitted} />
-        <Trend componentNames={componentNames} showTotal={showTotal} />
+        <Trend
+          componentNames={permitted.map(p => p.componentNames[0])}
+          showTotal={showTotal}
+        />
       </Box>
 
       <RepositoriesTable
