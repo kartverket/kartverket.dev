@@ -21,6 +21,8 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          description:
+            form?.description || initial.metadata?.description || undefined,
           tags:
             form.tags?.length === 0
               ? undefined
@@ -88,6 +90,8 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          description:
+            form?.description || initial.metadata?.description || undefined,
           tags:
             form.tags?.length === 0
               ? undefined
@@ -116,6 +120,8 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          description:
+            form?.description || initial.metadata?.description || undefined,
           tags:
             form.tags?.length === 0
               ? undefined
@@ -144,6 +150,8 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          description:
+            form?.description || initial.metadata?.description || undefined,
           tags:
             form.tags?.length === 0
               ? undefined
@@ -172,6 +180,8 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          description:
+            form?.description || initial.metadata?.description || undefined,
           tags:
             form.tags?.length === 0
               ? undefined
@@ -204,6 +214,8 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          description:
+            form?.description || initial.metadata?.description || undefined,
           tags:
             form.tags?.length === 0
               ? undefined
@@ -240,6 +252,8 @@ export const updateYaml = (
           ...initial.metadata,
           name: form.name || initial.metadata.name,
           title: form?.title || initial.metadata?.title || undefined,
+          description:
+            form?.description || initial.metadata?.description || undefined,
           tags:
             form.tags?.length === 0
               ? undefined
