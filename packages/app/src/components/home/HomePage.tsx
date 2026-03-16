@@ -74,7 +74,7 @@ export const HomePage = () => {
               className={container}
               logo={<LogoFull type={mode} className={`${svg} ${path}`} />}
             />
-            <Grid container item xs={12} justifyContent="center">
+            <Grid size={12} container justifyContent="center">
               <HomePageSearchBar
                 InputProps={{
                   classes: {
@@ -85,17 +85,17 @@ export const HomePage = () => {
                 placeholder="Search"
               />
             </Grid>
-            <Grid container item xs={12}>
-              <Grid item xs={12} md={6}>
+            <Grid size={12} container>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <HomePageRecentlyVisited
                   title={t('homepage.recentlyVisited')}
                 />{' '}
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <HomePageStarredEntities title={t('homepage.favorites')} />{' '}
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <HomePageToolkit
                 title={t('homepage.toolkit')}
                 tools={[

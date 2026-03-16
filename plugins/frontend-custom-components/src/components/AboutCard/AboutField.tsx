@@ -68,7 +68,7 @@ export function AboutField(props: AboutFieldProps) {
       </Typography>
     );
   return (
-    <Grid item {...gridSizes} className={className}>
+    <Grid size={gridSizes} className={className}>
       <Typography variant="h2" className={classes.label}>
         {label}
       </Typography>

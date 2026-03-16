@@ -1,6 +1,6 @@
 import { TablePaginationProps } from '@mui/material/TablePagination';
 // eslint-disable-next-line no-restricted-imports
-import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions';
+import TablePaginationActions from '@mui/material/TablePaginationActions';
 import { ChangeEvent, useState } from 'react';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 

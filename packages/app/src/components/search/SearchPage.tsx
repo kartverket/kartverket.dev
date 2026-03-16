@@ -51,12 +51,12 @@ const SearchPage = () => {
       <Header title="Search" />
       <Content>
         <Grid container direction="row">
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper className={classes.bar}>
               <SearchBar />
             </Paper>
           </Grid>
-          <Grid item xs={3}>
+          <Grid size={3}>
             <SearchType.Accordion
               name="Result Type"
               defaultValue="software-catalog"
@@ -109,7 +109,7 @@ const SearchPage = () => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={9}>
+          <Grid size={9}>
             <SearchPagination />
             <SearchResult>
               <CatalogSearchResultListItem icon={<CatalogIcon />} />

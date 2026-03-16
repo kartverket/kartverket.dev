@@ -25,10 +25,10 @@ import { resourcePage } from './entityPages/ResourcePage';
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid item md={6} xs={12}>
+    <Grid size={{ xs: 12, md: 6 }}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
-    <Grid item md={6} xs={12}>
+    <Grid size={{ xs: 12, md: 6 }}>
       <EntityCatalogGraphCard
         variant="gridItem"
         height={400}
@@ -36,10 +36,10 @@ const overviewContent = (
         maxDepth={2}
       />
     </Grid>
-    <Grid item md={8} xs={12}>
+    <Grid size={{ xs: 12, md: 8 }}>
       <EntityLinksCard />
     </Grid>
-    <Grid item md={12} xs={12}>
+    <Grid size={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
     {grafanaContent}
