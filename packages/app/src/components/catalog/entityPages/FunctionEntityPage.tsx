@@ -5,7 +5,7 @@ import { useEntity } from '@backstage/plugin-catalog-react';
 import {
   FunctionAboutCard,
   FunctionDependenciesCard,
-  FunctionLinksCard,
+  FunctionSecurityFormsCard,
 } from '@internal/plugin-frontend-custom-components';
 import { CatalogCreatorContainer } from '../CatalogCreatorContainer';
 import { CatalogCreatorPageComponent } from '@kartverket/backstage-plugin-catalog-creator';
@@ -43,7 +43,7 @@ export const FunctionEntityPage = () => {
             <FunctionDependenciesCard />
           </Grid>
           <Grid item md={6} xs={12}>
-            <FunctionLinksCard />
+            <FunctionSecurityFormsCard />
           </Grid>
         </Grid>
       </EntityLayout.Route>

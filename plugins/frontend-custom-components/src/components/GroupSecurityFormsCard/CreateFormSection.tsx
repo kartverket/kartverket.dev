@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Flex, Select } from '@backstage/ui';
+import { Button, Flex } from '@backstage/ui';
+import FormControl from '@mui/material/FormControl';
+import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { Progress } from '@backstage/core-components';
 import Alert from '@mui/material/Alert';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { useRegelrettCreateContextMutation } from '../../hooks/useRegelrettCreateContextMutation';
 
 interface SelectOption {
@@ -102,14 +105,36 @@ export function CreateFormSection({
       {showCreateForm && (
         <Flex style={{ marginTop: '5px', gap: '8px', flexWrap: 'wrap' }}>
           {secondarySelect && (
-            <Select
-              style={{ flex: 1, minWidth: 0 }}
-              placeholder={secondarySelect.placeholder}
-              value={secondaryValue}
-              isDisabled={isCreating}
-              options={secondarySelect.options}
-              onChange={key => handleSecondaryChange(key as string)}
-            />
+            <FormControl size="small" style={{ flex: 1, minWidth: 0 }}>
+              <MuiSelect
+                displayEmpty
+                value={secondaryValue}
+                disabled={isCreating}
+                sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                onChange={(e: SelectChangeEvent<string>) =>
+                  handleSecondaryChange(e.target.value)
+                }
+              >
+                <MenuItem
+                  value=""
+                  disabled
+                  sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                >
+                  <span style={{ color: 'inherit', opacity: 0.5 }}>
+                    {secondarySelect.placeholder}
+                  </span>
+                </MenuItem>
+                {secondarySelect.options.map(opt => (
+                  <MenuItem
+                    key={opt.value}
+                    value={opt.value}
+                    sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                  >
+                    {opt.label}
+                  </MenuItem>
+                ))}
+              </MuiSelect>
+            </FormControl>
           )}
 
           {formTypeOptions.length === 0 &&
@@ -119,16 +144,39 @@ export function CreateFormSection({
             </Alert>
           ) : (
             <>
-              <Select
+              <FormControl
+                size="small"
                 style={{ flex: 1, minWidth: 0 }}
-                placeholder={t('groupFormCard.selectForm')}
-                value={selectedFormId}
-                isDisabled={
-                  isCreating || (!!secondarySelect && !secondaryValue)
-                }
-                options={formTypeOptions}
-                onChange={key => setSelectedFormId(key as string)}
-              />
+                disabled={isCreating || (!!secondarySelect && !secondaryValue)}
+              >
+                <MuiSelect
+                  displayEmpty
+                  value={selectedFormId}
+                  sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                  onChange={(e: SelectChangeEvent<string>) =>
+                    setSelectedFormId(e.target.value)
+                  }
+                >
+                  <MenuItem
+                    value=""
+                    disabled
+                    sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                  >
+                    <span style={{ color: 'inherit', opacity: 0.5 }}>
+                      {t('groupFormCard.selectForm')}
+                    </span>
+                  </MenuItem>
+                  {formTypeOptions.map(opt => (
+                    <MenuItem
+                      key={opt.value}
+                      value={opt.value}
+                      sx={{ fontSize: 'var(--bui-font-size-3)' }}
+                    >
+                      {opt.label}
+                    </MenuItem>
+                  ))}
+                </MuiSelect>
+              </FormControl>
 
               <Button
                 variant="primary"

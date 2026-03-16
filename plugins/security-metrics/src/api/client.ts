@@ -11,19 +11,21 @@ const ERROR_MESSAGES: Record<number, string> = {
 const DEFAULT_ERROR_MESSAGE =
   'Kunne ikke hente metrikker for denne ressursen på grunn av en ukjent feil.';
 
-const throwHttpError = (response: Response): never => {
-  const message = ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
-  throw new Error(message);
-};
-
 const handleResponse = async <ResponseBody>(
   response: Response,
   parse: (response: Response) => Promise<ResponseBody>,
+  preferBodyText = false,
 ): Promise<ResponseBody> => {
   const result = await parse(response);
 
   if (!response.ok) {
-    throwHttpError(response);
+    const bodyText =
+      preferBodyText && typeof result === 'string' && result.trim()
+        ? result.trim()
+        : undefined;
+    const message =
+      bodyText ?? ERROR_MESSAGES[response.status] ?? DEFAULT_ERROR_MESSAGE;
+    throw new Error(message);
   }
 
   return result;
@@ -62,16 +64,20 @@ export const put = async <RequestBody, ResponseBody>(
     body: JSON.stringify(requestBody),
   });
 
-  return handleResponse<ResponseBody>(response, async res => {
-    if (res.status === 204) return undefined as unknown as ResponseBody;
+  return handleResponse<ResponseBody>(
+    response,
+    async res => {
+      if (res.status === 204) return undefined as unknown as ResponseBody;
 
-    const ct = res.headers.get('content-type') ?? '';
-    if (ct.includes('application/json'))
-      return (await res.json()) as ResponseBody;
+      const ct = res.headers.get('content-type') ?? '';
+      if (ct.includes('application/json'))
+        return (await res.json()) as ResponseBody;
 
-    const text = await res.text();
-    return text as unknown as ResponseBody;
-  });
+      const text = await res.text();
+      return text as unknown as ResponseBody;
+    },
+    true,
+  );
 };
 
 export const get = async <ResponseBody>(

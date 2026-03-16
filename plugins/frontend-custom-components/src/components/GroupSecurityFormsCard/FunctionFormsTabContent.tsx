@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import LayersIcon from '@material-ui/icons/Layers';
 import { Link } from '@backstage/core-components';
+import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
-import { FORM_TYPE_MAP } from '../../constants';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
+import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 import { Entity } from '@backstage/catalog-model';
@@ -32,7 +33,6 @@ const useStyles = makeStyles(theme => ({
   sectionName: {
     fontWeight: 600,
     fontSize: '0.9rem',
-    color: theme.palette.text.primary,
   },
   sectionBadge: {
     display: 'inline-flex',
@@ -87,6 +87,7 @@ interface FunctionFormsTabContentProps {
   teamId: string;
   functionEntities: Entity[];
   onFormCreated: () => void;
+  formTypeMap: Record<string, string>;
 }
 
 export function FunctionFormsTabContent({
@@ -95,17 +96,18 @@ export function FunctionFormsTabContent({
   teamId,
   functionEntities,
   onFormCreated,
+  formTypeMap,
 }: FunctionFormsTabContentProps) {
   const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
-  const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
+  const getFormType = (formId: string) => formTypeMap[formId] || 'Unknown';
 
   const [selectedFunction, setSelectedFunction] = useState('');
 
   const formsForSelectedFunction = forms.filter(
     f => f.name === selectedFunction,
   );
-  const availableFormOptions = Object.entries(FORM_TYPE_MAP)
+  const availableFormOptions = Object.entries(formTypeMap)
     .filter(
       ([formId]) => !formsForSelectedFunction.some(f => f.formId === formId),
     )
@@ -125,6 +127,10 @@ export function FunctionFormsTabContent({
     {},
   );
 
+  const entityByFuncName = new Map(
+    functionEntities.map(e => [e.metadata.title ?? e.metadata.name, e]),
+  );
+
   return (
     <>
       {forms.length === 0 ? (
@@ -135,7 +141,16 @@ export function FunctionFormsTabContent({
             <div key={funcName}>
               <div className={classes.sectionHeader}>
                 <LayersIcon className={classes.sectionIcon} />
-                <span className={classes.sectionName}>{funcName}</span>
+                {entityByFuncName.has(funcName) ? (
+                  <EntityRefLink
+                    entityRef={entityByFuncName.get(funcName)!}
+                    defaultKind="function"
+                    className={classes.sectionName}
+                    hideIcon
+                  />
+                ) : (
+                  <span className={classes.sectionName}>{funcName}</span>
+                )}
                 <span className={classes.sectionBadge}>{funcForms.length}</span>
               </div>
               <div className={classes.formList}>
@@ -143,7 +158,7 @@ export function FunctionFormsTabContent({
                   <div key={form.id} className={classes.formRow}>
                     <DescriptionOutlinedIcon className={classes.formIcon} />
                     <Link
-                      to={`${regelrettBaseUrl}/context/${form.id}`}
+                      to={buildFormUrl(regelrettBaseUrl, form.id)}
                       target="_blank"
                       rel="noopener"
                     >

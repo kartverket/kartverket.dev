@@ -7,6 +7,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { useTeamRegelrettQuery } from '../../hooks/useTeamRegelrettQuery';
+import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
 import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
@@ -14,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PeopleIcon from '@material-ui/icons/People';
 import LayersIcon from '@material-ui/icons/Layers';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
 import { isUnauthorizedError } from '../../errors';
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 20,
     border: 'none',
     cursor: 'pointer',
-    fontSize: '0.875rem',
+    fontSize: 'var(--bui-font-size-3)',
     fontWeight: 500,
     fontFamily: theme.typography.fontFamily,
     transition: 'all 0.2s ease',
@@ -82,15 +83,15 @@ const useStyles = makeStyles(theme => ({
 
 const queryClient = new QueryClient();
 
-export const GroupFormLinksCard = () => {
+export const GroupSecurityFormsCard = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <GroupFormLinksCardWrapper />
+      <GroupSecurityFormsCardWrapper />
     </QueryClientProvider>
   );
 };
 
-function GroupFormLinksCardWrapper() {
+function GroupSecurityFormsCardWrapper() {
   const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
@@ -112,6 +113,16 @@ function GroupFormLinksCardWrapper() {
   const { data, isLoading, error, refetch } = useTeamRegelrettQuery(entity, {
     enabled: isReady,
   });
+
+  const {
+    data: formTypes,
+    isLoading: isFormTypesLoading,
+    error: formTypesError,
+  } = useFormTypesQuery();
+
+  const formTypeMap: Record<string, string> = Object.fromEntries(
+    (formTypes ?? []).map(f => [f.id, f.name]),
+  );
 
   const { data: functionEntities, isLoading: isFunctionEntitiesLoading } =
     useQuery({
@@ -150,10 +161,10 @@ function GroupFormLinksCardWrapper() {
         <Alert severity="info">{t('groupFormCard.fetchUnauthorized')}</Alert>
       );
     }
-    if (isLoading || isFunctionEntitiesLoading) {
+    if (isLoading || isFunctionEntitiesLoading || isFormTypesLoading) {
       return <Progress />;
     }
-    if (error) {
+    if (error || formTypesError) {
       const isUnauthorized = isUnauthorizedError(error);
       return (
         <Alert severity={isUnauthorized ? 'info' : 'error'}>
@@ -200,6 +211,7 @@ function GroupFormLinksCardWrapper() {
             teamId={teamId}
             teamName={teamName}
             onFormCreated={refetch}
+            formTypeMap={formTypeMap}
           />
         ) : (
           <FunctionFormsTabContent
@@ -208,6 +220,7 @@ function GroupFormLinksCardWrapper() {
             teamId={teamId}
             functionEntities={functionEntities?.items ?? []}
             onFormCreated={refetch}
+            formTypeMap={formTypeMap}
           />
         )}
       </>

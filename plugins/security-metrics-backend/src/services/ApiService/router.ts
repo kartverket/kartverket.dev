@@ -288,6 +288,9 @@ export const createRouter = async (
       if (apiResult.isRight()) {
         console.log('Notifications configured successfully');
         res.sendStatus(204);
+      } else if (apiResult.error.statusCode === 400) {
+        res.status(400).send('Kunne ikke nå ønsket slack-kanal');
+        logger.error(apiResult.error.error);
       } else {
         res.status(apiResult.error.statusCode).send({
           frontendMessage: apiResult.error.frontendMessage,

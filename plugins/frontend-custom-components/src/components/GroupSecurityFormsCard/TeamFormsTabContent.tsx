@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { functionLinkCardTranslationRef } from '../FunctionLinksCard/translation';
-import { FORM_TYPE_MAP } from '../../constants';
+import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
+import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 
@@ -44,6 +44,7 @@ interface TeamFormsTabContentProps {
   teamId: string;
   teamName: string;
   onFormCreated: () => void;
+  formTypeMap: Record<string, string>;
 }
 
 export function TeamFormsTabContent({
@@ -52,13 +53,14 @@ export function TeamFormsTabContent({
   teamId,
   teamName,
   onFormCreated,
+  formTypeMap,
 }: TeamFormsTabContentProps) {
   const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
-  const getFormType = (formId: string) => FORM_TYPE_MAP[formId] || 'Unknown';
+  const getFormType = (formId: string) => formTypeMap[formId] || 'Unknown';
 
   const existingFormIds = new Set(forms.map(f => f.formId));
-  const availableFormOptions = Object.entries(FORM_TYPE_MAP)
+  const availableFormOptions = Object.entries(formTypeMap)
     .filter(([formId]) => !existingFormIds.has(formId))
     .map(([formId, formName]) => ({ value: formId, label: formName }));
 
@@ -72,7 +74,7 @@ export function TeamFormsTabContent({
             <div key={form.id} className={classes.formRow}>
               <DescriptionOutlinedIcon className={classes.formIcon} />
               <Link
-                to={`${regelrettBaseUrl}/context/${form.id}`}
+                to={buildFormUrl(regelrettBaseUrl, form.id)}
                 target="_blank"
                 rel="noopener"
               >
