@@ -157,7 +157,7 @@ export const catalogNorwegianTranslation = createTranslationResource({
       Promise.resolve({
         default: {
           'deleteEntity.description':
-            'Denne entiteten er ikke referert av noen lokasjon og mottar dermed ikke oppdateringer. Klikk her for å slette.',
+            'Det er ingen referanser til denne entiteten og den kan dermed slettes',
           'deleteEntity.cancelButtonTitle': 'Avbryt',
           'deleteEntity.deleteButtonTitle': 'Slett',
           'deleteEntity.dialogTitle':
@@ -169,13 +169,13 @@ export const catalogNorwegianTranslation = createTranslationResource({
             'Alle entitetene i programvarekatalogen din',
           'entityPage.notFoundMessage':
             'Det finnes ingen {{kind}} med forespurt {{link}}.',
-          'entityPage.notFoundLinkText': 'type, navnerom og navn',
+          'entityPage.notFoundLinkText': 'Kind, namespace og navn',
           'aboutCard.title': 'Om',
           'aboutCard.unknown': 'ukjent',
           'aboutCard.refreshButtonTitle': 'Planlegg oppdatering av entitet',
           'aboutCard.editButtonTitle': 'Rediger metadata',
           'aboutCard.editButtonAriaLabel': 'Rediger',
-          'aboutCard.createSimilarButtonTitle': 'Opprett noe lignende',
+          'aboutCard.createSimilarButtonTitle': 'Opprett basert på kopi',
           'aboutCard.refreshScheduledMessage': 'Oppdatering planlagt',
           'aboutCard.refreshButtonAriaLabel': 'Oppdater',
           'aboutCard.launchTemplate': 'Start mal',
@@ -215,7 +215,7 @@ export const catalogNorwegianTranslation = createTranslationResource({
             'Ingen komponent er en avhengighet til denne komponenten',
           'dependsOnResourcesCard.title': 'Avhenger av ressurser',
           'dependsOnResourcesCard.emptyMessage':
-            'Ingen ressurs er en avhengighet til denne komponenten',
+            'Denne komponenten har ingen avhengigheter til ressurser',
           'entityContextMenu.copiedMessage': 'Kopiert!',
           'entityContextMenu.moreButtonTitle': 'Mer',
           'entityContextMenu.inspectMenuTitle': 'Inspiser entitet',
