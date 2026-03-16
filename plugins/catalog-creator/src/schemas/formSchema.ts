@@ -1,5 +1,8 @@
 import * as z from 'zod/v4';
-import { AllowedLifecycleStages } from '../types/types';
+import {
+  AllowedLifecycleStages,
+  FunctionCriticalityLevels,
+} from '../types/types';
 
 const baseEntitySchema = z.object({
   id: z.number(),
@@ -243,6 +246,7 @@ export const functionSchema = baseEntitySchema.extend({
     .refine(s => !s.includes(' '), {
       message: 'form.errors.parentFunctionNoSpace',
     }),
+  criticality: z.enum(FunctionCriticalityLevels).optional(),
 });
 
 export const templateSchema = baseEntitySchema.extend({

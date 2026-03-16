@@ -169,6 +169,11 @@ export const catalogCreatorMessages = {
         tooltipText: 'Function that this function enable',
         placeholder: 'Select function',
       },
+      criticality: {
+        fieldName: 'Criticality',
+        tooltipText: 'The criticality level of the function.',
+        placeholder: 'Select criticality',
+      },
     },
 
     domainForm: {
@@ -414,6 +419,11 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.functionForm.parentFunction.tooltipText':
             'Funksjon som denne funksjonen muliggjør.',
           'form.functionForm.parentFunction.placeholder': 'Velg funksjon',
+
+          'form.functionForm.criticality.fieldName': 'Kritikalitet',
+          'form.functionForm.criticality.tooltipText':
+            'Kritikalitetsnivået til funksjonen.',
+          'form.functionForm.criticality.placeholder': 'Velg kritikalitet',
 
           'form.infoAlerts.alreadyExists':
             'Catalog-info.yaml finnes fra før, du redigerer filen.',

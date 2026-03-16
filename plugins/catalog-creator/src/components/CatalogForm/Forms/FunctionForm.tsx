@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { UseFormSetValue, useWatch } from 'react-hook-form';
 import { Flex } from '@backstage/ui';
 import { Control } from 'react-hook-form';
-import { EntityErrors } from '../../../types/types';
+import { EntityErrors, FunctionCriticalityLevels } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 import { Entity } from '@backstage/catalog-model';
 import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
+import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { toEntityRef } from '../../../utils/toEntityRef';
@@ -148,6 +149,16 @@ const FunctionFormInner = ({
           formname="functionForm"
           fieldname="dependsOnFunctions"
           entities={functions.value || []}
+        />
+      </div>
+      <div>
+        <SingleSelectAutocomplete
+          index={index}
+          control={control}
+          errors={errors}
+          formname="functionForm"
+          fieldname="criticality"
+          options={Object.values(FunctionCriticalityLevels)}
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />

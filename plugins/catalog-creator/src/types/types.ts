@@ -45,6 +45,12 @@ export enum DomainTypes {
   bundle = 'bundle',
 }
 
+export enum FunctionCriticalityLevels {
+  low = 'lav',
+  medium = 'middels',
+  high = 'høy',
+}
+
 export const Kinds = {
   API: 'API',
   Component: 'Component',

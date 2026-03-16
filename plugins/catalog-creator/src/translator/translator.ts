@@ -228,6 +228,8 @@ export const updateYaml = (
             form.parentFunction?.length === 0
               ? undefined
               : form.parentFunction || initial.spec.parentFunction,
+          criticality:
+            form.criticality || initial.spec.criticality || undefined,
         },
       };
       break;
