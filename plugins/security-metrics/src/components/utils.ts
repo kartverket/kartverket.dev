@@ -149,7 +149,7 @@ export const findBestId = (vulnerability: Vulnerability) => {
 
 export const filterSystemsByComponents = (
   data: SikkerhetsmetrikkerSystemTotal[] | undefined,
-  componentNames: Set<string>,
+  repoNames: Set<string>,
   filter: FilterEnum,
 ): SikkerhetsmetrikkerSystemTotal[] | undefined => {
   if (!data || filter === 'all') return data;
@@ -160,7 +160,7 @@ export const filterSystemsByComponents = (
       metrics: {
         ...system.metrics,
         permittedMetrics: system.metrics.permittedMetrics.filter(pm =>
-          componentNames.has(pm.componentName),
+          repoNames.has(pm.repoName),
         ),
       },
     }))
