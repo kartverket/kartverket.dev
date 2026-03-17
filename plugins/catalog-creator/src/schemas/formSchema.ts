@@ -244,6 +244,7 @@ export const functionSchema = baseEntitySchema.extend({
     .refine(s => !s.includes(' '), {
       message: 'form.errors.parentFunctionNoSpace',
     }),
+  criticality: z.string().optional(),
 });
 
 export const templateSchema = baseEntitySchema.extend({

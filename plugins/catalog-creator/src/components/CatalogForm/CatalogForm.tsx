@@ -126,6 +126,7 @@ export const CatalogForm = ({
               description: entry.metadata.description || '',
               tags: entry.metadata.tags || [],
               dependsOn: entry.spec.dependsOn,
+              criticality: entry.spec.criticality,
             };
           })
         : [
