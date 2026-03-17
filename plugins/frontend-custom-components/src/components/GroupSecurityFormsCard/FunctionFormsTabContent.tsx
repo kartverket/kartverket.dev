@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import LayersIcon from '@mui/icons-material/Layers';
+import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import { Link } from '@backstage/core-components';
 import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
@@ -78,6 +79,29 @@ const useStyles = makeStyles()(theme => ({
   formIcon: {
     color: theme.palette.text.secondary,
     fontSize: '1.2rem',
+  },
+  metricsContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    marginLeft: 'auto',
+  },
+  metricsLabel: {
+    fontSize: 'var(--bui-font-size-2)',
+    color: theme.palette.text.secondary,
+    whiteSpace: 'nowrap' as const,
+  },
+  expiredWarning: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: theme.spacing(0.5),
+    fontSize: 'var(--bui-font-size-2)',
+    color: theme.palette.error.main,
+    whiteSpace: 'nowrap' as const,
+  },
+  expiredIcon: {
+    fontSize: 'var(--bui-font-size-4)',
+    color: theme.palette.error.main,
   },
 }));
 
@@ -164,6 +188,27 @@ export function FunctionFormsTabContent({
                     >
                       {getFormType(form.formId)}
                     </Link>
+                    {form.answeredCount !== undefined &&
+                      form.totalCount !== undefined && (
+                        <div className={classes.metricsContainer}>
+                          <span className={classes.metricsLabel}>
+                            {t('formMetrics.answered', {
+                              answered: String(form.answeredCount),
+                              total: String(form.totalCount),
+                            })}
+                          </span>
+                          {(form.expiredCount ?? 0) > 0 && (
+                            <span className={classes.expiredWarning}>
+                              <WarningAmberOutlined
+                                className={classes.expiredIcon}
+                              />
+                              {t('formMetrics.expired', {
+                                expired: String(form.expiredCount),
+                              })}
+                            </span>
+                          )}
+                        </div>
+                      )}
                   </div>
                 ))}
               </div>

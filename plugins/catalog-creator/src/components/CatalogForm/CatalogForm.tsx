@@ -123,8 +123,10 @@ export const CatalogForm = ({
               dependsOnComponents: entry.spec.dependsOnComponents,
               definition: definition,
               title: entry.metadata.title || '',
+              description: entry.metadata.description || '',
               tags: entry.metadata.tags || [],
               dependsOn: entry.spec.dependsOn,
+              criticality: entry.spec.criticality,
             };
           })
         : [
@@ -174,6 +176,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          description: '',
           parentFunction: '',
         };
         break;
@@ -188,6 +191,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          description: '',
           parentFunction: '',
         };
         break;
@@ -202,6 +206,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          description: '',
           parentFunction: '',
         };
         break;
@@ -216,6 +221,7 @@ export const CatalogForm = ({
           system: '',
           definition: '',
           title: '',
+          description: '',
           parentFunction: '',
         };
     }
@@ -409,6 +415,35 @@ export const CatalogForm = ({
                     className={`${style.errorText} ${errors?.entities ? '' : style.hidden}`}
                   >
                     {errors?.entities?.[index]?.title?.message || '\u00A0'}
+                  </span>
+                </div>
+                <div>
+                  <FieldHeader
+                    fieldName={t('form.descriptionField.fieldName')}
+                    tooltipText={t('form.descriptionField.tooltipText')}
+                  />
+                  <Controller
+                    name={`entities.${index}.description`}
+                    control={control}
+                    render={({ field }) => (
+                      <MuiTextField
+                        {...field}
+                        name="Description"
+                        fullWidth
+                        size="small"
+                        multiline
+                        rows={2}
+                        inputProps={{
+                          className: style.textField,
+                        }}
+                      />
+                    )}
+                  />
+                  <span
+                    className={`${style.errorText} ${errors?.entities ? '' : style.hidden}`}
+                  >
+                    {errors?.entities?.[index]?.description?.message ||
+                      '\u00A0'}
                   </span>
                 </div>
 

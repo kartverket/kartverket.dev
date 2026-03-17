@@ -24,7 +24,7 @@ type SingleSelectAutocompleteProps = {
     | 'resourceForm'
     | 'domainForm'
     | 'functionForm';
-  fieldname: 'lifecycle' | 'entityType';
+  fieldname: 'lifecycle' | 'entityType' | 'criticality';
   required?: boolean;
 };
 
@@ -92,7 +92,8 @@ export const SingleSelectAutocomplete = ({
         render={({ field: { value, onChange, onBlur } }) => (
           <div>
             <Autocomplete
-              value={value ? (options.find(x => x === value) ?? null) : null}
+              value={value || null}
+              isOptionEqualToValue={(option, val) => option === val}
               onChange={(_, newValue) => {
                 onChange(newValue ?? '');
               }}
