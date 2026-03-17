@@ -53,24 +53,18 @@ export const GroupPage = () => {
   const permitted: RepositorySummary[] = getAllPermittedMetrics(data ?? []);
   const notPermitted: string[] = getAllNotPermittedComponents(data ?? []);
 
-  const permittedWithRef = permitted.map(p => ({
-    ...p,
-    ref: `component:default/${p.componentName}`,
-  }));
+  const allComponentRefs = permitted.flatMap(p =>
+    p.componentNames.map(n => `component:default/${n}`),
+  );
 
   const { hasStarred, effectiveFilter, visibleRefs, setFilterChoice } =
     useStarredRefFilter({
-      allRefs: permittedWithRef.map(p => p.ref),
+      allRefs: allComponentRefs,
       starredEntities,
     });
 
-  const filteredPermitted = permittedWithRef.filter(p =>
-    visibleRefs.has(p.ref),
-  );
-
-  const permittedComponents = filteredPermitted.map(c => c.componentName);
-  const filteredComponentNames = new Set(
-    filteredPermitted.map(c => c.componentName),
+  const filteredPermitted = permitted.filter(p =>
+    p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
   );
 
   if (error || componentNamesError)
@@ -85,7 +79,7 @@ export const GroupPage = () => {
 
   const filteredSystemsData = filterSystemsByComponents(
     data,
-    filteredComponentNames,
+    new Set(filteredPermitted.map(c => c.repoName)),
     effectiveFilter,
   );
 
@@ -143,7 +137,7 @@ export const GroupPage = () => {
           }
           channel={channel}
           setChannel={setChannel}
-          permittedComponents={permittedComponents}
+          permittedComponents={filteredPermitted.flatMap(c => c.componentNames)}
           notPermitted={notPermitted}
         />
         <SupportButton />
@@ -160,7 +154,10 @@ export const GroupPage = () => {
       >
         <SystemScannerStatuses data={filteredPermitted} />
         <VulnerabilityCountsOverview data={filteredPermitted} />
-        <Trend componentNames={permittedComponents} showTotal={showTotal} />
+        <Trend
+          componentNames={filteredPermitted.map(c => c.componentNames[0])}
+          showTotal={showTotal}
+        />
       </Box>
 
       <Tabs

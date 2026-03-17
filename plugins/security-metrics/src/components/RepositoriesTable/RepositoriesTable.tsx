@@ -74,7 +74,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
                 <NoAccessRow key={row} repositoryName={row} />
               ) : (
                 <RepositoriesTableRow
-                  key={row.componentName}
+                  key={row.repoName}
                   repository={row}
                   highestVulnerabilityCount={highestVulnerabilityCount}
                 />

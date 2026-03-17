@@ -91,7 +91,8 @@ export type Vulnerability = {
 };
 
 export type RepositorySummary = {
-  componentName: string;
+  repoName: string;
+  componentNames: string[];
   severityCount: SeverityCount;
   secrets: { alerts: SecretAlert[] };
   scannerConfig: ScannerConfig;

@@ -49,7 +49,7 @@ export const SystemsTable = ({ data }: Props) => {
     const sys = bySystemName.get(systemName);
     if (!sys) return [];
     const permitted =
-      sys.metrics?.permittedMetrics?.map(m => m.componentName) ?? [];
+      sys.metrics?.permittedMetrics?.flatMap(m => m.componentNames) ?? [];
     const notPermitted = sys.metrics?.notPermittedComponents ?? [];
     return [...new Set([...permitted, ...notPermitted])].sort((a, b) =>
       a.localeCompare(b),
