@@ -9,3 +9,4 @@ export { supportNorwegianTranslation } from './components/SupportButton/supportT
 export { GroupSecurityFormsCard } from './components/GroupSecurityFormsCard/GroupSecurityFormsCard';
 export { functionLinkCardNorwegianTranslation } from './components/FunctionSecurityFormsCard/translation';
 export { functionDependenciesCardNorwegianTranslation } from './components/FunctionDependenciesCard/translations';
+export { useAllFunctionFormsQuery } from './hooks/useAllFunctionFormsQuery';
