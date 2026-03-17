@@ -46,9 +46,9 @@ export enum DomainTypes {
 }
 
 export enum FunctionCriticalityLevels {
-  low = 'lav',
-  medium = 'middels',
-  high = 'høy',
+  low = 'Lav',
+  medium = 'Middels',
+  high = 'Høy',
 }
 
 export const Kinds = {
