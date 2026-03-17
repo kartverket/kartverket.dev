@@ -179,3 +179,11 @@ export type NamespaceMap = Map<string, Vulnerability[]>;
 export type ClusterMap = Map<string, NamespaceMap>;
 
 export type FilterEnum = 'all' | 'starred';
+
+export type MetricsUpdateStatus = {
+  dependabot: boolean;
+  sysdig: boolean;
+  codeScanning: boolean;
+  secretScanning: boolean;
+  riscMetrics: boolean;
+};

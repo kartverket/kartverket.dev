@@ -1,4 +1,4 @@
-import { Progress, SupportButton } from '@backstage/core-components';
+import { Progress } from '@backstage/core-components';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import { getSecrets } from '../../mapping/getSecretsData';
@@ -20,6 +20,7 @@ import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
 import { ComponentRiscStatus } from '../RiscStatus/ComponentRiscStatus';
+import { MetricsUpdateStatusInfo } from '../MetricsUpdateStatus/MetricsUpdateStatus';
 
 enum TabEnum {
   ALL_VULNERABILITIES = 0,
@@ -55,12 +56,17 @@ export const SingleComponentPage = () => {
   return (
     <Stack gap={2}>
       <Stack direction="row" alignItems="center" gap={2}>
-        {secrets.length > 0 && (
-          <Box flex={1}>
-            <SecretsAlert secretsOverviewData={secrets} />
-          </Box>
-        )}
-        <Box ml="auto" display="flex" alignItems="center" gap={1}>
+        <Stack
+          flexDirection="row"
+          gap={2}
+          flex={1}
+          flexWrap="wrap"
+          sx={{ '& > *': { flex: 1 } }}
+        >
+          {secrets.length > 0 && <SecretsAlert secretsOverviewData={secrets} />}
+        </Stack>
+        <Box display="flex" alignItems="center" ml="auto" gap={0.5}>
+          <MetricsUpdateStatusInfo />
           <Button
             variant="text"
             startIcon={<TuneIcon />}
@@ -75,7 +81,6 @@ export const SingleComponentPage = () => {
             showTotal={showTotal}
             onToggleShowTotal={toggleShowTotal}
           />
-          <SupportButton />
         </Box>
       </Stack>
       <Box

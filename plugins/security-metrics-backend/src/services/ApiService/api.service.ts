@@ -1,5 +1,6 @@
 import { EntraIdService } from '../EntraIdService/auth.service';
 import {
+  MetricsUpdateStatus,
   Repository,
   SecurityChamp,
   SeverityCounts,
@@ -89,6 +90,42 @@ export class ApiService {
         const repositories: SikkerhetsmetrikkerSystemTotal[] =
           await response.json();
         return Right.create(repositories);
+      }
+      return errorHandling(response);
+    } catch (error) {
+      this.logger.error(
+        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
+      );
+      return Left.create({
+        statusCode: 500,
+        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
+        error: error,
+      });
+    }
+  }
+
+  async fetchMetricsUpdateStatus(
+    entraIdToken: string,
+  ): Promise<Either<ApiError, MetricsUpdateStatus>> {
+    const endpointUrl = new URL(`${this.baseUrl}/api/scannerData/status`);
+    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
+
+    if (!smapiToken) {
+      throw new Error('Failed to fetch token for Security-metrics API');
+    }
+
+    try {
+      const response = await fetch(`${endpointUrl}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${smapiToken}`,
+        },
+      });
+
+      if (response.ok) {
+        const status: MetricsUpdateStatus = await response.json();
+        return Right.create(status);
       }
       return errorHandling(response);
     } catch (error) {

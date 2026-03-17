@@ -86,6 +86,38 @@ export const createRouter = async (
     next();
   });
 
+  router.get('/proxy/metrics-update-status/', async (req, res) => {
+    try {
+      const backstageToken = req.header('Authorization');
+      const validToken = validateToken(backstageToken, auth);
+      const entraIdToken = req.header('EntraId');
+
+      if (!validToken || !backstageToken || !entraIdToken) {
+        res.status(401).send({ frontendMessage: 'Token is not valid' });
+        return;
+      }
+
+      const statusData =
+        await apiService.fetchMetricsUpdateStatus(entraIdToken);
+
+      if (statusData.isRight()) {
+        res.status(200).send(statusData.value);
+      } else {
+        res.status(statusData.error.statusCode).send({
+          frontendMessage: statusData.error.frontendMessage,
+        });
+        logger.error(statusData.error.error);
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      logger.error(`Failed to fetch metrics update status: ${error}`);
+      res.status(500).send({
+        frontendMessage: `Failed to fetch metrics update status: ${errorMessage}`,
+      });
+    }
+  });
+
   router.post('/proxy/fetch-security-champions/', async (req, res) => {
     try {
       const backstageToken = req.header('Authorization');
