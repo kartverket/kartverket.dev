@@ -13,7 +13,7 @@ import {
 } from '@backstage/core-components';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import { UserSettingsSignInAvatar } from '@backstage/plugin-user-settings';
-import { makeStyles } from 'tss-react/mui';
+import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import AppsIcon from '@mui/icons-material/Apps';
 import TreeIcon from '@mui/icons-material/AccountTree';
@@ -32,31 +32,29 @@ import { sidebarTranslationRef } from '../../utils/translations';
 import { SidebarSearchModal } from '../search/SidebarSearchModal';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const useSidebarLogoStyles = makeStyles()({
-  root: {
-    width: sidebarConfig.drawerWidthClosed,
-    height: 3 * sidebarConfig.logoHeight,
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'center',
-    marginBottom: -14,
-  },
-  link: {
-    width: sidebarConfig.drawerWidthClosed,
-    marginLeft: 24,
-  },
-});
-
 const SidebarLogo = () => {
-  const { classes } = useSidebarLogoStyles();
   const { isOpen } = useSidebarOpenState();
 
   return (
-    <div className={classes.root}>
-      <Link to="/" underline="none" className={classes.link} aria-label="Home">
+    <Box
+      sx={{
+        width: sidebarConfig.drawerWidthClosed,
+        height: 3 * sidebarConfig.logoHeight,
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        alignItems: 'center',
+        marginBottom: '-14px',
+      }}
+    >
+      <Link
+        to="/"
+        underline="none"
+        aria-label="Home"
+        style={{ width: sidebarConfig.drawerWidthClosed, marginLeft: 24 }}
+      >
         {isOpen ? <LogoFull type="light" /> : <LogoIcon />}
       </Link>
-    </div>
+    </Box>
   );
 };
 
