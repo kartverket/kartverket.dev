@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
   },
   chip: {
     marginBottom: 0,
-    marginRight: 0
+    marginRight: 0,
   },
   link: {
     textDecoration: 'none',
