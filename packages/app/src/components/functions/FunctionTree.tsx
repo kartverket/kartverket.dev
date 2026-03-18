@@ -77,6 +77,10 @@ const useStyles = makeStyles(theme => ({
     gap: theme.spacing(1),
     flexWrap: 'wrap' as const,
   },
+  chip: {
+    marginBottom: 0,
+    marginRight: 0
+  },
   link: {
     textDecoration: 'none',
     color: theme.palette.text.primary,
@@ -161,6 +165,7 @@ function FunctionTreeItems({
                   </Link>
                   {child.owner && (
                     <Chip
+                      className={classes.chip}
                       label={shortOwnerName(child.owner)}
                       size="small"
                       variant="outlined"
