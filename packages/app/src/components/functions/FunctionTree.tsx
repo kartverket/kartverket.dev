@@ -27,18 +27,25 @@ function shortOwnerName(owner: string): string {
 const useStyles = makeStyles()(theme => ({
   // Remove MUI TreeItem's default hover/selected backgrounds — hover is on the card instead
   treeContent: {
-    padding: 0,
+    padding: '0 !important',
+    paddingLeft: '0 !important',
     backgroundColor: 'transparent !important',
     '&:hover': {
+      backgroundColor: 'transparent !important',
+    },
+    '&[data-focused]': {
+      backgroundColor: 'transparent !important',
+    },
+    '&[data-selected]': {
+      backgroundColor: 'transparent !important',
+    },
+    '&[data-selected][data-focused]': {
       backgroundColor: 'transparent !important',
     },
   },
-  // Suppress MUI's built-in label hover/focused/selected background (MuiTreeItem-label)
+  // Prevent TreeItemLabel's overflow:hidden from clipping the card's box-shadow
   treeLabel: {
-    backgroundColor: 'transparent !important',
-    '&:hover': {
-      backgroundColor: 'transparent !important',
-    },
+    overflow: 'visible !important',
   },
   // Circle pill around the expand/collapse chevron
   iconContainer: {
@@ -214,6 +221,7 @@ export const FunctionTree = ({
     <SimpleTreeView
       slots={{ collapseIcon: ExpandMoreIcon, expandIcon: ChevronRightIcon }}
       defaultExpandedItems={defaultExpanded}
+      itemChildrenIndentation={0}
     >
       <FunctionTreeItems
         parentRef={rootRef}
