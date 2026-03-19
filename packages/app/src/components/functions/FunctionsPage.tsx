@@ -5,6 +5,7 @@ import {
   HeaderLabel,
   HeaderTabs,
   Page,
+  Progress,
 } from '@backstage/core-components';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { identityApiRef, useApi } from '@backstage/core-plugin-api';
@@ -51,6 +52,7 @@ const ExportCsvButton = ({
 };
 
 export const FunctionsPage = () => {
+  const [loading, setLoading] = useState(true);
   const [rootEntity, setRootEntity] = useState<EntityData>();
   const [childfunctionsMap, setChildfunctionsMap] = useState<
     Map<string | undefined, EntityData[]>
@@ -72,105 +74,126 @@ export const FunctionsPage = () => {
     Promise.all([
       catalogApi.getEntities({ filter: { kind: 'function' } }),
       identityApi.getBackstageIdentity(),
-    ]).then(async ([response, identity]) => {
-      const functions = response.items as FunctionEntityV1alpha1[];
-      setAllFunctions(functions);
+    ])
+      .then(async ([response, identity]) => {
+        const functions = response.items as FunctionEntityV1alpha1[];
+        setAllFunctions(functions);
 
-      // Extract group names from ownership refs (e.g. "group:default/skvis" → "skvis")
-      const userGroupNames = identity.ownershipEntityRefs
-        .filter(ref => ref.startsWith('group:'))
-        .map(ref => parseEntityRef(ref).name);
+        // Extract group names from ownership refs (e.g. "group:default/skvis" → "skvis")
+        const userGroupNames = identity.ownershipEntityRefs
+          .filter(ref => ref.startsWith('group:'))
+          .map(ref => parseEntityRef(ref).name);
 
-      // Resolve group refs to catalog entities to get Microsoft team IDs
-      const groupRefs = identity.ownershipEntityRefs.filter(ref =>
-        ref.startsWith('group:'),
-      );
-      if (groupRefs.length > 0) {
-        const { items: groupEntities } = await catalogApi.getEntitiesByRefs({
-          entityRefs: groupRefs,
-        });
-        const ids = groupEntities
-          .filter(Boolean)
-          .map(e => e!.metadata.annotations?.['graph.microsoft.com/group-id'])
-          .filter((id): id is string => Boolean(id));
-        setTeamIds(ids);
-      }
-
-      const funcs = functions.map(item => {
-        const ns = (item.metadata.namespace || 'default').toLowerCase();
-        const name = item.metadata.name.toLowerCase();
-        return {
-          kind: item.kind,
-          namespace: ns,
-          title: item.metadata.title ?? item.metadata.name,
-          name: name,
-          ref: `${item.kind.toLowerCase()}:${ns}/${name}`,
-          parent: findParent(item),
-          owner: item.spec.owner,
-        };
-      });
-
-      const groupedFuncs = funcs.reduce((acc, func) => {
-        const key = func.parent;
-        const existing = acc.get(key) ?? [];
-        existing.push(func);
-        acc.set(key, existing);
-        return acc;
-      }, new Map<string | undefined, EntityData[]>());
-
-      for (const children of groupedFuncs.values()) {
-        children.sort((a, b) => a.title.localeCompare(b.title, 'nb'));
-      }
-
-      setChildfunctionsMap(groupedFuncs);
-
-      // Find and validate the root node(s) (no parent)
-      const rootCandidates = funcs.filter(item => !item.parent);
-      if (rootCandidates.length !== 1) {
-        // eslint-disable-next-line no-console
-        console.error(
-          `Expected exactly one root function, but found ${rootCandidates.length}, named ${rootCandidates.map(it => it.name).join(', ')}.`,
+        // Resolve group refs to catalog entities to get Microsoft team IDs
+        const groupRefs = identity.ownershipEntityRefs.filter(ref =>
+          ref.startsWith('group:'),
         );
-      }
-      setRootEntity(rootCandidates[0]);
-
-      // Derive level-1 children (direct children of root) for tabs
-      const l1Children = rootCandidates[0]?.ref
-        ? (groupedFuncs.get(rootCandidates[0].ref) ?? [])
-        : [];
-      setLevel1Children(l1Children);
-
-      // Auto-select the first tab whose subtree is owned by the user's teams
-      if (l1Children.length > 0 && userGroupNames.length > 0) {
-        const ownedIndex = l1Children.findIndex(
-          child =>
-            child.ref &&
-            hasDescendantOwnedByAny(child.ref, groupedFuncs, userGroupNames),
-        );
-        if (ownedIndex >= 0) {
-          setSelectedTab(ownedIndex);
+        if (groupRefs.length > 0) {
+          const { items: groupEntities } = await catalogApi.getEntitiesByRefs({
+            entityRefs: groupRefs,
+          });
+          const ids = groupEntities
+            .filter(Boolean)
+            .map(e => e!.metadata.annotations?.['graph.microsoft.com/group-id'])
+            .filter((id): id is string => Boolean(id));
+          setTeamIds(ids);
         }
-      }
 
-      // Auto-expand nodes that have descendants owned by the user's teams
-      if (userGroupNames.length > 0) {
-        const expandedIds = l1Children.flatMap(child => {
-          const grandchildren = child.ref
-            ? (groupedFuncs.get(child.ref) ?? [])
-            : [];
-          return grandchildren
-            .filter(
-              gc =>
-                gc.ref &&
-                hasDescendantOwnedByAny(gc.ref, groupedFuncs, userGroupNames),
-            )
-            .map(gc => gc.ref!)
-            .filter(Boolean);
+        const funcs = functions.map(item => {
+          const ns = (item.metadata.namespace || 'default').toLowerCase();
+          const name = item.metadata.name.toLowerCase();
+          return {
+            kind: item.kind,
+            namespace: ns,
+            title: item.metadata.title ?? item.metadata.name,
+            name: name,
+            ref: `${item.kind.toLowerCase()}:${ns}/${name}`,
+            parent: findParent(item),
+            owner: item.spec.owner,
+          };
         });
-        setDefaultExpanded(expandedIds);
-      }
-    });
+
+        const groupedFuncs = funcs.reduce((acc, func) => {
+          const key = func.parent;
+          const existing = acc.get(key) ?? [];
+          existing.push(func);
+          acc.set(key, existing);
+          return acc;
+        }, new Map<string | undefined, EntityData[]>());
+
+        for (const children of groupedFuncs.values()) {
+          children.sort((a, b) => a.title.localeCompare(b.title, 'nb'));
+        }
+
+        setChildfunctionsMap(groupedFuncs);
+
+        // Find and validate the root node(s) (no parent)
+        const rootCandidates = funcs.filter(item => !item.parent);
+        if (rootCandidates.length !== 1) {
+          // eslint-disable-next-line no-console
+          console.error(
+            `Expected exactly one root function, but found ${rootCandidates.length}, named ${rootCandidates.map(it => it.name).join(', ')}.`,
+          );
+        }
+        setRootEntity(rootCandidates[0]);
+
+        // Derive level-1 children (direct children of root) for tabs
+        const l1Children = rootCandidates[0]?.ref
+          ? (groupedFuncs.get(rootCandidates[0].ref) ?? [])
+          : [];
+        setLevel1Children(l1Children);
+
+        // Auto-select the first tab whose subtree is owned by the user's teams
+        if (l1Children.length > 0 && userGroupNames.length > 0) {
+          const ownedIndex = l1Children.findIndex(
+            child =>
+              child.ref &&
+              hasDescendantOwnedByAny(child.ref, groupedFuncs, userGroupNames),
+          );
+          if (ownedIndex >= 0) {
+            setSelectedTab(ownedIndex);
+          }
+        }
+
+        // Auto-expand nodes that have descendants owned by the user's teams
+        if (userGroupNames.length > 0) {
+          const expandedIds = l1Children.flatMap(child => {
+            const grandchildren = child.ref
+              ? (groupedFuncs.get(child.ref) ?? [])
+              : [];
+            return grandchildren
+              .filter(
+                gc =>
+                  gc.ref &&
+                  hasDescendantOwnedByAny(gc.ref, groupedFuncs, userGroupNames),
+              )
+              .map(gc => gc.ref!)
+              .filter(Boolean);
+          });
+          setDefaultExpanded(expandedIds);
+        }
+      })
+      .finally(() => setLoading(false));
   }, [catalogApi, identityApi]);
+
+  if (loading) {
+    return (
+      <Page themeId="functions">
+        <Header
+          title={t('functionpage.title')}
+          subtitle={t('functionpage.subtitle')}
+        >
+          <HeaderLabel
+            label={t('functionpage.structure')}
+            value={t('functionpage.structureDescription')}
+          />
+        </Header>
+        <Content>
+          <Progress />
+        </Content>
+      </Page>
+    );
+  }
 
   if (
     rootEntity === undefined ||
