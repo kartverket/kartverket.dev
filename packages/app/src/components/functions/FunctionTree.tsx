@@ -105,9 +105,12 @@ const useStyles = makeStyles(theme => ({
   warningChip: {
     color: theme.palette.error.main,
     borderColor: theme.palette.error.main,
+    marginBottom: 0,
+    marginRight: 0,
   },
   warningIcon: {
     color: theme.palette.error.main,
+    paddingLeft: 1,
   },
 }));
 
