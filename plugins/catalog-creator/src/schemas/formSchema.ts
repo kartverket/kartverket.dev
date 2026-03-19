@@ -18,6 +18,7 @@ const baseEntitySchema = z.object({
     )
     .max(63, 'form.errors.longName'),
   title: z.string().optional(),
+  description: z.string().optional(),
   tags: z
     .array(z.string())
     .refine(
@@ -243,6 +244,7 @@ export const functionSchema = baseEntitySchema.extend({
     .refine(s => !s.includes(' '), {
       message: 'form.errors.parentFunctionNoSpace',
     }),
+  criticality: z.string().optional(),
 });
 
 export const templateSchema = baseEntitySchema.extend({

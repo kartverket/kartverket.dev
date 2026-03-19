@@ -18,6 +18,7 @@ import { Button, Flex } from '@backstage/ui';
 import { FunctionTree } from './FunctionTree';
 import { hasDescendantOwnedByAny } from './hasDescendantOwnedByAny';
 import { EntityData } from './types';
+import { useAllFunctionFormsQuery } from '@internal/plugin-frontend-custom-components';
 import { exportFunctionsToCsv } from './exportCsv';
 
 export type { EntityData } from './types';
@@ -57,6 +58,7 @@ export const FunctionsPage = () => {
     Map<string | undefined, EntityData[]>
   >(new Map());
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
+  const [teamIds, setTeamIds] = useState<string[]>([]);
   const [level1Children, setLevel1Children] = useState<EntityData[]>([]);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [allFunctions, setAllFunctions] = useState<FunctionEntityV1alpha1[]>(
@@ -66,12 +68,14 @@ export const FunctionsPage = () => {
   const identityApi = useApi(identityApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
 
+  const { data: expiredMap } = useAllFunctionFormsQuery(teamIds);
+
   useEffect(() => {
     Promise.all([
       catalogApi.getEntities({ filter: { kind: 'function' } }),
       identityApi.getBackstageIdentity(),
     ])
-      .then(([response, identity]) => {
+      .then(async ([response, identity]) => {
         const functions = response.items as FunctionEntityV1alpha1[];
         setAllFunctions(functions);
 
@@ -79,6 +83,21 @@ export const FunctionsPage = () => {
         const userGroupNames = identity.ownershipEntityRefs
           .filter(ref => ref.startsWith('group:'))
           .map(ref => parseEntityRef(ref).name);
+
+        // Resolve group refs to catalog entities to get Microsoft team IDs
+        const groupRefs = identity.ownershipEntityRefs.filter(ref =>
+          ref.startsWith('group:'),
+        );
+        if (groupRefs.length > 0) {
+          const { items: groupEntities } = await catalogApi.getEntitiesByRefs({
+            entityRefs: groupRefs,
+          });
+          const ids = groupEntities
+            .filter(Boolean)
+            .map(e => e!.metadata.annotations?.['graph.microsoft.com/group-id'])
+            .filter((id): id is string => Boolean(id));
+          setTeamIds(ids);
+        }
 
         const funcs = functions.map(item => {
           const ns = (item.metadata.namespace || 'default').toLowerCase();
@@ -236,6 +255,7 @@ export const FunctionsPage = () => {
             rootRef={activeChild.ref}
             funcMap={childfunctionsMap}
             defaultExpanded={defaultExpanded}
+            expiredMap={expiredMap}
           />
         ) : (
           <EmptyState

@@ -20,7 +20,8 @@ export const getScannerStatusData = (
   return items.map(r => {
     const s = getScannerBooleans(r);
     return {
-      componentName: r.componentName,
+      componentNames:
+        'componentName' in r ? [r.componentName] : r.componentNames,
       scannerStatus: [
         { type: Scanner.Dependabot, on: s.dependabot },
         { type: Scanner.CodeQL, on: s.codeql },

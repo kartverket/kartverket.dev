@@ -5,6 +5,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Chip, Paper } from '@material-ui/core';
 import { EntityData } from './types';
 import { Link } from '@backstage/core-components';
+import WarningOutlined from '@material-ui/icons/WarningOutlined';
+import { useTranslationRef } from '@backstage/frontend-plugin-api';
+import { functionPageTranslationRef } from '../../utils/translations';
 
 // Subtle background tint per nesting depth so hierarchy reads at a glance
 const depthBackgrounds = [
@@ -95,6 +98,13 @@ const useStyles = makeStyles(theme => ({
     borderLeft: `2px solid ${theme.palette.divider}`,
     marginTop: theme.spacing(1),
   },
+  warningChip: {
+    color: theme.palette.error.main,
+    borderColor: theme.palette.error.main,
+  },
+  warningIcon: {
+    color: theme.palette.error.main,
+  },
 }));
 
 function FunctionTreeItems({
@@ -103,13 +113,16 @@ function FunctionTreeItems({
   classes,
   depth = 0,
   visited = new Set<string>(),
+  expiredMap,
 }: {
   parentRef: string;
   funcMap: Map<string | undefined, EntityData[]>;
   classes: ReturnType<typeof useStyles>;
   depth?: number;
   visited?: Set<string>;
+  expiredMap?: Map<string, boolean>;
 }) {
+  const { t } = useTranslationRef(functionPageTranslationRef);
   const children = funcMap.get(parentRef) ?? [];
   const bgColor =
     depthBackgrounds[Math.min(depth, depthBackgrounds.length - 1)];
@@ -153,6 +166,23 @@ function FunctionTreeItems({
                       variant="outlined"
                     />
                   )}
+                  {expiredMap?.get(child.title) && (
+                    <Chip
+                      icon={
+                        <WarningOutlined
+                          className={classes.warningIcon}
+                          style={{
+                            fontSize: 'var(--bui-font-size-4)',
+                            verticalAlign: 'middle',
+                          }}
+                        />
+                      }
+                      label={t('functionpage.expiredSecurityForm')}
+                      size="small"
+                      className={classes.warningChip}
+                      variant="outlined"
+                    />
+                  )}
                 </span>
               </Paper>
             }
@@ -165,6 +195,7 @@ function FunctionTreeItems({
                   classes={classes}
                   depth={depth + 1}
                   visited={childVisited}
+                  expiredMap={expiredMap}
                 />
               </div>
             )}
@@ -179,10 +210,12 @@ export const FunctionTree = ({
   rootRef,
   funcMap,
   defaultExpanded = [],
+  expiredMap,
 }: {
   rootRef: string;
   funcMap: Map<string | undefined, EntityData[]>;
   defaultExpanded?: string[];
+  expiredMap?: Map<string, boolean>;
 }) => {
   const classes = useStyles();
 
@@ -196,6 +229,7 @@ export const FunctionTree = ({
         parentRef={rootRef}
         funcMap={funcMap}
         classes={classes}
+        expiredMap={expiredMap}
       />
     </TreeView>
   );

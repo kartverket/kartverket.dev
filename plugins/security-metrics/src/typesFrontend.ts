@@ -89,7 +89,8 @@ export type GithubBypassed = {
 };
 
 export type RepositorySummary = {
-  componentName: string;
+  repoName: string;
+  componentNames: string[];
   severityCount: SeverityCount;
   secrets: { alerts: SecretAlert[] };
   scannerConfig: ScannerConfig;
@@ -130,7 +131,7 @@ export type SeverityCount = {
 };
 
 export type RepositoryScannerStatusData = {
-  componentName: string;
+  componentNames: string[];
   scannerStatus: ScannerStatus[];
 };
 
