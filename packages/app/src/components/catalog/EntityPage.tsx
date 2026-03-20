@@ -13,38 +13,16 @@ import {
   grafanaContent,
   techdocsContent,
 } from './entityPages/shared';
-import { componentPage } from './entityPages/ComponentPages';
+import { ComponentPage } from './entityPages/ComponentPages';
 import { FunctionEntityPage } from './entityPages/FunctionEntityPage';
-import { apiPage } from './entityPages/ApiPage';
-import { userPage } from './entityPages/UserPage';
-import { groupPage } from './entityPages/GroupPage';
-import { systemPage } from './entityPages/SystemPage';
-import { domainPage } from './entityPages/DomainPage';
-import { resourcePage } from './entityPages/ResourcePage';
-
-const overviewContent = (
-  <Grid container spacing={3} alignItems="stretch">
-    {entityWarningContent}
-    <Grid item md={6} xs={12}>
-      <EntityAboutCard variant="gridItem" />
-    </Grid>
-    <Grid item md={6} xs={12}>
-      <EntityCatalogGraphCard
-        variant="gridItem"
-        height={400}
-        kinds={['component', 'api', 'system', 'resource']}
-        maxDepth={2}
-      />
-    </Grid>
-    <Grid item md={8} xs={12}>
-      <EntityLinksCard />
-    </Grid>
-    <Grid item md={12} xs={12}>
-      <EntityHasSubcomponentsCard variant="gridItem" />
-    </Grid>
-    {grafanaContent}
-  </Grid>
-);
+import { ApiPage } from './entityPages/ApiPage';
+import { UserPage } from './entityPages/UserPage';
+import { GroupPage } from './entityPages/GroupPage';
+import { SystemPage } from './entityPages/SystemPage';
+import { DomainPage } from './entityPages/DomainPage';
+import { ResourcePage } from './entityPages/ResourcePage';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { entityPageTabTranslationRef } from '../../utils/translations';
 
 /**
  * NOTE: This page is designed to work on small screens such as mobile devices.
@@ -52,31 +30,62 @@ const overviewContent = (
  * since this does not default. If no breakpoints are used, the items will equitably share the available space.
  * https://material-ui.com/components/grid/#basic-grid.
  */
-const defaultEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+export const EntityPage = () => {
+  const { t } = useTranslationRef(entityPageTabTranslationRef);
 
-export const entityPage = (
-  <EntitySwitch>
-    <EntitySwitch.Case if={isKind('component')} children={componentPage} />
-    <EntitySwitch.Case if={isKind('api')} children={apiPage} />
-    <EntitySwitch.Case if={isKind('group')} children={groupPage} />
-    <EntitySwitch.Case if={isKind('user')} children={userPage} />
-    <EntitySwitch.Case if={isKind('system')} children={systemPage} />
-    <EntitySwitch.Case if={isKind('domain')} children={domainPage} />
-    <EntitySwitch.Case if={isKind('resource')} children={resourcePage} />
-    <EntitySwitch.Case
-      if={isKind('function')}
-      children={<FunctionEntityPage />}
-    />
+  const overviewContent = (
+    <Grid container spacing={3} alignItems="stretch">
+      {entityWarningContent}
+      <Grid item md={6} xs={12}>
+        <EntityAboutCard variant="gridItem" />
+      </Grid>
+      <Grid item md={6} xs={12}>
+        <EntityCatalogGraphCard
+          variant="gridItem"
+          height={400}
+          kinds={['component', 'api', 'system', 'resource']}
+          maxDepth={2}
+        />
+      </Grid>
+      <Grid item md={8} xs={12}>
+        <EntityLinksCard />
+      </Grid>
+      <Grid item md={12} xs={12}>
+        <EntityHasSubcomponentsCard variant="gridItem" />
+      </Grid>
+      {grafanaContent}
+    </Grid>
+  );
 
-    <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
-  </EntitySwitch>
-);
+  const defaultEntityPage = (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        {overviewContent}
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/docs" title={t('entityPageTab.docs')}>
+        {techdocsContent}
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
+
+  return (
+    <EntitySwitch>
+      <EntitySwitch.Case
+        if={isKind('component')}
+        children={<ComponentPage />}
+      />
+      <EntitySwitch.Case if={isKind('api')} children={<ApiPage />} />
+      <EntitySwitch.Case if={isKind('group')} children={<GroupPage />} />
+      <EntitySwitch.Case if={isKind('user')} children={<UserPage />} />
+      <EntitySwitch.Case if={isKind('system')} children={<SystemPage />} />
+      <EntitySwitch.Case if={isKind('domain')} children={<DomainPage />} />
+      <EntitySwitch.Case if={isKind('resource')} children={<ResourcePage />} />
+      <EntitySwitch.Case
+        if={isKind('function')}
+        children={<FunctionEntityPage />}
+      />
+
+      <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
+    </EntitySwitch>
+  );
+};

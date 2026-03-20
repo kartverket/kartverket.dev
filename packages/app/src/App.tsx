@@ -43,7 +43,7 @@ import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
 import { Route } from 'react-router-dom';
 import { apis } from './apis';
-import { entityPage } from './components/catalog/EntityPage';
+import { EntityPage } from './components/catalog/EntityPage';
 import { HomePage } from './components/home/HomePage';
 import { Root } from './components/Root';
 import { searchPage } from './components/search/SearchPage';
@@ -61,6 +61,17 @@ import {
   sidebarNorwegianTranslation,
   catalogNorwegianTranslation,
   catalogReactNorwegianTranslation,
+  entityPageTabNorwegianTranslation,
+  searchPageNorwegianTranslation,
+  sharedComponentNorwegianTranslation,
+  orgNorwegianTranslation,
+  scaffolderNorwegianTranslation,
+  catalogGraphNorwegianTranslation,
+  searchNorwegianTranslation,
+  homeNorwegianTranslation,
+  userSettingsNorwegianTranslation,
+  notificationsNorwegianTranslation,
+  coreComponentsNorwegianTranslation,
 } from './utils/translations';
 import {
   functionGroupPageNorwegianTranslation,
@@ -68,6 +79,7 @@ import {
   supportNorwegianTranslation,
   functionLinkCardNorwegianTranslation,
   functionDependenciesCardNorwegianTranslation,
+  entityFunctionsCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
 
@@ -85,8 +97,20 @@ const app = createApp({
       supportNorwegianTranslation,
       functionLinkCardNorwegianTranslation,
       functionDependenciesCardNorwegianTranslation,
+      entityFunctionsCardNorwegianTranslation,
       catalogNorwegianTranslation,
       catalogReactNorwegianTranslation,
+      entityPageTabNorwegianTranslation,
+      searchPageNorwegianTranslation,
+      sharedComponentNorwegianTranslation,
+      orgNorwegianTranslation,
+      scaffolderNorwegianTranslation,
+      catalogGraphNorwegianTranslation,
+      searchNorwegianTranslation,
+      homeNorwegianTranslation,
+      userSettingsNorwegianTranslation,
+      notificationsNorwegianTranslation,
+      coreComponentsNorwegianTranslation,
     ],
   },
   components: {
@@ -155,7 +179,7 @@ const routes = (
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
     >
-      {entityPage}
+      <EntityPage />
     </Route>
     <Route path="/docs" element={<TechDocsIndexPage />}>
       <DefaultTechDocsHome />

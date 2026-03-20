@@ -23,6 +23,8 @@ import {
   Page,
 } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { searchPageTranslationRef } from '../../utils/translations';
 
 const useStyles = makeStyles((theme: Theme) => ({
   bar: {
@@ -43,10 +45,11 @@ const SearchPage = () => {
   const classes = useStyles();
   const { types } = useSearch();
   const catalogApi = useApi(catalogApiRef);
+  const { t } = useTranslationRef(searchPageTranslationRef);
 
   return (
     <Page themeId="home">
-      <Header title="Search" />
+      <Header title={t('searchPage.title')} />
       <Content>
         <Grid container direction="row">
           <Grid item xs={12}>
@@ -56,17 +59,17 @@ const SearchPage = () => {
           </Grid>
           <Grid item xs={3}>
             <SearchType.Accordion
-              name="Result Type"
+              name={t('searchPage.resultType')}
               defaultValue="software-catalog"
               types={[
                 {
                   value: 'software-catalog',
-                  name: 'Software Catalog',
+                  name: t('searchPage.softwareCatalog'),
                   icon: <CatalogIcon />,
                 },
                 {
                   value: 'techdocs',
-                  name: 'Documentation',
+                  name: t('searchPage.documentation'),
                   icon: <DocsIcon />,
                 },
               ]}
@@ -75,7 +78,7 @@ const SearchPage = () => {
               {types.includes('techdocs') && (
                 <SearchFilter.Select
                   className={classes.filter}
-                  label="Entity"
+                  label={t('searchPage.entityLabel')}
                   name="name"
                   values={async () => {
                     // Return a list of entities which are documented.
@@ -95,13 +98,13 @@ const SearchPage = () => {
               )}
               <SearchFilter.Select
                 className={classes.filter}
-                label="Kind"
+                label={t('searchPage.kindLabel')}
                 name="kind"
                 values={['Component', 'Template']}
               />
               <SearchFilter.Checkbox
                 className={classes.filter}
-                label="Lifecycle"
+                label={t('searchPage.lifecycleLabel')}
                 name="lifecycle"
                 values={['experimental', 'production']}
               />

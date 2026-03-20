@@ -32,7 +32,10 @@ import { MarkdownContent } from '@backstage/core-components';
 import { AboutField } from './AboutField';
 import { LinksGridList } from './LinksGridList';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
-import { catalogTranslationRef } from './translation';
+import {
+  catalogTranslationRef,
+  functionEntityPageTranslationRef,
+} from './translation';
 
 const useStyles = makeStyles({
   description: {
@@ -78,6 +81,7 @@ export function AboutContent(props: AboutContentProps) {
   const { entity } = props;
   const classes = useStyles();
   const { t } = useTranslationRef(catalogTranslationRef);
+  const { t: tFunc } = useTranslationRef(functionEntityPageTranslationRef);
 
   const isSystem = entity.kind.toLocaleLowerCase('en-US') === 'system';
   const isResource = entity.kind.toLocaleLowerCase('en-US') === 'resource';
@@ -239,7 +243,7 @@ export function AboutContent(props: AboutContentProps) {
       )}
       {isFunction && entity?.spec?.criticality && (
         <AboutField
-          label="Criticality"
+          label={tFunc('functionEntityPage.criticalityLabel')}
           value={entity.spec.criticality as string}
           gridSizes={{ xs: 12, sm: 6, lg: 4 }}
         />

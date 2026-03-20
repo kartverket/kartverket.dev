@@ -109,7 +109,7 @@ export const FunctionGroupPageCard = (props: FunctionGroupPageCardProps) => {
 
   const entityColumns: TableColumn<Entity>[] = [
     {
-      title: 'Name',
+      title: t('functioncard.columnName'),
       field: 'metadata.name',
       highlight: true,
       render: (ent: Entity) => (
@@ -119,7 +119,7 @@ export const FunctionGroupPageCard = (props: FunctionGroupPageCardProps) => {
     EntityTable.columns.createOwnerColumn(),
 
     {
-      title: 'depends on',
+      title: t('functioncard.columnDependsOn'),
       field: 'relations',
       highlight: false,
       render: (ent: Entity) => {
@@ -179,8 +179,7 @@ export const FunctionGroupPageCard = (props: FunctionGroupPageCardProps) => {
       emptyContent={
         <div style={{ textAlign: 'center', padding: '1rem' }}>
           <Typography variant="body1">
-            No functions found that is dependent on this{' '}
-            {entity.kind.toLowerCase()}
+            {t('functioncard.emptyMessage')}
           </Typography>
           <Typography variant="body2">
             <Link to={EntityHelpLink} externalLinkIcon>

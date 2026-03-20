@@ -50,10 +50,16 @@ const useSidebarLogoStyles = makeStyles({
 const SidebarLogo = () => {
   const classes = useSidebarLogoStyles();
   const { isOpen } = useSidebarOpenState();
+  const { t } = useTranslationRef(sidebarTranslationRef);
 
   return (
     <div className={classes.root}>
-      <Link to="/" underline="none" className={classes.link} aria-label="Home">
+      <Link
+        to="/"
+        underline="none"
+        className={classes.link}
+        aria-label={t('sidebar.homeTitle')}
+      >
         {isOpen ? <LogoFull type="light" /> : <LogoIcon />}
       </Link>
     </div>
@@ -66,7 +72,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
     <SidebarPage>
       <Sidebar>
         <SidebarLogo />
-        <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+        <SidebarGroup
+          label={t('sidebar.searchTitle')}
+          icon={<SearchIcon />}
+          to="/search"
+        >
           <SidebarSearchModal />
         </SidebarGroup>
         <SidebarItem icon={HomeIcon} to="/" text={t('sidebar.homeTitle')} />
@@ -112,7 +122,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <NotificationsSidebarItem text={t('sidebar.notificationsTitle')} />
         <SidebarDivider />
         <SidebarGroup
-          label="Settings"
+          label={t('sidebar.settingsTitle')}
           icon={<UserSettingsSignInAvatar />}
           to="/settings"
         >
