@@ -9,7 +9,7 @@ export const getSecrets = (
 ): SecretsOverview[] => {
   const repos = Array.isArray(input) ? input : [input];
   return repos.map(r => ({
-    componentName: r.componentName,
+    componentName: 'componentName' in r ? r.componentName : r.repoName,
     alerts:
       r.secrets?.alerts?.map(a => ({
         createdAt: a.createdAt,
