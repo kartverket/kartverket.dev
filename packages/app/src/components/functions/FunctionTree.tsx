@@ -1,11 +1,13 @@
-import { TreeView, TreeItem } from '@material-ui/lab';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { makeStyles } from '@material-ui/core/styles';
-import { Chip, Paper } from '@material-ui/core';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { makeStyles } from 'tss-react/mui';
+import Chip from '@mui/material/Chip';
+import Paper from '@mui/material/Paper';
 import { EntityData } from './types';
 import { Link } from '@backstage/core-components';
-import WarningOutlined from '@material-ui/icons/WarningOutlined';
+import WarningOutlined from '@mui/icons-material/WarningAmberOutlined';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
 
@@ -22,21 +24,28 @@ function shortOwnerName(owner: string): string {
   return slashIdx >= 0 ? owner.slice(slashIdx + 1) : owner;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   // Remove MUI TreeItem's default hover/selected backgrounds — hover is on the card instead
   treeContent: {
-    padding: 0,
+    padding: '0 !important',
+    paddingLeft: '0 !important',
     backgroundColor: 'transparent !important',
     '&:hover': {
+      backgroundColor: 'transparent !important',
+    },
+    '&[data-focused]': {
+      backgroundColor: 'transparent !important',
+    },
+    '&[data-selected]': {
+      backgroundColor: 'transparent !important',
+    },
+    '&[data-selected][data-focused]': {
       backgroundColor: 'transparent !important',
     },
   },
-  // Suppress MUI's built-in label hover/focused/selected background (MuiTreeItem-label)
+  // Prevent TreeItemLabel's overflow:hidden from clipping the card's box-shadow
   treeLabel: {
-    backgroundColor: 'transparent !important',
-    '&:hover': {
-      backgroundColor: 'transparent !important',
-    },
+    overflow: 'visible !important',
   },
   // Circle pill around the expand/collapse chevron
   iconContainer: {
@@ -108,10 +117,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 0,
     marginRight: 0,
   },
-  warningIcon: {
-    color: theme.palette.error.main,
-    paddingLeft: 1,
-  },
 }));
 
 function FunctionTreeItems({
@@ -124,7 +129,7 @@ function FunctionTreeItems({
 }: {
   parentRef: string;
   funcMap: Map<string | undefined, EntityData[]>;
-  classes: ReturnType<typeof useStyles>;
+  classes: ReturnType<typeof useStyles>['classes'];
   depth?: number;
   visited?: Set<string>;
   expiredMap?: Map<string, boolean>;
@@ -145,7 +150,7 @@ function FunctionTreeItems({
         return (
           <TreeItem
             key={child.ref ?? child.title}
-            nodeId={child.ref ?? child.title}
+            itemId={child.ref ?? child.title}
             classes={{
               content: classes.treeContent,
               label: classes.treeLabel,
@@ -178,11 +183,8 @@ function FunctionTreeItems({
                     <Chip
                       icon={
                         <WarningOutlined
-                          className={classes.warningIcon}
-                          style={{
-                            fontSize: 'var(--bui-font-size-4)',
-                            verticalAlign: 'middle',
-                          }}
+                          color="inherit"
+                          style={{ paddingLeft: 1 }}
                         />
                       }
                       label={t('functionpage.expiredSecurityForm')}
@@ -225,13 +227,13 @@ export const FunctionTree = ({
   defaultExpanded?: string[];
   expiredMap?: Map<string, boolean>;
 }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
-    <TreeView
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      defaultExpanded={defaultExpanded}
+    <SimpleTreeView
+      slots={{ collapseIcon: ExpandMoreIcon, expandIcon: ChevronRightIcon }}
+      defaultExpandedItems={defaultExpanded}
+      itemChildrenIndentation={0}
     >
       <FunctionTreeItems
         parentRef={rootRef}
@@ -239,6 +241,6 @@ export const FunctionTree = ({
         classes={classes}
         expiredMap={expiredMap}
       />
-    </TreeView>
+    </SimpleTreeView>
   );
 };
