@@ -16,14 +16,14 @@
 
 import { useCallback } from 'react';
 
-import { makeStyles } from 'tss-react/mui';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import CachedIcon from '@mui/icons-material/Cached';
-import EditIcon from '@mui/icons-material/Edit';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import CachedIcon from '@material-ui/icons/Cached';
+import EditIcon from '@material-ui/icons/Edit';
 
 import { AppIcon, InfoCardVariants, Link } from '@backstage/core-components';
 import {
@@ -61,7 +61,7 @@ const createFromTemplateRouteRef = createExternalRouteRef({
 // TODO: This hook is duplicated from the Scaffolder plugin for backwards compatibility
 // Remove it when the the legacy frontend system support is dropped.
 
-const useStyles = makeStyles()({
+const useStyles = makeStyles({
   gridItemCard: {
     display: 'flex',
     flexDirection: 'column',
@@ -97,7 +97,7 @@ export interface InternalAboutCardProps extends AboutCardProps {
 
 export function InternalAboutCard(props: InternalAboutCardProps) {
   const { variant } = props;
-  const { classes } = useStyles();
+  const classes = useStyles();
   const { entity } = useEntity();
   const catalogApi = useApi(catalogApiRef);
   const alertApi = useApi(alertApiRef);

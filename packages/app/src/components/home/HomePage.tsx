@@ -7,9 +7,8 @@ import {
 import { Content, Page } from '@backstage/core-components';
 import { HomePageSearchBar } from '@backstage/plugin-search';
 import { SearchContextProvider } from '@backstage/plugin-search-react';
-import Grid from '@mui/material/Grid';
-import { makeStyles } from 'tss-react/mui';
-import { useTheme } from '@mui/material/styles';
+import { Grid, makeStyles } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import LogoFull from '../Root/LogoFull';
 import grafanaLogo from './logos/Grafana.png';
 import argoLogo from './logos/Argo.png';
@@ -25,7 +24,7 @@ import { homepageTranslationRef } from '../../utils/translations';
 import { SupportButton } from '@internal/plugin-frontend-custom-components';
 import { Flex } from '@backstage/ui';
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles(theme => ({
   searchBarInput: {
     maxWidth: '60vw',
     margin: 'auto',
@@ -38,7 +37,7 @@ const useStyles = makeStyles()(theme => ({
   },
 }));
 
-const useLogoStyles = makeStyles()(theme => ({
+const useLogoStyles = makeStyles(theme => ({
   container: {
     margin: theme.spacing(0, 5),
     width: '100%',
@@ -54,12 +53,11 @@ const useLogoStyles = makeStyles()(theme => ({
 }));
 
 export const HomePage = () => {
-  const { classes } = useStyles();
+  const classes = useStyles();
 
-  const { classes: logoClasses } = useLogoStyles();
-  const { svg, path, container } = logoClasses;
+  const { svg, path, container } = useLogoStyles();
   const theme = useTheme();
-  const mode = theme.palette.mode === 'dark' ? 'light' : 'dark';
+  const mode = theme.palette.type === 'dark' ? 'light' : 'dark';
   const { t } = useTranslationRef(homepageTranslationRef);
 
   return (
@@ -74,7 +72,7 @@ export const HomePage = () => {
               className={container}
               logo={<LogoFull type={mode} className={`${svg} ${path}`} />}
             />
-            <Grid size={12} container justifyContent="center">
+            <Grid container item xs={12} justifyContent="center">
               <HomePageSearchBar
                 InputProps={{
                   classes: {
@@ -85,17 +83,17 @@ export const HomePage = () => {
                 placeholder="Search"
               />
             </Grid>
-            <Grid size={12} container>
-              <Grid size={{ xs: 12, md: 6 }}>
+            <Grid container item xs={12}>
+              <Grid item xs={12} md={6}>
                 <HomePageRecentlyVisited
                   title={t('homepage.recentlyVisited')}
                 />{' '}
               </Grid>
-              <Grid size={{ xs: 12, md: 6 }}>
+              <Grid item xs={12} md={6}>
                 <HomePageStarredEntities title={t('homepage.favorites')} />{' '}
               </Grid>
             </Grid>
-            <Grid size={12}>
+            <Grid item xs={12}>
               <HomePageToolkit
                 title={t('homepage.toolkit')}
                 tools={[

@@ -25,16 +25,16 @@ import {
   getEntityRelations,
 } from '@backstage/plugin-catalog-react';
 import { JsonArray } from '@backstage/types';
-import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
-import { makeStyles } from 'tss-react/mui';
+import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 import { MarkdownContent } from '@backstage/core-components';
 import { AboutField } from './AboutField';
 import { LinksGridList } from './LinksGridList';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogTranslationRef } from './translation';
 
-const useStyles = makeStyles()({
+const useStyles = makeStyles({
   description: {
     wordBreak: 'break-word',
   },
@@ -76,7 +76,7 @@ function getLocationTargetHref(
 /** @public */
 export function AboutContent(props: AboutContentProps) {
   const { entity } = props;
-  const { classes } = useStyles();
+  const classes = useStyles();
   const { t } = useTranslationRef(catalogTranslationRef);
 
   const isSystem = entity.kind.toLocaleLowerCase('en-US') === 'system';

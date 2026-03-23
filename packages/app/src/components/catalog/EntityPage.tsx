@@ -6,7 +6,7 @@ import {
   EntitySwitch,
   isKind,
 } from '@backstage/plugin-catalog';
-import Grid from '@mui/material/Grid';
+import { Grid } from '@material-ui/core';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
 import {
   entityWarningContent,
@@ -25,10 +25,10 @@ import { resourcePage } from './entityPages/ResourcePage';
 const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid size={{ xs: 12, md: 6 }}>
+    <Grid item md={6} xs={12}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
-    <Grid size={{ xs: 12, md: 6 }}>
+    <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard
         variant="gridItem"
         height={400}
@@ -36,10 +36,10 @@ const overviewContent = (
         maxDepth={2}
       />
     </Grid>
-    <Grid size={{ xs: 12, md: 8 }}>
+    <Grid item md={8} xs={12}>
       <EntityLinksCard />
     </Grid>
-    <Grid size={12}>
+    <Grid item md={12} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
     {grafanaContent}
@@ -50,7 +50,7 @@ const overviewContent = (
  * NOTE: This page is designed to work on small screens such as mobile devices.
  * This is based on Material UI Grid. If breakpoints are used, each grid item must set the `xs` prop to a column size or to `true`,
  * since this does not default. If no breakpoints are used, the items will equitably share the available space.
- * https://mui.com/material-ui/react-grid/.
+ * https://material-ui.com/components/grid/#basic-grid.
  */
 const defaultEntityPage = (
   <EntityLayout>
