@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Box, Flex, Link } from '@backstage/ui';
 import { Content, SupportButton } from '@backstage/core-components';
 import { githubAuthApiRef, OAuthApi, useApi } from '@backstage/core-plugin-api';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@material-ui/core/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { CatalogForm } from '../CatalogForm';
@@ -190,7 +190,7 @@ export const CatalogCreatorPage = ({
                         {/* Submission Loading Overlay */}
                         {state.loading && (
                           <LoadingOverlay
-                            isDarkTheme={theme.palette.mode === 'dark'}
+                            isDarkTheme={theme.palette.type === 'dark'}
                           />
                         )}
                         <CatalogForm

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { makeStyles } from 'tss-react/mui';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import { Link } from '@backstage/core-components';
 import { IconComponent } from '@backstage/core-plugin-api';
 
-const useStyles = makeStyles()({
+const useStyles = makeStyles({
   svgIcon: {
     display: 'inline-block',
     '& svg': {
@@ -37,7 +37,7 @@ export function IconLink(props: {
   Icon?: IconComponent;
 }) {
   const { href, text, Icon } = props;
-  const { classes } = useStyles();
+  const classes = useStyles();
 
   return (
     <Box display="flex">

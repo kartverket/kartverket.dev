@@ -20,7 +20,7 @@ import {
   RELATION_CHILD_OF,
 } from '@backstage/catalog-model';
 import { useApi } from '@backstage/core-plugin-api';
-import Typography from '@mui/material/Typography';
+import Typography from '@material-ui/core/Typography';
 import { useAsync } from 'react-use';
 
 export type EntityFunctionsCardProps = {

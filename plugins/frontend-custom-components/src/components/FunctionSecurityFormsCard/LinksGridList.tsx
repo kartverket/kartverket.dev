@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import ImageList from '@material-ui/core/ImageList';
+import ImageListItem from '@material-ui/core/ImageListItem';
 import { IconLink } from './IconLink';
 import { ColumnBreakpoints } from './types';
 import { useDynamicColumns } from './useDynamicColumns';

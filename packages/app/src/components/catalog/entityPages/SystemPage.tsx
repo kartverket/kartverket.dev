@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid';
+import { Grid } from '@material-ui/core';
 import {
   EntityAboutCard,
   EntityHasComponentsCard,
@@ -32,10 +32,10 @@ export const systemPage = (
     <EntityLayout.Route path="/" title="Overview">
       <Grid container spacing={3} alignItems="stretch">
         {entityWarningContent}
-        <Grid size={{ md: 6 }}>
+        <Grid item md={6}>
           <EntityAboutCard variant="gridItem" />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
             variant="gridItem"
             height={400}
@@ -43,22 +43,22 @@ export const systemPage = (
             maxDepth={2}
           />
         </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid item md={4} xs={12}>
           <SecurityChampionCard />
         </Grid>
-        <Grid size={{ md: 8 }}>
+        <Grid item md={8}>
           <EntityHasComponentsCard variant="gridItem" />
         </Grid>
-        <Grid size={{ md: 6 }}>
+        <Grid item md={6}>
           <EntityHasApisCard variant="gridItem" />
         </Grid>
-        <Grid size={{ md: 6 }}>
+        <Grid item md={6}>
           <EntityHasResourcesCard variant="gridItem" />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid item md={6} xs={12}>
           <EntityLinksCard />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid item md={6} xs={12}>
           <EntityFunctionsCard title="Functions" />
         </Grid>
       </Grid>

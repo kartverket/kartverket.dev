@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { makeStyles } from 'tss-react/mui';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import { makeStyles } from '@material-ui/core/styles';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { Link } from '@backstage/core-components';
@@ -12,7 +12,7 @@ import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
 import { Entity } from '@backstage/catalog-model';
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles(theme => ({
   scrollContainer: {
     maxHeight: 400,
     overflowY: 'auto',
@@ -21,7 +21,7 @@ const useStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(1),
-    padding: `${theme.spacing(1)} 0`,
+    padding: `${theme.spacing(1)}px 0`,
     marginTop: theme.spacing(1),
     '&:first-child': {
       marginTop: 0,
@@ -46,7 +46,7 @@ const useStyles = makeStyles()(theme => ({
     fontSize: '0.75rem',
     fontWeight: 600,
     backgroundColor:
-      theme.palette.mode === 'dark'
+      theme.palette.type === 'dark'
         ? 'rgba(255, 255, 255, 0.12)'
         : 'rgba(0, 0, 0, 0.08)',
     color: theme.palette.text.secondary,
@@ -61,17 +61,17 @@ const useStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(1),
-    padding: `${theme.spacing(1)} ${theme.spacing(1.5)}`,
+    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     backgroundColor:
-      theme.palette.mode === 'dark'
+      theme.palette.type === 'dark'
         ? 'rgba(255, 255, 255, 0.04)'
         : 'rgba(0, 0, 0, 0.03)',
     transition: 'background-color 0.15s ease',
     '&:hover': {
       backgroundColor:
-        theme.palette.mode === 'dark'
+        theme.palette.type === 'dark'
           ? 'rgba(255, 255, 255, 0.08)'
           : 'rgba(0, 0, 0, 0.06)',
     },
@@ -122,7 +122,7 @@ export function FunctionFormsTabContent({
   onFormCreated,
   formTypeMap,
 }: FunctionFormsTabContentProps) {
-  const { classes } = useStyles();
+  const classes = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const getFormType = (formId: string) => formTypeMap[formId] || 'Unknown';
 

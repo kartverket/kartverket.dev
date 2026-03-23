@@ -21,7 +21,7 @@ import {
   RELATION_DEPENDS_ON,
 } from '@backstage/catalog-model';
 import { useApi } from '@backstage/core-plugin-api';
-import Typography from '@mui/material/Typography';
+import Typography from '@material-ui/core/Typography';
 import { useAsync } from 'react-use';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionGroupPageTranslationRef } from './translation';

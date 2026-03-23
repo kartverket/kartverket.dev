@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid';
+import { Grid } from '@material-ui/core';
 import { EntityLayout } from '@backstage/plugin-catalog';
 import {
   EntityGroupProfileCard,
@@ -16,10 +16,10 @@ export const groupPage = (
     <EntityLayout.Route path="/" title="Overview">
       <Grid container spacing={3}>
         {entityWarningContent}
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid item xs={12} md={6}>
           <EntityGroupProfileCard variant="gridItem" />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid item xs={12} md={6}>
           <EntityOwnershipCard
             entityLimit={9}
             variant="gridItem"
@@ -34,15 +34,15 @@ export const groupPage = (
             ]}
           />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid item xs={12} md={6}>
           <SecurityChampionCard />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid item md={6} xs={12}>
           <Flex direction="column" gap="24px">
             <GroupSecurityFormsCard />
           </Flex>
         </Grid>
-        <Grid size={12}>
+        <Grid item xs={12} md={12}>
           <EntityMembersListCard showAggregateMembersToggle />
         </Grid>
       </Grid>
