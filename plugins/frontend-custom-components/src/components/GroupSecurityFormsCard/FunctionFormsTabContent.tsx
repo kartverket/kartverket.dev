@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import LayersIcon from '@mui/icons-material/Layers';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { Link } from '@backstage/core-components';

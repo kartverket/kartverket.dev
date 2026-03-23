@@ -117,10 +117,6 @@ const useStyles = makeStyles()(theme => ({
     marginBottom: 0,
     marginRight: 0,
   },
-  warningIcon: {
-    color: theme.palette.error.main,
-    paddingLeft: 1,
-  },
 }));
 
 function FunctionTreeItems({
@@ -185,7 +181,12 @@ function FunctionTreeItems({
                   )}
                   {expiredMap?.get(child.title) && (
                     <Chip
-                      icon={<WarningOutlined color="inherit" />}
+                      icon={
+                        <WarningOutlined
+                          color="inherit"
+                          style={{ paddingLeft: 1 }}
+                        />
+                      }
                       label={t('functionpage.expiredSecurityForm')}
                       size="small"
                       className={classes.warningChip}
