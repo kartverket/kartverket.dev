@@ -3,6 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import LayersIcon from '@mui/icons-material/Layers';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { Link } from '@backstage/core-components';
 import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
@@ -164,7 +165,7 @@ export function FunctionFormsTabContent({
           {Object.entries(formsByFunction).map(([funcName, funcForms]) => (
             <div key={funcName}>
               <div className={classes.sectionHeader}>
-                <LayersIcon className={classes.sectionIcon} />
+                <AccountTreeIcon className={classes.sectionIcon} />
                 {entityByFuncName.has(funcName) ? (
                   <EntityRefLink
                     entityRef={entityByFuncName.get(funcName)!}

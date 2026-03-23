@@ -86,6 +86,10 @@ const useStyles = makeStyles()(theme => ({
     gap: theme.spacing(1),
     flexWrap: 'wrap' as const,
   },
+  chip: {
+    marginBottom: 0,
+    marginRight: 0,
+  },
   link: {
     textDecoration: 'none',
     color: theme.palette.text.primary,
@@ -110,6 +114,12 @@ const useStyles = makeStyles()(theme => ({
   warningChip: {
     color: theme.palette.error.main,
     borderColor: theme.palette.error.main,
+    marginBottom: 0,
+    marginRight: 0,
+  },
+  warningIcon: {
+    color: theme.palette.error.main,
+    paddingLeft: 1,
   },
 }));
 
@@ -167,6 +177,7 @@ function FunctionTreeItems({
                   </Link>
                   {child.owner && (
                     <Chip
+                      className={classes.chip}
                       label={shortOwnerName(child.owner)}
                       size="small"
                       variant="outlined"

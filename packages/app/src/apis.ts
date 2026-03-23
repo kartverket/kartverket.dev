@@ -16,7 +16,7 @@ import {
   entityPresentationApiRef,
 } from '@backstage/plugin-catalog-react';
 import { DefaultEntityPresentationApi } from '@backstage/plugin-catalog';
-import MuiAssignmentIcon from '@mui/icons-material/Assignment';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
@@ -42,7 +42,7 @@ export const apis: AnyApiFactory[] = [
       DefaultEntityPresentationApi.create({
         catalogApi,
         kindIcons: {
-          function: MuiAssignmentIcon,
+          function: AccountTreeIcon,
         },
       }),
   }),
