@@ -241,8 +241,8 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
           )}
         </div>
       );
-    } else if (error) {
-      const isUnauthorized = isUnauthorizedError(error);
+    } else if (error || formTypesError) {
+      const isUnauthorized = error ? isUnauthorizedError(error) : false;
       return (
         <Alert severity={isUnauthorized ? 'info' : 'error'}>
           {isUnauthorized
@@ -271,10 +271,6 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
       )}
 
       {isMember && !isLoading && !isFormTypesLoading && showData()}
-
-      {isMember && !isFormTypesLoading && formTypesError && (
-        <Alert severity="error">{t('functionLinkCard.fetchError')}</Alert>
-      )}
 
       {showSuccessMessage && (
         <Alert severity="success" style={{ margin: '1rem' }}>
