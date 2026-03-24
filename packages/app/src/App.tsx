@@ -66,6 +66,7 @@ import {
   supportNorwegianTranslation,
   functionLinkCardNorwegianTranslation,
   functionDependenciesCardNorwegianTranslation,
+  groupProfileCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
 
@@ -83,6 +84,7 @@ const app = createApp({
       supportNorwegianTranslation,
       functionLinkCardNorwegianTranslation,
       functionDependenciesCardNorwegianTranslation,
+      groupProfileCardNorwegianTranslation,
     ],
   },
   components: {
