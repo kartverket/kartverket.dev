@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import {
   EntityAboutCard,
   EntityLayout,
@@ -12,17 +12,17 @@ export const resourcePage = (
     <EntityLayout.Route path="/" title="Overview">
       <Grid container spacing={3} alignItems="stretch">
         {entityWarningContent}
-        <Grid item md={6}>
+        <Grid size={{ md: 6 }}>
           <EntityAboutCard variant="gridItem" />
         </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <EntityCatalogGraphCard
             variant="gridItem"
             height={400}
             kinds={['Component', 'Api', 'System']}
           />
         </Grid>
-        <Grid item md={4} xs={12}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <EntityLinksCard />
         </Grid>
       </Grid>

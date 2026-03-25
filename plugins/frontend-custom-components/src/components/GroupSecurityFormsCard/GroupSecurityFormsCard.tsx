@@ -11,8 +11,8 @@ import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
 import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
-import { makeStyles } from '@material-ui/core/styles';
-import PeopleIcon from '@material-ui/icons/People';
+import { makeStyles } from 'tss-react/mui';
+import PeopleIcon from '@mui/icons-material/People';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
@@ -20,7 +20,7 @@ import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
 import { isUnauthorizedError } from '../../errors';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   tabContainer: {
     display: 'flex',
     gap: theme.spacing(1),
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-flex',
     alignItems: 'center',
     gap: theme.spacing(1),
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     borderRadius: 20,
     border: 'none',
     cursor: 'pointer',
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   },
   inactiveTab: {
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, 0.08)'
         : 'rgba(0, 0, 0, 0.06)',
     color: theme.palette.text.secondary,
@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
   },
   inactiveBadge: {
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? 'rgba(255, 255, 255, 0.12)'
         : 'rgba(0, 0, 0, 0.1)',
     color: theme.palette.text.secondary,
@@ -92,7 +92,7 @@ export const GroupSecurityFormsCard = () => {
 };
 
 function GroupSecurityFormsCardWrapper() {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);

@@ -1,20 +1,20 @@
 import { useCallback } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Tooltip from '@material-ui/core/Tooltip';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import CachedIcon from '@material-ui/icons/Cached';
-import EditIcon from '@material-ui/icons/Edit';
-import EmailIcon from '@material-ui/icons/Email';
-import GroupIcon from '@material-ui/icons/Group';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import Alert from '@material-ui/lab/Alert';
+import { makeStyles } from 'tss-react/mui';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Tooltip from '@mui/material/Tooltip';
+import Alert from '@mui/material/Alert';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import CachedIcon from '@mui/icons-material/Cached';
+import EditIcon from '@mui/icons-material/Edit';
+import EmailIcon from '@mui/icons-material/Email';
+import GroupIcon from '@mui/icons-material/Group';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 import { InfoCard, InfoCardVariants, Link } from '@backstage/core-components';
 import { alertApiRef, useApi } from '@backstage/core-plugin-api';
@@ -42,7 +42,7 @@ export type GroupProfileCardProps = {
   showLinks?: boolean;
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -74,7 +74,7 @@ export const GroupProfileCard = (props: GroupProfileCardProps) => {
     catalogEntityRefreshPermission,
   );
   const { t } = useTranslationRef(groupProfileCardTranslationRef);
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const refreshEntity = useCallback(async () => {
     await catalogApi.refreshEntity(stringifyEntityRef(group));
