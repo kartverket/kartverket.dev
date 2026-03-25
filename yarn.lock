@@ -7943,9 +7943,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:6.1.7":
-  version: 6.1.7
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.1.7"
+"@kartverket/backstage-plugin-risk-scorecard@npm:6.1.8":
+  version: 6.1.8
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.1.8"
   dependencies:
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
@@ -7975,7 +7975,7 @@ __metadata:
     react-dom: ^18.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 10c0/6593dd47c64a8d039abe2d5e3e2c5d21d81a552141c6522a7aa7207521733651ef8f430f6510fda5219b139b9effe74c4be9a1a856c2365555230443887fd6f1
+  checksum: 10c0/0e49a44400fd653fb42605f5d0a11b0e6d29c3bd22bae963998ccaee2d6363be743d9b7c6624a5e05c5950349656474d25ee7a42eccb9482e2f7371ca9680a8f
   languageName: node
   linkType: hard
 
@@ -19349,7 +19349,7 @@ __metadata:
     "@internal/plugin-function-kind-common": "workspace:^"
     "@kartverket/backstage-plugin-catalog-creator": "workspace:"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.1.7"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.1.8"
     "@kartverket/backstage-plugin-security-champion": "workspace:"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
     "@material-ui/core": "npm:^4.12.4"
