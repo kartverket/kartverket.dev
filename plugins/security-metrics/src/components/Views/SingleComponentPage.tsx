@@ -89,10 +89,7 @@ export const SingleComponentPage = () => {
         gridAutoRows="minmax(320px, 1fr)"
       >
         <ComponentScannerStatus scannerStatus={scannerStatus} />
-        <ComponentRosStatus
-          repositoryName={componentName}
-          rosStatus={data.rosStatus}
-        />
+        <ComponentRosStatus rosStatus={data.rosStatus} />
         <VulnerabilityCountsOverview
           data={data}
           averageDays={data.averageTimeToSolveVulnerabilityDays}

@@ -48,10 +48,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
             <TableCell>Publisert RoS</TableCell>
             <TableCell>
               <Box display="flex" alignItems="center" gap={1}>
-                Oppdatering av RoS
-                <Tooltip title="Estimat basert på tidspunktet RoSen sist ble oppdatert og antall endringer etter RoSen sist ble oppdatert">
-                  <InfoIcon fontSize="small" />
-                </Tooltip>
+                Sist oppdatert RoS
               </Box>
             </TableCell>
             <TableCell>

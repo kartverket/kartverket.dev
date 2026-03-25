@@ -1,13 +1,7 @@
 import { CardTitle } from '../CardTitle';
 import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
 import { StyledTableRow } from '../TableRow';
-import {
-  calculateDaysSince,
-  getDaysColor,
-  getCommitsColor,
-  plural,
-} from './utils';
-import { useTheme } from '@mui/system';
+import { calculateDaysSince, plural } from './utils';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
@@ -18,17 +12,10 @@ import { RosStatusData } from '../../typesFrontend';
 import { Fragment } from 'react/jsx-runtime';
 
 type ComponentRosStatusProps = {
-  repositoryName: string;
   rosStatus: RosStatusData;
 };
 
-export const ComponentRosStatus = ({
-  repositoryName,
-  rosStatus,
-}: ComponentRosStatusProps) => {
-  const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark';
-
+export const ComponentRosStatus = ({ rosStatus }: ComponentRosStatusProps) => {
   if (!rosStatus)
     return (
       <CardTitle title="Risiko- og sårbarhetsarbeid">
@@ -48,7 +35,7 @@ export const ComponentRosStatus = ({
       <Stack px={2}>
         <Table size="small">
           <TableBody>
-            <Fragment key={repositoryName}>
+            <Fragment key={rosStatus.repositoryName}>
               <StyledTableRow>
                 <TableCell>Kodenær ROS</TableCell>
                 <TableCell>
@@ -68,11 +55,7 @@ export const ComponentRosStatus = ({
                 <StyledTableRow>
                   <TableCell>Dager siden forrige publiserte RoS</TableCell>
                   <TableCell>
-                    <Typography
-                      sx={{
-                        color: getDaysColor(days, isDarkMode),
-                      }}
-                    >
+                    <Typography>
                       {days} {plural(days, 'dag', 'dager')}
                     </Typography>
                   </TableCell>
@@ -85,11 +68,7 @@ export const ComponentRosStatus = ({
                     Antall commits siden forrige publiserte RoS
                   </TableCell>
                   <TableCell>
-                    <Typography
-                      sx={{
-                        color: getCommitsColor(commits, isDarkMode),
-                      }}
-                    >
+                    <Typography>
                       {commits} {plural(commits, 'commit', 'commits')}
                     </Typography>
                   </TableCell>

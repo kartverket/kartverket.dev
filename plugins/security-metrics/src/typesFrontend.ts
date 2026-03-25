@@ -94,8 +94,7 @@ export type RepositorySummary = {
   severityCount: SeverityCount;
   secrets: { alerts: SecretAlert[] };
   scannerConfig: ScannerConfig;
-  harRos: Boolean;
-  rosStatus: RosStatus;
+  rosStatus: RosStatusData;
   averageTimeToSolveVulnerabilityDays?: number;
 };
 
@@ -141,17 +140,11 @@ export type ScannerStatus = {
 };
 
 export interface RosStatusData {
+  repositoryName: string;
   hasRosAsCode: Boolean;
   lastPublishedRisc: string;
   commitsSincePublishedRisc: number;
 }
-
-export type RosStatus =
-  | 'Unknown'
-  | 'VeryOutdated'
-  | 'Outdated'
-  | 'SomewhatOutdated'
-  | 'Recent';
 
 export type ScannerType = 'Dependabot' | 'CodeQL' | 'Pharos' | 'Sysdig';
 
