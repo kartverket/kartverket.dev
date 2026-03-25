@@ -395,7 +395,7 @@ export const catalogReactNorwegianTranslation = createTranslationResource({
           'entityTableColumnTitle.title': 'Tittel',
           'entityTableColumnTitle.description': 'Beskrivelse',
           'entityTableColumnTitle.system': 'System',
-          'entityTableColumnTitle.namespace': 'Navnerom',
+          'entityTableColumnTitle.namespace': 'Namespace',
           'entityTableColumnTitle.domain': 'Domene',
           'entityTableColumnTitle.tags': 'Merkelapper',
           'entityTableColumnTitle.owner': 'Eier',
@@ -612,17 +612,16 @@ export const scaffolderNorwegianTranslation = createTranslationResource({
           'fields.ownedEntityPicker.description': 'En entitet fra katalogen',
           'fields.ownerPicker.title': 'Eier',
           'fields.ownerPicker.description': 'Eieren av komponenten',
-          'fields.repoUrlPicker.host.title': 'Vert',
+          'fields.repoUrlPicker.host.title': 'Host',
           'fields.repoUrlPicker.host.description':
-            'Verten der repositoriet vil bli opprettet',
-          'fields.repoUrlPicker.repository.title': 'Tilgjengelige repositorier',
-          'fields.repoUrlPicker.repository.inputTitle': 'Repositorium',
-          'fields.repoUrlPicker.repository.description':
-            'Navnet på repositoriet',
+            'Hosten der kodebasen vil bli opprettet',
+          'fields.repoUrlPicker.repository.title': 'Tilgjengelige kodebaser',
+          'fields.repoUrlPicker.repository.inputTitle': 'Kodebase',
+          'fields.repoUrlPicker.repository.description': 'Navnet på kodebasen',
           'fields.githubRepoPicker.owner.title': 'Tilgjengelige eiere',
           'fields.githubRepoPicker.owner.inputTitle': 'Eier',
           'fields.githubRepoPicker.owner.description':
-            'Organisasjonen, brukeren eller prosjektet som dette repositoriet tilhører',
+            'Organisasjonen, brukeren eller prosjektet som denne kodebasen tilhører',
           'listTaskPage.title': 'Liste over maloppgaver',
           'listTaskPage.pageTitle': 'Maloppgaver',
           'listTaskPage.subtitle': 'Alle oppgaver som har blitt startet',
@@ -697,7 +696,7 @@ export const scaffolderNorwegianTranslation = createTranslationResource({
           'fields.gitlabRepoPicker.owner.inputTitle': null,
           'fields.gitlabRepoPicker.owner.description': null,
           'fields.repoOwnerPicker.title': 'Eier',
-          'fields.repoOwnerPicker.description': 'Eieren av repositoriet',
+          'fields.repoOwnerPicker.description': 'Eieren av kodebasen',
           'renderSchema.tableCell.name': 'Navn',
           'renderSchema.tableCell.title': 'Tittel',
           'renderSchema.tableCell.description': 'Beskrivelse',
@@ -817,7 +816,7 @@ export const scaffolderNorwegianTranslation = createTranslationResource({
           'templateEditorToolbar.addToCatalogDialogContent.stepsIntroduction':
             'Følg instruksjonene nedenfor for å opprette eller oppdatere en mal:',
           'templateEditorToolbar.addToCatalogDialogContent.stepsListItems':
-            'Lagre malfilene i en lokal mappe\nOpprett en pull request til et nytt eller eksisterende git-repositorium\nHvis malen allerede finnes, vil endringene bli reflektert i programvarekatalogen når pull requesten er slått sammen\nMen hvis du oppretter en ny mal, følg dokumentasjonen nedenfor for å registrere det nye malrepositoriet i programvarekatalogen',
+            'Lagre malfilene i en lokal mappe\nOpprett en pull request til et nytt eller eksisterende git-kodebase\nHvis malen allerede finnes, vil endringene bli reflektert i systemkatalogen når pull requesten er slått sammen\nMen hvis du oppretter en ny mal, følg dokumentasjonen nedenfor for å registrere det nye malkodebasen i systemkatalogen',
           'templateEditorToolbar.addToCatalogDialogActions.documentationButton':
             'Gå til dokumentasjonen',
           'templateEditorToolbar.addToCatalogDialogActions.documentationUrl':
@@ -846,7 +845,7 @@ export const catalogGraphNorwegianTranslation = createTranslationResource({
           'catalogGraphPage.title': 'Katalog-graf',
           'catalogGraphPage.filterToggleButtonTitle': 'Filtre',
           'catalogGraphPage.supportButtonDescription':
-            'Begynn å spore komponenten din ved å legge den til i programvarekatalogen.',
+            'Begynn å spore komponenten din ved å legge den til i systemkatalogen.',
           'catalogGraphPage.simplifiedSwitchLabel': 'Forenklet',
           'catalogGraphPage.mergeRelationsSwitchLabel': 'Slå sammen relasjoner',
           'catalogGraphPage.zoomOutDescription':
