@@ -1733,10 +1733,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.6, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.28.4, @babel/runtime@npm:^7.28.6, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.0, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.6, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.28.4, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.0, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.28.6
   resolution: "@babel/runtime@npm:7.28.6"
   checksum: 10c0/358cf2429992ac1c466df1a21c1601d595c46930a13c1d4662fde908d44ee78ec3c183aaff513ecb01ef8c55c3624afe0309eeeb34715672dbfadb7feedb2c0d
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.28.6":
+  version: 7.29.2
+  resolution: "@babel/runtime@npm:7.29.2"
+  checksum: 10c0/30b80a0140d16467792e1bbeb06f655b0dab70407da38dfac7fedae9c859f9ae9d846ef14ad77bd3814c064295fe9b1bc551f1541ea14646ae9f22b71a8bc17a
   languageName: node
   linkType: hard
 
@@ -7950,9 +7957,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:6.1.9":
-  version: 6.1.9
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.1.9"
+"@kartverket/backstage-plugin-risk-scorecard@npm:6.2.0":
+  version: 6.2.0
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.2.0"
   dependencies:
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
@@ -7961,11 +7968,8 @@ __metadata:
     "@emotion/cache": "npm:^11.14.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@material-ui/core": "npm:^4.12.4"
-    "@material-ui/icons": "npm:^4.11.3"
-    "@material-ui/lab": "npm:4.0.0-alpha.61"
-    "@mui/icons-material": "npm:^5.17.1"
-    "@mui/material": "npm:^5.17.1"
+    "@mui/icons-material": "npm:^7.3.9"
+    "@mui/material": "npm:^7.3.9"
     "@uiw/react-md-editor": "npm:^4.0.5"
     classnames: "npm:^2.5.1"
     github-markdown-css: "npm:^5.8.1"
@@ -7982,7 +7986,7 @@ __metadata:
     react-dom: ^18.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 10c0/e771a70efda5a15abf7f1e4d3ef04f283f4e104a33beeb0f7fd3ebaa6ac32d7ebe30641c6882f5790a619c7cc7c160a8aefe0ab80b464064c7d8e066ed0e4420
+  checksum: 10c0/ef010c2a303522c08262105d4a227d1a3b5500f65f1ade4e56a7bd6eed198069ecef8ac2579ee348e593e3b55b481d4b23d3ce8c1b8f1765bea68487b9c307a9
   languageName: node
   linkType: hard
 
@@ -8858,22 +8862,6 @@ __metadata:
   version: 7.3.9
   resolution: "@mui/core-downloads-tracker@npm:7.3.9"
   checksum: 10c0/3228e049ce76fecc598da19d2db44e81c76c400bcb7c0d31785b35eb2eb1deb2f3193cec5346004d1a5d8dcf70272b3341430cfb84c10488316cca37e301341e
-  languageName: node
-  linkType: hard
-
-"@mui/icons-material@npm:^5.17.1":
-  version: 5.18.0
-  resolution: "@mui/icons-material@npm:5.18.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.23.9"
-  peerDependencies:
-    "@mui/material": ^5.0.0
-    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
-    react: ^17.0.0 || ^18.0.0 || ^19.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 10c0/4fc61ea1b8ff276c8545b4f4f3881d9be590af24d8c2cbb076b34ec9a9230fd3147c30dd12399133c8d99c9eb748bd73014fa29b187b94229b90783023af4482
   languageName: node
   linkType: hard
 
@@ -19510,7 +19498,7 @@ __metadata:
     "@internal/plugin-function-kind-common": "workspace:^"
     "@kartverket/backstage-plugin-catalog-creator": "workspace:"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.1.9"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.2.0"
     "@kartverket/backstage-plugin-security-champion": "workspace:"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
     "@mui/icons-material": "npm:^7.3.9"
