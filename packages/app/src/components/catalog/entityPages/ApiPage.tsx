@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import {
   EntityApiDefinitionCard,
   EntityProvidingComponentsCard,
@@ -17,20 +17,20 @@ export const apiPage = (
     <EntityLayout.Route path="/" title="Overview">
       <Grid container spacing={3}>
         {entityWarningContent}
-        <Grid item md={6}>
+        <Grid size={{ md: 6 }}>
           <EntityAboutCard variant="gridItem" />
         </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <EntityCatalogGraphCard
             height={400}
             variant="gridItem"
             kinds={['component', 'api', 'system', 'resource']}
           />
         </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <EntityLinksCard variant="gridItem" />
         </Grid>
-        <Grid item md={6}>
+        <Grid size={{ md: 6 }}>
           <EntityProvidingComponentsCard variant="gridItem" />
         </Grid>
       </Grid>
@@ -40,7 +40,7 @@ export const apiPage = (
     </EntityLayout.Route>
     <EntityLayout.Route path="/definition" title="Definition">
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <EntityApiDefinitionCard />
         </Grid>
       </Grid>

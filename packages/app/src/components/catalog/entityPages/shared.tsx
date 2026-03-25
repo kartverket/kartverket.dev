@@ -1,4 +1,5 @@
-import { Button, Grid } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import {
   EntityAboutCard,
   EntityHasSubcomponentsCard,
@@ -47,7 +48,7 @@ export const grafanaContent = (
   <>
     <EntitySwitch>
       <EntitySwitch.Case if={isAlertSelectorAvailable}>
-        <Grid item md={6}>
+        <Grid size={{ md: 6 }}>
           <EntityGrafanaAlertsCard showState />
         </Grid>
       </EntitySwitch.Case>
@@ -56,14 +57,14 @@ export const grafanaContent = (
       <EntitySwitch.Case
         if={entity => Boolean(isDashboardSelectorAvailable(entity))}
       >
-        <Grid item md={6}>
+        <Grid size={{ md: 6 }}>
           <EntityGrafanaDashboardsCard />
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
     <EntitySwitch>
       <EntitySwitch.Case if={isOverviewDashboardAvailable}>
-        <Grid item md={12}>
+        <Grid size={{ md: 12 }}>
           <EntityOverviewDashboardViewer />
         </Grid>
       </EntitySwitch.Case>
@@ -100,7 +101,7 @@ export const entityWarningContent = (
   <>
     <EntitySwitch>
       <EntitySwitch.Case if={isOrphan}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <EntityOrphanWarning />
         </Grid>
       </EntitySwitch.Case>
@@ -108,7 +109,7 @@ export const entityWarningContent = (
 
     <EntitySwitch>
       <EntitySwitch.Case if={hasRelationWarnings}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <EntityRelationWarning />
         </Grid>
       </EntitySwitch.Case>
@@ -116,7 +117,7 @@ export const entityWarningContent = (
 
     <EntitySwitch>
       <EntitySwitch.Case if={hasCatalogProcessingErrors}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <EntityProcessingErrorsPanel />
         </Grid>
       </EntitySwitch.Case>
@@ -127,22 +128,22 @@ export const entityWarningContent = (
 export const defaultComponentContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
-    <Grid item md={6} xs={12}>
+    <Grid size={{ xs: 12, md: 6 }}>
       <EntityAboutCard variant="gridItem" />
     </Grid>
-    <Grid item md={6} xs={12}>
+    <Grid size={{ xs: 12, md: 6 }}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-    <Grid item md={4} xs={12}>
+    <Grid size={{ xs: 12, md: 4 }}>
       <SecurityChampionCard />
     </Grid>
-    <Grid item md={8} xs={12}>
+    <Grid size={{ xs: 12, md: 8 }}>
       <EntityLinksCard />
     </Grid>
-    <Grid item md={12} xs={12}>
+    <Grid size={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
-    <Grid item md={12} xs={12}>
+    <Grid size={12}>
       <EntityFunctionsCard title="Functions" variant="gridItem" />
     </Grid>
     {grafanaContent}
