@@ -10,4 +10,6 @@ export { GroupSecurityFormsCard } from './components/GroupSecurityFormsCard/Grou
 export { functionLinkCardNorwegianTranslation } from './components/FunctionSecurityFormsCard/translation';
 export { entityFunctionsCardNorwegianTranslation } from './components/EntityFunctionsCard/translation';
 export { functionDependenciesCardNorwegianTranslation } from './components/FunctionDependenciesCard/translations';
+export { GroupProfileCard } from './components/GroupProfileCard/GroupProfileCard';
+export { groupProfileCardNorwegianTranslation } from './components/GroupProfileCard/translation';
 export { useAllFunctionFormsQuery } from './hooks/useAllFunctionFormsQuery';

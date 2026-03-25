@@ -80,6 +80,7 @@ import {
   functionLinkCardNorwegianTranslation,
   functionDependenciesCardNorwegianTranslation,
   entityFunctionsCardNorwegianTranslation,
+  groupProfileCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
 
@@ -111,6 +112,7 @@ const app = createApp({
       userSettingsNorwegianTranslation,
       notificationsNorwegianTranslation,
       coreComponentsNorwegianTranslation,
+      groupProfileCardNorwegianTranslation,
     ],
   },
   components: {

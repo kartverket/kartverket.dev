@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
-import LayersIcon from '@material-ui/icons/Layers';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { Link } from '@backstage/core-components';
 import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
@@ -164,7 +164,7 @@ export function FunctionFormsTabContent({
           {Object.entries(formsByFunction).map(([funcName, funcForms]) => (
             <div key={funcName}>
               <div className={classes.sectionHeader}>
-                <LayersIcon className={classes.sectionIcon} />
+                <AccountTreeIcon className={classes.sectionIcon} />
                 {entityByFuncName.has(funcName) ? (
                   <EntityRefLink
                     entityRef={entityByFuncName.get(funcName)!}

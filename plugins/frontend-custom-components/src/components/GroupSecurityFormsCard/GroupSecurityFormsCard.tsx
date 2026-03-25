@@ -13,7 +13,7 @@ import Alert from '@mui/material/Alert';
 import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { makeStyles } from '@material-ui/core/styles';
 import PeopleIcon from '@material-ui/icons/People';
-import LayersIcon from '@material-ui/icons/Layers';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { TeamFormsTabContent } from './TeamFormsTabContent';
@@ -195,7 +195,7 @@ function GroupSecurityFormsCardWrapper() {
             className={`${classes.tab} ${activeTab === 'functions' ? classes.activeTab : classes.inactiveTab}`}
             onClick={() => setActiveTab('functions')}
           >
-            <LayersIcon className={classes.icon} />
+            <AccountTreeIcon className={classes.icon} />
             {t('groupFormCard.functionsTab')}
             <span
               className={`${classes.badge} ${activeTab === 'functions' ? classes.activeBadge : classes.inactiveBadge}`}
