@@ -44,7 +44,7 @@ export type Repository = {
   componentName: string;
   severityCount: SeverityCount;
   secrets: { alerts: SecretAlert[] };
-  rosStatus: RosStatusData;
+  riscStatus: RiscStatusData;
   scannerConfig: ScannerConfig;
   vulnerabilities: Vulnerability[];
   averageTimeToSolveVulnerabilityDays?: number;
@@ -94,7 +94,7 @@ export type RepositorySummary = {
   severityCount: SeverityCount;
   secrets: { alerts: SecretAlert[] };
   scannerConfig: ScannerConfig;
-  rosStatus: RosStatusData;
+  riscStatus: RiscStatusData;
   averageTimeToSolveVulnerabilityDays?: number;
 };
 
@@ -139,9 +139,9 @@ export type ScannerStatus = {
   on: boolean;
 };
 
-export interface RosStatusData {
+export interface RiscStatusData {
   repositoryName: string;
-  hasRosAsCode: Boolean;
+  hasRisc: Boolean;
   lastPublishedRisc: string;
   commitsSincePublishedRisc: number;
 }

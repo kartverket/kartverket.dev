@@ -8,38 +8,40 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
-import { RosStatusData } from '../../typesFrontend';
+import { RiscStatusData } from '../../typesFrontend';
 import { Fragment } from 'react/jsx-runtime';
 
-type ComponentRosStatusProps = {
-  rosStatus: RosStatusData;
+type ComponentRiscStatusProps = {
+  riscStatus: RiscStatusData;
 };
 
-export const ComponentRosStatus = ({ rosStatus }: ComponentRosStatusProps) => {
-  if (!rosStatus)
+export const ComponentRiscStatus = ({
+  riscStatus,
+}: ComponentRiscStatusProps) => {
+  if (!riscStatus)
     return (
       <CardTitle title="Risiko- og sårbarhetsarbeid">
         <Stack px={2}>
-          <Typography data-testid="rosNoData">
+          <Typography>
             <i>Vi fant dessverre ingen status på RoS-arbeid.</i>
           </Typography>
         </Stack>
       </CardTitle>
     );
 
-  const days = calculateDaysSince(rosStatus.lastPublishedRisc);
-  const commits = rosStatus.commitsSincePublishedRisc;
+  const days = calculateDaysSince(riscStatus.lastPublishedRisc);
+  const commits = riscStatus.commitsSincePublishedRisc;
 
   return (
     <CardTitle title="Risiko- og sårbarhetsarbeid">
       <Stack px={2}>
         <Table size="small">
           <TableBody>
-            <Fragment key={rosStatus.repositoryName}>
+            <Fragment key={riscStatus.repositoryName}>
               <StyledTableRow>
                 <TableCell>Kodenær ROS</TableCell>
                 <TableCell>
-                  {rosStatus.hasRosAsCode ? (
+                  {riscStatus.hasRisc ? (
                     <Tooltip title="Konfigurert">
                       <CheckCircleOutlined color="success" />
                     </Tooltip>
@@ -51,7 +53,7 @@ export const ComponentRosStatus = ({ rosStatus }: ComponentRosStatusProps) => {
                 </TableCell>
               </StyledTableRow>
 
-              {rosStatus.hasRosAsCode && days !== null && (
+              {riscStatus.hasRisc && days !== null && (
                 <StyledTableRow>
                   <TableCell>Dager siden forrige publiserte RoS</TableCell>
                   <TableCell>
@@ -62,7 +64,7 @@ export const ComponentRosStatus = ({ rosStatus }: ComponentRosStatusProps) => {
                 </StyledTableRow>
               )}
 
-              {rosStatus.hasRosAsCode && commits !== null && (
+              {riscStatus.hasRisc && commits !== null && (
                 <StyledTableRow>
                   <TableCell>
                     Antall commits siden forrige publiserte RoS

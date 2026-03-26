@@ -1,16 +1,14 @@
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
-import type { RepositorySummary, RosStatusData } from '../../typesFrontend';
+import type { RepositorySummary } from '../../typesFrontend';
 import { StyledTableRow } from '../TableRow';
 import { RepositoryScannerStatus } from './RepositoryScannerStatus';
 import { VulnerabilityDistribution } from '../VulnerabilityDistribution';
-import { BASIC_COLORS, SEVERITY_COLORS } from '../../colors';
 import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
-import Chip from '@mui/material/Chip';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -19,92 +17,11 @@ import Collapse from '@mui/material/Collapse';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import { useState } from 'react';
+import { riscStatusLabel } from '../RiscStatus/RiscStatusLabel';
 
 type Props = {
   repository: RepositorySummary;
   highestVulnerabilityCount: number;
-};
-
-const riscTextColor = (backgroundColor: string): string => {
-  if (backgroundColor === SEVERITY_COLORS.LOW) {
-    return BASIC_COLORS.BLACK;
-  }
-  return BASIC_COLORS.WHITE;
-};
-
-const daysSince = (dateString: string): number | null => {
-  const date = new Date(dateString);
-
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
-
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-
-  return Math.floor(diffMs / (1000 * 60 * 60 * 24));
-};
-
-const riscColor = (lastPublishedRisc: string): string => {
-  const days = daysSince(lastPublishedRisc);
-
-  if (days === null) {
-    return SEVERITY_COLORS.UNKNOWN;
-  }
-
-  if (days <= 90) {
-    return 'success.main';
-  }
-
-  if (days <= 180) {
-    return SEVERITY_COLORS.LOW;
-  }
-
-  if (days <= 270) {
-    return SEVERITY_COLORS.MEDIUM;
-  }
-
-  if (days <= 365) {
-    return SEVERITY_COLORS.HIGH;
-  }
-
-  return SEVERITY_COLORS.CRITICAL;
-};
-
-const riscLabelText = (lastPublishedRisc: string): string => {
-  const days = daysSince(lastPublishedRisc);
-
-  if (days === null) {
-    return 'Ukjent';
-  }
-
-  if (days === 0) {
-    return 'I dag';
-  }
-
-  if (days === 1) {
-    return '1 dag siden';
-  }
-
-  return `${days} dager siden`;
-};
-
-const riscLabel = (status: RosStatusData) => {
-  const backgroundColor = riscColor(status.lastPublishedRisc);
-  const color = riscTextColor(backgroundColor);
-  return (
-    <Chip
-      label={riscLabelText(status.lastPublishedRisc)}
-      size="small"
-      sx={{
-        backgroundColor,
-        color,
-        mt: 0.5,
-        mb: 0.5,
-        borderRadius: 1,
-      }}
-    />
-  );
 };
 
 export const RepositoriesTableRow = ({
@@ -153,7 +70,7 @@ export const RepositoriesTableRow = ({
         <TableCell>
           <Box display="flex" alignItems="center" minHeight="32px">
             <Box display="flex" gap={1}>
-              {repository.rosStatus?.hasRosAsCode ? (
+              {repository.riscStatus?.hasRisc ? (
                 <Tooltip title="Har en kodenær ROS">
                   <CheckIcon color="success" />
                 </Tooltip>
@@ -168,8 +85,8 @@ export const RepositoriesTableRow = ({
         <TableCell>
           <Box display="flex" alignItems="center" minHeight="32px">
             <Box display="flex" gap={1}>
-              {repository.rosStatus?.hasRosAsCode &&
-                riscLabel(repository.rosStatus)}
+              {repository.riscStatus?.hasRisc &&
+                riscStatusLabel(repository.riscStatus)}
             </Box>
           </Box>
         </TableCell>
