@@ -7943,9 +7943,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:6.1.9":
-  version: 6.1.9
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.1.9"
+"@kartverket/backstage-plugin-risk-scorecard@npm:6.2.0":
+  version: 6.2.0
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.2.0"
   dependencies:
     "@backstage/core-components": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
@@ -7954,11 +7954,8 @@ __metadata:
     "@emotion/cache": "npm:^11.14.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@material-ui/core": "npm:^4.12.4"
-    "@material-ui/icons": "npm:^4.11.3"
-    "@material-ui/lab": "npm:4.0.0-alpha.61"
-    "@mui/icons-material": "npm:^5.17.1"
-    "@mui/material": "npm:^5.17.1"
+    "@mui/icons-material": "npm:^7.3.9"
+    "@mui/material": "npm:^7.3.9"
     "@uiw/react-md-editor": "npm:^4.0.5"
     classnames: "npm:^2.5.1"
     github-markdown-css: "npm:^5.8.1"
@@ -7975,7 +7972,7 @@ __metadata:
     react-dom: ^18.0.0
     react-router: ^6.3.0
     react-router-dom: ^6.3.0
-  checksum: 10c0/e771a70efda5a15abf7f1e4d3ef04f283f4e104a33beeb0f7fd3ebaa6ac32d7ebe30641c6882f5790a619c7cc7c160a8aefe0ab80b464064c7d8e066ed0e4420
+  checksum: 10c0/ef010c2a303522c08262105d4a227d1a3b5500f65f1ade4e56a7bd6eed198069ecef8ac2579ee348e593e3b55b481d4b23d3ce8c1b8f1765bea68487b9c307a9
   languageName: node
   linkType: hard
 
@@ -8844,22 +8841,6 @@ __metadata:
   version: 5.18.0
   resolution: "@mui/core-downloads-tracker@npm:5.18.0"
   checksum: 10c0/d82962a1b69878cf6a6785b6600302a943d474af00bba50169e207ce0bb5d072f1ed65783c7d5ca940cbe4228ab86bc95bb57545cf2cd039d588f2571bbefe0c
-  languageName: node
-  linkType: hard
-
-"@mui/icons-material@npm:^5.17.1":
-  version: 5.18.0
-  resolution: "@mui/icons-material@npm:5.18.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.23.9"
-  peerDependencies:
-    "@mui/material": ^5.0.0
-    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
-    react: ^17.0.0 || ^18.0.0 || ^19.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 10c0/4fc61ea1b8ff276c8545b4f4f3881d9be590af24d8c2cbb076b34ec9a9230fd3147c30dd12399133c8d99c9eb748bd73014fa29b187b94229b90783023af4482
   languageName: node
   linkType: hard
 
@@ -19349,7 +19330,7 @@ __metadata:
     "@internal/plugin-function-kind-common": "workspace:^"
     "@kartverket/backstage-plugin-catalog-creator": "workspace:"
     "@kartverket/backstage-plugin-opencost": "npm:^0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.1.9"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.2.0"
     "@kartverket/backstage-plugin-security-champion": "workspace:"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
     "@material-ui/core": "npm:^4.12.4"
