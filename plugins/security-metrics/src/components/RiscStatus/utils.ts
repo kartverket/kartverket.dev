@@ -1,9 +1,25 @@
 import { BASIC_COLORS, SEVERITY_COLORS } from '../../colors';
 
-export const calculateDaysSince = (lastPublishedRisc: string): number => {
+export const calculateDaysSince = (dateString: string): number | null => {
+  const date = new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
   const now = new Date();
-  const rosDate = new Date(lastPublishedRisc);
-  return Math.ceil((now.getTime() - rosDate.getTime()) / (1000 * 60 * 60 * 24));
+
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const targetDay = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+  );
+
+  return Math.max(
+    0,
+    Math.floor((today.getTime() - targetDay.getTime()) / 86400000),
+  );
 };
 
 export const plural = (n: number, one: string, many: string) =>
@@ -16,21 +32,8 @@ export const riscTextColor = (backgroundColor: string): string => {
   return BASIC_COLORS.WHITE;
 };
 
-export const daysSince = (dateString: string): number | null => {
-  const date = new Date(dateString);
-
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
-
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-
-  return Math.floor(diffMs / (1000 * 60 * 60 * 24));
-};
-
 export const riscColor = (lastPublishedRisc: string): string => {
-  const days = daysSince(lastPublishedRisc);
+  const days = calculateDaysSince(lastPublishedRisc);
 
   if (days === null) {
     return SEVERITY_COLORS.UNKNOWN;
@@ -56,7 +59,7 @@ export const riscColor = (lastPublishedRisc: string): string => {
 };
 
 export const riscLabelText = (lastPublishedRisc: string): string => {
-  const days = daysSince(lastPublishedRisc);
+  const days = calculateDaysSince(lastPublishedRisc);
 
   if (days === null) {
     return 'Ukjent';
