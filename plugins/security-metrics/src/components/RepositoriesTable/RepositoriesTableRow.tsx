@@ -1,17 +1,14 @@
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
-import type { RosStatus, RepositorySummary } from '../../typesFrontend';
+import type { RepositorySummary } from '../../typesFrontend';
 import { StyledTableRow } from '../TableRow';
 import { RepositoryScannerStatus } from './RepositoryScannerStatus';
 import { VulnerabilityDistribution } from '../VulnerabilityDistribution';
-import { colorMap, labelMap } from '../RosStatus/utils';
-import { BASIC_COLORS } from '../../colors';
 import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
-import Chip from '@mui/material/Chip';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -20,28 +17,11 @@ import Collapse from '@mui/material/Collapse';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import { useState } from 'react';
+import { riscStatusLabel } from '../RiscStatus/RiscStatusLabel';
 
 type Props = {
   repository: RepositorySummary;
   highestVulnerabilityCount: number;
-};
-
-const riscLabel = (status: RosStatus) => {
-  const color = colorMap[status];
-  const label = labelMap[status];
-  return (
-    <Chip
-      label={label}
-      size="small"
-      sx={{
-        backgroundColor: color,
-        color: BASIC_COLORS.WHITE,
-        mt: 0.5,
-        mb: 0.5,
-        borderRadius: 1,
-      }}
-    />
-  );
 };
 
 export const RepositoriesTableRow = ({
@@ -90,7 +70,7 @@ export const RepositoriesTableRow = ({
         <TableCell>
           <Box display="flex" alignItems="center" minHeight="32px">
             <Box display="flex" gap={1}>
-              {repository.harRos ? (
+              {repository.riscStatus?.hasRisc ? (
                 <Tooltip title="Har en kodenær ROS">
                   <CheckIcon color="success" />
                 </Tooltip>
@@ -105,9 +85,8 @@ export const RepositoriesTableRow = ({
         <TableCell>
           <Box display="flex" alignItems="center" minHeight="32px">
             <Box display="flex" gap={1}>
-              {repository.harRos &&
-                repository.rosStatus &&
-                riscLabel(repository.rosStatus)}
+              {repository.riscStatus?.hasRisc &&
+                riscStatusLabel(repository.riscStatus)}
             </Box>
           </Box>
         </TableCell>
