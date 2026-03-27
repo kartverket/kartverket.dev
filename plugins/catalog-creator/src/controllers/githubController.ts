@@ -157,7 +157,7 @@ export class GithubController {
       throw new Error(couldNotCreatePRErrorMsg);
     }
 
-    const parentFolderPath = managedbylocation
+    const parentFolderPath = decodeURIComponent(managedbylocation)
       .match(/tree\/main\/(.+)/)?.[1]
       ?.replace(/\/[^/]+$/, '');
 

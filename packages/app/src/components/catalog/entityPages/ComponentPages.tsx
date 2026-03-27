@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import {
   EntityDependsOnComponentsCard,
   EntityDependsOnResourcesCard,
@@ -39,10 +39,10 @@ export const ComponentPage = () => {
 
       <EntityLayout.Route path="/api" title={t('entityPageTab.api')}>
         <Grid container spacing={3} alignItems="stretch">
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityProvidedApisCard />
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityConsumedApisCard />
           </Grid>
         </Grid>
@@ -53,10 +53,10 @@ export const ComponentPage = () => {
         title={t('entityPageTab.dependencies')}
       >
         <Grid container spacing={3} alignItems="stretch">
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityDependsOnComponentsCard variant="gridItem" />
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityDependsOnResourcesCard variant="gridItem" />
           </Grid>
         </Grid>
@@ -97,10 +97,10 @@ export const ComponentPage = () => {
         title={t('entityPageTab.dependencies')}
       >
         <Grid container spacing={3} alignItems="stretch">
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityDependsOnComponentsCard variant="gridItem" />
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityDependsOnResourcesCard variant="gridItem" />
           </Grid>
         </Grid>

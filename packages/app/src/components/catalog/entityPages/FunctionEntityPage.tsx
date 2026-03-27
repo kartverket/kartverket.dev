@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import { EntityLayout } from '@backstage/plugin-catalog';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
 import { useEntity } from '@backstage/plugin-catalog-react';
@@ -25,13 +25,13 @@ export const FunctionEntityPage = () => {
       >
         <Grid container spacing={3} alignItems="stretch">
           {entityWarningContent}
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <FunctionAboutCard
               variant="gridItem"
               title={t('functionEntityPage.aboutTitle')}
             />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <EntityCatalogGraphCard
               variant="gridItem"
               height={400}
@@ -39,10 +39,10 @@ export const FunctionEntityPage = () => {
               title={t('functionEntityPage.graphTitle')}
             />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FunctionDependenciesCard />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FunctionSecurityFormsCard />
           </Grid>
         </Grid>

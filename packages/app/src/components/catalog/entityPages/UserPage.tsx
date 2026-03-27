@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import { EntityLayout } from '@backstage/plugin-catalog';
 import {
   EntityUserProfileCard,
@@ -16,10 +16,10 @@ export const UserPage = () => {
       <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
         <Grid container spacing={3}>
           {entityWarningContent}
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <EntityUserProfileCard variant="gridItem" />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <EntityOwnershipCard variant="gridItem" />
           </Grid>
         </Grid>

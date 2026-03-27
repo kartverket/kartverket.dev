@@ -1,4 +1,6 @@
-import { makeStyles, Theme, Grid, Paper } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from 'tss-react/mui';
 
 import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 import {
@@ -26,7 +28,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { searchPageTranslationRef } from '../../utils/translations';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles()(theme => ({
   bar: {
     padding: theme.spacing(1, 0),
   },
@@ -42,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const SearchPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { types } = useSearch();
   const catalogApi = useApi(catalogApiRef);
   const { t } = useTranslationRef(searchPageTranslationRef);
@@ -52,12 +54,12 @@ const SearchPage = () => {
       <Header title={t('searchPage.title')} />
       <Content>
         <Grid container direction="row">
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper className={classes.bar}>
               <SearchBar />
             </Paper>
           </Grid>
-          <Grid item xs={3}>
+          <Grid size={3}>
             <SearchType.Accordion
               name={t('searchPage.resultType')}
               defaultValue="software-catalog"
@@ -110,7 +112,7 @@ const SearchPage = () => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={9}>
+          <Grid size={9}>
             <SearchPagination />
             <SearchResult>
               <CatalogSearchResultListItem icon={<CatalogIcon />} />

@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import {
   EntityAboutCard,
   EntityHasSystemsCard,
@@ -18,20 +18,20 @@ export const DomainPage = () => {
       <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
         <Grid container spacing={3} alignItems="stretch">
           {entityWarningContent}
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityAboutCard variant="gridItem" />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <EntityCatalogGraphCard
               variant="gridItem"
               height={400}
               kinds={['System', 'Group', 'Domain']}
             />
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <SecurityChampionCard />
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <EntityHasSystemsCard variant="gridItem" />
           </Grid>
         </Grid>

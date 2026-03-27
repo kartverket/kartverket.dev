@@ -8,7 +8,6 @@ import { SecretsAlert } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import { VulnerabilityTable } from '../VulnerabilityTable/VulnerabilityTable';
-import { ComponentRosStatus } from '../RosStatus/ComponentRosStatus';
 import Stack from '@mui/material/Stack';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { useComponentMetricsQuery } from '../../hooks/useComponentMetricsQuery';
@@ -20,6 +19,7 @@ import { getScannerStatusData } from '../../mapping/getScannerData';
 import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
+import { ComponentRiscStatus } from '../RiscStatus/ComponentRiscStatus';
 
 enum TabEnum {
   ALL_VULNERABILITIES = 0,
@@ -89,10 +89,7 @@ export const SingleComponentPage = () => {
         gridAutoRows="minmax(320px, 1fr)"
       >
         <ComponentScannerStatus scannerStatus={scannerStatus} />
-        <ComponentRosStatus
-          repositoryName={componentName}
-          rosStatus={data.rosStatus}
-        />
+        <ComponentRiscStatus riscStatus={data.riscStatus} />
         <VulnerabilityCountsOverview
           data={data}
           averageDays={data.averageTimeToSolveVulnerabilityDays}

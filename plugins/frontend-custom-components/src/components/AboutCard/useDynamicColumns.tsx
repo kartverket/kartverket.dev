@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Theme } from '@material-ui/core/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { Theme } from '@mui/material/styles';
 import { Breakpoint, ColumnBreakpoints } from './LinksGridList';
 
 const colDefaults: ColumnBreakpoints = {
