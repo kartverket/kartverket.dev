@@ -22,8 +22,8 @@ import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
-import { MetricsUpdateStatusInfo } from '../MetricsUpdateStatus/MetricsUpdateStatus';
 import { Entity, parseEntityRef, RELATION_HAS_PART } from '@backstage/catalog-model';
+import { MetricsStatus } from '../MetricsStatus';
 
 export function getComponentNamesFromSystem(system: Entity) {
   const rels = system.relations ?? [];
@@ -65,6 +65,7 @@ export const SystemPage = () => {
   return (
     <Stack gap={2}>
       <Stack direction="row" alignItems="center" gap={2}>
+        <MetricsStatus />
         <Stack
           flexDirection="row"
           gap={2}
@@ -76,7 +77,6 @@ export const SystemPage = () => {
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
         <Box ml="auto" display="flex" alignItems="center" gap={0.5}>
-          <MetricsUpdateStatusInfo />
           <Button
             variant="text"
             startIcon={<TuneIcon />}

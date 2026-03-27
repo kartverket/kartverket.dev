@@ -20,7 +20,7 @@ import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
 import { ComponentRiscStatus } from '../RiscStatus/ComponentRiscStatus';
-import { MetricsUpdateStatusInfo } from '../MetricsUpdateStatus/MetricsUpdateStatus';
+import { MetricsStatus } from '../MetricsStatus';
 
 enum TabEnum {
   ALL_VULNERABILITIES = 0,
@@ -56,6 +56,7 @@ export const SingleComponentPage = () => {
   return (
     <Stack gap={2}>
       <Stack direction="row" alignItems="center" gap={2}>
+        <MetricsStatus />
         <Stack
           flexDirection="row"
           gap={2}
@@ -66,7 +67,6 @@ export const SingleComponentPage = () => {
           {secrets.length > 0 && <SecretsAlert secretsOverviewData={secrets} />}
         </Stack>
         <Box display="flex" alignItems="center" ml="auto" gap={0.5}>
-          <MetricsUpdateStatusInfo />
           <Button
             variant="text"
             startIcon={<TuneIcon />}
