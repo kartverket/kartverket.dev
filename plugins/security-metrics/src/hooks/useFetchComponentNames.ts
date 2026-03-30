@@ -2,6 +2,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import {
   Entity,
+  parseEntityRef,
   RELATION_DEPENDS_ON,
   RELATION_HAS_PART,
   RELATION_OWNER_OF,
@@ -80,6 +81,36 @@ export const useFetchComponentNamesByGroup = (rootGroupRef: Entity) => {
     queryFn: async () => {
       const names = await getAllComponentNamesByRecursion(rootgroupchildren);
       return Array.from(new Set(names)).sort((a, b) => a.localeCompare(b));
+    },
+  });
+
+  return {
+    componentNames: data ?? [],
+    componentNamesIsLoading: isPending,
+    componentNamesError: error,
+  };
+};
+
+export const useFetchComponentNamesFromSystem = (system: Entity) => {
+  const catalog = useApi(catalogApiRef);
+
+  const componentRefs = (system.relations ?? [])
+    .filter(r => r.type === RELATION_HAS_PART)
+    .map(r => r.targetRef)
+    .filter(
+      ref => (parseEntityRef(ref).kind ?? '').toLowerCase() === 'component',
+    );
+
+  const { data, isPending, error } = useQuery<string[]>({
+    queryKey: ['system-components', system.metadata.name, componentRefs],
+    queryFn: async () => {
+      const result = await catalog.getEntitiesByRefs({
+        entityRefs: componentRefs,
+      });
+      return result.items
+        .filter(isEntity)
+        .map(entity => entity.metadata.name)
+        .sort((a, b) => a.localeCompare(b));
     },
   });
 
