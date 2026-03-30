@@ -11,34 +11,19 @@ import {
   FetchTrendsRequestBody,
 } from './typesBackend';
 import { getBackendConfig } from '../config';
+import {
+  errorResponse,
+  requireBackstageToken,
+  requireHeader,
+  sendEither,
+  withErrorHandling,
+} from './routerUtils';
 
 export interface RouterOptions {
   auth: AuthService;
   logger: LoggerService;
   config: Config;
 }
-
-const formatToken = (token: string | undefined): string | null => {
-  if (!token || !token.startsWith('Bearer')) {
-    return null;
-  }
-  return token.substring(7).trim();
-};
-
-const validateToken = (
-  token: string | undefined,
-  auth: AuthService,
-): string | null => {
-  const formattedToken = formatToken(token);
-  if (!formattedToken) {
-    return null;
-  }
-  const credentials = auth.authenticate(formattedToken);
-  if (!credentials) {
-    return null;
-  }
-  return formattedToken;
-};
 
 export const createRouter = async (
   options: RouterOptions,
@@ -86,294 +71,201 @@ export const createRouter = async (
     next();
   });
 
-  router.get('/proxy/metrics-update-status/', async (req, res) => {
-    try {
-      const backstageToken = req.header('Authorization');
-      const validToken = validateToken(backstageToken, auth);
-      const entraIdToken = req.header('EntraId');
-
-      if (!validToken || !backstageToken || !entraIdToken) {
-        res.status(401).send({ frontendMessage: 'Token is not valid' });
-        return;
-      }
-
-      const statusData =
-        await apiService.fetchMetricsUpdateStatus(entraIdToken);
-
-      if (statusData.isRight()) {
-        res.status(200).send(statusData.value);
-      } else {
-        res.status(statusData.error.statusCode).send({
-          frontendMessage: statusData.error.frontendMessage,
-        });
-        logger.error(statusData.error.error);
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to fetch metrics update status: ${error}`);
-      res.status(500).send({
-        frontendMessage: `Failed to fetch metrics update status: ${errorMessage}`,
-      });
-    }
-  });
-
-  router.post('/proxy/fetch-security-champions/', async (req, res) => {
-    try {
-      const backstageToken = req.header('Authorization');
-      const validToken = validateToken(backstageToken, auth);
-      const request = req.body;
-      if (!validToken || !backstageToken) {
-        res.status(401).send({
-          frontendMessage: 'Token is not valid',
-        });
-      } else {
-        const securityChampion = await apiService.fetchSecurityChampionInfo(
-          request.repositoryNames,
-          request.entraIdToken,
-        );
-        if (securityChampion.isRight()) {
-          res.status(200).send(securityChampion.value);
-        } else {
-          res.status(securityChampion.error.statusCode).send({
-            frontendMessage: securityChampion.error.frontendMessage,
-          });
-          logger.error(securityChampion.error.error);
+  router.get(
+    '/proxy/metrics-update-status/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch metrics update status',
+      async (req, res) => {
+        const authError = requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
         }
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to fetch security champion data: ${error}`);
-      res.status(500).send({
-        frontendMessage: `Failed to fetch security champion data: ${errorMessage}`,
-      });
-    }
-  });
 
-  router.post('/proxy/fetch-metrics/', async (req, res) => {
-    try {
-      const backstageToken = req.header('Authorization');
-      const validToken = validateToken(backstageToken, auth);
-      const request = req.body as FetchMetricsRequestBody;
-      if (!validToken || !backstageToken) {
-        res.status(401).send({
-          frontendMessage: 'Token is not valid',
-        });
-      } else {
-        const metricsData = await apiService.fetchMetricsData(
+        const entraIdToken = req.header('EntraId');
+        if (!entraIdToken) {
+          return res
+            .status(400)
+            .send(errorResponse(400, 'BAD_REQUEST', 'EntraId is required'));
+        }
+
+        const result = await apiService.fetchMetricsUpdateStatus(entraIdToken);
+
+        return sendEither(res, result);
+      },
+    ),
+  );
+
+  router.post(
+    '/proxy/fetch-metrics/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch metrics data',
+      async (req, res) => {
+        const authError = requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
+        }
+
+        const request = req.body as FetchMetricsRequestBody;
+        const result = await apiService.fetchMetricsData(
           request.componentNames,
           request.entraIdToken,
         );
 
-        if (metricsData.isRight()) {
-          res.status(200).send(metricsData.value);
-        } else {
-          res.status(metricsData.error.statusCode).send({
-            frontendMessage: metricsData.error.frontendMessage,
-          });
-          logger.error(metricsData.error.error);
+        return sendEither(res, result);
+      },
+    ),
+  );
+
+  router.get(
+    '/proxy/fetch-component-metrics/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch metrics data',
+      async (req, res) => {
+        const authError = requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
         }
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to fetch metrics data: ${error}`);
-      res.status(500).send({
-        frontendMessage: `Failed to fetch metrics data: ${errorMessage}`,
-      });
-    }
-  });
 
-  router.get('/proxy/fetch-component-metrics/', async (req, res) => {
-    try {
-      const backstageToken = req.header('Authorization');
-      const validToken = validateToken(backstageToken, auth);
-      const entraIdToken = req.header('EntraId');
-      const componentName = req.query.componentName as string | undefined;
-
-      if (!componentName || !validToken || !backstageToken || !entraIdToken) {
+        const componentName = req.query.componentName as string | undefined;
         if (!componentName) {
-          res.status(401).send({
-            frontendMessage: 'Missing componentName query parameter',
-          });
+          return res
+            .status(400)
+            .send(
+              errorResponse(
+                400,
+                'BAD_REQUEST',
+                'Mangler componentName query parameter',
+              ),
+            );
         }
-        res.status(401).send({
-          frontendMessage: 'Token is not valid',
-        });
-      } else {
-        const metricsData = await apiService.fetchComponentMetricsData(
+
+        const entraIdHeader = requireHeader(req.header('EntraId'), 'EntraId');
+        if (typeof entraIdHeader !== 'string') {
+          return res.status(entraIdHeader.status).send(entraIdHeader);
+        }
+
+        const result = await apiService.fetchComponentMetricsData(
           componentName,
-          entraIdToken,
+          entraIdHeader,
         );
 
-        if (metricsData.isRight()) {
-          res.status(200).send(metricsData.value);
-        } else {
-          res.status(metricsData.error.statusCode).send({
-            frontendMessage: metricsData.error.frontendMessage,
-          });
-          logger.error(metricsData.error.error);
+        return sendEither(res, result);
+      },
+    ),
+  );
+
+  router.post(
+    '/proxy/fetch-trends/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch vulnerability trends data',
+      async (req, res) => {
+        const authError = requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
         }
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to fetch metrics data: ${error}`);
-      res.status(500).send({
-        frontendMessage: `Failed to fetch metrics data: ${errorMessage}`,
-      });
-    }
-  });
 
-  router.post('/proxy/fetch-trends/', async (req, res) => {
-    try {
-      const backstageToken = req.header('Authorization');
-      const validToken = validateToken(backstageToken, auth);
-      const request = req.body as FetchTrendsRequestBody;
-
-      if (!validToken || !backstageToken) {
-        res.sendStatus(401).send({
-          frontendMessage: 'Token is not valid',
-        });
-      } else {
-        const severityCounts = await apiService.fetchVulnerabilityTrendsData(
+        const request = req.body as FetchTrendsRequestBody;
+        const result = await apiService.fetchVulnerabilityTrendsData(
           request.componentNames,
           request.fromDate,
           request.toDate,
           request.entraIdToken,
         );
-        if (severityCounts.isRight()) {
-          res.status(200).send(severityCounts.value);
-        } else {
-          res.status(severityCounts.error.statusCode).send({
-            frontendMessage: severityCounts.error.frontendMessage,
-          });
-          logger.error(severityCounts.error.error);
+
+        return sendEither(res, result);
+      },
+    ),
+  );
+
+  router.put(
+    '/proxy/change-status-vulnerability/',
+    withErrorHandling(
+      logger,
+      'Failed to change status of vulnerability',
+      async (req, res) => {
+        const authError = requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
         }
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to fetch vulnerability trends data: ${error}`);
-      res.status(500).send({
-        frontendMessage: `Failed to fetch vulnerability trends data: ${errorMessage}`,
-      });
-    }
-  });
 
-  router.put('/proxy/change-status-vulnerability/', async (req, res) => {
-    try {
-      const backstageToken = req.header('Authorization');
-      const validToken = validateToken(backstageToken, auth);
-      const request = req.body as ChangeStatusRequestBody;
+        const request = req.body as ChangeStatusRequestBody;
 
-      if (!validToken || !backstageToken) {
-        res.status(401).send({ frontendMessage: 'Token is not valid' });
-        return;
-      }
+        const result = await apiService.changeStatusVulnerability(
+          request.componentName,
+          request.vulnerabilityId,
+          request.status,
+          request.comment,
+          request.changedBy,
+          request.entraIdToken,
+        );
 
-      const apiResult = await apiService.changeStatusVulnerability(
-        request.componentName,
-        request.vulnerabilityId,
-        request.status,
-        request.comment,
-        request.changedBy,
-        request.entraIdToken,
-      );
+        return sendEither(res, result, 204);
+      },
+    ),
+  );
 
-      if (apiResult.isRight()) {
-        res.sendStatus(204);
-      } else {
-        res.status(apiResult.error.statusCode).send({
-          frontendMessage: apiResult.error.frontendMessage,
-        });
-        logger.error(apiResult.error.error);
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to change status of vulnerability: ${error}`);
-      throw new Error(errorMessage);
-    }
-  });
+  router.put(
+    '/proxy/configure-notifications/',
+    withErrorHandling(
+      logger,
+      'Failed to configure notifications',
+      async (req, res) => {
+        const authError = requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
+        }
 
-  router.put('/proxy/configure-notifications/', async (req, res) => {
-    try {
-      const backstageToken = req.header('Authorization');
-      const validToken = validateToken(backstageToken, auth);
-      const request = req.body as ConfigureNotificationsRequestBody;
+        const request = req.body as ConfigureNotificationsRequestBody;
 
-      if (!validToken || !backstageToken) {
-        res.status(401).send({ frontendMessage: 'Token is not valid' });
-        return;
-      }
+        const result = await apiService.configureNotifications(
+          request.teamName,
+          request.componentNames,
+          request.channelId,
+          request.entraIdToken,
+          request.severity,
+        );
 
-      const apiResult = await apiService.configureNotifications(
-        request.teamName,
-        request.componentNames,
-        request.channelId,
-        request.entraIdToken,
-        request.severity,
-      );
+        return sendEither(res, result, 204);
+      },
+    ),
+  );
 
-      if (apiResult.isRight()) {
-        console.log('Notifications configured successfully');
-        res.sendStatus(204);
-      } else if (apiResult.error.statusCode === 400) {
-        res.status(400).send('Kunne ikke nå ønsket slack-kanal');
-        logger.error(apiResult.error.error);
-      } else {
-        res.status(apiResult.error.statusCode).send({
-          frontendMessage: apiResult.error.frontendMessage,
-        });
-        logger.error(apiResult.error.error);
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      logger.error(`Failed to configure notifications: ${error}`);
-      throw new Error(errorMessage);
-    }
-  });
+  router.get(
+    '/proxy/configure-notifications/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch notifications config',
+      async (req, res) => {
+        const authError = requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
+        }
 
-  router.get('/proxy/configure-notifications/', async (req, res) => {
-    const backstageToken = req.header('Authorization');
-    const validToken = validateToken(backstageToken, auth);
+        const teamName = String(req.query.teamName ?? '');
+        if (!teamName) {
+          return res
+            .status(400)
+            .send(errorResponse(400, 'BAD_REQUEST', 'teamName is required'));
+        }
 
-    const teamName = String(req.query.teamName ?? '');
-    const entraIdToken = req.header('EntraId') ?? '';
+        const entraIdHeader = requireHeader(req.header('EntraId'), 'EntraId');
+        if (typeof entraIdHeader !== 'string') {
+          return res.status(entraIdHeader.status).send(entraIdHeader);
+        }
 
-    if (!validToken || !backstageToken) {
-      res.status(401).send({ frontendMessage: 'Token is not valid' });
-      return;
-    }
+        const result = await apiService.getNotificationsConfig(
+          teamName,
+          entraIdHeader,
+        );
 
-    if (!teamName) {
-      res.status(400).send({ frontendMessage: 'teamName is required' });
-      return;
-    }
-
-    if (!entraIdToken) {
-      res.status(400).send({ frontendMessage: 'entraIdToken is required' });
-      return;
-    }
-
-    const apiResult = await apiService.getNotificationsConfig(
-      teamName,
-      entraIdToken,
-    );
-
-    if (apiResult.isRight()) {
-      console.log('Notifications config fetched successfully');
-      res.status(200).json(apiResult.value);
-    } else {
-      res.status(apiResult.error.statusCode).send({
-        frontendMessage: apiResult.error.frontendMessage,
-      });
-      logger.error(apiResult.error.error);
-    }
-  });
+        return sendEither(res, result);
+      },
+    ),
+  );
 
   return router;
 };

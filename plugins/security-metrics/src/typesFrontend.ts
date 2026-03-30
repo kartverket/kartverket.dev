@@ -187,3 +187,9 @@ export type MetricsUpdateStatus = {
   secretScanning: boolean;
   riscMetrics: boolean;
 };
+
+export type ErrorResponse = {
+  status: number;
+  code: string;
+  message: string;
+};

@@ -193,3 +193,15 @@ export type SlackNotificationConfig = {
   severity: string[];
   componentNames: string[];
 };
+
+export type ErrorResponse = {
+  status: number;
+  code: string;
+  message: string;
+};
+
+export type ErrorBody = {
+  status?: number;
+  code?: string;
+  message?: string;
+};
