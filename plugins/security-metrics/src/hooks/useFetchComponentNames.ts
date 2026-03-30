@@ -3,10 +3,10 @@ import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import {
   Entity,
   parseEntityRef,
-  RELATION_DEPENDS_ON,
   RELATION_HAS_PART,
   RELATION_OWNER_OF,
   RELATION_PARENT_OF,
+  stringifyEntityRef,
 } from '@backstage/catalog-model';
 import { getChildRefs } from '../utils/getChildRefs';
 import {
@@ -17,69 +17,61 @@ import { useQuery } from '@tanstack/react-query';
 
 const REPOSITORY_ENTITY_KIND = 'Component';
 const HIGHER_LEVEL_ENTITIES = ['Group', 'Domain', 'System'];
+const HIERARCHY_RELATION_TYPES = new Set([
+  RELATION_OWNER_OF,
+  RELATION_PARENT_OF,
+]);
 
 const isEntity = (entity: Entity | undefined): entity is Entity => !!entity;
 
 export const useFetchComponentNamesByGroup = (rootGroupRef: Entity) => {
-  const rootgroupchildren = getChildRefs([rootGroupRef]);
   const catalog = useApi(catalogApiRef);
 
-  const getAllComponentNamesByRecursion = async (
-    entityRefs: string[],
-    repositoryEntities: string[] = [],
-    visitedRefs: Set<string> = new Set(),
+  const getAllComponentNames = async (
+    initialRefs: string[],
   ): Promise<string[]> => {
-    const newGroupRefs = entityRefs.filter(ref => !visitedRefs.has(ref));
-    if (newGroupRefs.length === 0) return repositoryEntities;
+    const visited = new Set<string>();
+    const componentNames = new Set<string>();
+    const queue = [...initialRefs];
 
-    newGroupRefs.forEach(ref => visitedRefs.add(ref));
+    while (queue.length > 0) {
+      const batch = queue.splice(0).filter(ref => !visited.has(ref));
+      if (batch.length === 0) continue;
 
-    const resultEntities = (
-      await catalog.getEntitiesByRefs({
-        entityRefs: newGroupRefs,
-      })
-    ).items.filter(isEntity);
+      batch.forEach(ref => visited.add(ref));
 
-    const childrenRefs: string[] = [];
+      const entities = (
+        await catalog.getEntitiesByRefs({ entityRefs: batch })
+      ).items.filter(isEntity);
 
-    resultEntities.forEach(item => {
-      if (
-        item.kind === REPOSITORY_ENTITY_KIND &&
-        !isExperimentalLifecycle(item.spec?.lifecycle) &&
-        !isDocumentationType(item.spec?.type)
-      ) {
-        repositoryEntities.push(item.metadata.name);
-      } else if (HIGHER_LEVEL_ENTITIES.includes(item.kind)) {
-        item.relations?.forEach(relation => {
-          if (
-            [
-              RELATION_OWNER_OF,
-              RELATION_HAS_PART,
-              RELATION_PARENT_OF,
-              RELATION_DEPENDS_ON,
-            ].includes(relation.type)
-          ) {
-            childrenRefs.push(relation.targetRef);
+      for (const entity of entities) {
+        if (
+          entity.kind === REPOSITORY_ENTITY_KIND &&
+          !isExperimentalLifecycle(entity.spec?.lifecycle) &&
+          !isDocumentationType(entity.spec?.type)
+        ) {
+          componentNames.add(entity.metadata.name);
+          continue;
+        }
+
+        if (!HIGHER_LEVEL_ENTITIES.includes(entity.kind)) continue;
+
+        for (const relation of entity.relations ?? []) {
+          if (HIERARCHY_RELATION_TYPES.has(relation.type)) {
+            queue.push(relation.targetRef);
           }
-        });
+        }
       }
-    });
-
-    if (!childrenRefs || childrenRefs.length === 0) {
-      return repositoryEntities;
     }
 
-    return getAllComponentNamesByRecursion(
-      childrenRefs,
-      repositoryEntities,
-      visitedRefs,
-    );
+    return [...componentNames].sort((a, b) => a.localeCompare(b));
   };
 
   const { data, isPending, error } = useQuery<string[]>({
-    queryKey: ['group-components', rootGroupRef],
+    queryKey: ['group-components', stringifyEntityRef(rootGroupRef)],
     queryFn: async () => {
-      const names = await getAllComponentNamesByRecursion(rootgroupchildren);
+      const rootGroupChildren = getChildRefs([rootGroupRef]);
+      const names = await getAllComponentNames(rootGroupChildren);
       return Array.from(new Set(names)).sort((a, b) => a.localeCompare(b));
     },
   });
@@ -94,16 +86,21 @@ export const useFetchComponentNamesByGroup = (rootGroupRef: Entity) => {
 export const useFetchComponentNamesFromSystem = (system: Entity) => {
   const catalog = useApi(catalogApiRef);
 
-  const componentRefs = (system.relations ?? [])
-    .filter(r => r.type === RELATION_HAS_PART)
-    .map(r => r.targetRef)
-    .filter(
-      ref => (parseEntityRef(ref).kind ?? '').toLowerCase() === 'component',
-    );
+  const componentRefs = Array.from(
+    new Set(
+      (system.relations ?? [])
+        .filter(r => r.type === RELATION_HAS_PART)
+        .map(r => r.targetRef)
+        .filter(
+          ref => (parseEntityRef(ref).kind ?? '').toLowerCase() === 'component',
+        ),
+    ),
+  );
 
   const { data, isPending, error } = useQuery<string[]>({
-    queryKey: ['system-components', system.metadata.name, componentRefs],
+    queryKey: ['system-components', stringifyEntityRef(system)],
     queryFn: async () => {
+      if (componentRefs.length === 0) return [];
       const result = await catalog.getEntitiesByRefs({
         entityRefs: componentRefs,
       });
