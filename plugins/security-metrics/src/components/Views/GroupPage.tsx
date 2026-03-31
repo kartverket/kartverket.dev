@@ -30,10 +30,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { MetricsStatus } from '../MetricsStatus';
 import Alert from '@mui/material/Alert';
 import { useGroupMetrics } from '../../hooks/useGroupMetrics';
+import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/VulnerabilityOverviewTable';
 
 enum TabEnum {
   COMPONENT = 0,
   SYSTEM = 1,
+  VULNERABILITIES = 2,
 }
 
 export const GroupPage = () => {
@@ -47,16 +49,16 @@ export const GroupPage = () => {
 
   const { showTotal, toggleShowTotal } = useShowTrendTotal();
 
-  const {
-    data = [],
-    isLoading,
-    isEmpty,
-    error,
-    errorTitle,
-  } = useGroupMetrics(entity);
+  const { data, isLoading, isEmpty, error, errorTitle } =
+    useGroupMetrics(entity);
 
-  const permitted: RepositorySummary[] = getAllPermittedMetrics(data);
-  const notPermitted: string[] = getAllNotPermittedComponents(data);
+  const permitted: RepositorySummary[] = data
+    ? getAllPermittedMetrics(data)
+    : [];
+  const notPermitted: string[] = data ? getAllNotPermittedComponents(data) : [];
+  const secrets: Secrets[] = data ? getAllSecrets(data) : [];
+  const aggregatedVulnerabilities =
+    data?.vulnerabilityOverview?.vulnerabilities ?? [];
 
   const allComponentRefs = permitted.flatMap(p =>
     p.componentNames.map(n => `component:default/${n}`),
@@ -73,12 +75,10 @@ export const GroupPage = () => {
   );
 
   const filteredSystemsData = filterSystemsByComponents(
-    data,
+    data?.systems ?? [],
     new Set(filteredPermitted.map(c => c.repoName)),
     effectiveFilter,
   );
-
-  const secrets: Secrets[] = getAllSecrets(data);
 
   if (isLoading) return <Progress />;
 
@@ -179,7 +179,12 @@ export const GroupPage = () => {
       >
         <Tab label="Metrikker per komponent" value={TabEnum.COMPONENT} />
         <Tab label="Metrikker per system" value={TabEnum.SYSTEM} />
+        <Tab label="Unike sårbarheter" value={TabEnum.VULNERABILITIES} />
       </Tabs>
+
+      {selectedTab === TabEnum.VULNERABILITIES && (
+        <VulnerabilityOverviewTable data={aggregatedVulnerabilities} />
+      )}
 
       {selectedTab === TabEnum.COMPONENT && (
         <RepositoriesTable

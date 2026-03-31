@@ -1,10 +1,10 @@
 import { Entity } from '@backstage/catalog-model';
-import { SikkerhetsmetrikkerSystemTotal } from '../typesFrontend';
+import { AggregatedSikkerhetsmetrikker } from '../typesFrontend';
 import { useFetchComponentNamesByGroup } from './useFetchComponentNames';
 import { useMetricsQuery } from './useMetricsQuery';
 
 type UseGroupMetricsResult = {
-  data: SikkerhetsmetrikkerSystemTotal[] | undefined;
+  data: AggregatedSikkerhetsmetrikker | undefined;
   isLoading: boolean;
   isEmpty: boolean;
   error: Error | null;
