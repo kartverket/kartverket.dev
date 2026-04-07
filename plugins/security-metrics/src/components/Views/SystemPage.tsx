@@ -10,11 +10,6 @@ import { useEntity } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../ErrorBanner';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
 import {
-  Entity,
-  parseEntityRef,
-  RELATION_HAS_PART,
-} from '@backstage/catalog-model';
-import {
   getAllNotPermittedComponents,
   getAllPermittedMetrics,
   getAllSecrets,
@@ -26,38 +21,28 @@ import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-
-export function getComponentNamesFromSystem(system: Entity) {
-  const rels = system.relations ?? [];
-
-  const componentNames = rels
-    .filter(r => r.type === RELATION_HAS_PART)
-    .map(r => parseEntityRef(r.targetRef))
-    .filter(ref => (ref.kind ?? '').toLowerCase() === 'component')
-    .map(ref => ref.name);
-
-  return componentNames;
-}
+import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
 
 export const SystemPage = () => {
   const { entity: system } = useEntity();
 
-  const componentNames = getComponentNamesFromSystem(system);
+  const { componentNames, componentNamesIsLoading, componentNamesError } =
+    useFetchComponentNamesFromSystem(system);
 
   const { showTotal, toggleShowTotal } = useShowTrendTotal();
   const [openViewSettings, setOpenViewSettings] = useState(false);
 
   const { data, isPending, error } = useMetricsQuery(componentNames);
 
-  if (error)
+  if (error || componentNamesError)
     return (
       <ErrorBanner
         errorTitle={`Kunne ikke hente metrikker for systemet ${system.metadata.name}`}
-        errorMessage={error.message}
+        errorMessage={error ? error.message : componentNamesError?.message}
       />
     );
 
-  if (isPending) return <Progress />;
+  if (componentNamesIsLoading || isPending) return <Progress />;
 
   const secrets: Secrets[] = getAllSecrets(data);
   const permitted: RepositorySummary[] = getAllPermittedMetrics(data);

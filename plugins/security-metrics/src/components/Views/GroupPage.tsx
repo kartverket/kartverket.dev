@@ -18,7 +18,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
-import { useFetchComponentNamesByGroup } from '../../hooks/useFetchRepositoryNames';
+import { useFetchComponentNamesByGroup } from '../../hooks/useFetchComponentNames';
 import NoAccessAlert from '../NoAccessAlert';
 import Button from '@mui/material/Button';
 import TuneIcon from '@mui/icons-material/Tune';
