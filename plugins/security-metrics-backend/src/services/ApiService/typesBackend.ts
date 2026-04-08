@@ -1,3 +1,11 @@
+export type MetricsUpdateStatus = {
+  dependabot: boolean;
+  sysdig: boolean;
+  codeScanning: boolean;
+  secretScanning: boolean;
+  riscMetrics: boolean;
+};
+
 export type FetchMetricsRequestBody = {
   componentNames: string[];
   entraIdToken: string;

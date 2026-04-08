@@ -33,7 +33,8 @@ export const useConfig = (type: MetricTypes): UseConfigReturn => {
 
   const endpointUrl = new URL(
     type === MetricTypes.changeStatusVulnerability ||
-      type === MetricTypes.configureNotifications
+      type === MetricTypes.configureNotifications ||
+      type === MetricTypes.metricsUpdateStatus
       ? `${backendUrl}/api/security-metrics/proxy/${type}`
       : `${backendUrl}/api/security-metrics/proxy/fetch-${type}`,
   );
