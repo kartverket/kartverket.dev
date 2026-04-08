@@ -22,7 +22,11 @@ import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
-import { Entity, parseEntityRef, RELATION_HAS_PART } from '@backstage/catalog-model';
+import {
+  Entity,
+  parseEntityRef,
+  RELATION_HAS_PART,
+} from '@backstage/catalog-model';
 import { MetricsStatus } from '../MetricsStatus';
 
 export function getComponentNamesFromSystem(system: Entity) {

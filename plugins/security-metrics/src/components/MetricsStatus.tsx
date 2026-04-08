@@ -66,14 +66,12 @@ export const MetricsStatus = () => {
                   <Stack direction="row" spacing={1} alignItems="center">
                     <WarningAmberIcon fontSize="small" />
                     <Typography variant="body2">
-                      Ikke oppdatert de siste 24 timene
+                      Ikke oppdatert i natt
                     </Typography>
                   </Stack>
                   <Stack direction="row" spacing={1} alignItems="center">
                     <CheckCircleOutlineIcon fontSize="small" />
-                    <Typography variant="body2">
-                      Oppdatert de siste 24 timene
-                    </Typography>
+                    <Typography variant="body2">Oppdatert i natt</Typography>
                   </Stack>
                 </Stack>
               </Box>
