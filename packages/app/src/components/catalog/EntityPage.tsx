@@ -26,11 +26,10 @@ const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
     <Grid size={{ xs: 12, md: 6 }}>
-      <EntityAboutCard variant="gridItem" />
+      <EntityAboutCard />
     </Grid>
     <Grid size={{ xs: 12, md: 6 }}>
       <EntityCatalogGraphCard
-        variant="gridItem"
         height={400}
         kinds={['component', 'api', 'system', 'resource']}
         maxDepth={2}
@@ -40,7 +39,7 @@ const overviewContent = (
       <EntityLinksCard />
     </Grid>
     <Grid size={12}>
-      <EntityHasSubcomponentsCard variant="gridItem" />
+      <EntityHasSubcomponentsCard />
     </Grid>
     {grafanaContent}
   </Grid>
