@@ -13,10 +13,51 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import TagIcon from '@mui/icons-material/Tag';
 import { useEffect, useRef, useState } from 'react';
 import { useConfigureSlackNotificationsQuery } from '../hooks/useConfigureSlackNotificationsQuery';
 import { useSlackNotificationsConfigQuery } from '../hooks/useSlackNotificationsConfigQuery';
 import { ErrorBanner } from './ErrorBanner';
+
+const LastNotificationRunStatus = ({
+  lastNotificationRunAt,
+}: {
+  lastNotificationRunAt?: string;
+}) => {
+  let bgColor = 'grey.500';
+  let label = 'Siste sårbarhetssjekk mot kanal: aldri kjørt';
+
+  if (lastNotificationRunAt) {
+    const date = new Date(lastNotificationRunAt);
+    const isRecent = Date.now() - date.getTime() < 24 * 60 * 60 * 1000;
+    bgColor = isRecent ? 'success.main' : 'error.main';
+    label = `Siste sårbarhetssjekk mot kanal: ${date.toLocaleString('nb-NO', {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    })}`;
+  }
+
+  return (
+    <Box
+      sx={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '8px',
+        bgcolor: bgColor,
+        color: 'white',
+        borderRadius: '8px',
+        px: 2,
+        py: 1,
+        alignSelf: 'flex-start',
+      }}
+    >
+      <TagIcon fontSize="small" />
+      <Typography variant="body2" sx={{ color: 'inherit', fontWeight: 500 }}>
+        {label}
+      </Typography>
+    </Box>
+  );
+};
 
 interface Props {
   openNotificationsDialog: boolean;
@@ -233,6 +274,9 @@ export const SlackNotificationDialog = ({
             />
           ))}
         </FormGroup>
+        <LastNotificationRunStatus
+          lastNotificationRunAt={configQuery.data?.lastNotificationRunAt}
+        />
         {error && (
           <ErrorBanner
             errorTitle="Kunne ikke lagre konfigurasjonen"

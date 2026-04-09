@@ -9,6 +9,7 @@ export type SlackNotificationConfig = {
   channelId: string;
   componentNames: string[];
   severity: string[];
+  lastNotificationRunAt?: string;
 };
 
 export const useSlackNotificationsConfigQuery = (
