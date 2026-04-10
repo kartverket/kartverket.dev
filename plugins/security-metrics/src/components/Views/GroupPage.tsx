@@ -69,12 +69,7 @@ export const GroupPage = () => {
     p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
   );
 
-  if (componentNames.length === 0 || data?.length === 0)
-    return (
-      <Alert severity="info">
-        Finner ingen komponenter som har sikkerhetsmetrikker
-      </Alert>
-    );
+  if (componentNamesIsLoading || isPending) return <Progress />;
 
   if (error || componentNamesError)
     return (
@@ -84,7 +79,12 @@ export const GroupPage = () => {
       />
     );
 
-  if (componentNamesIsLoading || isPending) return <Progress />;
+  if (componentNames.length === 0 || data?.length === 0)
+    return (
+      <Alert severity="info">
+        Finner ingen komponenter som har sikkerhetsmetrikker
+      </Alert>
+    );
 
   const filteredSystemsData = filterSystemsByComponents(
     data,

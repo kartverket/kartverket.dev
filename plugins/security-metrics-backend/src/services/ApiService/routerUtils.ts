@@ -16,38 +16,34 @@ export const errorResponse = (
 export const unknownErrorResponse = (message: string): ErrorResponse =>
   errorResponse(500, 'UNKNOWN_ERROR', message);
 
-const validateToken = (
+const validateToken = async (
   token: string | undefined,
   auth: AuthService,
-): string | null => {
+): Promise<string | null> => {
   if (!token?.startsWith('Bearer ')) {
     return null;
   }
-
   const formattedToken = token.substring(7).trim();
   if (!formattedToken) {
     return null;
   }
-
-  const credentials = auth.authenticate(formattedToken);
-  if (!credentials) {
+  try {
+    await auth.authenticate(formattedToken);
+  } catch {
     return null;
   }
-
   return formattedToken;
 };
 
-export const requireBackstageToken = (
+export const requireBackstageToken = async (
   req: express.Request,
   auth: AuthService,
-): ErrorResponse | null => {
+): Promise<ErrorResponse | null> => {
   const backstageToken = req.header('Authorization');
-  const validToken = validateToken(backstageToken, auth);
-
+  const validToken = await validateToken(backstageToken, auth);
   if (!validToken || !backstageToken) {
     return errorResponse(401, 'UNAUTHORIZED', 'Token is not valid');
   }
-
   return null;
 };
 

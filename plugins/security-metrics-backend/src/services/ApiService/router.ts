@@ -77,7 +77,7 @@ export const createRouter = async (
       logger,
       'Failed to fetch metrics update status',
       async (req, res) => {
-        const authError = requireBackstageToken(req, auth);
+        const authError = await requireBackstageToken(req, auth);
         if (authError) {
           return res.status(authError.status).send(authError);
         }
@@ -102,7 +102,7 @@ export const createRouter = async (
       logger,
       'Failed to fetch metrics data',
       async (req, res) => {
-        const authError = requireBackstageToken(req, auth);
+        const authError = await requireBackstageToken(req, auth);
         if (authError) {
           return res.status(authError.status).send(authError);
         }
@@ -124,7 +124,7 @@ export const createRouter = async (
       logger,
       'Failed to fetch metrics data',
       async (req, res) => {
-        const authError = requireBackstageToken(req, auth);
+        const authError = await requireBackstageToken(req, auth);
         if (authError) {
           return res.status(authError.status).send(authError);
         }
@@ -163,7 +163,7 @@ export const createRouter = async (
       logger,
       'Failed to fetch vulnerability trends data',
       async (req, res) => {
-        const authError = requireBackstageToken(req, auth);
+        const authError = await requireBackstageToken(req, auth);
         if (authError) {
           return res.status(authError.status).send(authError);
         }
@@ -187,7 +187,7 @@ export const createRouter = async (
       logger,
       'Failed to change status of vulnerability',
       async (req, res) => {
-        const authError = requireBackstageToken(req, auth);
+        const authError = await requireBackstageToken(req, auth);
         if (authError) {
           return res.status(authError.status).send(authError);
         }
@@ -214,7 +214,7 @@ export const createRouter = async (
       logger,
       'Failed to configure notifications',
       async (req, res) => {
-        const authError = requireBackstageToken(req, auth);
+        const authError = await requireBackstageToken(req, auth);
         if (authError) {
           return res.status(authError.status).send(authError);
         }
@@ -240,7 +240,7 @@ export const createRouter = async (
       logger,
       'Failed to fetch notifications config',
       async (req, res) => {
-        const authError = requireBackstageToken(req, auth);
+        const authError = await requireBackstageToken(req, auth);
         if (authError) {
           return res.status(authError.status).send(authError);
         }
