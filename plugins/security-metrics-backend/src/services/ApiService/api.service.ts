@@ -1,20 +1,21 @@
+import { LoggerService } from '@backstage/backend-plugin-api';
+import { Either, Left, Right } from '../../Either';
+import { errorHandling } from '../../Errors';
 import { EntraIdService } from '../EntraIdService/auth.service';
 import {
+  ErrorResponse,
   MetricsUpdateStatus,
   Repository,
-  SecurityChamp,
   SeverityCounts,
   SikkerhetsmetrikkerSystemTotal,
   SlackNotificationConfig,
   Status,
   VulnerabilitySeverityCounts,
 } from './typesBackend';
-import { LoggerService } from '@backstage/backend-plugin-api';
-import { ApiError, errorHandling, OurOwnErrorMessages } from '../../Errors';
-import { Either, Left, Right } from '../../Either';
 
 export class ApiService {
   private readonly baseUrl: string;
+  private readonly upstreamOrigin: string;
   private entraIdService: EntraIdService;
   private logger: LoggerService;
 
@@ -24,159 +25,174 @@ export class ApiService {
     logger: LoggerService,
   ) {
     this.baseUrl = baseUrl;
+    this.upstreamOrigin = new URL(baseUrl).origin;
     this.entraIdService = entraIdService;
     this.logger = logger;
   }
 
-  async fetchSecurityChampionInfo(
-    repositoryNames: string[],
+  private async getSmapiToken(
     entraIdToken: string,
-  ): Promise<Either<ApiError, SecurityChamp[]>> {
-    const endpointUrl = new URL(`${this.baseUrl}/api/securityChampion`);
-
+  ): Promise<Either<ErrorResponse, string>> {
     const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
 
     if (!smapiToken) {
-      throw new Error('Failed to fetch token for Security-metrics API');
+      return Left.create({
+        status: 401,
+        code: 'TOKEN_FETCH_FAILED',
+        message: 'Fikk ikke tak i token for sikkerhetsmetrikker-APIet',
+      });
+    }
+
+    return Right.create(smapiToken);
+  }
+
+  private getAuthorizedHeaders(
+    smApiToken: string,
+    initHeaders?: HeadersInit,
+  ): HeadersInit {
+    return {
+      Accept: 'application/json',
+      Authorization: `Bearer ${smApiToken}`,
+      ...(initHeaders ?? {}),
+    };
+  }
+
+  private buildEndpoint(
+    path: string,
+    query?: Record<string, string | undefined>,
+  ): Either<ErrorResponse, URL> {
+    const endpoint = new URL(path, this.baseUrl);
+
+    if (
+      endpoint.origin !== this.upstreamOrigin ||
+      !(
+        [
+          '/api/scannerData',
+          '/api/oppdateringer/alertsMetadata/status',
+          '/api/slack/configure-notifications',
+        ].includes(endpoint.pathname) ||
+        endpoint.pathname.startsWith('/api/scannerData/')
+      )
+    ) {
+      return Left.create({
+        status: 500,
+        code: 'INVALID_UPSTREAM_ENDPOINT',
+        message: 'Ugyldig upstream-endpoint.',
+      });
+    }
+
+    Object.entries(query ?? {}).forEach(([key, value]) => {
+      if (value !== undefined) {
+        endpoint.searchParams.set(key, value);
+      }
+    });
+
+    return Right.create(endpoint);
+  }
+
+  private async request<T>(
+    endpoint: URL,
+    entraIdToken: string,
+    init: RequestInit,
+    parseSuccess: (response: Response) => Promise<T>,
+    upstreamErrorMessage: string,
+  ): Promise<Either<ErrorResponse, T>> {
+    const tokenResult = await this.getSmapiToken(entraIdToken);
+    if (tokenResult.isLeft()) {
+      return Left.create(tokenResult.error);
     }
 
     try {
-      const response = await fetch(`${endpointUrl}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ repositoryNames: repositoryNames }),
+      const response = await fetch(endpoint.toString(), {
+        ...init,
+        headers: this.getAuthorizedHeaders(tokenResult.value, init.headers),
       });
 
       if (response.ok) {
-        const securityChampion: SecurityChamp[] = await response.json();
-        return Right.create(securityChampion);
+        return Right.create(await parseSuccess(response));
       }
-      return errorHandling(response);
+
+      return Left.create(await errorHandling(response));
     } catch (error) {
       this.logger.error(
-        `Security champion API returned error ${error} from endpoint ${endpointUrl}`,
+        `Security-metrics API returned error ${error} from endpoint ${endpoint.toString()}`,
       );
-      throw new Error(`Security champion API returned error: ${error}`);
+
+      return Left.create({
+        status: 503,
+        code: 'UPSTREAM_REQUEST_FAILED',
+        message: upstreamErrorMessage,
+      });
     }
   }
 
   async fetchMetricsData(
     componentNames: string[],
     entraIdToken: string,
-  ): Promise<Either<ApiError, SikkerhetsmetrikkerSystemTotal[]>> {
-    const endpointUrl = new URL(`${this.baseUrl}/api/scannerData`);
-    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
-
-    if (!smapiToken) {
-      throw new Error('Failed to fetch token for Security-metrics API');
+  ): Promise<Either<ErrorResponse, SikkerhetsmetrikkerSystemTotal[]>> {
+    const endpointResult = this.buildEndpoint('/api/scannerData');
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
     }
 
-    try {
-      const response = await fetch(`${endpointUrl}`, {
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
         method: 'POST',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
         },
-        body: JSON.stringify({ componentNames: componentNames }),
-      });
-
-      if (response.ok) {
-        const repositories: SikkerhetsmetrikkerSystemTotal[] =
-          await response.json();
-        return Right.create(repositories);
-      }
-      return errorHandling(response);
-    } catch (error) {
-      this.logger.error(
-        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
-      );
-      return Left.create({
-        statusCode: 500,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-        error: error,
-      });
-    }
-  }
-
-  async fetchMetricsUpdateStatus(
-    entraIdToken: string,
-  ): Promise<Either<ApiError, MetricsUpdateStatus>> {
-    const endpointUrl = new URL(`${this.baseUrl}/api/scannerData/status`);
-    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
-
-    if (!smapiToken) {
-      throw new Error('Failed to fetch token for Security-metrics API');
-    }
-
-    try {
-      const response = await fetch(`${endpointUrl}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
-        },
-      });
-
-      if (response.ok) {
-        const status: MetricsUpdateStatus = await response.json();
-        return Right.create(status);
-      }
-      return errorHandling(response);
-    } catch (error) {
-      this.logger.error(
-        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
-      );
-      return Left.create({
-        statusCode: 500,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-        error: error,
-      });
-    }
+        body: JSON.stringify({ componentNames }),
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
   }
 
   async fetchComponentMetricsData(
     componentName: string,
     entraIdToken: string,
-  ): Promise<Either<ApiError, Repository>> {
-    const endpointUrl = new URL(
-      `${this.baseUrl}/api/scannerData/${componentName}`,
+  ): Promise<Either<ErrorResponse, Repository>> {
+    const safeComponentName = encodeURIComponent(componentName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeComponentName}`,
     );
-    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
-
-    if (!smapiToken) {
-      throw new Error('Failed to fetch token for Security-metrics API');
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
     }
 
-    try {
-      const response = await fetch(`${endpointUrl}`, {
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
         method: 'GET',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
         },
-      });
-      if (response.ok) {
-        const repository: Repository = await response.json();
-        return Right.create(repository);
-      }
-      return errorHandling(response);
-    } catch (error) {
-      this.logger.error(
-        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
-      );
-      return Left.create({
-        statusCode: 500,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-        error: error,
-      });
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
+  }
+
+  async fetchMetricsUpdateStatus(
+    entraIdToken: string,
+  ): Promise<Either<ErrorResponse, MetricsUpdateStatus>> {
+    const endpointResult = this.buildEndpoint('/api/scannerData/status');
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
     }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'GET',
+      },
+      response => response.json(),
+      'Kunne ikke hente oppdateringsstatus fordi tjenesten for sikkerhetsmetrikker er utilgjengelig.',
+    );
   }
 
   async fetchVulnerabilityTrendsData(
@@ -184,49 +200,35 @@ export class ApiService {
     fromDate: Date,
     toDate: Date,
     entraIdToken: string,
-  ): Promise<Either<ApiError, SeverityCounts[]>> {
-    const endpointUrl = new URL(`${this.baseUrl}/api/scannerData/trends`);
-    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
-
-    if (!smapiToken) {
-      throw new Error('Failed to fetch token for Security-metrics API');
+  ): Promise<Either<ErrorResponse, SeverityCounts[]>> {
+    const endpointResult = this.buildEndpoint('/api/scannerData/trends');
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
     }
 
-    try {
-      const response = await fetch(`${endpointUrl}`, {
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
         method: 'POST',
         headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          componentNames: componentNames,
-          fromDate: fromDate,
-          toDate: toDate,
+          componentNames,
+          fromDate,
+          toDate,
         }),
-      });
-
-      if (response.ok) {
+      },
+      async response => {
         const severityCounts: VulnerabilitySeverityCounts[] =
           await response.json();
-        return Right.create(
-          severityCounts.flatMap(
-            repositoryCounts => repositoryCounts.severityCounts,
-          ),
+        return severityCounts.flatMap(
+          repositoryCounts => repositoryCounts.severityCounts,
         );
-      }
-      return errorHandling(response);
-    } catch (error) {
-      this.logger.error(
-        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
-      );
-      return Left.create({
-        statusCode: 500,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-        error: error,
-      });
-    }
+      },
+      'Kunne ikke hente trenddata fordi tjenesten for sikkerhetsmetrikker er utilgjengelig.',
+    );
   }
 
   async changeStatusVulnerability(
@@ -236,21 +238,21 @@ export class ApiService {
     comment: string | undefined,
     changedBy: string | undefined,
     entraIdToken: string,
-  ): Promise<Either<ApiError, void>> {
-    const endpointUrl = `${this.baseUrl}/api/oppdateringer/alertsMetadata/status`;
-    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
-
-    if (!smapiToken) {
-      throw new Error('Failed to fetch token for Security-metrics API');
+  ): Promise<Either<ErrorResponse, void>> {
+    const endpointResult = this.buildEndpoint(
+      '/api/oppdateringer/alertsMetadata/status',
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
     }
 
-    try {
-      const response = await fetch(endpointUrl, {
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
         method: 'PUT',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
         },
         body: JSON.stringify({
           componentName,
@@ -259,22 +261,10 @@ export class ApiService {
           comment,
           changedBy,
         }),
-      });
-
-      if (response.status === 204) {
-        return Right.create(undefined);
-      }
-      return errorHandling(response);
-    } catch (error) {
-      this.logger.error(
-        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
-      );
-      return Left.create({
-        statusCode: 500,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-        error,
-      });
-    }
+      },
+      async () => undefined,
+      'Kunne ikke endre status fordi tjenesten for sikkerhetsmetrikker er utilgjengelig.',
+    );
   }
 
   async configureNotifications(
@@ -283,21 +273,21 @@ export class ApiService {
     channelId: string,
     entraIdToken: string,
     severity?: string[],
-  ): Promise<Either<ApiError, void>> {
-    const endpointUrl = `${this.baseUrl}/api/slack/configure-notifications`;
-    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
-
-    if (!smapiToken) {
-      throw new Error('Failed to fetch token for Security-metrics API');
+  ): Promise<Either<ErrorResponse, void>> {
+    const endpointResult = this.buildEndpoint(
+      '/api/slack/configure-notifications',
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
     }
 
-    try {
-      const response = await fetch(endpointUrl, {
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
         method: 'PUT',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
         },
         body: JSON.stringify({
           teamName,
@@ -305,56 +295,32 @@ export class ApiService {
           channelId,
           severity,
         }),
-      });
-
-      if (response.ok) {
-        return Right.create(undefined);
-      }
-      return errorHandling(response);
-    } catch (error) {
-      this.logger.error(
-        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
-      );
-      return Left.create({
-        statusCode: 500,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-        error,
-      });
-    }
+      },
+      async () => undefined,
+      'Kunne ikke konfigurere varslinger fordi tjenesten for sikkerhetsmetrikker er utilgjengelig.',
+    );
   }
 
   async getNotificationsConfig(
     teamName: string,
     entraIdToken: string,
-  ): Promise<Either<ApiError, SlackNotificationConfig>> {
-    const endpointUrl = `${this.baseUrl}/api/slack/configure-notifications?teamName=${encodeURIComponent(teamName)}`;
-    const smapiToken = await this.entraIdService.getOboToken(entraIdToken);
-
-    if (!smapiToken)
-      throw new Error('Failed to fetch token for Security-metrics API');
-
-    try {
-      const response = await fetch(endpointUrl, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${smapiToken}`,
-        },
-      });
-
-      if (response.ok) {
-        return Right.create(await response.json());
-      }
-      return errorHandling(response);
-    } catch (error) {
-      this.logger.error(
-        `Security-metrics API returned error ${error} from endpoint ${endpointUrl}`,
-      );
-      return Left.create({
-        statusCode: 500,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-        error,
-      });
+  ): Promise<Either<ErrorResponse, SlackNotificationConfig>> {
+    const endpointResult = this.buildEndpoint(
+      '/api/slack/configure-notifications',
+      { teamName },
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
     }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'GET',
+      },
+      response => response.json(),
+      'Kunne ikke hente konfigurasjon for varslinger fordi tjenesten for sikkerhetsmetrikker er utilgjengelig.',
+    );
   }
 }

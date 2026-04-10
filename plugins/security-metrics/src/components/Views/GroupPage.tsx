@@ -30,6 +30,7 @@ import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
 import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { MetricsStatus } from '../MetricsStatus';
+import Alert from '@mui/material/Alert';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -68,6 +69,8 @@ export const GroupPage = () => {
     p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
   );
 
+  if (componentNamesIsLoading || isPending) return <Progress />;
+
   if (error || componentNamesError)
     return (
       <ErrorBanner
@@ -76,7 +79,12 @@ export const GroupPage = () => {
       />
     );
 
-  if (componentNamesIsLoading || isPending) return <Progress />;
+  if (componentNames.length === 0 || data?.length === 0)
+    return (
+      <Alert severity="info">
+        Finner ingen komponenter som har sikkerhetsmetrikker
+      </Alert>
+    );
 
   const filteredSystemsData = filterSystemsByComponents(
     data,

@@ -1,53 +1,28 @@
-import { StatusCodes } from 'http-status-codes';
-import { Left } from './Either';
+import { ErrorBody, ErrorResponse } from './services/ApiService/typesBackend';
 
-export enum OurOwnErrorMessages {
-  UNKNOWN_ERROR = 'Vi har fått en ny API-feil som vi ikke har håndtert enda',
-}
+export async function errorHandling(
+  response: Response,
+): Promise<ErrorResponse> {
+  let errorBody: ErrorBody | undefined;
 
-export type ApiError = {
-  statusCode: StatusCodes;
-  frontendMessage?: OurOwnErrorMessages;
-  error?: any;
-};
+  try {
+    const contentType = response.headers.get('content-type') ?? '';
 
-export function errorHandling(response: Response) {
-  switch (response.status) {
-    case 400: {
-      return Left.create<ApiError>({
-        statusCode: StatusCodes.BAD_REQUEST,
-      });
+    if (contentType.includes('application/json')) {
+      errorBody = (await response.json()) as ErrorBody;
+    } else {
+      const text = await response.text();
+      errorBody = text ? { message: text } : undefined;
     }
-    case 401: {
-      return Left.create<ApiError>({
-        statusCode: StatusCodes.UNAUTHORIZED,
-      });
-    }
-    case 403: {
-      return Left.create<ApiError>({
-        statusCode: StatusCodes.FORBIDDEN,
-      });
-    }
-    case 404: {
-      return Left.create<ApiError>({
-        statusCode: StatusCodes.NOT_FOUND,
-      });
-    }
-    case 500: {
-      return Left.create<ApiError>({
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      });
-    }
-    case 503: {
-      return Left.create<ApiError>({
-        statusCode: StatusCodes.SERVICE_UNAVAILABLE,
-      });
-    }
-    default: {
-      return Left.create<ApiError>({
-        statusCode: response.status,
-        frontendMessage: OurOwnErrorMessages.UNKNOWN_ERROR,
-      });
-    }
+  } catch {
+    errorBody = undefined;
   }
+
+  return {
+    status: errorBody?.status ?? response.status,
+    code: errorBody?.code ?? 'UNKNOWN_ERROR',
+    message:
+      errorBody?.message ??
+      'Vi har fått en API-feil som vi ikke har håndtert enda',
+  };
 }
