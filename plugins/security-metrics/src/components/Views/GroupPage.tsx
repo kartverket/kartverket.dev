@@ -18,7 +18,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
-import { useFetchComponentNamesByGroup } from '../../hooks/useFetchRepositoryNames';
+import { useFetchComponentNamesByGroup } from '../../hooks/useFetchComponentNames';
 import NoAccessAlert from '../NoAccessAlert';
 import Button from '@mui/material/Button';
 import TuneIcon from '@mui/icons-material/Tune';
@@ -29,6 +29,7 @@ import { filterSystemsByComponents } from '../utils';
 import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
 import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { MetricsStatus } from '../MetricsStatus';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -87,7 +88,8 @@ export const GroupPage = () => {
 
   return (
     <Stack gap={2}>
-      <Stack flexDirection="row" alignItems="center">
+      <Stack flexDirection="row" alignItems="center" gap={2}>
+        <MetricsStatus />
         <Stack
           flexDirection="row"
           gap={2}
@@ -98,7 +100,7 @@ export const GroupPage = () => {
           <SecretsAlert secretsOverviewData={secrets} />
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
-        <Box display="flex" alignItems="center" mr={0.5} ml={2}>
+        <Box display="flex" alignItems="center" gap={0.5}>
           <Button
             variant="text"
             startIcon={<TuneIcon />}
@@ -121,26 +123,28 @@ export const GroupPage = () => {
             showTotal={showTotal}
             onToggleShowTotal={toggleShowTotal}
           />
+          <Button
+            variant="text"
+            startIcon={<SettingsIcon />}
+            color="primary"
+            onClick={() => setOpenNotificationsDialog(true)}
+          >
+            Konfigurer varsling
+          </Button>
+          <SlackNotificationDialog
+            openNotificationsDialog={openNotificationsDialog}
+            handleCloseNotificationsDialog={() =>
+              setOpenNotificationsDialog(false)
+            }
+            channel={channel}
+            setChannel={setChannel}
+            permittedComponents={filteredPermitted.flatMap(
+              c => c.componentNames,
+            )}
+            notPermitted={notPermitted}
+          />
+          <SupportButton />
         </Box>
-        <Button
-          variant="text"
-          startIcon={<SettingsIcon />}
-          color="primary"
-          onClick={() => setOpenNotificationsDialog(true)}
-        >
-          Konfigurer varsling
-        </Button>
-        <SlackNotificationDialog
-          openNotificationsDialog={openNotificationsDialog}
-          handleCloseNotificationsDialog={() =>
-            setOpenNotificationsDialog(false)
-          }
-          channel={channel}
-          setChannel={setChannel}
-          permittedComponents={filteredPermitted.flatMap(c => c.componentNames)}
-          notPermitted={notPermitted}
-        />
-        <SupportButton />
       </Stack>
 
       <Box

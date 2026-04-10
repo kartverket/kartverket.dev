@@ -5,4 +5,5 @@ export enum MetricTypes {
   riscStatus = 'risc-status',
   changeStatusVulnerability = 'change-status-vulnerability',
   configureNotifications = 'configure-notifications',
+  metricsUpdateStatus = 'metrics-update-status',
 }
