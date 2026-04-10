@@ -69,6 +69,13 @@ export const GroupPage = () => {
     p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
   );
 
+  if (componentNames.length === 0)
+    return (
+      <Alert severity="info">
+        Finner ingen komponenter som har sikkerhetsmetrikker
+      </Alert>
+    );
+
   if (componentNamesIsLoading || isPending) return <Progress />;
 
   if (error || componentNamesError)
@@ -77,13 +84,6 @@ export const GroupPage = () => {
         errorTitle={`Kunne ikke hente ${error ? 'metrikker' : 'reponavn'} for ${entity.metadata.name}`}
         errorMessage={error ? error.message : componentNamesError?.message}
       />
-    );
-
-  if (componentNames.length === 0 || data?.length === 0)
-    return (
-      <Alert severity="info">
-        Finner ingen komponenter som har sikkerhetsmetrikker
-      </Alert>
     );
 
   const filteredSystemsData = filterSystemsByComponents(
