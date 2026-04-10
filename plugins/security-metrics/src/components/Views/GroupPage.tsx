@@ -69,6 +69,16 @@ export const GroupPage = () => {
     p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
   );
 
+  if (componentNamesIsLoading) return <Progress />;
+
+  if (componentNamesError)
+    return (
+      <ErrorBanner
+        errorTitle={`Kunne ikke hente reponavn for ${entity.metadata.name}`}
+        errorMessage={componentNamesError.message}
+      />
+    );
+
   if (componentNames.length === 0)
     return (
       <Alert severity="info">
@@ -76,13 +86,13 @@ export const GroupPage = () => {
       </Alert>
     );
 
-  if (componentNamesIsLoading || isPending) return <Progress />;
+  if (isPending) return <Progress />;
 
-  if (error || componentNamesError)
+  if (error)
     return (
       <ErrorBanner
-        errorTitle={`Kunne ikke hente ${error ? 'metrikker' : 'reponavn'} for ${entity.metadata.name}`}
-        errorMessage={error ? error.message : componentNamesError?.message}
+        errorTitle={`Kunne ikke hente metrikker for ${entity.metadata.name}`}
+        errorMessage={error.message}
       />
     );
 
