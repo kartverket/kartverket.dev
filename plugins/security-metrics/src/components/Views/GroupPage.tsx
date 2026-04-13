@@ -17,8 +17,6 @@ import {
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
-import { useMetricsQuery } from '../../hooks/useMetricsQuery';
-import { useFetchComponentNamesByGroup } from '../../hooks/useFetchComponentNames';
 import NoAccessAlert from '../NoAccessAlert';
 import Button from '@mui/material/Button';
 import TuneIcon from '@mui/icons-material/Tune';
@@ -31,6 +29,7 @@ import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { MetricsStatus } from '../MetricsStatus';
 import Alert from '@mui/material/Alert';
+import { useGroupMetrics } from '../../hooks/useGroupMetrics';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -48,12 +47,16 @@ export const GroupPage = () => {
 
   const { showTotal, toggleShowTotal } = useShowTrendTotal();
 
-  const { componentNames, componentNamesIsLoading, componentNamesError } =
-    useFetchComponentNamesByGroup(entity);
-  const { data, isPending, error } = useMetricsQuery(componentNames);
+  const {
+    data = [],
+    isLoading,
+    isEmpty,
+    error,
+    errorTitle,
+  } = useGroupMetrics(entity);
 
-  const permitted: RepositorySummary[] = getAllPermittedMetrics(data ?? []);
-  const notPermitted: string[] = getAllNotPermittedComponents(data ?? []);
+  const permitted: RepositorySummary[] = getAllPermittedMetrics(data);
+  const notPermitted: string[] = getAllNotPermittedComponents(data);
 
   const allComponentRefs = permitted.flatMap(p =>
     p.componentNames.map(n => `component:default/${n}`),
@@ -69,23 +72,6 @@ export const GroupPage = () => {
     p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
   );
 
-  if (componentNames.length === 0)
-    return (
-      <Alert severity="info">
-        Finner ingen komponenter som har sikkerhetsmetrikker
-      </Alert>
-    );
-
-  if (componentNamesIsLoading || isPending) return <Progress />;
-
-  if (error || componentNamesError)
-    return (
-      <ErrorBanner
-        errorTitle={`Kunne ikke hente ${error ? 'metrikker' : 'reponavn'} for ${entity.metadata.name}`}
-        errorMessage={error ? error.message : componentNamesError?.message}
-      />
-    );
-
   const filteredSystemsData = filterSystemsByComponents(
     data,
     new Set(filteredPermitted.map(c => c.repoName)),
@@ -93,6 +79,20 @@ export const GroupPage = () => {
   );
 
   const secrets: Secrets[] = getAllSecrets(data);
+
+  if (isLoading) return <Progress />;
+
+  if (error) {
+    return <ErrorBanner errorTitle={errorTitle} errorMessage={error.message} />;
+  }
+
+  if (isEmpty) {
+    return (
+      <Alert severity="info">
+        Finner ingen komponenter som har sikkerhetsmetrikker
+      </Alert>
+    );
+  }
 
   return (
     <Stack gap={2}>
