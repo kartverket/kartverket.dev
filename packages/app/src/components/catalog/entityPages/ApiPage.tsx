@@ -18,20 +18,19 @@ export const apiPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid size={{ md: 6 }}>
-          <EntityAboutCard variant="gridItem" />
+          <EntityAboutCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <EntityCatalogGraphCard
             height={400}
-            variant="gridItem"
             kinds={['component', 'api', 'system', 'resource']}
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <EntityLinksCard variant="gridItem" />
+          <EntityLinksCard />
         </Grid>
         <Grid size={{ md: 6 }}>
-          <EntityProvidingComponentsCard variant="gridItem" />
+          <EntityProvidingComponentsCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>

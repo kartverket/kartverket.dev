@@ -33,11 +33,10 @@ export const systemPage = (
       <Grid container spacing={3} alignItems="stretch">
         {entityWarningContent}
         <Grid size={{ md: 6 }}>
-          <EntityAboutCard variant="gridItem" />
+          <EntityAboutCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             kinds={['component', 'system', 'domain', 'resource']}
             maxDepth={2}
@@ -47,13 +46,13 @@ export const systemPage = (
           <SecurityChampionCard />
         </Grid>
         <Grid size={{ md: 8 }}>
-          <EntityHasComponentsCard variant="gridItem" />
+          <EntityHasComponentsCard />
         </Grid>
         <Grid size={{ md: 6 }}>
-          <EntityHasApisCard variant="gridItem" />
+          <EntityHasApisCard />
         </Grid>
         <Grid size={{ md: 6 }}>
-          <EntityHasResourcesCard variant="gridItem" />
+          <EntityHasResourcesCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <EntityLinksCard />
@@ -65,7 +64,6 @@ export const systemPage = (
     </EntityLayout.Route>
     <EntityLayout.Route path="/diagram" title="Diagram">
       <EntityCatalogGraphCard
-        variant="gridItem"
         direction={Direction.TOP_BOTTOM}
         title="System Diagram"
         height={700}

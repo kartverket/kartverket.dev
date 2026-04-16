@@ -129,10 +129,10 @@ export const defaultComponentContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
     <Grid size={{ xs: 12, md: 6 }}>
-      <EntityAboutCard variant="gridItem" />
+      <EntityAboutCard />
     </Grid>
     <Grid size={{ xs: 12, md: 6 }}>
-      <EntityCatalogGraphCard variant="gridItem" height={400} />
+      <EntityCatalogGraphCard height={400} />
     </Grid>
     <Grid size={{ xs: 12, md: 4 }}>
       <SecurityChampionCard />
@@ -141,10 +141,10 @@ export const defaultComponentContent = (
       <EntityLinksCard />
     </Grid>
     <Grid size={12}>
-      <EntityHasSubcomponentsCard variant="gridItem" />
+      <EntityHasSubcomponentsCard />
     </Grid>
     <Grid size={12}>
-      <EntityFunctionsCard title="Functions" variant="gridItem" />
+      <EntityFunctionsCard title="Functions" />
     </Grid>
     {grafanaContent}
   </Grid>

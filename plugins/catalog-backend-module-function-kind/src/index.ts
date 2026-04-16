@@ -1,8 +1,8 @@
 import { createBackendModule } from '@backstage/backend-plugin-api';
-import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node/alpha';
+import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node';
 import { FunctionEntitiesProcessor } from './processor/FunctionEntitiesProcessor';
 
-export const catalogModuleFunctionEntities = createBackendModule({
+const catalogModuleFunctionEntities = createBackendModule({
   pluginId: 'catalog',
   moduleId: 'function-entities',
   register(env) {

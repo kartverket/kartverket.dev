@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@backstage/cli": "backstage:^",
+    "@backstage/cli-defaults": "backstage:^",
     "@jest/environment-jsdom-abstract": "^30.2.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.0.9",
@@ -72,7 +73,6 @@
     "lodash": "^4.17.23",
     "lodash-es": "^4.17.23",
     "prismjs": "^1.30.0",
-    "@backstage/cli-common": "^0.1.17",
     "basic-ftp": "^5.2.0",
     "multer": "^2.1.1",
     "svgo": "^2.8.1",
