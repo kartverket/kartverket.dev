@@ -27,13 +27,13 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 backend.add(import('@backstage/plugin-catalog-backend-module-openapi'));
 
 // Explore
-backend.add(import('@backstage-community/plugin-explore-backend'));
+// backend.add(import('@backstage-community/plugin-explore-backend'));
 
 // Devtools
 backend.add(import('@backstage/plugin-devtools-backend'));
 
 // Lighthouse
-backend.add(import('@backstage-community/plugin-lighthouse-backend'));
+// backend.add(import('@backstage-community/plugin-lighthouse-backend'));
 
 // Proxy
 backend.add(import('@backstage/plugin-proxy-backend'));

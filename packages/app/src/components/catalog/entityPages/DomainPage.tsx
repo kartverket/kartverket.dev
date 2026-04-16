@@ -14,11 +14,10 @@ export const domainPage = (
       <Grid container spacing={3} alignItems="stretch">
         {entityWarningContent}
         <Grid size={{ md: 6 }}>
-          <EntityAboutCard variant="gridItem" />
+          <EntityAboutCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             kinds={['System', 'Group', 'Domain']}
           />
@@ -27,7 +26,7 @@ export const domainPage = (
           <SecurityChampionCard />
         </Grid>
         <Grid size={{ md: 6 }}>
-          <EntityHasSystemsCard variant="gridItem" />
+          <EntityHasSystemsCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>

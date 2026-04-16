@@ -17,6 +17,20 @@ import {
 } from '@backstage/plugin-catalog-react';
 import { DefaultEntityPresentationApi } from '@backstage/plugin-catalog';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import {
+  type ToastApi,
+  toastApiRef,
+  type ToastApiMessage,
+  type ToastApiPostResult,
+} from '@backstage/frontend-plugin-api';
+
+const createToastApi = (): ToastApi => ({
+  post(_message: ToastApiMessage): ToastApiPostResult {
+    return {
+      close() {},
+    };
+  },
+});
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
@@ -45,6 +59,11 @@ export const apis: AnyApiFactory[] = [
           function: AccountTreeIcon,
         },
       }),
+  }),
+  createApiFactory({
+    api: toastApiRef,
+    deps: {},
+    factory: () => createToastApi(),
   }),
   ScmAuth.createDefaultApiFactory(),
 ];
