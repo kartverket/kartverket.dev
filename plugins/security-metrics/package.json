@@ -50,11 +50,7 @@
     "react-router-dom": "^6.30.3"
   },
   "devDependencies": {
-    "@backstage/cli": "backstage:^",
-    "@backstage/core-app-api": "backstage:^",
-    "@backstage/dev-utils": "backstage:^",
-    "@tanstack/eslint-plugin-query": "^5.83.1",
-    "msw": "^2.12.7"
+    "@backstage/cli": "backstage:^"
   },
   "files": [
     "dist"

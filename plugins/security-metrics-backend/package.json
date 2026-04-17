@@ -35,10 +35,7 @@
     "express-promise-router": "^4.1.1"
   },
   "devDependencies": {
-    "@backstage/cli": "backstage:^",
-    "@backstage/plugin-auth-backend": "backstage:^",
-    "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
-    "msw": "^2.12.7"
+    "@backstage/cli": "backstage:^"
   },
   "files": [
     "dist"
