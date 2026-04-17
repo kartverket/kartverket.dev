@@ -7,7 +7,6 @@ import {
   Vulnerability,
 } from '../typesFrontend';
 import { SCANNER_COLORS, SEVERITY_COLORS } from '../colors';
-import { Entity } from '@backstage/catalog-model';
 
 export const getStandardSeverityFormat = (severity: Severity) => {
   switch (severity) {
