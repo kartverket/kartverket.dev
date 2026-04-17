@@ -3,7 +3,6 @@ import { EntityLayout } from '@backstage/plugin-catalog';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import {
-  FunctionAboutCard,
   FunctionDependenciesCard,
   FunctionSecurityFormsCard,
 } from '@internal/plugin-frontend-custom-components';
@@ -12,6 +11,7 @@ import { CatalogCreatorPageComponent } from '@kartverket/backstage-plugin-catalo
 import { entityWarningContent } from './shared';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionEntityPageTranslationRef } from '../../../utils/translations';
+import { AboutCard } from '@internal/plugin-frontend-custom-components/src/components/AboutCard/FunctionAboutCard';
 
 export const FunctionEntityPage = () => {
   const { entity } = useEntity();
@@ -26,7 +26,7 @@ export const FunctionEntityPage = () => {
         <Grid container spacing={3} alignItems="stretch">
           {entityWarningContent}
           <Grid size={{ md: 6 }}>
-            <FunctionAboutCard title={t('functionEntityPage.aboutTitle')} />
+            <AboutCard title={t('functionEntityPage.aboutTitle')} />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <EntityCatalogGraphCard

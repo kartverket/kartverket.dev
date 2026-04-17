@@ -1,1 +1,0 @@
-export { FunctionAboutCard } from './FunctionAboutCard';

@@ -1,4 +1,3 @@
-export { FunctionAboutCard } from './components/AboutCard/FunctionAboutCard';
 export { FunctionDependenciesCard } from './components/FunctionDependenciesCard/FunctionDependenciesCard.tsx';
 export { FunctionSecurityFormsCard } from './components/FunctionSecurityFormsCard/FunctionSecurityFormsCard';
 export { EntityFunctionsCard } from './components/EntityFunctionsCard/EntityFunctionsCard';

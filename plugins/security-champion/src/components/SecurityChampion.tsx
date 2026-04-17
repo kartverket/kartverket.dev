@@ -8,7 +8,6 @@ import CardContent from '@mui/material/CardContent';
 import CircularProgress from '@mui/material/CircularProgress';
 import List from '@mui/material/List';
 import { useSecurityChampionsQuery } from '../hooks/useSecurityChampionsQuery';
-import UserSearch from './UserSearch';
 import { useSetSecurityChampionMutation } from '../hooks/useChangeSecurityChampionsQuery';
 import { Button } from '@backstage/ui';
 import { UserEntity } from '@backstage/catalog-model';
@@ -20,6 +19,7 @@ import { useMemo, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import { UserSearch } from './UserSearch';
 
 const CardWrapper = ({
   title,

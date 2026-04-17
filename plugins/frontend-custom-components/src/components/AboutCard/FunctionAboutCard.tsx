@@ -95,7 +95,7 @@ export interface InternalAboutCardProps extends AboutCardProps {
   subheader?: JSX.Element;
 }
 
-export function InternalAboutCard(props: InternalAboutCardProps) {
+function InternalAboutCard(props: InternalAboutCardProps) {
   const { variant } = props;
   const { classes } = useStyles();
   const { entity } = useEntity();

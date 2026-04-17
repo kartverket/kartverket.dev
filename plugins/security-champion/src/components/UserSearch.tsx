@@ -98,5 +98,3 @@ export const UserSearch = ({
     </div>
   );
 };
-
-export default UserSearch;
