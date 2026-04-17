@@ -1,6 +1,6 @@
-import { Control, FieldErrors } from 'react-hook-form';
+import { FieldErrors } from 'react-hook-form';
 import z from 'zod/v4';
-import { entitySchema, formSchema } from '../schemas/formSchema';
+import { entitySchema } from '../schemas/formSchema';
 
 export enum AllowedEntityKinds {
   Component = 'Component',
