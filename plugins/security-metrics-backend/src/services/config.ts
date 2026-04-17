@@ -1,6 +1,6 @@
 import { Config } from '@backstage/config';
 
-export type BackendConfig = {
+type BackendConfig = {
   environment: string;
   isUsingMock: boolean;
   backendBaseUrl: string;

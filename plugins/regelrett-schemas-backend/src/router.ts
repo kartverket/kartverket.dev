@@ -12,7 +12,7 @@ import { Config } from '@backstage/config';
 import { EntraIdService } from './services/entraIdService';
 import { ProxyApiService } from './services/proxyApiService';
 
-export interface RouterOptions {
+interface RouterOptions {
   auth: AuthService;
   logger: LoggerService;
   config: Config;

@@ -26,7 +26,7 @@ export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 /** @public */
 export type ColumnBreakpoints = Record<Breakpoint, number>;
 
-export interface LinksGridListItem {
+interface LinksGridListItem {
   href: string;
   text?: string;
   Icon?: IconComponent;

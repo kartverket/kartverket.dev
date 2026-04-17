@@ -9,7 +9,7 @@ import { TagField } from '../Autocompletes/TagField';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 
-export type SystemFormProps = {
+type SystemFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;

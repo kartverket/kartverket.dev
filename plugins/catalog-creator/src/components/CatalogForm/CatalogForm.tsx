@@ -34,7 +34,7 @@ import { FunctionForm } from './Forms/FunctionForm';
 import { EntityDescription } from './EntityDescription';
 import CallMergeIcon from '@mui/icons-material/CallMerge';
 
-export type CatalogFormProps = {
+type CatalogFormProps = {
   onSubmit: (data: FormEntity[]) => void;
   currentYaml: RequiredYamlFields[] | null;
   defaultName?: string;

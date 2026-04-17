@@ -123,12 +123,6 @@ export type RequiredYamlFields = {
   };
 };
 
-export type FormProps = {
-  index: number;
-  control: Control<z.infer<typeof formSchema>>;
-  errors: FieldErrors<z.infer<typeof formSchema>>;
-};
-
 type entity = z.infer<typeof entitySchema>;
 
 type ExtractEntity<T extends z.infer<typeof entitySchema>['kind']> = Extract<

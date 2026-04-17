@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { ApiError } from './types';
 
-export enum OurOwnErrorMessages {
+enum OurOwnErrorMessages {
   UNKNOWN_ERROR = 'Ukjent HTTP feil',
 }
 

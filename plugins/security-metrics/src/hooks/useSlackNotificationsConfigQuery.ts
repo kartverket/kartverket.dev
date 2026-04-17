@@ -4,7 +4,7 @@ import { MetricTypes } from '../utils/MetricTypes';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import { get } from '../api/client';
 
-export type SlackNotificationConfig = {
+type SlackNotificationConfig = {
   teamName: string;
   channelId: string;
   componentNames: string[];

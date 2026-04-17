@@ -10,7 +10,7 @@ import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocompl
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 
-export type DomainFormProps = {
+type DomainFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Domain'>;

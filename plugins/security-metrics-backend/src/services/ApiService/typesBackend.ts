@@ -165,11 +165,6 @@ export type SeverityCount = {
   critical: number;
 };
 
-export type SecurityChamp = {
-  repositoryName: string;
-  securityChampionEmail: string;
-};
-
 export type ChangeStatusRequestBody = {
   componentName: string;
   vulnerabilityId: string;

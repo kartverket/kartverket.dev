@@ -37,7 +37,7 @@ import { catalogEntityRefreshPermission } from '@backstage/plugin-catalog-common
 
 import { groupProfileCardTranslationRef } from './translation';
 
-export type GroupProfileCardProps = {
+type GroupProfileCardProps = {
   variant?: InfoCardVariants;
   showLinks?: boolean;
 };

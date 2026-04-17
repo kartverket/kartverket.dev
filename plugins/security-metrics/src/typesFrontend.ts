@@ -146,8 +146,6 @@ export interface RiscStatusData {
   commitsSincePublishedRisc: number;
 }
 
-export type ScannerType = 'Dependabot' | 'CodeQL' | 'Pharos' | 'Sysdig';
-
 export type Severity =
   | 'unknown'
   | 'negligible'

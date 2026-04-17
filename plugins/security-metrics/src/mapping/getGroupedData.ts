@@ -47,8 +47,3 @@ export const getAllPermittedMetrics = (
 export const getAllNotPermittedComponents = (
   data: SikkerhetsmetrikkerSystemTotal[],
 ): string[] => data.flatMap(s => s.metrics?.notPermittedComponents ?? []);
-
-export type NotPermittedInfo = {
-  systemName: string;
-  components: string[];
-};

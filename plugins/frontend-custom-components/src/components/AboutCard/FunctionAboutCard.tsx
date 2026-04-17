@@ -91,7 +91,7 @@ export type AboutCardProps = {
   variant?: InfoCardVariants;
 };
 
-export interface InternalAboutCardProps extends AboutCardProps {
+interface InternalAboutCardProps extends AboutCardProps {
   subheader?: JSX.Element;
 }
 

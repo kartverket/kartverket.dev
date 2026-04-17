@@ -24,7 +24,7 @@ import { useAsync } from 'react-use';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionDependenciesCardTranslationRef } from './translations.ts';
 
-export type EntityDependenciesCardProps = {
+type EntityDependenciesCardProps = {
   variant?: InfoCardVariants;
   title?: string;
   subtitle?: string;
