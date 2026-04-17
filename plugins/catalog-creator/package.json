@@ -33,7 +33,6 @@
     "@backstage/core-plugin-api": "backstage:^",
     "@backstage/plugin-catalog-import": "backstage:^",
     "@backstage/plugin-catalog-react": "backstage:^",
-    "@backstage/theme": "backstage:^",
     "@backstage/ui": "backstage:^",
     "@hookform/resolvers": "^5.2.2",
     "@mui/icons-material": "^7.3.7",
@@ -51,9 +50,6 @@
   },
   "devDependencies": {
     "@backstage/cli": "backstage:^",
-    "@backstage/core-app-api": "backstage:^",
-    "@backstage/dev-utils": "backstage:^",
-    "msw": "^2.12.7",
     "react": "^18"
   },
   "files": [
