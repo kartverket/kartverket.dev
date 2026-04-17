@@ -5,7 +5,7 @@ import { useConfig } from './getConfig';
 import { SikkerhetsmetrikkerSystemTotal } from '../typesFrontend';
 import { post } from '../api/client';
 
-export const metricsQueryKeys = {
+const metricsQueryKeys = {
   metrics: (componentNames: string[]) => ['metrics', componentNames],
 };
 

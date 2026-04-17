@@ -17,10 +17,7 @@ interface UserSearchProps {
   setSelectedUser: Dispatch<SetStateAction<UserEntity | null>>;
 }
 
-export const UserSearch = ({
-  setSelectedUser,
-  selectedUser,
-}: UserSearchProps) => {
+const UserSearch = ({ setSelectedUser, selectedUser }: UserSearchProps) => {
   const [users, setUsers] = useState<UserEntity[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 

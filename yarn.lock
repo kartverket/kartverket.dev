@@ -7658,7 +7658,6 @@ __metadata:
   dependencies:
     "@backstage/catalog-model": "backstage:^"
     "@backstage/cli": "backstage:^"
-    "@backstage/config": "backstage:^"
     "@backstage/core-plugin-api": "backstage:^"
     "@backstage/plugin-catalog-react": "backstage:^"
     "@backstage/ui": "backstage:^"
@@ -8023,7 +8022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/microsoft-graph-types@npm:^2.6.0":
+"@microsoft/microsoft-graph-types@npm:2.43.1, @microsoft/microsoft-graph-types@npm:^2.6.0":
   version: 2.43.1
   resolution: "@microsoft/microsoft-graph-types@npm:2.43.1"
   checksum: 10c0/781134ab9f9b10e22e2fdd56150c8fce2af8615d1b718854ea9799c5011e0f1706cae5cbd1d8bb4520c470e6a1ec128df0ee5a704fa5a6b3b6a5c67cbb672112
@@ -19176,6 +19175,7 @@ __metadata:
     "@internal/backstage-plugin-regelrett-schemas-backend": "workspace:^"
     "@internal/plugin-catalog-backend-module-function-kind": "workspace:^"
     "@kartverket/backstage-plugin-security-metrics-backend": "workspace:"
+    "@microsoft/microsoft-graph-types": "npm:2.43.1"
     better-sqlite3: "npm:^12.6.0"
     jwt-decode: "npm:^4.0.0"
   languageName: unknown
@@ -35545,7 +35545,6 @@ __metadata:
   dependencies:
     "@backstage/cli": "backstage:^"
     "@jest/environment-jsdom-abstract": "npm:^30.2.0"
-    "@mui/material": "npm:^7.3.9"
     "@types/jest": "npm:^30.0.0"
     "@types/node": "npm:^25.6.0"
     "@types/react": "npm:^18"

@@ -3,7 +3,7 @@ import {
   createTranslationResource,
 } from '@backstage/core-plugin-api/alpha';
 
-export const functionGroupPageMessages = {
+const functionGroupPageMessages = {
   functioncard: {
     title: 'Functions this team delivers to',
     subtitle:

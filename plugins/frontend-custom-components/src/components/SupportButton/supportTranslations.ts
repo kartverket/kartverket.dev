@@ -3,7 +3,7 @@ import {
   createTranslationResource,
 } from '@backstage/core-plugin-api/alpha';
 
-export const supportMessages = {
+const supportMessages = {
   title: 'Support',
   openEntry: 'Open',
   entries: {

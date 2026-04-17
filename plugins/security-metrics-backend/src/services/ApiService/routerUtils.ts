@@ -13,7 +13,7 @@ export const errorResponse = (
   message,
 });
 
-export const unknownErrorResponse = (message: string): ErrorResponse =>
+const unknownErrorResponse = (message: string): ErrorResponse =>
   errorResponse(500, 'UNKNOWN_ERROR', message);
 
 const validateToken = async (

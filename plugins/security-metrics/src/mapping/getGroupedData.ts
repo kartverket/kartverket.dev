@@ -52,13 +52,3 @@ export type NotPermittedInfo = {
   systemName: string;
   components: string[];
 };
-
-export const getNotPermittedInfo = (
-  data: SikkerhetsmetrikkerSystemTotal[],
-): NotPermittedInfo[] =>
-  data
-    .map(s => ({
-      systemName: s.systemName,
-      components: s.metrics?.notPermittedComponents ?? [],
-    }))
-    .filter(s => s.components.length > 0);
