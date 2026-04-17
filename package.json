@@ -46,14 +46,15 @@
     "@backstage/cli-defaults": "backstage:^",
     "@jest/environment-jsdom-abstract": "^30.2.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.0.9",
+    "@types/node": "^25.6.0",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
+    "knip": "^6.4.1",
     "lerna": "^9.0.3",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "resolutions": {
     "@types/react": "^18",
@@ -71,7 +72,6 @@
     ]
   },
   "dependencies": {
-    "@mui/material": "^7.3.9",
     "@types/react": "^18"
   },
   "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"

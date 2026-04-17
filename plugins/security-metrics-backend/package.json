@@ -28,17 +28,11 @@
   },
   "dependencies": {
     "@azure/msal-node": "^5.0.6",
-    "@backstage/backend-defaults": "backstage:^",
     "@backstage/backend-plugin-api": "backstage:^",
     "@backstage/config": "backstage:^",
-    "@backstage/core-plugin-api": "backstage:^",
     "@types/express": "^5.0.6",
     "express": "^5.2.1",
-    "express-promise-router": "^4.1.1",
-    "http-status-codes": "^2.3.0",
-    "node-fetch": "^3.3.2",
-    "winston": "^3.19.0",
-    "yn": "^5.1.0"
+    "express-promise-router": "^4.1.1"
   },
   "devDependencies": {
     "@backstage/cli": "backstage:^",
