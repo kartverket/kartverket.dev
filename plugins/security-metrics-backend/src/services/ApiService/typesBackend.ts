@@ -118,6 +118,26 @@ export type SikkerhetsmetrikkerSystemTotal = {
   metrics: SikkerhetsmetrikkerTotal;
 };
 
+export type AggregatedSikkerhetsmetrikker = {
+  systems: SikkerhetsmetrikkerSystemTotal[];
+  vulnerabilityOverview: SystemVulnerabilityOverview;
+};
+
+export type SystemVulnerabilityOverview = {
+  totalCount: number;
+  severityCount: SeverityCount;
+  vulnerabilities: AggregatedVulnerability[];
+};
+
+export type AggregatedVulnerability = {
+  vulnerabilityId: string;
+  severity: Severity;
+  scanners: Scanner[];
+  summary: string;
+  dateFirstSeen: string;
+  affectedComponents: string[];
+};
+
 export type Severity =
   | 'unknown'
   | 'negligible'

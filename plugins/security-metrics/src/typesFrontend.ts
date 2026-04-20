@@ -108,6 +108,24 @@ export type SikkerhetsmetrikkerSystemTotal = {
   metrics: SikkerhetsmetrikkerTotal;
 };
 
+export type AggregatedSikkerhetsmetrikker = {
+  systems: SikkerhetsmetrikkerSystemTotal[];
+  vulnerabilityOverview: SystemVulnerabilityOverview;
+};
+
+export type SystemVulnerabilityOverview = {
+  totalCount: number;
+  severityCount: SeverityCount;
+  vulnerabilities: AggregatedVulnerability[];
+};
+
+export type AggregatedVulnerability = {
+  vulnerabilityId: string;
+  severity: Severity;
+  summary: string;
+  affectedComponents: string[];
+};
+
 export type ScannerConfig = {
   dependabot: boolean;
   codeQL: boolean;

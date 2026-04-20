@@ -1,49 +1,61 @@
 import { Secrets } from '../components/SecretsOverview/SecretsDialog';
 import {
-  SikkerhetsmetrikkerSystemTotal,
+  AggregatedSikkerhetsmetrikker,
   RepositorySummary,
 } from '../typesFrontend';
 
 export const getAllSecrets = (
-  data: SikkerhetsmetrikkerSystemTotal[],
+  data: AggregatedSikkerhetsmetrikker,
 ): Secrets[] => {
   const seen = new Set<string>();
-  return data
-    .flatMap(s => s.metrics?.permittedMetrics ?? [])
-    .filter(r => {
-      if (seen.has(r.repoName)) return false;
-      seen.add(r.repoName);
+
+  return data.systems
+    .flatMap(system => system.metrics?.permittedMetrics ?? [])
+    .filter(repo => {
+      if (seen.has(repo.repoName)) {
+        return false;
+      }
+
+      seen.add(repo.repoName);
       return true;
     })
-    .map(r => ({
-      componentName: r.repoName,
-      alerts: r.secrets?.alerts ?? [],
+    .map(repo => ({
+      componentName: repo.repoName,
+      alerts: repo.secrets?.alerts ?? [],
     }))
-    .filter(s => s.alerts.length > 0);
+    .filter(secret => secret.alerts.length > 0);
 };
 
 export const getAllPermittedMetrics = (
-  data: SikkerhetsmetrikkerSystemTotal[],
+  data: AggregatedSikkerhetsmetrikker,
 ): RepositorySummary[] => {
   const repoMap = new Map<string, RepositorySummary>();
 
-  for (const item of data.flatMap(s => s.metrics?.permittedMetrics ?? [])) {
+  for (const item of data.systems.flatMap(
+    system => system.metrics?.permittedMetrics ?? [],
+  )) {
     const existing = repoMap.get(item.repoName);
+
     if (existing) {
       existing.componentNames = [
         ...existing.componentNames,
         ...item.componentNames.filter(
-          n => !existing.componentNames.includes(n),
+          componentName => !existing.componentNames.includes(componentName),
         ),
       ];
-    } else {
-      repoMap.set(item.repoName, { ...item });
+      continue;
     }
+
+    repoMap.set(item.repoName, {
+      ...item,
+      componentNames: [...item.componentNames],
+    });
   }
 
   return Array.from(repoMap.values());
 };
 
 export const getAllNotPermittedComponents = (
-  data: SikkerhetsmetrikkerSystemTotal[],
-): string[] => data.flatMap(s => s.metrics?.notPermittedComponents ?? []);
+  data: AggregatedSikkerhetsmetrikker,
+): string[] =>
+  data.systems.flatMap(system => system.metrics?.notPermittedComponents ?? []);

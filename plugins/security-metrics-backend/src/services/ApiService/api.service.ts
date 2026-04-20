@@ -7,7 +7,7 @@ import {
   MetricsUpdateStatus,
   Repository,
   SeverityCounts,
-  SikkerhetsmetrikkerSystemTotal,
+  AggregatedSikkerhetsmetrikker,
   SlackNotificationConfig,
   Status,
   VulnerabilitySeverityCounts,
@@ -129,7 +129,7 @@ export class ApiService {
   async fetchMetricsData(
     componentNames: string[],
     entraIdToken: string,
-  ): Promise<Either<ErrorResponse, SikkerhetsmetrikkerSystemTotal[]>> {
+  ): Promise<Either<ErrorResponse, AggregatedSikkerhetsmetrikker>> {
     const endpointResult = this.buildEndpoint('/api/scannerData');
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);
