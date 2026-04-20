@@ -20,8 +20,10 @@ import {
   RELATION_CHILD_OF,
 } from '@backstage/catalog-model';
 import { useApi } from '@backstage/core-plugin-api';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import Typography from '@mui/material/Typography';
 import { useAsync } from 'react-use';
+import { entityFunctionsCardTranslationRef } from './translation';
 
 export type EntityFunctionsCardProps = {
   variant?: InfoCardVariants;
@@ -32,9 +34,11 @@ const ENTITY_KIND = ['Function'];
 const HIGHER_LEVEL_ENTITIES = ['Function', 'System'];
 
 export const EntityFunctionsCard = (props: EntityFunctionsCardProps) => {
-  const { variant = 'gridItem', title = 'Dependencies' } = props;
+  const { variant = 'gridItem', title: titleProp } = props;
   const catalog = useApi(catalogApiRef);
   const { entity } = useEntity();
+  const { t } = useTranslationRef(entityFunctionsCardTranslationRef);
+  const title = titleProp ?? t('entityFunctionsCard.defaultTitle');
 
   const isEntity = (ent: Entity | undefined): ent is Entity => !!ent;
 
@@ -131,7 +135,7 @@ export const EntityFunctionsCard = (props: EntityFunctionsCardProps) => {
 
   const entityColumns: TableColumn<Entity>[] = [
     {
-      title: 'Name',
+      title: t('entityFunctionsCard.columnName'),
       field: 'metadata.name',
       highlight: true,
       render: (ent: Entity) => (
@@ -139,7 +143,7 @@ export const EntityFunctionsCard = (props: EntityFunctionsCardProps) => {
       ),
     },
     {
-      title: 'Kind',
+      title: t('entityFunctionsCard.columnKind'),
       field: 'kind',
       highlight: false,
       render: (ent: Entity) => <p>{ent.kind}</p>,
@@ -174,7 +178,7 @@ export const EntityFunctionsCard = (props: EntityFunctionsCardProps) => {
       emptyContent={
         <div style={{ textAlign: 'center' }}>
           <Typography variant="body1">
-            No functions found that depends on this {entity.kind.toLowerCase()}
+            {t('entityFunctionsCard.emptyMessage')}
           </Typography>
           <Typography variant="body2">
             <Link to={EntityHelpLink} externalLinkIcon>

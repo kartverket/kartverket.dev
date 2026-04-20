@@ -12,45 +12,54 @@ import {
   GroupProfileCard,
 } from '@internal/plugin-frontend-custom-components';
 import { entityWarningContent } from './shared';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { entityPageTabTranslationRef } from '../../../utils/translations';
 
-export const groupPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3}>
-        {entityWarningContent}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <GroupProfileCard variant="gridItem" />
+export const GroupPage = () => {
+  const { t } = useTranslationRef(entityPageTabTranslationRef);
+
+  return (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <Grid container spacing={3}>
+          {entityWarningContent}
+          <Grid size={{ xs: 12, md: 6 }}>
+            <GroupProfileCard variant="gridItem" />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <EntityOwnershipCard
+              entityLimit={9}
+              variant="gridItem"
+              entityFilterKind={[
+                'Domain',
+                'System',
+                'Component',
+                'API',
+                'Template',
+                'Resource',
+                'Function',
+              ]}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <SecurityChampionCard />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Flex direction="column" gap="24px">
+              <GroupSecurityFormsCard />
+            </Flex>
+          </Grid>
+          <Grid size={12}>
+            <EntityMembersListCard showAggregateMembersToggle />
+          </Grid>
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <EntityOwnershipCard
-            entityLimit={9}
-            variant="gridItem"
-            entityFilterKind={[
-              'Domain',
-              'System',
-              'Component',
-              'API',
-              'Template',
-              'Resource',
-              'Function',
-            ]}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <SecurityChampionCard />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Flex direction="column" gap="24px">
-            <GroupSecurityFormsCard />
-          </Flex>
-        </Grid>
-        <Grid size={12}>
-          <EntityMembersListCard showAggregateMembersToggle />
-        </Grid>
-      </Grid>
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+      </EntityLayout.Route>
+      <EntityLayout.Route
+        path="/securityMetrics"
+        title={t('entityPageTab.securityMetrics')}
+      >
+        <SecurityMetricsPage />
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
+};

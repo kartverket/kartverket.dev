@@ -32,6 +32,8 @@ import {
 } from '@backstage-community/plugin-grafana';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
 import { EntityFunctionsCard } from '@internal/plugin-frontend-custom-components';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { sharedComponentTranslationRef } from '../../../utils/translations';
 
 export const techdocsContent = (
   <EntityTechdocsContent>
@@ -72,30 +74,33 @@ export const grafanaContent = (
   </>
 );
 
-export const cicdContent = (
-  <EntitySwitch>
-    <EntitySwitch.Case if={isGithubActionsAvailable}>
-      <EntityGithubActionsContent />
-    </EntitySwitch.Case>
+export const CicdContent = () => {
+  const { t } = useTranslationRef(sharedComponentTranslationRef);
+  return (
+    <EntitySwitch>
+      <EntitySwitch.Case if={isGithubActionsAvailable}>
+        <EntityGithubActionsContent />
+      </EntitySwitch.Case>
 
-    <EntitySwitch.Case>
-      <EmptyState
-        title="No CI/CD available for this entity"
-        missing="info"
-        description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read more about annotations in Backstage by clicking the button below."
-        action={
-          <Button
-            variant="contained"
-            color="primary"
-            href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
-          >
-            Read more
-          </Button>
-        }
-      />
-    </EntitySwitch.Case>
-  </EntitySwitch>
-);
+      <EntitySwitch.Case>
+        <EmptyState
+          title={t('shared.cicdEmptyTitle')}
+          missing="info"
+          description={t('shared.cicdEmptyDescription')}
+          action={
+            <Button
+              variant="contained"
+              color="primary"
+              href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
+            >
+              {t('shared.cicdReadMore')}
+            </Button>
+          }
+        />
+      </EntitySwitch.Case>
+    </EntitySwitch>
+  );
+};
 
 export const entityWarningContent = (
   <>
@@ -125,27 +130,33 @@ export const entityWarningContent = (
   </>
 );
 
-export const defaultComponentContent = (
-  <Grid container spacing={3} alignItems="stretch">
-    {entityWarningContent}
-    <Grid size={{ xs: 12, md: 6 }}>
-      <EntityAboutCard variant="gridItem" />
+export const DefaultComponentContent = () => {
+  const { t } = useTranslationRef(sharedComponentTranslationRef);
+  return (
+    <Grid container spacing={3} alignItems="stretch">
+      {entityWarningContent}
+      <Grid size={{ xs: 12, md: 6 }}>
+        <EntityAboutCard variant="gridItem" />
+      </Grid>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <EntityCatalogGraphCard variant="gridItem" height={400} />
+      </Grid>
+      <Grid size={{ xs: 12, md: 4 }}>
+        <SecurityChampionCard />
+      </Grid>
+      <Grid size={{ xs: 12, md: 8 }}>
+        <EntityLinksCard />
+      </Grid>
+      <Grid size={12}>
+        <EntityHasSubcomponentsCard variant="gridItem" />
+      </Grid>
+      <Grid size={12}>
+        <EntityFunctionsCard
+          title={t('shared.functionsCardTitle')}
+          variant="gridItem"
+        />
+      </Grid>
+      {grafanaContent}
     </Grid>
-    <Grid size={{ xs: 12, md: 6 }}>
-      <EntityCatalogGraphCard variant="gridItem" height={400} />
-    </Grid>
-    <Grid size={{ xs: 12, md: 4 }}>
-      <SecurityChampionCard />
-    </Grid>
-    <Grid size={{ xs: 12, md: 8 }}>
-      <EntityLinksCard />
-    </Grid>
-    <Grid size={12}>
-      <EntityHasSubcomponentsCard variant="gridItem" />
-    </Grid>
-    <Grid size={12}>
-      <EntityFunctionsCard title="Functions" variant="gridItem" />
-    </Grid>
-    {grafanaContent}
-  </Grid>
-);
+  );
+};

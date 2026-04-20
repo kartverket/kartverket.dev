@@ -12,197 +12,227 @@ import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metri
 import { CatalogCreatorContainer } from '../CatalogCreatorContainer';
 import {
   techdocsContent,
-  cicdContent,
-  defaultComponentContent,
+  CicdContent,
+  DefaultComponentContent,
 } from './shared';
 import {
   EntityConsumedApisCard,
   EntityProvidedApisCard,
 } from '@backstage/plugin-api-docs';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { entityPageTabTranslationRef } from '../../../utils/translations';
 
-const serviceEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {defaultComponentContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/edit" title="Edit">
-      <CatalogCreatorContainer />
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
-      {cicdContent}
-    </EntityLayout.Route>
+export const ComponentPage = () => {
+  const { t } = useTranslationRef(entityPageTabTranslationRef);
 
-    <EntityLayout.Route path="/api" title="API">
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid size={{ md: 6 }}>
-          <EntityProvidedApisCard />
+  const serviceEntityPage = (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <DefaultComponentContent />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/edit" title={t('entityPageTab.edit')}>
+        <CatalogCreatorContainer />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/ci-cd" title={t('entityPageTab.cicd')}>
+        <CicdContent />
+      </EntityLayout.Route>
+
+      <EntityLayout.Route path="/api" title={t('entityPageTab.api')}>
+        <Grid container spacing={3} alignItems="stretch">
+          <Grid size={{ md: 6 }}>
+            <EntityProvidedApisCard />
+          </Grid>
+          <Grid size={{ md: 6 }}>
+            <EntityConsumedApisCard />
+          </Grid>
         </Grid>
-        <Grid size={{ md: 6 }}>
-          <EntityConsumedApisCard />
+      </EntityLayout.Route>
+
+      <EntityLayout.Route
+        path="/dependencies"
+        title={t('entityPageTab.dependencies')}
+      >
+        <Grid container spacing={3} alignItems="stretch">
+          <Grid size={{ md: 6 }}>
+            <EntityDependsOnComponentsCard variant="gridItem" />
+          </Grid>
+          <Grid size={{ md: 6 }}>
+            <EntityDependsOnResourcesCard variant="gridItem" />
+          </Grid>
         </Grid>
-      </Grid>
-    </EntityLayout.Route>
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/dependencies" title="Dependencies">
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid size={{ md: 6 }}>
-          <EntityDependsOnComponentsCard variant="gridItem" />
+      <EntityLayout.Route path="/docs" title={t('entityPageTab.docs')}>
+        {techdocsContent}
+      </EntityLayout.Route>
+
+      <EntityLayout.Route path="/risc" title={t('entityPageTab.risc')}>
+        <RiScPage />
+      </EntityLayout.Route>
+
+      <EntityLayout.Route
+        path="/securityMetrics"
+        title={t('entityPageTab.securityMetrics')}
+      >
+        <SecurityMetricsPage />
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
+
+  const websiteEntityPage = (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <DefaultComponentContent />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/edit" title={t('entityPageTab.edit')}>
+        <CatalogCreatorContainer />
+      </EntityLayout.Route>
+
+      <EntityLayout.Route path="/ci-cd" title={t('entityPageTab.cicd')}>
+        <CicdContent />
+      </EntityLayout.Route>
+
+      <EntityLayout.Route
+        path="/dependencies"
+        title={t('entityPageTab.dependencies')}
+      >
+        <Grid container spacing={3} alignItems="stretch">
+          <Grid size={{ md: 6 }}>
+            <EntityDependsOnComponentsCard variant="gridItem" />
+          </Grid>
+          <Grid size={{ md: 6 }}>
+            <EntityDependsOnResourcesCard variant="gridItem" />
+          </Grid>
         </Grid>
-        <Grid size={{ md: 6 }}>
-          <EntityDependsOnResourcesCard variant="gridItem" />
-        </Grid>
-      </Grid>
-    </EntityLayout.Route>
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
-    </EntityLayout.Route>
+      <EntityLayout.Route path="/docs" title={t('entityPageTab.docs')}>
+        {techdocsContent}
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="Kodenær RoS">
-      <RiScPage />
-    </EntityLayout.Route>
+      <EntityLayout.Route
+        path="/lighthouse"
+        title={t('entityPageTab.lighthouse')}
+      >
+        <EntityLighthouseContent />
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+      <EntityLayout.Route path="/risc" title={t('entityPageTab.risc')}>
+        <RiScPage />
+      </EntityLayout.Route>
 
-const websiteEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {defaultComponentContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/edit" title="Edit">
-      <CatalogCreatorContainer />
-    </EntityLayout.Route>
+      <EntityLayout.Route
+        path="/securityMetrics"
+        title={t('entityPageTab.securityMetrics')}
+      >
+        <SecurityMetricsPage />
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
 
-    <EntityLayout.Route path="/ci-cd" title="CI/CD">
-      {cicdContent}
-    </EntityLayout.Route>
+  const opsEntityPage = (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <DefaultComponentContent />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/edit" title={t('entityPageTab.edit')}>
+        <CatalogCreatorContainer />
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/dependencies" title="Dependencies">
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid size={{ md: 6 }}>
-          <EntityDependsOnComponentsCard variant="gridItem" />
-        </Grid>
-        <Grid size={{ md: 6 }}>
-          <EntityDependsOnResourcesCard variant="gridItem" />
-        </Grid>
-      </Grid>
-    </EntityLayout.Route>
+      <EntityLayout.Route path="/risc" title={t('entityPageTab.risc')}>
+        <RiScPage />
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
-    </EntityLayout.Route>
+      <EntityLayout.Route
+        path="/securityMetrics"
+        title={t('entityPageTab.securityMetrics')}
+      >
+        <SecurityMetricsPage />
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
 
-    <EntityLayout.Route path="/lighthouse" title="Lighthouse">
-      <EntityLighthouseContent />
-    </EntityLayout.Route>
+  const libraryEntityPage = (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <DefaultComponentContent />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/edit" title={t('entityPageTab.edit')}>
+        <CatalogCreatorContainer />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/risc" title={t('entityPageTab.risc')}>
+        <RiScPage />
+      </EntityLayout.Route>
+      <EntityLayout.Route
+        path="/securityMetrics"
+        title={t('entityPageTab.securityMetrics')}
+      >
+        <SecurityMetricsPage />
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
 
-    <EntityLayout.Route path="/risc" title="Kodenær RoS">
-      <RiScPage />
-    </EntityLayout.Route>
+  const simpleComponentPage = (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <DefaultComponentContent />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/edit" title={t('entityPageTab.edit')}>
+        <CatalogCreatorContainer />
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+      <EntityLayout.Route path="/docs" title={t('entityPageTab.docs')}>
+        {techdocsContent}
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
 
-const opsEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {defaultComponentContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/edit" title="Edit">
-      <CatalogCreatorContainer />
-    </EntityLayout.Route>
+  const defaultComponentPage = (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <DefaultComponentContent />
+      </EntityLayout.Route>
+      <EntityLayout.Route path="/edit" title={t('entityPageTab.edit')}>
+        <CatalogCreatorContainer />
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="Kodenær RoS">
-      <RiScPage />
-    </EntityLayout.Route>
+      <EntityLayout.Route path="/risc" title={t('entityPageTab.risc')}>
+        <RiScPage />
+      </EntityLayout.Route>
 
-    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+      <EntityLayout.Route
+        path="/securityMetrics"
+        title={t('entityPageTab.securityMetrics')}
+      >
+        <SecurityMetricsPage />
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
 
-const libraryEntityPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {defaultComponentContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/edit" title="Edit">
-      <CatalogCreatorContainer />
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/risc" title="Kodenær RoS">
-      <RiScPage />
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+  return (
+    <EntitySwitch>
+      <EntitySwitch.Case if={isComponentType('service')}>
+        {serviceEntityPage}
+      </EntitySwitch.Case>
 
-const simpleComponentPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {defaultComponentContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/edit" title="Edit">
-      <CatalogCreatorContainer />
-    </EntityLayout.Route>
+      <EntitySwitch.Case if={isComponentType('website')}>
+        {websiteEntityPage}
+      </EntitySwitch.Case>
 
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+      <EntitySwitch.Case if={isComponentType('ops')}>
+        {opsEntityPage}
+      </EntitySwitch.Case>
+      <EntitySwitch.Case if={isComponentType('library')}>
+        {libraryEntityPage}
+      </EntitySwitch.Case>
+      <EntitySwitch.Case if={isComponentType('experiment')}>
+        {simpleComponentPage}
+      </EntitySwitch.Case>
+      <EntitySwitch.Case if={isComponentType('documentation')}>
+        {simpleComponentPage}
+      </EntitySwitch.Case>
 
-const defaultComponentPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      {defaultComponentContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/edit" title="Edit">
-      <CatalogCreatorContainer />
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/risc" title="Kodenær RoS">
-      <RiScPage />
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
-    </EntityLayout.Route>
-  </EntityLayout>
-);
-
-export const componentPage = (
-  <EntitySwitch>
-    <EntitySwitch.Case if={isComponentType('service')}>
-      {serviceEntityPage}
-    </EntitySwitch.Case>
-
-    <EntitySwitch.Case if={isComponentType('website')}>
-      {websiteEntityPage}
-    </EntitySwitch.Case>
-
-    <EntitySwitch.Case if={isComponentType('ops')}>
-      {opsEntityPage}
-    </EntitySwitch.Case>
-    <EntitySwitch.Case if={isComponentType('library')}>
-      {libraryEntityPage}
-    </EntitySwitch.Case>
-    <EntitySwitch.Case if={isComponentType('experiment')}>
-      {simpleComponentPage}
-    </EntitySwitch.Case>
-    <EntitySwitch.Case if={isComponentType('documentation')}>
-      {simpleComponentPage}
-    </EntitySwitch.Case>
-
-    <EntitySwitch.Case>{defaultComponentPage}</EntitySwitch.Case>
-  </EntitySwitch>
-);
+      <EntitySwitch.Case>{defaultComponentPage}</EntitySwitch.Case>
+    </EntitySwitch>
+  );
+};

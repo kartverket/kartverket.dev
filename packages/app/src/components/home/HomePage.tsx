@@ -82,7 +82,7 @@ export const HomePage = () => {
                     notchedOutline: classes.searchBarOutline,
                   },
                 }}
-                placeholder="Search"
+                placeholder={t('homepage.searchPlaceholder')}
               />
             </Grid>
             <Grid size={12} container>

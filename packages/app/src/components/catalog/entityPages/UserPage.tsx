@@ -5,19 +5,25 @@ import {
   EntityOwnershipCard,
 } from '@backstage/plugin-org';
 import { entityWarningContent } from './shared';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { entityPageTabTranslationRef } from '../../../utils/translations';
 
-export const userPage = (
-  <EntityLayout>
-    <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3}>
-        {entityWarningContent}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <EntityUserProfileCard variant="gridItem" />
+export const UserPage = () => {
+  const { t } = useTranslationRef(entityPageTabTranslationRef);
+
+  return (
+    <EntityLayout>
+      <EntityLayout.Route path="/" title={t('entityPageTab.overview')}>
+        <Grid container spacing={3}>
+          {entityWarningContent}
+          <Grid size={{ xs: 12, md: 6 }}>
+            <EntityUserProfileCard variant="gridItem" />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <EntityOwnershipCard variant="gridItem" />
+          </Grid>
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <EntityOwnershipCard variant="gridItem" />
-        </Grid>
-      </Grid>
-    </EntityLayout.Route>
-  </EntityLayout>
-);
+      </EntityLayout.Route>
+    </EntityLayout>
+  );
+};

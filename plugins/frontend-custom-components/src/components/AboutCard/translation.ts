@@ -165,3 +165,12 @@ export const catalogTranslationRef = createTranslationRef({
     },
   },
 });
+
+export const functionEntityPageTranslationRef = createTranslationRef({
+  id: 'functionEntityPage',
+  messages: {
+    functionEntityPage: {
+      criticalityLabel: 'Criticality',
+    },
+  },
+});

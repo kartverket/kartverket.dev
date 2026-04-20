@@ -8,6 +8,7 @@ export { SupportButton } from './components/SupportButton/SupportButton';
 export { supportNorwegianTranslation } from './components/SupportButton/supportTranslations';
 export { GroupSecurityFormsCard } from './components/GroupSecurityFormsCard/GroupSecurityFormsCard';
 export { functionLinkCardNorwegianTranslation } from './components/FunctionSecurityFormsCard/translation';
+export { entityFunctionsCardNorwegianTranslation } from './components/EntityFunctionsCard/translation';
 export { functionDependenciesCardNorwegianTranslation } from './components/FunctionDependenciesCard/translations';
 export { GroupProfileCard } from './components/GroupProfileCard/GroupProfileCard';
 export { groupProfileCardNorwegianTranslation } from './components/GroupProfileCard/translation';

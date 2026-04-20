@@ -34,6 +34,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 const SidebarLogo = () => {
   const { isOpen } = useSidebarOpenState();
+  const { t } = useTranslationRef(sidebarTranslationRef);
 
   return (
     <Box
@@ -49,7 +50,7 @@ const SidebarLogo = () => {
       <Link
         to="/"
         underline="none"
-        aria-label="Home"
+        aria-label={t('sidebar.homeTitle')}
         style={{ width: sidebarConfig.drawerWidthClosed, marginLeft: 24 }}
       >
         {isOpen ? <LogoFull type="light" /> : <LogoIcon />}
@@ -64,7 +65,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
     <SidebarPage>
       <Sidebar>
         <SidebarLogo />
-        <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+        <SidebarGroup
+          label={t('sidebar.searchTitle')}
+          icon={<SearchIcon />}
+          to="/search"
+        >
           <SidebarSearchModal />
         </SidebarGroup>
         <SidebarItem icon={HomeIcon} to="/" text={t('sidebar.homeTitle')} />
@@ -110,7 +115,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <NotificationsSidebarItem text={t('sidebar.notificationsTitle')} />
         <SidebarDivider />
         <SidebarGroup
-          label="Settings"
+          label={t('sidebar.settingsTitle')}
           icon={<UserSettingsSignInAvatar />}
           to="/settings"
         >
