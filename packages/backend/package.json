@@ -51,6 +51,7 @@
     "@internal/plugin-catalog-backend-module-function-kind": "workspace:^",
     "@kartverket/backstage-plugin-security-metrics-backend": "workspace:",
     "@microsoft/microsoft-graph-types": "2.43.1",
+    "app": "link:../app",
     "better-sqlite3": "^12.6.0",
     "jwt-decode": "^4.0.0"
   },
