@@ -15,8 +15,8 @@
     "build-image": "docker build ../.. -f Dockerfile --tag backstage"
   },
   "dependencies": {
-    "@backstage-community/plugin-explore-backend": "0.13.0",
-    "@backstage-community/plugin-lighthouse-backend": "0.18.0",
+    "@backstage-community/plugin-explore-backend": "0.15.0",
+    "@backstage-community/plugin-lighthouse-backend": "0.22.0",
     "@backstage/backend-defaults": "backstage:^",
     "@backstage/backend-plugin-api": "backstage:^",
     "@backstage/catalog-client": "backstage:^",
@@ -52,7 +52,7 @@
     "@kartverket/backstage-plugin-security-metrics-backend": "workspace:",
     "@microsoft/microsoft-graph-types": "2.43.1",
     "app": "link:../app",
-    "better-sqlite3": "12.6.0",
+    "better-sqlite3": "12.9.0",
     "jwt-decode": "4.0.0"
   },
   "devDependencies": {
