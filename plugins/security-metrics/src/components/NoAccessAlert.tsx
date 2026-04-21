@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import { useState } from 'react';
 
-export interface NoAccessProps {
+interface NoAccessProps {
   repos: string[];
 }
 

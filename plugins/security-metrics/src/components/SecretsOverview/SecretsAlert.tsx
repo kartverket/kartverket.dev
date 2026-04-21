@@ -15,7 +15,7 @@ export interface Secrets {
   alerts: SecretAlert[];
 }
 
-export interface SecretProps {
+interface SecretProps {
   secretsOverviewData: Secrets[];
 }
 

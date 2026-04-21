@@ -23,7 +23,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import Typography from '@mui/material/Typography';
 import { useAsync } from 'react-use';
 
-export type EntityFunctionsCardProps = {
+type EntityFunctionsCardProps = {
   variant?: InfoCardVariants;
   title?: string;
 };

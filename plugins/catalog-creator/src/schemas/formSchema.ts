@@ -40,7 +40,7 @@ const baseEntitySchema = z.object({
     .optional(),
 });
 
-export const componentSchema = baseEntitySchema.extend({
+const componentSchema = baseEntitySchema.extend({
   kind: z.literal('Component'),
   owner: z
     .string()
@@ -92,7 +92,7 @@ export const componentSchema = baseEntitySchema.extend({
   dependencyOf: z.array(z.string()).optional(),
 });
 
-export const apiSchema = baseEntitySchema.extend({
+const apiSchema = baseEntitySchema.extend({
   kind: z.literal('API'),
   owner: z
     .string()
@@ -125,7 +125,7 @@ export const apiSchema = baseEntitySchema.extend({
     .optional(),
 });
 
-export const systemSchema = baseEntitySchema.extend({
+const systemSchema = baseEntitySchema.extend({
   kind: z.literal('System'),
   owner: z
     .string()
@@ -152,7 +152,7 @@ export const systemSchema = baseEntitySchema.extend({
   systemType: z.optional(z.string()),
 });
 
-export const resourceSchema = baseEntitySchema.extend({
+const resourceSchema = baseEntitySchema.extend({
   kind: z.literal('Resource'),
   owner: z
     .string()
@@ -183,7 +183,7 @@ export const resourceSchema = baseEntitySchema.extend({
     .optional(),
 });
 
-export const domainSchema = baseEntitySchema.extend({
+const domainSchema = baseEntitySchema.extend({
   kind: z.literal('Domain'),
   owner: z
     .string()
@@ -206,7 +206,7 @@ export const domainSchema = baseEntitySchema.extend({
     .optional(),
 });
 
-export const functionSchema = baseEntitySchema.extend({
+const functionSchema = baseEntitySchema.extend({
   kind: z.literal('Function'),
   owner: z
     .string()
@@ -247,19 +247,19 @@ export const functionSchema = baseEntitySchema.extend({
   criticality: z.string().optional(),
 });
 
-export const templateSchema = baseEntitySchema.extend({
+const templateSchema = baseEntitySchema.extend({
   kind: z.literal('Template'),
 });
 
-export const groupSchema = baseEntitySchema.extend({
+const groupSchema = baseEntitySchema.extend({
   kind: z.literal('Group'),
 });
 
-export const userSchema = baseEntitySchema.extend({
+const userSchema = baseEntitySchema.extend({
   kind: z.literal('User'),
 });
 
-export const locationSchema = baseEntitySchema.extend({
+const locationSchema = baseEntitySchema.extend({
   kind: z.literal('Location'),
 });
 

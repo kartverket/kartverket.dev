@@ -26,7 +26,7 @@ import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocompl
 import style from '../../../catalog.module.css';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 
-export type ApiFormProps = {
+type ApiFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'API'>;

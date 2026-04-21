@@ -21,8 +21,6 @@ import { EntityData } from './types';
 import { useAllFunctionFormsQuery } from '@internal/plugin-frontend-custom-components';
 import { exportFunctionsToCsv } from './exportCsv';
 
-export type { EntityData } from './types';
-
 const findParent = (entity: FunctionEntityV1alpha1): string => {
   const childOfRelation = entity.relations?.find(
     it => it.type === RELATION_CHILD_OF,

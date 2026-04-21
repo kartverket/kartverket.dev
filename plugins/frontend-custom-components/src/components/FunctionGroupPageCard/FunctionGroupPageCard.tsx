@@ -26,7 +26,7 @@ import { useAsync } from 'react-use';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionGroupPageTranslationRef } from './translation';
 
-export type FunctionGroupPageCardProps = {
+type FunctionGroupPageCardProps = {
   variant?: InfoCardVariants;
 };
 

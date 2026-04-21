@@ -22,24 +22,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
-import {
-  Entity,
-  parseEntityRef,
-  RELATION_HAS_PART,
-} from '@backstage/catalog-model';
 import { MetricsStatus } from '../MetricsStatus';
-
-export function getComponentNamesFromSystem(system: Entity) {
-  const rels = system.relations ?? [];
-
-  const componentNames = rels
-    .filter(r => r.type === RELATION_HAS_PART)
-    .map(r => parseEntityRef(r.targetRef))
-    .filter(ref => (ref.kind ?? '').toLowerCase() === 'component')
-    .map(ref => ref.name);
-
-  return componentNames;
-}
 
 export const SystemPage = () => {
   const { entity: system } = useEntity();

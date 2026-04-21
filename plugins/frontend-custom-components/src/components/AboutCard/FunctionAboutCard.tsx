@@ -91,11 +91,11 @@ export type AboutCardProps = {
   variant?: InfoCardVariants;
 };
 
-export interface InternalAboutCardProps extends AboutCardProps {
+interface InternalAboutCardProps extends AboutCardProps {
   subheader?: JSX.Element;
 }
 
-export function InternalAboutCard(props: InternalAboutCardProps) {
+function InternalAboutCard(props: InternalAboutCardProps) {
   const { variant } = props;
   const { classes } = useStyles();
   const { entity } = useEntity();
@@ -197,7 +197,7 @@ export function InternalAboutCard(props: InternalAboutCardProps) {
  * props and customizability. If you need to tweak it, consider making a bespoke
  * card in your own repository instead, that is perfect for your own needs.
  */
-export function AboutCard(props: AboutCardProps) {
+function AboutCard(props: AboutCardProps) {
   return <InternalAboutCard {...props} />;
 }
 
