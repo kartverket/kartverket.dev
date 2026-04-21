@@ -27,12 +27,12 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@azure/msal-node": "^5.0.6",
+    "@azure/msal-node": "5.0.6",
     "@backstage/backend-plugin-api": "backstage:^",
     "@backstage/config": "backstage:^",
-    "@types/express": "^5.0.6",
-    "express": "^5.2.1",
-    "express-promise-router": "^4.1.1"
+    "@types/express": "5.0.6",
+    "express": "5.2.1",
+    "express-promise-router": "4.1.1"
   },
   "devDependencies": {
     "@backstage/cli": "backstage:^"
