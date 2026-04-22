@@ -4,7 +4,6 @@ import {
   Severity,
   SikkerhetsmetrikkerSystemTotal,
   TrendSeverityCounts,
-  Vulnerability,
 } from '../typesFrontend';
 import { SCANNER_COLORS, SEVERITY_COLORS } from '../colors';
 
@@ -98,25 +97,6 @@ export const isExperimentalLifecycle = (value: unknown): value is string =>
 
 export const isDocumentationType = (value: unknown): value is string =>
   typeof value === 'string' && value.toLowerCase() === 'documentation';
-
-export const findBestId = (vulnerability: Vulnerability) => {
-  const cveId = vulnerability.vulnerabilityIdInfo.filter(
-    vulnerabilityId => vulnerabilityId.type === 'CVE',
-  );
-  const cweIds = vulnerability.vulnerabilityIdInfo.filter(
-    vulnerabilityId => vulnerabilityId.type === 'cwe',
-  );
-  const otherIds = vulnerability.vulnerabilityIdInfo.filter(
-    vulnerabilityId =>
-      vulnerabilityId.type !== 'cwe' && vulnerabilityId.type !== 'CVE',
-  );
-
-  let shownId = [];
-  if (cveId.length !== 0) shownId = cveId;
-  else if (cweIds.length !== 0) shownId = cweIds;
-  else shownId = otherIds;
-  return shownId[0].id;
-};
 
 export const filterSystemsByComponents = (
   data: SikkerhetsmetrikkerSystemTotal[] | undefined,
