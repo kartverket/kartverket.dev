@@ -10,7 +10,7 @@ import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocompl
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 
-export type ResourceFormProps = {
+type ResourceFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;

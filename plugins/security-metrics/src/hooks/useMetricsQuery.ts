@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import { MetricTypes } from '../utils/MetricTypes';
 import { useConfig } from './getConfig';
-import { SikkerhetsmetrikkerSystemTotal } from '../typesFrontend';
+import { AggregatedSikkerhetsmetrikker } from '../typesFrontend';
 import { post } from '../api/client';
 
-export const metricsQueryKeys = {
+const metricsQueryKeys = {
   metrics: (componentNames: string[]) => ['metrics', componentNames],
 };
 
@@ -14,7 +14,7 @@ export const useMetricsQuery = (componentNames: string[]) => {
     MetricTypes.metrics,
   );
 
-  return useQuery<SikkerhetsmetrikkerSystemTotal[], Error>({
+  return useQuery<AggregatedSikkerhetsmetrikker, Error>({
     queryKey: metricsQueryKeys.metrics(componentNames),
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
@@ -24,7 +24,7 @@ export const useMetricsQuery = (componentNames: string[]) => {
       );
       return post<
         { componentNames: string[]; entraIdToken: string },
-        SikkerhetsmetrikkerSystemTotal[]
+        AggregatedSikkerhetsmetrikker
       >(endpointUrl, backstageToken, { componentNames, entraIdToken });
     },
     retry: 1,

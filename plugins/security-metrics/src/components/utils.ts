@@ -4,10 +4,8 @@ import {
   Severity,
   SikkerhetsmetrikkerSystemTotal,
   TrendSeverityCounts,
-  Vulnerability,
 } from '../typesFrontend';
 import { SCANNER_COLORS, SEVERITY_COLORS } from '../colors';
-import { Entity } from '@backstage/catalog-model';
 
 export const getStandardSeverityFormat = (severity: Severity) => {
   switch (severity) {
@@ -71,7 +69,7 @@ export const yAxisAdjustment = (severityCounts: TrendSeverityCounts[]) => {
   return Math.max(...highestCountForSeverities);
 };
 
-export const SEVERITY_GRAPH_COLORS = [
+const SEVERITY_GRAPH_COLORS = [
   SEVERITY_COLORS.CRITICAL,
   SEVERITY_COLORS.HIGH,
   SEVERITY_COLORS.MEDIUM,
@@ -99,53 +97,6 @@ export const isExperimentalLifecycle = (value: unknown): value is string =>
 
 export const isDocumentationType = (value: unknown): value is string =>
   typeof value === 'string' && value.toLowerCase() === 'documentation';
-
-export const getComponentRefs = (
-  entity: Entity,
-  relationType: string,
-): string[] =>
-  entity.relations
-    ?.filter(
-      r =>
-        r.type === relationType &&
-        r.targetRef.toLowerCase().startsWith('component'),
-    )
-    .map(r => r.targetRef) ?? [];
-
-export const getRepositoryNames = (entities: Entity[]): string[] => {
-  return entities
-    .filter(entity => entity?.spec?.lifecycle !== 'experimental')
-    .map(
-      entity => entity.metadata.annotations?.['backstage.io/source-location'],
-    )
-    .filter((repo): repo is string => typeof repo === 'string')
-    .map(repo => {
-      const match = repo.match(
-        /^url:https:\/\/github\.com\/kartverket\/([^\/]+)(?:\/|$)/,
-      );
-      return match ? match[1] : undefined;
-    })
-    .filter((name): name is string => Boolean(name));
-};
-
-export const findBestId = (vulnerability: Vulnerability) => {
-  const cveId = vulnerability.vulnerabilityIdInfo.filter(
-    vulnerabilityId => vulnerabilityId.type === 'CVE',
-  );
-  const cweIds = vulnerability.vulnerabilityIdInfo.filter(
-    vulnerabilityId => vulnerabilityId.type === 'cwe',
-  );
-  const otherIds = vulnerability.vulnerabilityIdInfo.filter(
-    vulnerabilityId =>
-      vulnerabilityId.type !== 'cwe' && vulnerabilityId.type !== 'CVE',
-  );
-
-  let shownId = [];
-  if (cveId.length !== 0) shownId = cveId;
-  else if (cweIds.length !== 0) shownId = cweIds;
-  else shownId = otherIds;
-  return shownId[0].id;
-};
 
 export const filterSystemsByComponents = (
   data: SikkerhetsmetrikkerSystemTotal[] | undefined,

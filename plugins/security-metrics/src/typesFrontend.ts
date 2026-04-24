@@ -108,6 +108,24 @@ export type SikkerhetsmetrikkerSystemTotal = {
   metrics: SikkerhetsmetrikkerTotal;
 };
 
+export type AggregatedSikkerhetsmetrikker = {
+  systems: SikkerhetsmetrikkerSystemTotal[];
+  vulnerabilityOverview: SystemVulnerabilityOverview;
+};
+
+export type SystemVulnerabilityOverview = {
+  totalCount: number;
+  severityCount: SeverityCount;
+  vulnerabilities: AggregatedVulnerability[];
+};
+
+export type AggregatedVulnerability = {
+  vulnerabilityId: string;
+  severity: Severity;
+  summary: string;
+  affectedComponents: string[];
+};
+
 export type ScannerConfig = {
   dependabot: boolean;
   codeQL: boolean;
@@ -145,8 +163,6 @@ export interface RiscStatusData {
   lastPublishedRisc: string;
   commitsSincePublishedRisc: number;
 }
-
-export type ScannerType = 'Dependabot' | 'CodeQL' | 'Pharos' | 'Sysdig';
 
 export type Severity =
   | 'unknown'
@@ -186,4 +202,10 @@ export type MetricsUpdateStatus = {
   codeScanning: boolean;
   secretScanning: boolean;
   riscMetrics: boolean;
+};
+
+export type ErrorResponse = {
+  status: number;
+  code: string;
+  message: string;
 };

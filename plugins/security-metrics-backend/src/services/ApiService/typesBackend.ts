@@ -118,6 +118,26 @@ export type SikkerhetsmetrikkerSystemTotal = {
   metrics: SikkerhetsmetrikkerTotal;
 };
 
+export type AggregatedSikkerhetsmetrikker = {
+  systems: SikkerhetsmetrikkerSystemTotal[];
+  vulnerabilityOverview: SystemVulnerabilityOverview;
+};
+
+export type SystemVulnerabilityOverview = {
+  totalCount: number;
+  severityCount: SeverityCount;
+  vulnerabilities: AggregatedVulnerability[];
+};
+
+export type AggregatedVulnerability = {
+  vulnerabilityId: string;
+  severity: Severity;
+  scanners: Scanner[];
+  summary: string;
+  dateFirstSeen: string;
+  affectedComponents: string[];
+};
+
 export type Severity =
   | 'unknown'
   | 'negligible'
@@ -165,11 +185,6 @@ export type SeverityCount = {
   critical: number;
 };
 
-export type SecurityChamp = {
-  repositoryName: string;
-  securityChampionEmail: string;
-};
-
 export type ChangeStatusRequestBody = {
   componentName: string;
   vulnerabilityId: string;
@@ -192,4 +207,16 @@ export type SlackNotificationConfig = {
   channelId: string;
   severity: string[];
   componentNames: string[];
+};
+
+export type ErrorResponse = {
+  status: number;
+  code: string;
+  message: string;
+};
+
+export type ErrorBody = {
+  status?: number;
+  code?: string;
+  message?: string;
 };

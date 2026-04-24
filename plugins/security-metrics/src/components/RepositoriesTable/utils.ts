@@ -1,6 +1,6 @@
 import { RepositorySummary } from '../../typesFrontend';
 
-export const getScannerStatus = (repository: RepositorySummary) => [
+const getScannerStatus = (repository: RepositorySummary) => [
   { name: 'Dependabot', status: repository.scannerConfig.dependabot },
   { name: 'CodeQL', status: repository.scannerConfig.codeQL },
   { name: 'Pharos', status: repository.scannerConfig.pharos },

@@ -16,7 +16,7 @@ import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocompl
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
 
-export type ComponentFormProps = {
+type ComponentFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   setValue: UseFormSetValue<z.infer<typeof formSchema>>;

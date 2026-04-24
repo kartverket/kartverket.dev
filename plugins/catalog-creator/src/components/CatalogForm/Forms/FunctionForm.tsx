@@ -14,7 +14,7 @@ import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentF
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { toEntityRef } from '../../../utils/toEntityRef';
 
-export type FunctionFormProps = {
+type FunctionFormProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
   errors: EntityErrors<'Function'>;

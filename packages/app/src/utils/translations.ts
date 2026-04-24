@@ -3,7 +3,7 @@ import {
   createTranslationResource,
 } from '@backstage/core-plugin-api/alpha';
 
-export const sidebarMessages = {
+const sidebarMessages = {
   sidebar: {
     searchTitle: 'Search',
     homeTitle: 'Home',
@@ -44,7 +44,7 @@ export const sidebarNorwegianTranslation = createTranslationResource({
   },
 });
 
-export const homepageMessages = {
+const homepageMessages = {
   homepage: {
     recentlyVisited: 'Recently Visited',
     favorites: 'Favorites',
@@ -71,7 +71,7 @@ export const homepageNorwegianTranslation = createTranslationResource({
   },
 });
 
-export const functionPageMessages = {
+const functionPageMessages = {
   functionpage: {
     title: 'Business Functions in Kartverket',
     subtitle:

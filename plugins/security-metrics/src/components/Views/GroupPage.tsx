@@ -17,8 +17,6 @@ import {
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
-import { useMetricsQuery } from '../../hooks/useMetricsQuery';
-import { useFetchComponentNamesByGroup } from '../../hooks/useFetchComponentNames';
 import NoAccessAlert from '../NoAccessAlert';
 import Button from '@mui/material/Button';
 import TuneIcon from '@mui/icons-material/Tune';
@@ -30,10 +28,14 @@ import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
 import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { MetricsStatus } from '../MetricsStatus';
+import Alert from '@mui/material/Alert';
+import { useGroupMetrics } from '../../hooks/useGroupMetrics';
+import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/VulnerabilityOverviewTable';
 
 enum TabEnum {
   COMPONENT = 0,
   SYSTEM = 1,
+  VULNERABILITIES = 2,
 }
 
 export const GroupPage = () => {
@@ -47,12 +49,16 @@ export const GroupPage = () => {
 
   const { showTotal, toggleShowTotal } = useShowTrendTotal();
 
-  const { componentNames, componentNamesIsLoading, componentNamesError } =
-    useFetchComponentNamesByGroup(entity);
-  const { data, isPending, error } = useMetricsQuery(componentNames);
+  const { data, isLoading, isEmpty, error, errorTitle } =
+    useGroupMetrics(entity);
 
-  const permitted: RepositorySummary[] = getAllPermittedMetrics(data ?? []);
-  const notPermitted: string[] = getAllNotPermittedComponents(data ?? []);
+  const permitted: RepositorySummary[] = data
+    ? getAllPermittedMetrics(data)
+    : [];
+  const notPermitted: string[] = data ? getAllNotPermittedComponents(data) : [];
+  const secrets: Secrets[] = data ? getAllSecrets(data) : [];
+  const aggregatedVulnerabilities =
+    data?.vulnerabilityOverview?.vulnerabilities ?? [];
 
   const allComponentRefs = permitted.flatMap(p =>
     p.componentNames.map(n => `component:default/${n}`),
@@ -68,23 +74,25 @@ export const GroupPage = () => {
     p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
   );
 
-  if (error || componentNamesError)
-    return (
-      <ErrorBanner
-        errorTitle={`Kunne ikke hente ${error ? 'metrikker' : 'reponavn'} for ${entity.metadata.name}`}
-        errorMessage={error ? error.message : componentNamesError?.message}
-      />
-    );
-
-  if (componentNamesIsLoading || isPending) return <Progress />;
-
   const filteredSystemsData = filterSystemsByComponents(
-    data,
+    data?.systems ?? [],
     new Set(filteredPermitted.map(c => c.repoName)),
     effectiveFilter,
   );
 
-  const secrets: Secrets[] = getAllSecrets(data);
+  if (isLoading) return <Progress />;
+
+  if (error) {
+    return <ErrorBanner errorTitle={errorTitle} errorMessage={error.message} />;
+  }
+
+  if (isEmpty) {
+    return (
+      <Alert severity="info">
+        Finner ingen komponenter som har sikkerhetsmetrikker
+      </Alert>
+    );
+  }
 
   return (
     <Stack gap={2}>
@@ -171,7 +179,12 @@ export const GroupPage = () => {
       >
         <Tab label="Metrikker per komponent" value={TabEnum.COMPONENT} />
         <Tab label="Metrikker per system" value={TabEnum.SYSTEM} />
+        <Tab label="Unike sårbarheter" value={TabEnum.VULNERABILITIES} />
       </Tabs>
+
+      {selectedTab === TabEnum.VULNERABILITIES && (
+        <VulnerabilityOverviewTable data={aggregatedVulnerabilities} />
+      )}
 
       {selectedTab === TabEnum.COMPONENT && (
         <RepositoriesTable

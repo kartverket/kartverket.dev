@@ -3,7 +3,7 @@ import {
   createTranslationResource,
 } from '@backstage/core-plugin-api/alpha';
 
-export const groupProfileCardMessages = {
+const groupProfileCardMessages = {
   groupProfileCard: {
     groupNotFound: 'Group not found',
     editIconButtonTitle: 'Edit Metadata',

@@ -3,7 +3,7 @@ import {
   createTranslationResource,
 } from '@backstage/core-plugin-api/alpha';
 
-export const catalogCreatorMessages = {
+const catalogCreatorMessages = {
   contentHeader: {
     title: 'Edit or Create Entities',
     editTitle: 'Edit the',
