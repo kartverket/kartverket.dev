@@ -1,5 +1,5 @@
 import { createBackendModule } from '@backstage/backend-plugin-api';
-import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node/alpha';
+import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node';
 import { FunctionEntitiesProcessor } from './processor/FunctionEntitiesProcessor';
 
 const catalogModuleFunctionEntities = createBackendModule({
