@@ -26,14 +26,10 @@ export const FunctionEntityPage = () => {
         <Grid container spacing={3} alignItems="stretch">
           {entityWarningContent}
           <Grid size={{ md: 6 }}>
-            <FunctionAboutCard
-              variant="gridItem"
-              title={t('functionEntityPage.aboutTitle')}
-            />
+            <FunctionAboutCard title={t('functionEntityPage.aboutTitle')} />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <EntityCatalogGraphCard
-              variant="gridItem"
               height={400}
               kinds={['function', 'component', 'system', 'resource']}
               title={t('functionEntityPage.graphTitle')}
