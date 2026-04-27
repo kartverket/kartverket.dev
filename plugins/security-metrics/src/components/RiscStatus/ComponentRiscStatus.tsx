@@ -39,7 +39,7 @@ export const ComponentRiscStatus = ({
           <TableBody>
             <Fragment key={riscStatus.repositoryName}>
               <StyledTableRow>
-                <TableCell>Kodenær ROS</TableCell>
+                <TableCell>Operasjonell RoS</TableCell>
                 <TableCell>
                   {riscStatus.hasRisc ? (
                     <Tooltip title="Konfigurert">

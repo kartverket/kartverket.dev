@@ -85,7 +85,7 @@ export const systemPage = (
       />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/risc" title="Kodenær RoS">
+    <EntityLayout.Route path="/risc" title="Operasjonell RoS">
       <RiScPage />
     </EntityLayout.Route>
 

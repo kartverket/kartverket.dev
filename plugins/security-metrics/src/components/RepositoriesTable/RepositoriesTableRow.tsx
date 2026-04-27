@@ -71,11 +71,11 @@ export const RepositoriesTableRow = ({
           <Box display="flex" alignItems="center" minHeight="32px">
             <Box display="flex" gap={1}>
               {repository.riscStatus?.hasRisc ? (
-                <Tooltip title="Har en kodenær ROS">
+                <Tooltip title="Har en operasjonell RoS">
                   <CheckIcon color="success" />
                 </Tooltip>
               ) : (
-                <Tooltip title="Har ikke en kodenær ROS">
+                <Tooltip title="Har ikke en operasjonell RoS">
                   <CloseIcon color="error" />
                 </Tooltip>
               )}
