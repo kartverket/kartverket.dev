@@ -14,10 +14,10 @@
     "test": "backstage-cli package test"
   },
   "dependencies": {
-    "@backstage-community/plugin-explore": "^0.16.0",
-    "@backstage-community/plugin-github-actions": "^0.19.0",
-    "@backstage-community/plugin-grafana": "^0.13.0",
-    "@backstage-community/plugin-lighthouse": "^0.17.0",
+    "@backstage-community/plugin-explore": "0.18.0",
+    "@backstage-community/plugin-github-actions": "0.22.0",
+    "@backstage-community/plugin-grafana": "0.17.0",
+    "@backstage-community/plugin-lighthouse": "0.21.0",
     "@backstage/app-defaults": "backstage:^",
     "@backstage/catalog-model": "backstage:^",
     "@backstage/cli": "backstage:^",
@@ -49,23 +49,23 @@
     "@internal/plugin-frontend-custom-components": "workspace:^",
     "@internal/plugin-function-kind-common": "workspace:^",
     "@kartverket/backstage-plugin-catalog-creator": "workspace:",
-    "@kartverket/backstage-plugin-opencost": "^0.1.7",
+    "@kartverket/backstage-plugin-opencost": "0.1.7",
     "@kartverket/backstage-plugin-risk-scorecard": "6.4.1",
     "@kartverket/backstage-plugin-security-champion": "workspace:",
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:",
-    "@mui/icons-material": "^7.3.9",
-    "@mui/material": "^7.3.9",
-    "@mui/x-tree-view": "^8.27.2",
-    "backstage-plugin-techdocs-addon-mermaid": "^0.23.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-router": "^6.30.3",
-    "react-router-dom": "^6.30.3",
-    "tss-react": "^4.9.20",
-    "zod": "^4.3.5"
+    "@mui/icons-material": "7.3.10",
+    "@mui/material": "7.3.10",
+    "@mui/x-tree-view": "8.28.3",
+    "backstage-plugin-techdocs-addon-mermaid": "0.26.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router": "6.30.3",
+    "react-router-dom": "6.30.3",
+    "tss-react": "4.9.20",
+    "zod": "4.3.6"
   },
   "devDependencies": {
-    "@types/react-dom": "^18"
+    "@types/react-dom": "18.3.7"
   },
   "browserslist": {
     "production": [

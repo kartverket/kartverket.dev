@@ -1,11 +1,13 @@
 import { format } from 'date-fns';
-import type { Payload } from 'recharts/types/component/DefaultTooltipContent';
+import type {
+  NameType,
+  Payload,
+  ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
+import type { TooltipContentProps } from 'recharts';
 import { BASIC_COLORS } from '../../colors';
 
-type CustomTooltipProps = {
-  active?: boolean;
-  label?: string | number;
-  payload?: Payload<number, string>[];
+type CustomTooltipProps = TooltipContentProps<ValueType, NameType> & {
   isDarkMode: boolean;
 };
 
@@ -31,7 +33,7 @@ export const TrendTooltip = ({
         {format(new Date(String(label)), 'dd-MM-yyyy')}
       </div>
 
-      {payload.map((entry: Payload<number, string>) => (
+      {payload.map((entry: Payload<ValueType, NameType>) => (
         <div
           key={`${entry.name ?? entry.dataKey}`}
           style={{

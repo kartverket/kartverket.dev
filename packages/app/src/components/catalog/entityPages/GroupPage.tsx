@@ -19,12 +19,11 @@ export const groupPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid size={{ xs: 12, md: 6 }}>
-          <GroupProfileCard variant="gridItem" />
+          <GroupProfileCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <EntityOwnershipCard
             entityLimit={9}
-            variant="gridItem"
             entityFilterKind={[
               'Domain',
               'System',

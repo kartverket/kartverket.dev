@@ -12,10 +12,10 @@ export const userPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid size={{ xs: 12, md: 6 }}>
-          <EntityUserProfileCard variant="gridItem" />
+          <EntityUserProfileCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <EntityOwnershipCard variant="gridItem" />
+          <EntityOwnershipCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
