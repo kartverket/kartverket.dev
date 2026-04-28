@@ -91,6 +91,7 @@ export type Vulnerability = {
   scanners: Scanner[];
   summary: string;
   dateFirstSeen: string;
+  severityUpdatedAt?: string;
   status: Status;
   changedAt: Date;
   comment: string;
