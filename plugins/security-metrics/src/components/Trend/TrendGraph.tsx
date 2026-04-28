@@ -7,7 +7,6 @@ import {
   YAxis,
   Tooltip,
   Area,
-  TooltipProps,
 } from 'recharts';
 import { BASIC_COLORS, SEVERITY_COLORS } from '../../colors';
 import { yAxisAdjustment } from '../utils';
@@ -16,6 +15,11 @@ import { TrendSeverityCounts } from '../../typesFrontend';
 import { getAggregatedTrends } from './utils';
 import { useTheme } from '@mui/material/styles';
 import { TrendTooltip } from './TrendTooltip';
+import type {
+  NameType,
+  ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
+import type { TooltipContentProps } from 'recharts';
 
 interface GraphProps {
   trendData: TrendSeverityCounts[];
@@ -62,7 +66,7 @@ export const Graph = ({ trendData, graphTimeline, showTotal }: GraphProps) => {
         <YAxis type="number" domain={[0, yAxisAdjustment(data)]} />
 
         <Tooltip
-          content={(props: TooltipProps<number, string>) => (
+          content={(props: TooltipContentProps<ValueType, NameType>) => (
             <TrendTooltip {...props} isDarkMode={isDarkMode} />
           )}
         />

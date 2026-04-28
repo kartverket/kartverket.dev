@@ -51,7 +51,7 @@
   - Plugins can be run in isolation via `yarn start` in their directory
 - **Configuration**
   - Local secrets and tokens go in `app-config.local.yaml` (never commit real secrets)
-  - Use `mise` or `nvm` for Node version management (Node 22 required)
+  - Use `mise` or `nvm` for Node version management (Node 24 required)
 - **Catalog Onboarding**
   - Add new services/components to the catalog via templates or by editing `catalog-info.yaml`
   - See `/docs/getting-started/using-the-catalog.md` for onboarding

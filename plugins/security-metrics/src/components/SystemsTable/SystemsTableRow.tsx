@@ -18,14 +18,16 @@ import { useState } from 'react';
 
 type Props = {
   systemName: string;
+  hasPermittedMetrics: boolean;
   notPermittedCount: number;
-  severityCount?: SeverityCount;
-  highestVulnerabilityCount?: number;
+  severityCount: SeverityCount;
+  highestVulnerabilityCount: number;
   noSystemComponents?: string[];
 };
 
 export const SystemsTableRow = ({
   systemName,
+  hasPermittedMetrics,
   notPermittedCount,
   severityCount,
   highestVulnerabilityCount,
@@ -35,8 +37,8 @@ export const SystemsTableRow = ({
   const [open, setOpen] = useState(false);
   const noSystem = noSystemComponents.length > 0;
 
-  if (!severityCount || !highestVulnerabilityCount) {
-    return <NoAccessRow key={systemName} repositoryName={systemName} />;
+  if (!hasPermittedMetrics) {
+    return <NoAccessRow repositoryName={systemName} />;
   }
 
   const { critical, high, medium, low, negligible, unknown } = severityCount;
