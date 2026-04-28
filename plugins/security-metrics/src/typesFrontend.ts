@@ -66,6 +66,7 @@ export type Vulnerability = {
   summary: string;
   dateFirstSeen: string;
   statusInfo: VulnerabilityStatusInfo;
+  severityUpdatedAt?: string;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
 
