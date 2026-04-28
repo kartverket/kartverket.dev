@@ -68,14 +68,20 @@ export const SystemsTable = ({ data }: Props) => {
         </TableHead>
         <TableBody>
           {sortedSystems.map(system => {
+            const sys = bySystemName.get(system.systemName);
+            const hasPermittedMetrics =
+              (sys?.metrics?.permittedMetrics?.length ?? 0) > 0;
+
             const noSystemComponents =
               system.systemName === 'Mangler system'
                 ? getComponentsFor(system.systemName)
                 : [];
+
             return (
               <SystemsTableRow
                 key={system.systemName}
                 systemName={system.systemName}
+                hasPermittedMetrics={hasPermittedMetrics}
                 notPermittedCount={
                   notPermittedCount.get(system.systemName) ?? 0
                 }
