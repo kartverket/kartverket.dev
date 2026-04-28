@@ -11,7 +11,7 @@
 # Once the commands have been run, you can build the image using `yarn build-image`
 
 # --- Builder: install prod deps and unpack the bundle
-FROM node:22-bookworm-slim AS build
+FROM node:24-bookworm-slim AS build
 
 ENV PYTHON=/usr/bin/python3
 RUN corepack enable
@@ -39,8 +39,7 @@ COPY backstage.json ./
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV=production
 
-# This disables node snapshot for Node 20 to work with the Scaffolder
-# Not sure if needed for Node 22.
+# Required by Backstage Scaffolder on Node 20+
 ENV NODE_OPTIONS="--no-node-snapshot"
 
 # Copy repo skeleton first, to avoid unnecessary docker cache invalidation.
@@ -57,7 +56,7 @@ COPY packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # --- Runtime: distroless NodeJS
-FROM gcr.io/distroless/nodejs22-debian12
+FROM gcr.io/distroless/nodejs24-debian12
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
 WORKDIR /app
