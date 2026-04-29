@@ -82,6 +82,19 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
+        const entityName = req.query.entityName as string | undefined;
+        if (!entityName) {
+          return res
+            .status(400)
+            .send(
+              errorResponse(
+                400,
+                'BAD_REQUEST',
+                'Mangler entityName query parameter',
+              ),
+            );
+        }
+
         const entraIdToken = req.header('EntraId');
         if (!entraIdToken) {
           return res
@@ -89,7 +102,10 @@ export const createRouter = async (
             .send(errorResponse(400, 'BAD_REQUEST', 'EntraId is required'));
         }
 
-        const result = await apiService.fetchMetricsUpdateStatus(entraIdToken);
+        const result = await apiService.fetchMetricsUpdateStatus(
+          entityName,
+          entraIdToken,
+        );
 
         return sendEither(res, result);
       },
@@ -107,8 +123,22 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
+        const entityName = req.query.entityName as string | undefined;
         const request = req.body as FetchMetricsRequestBody;
+        if (!entityName) {
+          return res
+            .status(400)
+            .send(
+              errorResponse(
+                400,
+                'BAD_REQUEST',
+                'Mangler entityName query parameter',
+              ),
+            );
+        }
+
         const result = await apiService.fetchMetricsData(
+          entityName,
           request.componentNames,
           request.entraIdToken,
         );
@@ -168,8 +198,22 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
+        const entityName = req.query.entityName as string | undefined;
+        if (!entityName) {
+          return res
+            .status(400)
+            .send(
+              errorResponse(
+                400,
+                'BAD_REQUEST',
+                'Mangler entityName query parameter',
+              ),
+            );
+        }
+
         const request = req.body as FetchTrendsRequestBody;
         const result = await apiService.fetchVulnerabilityTrendsData(
+          entityName,
           request.componentNames,
           request.fromDate,
           request.toDate,

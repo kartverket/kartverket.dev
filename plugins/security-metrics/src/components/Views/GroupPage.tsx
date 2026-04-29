@@ -97,7 +97,7 @@ export const GroupPage = () => {
   return (
     <Stack gap={2}>
       <Stack flexDirection="row" alignItems="center" gap={2}>
-        <MetricsStatus />
+        <MetricsStatus entityName={entity.metadata.name} />
         <Stack
           flexDirection="row"
           gap={2}
