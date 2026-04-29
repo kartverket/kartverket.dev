@@ -31,7 +31,7 @@ const LastNotificationRunStatus = ({
     const date = new Date(lastNotificationRunAt);
     const isRecent = Date.now() - date.getTime() < 24 * 60 * 60 * 1000;
     bgColor = isRecent ? 'success.main' : 'error.main';
-    label = `Siste sårbarhetssjekk mot kanal: ${date.toLocaleString('nb-NO', {
+    label = `Sist vurdert for varsling til Slack: ${date.toLocaleString('nb-NO', {
       dateStyle: 'short',
       timeStyle: 'short',
     })}`;
