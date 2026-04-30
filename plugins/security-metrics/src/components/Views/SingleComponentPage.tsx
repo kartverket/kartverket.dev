@@ -56,7 +56,7 @@ export const SingleComponentPage = () => {
   return (
     <Stack gap={2}>
       <Stack direction="row" alignItems="center" gap={2}>
-        <MetricsStatus />
+        <MetricsStatus entityName={componentName} />
         <Stack
           flexDirection="row"
           gap={2}

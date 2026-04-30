@@ -6,6 +6,7 @@ import { TrendSeverityCounts } from '../typesFrontend';
 import { post } from '../api/client';
 
 export const useTrendsQuery = (
+  entityName: string,
   componentNames: string[],
   fromDate: Date,
   toDate: Date,
@@ -22,6 +23,7 @@ export const useTrendsQuery = (
         backstageAuthApi,
         microsoftAuthApi,
       );
+      endpointUrl.searchParams.set('entityName', entityName);
       return post<
         {
           componentNames: string[];

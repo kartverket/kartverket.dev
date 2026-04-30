@@ -14,7 +14,10 @@ type UseGroupMetricsResult = {
 export const useGroupMetrics = (entity: Entity): UseGroupMetricsResult => {
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesByGroup(entity);
-  const { data, isPending, error } = useMetricsQuery(componentNames);
+  const { data, isPending, error } = useMetricsQuery(
+    entity.metadata.name,
+    componentNames,
+  );
 
   const isLoading =
     componentNamesIsLoading || (componentNames.length > 0 && isPending);

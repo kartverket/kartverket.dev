@@ -28,9 +28,13 @@ const SCANNER_LABELS: Record<keyof MetricsUpdateStatus, string> = {
   riscMetrics: 'Risiko- og sårbarhetsarbeid',
 };
 
-export const MetricsStatus = () => {
+interface MetricsStatusProps {
+  entityName: string;
+}
+
+export const MetricsStatus = ({ entityName }: MetricsStatusProps) => {
   const [open, setOpen] = useState(false);
-  const { data, isPending, error } = useMetricsUpdateStatusQuery();
+  const { data, isPending, error } = useMetricsUpdateStatusQuery(entityName);
 
   if (isPending || error || !data) {
     return null;

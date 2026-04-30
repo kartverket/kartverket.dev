@@ -7,6 +7,7 @@ import { CardTitle } from '../CardTitle';
 import { Graph } from './TrendGraph';
 import { GraphLabels } from './GraphLabels';
 import { Progress } from '@backstage/core-components';
+import { useEntity } from '@backstage/plugin-catalog-react';
 
 interface TrendProps {
   componentNames: string[] | string;
@@ -14,6 +15,7 @@ interface TrendProps {
 }
 
 export const Trend = ({ componentNames, showTotal }: TrendProps) => {
+  const { entity } = useEntity();
   const toDate = useRef(new Date()).current;
   const [fromDate, setFromDate] = useState<Date>(() =>
     getFromDate('oneMonth', toDate),
@@ -24,7 +26,12 @@ export const Trend = ({ componentNames, showTotal }: TrendProps) => {
     ? componentNames
     : [componentNames];
 
-  const { data, isPending, error } = useTrendsQuery(items, fromDate, toDate);
+  const { data, isPending, error } = useTrendsQuery(
+    entity.metadata.name,
+    items,
+    fromDate,
+    toDate,
+  );
 
   return (
     <CardTitle title="Trend">

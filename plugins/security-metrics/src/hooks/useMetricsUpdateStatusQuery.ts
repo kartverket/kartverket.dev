@@ -5,7 +5,7 @@ import { useConfig } from './getConfig';
 import { MetricsUpdateStatus } from '../typesFrontend';
 import { get } from '../api/client';
 
-export const useMetricsUpdateStatusQuery = () => {
+export const useMetricsUpdateStatusQuery = (entityName: string) => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
     MetricTypes.metricsUpdateStatus,
   );
@@ -18,6 +18,7 @@ export const useMetricsUpdateStatusQuery = () => {
         backstageAuthApi,
         microsoftAuthApi,
       );
+      endpointUrl.searchParams.set('entityName', entityName);
       return get<MetricsUpdateStatus>(
         endpointUrl,
         backstageToken,
