@@ -31,10 +31,13 @@ const LastNotificationRunStatus = ({
     const date = new Date(lastNotificationRunAt);
     const isRecent = Date.now() - date.getTime() < 24 * 60 * 60 * 1000;
     bgColor = isRecent ? 'success.main' : 'error.main';
-    label = `Siste sårbarhetssjekk mot kanal: ${date.toLocaleString('nb-NO', {
-      dateStyle: 'short',
-      timeStyle: 'short',
-    })}`;
+    label = `Varsler sendes kun dersom vi finner nye eller endrede sårbarheter. Siste gang varsling ble vurdert var ${date.toLocaleString(
+      'nb-NO',
+      {
+        dateStyle: 'short',
+        timeStyle: 'short',
+      },
+    )}`;
   }
 
   return (
