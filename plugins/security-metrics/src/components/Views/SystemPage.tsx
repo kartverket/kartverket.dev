@@ -25,20 +25,23 @@ import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentN
 import { MetricsStatus } from '../MetricsStatus';
 
 export const SystemPage = () => {
-  const { entity: system } = useEntity();
+  const { entity } = useEntity();
 
   const { componentNames, componentNamesIsLoading, componentNamesError } =
-    useFetchComponentNamesFromSystem(system);
+    useFetchComponentNamesFromSystem(entity);
 
   const { showTotal, toggleShowTotal } = useShowTrendTotal();
   const [openViewSettings, setOpenViewSettings] = useState(false);
 
-  const { data, isPending, error } = useMetricsQuery(componentNames);
+  const { data, isPending, error } = useMetricsQuery(
+    entity.metadata.name,
+    componentNames,
+  );
 
   if (error || componentNamesError)
     return (
       <ErrorBanner
-        errorTitle={`Kunne ikke hente metrikker for systemet ${system.metadata.name}`}
+        errorTitle={`Kunne ikke hente metrikker for systemet ${entity.metadata.name}`}
         errorMessage={error ? error.message : componentNamesError?.message}
       />
     );
@@ -52,7 +55,7 @@ export const SystemPage = () => {
   return (
     <Stack gap={2}>
       <Stack direction="row" alignItems="center" gap={2}>
-        <MetricsStatus />
+        <MetricsStatus entityName={entity.metadata.name} />
         <Stack
           flexDirection="row"
           gap={2}

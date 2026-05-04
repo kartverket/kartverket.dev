@@ -127,10 +127,14 @@ export class ApiService {
   }
 
   async fetchMetricsData(
+    entityName: string,
     componentNames: string[],
     entraIdToken: string,
   ): Promise<Either<ErrorResponse, AggregatedSikkerhetsmetrikker>> {
-    const endpointResult = this.buildEndpoint('/api/scannerData');
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}`,
+    );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);
     }
@@ -177,9 +181,13 @@ export class ApiService {
   }
 
   async fetchMetricsUpdateStatus(
+    entityName: string,
     entraIdToken: string,
   ): Promise<Either<ErrorResponse, MetricsUpdateStatus>> {
-    const endpointResult = this.buildEndpoint('/api/scannerData/status');
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/status`,
+    );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);
     }
@@ -196,12 +204,16 @@ export class ApiService {
   }
 
   async fetchVulnerabilityTrendsData(
+    entityName: string,
     componentNames: string[],
     fromDate: Date,
     toDate: Date,
     entraIdToken: string,
   ): Promise<Either<ErrorResponse, SeverityCounts[]>> {
-    const endpointResult = this.buildEndpoint('/api/scannerData/trends');
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/trends`,
+    );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);
     }

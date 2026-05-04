@@ -6,22 +6,26 @@ import { AggregatedSikkerhetsmetrikker } from '../typesFrontend';
 import { post } from '../api/client';
 
 const metricsQueryKeys = {
-  metrics: (componentNames: string[]) => ['metrics', componentNames],
+  metrics: (entityName: string) => ['metrics', entityName],
 };
 
-export const useMetricsQuery = (componentNames: string[]) => {
+export const useMetricsQuery = (
+  entityName: string,
+  componentNames: string[],
+) => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
     MetricTypes.metrics,
   );
 
   return useQuery<AggregatedSikkerhetsmetrikker, Error>({
-    queryKey: metricsQueryKeys.metrics(componentNames),
+    queryKey: metricsQueryKeys.metrics(entityName),
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
         backstageAuthApi,
         microsoftAuthApi,
       );
+      endpointUrl.searchParams.set('entityName', entityName);
       return post<
         { componentNames: string[]; entraIdToken: string },
         AggregatedSikkerhetsmetrikker

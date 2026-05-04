@@ -65,13 +65,22 @@ export type Vulnerability = {
   scanners: Scanner[];
   summary: string;
   dateFirstSeen: string;
+  statusInfo: VulnerabilityStatusInfo;
   severityUpdatedAt?: string;
-  status: Status;
-  changedAt: Date;
-  comment: string;
-  changedBy: string;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
+
+export type VulnerabilityStatusInfo =
+  | {
+      state: 'loaded';
+      status: Status | null;
+      changedAt: Date | null;
+      comment: string | null;
+      changedBy: string | null;
+    }
+  | {
+      state: 'error';
+    };
 
 export type SecretAlert = {
   createdAt: string;
