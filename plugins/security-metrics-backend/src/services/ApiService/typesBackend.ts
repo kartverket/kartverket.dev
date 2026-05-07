@@ -105,7 +105,6 @@ export type Vulnerability = {
   changedAt: Date;
   comment: string;
   changedBy: string;
-  alertCount: number;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
 
