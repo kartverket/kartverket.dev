@@ -5,25 +5,31 @@ export enum Scanner {
   Sysdig = 'Sysdig',
 }
 
-export type DependabotSpecificInfo = {
+export type ScannerAlertInfo = {
+  alertId: string;
   htmlUrl: string;
-  isDirect: boolean;
+};
+
+export type DependabotSpecificInfo = {
+  alerts: ScannerAlertInfo[];
   isFixable: boolean;
+  isDirect: boolean;
 };
 
 export type CodeQlSpecificInfo = {
-  htmlUrl: string;
-  branch: string;
+  alerts: ScannerAlertInfo[];
+  branch: string[];
   locations: number;
 };
 
 export type PharosSpecificInfo = {
-  htmlUrl: string;
+  alerts: ScannerAlertInfo[];
   branch: string;
 };
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
+  findingCount: number;
   containerNames: string[];
   locations: { cluster: string; namespace: string }[];
   isExploitable: boolean;
@@ -67,6 +73,7 @@ export type Vulnerability = {
   dateFirstSeen: string;
   statusInfo: VulnerabilityStatusInfo;
   severityUpdatedAt?: string;
+  alertCount: number;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
 

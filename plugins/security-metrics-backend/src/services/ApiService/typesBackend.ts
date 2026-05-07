@@ -34,29 +34,38 @@ export type SecretAlert = {
   bypassedBy?: GithubBypassed;
 };
 
-export type DependabotSpecificInfo = {
+export type ScannerAlertInfo = {
+  alertId: string;
   htmlUrl: string;
+};
+
+export type DependabotSpecificInfo = {
+  alerts: ScannerAlertInfo[];
+  isFixable: boolean;
   isDirect: boolean;
 };
 
 export type CodeQlSpecificInfo = {
-  htmlUrl: string;
-  branch: string;
+  alerts: ScannerAlertInfo[];
+  branch: string[];
   locations: number;
 };
 
 export type PharosSpecificInfo = {
-  htmlUrl: string;
+  alerts: ScannerAlertInfo[];
   branch: string;
 };
 
 export type SysdigSpecificInfo = {
   htmlUrl: string;
+  findingCount: number;
   containerNames: string[];
   locations: { cluster: string; namespace: string }[];
-  isExploitable: Boolean;
-  isRunning: Boolean;
+  isExploitable: boolean;
+  isRunning: boolean;
   packages: string[];
+  isFixable: boolean;
+  isCisaKEV: boolean;
 };
 
 export type ScannerSpecificInfo = {
@@ -96,6 +105,7 @@ export type Vulnerability = {
   changedAt: Date;
   comment: string;
   changedBy: string;
+  alertCount: number;
   scannerSpecificInfo: ScannerSpecificInfo;
 };
 
