@@ -25,9 +25,15 @@ interface GraphProps {
   trendData: TrendSeverityCounts[];
   graphTimeline: string;
   showTotal: boolean;
+  showOpen: boolean;
 }
 
-export const Graph = ({ trendData, graphTimeline, showTotal }: GraphProps) => {
+export const Graph = ({
+  trendData,
+  graphTimeline,
+  showTotal,
+  showOpen,
+}: GraphProps) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark';
 
@@ -42,6 +48,10 @@ export const Graph = ({ trendData, graphTimeline, showTotal }: GraphProps) => {
         new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
     );
   }, [trendData]);
+
+  const criticalDataKey = showOpen ? 'openCritical' : 'critical';
+  const highDataKey = showOpen ? 'openHigh' : 'high';
+  const totalDataKey = showOpen ? 'openTotal' : 'total';
 
   return (
     <ResponsiveContainer
@@ -63,7 +73,7 @@ export const Graph = ({ trendData, graphTimeline, showTotal }: GraphProps) => {
               : format(new Date(timestamp), 'dd-MM')
           }
         />
-        <YAxis type="number" domain={[0, yAxisAdjustment(data)]} />
+        <YAxis type="number" domain={[0, yAxisAdjustment(data, showOpen)]} />
 
         <Tooltip
           content={(props: TooltipContentProps<ValueType, NameType>) => (
@@ -73,17 +83,18 @@ export const Graph = ({ trendData, graphTimeline, showTotal }: GraphProps) => {
 
         <Area
           type="monotone"
-          dataKey="critical"
-          name="Kritiske sårbarheter"
+          dataKey={criticalDataKey}
+          name={showOpen ? 'Åpne kritiske sårbarheter' : 'Kritiske sårbarheter'}
           stroke={SEVERITY_COLORS.CRITICAL}
           strokeWidth={2}
           fillOpacity={1}
           fill="url(#critical)"
         />
+
         <Area
           type="monotone"
-          dataKey="high"
-          name="Høye sårbarheter"
+          dataKey={highDataKey}
+          name={showOpen ? 'Åpne høye sårbarheter' : 'Høye sårbarheter'}
           stroke={SEVERITY_COLORS.HIGH}
           strokeWidth={2}
           fillOpacity={1}
@@ -93,8 +104,12 @@ export const Graph = ({ trendData, graphTimeline, showTotal }: GraphProps) => {
         {showTotal && (
           <Area
             type="monotone"
-            dataKey="total"
-            name="Totalt antall sårbarheter"
+            dataKey={totalDataKey}
+            name={
+              showOpen
+                ? 'Totalt antall åpne sårbarheter'
+                : 'Totalt antall sårbarheter'
+            }
             stroke={totalStroke}
             strokeWidth={2}
             fillOpacity={0.05}

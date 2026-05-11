@@ -40,6 +40,7 @@ export const getTotalVulnerabilityCount = (severityCount: SeverityCount) => {
 
 export const getSeverityCountPerSystem = (
   data: SikkerhetsmetrikkerSystemTotal[],
+  showOpen: boolean,
 ): { systemName: string; severityCount: SeverityCount }[] =>
   data.map(s => {
     const total: SeverityCount = {
@@ -52,7 +53,8 @@ export const getSeverityCountPerSystem = (
     };
 
     for (const repo of s.metrics?.permittedMetrics ?? []) {
-      const sc = repo.severityCount;
+      const sc = showOpen ? repo.openSeverityCount : repo.severityCount;
+
       total.unknown += sc.unknown;
       total.negligible += sc.negligible;
       total.low += sc.low;

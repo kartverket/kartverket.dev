@@ -12,9 +12,10 @@ import { useEntity } from '@backstage/plugin-catalog-react';
 interface TrendProps {
   componentNames: string[] | string;
   showTotal: boolean;
+  showOpen: boolean;
 }
 
-export const Trend = ({ componentNames, showTotal }: TrendProps) => {
+export const Trend = ({ componentNames, showTotal, showOpen }: TrendProps) => {
   const { entity } = useEntity();
   const toDate = useRef(new Date()).current;
   const [fromDate, setFromDate] = useState<Date>(() =>
@@ -34,7 +35,11 @@ export const Trend = ({ componentNames, showTotal }: TrendProps) => {
   );
 
   return (
-    <CardTitle title="Trend">
+    <CardTitle
+      title={
+        showOpen ? 'Trend over åpne sårbarheter' : 'Trend over alle sårbarheter'
+      }
+    >
       {isPending && <Progress />}
       {data?.length === 0 && (
         <Typography sx={{ fontSize: '1rem', my: 2, ml: 2 }}>
@@ -47,6 +52,7 @@ export const Trend = ({ componentNames, showTotal }: TrendProps) => {
             trendData={data}
             graphTimeline={graphTimeline}
             showTotal={showTotal}
+            showOpen={showOpen}
           />
           <GraphLabels
             graphTimeline={graphTimeline}

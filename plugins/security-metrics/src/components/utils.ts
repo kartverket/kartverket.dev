@@ -2,6 +2,7 @@ import {
   FilterEnum,
   Scanner,
   Severity,
+  SeverityCount,
   SikkerhetsmetrikkerSystemTotal,
   TrendSeverityCounts,
 } from '../typesFrontend';
@@ -61,12 +62,19 @@ export const getFromDate = (graphTimeline: string, todayDate: Date): Date => {
   }
 };
 
-export const yAxisAdjustment = (severityCounts: TrendSeverityCounts[]) => {
+export const yAxisAdjustment = (
+  severityCounts: TrendSeverityCounts[],
+  showOpen: boolean,
+) => {
   const highestCountForSeverities = severityCounts.map(count => {
+    if (showOpen) {
+      return Math.max(count.openCritical ?? 0, count.openHigh ?? 0);
+    }
+
     return Math.max(count.critical, count.high);
   });
 
-  return Math.max(...highestCountForSeverities);
+  return Math.max(...highestCountForSeverities, 0);
 };
 
 const SEVERITY_GRAPH_COLORS = [
@@ -120,3 +128,13 @@ export const filterSystemsByComponents = (
 
 export const severityLegendSorter = (item: any) =>
   SEVERITY_ORDER.indexOf(item?.payload?.key ?? 'unknown');
+
+const getSeverityCount = <
+  T extends {
+    severityCount: SeverityCount;
+    openSeverityCount: SeverityCount;
+  },
+>(
+  item: T,
+  showOpen: boolean,
+) => (showOpen ? item.openSeverityCount : item.severityCount);

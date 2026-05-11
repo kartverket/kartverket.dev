@@ -19,18 +19,17 @@ import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
 import NoAccessAlert from '../NoAccessAlert';
 import Button from '@mui/material/Button';
-import TuneIcon from '@mui/icons-material/Tune';
 import { SlackNotificationDialog } from '../SlackNotificationsDialog';
 import { useStarredRefFilter } from '../../hooks/useStarredRefFilter';
 import { RepositorySummary } from '../../typesFrontend';
 import { filterSystemsByComponents } from '../utils';
-import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
-import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { MetricsStatus } from '../MetricsStatus';
 import Alert from '@mui/material/Alert';
 import { useGroupMetrics } from '../../hooks/useGroupMetrics';
 import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/VulnerabilityOverviewTable';
+import { ViewSettingsButton } from '../ViewSettings/ViewSettingsButton';
+import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -43,11 +42,11 @@ export const GroupPage = () => {
   const { starredEntities } = useStarredEntities();
 
   const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
-  const [openViewSettings, setOpenViewSettings] = useState(false);
   const [channel, setChannel] = useState('');
   const [selectedTab, setSelectedTab] = useState<TabEnum>(TabEnum.COMPONENT);
 
-  const { showTotal, toggleShowTotal } = useShowTrendTotal();
+  const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
+    useSecurityMetricsViewSettings();
 
   const { data, isLoading, isEmpty, error, errorTitle } =
     useGroupMetrics(entity);
@@ -109,17 +108,11 @@ export const GroupPage = () => {
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
         <Box display="flex" alignItems="center" gap={0.5}>
-          <Button
-            variant="text"
-            startIcon={<TuneIcon />}
-            color="primary"
-            onClick={() => setOpenViewSettings(true)}
-          >
-            Tilpass visning
-          </Button>
-          <ViewSettingsDialog
-            open={openViewSettings}
-            onClose={() => setOpenViewSettings(false)}
+          <ViewSettingsButton
+            showTotal={showTotal}
+            showOpen={showOpen}
+            onToggleShowTotal={toggleShowTotal}
+            onToggleShowOpen={toggleShowOpen}
             starFilter={{
               hasStarred,
               effectiveFilter,
@@ -128,8 +121,6 @@ export const GroupPage = () => {
                   prev === 'starred' ? 'all' : 'starred',
                 ),
             }}
-            showTotal={showTotal}
-            onToggleShowTotal={toggleShowTotal}
           />
           <Button
             variant="text"
@@ -165,10 +156,14 @@ export const GroupPage = () => {
         gridAutoRows="minmax(320px, 1fr)"
       >
         <SystemScannerStatuses data={filteredPermitted} />
-        <VulnerabilityCountsOverview data={filteredPermitted} />
+        <VulnerabilityCountsOverview
+          data={filteredPermitted}
+          showOpen={showOpen}
+        />
         <Trend
           componentNames={filteredPermitted.map(c => c.componentNames[0])}
           showTotal={showTotal}
+          showOpen={showOpen}
         />
       </Box>
 
@@ -189,11 +184,12 @@ export const GroupPage = () => {
       {selectedTab === TabEnum.COMPONENT && (
         <RepositoriesTable
           data={filteredPermitted}
+          showOpen={showOpen}
           notPermittedComponents={notPermitted}
         />
       )}
       {selectedTab === TabEnum.SYSTEM && filteredSystemsData && (
-        <SystemsTable data={filteredSystemsData} />
+        <SystemsTable data={filteredSystemsData} showOpen={showOpen} />
       )}
     </Stack>
   );

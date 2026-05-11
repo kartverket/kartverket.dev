@@ -16,13 +16,10 @@ import {
 } from '../../mapping/getGroupedData';
 import { RepositorySummary } from '../../typesFrontend';
 import NoAccessAlert from '../NoAccessAlert';
-import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
-import { ViewSettingsDialog } from '../ViewSettingsDialog';
-import TuneIcon from '@mui/icons-material/Tune';
-import Button from '@mui/material/Button';
-import { useState } from 'react';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
 import { MetricsStatus } from '../MetricsStatus';
+import { ViewSettingsButton } from '../ViewSettings/ViewSettingsButton';
+import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 
 export const SystemPage = () => {
   const { entity } = useEntity();
@@ -30,8 +27,8 @@ export const SystemPage = () => {
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesFromSystem(entity);
 
-  const { showTotal, toggleShowTotal } = useShowTrendTotal();
-  const [openViewSettings, setOpenViewSettings] = useState(false);
+  const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
+    useSecurityMetricsViewSettings();
 
   const { data, isPending, error } = useMetricsQuery(
     entity.metadata.name,
@@ -67,19 +64,11 @@ export const SystemPage = () => {
           {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
         </Stack>
         <Box ml="auto" display="flex" alignItems="center" gap={0.5}>
-          <Button
-            variant="text"
-            startIcon={<TuneIcon />}
-            color="primary"
-            onClick={() => setOpenViewSettings(true)}
-          >
-            Tilpass visning
-          </Button>
-          <ViewSettingsDialog
-            open={openViewSettings}
-            onClose={() => setOpenViewSettings(false)}
+          <ViewSettingsButton
             showTotal={showTotal}
+            showOpen={showOpen}
             onToggleShowTotal={toggleShowTotal}
+            onToggleShowOpen={toggleShowOpen}
           />
         </Box>
       </Stack>
@@ -94,15 +83,17 @@ export const SystemPage = () => {
         gridAutoRows="minmax(320px, 1fr)"
       >
         <SystemScannerStatuses data={permitted} />
-        <VulnerabilityCountsOverview data={permitted} />
+        <VulnerabilityCountsOverview data={permitted} showOpen={showOpen} />
         <Trend
           componentNames={permitted.map(p => p.componentNames[0])}
           showTotal={showTotal}
+          showOpen={showOpen}
         />
       </Box>
 
       <RepositoriesTable
         data={permitted}
+        showOpen={showOpen}
         notPermittedComponents={notPermitted}
       />
     </Stack>

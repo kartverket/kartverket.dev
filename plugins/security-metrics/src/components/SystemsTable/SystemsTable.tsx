@@ -17,10 +17,11 @@ import { SystemsTableRow } from './SystemsTableRow';
 
 type Props = {
   data: SikkerhetsmetrikkerSystemTotal[];
+  showOpen: boolean;
 };
 
-export const SystemsTable = ({ data }: Props) => {
-  const severityCountPerSystem = getSeverityCountPerSystem(data);
+export const SystemsTable = ({ data, showOpen }: Props) => {
+  const severityCountPerSystem = getSeverityCountPerSystem(data, showOpen);
 
   const getCombinedVulnerabilityCount = (sc: SeverityCount) =>
     getTotalVulnerabilityCount(sc);

@@ -49,6 +49,7 @@ export type ScannerSpecificInfo = {
 export type Repository = {
   componentName: string;
   severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
   secrets: { alerts: SecretAlert[] };
   riscStatus: RiscStatusData;
   scannerConfig: ScannerConfig;
@@ -108,6 +109,7 @@ export type RepositorySummary = {
   repoName: string;
   componentNames: string[];
   severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
   secrets: { alerts: SecretAlert[] };
   scannerConfig: ScannerConfig;
   riscStatus: RiscStatusData;
@@ -131,7 +133,6 @@ export type AggregatedSikkerhetsmetrikker = {
 
 export type SystemVulnerabilityOverview = {
   totalCount: number;
-  severityCount: SeverityCount;
   vulnerabilities: AggregatedVulnerability[];
 };
 
@@ -152,6 +153,12 @@ export type ScannerConfig = {
 export type TrendSeverityCounts = {
   timestamp: string;
   total: number;
+  openTotal: number;
+  openUnknown: number;
+  openLow: number;
+  openMedium: number;
+  openHigh: number;
+  openCritical: number;
 } & SeverityCount;
 
 export type SeverityCount = {
