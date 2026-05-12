@@ -1,10 +1,26 @@
 import { formatDate } from 'date-fns';
 import { TrendSeverityCounts } from '../../typesFrontend';
 
-/** This function aggregates the trends by date by summing the severity counts for each date.
- * @param trends - The trends to aggregate
- * @returns: TrendSeverityCounts[] - List of aggregated trends
- */
+type TrendSeverityCountsWithOpen = TrendSeverityCounts & {
+  openTotal: number | null;
+  openNegligible: number;
+  openUnknown: number;
+  openLow: number;
+  openMedium: number;
+  openHigh: number;
+  openCritical: number;
+};
+
+const hasOpenCounts = (
+  item: TrendSeverityCounts,
+): item is TrendSeverityCountsWithOpen =>
+  item.openUnknown !== null &&
+  item.openNegligible !== null &&
+  item.openLow !== null &&
+  item.openMedium !== null &&
+  item.openHigh !== null &&
+  item.openCritical !== null;
+
 export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
   const aggregated: Record<string, TrendSeverityCounts> = {};
 
@@ -21,12 +37,14 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
         medium: 0,
         high: 0,
         critical: 0,
-        openTotal: 0,
-        openUnknown: 0,
-        openLow: 0,
-        openMedium: 0,
-        openHigh: 0,
-        openCritical: 0,
+
+        openTotal: null,
+        openNegligible: null,
+        openUnknown: null,
+        openLow: null,
+        openMedium: null,
+        openHigh: null,
+        openCritical: null,
       };
     }
 
@@ -37,12 +55,6 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
     aggregated[date].high += item.high;
     aggregated[date].critical += item.critical;
 
-    aggregated[date].openUnknown += item.openUnknown ?? 0;
-    aggregated[date].openLow += item.openLow ?? 0;
-    aggregated[date].openMedium += item.openMedium ?? 0;
-    aggregated[date].openHigh += item.openHigh ?? 0;
-    aggregated[date].openCritical += item.openCritical ?? 0;
-
     aggregated[date].total +=
       item.unknown +
       item.negligible +
@@ -51,12 +63,33 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
       item.high +
       item.critical;
 
-    aggregated[date].openTotal +=
-      (item.openUnknown ?? 0) +
-      (item.openLow ?? 0) +
-      (item.openMedium ?? 0) +
-      (item.openHigh ?? 0) +
-      (item.openCritical ?? 0);
+    if (hasOpenCounts(item)) {
+      aggregated[date].openNegligible =
+        (aggregated[date].openNegligible ?? 0) + item.openNegligible;
+
+      aggregated[date].openUnknown =
+        (aggregated[date].openUnknown ?? 0) + item.openUnknown;
+
+      aggregated[date].openLow = (aggregated[date].openLow ?? 0) + item.openLow;
+
+      aggregated[date].openMedium =
+        (aggregated[date].openMedium ?? 0) + item.openMedium;
+
+      aggregated[date].openHigh =
+        (aggregated[date].openHigh ?? 0) + item.openHigh;
+
+      aggregated[date].openCritical =
+        (aggregated[date].openCritical ?? 0) + item.openCritical;
+
+      aggregated[date].openTotal =
+        (aggregated[date].openTotal ?? 0) +
+        item.openUnknown +
+        item.openNegligible +
+        item.openLow +
+        item.openMedium +
+        item.openHigh +
+        item.openCritical;
+    }
   });
 
   return Object.values(aggregated);

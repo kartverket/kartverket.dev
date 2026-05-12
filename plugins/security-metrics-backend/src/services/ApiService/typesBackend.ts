@@ -185,11 +185,12 @@ export type SeverityCounts = {
   medium: number;
   high: number;
   critical: number;
-  openUnknown: number;
-  openLow: number;
-  openMedium: number;
-  openHigh: number;
-  openCritical: number;
+  openNegligible: number | null;
+  openUnknown: number | null;
+  openLow: number | null;
+  openMedium: number | null;
+  openHigh: number | null;
+  openCritical: number | null;
 };
 
 export type SeverityCount = {

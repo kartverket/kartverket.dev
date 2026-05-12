@@ -43,11 +43,14 @@ export const Graph = ({
 
   const data = useMemo(() => {
     const aggregatedTrends = getAggregatedTrends(trendData);
-    return aggregatedTrends.sort(
-      (a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
-    );
-  }, [trendData]);
+
+    return aggregatedTrends
+      .filter(item => !showOpen || item.openTotal !== null)
+      .sort(
+        (a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
+      );
+  }, [trendData, showOpen]);
 
   const criticalDataKey = showOpen ? 'openCritical' : 'critical';
   const highDataKey = showOpen ? 'openHigh' : 'high';

@@ -1,5 +1,6 @@
 import {
   FilterEnum,
+  GraphTimeline,
   Scanner,
   Severity,
   SikkerhetsmetrikkerSystemTotal,
@@ -50,14 +51,31 @@ export const getScannerColor = (scanner: string) => {
   }
 };
 
-export const getFromDate = (graphTimeline: string, todayDate: Date): Date => {
+export const getFromDate = (
+  graphTimeline: GraphTimeline,
+  todayDate: Date,
+): Date => {
+  const date = new Date(todayDate);
+
   switch (graphTimeline) {
+    case 'fourteenDays':
+      date.setDate(date.getDate() - 14);
+      return date;
+    case 'oneMonth':
+      date.setMonth(date.getMonth() - 1);
+      return date;
+    case 'threeMonths':
+      date.setMonth(date.getMonth() - 3);
+      return date;
+    case 'sixMonths':
+      date.setMonth(date.getMonth() - 6);
+      return date;
     case 'oneYear':
-      return new Date(new Date().setFullYear(todayDate.getFullYear() - 1));
-    case 'oneWeek':
-      return new Date(new Date().setDate(todayDate.getDate() - 7));
+      date.setFullYear(date.getFullYear() - 1);
+      return date;
     default:
-      return new Date(new Date().setMonth(todayDate.getMonth() - 1));
+      date.setMonth(date.getMonth() - 1);
+      return date;
   }
 };
 

@@ -153,12 +153,13 @@ export type ScannerConfig = {
 export type TrendSeverityCounts = {
   timestamp: string;
   total: number;
-  openTotal: number;
-  openUnknown: number;
-  openLow: number;
-  openMedium: number;
-  openHigh: number;
-  openCritical: number;
+  openTotal: number | null;
+  openNegligible: number | null;
+  openUnknown: number | null;
+  openLow: number | null;
+  openMedium: number | null;
+  openHigh: number | null;
+  openCritical: number | null;
 } & SeverityCount;
 
 export type SeverityCount = {
@@ -232,3 +233,10 @@ export type ErrorResponse = {
   code: string;
   message: string;
 };
+
+export type GraphTimeline =
+  | 'fourteenDays'
+  | 'oneMonth'
+  | 'threeMonths'
+  | 'sixMonths'
+  | 'oneYear';
