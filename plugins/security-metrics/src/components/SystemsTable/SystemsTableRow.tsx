@@ -61,7 +61,7 @@ export const SystemsTableRow = ({
         onClick={handleRowClick}
       >
         <TableCell>
-          <Typography>{systemName}</Typography>
+          <Typography variant="body2">{systemName}</Typography>
           {noSystem && (
             <Typography variant="caption" sx={{ opacity: 0.7 }}>
               {noSystemComponents.length}{' '}
@@ -82,7 +82,7 @@ export const SystemsTableRow = ({
               </Box>
             </Stack>
           ) : (
-            <Typography>Ingen sårbarheter</Typography>
+            <Typography variant="body2">Ingen sårbarheter</Typography>
           )}
         </TableCell>
 

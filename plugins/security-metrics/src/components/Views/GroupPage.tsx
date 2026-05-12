@@ -153,7 +153,6 @@ export const GroupPage = () => {
           lg: '2fr 3fr 3fr',
         }}
         gap={2}
-        gridAutoRows="minmax(320px, 1fr)"
       >
         <SystemScannerStatuses data={filteredPermitted} />
         <VulnerabilityCountsOverview

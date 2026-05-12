@@ -7,14 +7,14 @@ import {
   RepositorySummary,
 } from '../../typesFrontend';
 import { CardTitle } from '../CardTitle';
-import { StyledTableRow } from '../TableRow';
 import { ScannerStatusDialog } from './SystemStatusDialog';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import { ScannerInfo } from './ScannerInfo';
+import { useState } from 'react';
+import Link from '@mui/material/Link';
+import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
 
 interface SystemScannerStatusProps {
   data: RepositorySummary[];
@@ -22,6 +22,8 @@ interface SystemScannerStatusProps {
 
 export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
   const repositoryScannerStatus = getScannerStatusData(data);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const aggregatedStatus = getAggregatedScannerStatus(repositoryScannerStatus);
 
@@ -39,22 +41,31 @@ export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
 
   return (
     <CardTitle title="Skannere">
-      <Box px={2}>
-        <Table size="small">
-          <TableBody>
-            {aggregatedStatus.map((status: AggregatedScannerStatus) => (
-              <StyledTableRow key={status.scannerName}>
-                <TableCell sx={{ pl: 0.5 }}>
-                  <ScannerInfo name={status.scannerName} />
-                </TableCell>
-                <TableCell>
-                  <ScannerStatusDialog scannerStatus={status} />
-                </TableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Box>
+      <Stack mt={1} px={2} pb={2} divider={<Divider flexItem />} spacing={1.5}>
+        {aggregatedStatus.map((status: AggregatedScannerStatus) => (
+          <Box
+            key={status.scannerName}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            gap={2}
+          >
+            <ScannerInfo name={status.scannerName} />
+
+            <Link component="button" onClick={() => setIsDialogOpen(true)}>
+              <Typography variant="body2" fontWeight={500}>
+                {status.status} komponenter
+              </Typography>
+            </Link>
+
+            <ScannerStatusDialog
+              scannerStatus={status}
+              isDialogOpen={isDialogOpen}
+              setIsDialogOpen={setIsDialogOpen}
+            />
+          </Box>
+        ))}
+      </Stack>
     </CardTitle>
   );
 };

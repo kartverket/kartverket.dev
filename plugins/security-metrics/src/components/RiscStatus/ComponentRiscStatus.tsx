@@ -1,19 +1,30 @@
 import { CardTitle } from '../CardTitle';
 import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
-import { StyledTableRow } from '../TableRow';
 import { calculateDaysSince, plural } from './utils';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 import { RiscStatusData } from '../../typesFrontend';
-import { Fragment } from 'react/jsx-runtime';
+import Divider from '@mui/material/Divider';
 
 type ComponentRiscStatusProps = {
   riscStatus: RiscStatusData;
 };
+
+const MetricLine = ({ label, value }: { label: string; value: string }) => (
+  <Box
+    display="flex"
+    alignItems="baseline"
+    justifyContent="space-between"
+    gap={2}
+  >
+    <Typography variant="body2">{label}</Typography>
+    <Typography variant="body2" fontWeight={500} textAlign="right">
+      {value}
+    </Typography>
+  </Box>
+);
 
 export const ComponentRiscStatus = ({
   riscStatus,
@@ -21,9 +32,9 @@ export const ComponentRiscStatus = ({
   if (!riscStatus)
     return (
       <CardTitle title="Risiko- og sårbarhetsarbeid">
-        <Stack px={2}>
-          <Typography>
-            <i>Vi fant dessverre ingen status på RoS-arbeid.</i>
+        <Stack px={2} pb={2}>
+          <Typography variant="body2" color="text.secondary" fontStyle="italic">
+            Vi fant dessverre ingen status på RoS-arbeid.
           </Typography>
         </Stack>
       </CardTitle>
@@ -34,51 +45,42 @@ export const ComponentRiscStatus = ({
 
   return (
     <CardTitle title="Risiko- og sårbarhetsarbeid">
-      <Stack px={2}>
-        <Table size="small">
-          <TableBody>
-            <Fragment key={riscStatus.repositoryName}>
-              <StyledTableRow>
-                <TableCell>Operasjonell RoS</TableCell>
-                <TableCell>
-                  {riscStatus.hasRisc ? (
-                    <Tooltip title="Konfigurert">
-                      <CheckCircleOutlined color="success" />
-                    </Tooltip>
-                  ) : (
-                    <Tooltip title="Ikke konfigurert">
-                      <HighlightOffOutlined color="error" />
-                    </Tooltip>
-                  )}
-                </TableCell>
-              </StyledTableRow>
+      <Stack mt={1} px={2} pb={2} gap={1.5}>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Typography variant="body2">Operasjonell RoS</Typography>
 
-              {riscStatus.hasRisc && days !== null && (
-                <StyledTableRow>
-                  <TableCell>Dager siden forrige publiserte RoS</TableCell>
-                  <TableCell>
-                    <Typography>
-                      {days} {plural(days, 'dag', 'dager')}
-                    </Typography>
-                  </TableCell>
-                </StyledTableRow>
-              )}
+          {riscStatus.hasRisc ? (
+            <Tooltip title="Konfigurert">
+              <CheckCircleOutlined color="success" />
+            </Tooltip>
+          ) : (
+            <Tooltip title="Ikke konfigurert">
+              <HighlightOffOutlined color="error" />
+            </Tooltip>
+          )}
+        </Box>
 
-              {riscStatus.hasRisc && commits !== null && (
-                <StyledTableRow>
-                  <TableCell>
-                    Antall commits siden forrige publiserte RoS
-                  </TableCell>
-                  <TableCell>
-                    <Typography>
-                      {commits} {plural(commits, 'commit', 'commits')}
-                    </Typography>
-                  </TableCell>
-                </StyledTableRow>
-              )}
-            </Fragment>
-          </TableBody>
-        </Table>
+        <Divider />
+
+        {riscStatus.hasRisc && (
+          <Stack gap={1.5}>
+            {days !== null && (
+              <MetricLine
+                label="Sist publisert"
+                value={`${days} ${plural(days, 'dag', 'dager')} siden`}
+              />
+            )}
+
+            <Divider />
+
+            {commits !== null && (
+              <MetricLine
+                label="Endringer i repoet etter forrige publisering"
+                value={`${commits} ${plural(commits, 'commit', 'commits')}`}
+              />
+            )}
+          </Stack>
+        )}
       </Stack>
     </CardTitle>
   );
