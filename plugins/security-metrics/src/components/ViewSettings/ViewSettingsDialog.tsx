@@ -50,11 +50,7 @@ const SettingSwitch = ({
       <Switch checked={checked} disabled={disabled} onChange={onChange} />
     }
   >
-    <ListItemText
-      primary={title}
-      secondary={description}
-      sx={{ pr: 6 }}
-    />
+    <ListItemText primary={title} secondary={description} sx={{ pr: 6 }} />
   </ListItem>
 );
 
@@ -106,7 +102,9 @@ export const ViewSettingsDialog = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} sx={{p: 2}}>Ferdig</Button>
+        <Button onClick={onClose} sx={{ p: 2 }}>
+          Ferdig
+        </Button>
       </DialogActions>
     </Dialog>
   );

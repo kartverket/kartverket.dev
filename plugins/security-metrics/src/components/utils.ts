@@ -2,7 +2,6 @@ import {
   FilterEnum,
   Scanner,
   Severity,
-  SeverityCount,
   SikkerhetsmetrikkerSystemTotal,
   TrendSeverityCounts,
 } from '../typesFrontend';
@@ -128,13 +127,3 @@ export const filterSystemsByComponents = (
 
 export const severityLegendSorter = (item: any) =>
   SEVERITY_ORDER.indexOf(item?.payload?.key ?? 'unknown');
-
-const getSeverityCount = <
-  T extends {
-    severityCount: SeverityCount;
-    openSeverityCount: SeverityCount;
-  },
->(
-  item: T,
-  showOpen: boolean,
-) => (showOpen ? item.openSeverityCount : item.severityCount);

@@ -50,7 +50,7 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
       item.medium +
       item.high +
       item.critical;
-    
+
     aggregated[date].openTotal +=
       (item.openUnknown ?? 0) +
       (item.openLow ?? 0) +
