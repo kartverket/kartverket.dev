@@ -56,7 +56,7 @@ COPY packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # --- Runtime: distroless NodeJS
-FROM gcr.io/distroless/nodejs24-debian12
+FROM gcr.io/distroless/nodejs24-debian13
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
 WORKDIR /app
