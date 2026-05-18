@@ -1,12 +1,12 @@
 import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import type { RepositoryScannerStatusData } from '../../typesFrontend';
-import { CardTitle } from '../CardTitle';
+import { CardTitle } from '../shared/CardTitle';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { ScannerInfo } from './ScannerInfo';
 import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
+import { StatusRow } from '../shared/StatusRow';
 
 type ComponentScannerStatusProps = {
   scannerStatus: RepositoryScannerStatusData;
@@ -34,18 +34,7 @@ export const ComponentScannerStatus = ({
         sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}
       >
         {scannerStatus.scannerStatus.map(status => (
-          <Box
-            key={status.type}
-            sx={{
-              flex: 1,
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              px: 2,
-              textAlign: 'left',
-            }}
-          >
+          <StatusRow key={status.type}>
             <ScannerInfo name={status.type} />
             {status.on ? (
               <Tooltip title="Konfigurert">
@@ -56,7 +45,7 @@ export const ComponentScannerStatus = ({
                 <HighlightOffOutlined color="error" />
               </Tooltip>
             )}
-          </Box>
+          </StatusRow>
         ))}
       </Stack>
     </CardTitle>

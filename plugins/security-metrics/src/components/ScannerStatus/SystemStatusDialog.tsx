@@ -10,7 +10,7 @@ import {
   AggregatedScannerStatus,
   RepositoryScannerStatusData,
 } from '../../typesFrontend';
-import { StyledTableRow } from '../TableRow';
+import { StyledTableRow } from '../shared/StyledTableRow';
 
 type Props = {
   scannerStatus: AggregatedScannerStatus;

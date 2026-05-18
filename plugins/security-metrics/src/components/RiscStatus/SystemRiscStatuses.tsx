@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import ButtonBase from '@mui/material/ButtonBase';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
@@ -8,10 +7,11 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { RepositorySummary } from '../../typesFrontend';
-import { CardTitle } from '../CardTitle';
+import { CardTitle } from '../shared/CardTitle';
 import { RiscStatusDialog } from './RiscStatusDialog';
 import { calculateDaysSince } from './utils';
 import { SvgIconProps } from '@mui/material/SvgIcon';
+import { StatusRow } from '../shared/StatusRow';
 
 interface SystemRiscStatusesProps {
   data: RepositorySummary[];
@@ -82,19 +82,7 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
               key={key}
               sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}
             >
-              <ButtonBase
-                onClick={() => setOpenDialogFor(key)}
-                sx={{
-                  flex: 1,
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  px: 2,
-                  textAlign: 'left',
-                  '&:hover': { bgcolor: 'action.hover' },
-                }}
-              >
+              <StatusRow onClick={() => setOpenDialogFor(key)}>
                 <Box display="flex" alignItems="center" gap={1}>
                   <Icon color={color} fontSize="small" />
                   <Typography variant="body2">{label}</Typography>
@@ -113,7 +101,7 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
                     sx={{ color: 'text.secondary' }}
                   />
                 </Box>
-              </ButtonBase>
+              </StatusRow>
               <RiscStatusDialog
                 categoryLabel={label}
                 repos={repos}

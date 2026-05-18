@@ -1,5 +1,5 @@
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { ErrorBanner } from './components/ErrorBanner';
+import { ErrorBanner } from './components/shared/ErrorBanner';
 import { SystemPage } from './components/Views/SystemPage';
 import { SingleComponentPage } from './components/Views/SingleComponentPage';
 import { GroupPage } from './components/Views/GroupPage';

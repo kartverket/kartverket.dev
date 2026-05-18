@@ -1,9 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
 import type { RepositorySummary } from '../../typesFrontend';
-import { StyledTableRow } from '../TableRow';
+import { StyledTableRow } from '../shared/StyledTableRow';
 import { RepositoryScannerStatus } from './RepositoryScannerStatus';
-import { VulnerabilityDistribution } from '../VulnerabilityDistribution';
 import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -18,6 +17,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import { useState } from 'react';
 import { riscStatusLabel } from '../RiscStatus/RiscStatusLabel';
+import { VulnerabilityDistribution } from '../shared/VulnerabilityDistribution';
 
 type Props = {
   repository: RepositorySummary;

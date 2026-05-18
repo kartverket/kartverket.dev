@@ -1,15 +1,14 @@
 import { Progress, SupportButton } from '@backstage/core-components';
-import { Box } from '@mui/system';
 import { useState } from 'react';
 import { RepositoriesTable } from '../RepositoriesTable/RepositoriesTable';
 import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
-import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
+import { Secrets } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import Stack from '@mui/material/Stack';
 import { useEntity, useStarredEntities } from '@backstage/plugin-catalog-react';
-import { ErrorBanner } from '../ErrorBanner';
+import { ErrorBanner } from '../shared/ErrorBanner';
 import {
   getAllNotPermittedComponents,
   getAllPermittedMetrics,
@@ -18,19 +17,18 @@ import {
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
-import NoAccessAlert from '../NoAccessAlert';
 import Button from '@mui/material/Button';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { SlackNotificationDialog } from '../SlackNotificationsDialog';
 import { useStarredRefFilter } from '../../hooks/useStarredRefFilter';
 import { RepositorySummary } from '../../typesFrontend';
-import { filterSystemsByComponents } from '../utils';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { MetricsStatus } from '../MetricsStatus';
+import { filterSystemsByComponents } from '../../utils/utils';
+import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 import Alert from '@mui/material/Alert';
 import { useGroupMetrics } from '../../hooks/useGroupMetrics';
 import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/VulnerabilityOverviewTable';
-import { ViewSettingsButton } from '../ViewSettings/ViewSettingsButton';
-import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
+import { PageHeader } from '../shared/PageHeader';
+import { MetricsGrid } from '../shared/MetricsGrid';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -96,82 +94,62 @@ export const GroupPage = () => {
 
   return (
     <Stack gap={2}>
-      <Stack
-        flexDirection="row"
-        alignItems="flex-start"
-        flexWrap="wrap"
-        gap={2}
-      >
-        <MetricsStatus entityName={entity.metadata.name} />
-        <Stack
-          flexDirection="row"
-          gap={2}
-          flex={1}
-          flexWrap="wrap"
-          sx={{ '& > *': { flex: 1 } }}
-        >
-          <SecretsAlert secretsOverviewData={secrets} />
-          {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
-        </Stack>
-        <Box display="flex" alignItems="center" gap={0.5}>
-          <ViewSettingsButton
-            showTotal={showTotal}
-            showOpen={showOpen}
-            onToggleShowTotal={toggleShowTotal}
-            onToggleShowOpen={toggleShowOpen}
-            starFilter={{
-              hasStarred,
-              effectiveFilter,
-              onToggleStarFilter: () =>
-                setFilterChoice(prev =>
-                  prev === 'starred' ? 'all' : 'starred',
-                ),
-            }}
-          />
-          <Button
-            variant="text"
-            startIcon={<SettingsIcon />}
-            color="primary"
-            onClick={() => setOpenNotificationsDialog(true)}
-          >
-            Konfigurer varsling
-          </Button>
-          <SlackNotificationDialog
-            openNotificationsDialog={openNotificationsDialog}
-            handleCloseNotificationsDialog={() =>
-              setOpenNotificationsDialog(false)
-            }
-            channel={channel}
-            setChannel={setChannel}
-            permittedComponents={filteredPermitted.flatMap(
-              c => c.componentNames,
-            )}
-            notPermitted={notPermitted}
-          />
-          <SupportButton />
-        </Box>
-      </Stack>
-
-      <Box
-        display="grid"
-        gridTemplateColumns={{
-          xs: '1fr',
-          md: '1fr 1fr',
-          lg: '1fr 1fr 2fr 2fr',
-          xl: '2fr 2fr 4fr 5fr',
+      <PageHeader
+        entityName={entity.metadata.name}
+        secrets={secrets}
+        notPermitted={notPermitted}
+        viewSettingsProps={{
+          showTotal,
+          showOpen,
+          onToggleShowTotal: toggleShowTotal,
+          onToggleShowOpen: toggleShowOpen,
+          starFilter: {
+            hasStarred,
+            effectiveFilter,
+            onToggleStarFilter: () =>
+              setFilterChoice(prev => (prev === 'starred' ? 'all' : 'starred')),
+          },
         }}
-        gap={2}
-        gridAutoRows="minmax(280px, auto)"
-      >
+        rightActions={
+          <>
+            <Button
+              variant="text"
+              startIcon={<SettingsIcon />}
+              color="primary"
+              onClick={() => setOpenNotificationsDialog(true)}
+            >
+              Konfigurer varsling
+            </Button>
+            <SlackNotificationDialog
+              openNotificationsDialog={openNotificationsDialog}
+              handleCloseNotificationsDialog={() =>
+                setOpenNotificationsDialog(false)
+              }
+              channel={channel}
+              setChannel={setChannel}
+              permittedComponents={filteredPermitted.flatMap(
+                c => c.componentNames,
+              )}
+              notPermitted={notPermitted}
+            />
+            <SupportButton />
+          </>
+        }
+      />
+
+      <MetricsGrid>
         <SystemScannerStatuses data={filteredPermitted} />
         <SystemRiscStatuses data={filteredPermitted} />
-        <VulnerabilityCountsOverview data={filteredPermitted} showOpen={showOpen} />
+        <VulnerabilityCountsOverview
+          data={filteredPermitted}
+          showOpen={showOpen}
+        />
         <Trend
           componentNames={filteredPermitted.map(c => c.componentNames[0])}
           showTotal={showTotal}
           showOpen={showOpen}
         />
-      </Box>
+      </MetricsGrid>
 
       <Tabs
         value={selectedTab}

@@ -1,12 +1,12 @@
-import { CardTitle } from '../CardTitle';
+import { CardTitle } from '../shared/CardTitle';
 import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
 import { calculateDaysSince, plural } from './utils';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import Box from '@mui/material/Box';
 import { RiscStatusData } from '../../typesFrontend';
 import Divider from '@mui/material/Divider';
+import { StatusRow } from '../shared/StatusRow';
 
 type ComponentRiscStatusProps = {
   riscStatus: RiscStatusData;
@@ -32,17 +32,7 @@ export const ComponentRiscStatus = ({
   return (
     <CardTitle title="Risiko- og sårbarhetsarbeid">
       <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
-        <Box
-          sx={{
-            flex: 1,
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            px: 2,
-            textAlign: 'left',
-          }}
-        >
+        <StatusRow>
           <Typography variant="body2">Operasjonell RoS</Typography>
           {riscStatus.hasRisc ? (
             <Tooltip title="Konfigurert">
@@ -53,46 +43,34 @@ export const ComponentRiscStatus = ({
               <HighlightOffOutlined color="error" />
             </Tooltip>
           )}
-        </Box>
+        </StatusRow>
 
         {riscStatus.hasRisc && days !== null && (
-          <Box
-            sx={{
-              flex: 1,
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              px: 2,
-              textAlign: 'left',
-            }}
-          >
+          <StatusRow>
             <Typography variant="body2">Sist publisert</Typography>
-            <Typography variant="body2" fontWeight={500}>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              sx={{ textAlign: 'right' }}
+            >
               {days} {plural(days, 'dag', 'dager')} siden
             </Typography>
-          </Box>
+          </StatusRow>
         )}
 
         {riscStatus.hasRisc && commits !== null && (
-          <Box
-            sx={{
-              flex: 1,
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              px: 2,
-              textAlign: 'left',
-            }}
-          >
+          <StatusRow>
             <Typography variant="body2">
               Endringer etter forrige publisering
             </Typography>
-            <Typography variant="body2" fontWeight={500}>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              sx={{ textAlign: 'right' }}
+            >
               {commits} {plural(commits, 'commit', 'commits')}
             </Typography>
-          </Box>
+          </StatusRow>
         )}
       </Stack>
     </CardTitle>

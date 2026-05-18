@@ -17,7 +17,7 @@ import TagIcon from '@mui/icons-material/Tag';
 import { useEffect, useRef, useState } from 'react';
 import { useConfigureSlackNotificationsQuery } from '../hooks/useConfigureSlackNotificationsQuery';
 import { useSlackNotificationsConfigQuery } from '../hooks/useSlackNotificationsConfigQuery';
-import { ErrorBanner } from './ErrorBanner';
+import { ErrorBanner } from './shared/ErrorBanner';
 
 const LastNotificationRunStatus = ({
   lastNotificationRunAt,

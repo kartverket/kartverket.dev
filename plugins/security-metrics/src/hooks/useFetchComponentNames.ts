@@ -9,10 +9,7 @@ import {
   stringifyEntityRef,
 } from '@backstage/catalog-model';
 import { getChildRefs } from '../utils/getChildRefs';
-import {
-  isDocumentationType,
-  isExperimentalLifecycle,
-} from '../components/utils';
+import { isDocumentationType, isExperimentalLifecycle } from '../utils/utils';
 import { useQuery } from '@tanstack/react-query';
 
 const REPOSITORY_ENTITY_KIND = 'Component';

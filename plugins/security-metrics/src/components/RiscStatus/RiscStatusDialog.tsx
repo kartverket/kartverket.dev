@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { RepositorySummary } from '../../typesFrontend';
-import { StyledTableRow } from '../TableRow';
+import { StyledTableRow } from '../shared/StyledTableRow';
 import { riscStatusLabel } from './RiscStatusLabel';
 
 type Props = {

@@ -1,14 +1,13 @@
 import { Progress } from '@backstage/core-components';
 import Stack from '@mui/material/Stack';
-import { Box } from '@mui/system';
 import { RepositoriesTable } from '../RepositoriesTable/RepositoriesTable';
 import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
-import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
+import { Secrets } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { ErrorBanner } from '../ErrorBanner';
+import { ErrorBanner } from '../shared/ErrorBanner';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
 import {
   getAllNotPermittedComponents,
@@ -16,11 +15,10 @@ import {
   getAllSecrets,
 } from '../../mapping/getGroupedData';
 import { RepositorySummary } from '../../typesFrontend';
-import NoAccessAlert from '../NoAccessAlert';
-import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
-import { MetricsStatus } from '../MetricsStatus';
-import { ViewSettingsButton } from '../ViewSettings/ViewSettingsButton';
 import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
+import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
+import { PageHeader } from '../shared/PageHeader';
+import { MetricsGrid } from '../shared/MetricsGrid';
 
 export const SystemPage = () => {
   const { entity } = useEntity();
@@ -52,39 +50,14 @@ export const SystemPage = () => {
 
   return (
     <Stack gap={2}>
-      <Stack direction="row" alignItems="center" gap={2}>
-        <MetricsStatus entityName={entity.metadata.name} />
-        <Stack
-          flexDirection="row"
-          gap={2}
-          flex={1}
-          flexWrap="wrap"
-          sx={{ '& > *': { flex: 1 } }}
-        >
-          <SecretsAlert secretsOverviewData={secrets} />
-          {notPermitted.length > 0 && <NoAccessAlert repos={notPermitted} />}
-        </Stack>
-        <Box ml="auto" display="flex" alignItems="center" gap={0.5}>
-          <ViewSettingsButton
-            showTotal={showTotal}
-            showOpen={showOpen}
-            onToggleShowTotal={toggleShowTotal}
-            onToggleShowOpen={toggleShowOpen}
-          />
-        </Box>
-      </Stack>
+      <PageHeader
+        entityName={entity.metadata.name}
+        secrets={secrets}
+        notPermitted={notPermitted}
+        viewSettingsProps={{ showTotal, showOpen, onToggleShowTotal: toggleShowTotal, onToggleShowOpen: toggleShowOpen }}
+      />
 
-      <Box
-        display="grid"
-        gridTemplateColumns={{
-          xs: '1fr',
-          md: '1fr 1fr',
-          lg: '1fr 1fr 2fr 2fr',
-          xl: '2fr 2fr 4fr 5fr',
-        }}
-        gap={2}
-        gridAutoRows="minmax(280px, auto)"
-      >
+      <MetricsGrid>
         <SystemScannerStatuses data={permitted} />
         <SystemRiscStatuses data={permitted} />
         <VulnerabilityCountsOverview data={permitted} showOpen={showOpen} />
@@ -93,7 +66,7 @@ export const SystemPage = () => {
           showTotal={showTotal}
           showOpen={showOpen}
         />
-      </Box>
+      </MetricsGrid>
 
       <RepositoriesTable
         data={permitted}
