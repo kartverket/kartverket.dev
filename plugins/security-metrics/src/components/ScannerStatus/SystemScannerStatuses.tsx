@@ -12,9 +12,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ScannerInfo } from './ScannerInfo';
 import { useState } from 'react';
-import Link from '@mui/material/Link';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
+import ButtonBase from '@mui/material/ButtonBase';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 interface SystemScannerStatusProps {
   data: RepositorySummary[];
@@ -23,7 +24,7 @@ interface SystemScannerStatusProps {
 export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
   const repositoryScannerStatus = getScannerStatusData(data);
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [openDialogFor, setOpenDialogFor] = useState<string | null>(null);
 
   const aggregatedStatus = getAggregatedScannerStatus(repositoryScannerStatus);
 
@@ -41,27 +42,42 @@ export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
 
   return (
     <CardTitle title="Skannere">
-      <Stack mt={1} px={2} pb={2} divider={<Divider flexItem />} spacing={1.5}>
+      <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
         {aggregatedStatus.map((status: AggregatedScannerStatus) => (
           <Box
             key={status.scannerName}
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            gap={2}
+            sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}
           >
-            <ScannerInfo name={status.scannerName} />
-
-            <Link component="button" onClick={() => setIsDialogOpen(true)}>
-              <Typography variant="body2" fontWeight={500}>
-                {status.status} komponenter
-              </Typography>
-            </Link>
-
+            <ButtonBase
+              onClick={() => setOpenDialogFor(status.scannerName)}
+              sx={{
+                flex: 1,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 2,
+                textAlign: 'left',
+                '&:hover': { bgcolor: 'action.hover' },
+              }}
+            >
+              <ScannerInfo name={status.scannerName} />
+              <Box display="flex" alignItems="center" gap={0.5} flexShrink={0}>
+                <Typography variant="body2" fontWeight={500}>
+                  {status.status}
+                </Typography>
+                <ChevronRightIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              </Box>
+            </ButtonBase>
             <ScannerStatusDialog
               scannerStatus={status}
-              isDialogOpen={isDialogOpen}
-              setIsDialogOpen={setIsDialogOpen}
+              isDialogOpen={openDialogFor === status.scannerName}
+              setIsDialogOpen={open =>
+                setOpenDialogFor(open ? status.scannerName : null)
+              }
             />
           </Box>
         ))}

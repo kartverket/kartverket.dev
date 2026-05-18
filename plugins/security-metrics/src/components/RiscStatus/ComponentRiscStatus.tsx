@@ -12,20 +12,6 @@ type ComponentRiscStatusProps = {
   riscStatus: RiscStatusData;
 };
 
-const MetricLine = ({ label, value }: { label: string; value: string }) => (
-  <Box
-    display="flex"
-    alignItems="baseline"
-    justifyContent="space-between"
-    gap={2}
-  >
-    <Typography variant="body2">{label}</Typography>
-    <Typography variant="body2" fontWeight={500} textAlign="right">
-      {value}
-    </Typography>
-  </Box>
-);
-
 export const ComponentRiscStatus = ({
   riscStatus,
 }: ComponentRiscStatusProps) => {
@@ -45,10 +31,19 @@ export const ComponentRiscStatus = ({
 
   return (
     <CardTitle title="Risiko- og sårbarhetsarbeid">
-      <Stack mt={1} px={2} pb={2} gap={1.5}>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+      <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
+        <Box
+          sx={{
+            flex: 1,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            px: 2,
+            textAlign: 'left',
+          }}
+        >
           <Typography variant="body2">Operasjonell RoS</Typography>
-
           {riscStatus.hasRisc ? (
             <Tooltip title="Konfigurert">
               <CheckCircleOutlined color="success" />
@@ -60,26 +55,44 @@ export const ComponentRiscStatus = ({
           )}
         </Box>
 
-        <Divider />
+        {riscStatus.hasRisc && days !== null && (
+          <Box
+            sx={{
+              flex: 1,
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              px: 2,
+              textAlign: 'left',
+            }}
+          >
+            <Typography variant="body2">Sist publisert</Typography>
+            <Typography variant="body2" fontWeight={500}>
+              {days} {plural(days, 'dag', 'dager')} siden
+            </Typography>
+          </Box>
+        )}
 
-        {riscStatus.hasRisc && (
-          <Stack gap={1.5}>
-            {days !== null && (
-              <MetricLine
-                label="Sist publisert"
-                value={`${days} ${plural(days, 'dag', 'dager')} siden`}
-              />
-            )}
-
-            <Divider />
-
-            {commits !== null && (
-              <MetricLine
-                label="Endringer i repoet etter forrige publisering"
-                value={`${commits} ${plural(commits, 'commit', 'commits')}`}
-              />
-            )}
-          </Stack>
+        {riscStatus.hasRisc && commits !== null && (
+          <Box
+            sx={{
+              flex: 1,
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              px: 2,
+              textAlign: 'left',
+            }}
+          >
+            <Typography variant="body2">
+              Endringer etter forrige publisering
+            </Typography>
+            <Typography variant="body2" fontWeight={500}>
+              {commits} {plural(commits, 'commit', 'commits')}
+            </Typography>
+          </Box>
         )}
       </Stack>
     </CardTitle>

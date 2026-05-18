@@ -78,9 +78,11 @@ export const SingleComponentPage = () => {
         gridTemplateColumns={{
           xs: '1fr',
           md: '1fr 1fr',
-          lg: '3fr 3fr 5fr 6fr',
+          lg: '1fr 1fr 2fr 2fr',
+          xl: '2fr 2fr 4fr 5fr',
         }}
         gap={2}
+        gridAutoRows="minmax(280px, auto)"
       >
         <ComponentScannerStatus scannerStatus={scannerStatus} />
         <ComponentRiscStatus riscStatus={data.riscStatus} />

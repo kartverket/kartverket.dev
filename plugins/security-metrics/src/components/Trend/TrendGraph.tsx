@@ -59,7 +59,7 @@ export const Graph = ({
   return (
     <ResponsiveContainer
       width="100%"
-      height={180}
+      height={220}
       style={{ paddingRight: '50px' }}
     >
       <AreaChart data={data}>

@@ -40,6 +40,7 @@ export const Trend = ({ componentNames, showTotal, showOpen }: TrendProps) => {
   return (
     <CardTitle
       title={showOpen ? 'Åpne sårbarheter over tid' : 'Sårbarheter over tid'}
+      marginBottom
     >
       {isPending && <Progress />}
       {data?.length === 0 && (

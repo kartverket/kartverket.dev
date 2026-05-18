@@ -6,6 +6,7 @@ import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
 import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
+import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../ErrorBanner';
 import { useMetricsQuery } from '../../hooks/useMetricsQuery';
@@ -77,12 +78,15 @@ export const SystemPage = () => {
         display="grid"
         gridTemplateColumns={{
           xs: '1fr',
-          lg: '2fr 3fr 3fr',
+          md: '1fr 1fr',
+          lg: '1fr 1fr 2fr 2fr',
+          xl: '2fr 2fr 4fr 5fr',
         }}
         gap={2}
-        gridAutoRows="minmax(320px, 1fr)"
+        gridAutoRows="minmax(280px, auto)"
       >
         <SystemScannerStatuses data={permitted} />
+        <SystemRiscStatuses data={permitted} />
         <VulnerabilityCountsOverview data={permitted} showOpen={showOpen} />
         <Trend
           componentNames={permitted.map(p => p.componentNames[0])}

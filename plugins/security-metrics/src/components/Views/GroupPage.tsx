@@ -6,6 +6,7 @@ import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
 import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
+import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import Stack from '@mui/material/Stack';
 import { useEntity, useStarredEntities } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../ErrorBanner';
@@ -95,7 +96,12 @@ export const GroupPage = () => {
 
   return (
     <Stack gap={2}>
-      <Stack flexDirection="row" alignItems="center" gap={2}>
+      <Stack
+        flexDirection="row"
+        alignItems="flex-start"
+        flexWrap="wrap"
+        gap={2}
+      >
         <MetricsStatus entityName={entity.metadata.name} />
         <Stack
           flexDirection="row"
@@ -150,15 +156,16 @@ export const GroupPage = () => {
         display="grid"
         gridTemplateColumns={{
           xs: '1fr',
-          lg: '2fr 3fr 3fr',
+          md: '1fr 1fr',
+          lg: '1fr 1fr 2fr 2fr',
+          xl: '2fr 2fr 4fr 5fr',
         }}
         gap={2}
+        gridAutoRows="minmax(280px, auto)"
       >
         <SystemScannerStatuses data={filteredPermitted} />
-        <VulnerabilityCountsOverview
-          data={filteredPermitted}
-          showOpen={showOpen}
-        />
+        <SystemRiscStatuses data={filteredPermitted} />
+        <VulnerabilityCountsOverview data={filteredPermitted} showOpen={showOpen} />
         <Trend
           componentNames={filteredPermitted.map(c => c.componentNames[0])}
           showTotal={showTotal}
