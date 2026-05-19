@@ -70,4 +70,3 @@ export const UserSearch = ({ selectedUser, onSelect }: UserSearchProps) => {
     </div>
   );
 };
-

@@ -1,6 +1,9 @@
 import { SecurityChamp } from '../types';
 
-type ChampionGroup = Map<string, { champ: SecurityChamp; repositoryNames: string[] }>;
+type ChampionGroup = Map<
+  string,
+  { champ: SecurityChamp; repositoryNames: string[] }
+>;
 
 export function exportSecurityChampionsAsCsv(champions: ChampionGroup) {
   const rows = [

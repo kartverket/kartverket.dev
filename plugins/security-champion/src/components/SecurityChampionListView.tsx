@@ -10,7 +10,10 @@ import { SecurityChamp } from '../types';
 import { MissingReposItem } from './MissingReposItem';
 import { SecurityChampionItem } from './SecurityChampionItem';
 
-type ChampionGroup = Map<string, { champ: SecurityChamp; repositoryNames: string[] }>;
+type ChampionGroup = Map<
+  string,
+  { champ: SecurityChamp; repositoryNames: string[] }
+>;
 
 interface SecurityChampionListViewProps {
   data: SecurityChamp[];
@@ -38,7 +41,10 @@ export const SecurityChampionListView = ({
   const renderChampions = () => {
     if (data.length === 0 && repositoryNames.length > 1) {
       return (
-        <MissingReposItem reposWithSecChamps={[]} allRepositories={repositoryNames} />
+        <MissingReposItem
+          reposWithSecChamps={[]}
+          allRepositories={repositoryNames}
+        />
       );
     }
     if (data.length === 0) {
@@ -62,23 +68,30 @@ export const SecurityChampionListView = ({
     }
     return (
       <>
-        {[...groupedChampions].map(([email, { champ, repositoryNames: repos }]) => (
-          <SecurityChampionItem
-            key={email}
-            champion={champ}
-            repositories={repos}
-            selectedUser={selectedUser}
-          />
-        ))}
+        {[...groupedChampions].map(
+          ([email, { champ, repositoryNames: repos }]) => (
+            <SecurityChampionItem
+              key={email}
+              champion={champ}
+              repositories={repos}
+              selectedUser={selectedUser}
+            />
+          ),
+        )}
         <MissingReposItem
-          reposWithSecChamps={[...groupedChampions.values()].flatMap(e => e.repositoryNames)}
+          reposWithSecChamps={[...groupedChampions.values()].flatMap(
+            e => e.repositoryNames,
+          )}
           allRepositories={repositoryNames}
         />
       </>
     );
   };
 
-  const canEdit = entityKind === 'Component' || entityKind === 'System' || entityKind === 'Group';
+  const canEdit =
+    entityKind === 'Component' ||
+    entityKind === 'System' ||
+    entityKind === 'Group';
 
   return (
     <>

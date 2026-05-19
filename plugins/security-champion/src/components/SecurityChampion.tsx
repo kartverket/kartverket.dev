@@ -33,8 +33,11 @@ interface SecurityChampionProps {
   repositoryNames: string[];
 }
 
-export const SecurityChampion = ({ repositoryNames }: SecurityChampionProps) => {
-  const { data, isPending, refetch } = useSecurityChampionsQuery(repositoryNames);
+export const SecurityChampion = ({
+  repositoryNames,
+}: SecurityChampionProps) => {
+  const { data, isPending, refetch } =
+    useSecurityChampionsQuery(repositoryNames);
   const { entity } = useEntity();
 
   const [edit, setEdit] = useState(false);
@@ -46,7 +49,10 @@ export const SecurityChampion = ({ repositoryNames }: SecurityChampionProps) => 
   const batchMutation = useSetMultipleSecurityChampionsMutation();
 
   const groupedChampions = useMemo(() => {
-    const map = new Map<string, { champ: SecurityChamp; repositoryNames: string[] }>();
+    const map = new Map<
+      string,
+      { champ: SecurityChamp; repositoryNames: string[] }
+    >();
     if (!data || data.length < 2) return map;
     data.forEach(champ => {
       if (!champ.securityChampionEmail) return;
@@ -61,17 +67,29 @@ export const SecurityChampion = ({ repositoryNames }: SecurityChampionProps) => 
     return map;
   }, [data]);
 
-  const reposWithSecChamps = [...groupedChampions.values()].flatMap(e => e.repositoryNames);
-  const reposWithNoSecChamps = repositoryNames.filter(r => !reposWithSecChamps.includes(r));
+  const reposWithSecChamps = [...groupedChampions.values()].flatMap(
+    e => e.repositoryNames,
+  );
+  const reposWithNoSecChamps = repositoryNames.filter(
+    r => !reposWithSecChamps.includes(r),
+  );
 
   const onConfirm = () => {
     if (!selectedUser?.spec.profile?.email) return;
     const email = selectedUser.spec.profile.email;
-    const onSuccess = () => { refetch(); setEdit(false); setEditMissing(false); setSelectedUser(null); };
+    const onSuccess = () => {
+      refetch();
+      setEdit(false);
+      setEditMissing(false);
+      setSelectedUser(null);
+    };
     const onError = () => setIsMutationError(true);
 
     if (repositoryNames.length === 1) {
-      singleMutation.mutate({ repositoryName: repositoryNames[0], securityChampionEmail: email }, { onSuccess, onError });
+      singleMutation.mutate(
+        { repositoryName: repositoryNames[0], securityChampionEmail: email },
+        { onSuccess, onError },
+      );
     } else {
       const batch: SecurityChampionBatchUpdate = {
         repositoryNames: editMissing ? reposWithNoSecChamps : repositoryNames,
@@ -83,17 +101,29 @@ export const SecurityChampion = ({ repositoryNames }: SecurityChampionProps) => 
 
   const editTitle = () => {
     if (entity.kind === 'Component') return 'Change security champion';
-    if (editMissing) return `Set security champion for components without one in this ${entity.kind.toLowerCase()}`;
+    if (editMissing)
+      return `Set security champion for components without one in this ${entity.kind.toLowerCase()}`;
     return `Change security champion for all components in this ${entity.kind.toLowerCase()}`;
   };
 
   if (data?.length === 1 && data[0].repositoryName === '') return null;
 
-  if (isPending) return <CardWrapper title="Security champion:"><CircularProgress /></CardWrapper>;
+  if (isPending)
+    return (
+      <CardWrapper title="Security champion:">
+        <CircularProgress />
+      </CardWrapper>
+    );
 
-  if (!data) return <CardWrapper title="Security champion:"><ErrorBanner errorMessage="Kunne ikke koble til security champion API" /></CardWrapper>;
+  if (!data)
+    return (
+      <CardWrapper title="Security champion:">
+        <ErrorBanner errorMessage="Kunne ikke koble til security champion API" />
+      </CardWrapper>
+    );
 
-  const title = groupedChampions.size > 1 ? 'Security champions:' : 'Security champion:';
+  const title =
+    groupedChampions.size > 1 ? 'Security champions:' : 'Security champion:';
 
   return (
     <CardWrapper title={edit ? editTitle() : title}>
@@ -104,7 +134,11 @@ export const SecurityChampion = ({ repositoryNames }: SecurityChampionProps) => 
           onSelect={setSelectedUser}
           isMutationError={isMutationError}
           onConfirm={onConfirm}
-          onCancel={() => { setEdit(false); setEditMissing(false); setSelectedUser(null); }}
+          onCancel={() => {
+            setEdit(false);
+            setEditMissing(false);
+            setSelectedUser(null);
+          }}
           onDownloadCsv={() => exportSecurityChampionsAsCsv(groupedChampions)}
         />
       ) : (
@@ -115,12 +149,17 @@ export const SecurityChampion = ({ repositoryNames }: SecurityChampionProps) => 
           reposWithNoSecChamps={reposWithNoSecChamps}
           selectedUser={selectedUser}
           entityKind={entity.kind}
-          onEdit={() => { setSelectedUser(null); setEdit(true); }}
-          onEditMissing={() => { setEdit(true); setEditMissing(true); }}
+          onEdit={() => {
+            setSelectedUser(null);
+            setEdit(true);
+          }}
+          onEditMissing={() => {
+            setEdit(true);
+            setEditMissing(true);
+          }}
           onDownloadCsv={() => exportSecurityChampionsAsCsv(groupedChampions)}
         />
       )}
     </CardWrapper>
   );
 };
-
