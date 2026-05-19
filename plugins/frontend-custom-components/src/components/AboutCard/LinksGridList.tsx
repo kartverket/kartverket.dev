@@ -43,8 +43,8 @@ export function LinksGridList(props: LinksGridListProps) {
 
   return (
     <ImageList rowHeight="auto" cols={numOfCols}>
-      {items.map(({ text, href, Icon }, i) => (
-        <ImageListItem key={i}>
+      {items.map(({ text, href, Icon }) => (
+        <ImageListItem key={href}>
           <IconLink href={href} text={text ?? href} Icon={Icon} />
         </ImageListItem>
       ))}

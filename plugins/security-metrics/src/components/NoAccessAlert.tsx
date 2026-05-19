@@ -51,4 +51,4 @@ const NoAccessAlert = ({ repos }: NoAccessProps) => {
   );
 };
 
-export default NoAccessAlert;
+export { NoAccessAlert };

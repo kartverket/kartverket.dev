@@ -118,5 +118,5 @@ export const filterSystemsByComponents = (
     .filter(system => system.metrics.permittedMetrics.length > 0);
 };
 
-export const severityLegendSorter = (item: any) =>
-  SEVERITY_ORDER.indexOf(item?.payload?.key ?? 'unknown');
+export const severityLegendSorter = (item: { payload?: { key?: string } }) =>
+  SEVERITY_ORDER.indexOf((item?.payload?.key ?? 'unknown') as Severity);

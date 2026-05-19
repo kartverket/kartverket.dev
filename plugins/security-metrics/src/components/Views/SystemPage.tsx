@@ -15,7 +15,7 @@ import {
   getAllSecrets,
 } from '../../mapping/getGroupedData';
 import { RepositorySummary } from '../../typesFrontend';
-import NoAccessAlert from '../NoAccessAlert';
+import { NoAccessAlert } from '../NoAccessAlert';
 import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
 import { ViewSettingsDialog } from '../ViewSettingsDialog';
 import TuneIcon from '@mui/icons-material/Tune';

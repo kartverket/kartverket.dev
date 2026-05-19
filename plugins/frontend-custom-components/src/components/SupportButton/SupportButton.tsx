@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Flex } from '@backstage/ui';
-import SupportDialog from './SupportDialog';
-import SupportEntry from './SupportEntry';
+import { SupportDialog } from './SupportDialog';
+import { SupportEntry } from './SupportEntry';
 import style from './support.module.css';
 import 'remixicon/fonts/remixicon.css';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';

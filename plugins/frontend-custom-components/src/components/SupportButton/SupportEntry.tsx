@@ -27,4 +27,4 @@ const SupportEntry = (props: SupportEntryProps) => {
   );
 };
 
-export default SupportEntry;
+export { SupportEntry };
