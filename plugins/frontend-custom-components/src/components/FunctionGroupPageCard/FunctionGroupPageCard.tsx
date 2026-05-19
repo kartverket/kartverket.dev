@@ -134,8 +134,8 @@ export const FunctionGroupPageCard = (props: FunctionGroupPageCardProps) => {
 
         return (
           <div>
-            {relatedEntities.map((relEntity, idx) => (
-              <div key={idx}>
+            {relatedEntities.map(relEntity => (
+              <div key={stringifyEntityRef(relEntity)}>
                 <EntityRefLink
                   entityRef={relEntity}
                   defaultKind={relEntity.kind.toLowerCase()}

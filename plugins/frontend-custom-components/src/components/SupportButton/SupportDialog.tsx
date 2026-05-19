@@ -28,4 +28,4 @@ const SupportDialog = ({
   );
 };
 
-export default SupportDialog;
+export { SupportDialog };
