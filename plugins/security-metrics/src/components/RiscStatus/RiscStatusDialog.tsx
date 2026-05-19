@@ -1,4 +1,4 @@
-import { HighlightOffOutlined } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Table from '@mui/material/Table';
@@ -40,7 +40,7 @@ export const RiscStatusDialog = ({
                   riscStatusLabel(repo.riscStatus)
                 ) : (
                   <Tooltip title="Mangler operasjonell RoS">
-                    <HighlightOffOutlined color="error" />
+                    <CloseIcon color="error" />
                   </Tooltip>
                 )}
               </TableCell>

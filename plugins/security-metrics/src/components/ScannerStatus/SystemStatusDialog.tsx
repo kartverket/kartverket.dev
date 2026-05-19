@@ -1,4 +1,5 @@
-import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Table from '@mui/material/Table';
@@ -60,11 +61,11 @@ export const ScannerStatusDialog = ({
                       scanner => scanner.type === scannerStatus.scannerName,
                     )?.on ? (
                       <Tooltip title="Konfigurert">
-                        <CheckCircleOutlined color="success" />
+                        <CheckIcon color="success" />
                       </Tooltip>
                     ) : (
                       <Tooltip title="Ikke konfigurert">
-                        <HighlightOffOutlined color="error" />
+                        <CloseIcon color="error" />
                       </Tooltip>
                     )}
                   </TableCell>

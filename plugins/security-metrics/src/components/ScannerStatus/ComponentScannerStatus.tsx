@@ -1,4 +1,5 @@
-import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import type { RepositoryScannerStatusData } from '../../typesFrontend';
 import { CardTitle } from '../shared/CardTitle';
@@ -38,11 +39,11 @@ export const ComponentScannerStatus = ({
             <ScannerInfo name={status.type} />
             {status.on ? (
               <Tooltip title="Konfigurert">
-                <CheckCircleOutlined color="success" />
+                <CheckIcon color="success" />
               </Tooltip>
             ) : (
               <Tooltip title="Ikke konfigurert">
-                <HighlightOffOutlined color="error" />
+                <CloseIcon color="error" />
               </Tooltip>
             )}
           </StatusRow>

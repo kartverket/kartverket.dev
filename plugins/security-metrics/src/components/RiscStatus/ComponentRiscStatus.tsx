@@ -1,5 +1,5 @@
 import { CardTitle } from '../shared/CardTitle';
-import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
+import { Check, Close } from '@mui/icons-material';
 import { calculateDaysSince, plural } from './utils';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -36,11 +36,11 @@ export const ComponentRiscStatus = ({
           <Typography variant="body2">Operasjonell RoS</Typography>
           {riscStatus.hasRisc ? (
             <Tooltip title="Konfigurert">
-              <CheckCircleOutlined color="success" />
+              <Check color="success" />
             </Tooltip>
           ) : (
             <Tooltip title="Ikke konfigurert">
-              <HighlightOffOutlined color="error" />
+              <Close color="error" />
             </Tooltip>
           )}
         </StatusRow>

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -30,19 +30,19 @@ const CATEGORIES: CategoryConfig[] = [
   {
     key: 'mangler',
     label: 'Mangler RoS',
-    Icon: HighlightOffOutlinedIcon,
+    Icon: CloseIcon,
     color: 'error',
   },
   {
     key: 'utdatert',
     label: 'Utdatert RoS',
-    Icon: CheckCircleOutlinedIcon,
+    Icon: CheckIcon,
     color: 'warning',
   },
   {
     key: 'oppdatert',
     label: 'Oppdatert RoS',
-    Icon: CheckCircleOutlinedIcon,
+    Icon: CheckIcon,
     color: 'success',
   },
 ];
@@ -50,7 +50,7 @@ const CATEGORIES: CategoryConfig[] = [
 const categorise = (repo: RepositorySummary): RiscCategory => {
   if (!repo.riscStatus?.hasRisc) return 'mangler';
   const days = calculateDaysSince(repo.riscStatus.lastPublishedRisc) ?? 0;
-  return days > 90 ? 'utdatert' : 'oppdatert';
+  return days > 365 ? 'utdatert' : 'oppdatert';
 };
 
 export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
