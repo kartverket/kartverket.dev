@@ -18,10 +18,15 @@ import { NoAccessRow } from './NoAccessRow';
 
 type Props = {
   data: RepositorySummary[];
+  showOpen: boolean;
   notPermittedComponents: string[];
 };
 
-export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
+export const RepositoriesTable = ({
+  data,
+  showOpen,
+  notPermittedComponents,
+}: Props) => {
   const getCombinedVulnerabilityCount = (repo: RepositorySummary): number => {
     return getTotalVulnerabilityCount(repo.severityCount);
   };
@@ -74,6 +79,7 @@ export const RepositoriesTable = ({ data, notPermittedComponents }: Props) => {
                   key={row.repoName}
                   repository={row}
                   highestVulnerabilityCount={highestVulnerabilityCount}
+                  showOpen={showOpen}
                 />
               ),
             )}

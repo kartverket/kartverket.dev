@@ -1,14 +1,14 @@
 import Chip from '@mui/material/Chip';
 import { useMemo } from 'react';
-import { BASIC_COLORS } from '../../colors';
 import { Box } from '@mui/system';
 import { getFromDate } from '../utils';
+import { GraphTimeline } from '../../typesFrontend';
 
 type GraphLabelProps = {
   label: string;
-  value: string;
-  selectedValue: string;
-  setSelectedValue: (value: string) => void;
+  value: GraphTimeline;
+  selectedValue: GraphTimeline;
+  setSelectedValue: (value: GraphTimeline) => void;
   textColor?: string;
   color?: string;
 };
@@ -20,26 +20,33 @@ const GraphLabel = ({
   setSelectedValue,
   textColor,
   color,
-}: GraphLabelProps) => {
-  return (
-    <Chip
-      label={label}
-      onClick={() => setSelectedValue(value)}
-      sx={{
-        backgroundColor: color,
-        color: textColor,
-        outline: selectedValue === value ? 1 : 0,
-        outlineColor: BASIC_COLORS.BLACK,
-      }}
-    />
-  );
-};
+}: GraphLabelProps) => (
+  <Chip
+    label={label}
+    onClick={() => setSelectedValue(value)}
+    variant={selectedValue === value ? 'filled' : 'outlined'}
+    sx={{
+      backgroundColor: selectedValue === value ? color : undefined,
+      color: textColor,
+      fontWeight: selectedValue === value ? 600 : 400,
+      cursor: 'pointer',
+    }}
+  />
+);
 
 type GraphLabelsProps = {
-  graphTimeline: string;
-  setGraphTimeline: (value: string) => void;
+  graphTimeline: GraphTimeline;
+  setGraphTimeline: (value: GraphTimeline) => void;
   setFromDate: (value: Date) => void;
 };
+
+const timelineOptions: { label: string; value: GraphTimeline }[] = [
+  { label: '1 år', value: 'oneYear' },
+  { label: '6 mnd', value: 'sixMonths' },
+  { label: '3 mnd', value: 'threeMonths' },
+  { label: '1 mnd', value: 'oneMonth' },
+  { label: '14 dager', value: 'fourteenDays' },
+];
 
 export const GraphLabels = ({
   graphTimeline,
@@ -47,7 +54,8 @@ export const GraphLabels = ({
   setFromDate,
 }: GraphLabelsProps) => {
   const todayDate = useMemo(() => new Date(), []);
-  const handleTimelineChange = (value: string) => {
+
+  const handleTimelineChange = (value: GraphTimeline) => {
     setGraphTimeline(value);
     setFromDate(getFromDate(value, todayDate));
   };
@@ -59,25 +67,17 @@ export const GraphLabels = ({
       justifyContent="center"
       gap={1}
       paddingBottom={2}
+      flexWrap="wrap"
     >
-      <GraphLabel
-        label="1 uke"
-        value="oneWeek"
-        selectedValue={graphTimeline}
-        setSelectedValue={handleTimelineChange}
-      />
-      <GraphLabel
-        label="1 mnd"
-        value="oneMonth"
-        selectedValue={graphTimeline}
-        setSelectedValue={handleTimelineChange}
-      />
-      <GraphLabel
-        label="1 år"
-        value="oneYear"
-        selectedValue={graphTimeline}
-        setSelectedValue={handleTimelineChange}
-      />
+      {timelineOptions.map(option => (
+        <GraphLabel
+          key={option.value}
+          label={option.label}
+          value={option.value}
+          selectedValue={graphTimeline}
+          setSelectedValue={handleTimelineChange}
+        />
+      ))}
     </Box>
   );
 };
