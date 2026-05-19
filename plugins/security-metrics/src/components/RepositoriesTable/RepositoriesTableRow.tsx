@@ -33,9 +33,16 @@ export const RepositoriesTableRow = ({
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const severityCount = showOpen
+  const severityCount = (showOpen
     ? repository.openSeverityCount
-    : repository.severityCount;
+    : repository.severityCount) ?? {
+    critical: 0,
+    high: 0,
+    medium: 0,
+    low: 0,
+    negligible: 0,
+    unknown: 0,
+  };
   const { critical, high, medium, low, negligible, unknown } = severityCount;
   const total = critical + high + medium + low + negligible + unknown;
 

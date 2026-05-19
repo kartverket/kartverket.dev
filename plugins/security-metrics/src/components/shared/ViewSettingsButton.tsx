@@ -1,10 +1,10 @@
-import Button from '@mui/material/Button';
 import TuneIcon from '@mui/icons-material/Tune';
+import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { ViewSettingsDialog } from './ViewSettingsDialog';
 import { FilterEnum } from '../../typesFrontend';
+import { ViewSettingsDialog } from './ViewSettingsDialog';
 
-interface StarFilterProps {
+export interface StarFilterProps {
   hasStarred: boolean;
   effectiveFilter: FilterEnum;
   onToggleStarFilter: (
@@ -15,16 +15,26 @@ interface StarFilterProps {
 
 interface Props {
   showTotal: boolean;
-  onToggleShowTotal: () => void;
+  showOpen: boolean;
+  onToggleShowTotal: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => void;
+  onToggleShowOpen: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => void;
   starFilter?: StarFilterProps;
 }
 
 export const ViewSettingsButton = ({
   showTotal,
+  showOpen,
   onToggleShowTotal,
+  onToggleShowOpen,
   starFilter,
 }: Props) => {
-  const [open, setOpen] = useState(false);
+  const [openViewSettings, setOpenViewSettings] = useState(false);
 
   return (
     <>
@@ -32,16 +42,18 @@ export const ViewSettingsButton = ({
         variant="text"
         startIcon={<TuneIcon />}
         color="primary"
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenViewSettings(true)}
       >
         Tilpass visning
       </Button>
       <ViewSettingsDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        showTotal={showTotal}
-        onToggleShowTotal={onToggleShowTotal}
+        open={openViewSettings}
+        onClose={() => setOpenViewSettings(false)}
         starFilter={starFilter}
+        showTotal={showTotal}
+        showOpen={showOpen}
+        onToggleShowTotal={onToggleShowTotal}
+        onToggleShowOpen={onToggleShowOpen}
       />
     </>
   );

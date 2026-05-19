@@ -54,7 +54,12 @@ export const SystemPage = () => {
         entityName={entity.metadata.name}
         secrets={secrets}
         notPermitted={notPermitted}
-        viewSettingsProps={{ showTotal, showOpen, onToggleShowTotal: toggleShowTotal, onToggleShowOpen: toggleShowOpen }}
+        viewSettingsProps={{
+          showTotal,
+          showOpen,
+          onToggleShowTotal: toggleShowTotal,
+          onToggleShowOpen: toggleShowOpen,
+        }}
       />
 
       <MetricsGrid>

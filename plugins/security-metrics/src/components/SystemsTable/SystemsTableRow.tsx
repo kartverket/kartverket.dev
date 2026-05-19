@@ -23,6 +23,7 @@ type Props = {
   severityCount: SeverityCount;
   highestVulnerabilityCount: number;
   noSystemComponents?: string[];
+  showOpen: boolean;
 };
 
 export const SystemsTableRow = ({
@@ -32,6 +33,7 @@ export const SystemsTableRow = ({
   severityCount,
   highestVulnerabilityCount,
   noSystemComponents = [],
+  showOpen = false,
 }: Props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -82,7 +84,9 @@ export const SystemsTableRow = ({
               </Box>
             </Stack>
           ) : (
-            <Typography variant="body2">Ingen sårbarheter</Typography>
+            <Typography variant="body2">
+              Ingen {showOpen ? 'åpne ' : ''}sårbarheter
+            </Typography>
           )}
         </TableCell>
 

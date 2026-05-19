@@ -55,7 +55,12 @@ export const SingleComponentPage = () => {
       <PageHeader
         entityName={componentName}
         secrets={secrets}
-        viewSettingsProps={{ showTotal, showOpen, onToggleShowTotal: toggleShowTotal, onToggleShowOpen: toggleShowOpen }}
+        viewSettingsProps={{
+          showTotal,
+          showOpen,
+          onToggleShowTotal: toggleShowTotal,
+          onToggleShowOpen: toggleShowOpen,
+        }}
       />
       <MetricsGrid>
         <ComponentScannerStatus scannerStatus={scannerStatus} />
@@ -65,7 +70,11 @@ export const SingleComponentPage = () => {
           showOpen={showOpen}
           averageDays={data.averageTimeToSolveVulnerabilityDays}
         />
-        <Trend componentNames={componentName} showTotal={showTotal} showOpen={showOpen} />
+        <Trend
+          componentNames={componentName}
+          showTotal={showTotal}
+          showOpen={showOpen}
+        />
       </MetricsGrid>
 
       {data.vulnerabilities.length > 0 && (

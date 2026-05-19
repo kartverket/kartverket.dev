@@ -65,7 +65,9 @@ export const RepositoriesTable = ({
               </Box>
             </TableCell>
             <TableCell>Inaktive skannere</TableCell>
-            <TableCell width="30%">Sårbarheter</TableCell>
+            <TableCell width="30%">
+              {showOpen ? 'Åpne sårbarheter' : 'Sårbarheter'}
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

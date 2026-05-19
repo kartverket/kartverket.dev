@@ -63,7 +63,9 @@ export const SystemsTable = ({ data, showOpen }: Props) => {
         <TableHead>
           <TableRow>
             <TableCell width="20%">System</TableCell>
-            <TableCell width="50%">Sårbarheter</TableCell>
+            <TableCell width="50%">
+              {showOpen ? 'Åpne sårbarheter' : 'Sårbarheter'}
+            </TableCell>
             <TableCell width="30%" />
           </TableRow>
         </TableHead>
@@ -89,6 +91,7 @@ export const SystemsTable = ({ data, showOpen }: Props) => {
                 severityCount={system.severityCount}
                 highestVulnerabilityCount={highestVulnerabilityCount}
                 noSystemComponents={noSystemComponents}
+                showOpen={showOpen}
               />
             );
           })}
