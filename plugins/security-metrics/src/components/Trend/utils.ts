@@ -1,26 +1,50 @@
 import { formatDate } from 'date-fns';
 import { TrendSeverityCounts } from '../../typesFrontend';
 
-/** This function aggregates the trends by date by summing the severity counts for each date.
- * @param trends - The trends to aggregate
- * @returns: TrendSeverityCounts[] - List of aggregated trends
- */
+type TrendSeverityCountsWithOpen = TrendSeverityCounts & {
+  openTotal: number | null;
+  openNegligible: number;
+  openUnknown: number;
+  openLow: number;
+  openMedium: number;
+  openHigh: number;
+  openCritical: number;
+};
+
+const hasOpenCounts = (
+  item: TrendSeverityCounts,
+): item is TrendSeverityCountsWithOpen =>
+  item.openUnknown !== null &&
+  item.openNegligible !== null &&
+  item.openLow !== null &&
+  item.openMedium !== null &&
+  item.openHigh !== null &&
+  item.openCritical !== null;
+
 export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
   const aggregated: Record<string, TrendSeverityCounts> = {};
 
   trends.forEach(item => {
-    const date = formatDate(item.timestamp, 'yyyy-MM-dd'); // Get just the date
+    const date = formatDate(item.timestamp, 'yyyy-MM-dd');
 
     if (!aggregated[date]) {
       aggregated[date] = {
         timestamp: date,
         total: 0,
         unknown: 0,
+        negligible: 0,
         low: 0,
         medium: 0,
         high: 0,
         critical: 0,
-        negligible: 0,
+
+        openTotal: null,
+        openNegligible: null,
+        openUnknown: null,
+        openLow: null,
+        openMedium: null,
+        openHigh: null,
+        openCritical: null,
       };
     }
 
@@ -38,6 +62,34 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
       item.medium +
       item.high +
       item.critical;
+
+    if (hasOpenCounts(item)) {
+      aggregated[date].openNegligible =
+        (aggregated[date].openNegligible ?? 0) + item.openNegligible;
+
+      aggregated[date].openUnknown =
+        (aggregated[date].openUnknown ?? 0) + item.openUnknown;
+
+      aggregated[date].openLow = (aggregated[date].openLow ?? 0) + item.openLow;
+
+      aggregated[date].openMedium =
+        (aggregated[date].openMedium ?? 0) + item.openMedium;
+
+      aggregated[date].openHigh =
+        (aggregated[date].openHigh ?? 0) + item.openHigh;
+
+      aggregated[date].openCritical =
+        (aggregated[date].openCritical ?? 0) + item.openCritical;
+
+      aggregated[date].openTotal =
+        (aggregated[date].openTotal ?? 0) +
+        item.openUnknown +
+        item.openNegligible +
+        item.openLow +
+        item.openMedium +
+        item.openHigh +
+        item.openCritical;
+    }
   });
 
   return Object.values(aggregated);

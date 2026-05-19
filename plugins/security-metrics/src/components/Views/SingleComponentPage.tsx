@@ -2,7 +2,6 @@ import { Progress } from '@backstage/core-components';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import { getSecrets } from '../../mapping/getSecretsData';
-import { useShowTrendTotal } from '../../hooks/useShowTrendTotal';
 import { ComponentScannerStatus } from '../ScannerStatus/ComponentScannerStatus';
 import { SecretsAlert } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
@@ -16,11 +15,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { RuntimeVulnerabilityTable } from '../VulnerabilityTable/RuntimeVulnerabilityTable';
 import { getScannerStatusData } from '../../mapping/getScannerData';
-import { ViewSettingsDialog } from '../ViewSettingsDialog';
-import TuneIcon from '@mui/icons-material/Tune';
-import Button from '@mui/material/Button';
 import { ComponentRiscStatus } from '../RiscStatus/ComponentRiscStatus';
 import { MetricsStatus } from '../MetricsStatus';
+import { ViewSettingsButton } from '../ViewSettings/ViewSettingsButton';
+import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 
 enum TabEnum {
   ALL_VULNERABILITIES = 0,
@@ -33,8 +31,8 @@ export const SingleComponentPage = () => {
 
   const { data, isPending, error } = useComponentMetricsQuery(componentName);
 
-  const { showTotal, toggleShowTotal } = useShowTrendTotal();
-  const [openViewSettings, setOpenViewSettings] = useState(false);
+  const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
+    useSecurityMetricsViewSettings();
   const [selectedTab, setSelectedTab] = useState<TabEnum>(0);
   const handleTabChange = (_: React.SyntheticEvent, newValue: TabEnum) => {
     setSelectedTab(newValue);
@@ -67,19 +65,11 @@ export const SingleComponentPage = () => {
           {secrets.length > 0 && <SecretsAlert secretsOverviewData={secrets} />}
         </Stack>
         <Box display="flex" alignItems="center" ml="auto" gap={0.5}>
-          <Button
-            variant="text"
-            startIcon={<TuneIcon />}
-            color="primary"
-            onClick={() => setOpenViewSettings(true)}
-          >
-            Tilpass visning
-          </Button>
-          <ViewSettingsDialog
-            open={openViewSettings}
-            onClose={() => setOpenViewSettings(false)}
+          <ViewSettingsButton
             showTotal={showTotal}
+            showOpen={showOpen}
             onToggleShowTotal={toggleShowTotal}
+            onToggleShowOpen={toggleShowOpen}
           />
         </Box>
       </Stack>
@@ -97,9 +87,14 @@ export const SingleComponentPage = () => {
         <ComponentRiscStatus riscStatus={data.riscStatus} />
         <VulnerabilityCountsOverview
           data={data}
+          showOpen={showOpen}
           averageDays={data.averageTimeToSolveVulnerabilityDays}
         />
-        <Trend componentNames={componentName} showTotal={showTotal} />
+        <Trend
+          componentNames={componentName}
+          showTotal={showTotal}
+          showOpen={showOpen}
+        />
       </Box>
 
       {data.vulnerabilities.length > 0 && (

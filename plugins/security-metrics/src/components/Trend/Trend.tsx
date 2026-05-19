@@ -8,19 +8,23 @@ import { Graph } from './TrendGraph';
 import { GraphLabels } from './GraphLabels';
 import { Progress } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import { GraphTimeline } from '../../typesFrontend';
 
 interface TrendProps {
   componentNames: string[] | string;
   showTotal: boolean;
+  showOpen: boolean;
 }
 
-export const Trend = ({ componentNames, showTotal }: TrendProps) => {
+export const Trend = ({ componentNames, showTotal, showOpen }: TrendProps) => {
   const { entity } = useEntity();
   const toDate = useRef(new Date()).current;
+
+  const [graphTimeline, setGraphTimeline] = useState<GraphTimeline>('oneMonth');
+
   const [fromDate, setFromDate] = useState<Date>(() =>
     getFromDate('oneMonth', toDate),
   );
-  const [graphTimeline, setGraphTimeline] = useState<string>('oneMonth');
 
   const items = Array.isArray(componentNames)
     ? componentNames
@@ -34,7 +38,9 @@ export const Trend = ({ componentNames, showTotal }: TrendProps) => {
   );
 
   return (
-    <CardTitle title="Trend">
+    <CardTitle
+      title={showOpen ? 'Åpne sårbarheter over tid' : 'Sårbarheter over tid'}
+    >
       {isPending && <Progress />}
       {data?.length === 0 && (
         <Typography sx={{ fontSize: '1rem', my: 2, ml: 2 }}>
@@ -47,6 +53,7 @@ export const Trend = ({ componentNames, showTotal }: TrendProps) => {
             trendData={data}
             graphTimeline={graphTimeline}
             showTotal={showTotal}
+            showOpen={showOpen}
           />
           <GraphLabels
             graphTimeline={graphTimeline}

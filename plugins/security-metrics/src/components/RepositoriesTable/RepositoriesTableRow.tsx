@@ -22,16 +22,20 @@ import { riscStatusLabel } from '../RiscStatus/RiscStatusLabel';
 type Props = {
   repository: RepositorySummary;
   highestVulnerabilityCount: number;
+  showOpen: boolean;
 };
 
 export const RepositoriesTableRow = ({
   repository,
   highestVulnerabilityCount,
+  showOpen,
 }: Props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const severityCount = repository.severityCount;
+  const severityCount = showOpen
+    ? repository.openSeverityCount
+    : repository.severityCount;
   const { critical, high, medium, low, negligible, unknown } = severityCount;
   const total = critical + high + medium + low + negligible + unknown;
 
@@ -114,7 +118,7 @@ export const RepositoriesTableRow = ({
               </Box>
             </Stack>
           ) : (
-            <Typography>Ingen sårbarheter</Typography>
+            <Typography>Ingen {showOpen ? 'åpne' : ''} sårbarheter</Typography>
           )}
         </TableCell>
         <TableCell>
