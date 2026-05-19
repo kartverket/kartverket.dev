@@ -17,7 +17,7 @@ import {
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
-import NoAccessAlert from '../NoAccessAlert';
+import { NoAccessAlert } from '../NoAccessAlert';
 import Button from '@mui/material/Button';
 import { SlackNotificationDialog } from '../SlackNotificationsDialog';
 import { useStarredRefFilter } from '../../hooks/useStarredRefFilter';

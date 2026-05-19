@@ -15,7 +15,7 @@ import {
   getAllSecrets,
 } from '../../mapping/getGroupedData';
 import { RepositorySummary } from '../../typesFrontend';
-import NoAccessAlert from '../NoAccessAlert';
+import { NoAccessAlert } from '../NoAccessAlert';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
 import { MetricsStatus } from '../MetricsStatus';
 import { ViewSettingsButton } from '../ViewSettings/ViewSettingsButton';
