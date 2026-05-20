@@ -21,7 +21,7 @@ type Props = {
 
 export const ScannerInfo = ({ name }: Props) => (
   <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-    <Typography>{name}</Typography>
+    <Typography variant="body2">{name}</Typography>
     <Tooltip title={scannerTooltips[name]}>
       <InfoIcon
         sx={{

@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
-import { getFromDate } from '../utils';
-import { ErrorBanner } from '../ErrorBanner';
+import { getFromDate } from '../../utils/utils';
+import { ErrorBanner } from '../shared/ErrorBanner';
 import { useTrendsQuery } from '../../hooks/useTrendsQuery';
 import Typography from '@mui/material/Typography';
-import { CardTitle } from '../CardTitle';
+import { CardTitle } from '../shared/CardTitle';
 import { Graph } from './TrendGraph';
 import { GraphLabels } from './GraphLabels';
 import { Progress } from '@backstage/core-components';
@@ -40,6 +40,7 @@ export const Trend = ({ componentNames, showTotal, showOpen }: TrendProps) => {
   return (
     <CardTitle
       title={showOpen ? 'Åpne sårbarheter over tid' : 'Sårbarheter over tid'}
+      marginBottom
     >
       {isPending && <Progress />}
       {data?.length === 0 && (

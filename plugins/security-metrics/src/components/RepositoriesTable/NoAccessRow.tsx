@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import { StyledTableRow } from '../TableRow';
+import { StyledTableRow } from '../shared/StyledTableRow';
 import TableCell from '@mui/material/TableCell';
 import Alert from '@mui/material/Alert';
 

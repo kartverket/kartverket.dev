@@ -1,8 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
 import type { SeverityCount } from '../../typesFrontend';
-import { StyledTableRow } from '../TableRow';
-import { VulnerabilityDistribution } from '../VulnerabilityDistribution';
+import { StyledTableRow } from '../shared/StyledTableRow';
+import { VulnerabilityDistribution } from '../shared/VulnerabilityDistribution';
 import { useNavigate } from 'react-router-dom';
 import TableCell from '@mui/material/TableCell';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -23,6 +23,7 @@ type Props = {
   severityCount: SeverityCount;
   highestVulnerabilityCount: number;
   noSystemComponents?: string[];
+  showOpen: boolean;
 };
 
 export const SystemsTableRow = ({
@@ -32,6 +33,7 @@ export const SystemsTableRow = ({
   severityCount,
   highestVulnerabilityCount,
   noSystemComponents = [],
+  showOpen = false,
 }: Props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -61,7 +63,7 @@ export const SystemsTableRow = ({
         onClick={handleRowClick}
       >
         <TableCell>
-          <Typography>{systemName}</Typography>
+          <Typography variant="body2">{systemName}</Typography>
           {noSystem && (
             <Typography variant="caption" sx={{ opacity: 0.7 }}>
               {noSystemComponents.length}{' '}
@@ -82,7 +84,9 @@ export const SystemsTableRow = ({
               </Box>
             </Stack>
           ) : (
-            <Typography>Ingen sårbarheter</Typography>
+            <Typography variant="body2">
+              Ingen {showOpen ? 'åpne ' : ''}sårbarheter
+            </Typography>
           )}
         </TableCell>
 

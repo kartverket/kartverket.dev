@@ -1,15 +1,11 @@
-import { CardTitle } from '../CardTitle';
-import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
-import { StyledTableRow } from '../TableRow';
+import { CardTitle } from '../shared/CardTitle';
+import { Check, Close } from '@mui/icons-material';
 import { calculateDaysSince, plural } from './utils';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import Tooltip from '@mui/material/Tooltip';
 import { RiscStatusData } from '../../typesFrontend';
-import { Fragment } from 'react/jsx-runtime';
+import Divider from '@mui/material/Divider';
+import { StatusRow } from '../shared/StatusRow';
 
 type ComponentRiscStatusProps = {
   riscStatus: RiscStatusData;
@@ -20,10 +16,10 @@ export const ComponentRiscStatus = ({
 }: ComponentRiscStatusProps) => {
   if (!riscStatus)
     return (
-      <CardTitle title="Risiko- og sårbarhetsarbeid">
-        <Stack px={2}>
-          <Typography>
-            <i>Vi fant dessverre ingen status på RoS-arbeid.</i>
+      <CardTitle title="Operasjonell RoS">
+        <Stack px={2} pb={2}>
+          <Typography variant="body2" color="text.secondary" fontStyle="italic">
+            Vi fant dessverre ingen status på RoS-arbeid.
           </Typography>
         </Stack>
       </CardTitle>
@@ -33,52 +29,44 @@ export const ComponentRiscStatus = ({
   const commits = riscStatus.commitsSincePublishedRisc;
 
   return (
-    <CardTitle title="Risiko- og sårbarhetsarbeid">
-      <Stack px={2}>
-        <Table size="small">
-          <TableBody>
-            <Fragment key={riscStatus.repositoryName}>
-              <StyledTableRow>
-                <TableCell>Operasjonell RoS</TableCell>
-                <TableCell>
-                  {riscStatus.hasRisc ? (
-                    <Tooltip title="Konfigurert">
-                      <CheckCircleOutlined color="success" />
-                    </Tooltip>
-                  ) : (
-                    <Tooltip title="Ikke konfigurert">
-                      <HighlightOffOutlined color="error" />
-                    </Tooltip>
-                  )}
-                </TableCell>
-              </StyledTableRow>
+    <CardTitle title="Operasjonell RoS">
+      <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
+        <StatusRow>
+          <Typography variant="body2">Har operasjonell RoS</Typography>
+          {riscStatus.hasRisc ? (
+            <Check color="success" />
+          ) : (
+            <Close color="error" />
+          )}
+        </StatusRow>
 
-              {riscStatus.hasRisc && days !== null && (
-                <StyledTableRow>
-                  <TableCell>Dager siden forrige publiserte RoS</TableCell>
-                  <TableCell>
-                    <Typography>
-                      {days} {plural(days, 'dag', 'dager')}
-                    </Typography>
-                  </TableCell>
-                </StyledTableRow>
-              )}
+        {riscStatus.hasRisc && days !== null && (
+          <StatusRow>
+            <Typography variant="body2">Sist publisert</Typography>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              sx={{ textAlign: 'right' }}
+            >
+              {days} {plural(days, 'dag', 'dager')} siden
+            </Typography>
+          </StatusRow>
+        )}
 
-              {riscStatus.hasRisc && commits !== null && (
-                <StyledTableRow>
-                  <TableCell>
-                    Antall commits siden forrige publiserte RoS
-                  </TableCell>
-                  <TableCell>
-                    <Typography>
-                      {commits} {plural(commits, 'commit', 'commits')}
-                    </Typography>
-                  </TableCell>
-                </StyledTableRow>
-              )}
-            </Fragment>
-          </TableBody>
-        </Table>
+        {riscStatus.hasRisc && commits !== null && (
+          <StatusRow>
+            <Typography variant="body2">
+              Endringer etter forrige publisering
+            </Typography>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              sx={{ textAlign: 'right' }}
+            >
+              {commits} {plural(commits, 'commit', 'commits')}
+            </Typography>
+          </StatusRow>
+        )}
       </Stack>
     </CardTitle>
   );

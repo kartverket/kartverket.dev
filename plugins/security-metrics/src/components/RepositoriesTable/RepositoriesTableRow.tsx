@@ -1,9 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
 import type { RepositorySummary } from '../../typesFrontend';
-import { StyledTableRow } from '../TableRow';
+import { StyledTableRow } from '../shared/StyledTableRow';
 import { RepositoryScannerStatus } from './RepositoryScannerStatus';
-import { VulnerabilityDistribution } from '../VulnerabilityDistribution';
 import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -18,6 +17,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import { useState } from 'react';
 import { riscStatusLabel } from '../RiscStatus/RiscStatusLabel';
+import { VulnerabilityDistribution } from '../shared/VulnerabilityDistribution';
 
 type Props = {
   repository: RepositorySummary;
@@ -33,9 +33,16 @@ export const RepositoriesTableRow = ({
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const severityCount = showOpen
+  const severityCount = (showOpen
     ? repository.openSeverityCount
-    : repository.severityCount;
+    : repository.severityCount) ?? {
+    critical: 0,
+    high: 0,
+    medium: 0,
+    low: 0,
+    negligible: 0,
+    unknown: 0,
+  };
   const { critical, high, medium, low, negligible, unknown } = severityCount;
   const total = critical + high + medium + low + negligible + unknown;
 
@@ -62,7 +69,7 @@ export const RepositoriesTableRow = ({
         onClick={handleRowClick}
       >
         <TableCell>
-          <Typography>
+          <Typography variant="body2">
             {isShared ? repository.repoName : componentNames[0]}
           </Typography>
           {isShared && (
@@ -96,9 +103,9 @@ export const RepositoriesTableRow = ({
         </TableCell>
         <TableCell>
           {typeof mttr === 'number' ? (
-            <Typography>{Math.round(mttr)} dager</Typography>
+            <Typography variant="body2">{Math.round(mttr)} dager</Typography>
           ) : (
-            <Typography>
+            <Typography variant="body2">
               <i>Ingen data</i>
             </Typography>
           )}
@@ -109,7 +116,9 @@ export const RepositoriesTableRow = ({
         <TableCell>
           {total > 0 ? (
             <Stack direction="row" maxWidth="500px" gap={2} alignItems="center">
-              <Typography width={50}>{total}</Typography>
+              <Typography width={50} variant="body2">
+                {total}
+              </Typography>
               <Box width="100%">
                 <VulnerabilityDistribution
                   severityCount={severityCount}
@@ -134,32 +143,30 @@ export const RepositoriesTableRow = ({
         <TableRow>
           <TableCell colSpan={7} sx={{ p: 0 }}>
             <Collapse in={open}>
-              <Box sx={{ m: 1 }}>
-                <Table size="small" sx={{ width: '100%' }}>
-                  <TableBody>
-                    {componentNames.map(name => (
-                      <TableRow
-                        key={name}
-                        hover
-                        sx={{ cursor: 'pointer' }}
-                        onClick={e => {
-                          e.stopPropagation();
-                          navigate(
-                            `/catalog/default/component/${name}/securityMetrics`,
-                          );
-                        }}
-                      >
-                        <TableCell>
-                          <Typography>{name}</Typography>
-                        </TableCell>
-                        <TableCell align="right">
-                          <ArrowForwardIosIcon fontSize="small" />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
+              <Table size="small" sx={{ width: '100%' }}>
+                <TableBody>
+                  {componentNames.map(name => (
+                    <StyledTableRow
+                      key={name}
+                      hover
+                      sx={{ cursor: 'pointer' }}
+                      onClick={e => {
+                        e.stopPropagation();
+                        navigate(
+                          `/catalog/default/component/${name}/securityMetrics`,
+                        );
+                      }}
+                    >
+                      <TableCell>
+                        <Typography variant="body2">{name}</Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <ArrowForwardIosIcon fontSize="small" />
+                      </TableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </Collapse>
           </TableCell>
         </TableRow>

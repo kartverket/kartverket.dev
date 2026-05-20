@@ -8,8 +8,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
-import { useMetricsUpdateStatusQuery } from '../hooks/useMetricsUpdateStatusQuery';
-import { MetricsUpdateStatus } from '../typesFrontend';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -19,6 +17,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useMetricsUpdateStatusQuery } from '../../hooks/useMetricsUpdateStatusQuery';
+import { MetricsUpdateStatus } from '../../typesFrontend';
 
 const SCANNER_LABELS: Record<keyof MetricsUpdateStatus, string> = {
   dependabot: 'Sårbarheter fra Dependabot',

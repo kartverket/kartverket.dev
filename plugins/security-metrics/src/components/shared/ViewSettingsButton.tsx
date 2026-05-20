@@ -1,6 +1,5 @@
 import TuneIcon from '@mui/icons-material/Tune';
 import Button from '@mui/material/Button';
-import { Box } from '@mui/system';
 import { useState } from 'react';
 import { FilterEnum } from '../../typesFrontend';
 import { ViewSettingsDialog } from './ViewSettingsDialog';
@@ -38,7 +37,7 @@ export const ViewSettingsButton = ({
   const [openViewSettings, setOpenViewSettings] = useState(false);
 
   return (
-    <Box display="flex" alignItems="center" ml="auto" gap={0.5}>
+    <>
       <Button
         variant="text"
         startIcon={<TuneIcon />}
@@ -56,6 +55,6 @@ export const ViewSettingsButton = ({
         onToggleShowTotal={onToggleShowTotal}
         onToggleShowOpen={onToggleShowOpen}
       />
-    </Box>
+    </>
   );
 };

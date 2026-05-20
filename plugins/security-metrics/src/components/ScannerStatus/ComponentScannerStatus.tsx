@@ -1,15 +1,13 @@
-import { CheckCircleOutlined, HighlightOffOutlined } from '@mui/icons-material';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-
 import type { RepositoryScannerStatusData } from '../../typesFrontend';
-import { CardTitle } from '../CardTitle';
-import { StyledTableRow } from '../TableRow';
+import { CardTitle } from '../shared/CardTitle';
 import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
 import { ScannerInfo } from './ScannerInfo';
+import Divider from '@mui/material/Divider';
+import { StatusRow } from '../shared/StatusRow';
 
 type ComponentScannerStatusProps = {
   scannerStatus: RepositoryScannerStatusData;
@@ -32,29 +30,24 @@ export const ComponentScannerStatus = ({
 
   return (
     <CardTitle title="Skannere">
-      <Stack px={2}>
-        <Table size="small">
-          <TableBody>
-            {scannerStatus.scannerStatus.map(status => (
-              <StyledTableRow key={status.type}>
-                <TableCell sx={{ pl: 0.5 }}>
-                  <ScannerInfo name={status.type} />
-                </TableCell>
-                <TableCell>
-                  {status.on ? (
-                    <Tooltip title="Konfigurert">
-                      <CheckCircleOutlined color="success" />
-                    </Tooltip>
-                  ) : (
-                    <Tooltip title="Ikke konfigurert">
-                      <HighlightOffOutlined color="error" />
-                    </Tooltip>
-                  )}
-                </TableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <Stack
+        divider={<Divider />}
+        sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+      >
+        {scannerStatus.scannerStatus.map(status => (
+          <StatusRow key={status.type}>
+            <ScannerInfo name={status.type} />
+            {status.on ? (
+              <Tooltip title="Konfigurert">
+                <CheckIcon color="success" />
+              </Tooltip>
+            ) : (
+              <Tooltip title="Ikke konfigurert">
+                <CloseIcon color="error" />
+              </Tooltip>
+            )}
+          </StatusRow>
+        ))}
       </Stack>
     </CardTitle>
   );

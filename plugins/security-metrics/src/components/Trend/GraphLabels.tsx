@@ -1,8 +1,8 @@
 import Chip from '@mui/material/Chip';
 import { useMemo } from 'react';
 import { Box } from '@mui/system';
-import { getFromDate } from '../utils';
 import { GraphTimeline } from '../../typesFrontend';
+import { getFromDate } from '../../utils/utils';
 
 type GraphLabelProps = {
   label: string;

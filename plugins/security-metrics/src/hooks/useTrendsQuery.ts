@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import { MetricTypes } from '../utils/MetricTypes';
 import { useConfig } from './getConfig';
@@ -42,5 +42,6 @@ export const useTrendsQuery = (
     staleTime: 3600000,
     refetchOnWindowFocus: false,
     enabled: componentNames.length > 0,
+    placeholderData: keepPreviousData,
   });
 };

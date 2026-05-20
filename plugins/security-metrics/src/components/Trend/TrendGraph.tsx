@@ -9,7 +9,7 @@ import {
   Area,
 } from 'recharts';
 import { BASIC_COLORS, SEVERITY_COLORS } from '../../colors';
-import { yAxisAdjustment } from '../utils';
+import { yAxisAdjustment } from '../../utils/utils';
 import { LinearGradient } from './LinearGradient';
 import { TrendSeverityCounts } from '../../typesFrontend';
 import { getAggregatedTrends } from './utils';
@@ -59,7 +59,7 @@ export const Graph = ({
   return (
     <ResponsiveContainer
       width="100%"
-      height={200}
+      height={220}
       style={{ paddingRight: '50px' }}
     >
       <AreaChart data={data}>

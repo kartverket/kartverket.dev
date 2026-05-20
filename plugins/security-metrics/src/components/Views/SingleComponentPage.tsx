@@ -1,24 +1,23 @@
 import { Progress } from '@backstage/core-components';
-import { Box } from '@mui/system';
 import { useState } from 'react';
+import { Box } from '@mui/system';
 import { getSecrets } from '../../mapping/getSecretsData';
 import { ComponentScannerStatus } from '../ScannerStatus/ComponentScannerStatus';
-import { SecretsAlert } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import { VulnerabilityTable } from '../VulnerabilityTable/VulnerabilityTable';
 import Stack from '@mui/material/Stack';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { useComponentMetricsQuery } from '../../hooks/useComponentMetricsQuery';
-import { ErrorBanner } from '../ErrorBanner';
+import { ErrorBanner } from '../shared/ErrorBanner';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { RuntimeVulnerabilityTable } from '../VulnerabilityTable/RuntimeVulnerabilityTable';
 import { getScannerStatusData } from '../../mapping/getScannerData';
 import { ComponentRiscStatus } from '../RiscStatus/ComponentRiscStatus';
-import { MetricsStatus } from '../MetricsStatus';
-import { ViewSettingsButton } from '../ViewSettings/ViewSettingsButton';
 import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
+import { PageHeader } from '../shared/PageHeader';
+import { MetricsGrid } from '../shared/MetricsGrid';
 
 enum TabEnum {
   ALL_VULNERABILITIES = 0,
@@ -53,36 +52,17 @@ export const SingleComponentPage = () => {
 
   return (
     <Stack gap={2}>
-      <Stack direction="row" alignItems="center" gap={2}>
-        <MetricsStatus entityName={componentName} />
-        <Stack
-          flexDirection="row"
-          gap={2}
-          flex={1}
-          flexWrap="wrap"
-          sx={{ '& > *': { flex: 1 } }}
-        >
-          {secrets.length > 0 && <SecretsAlert secretsOverviewData={secrets} />}
-        </Stack>
-        <Box display="flex" alignItems="center" ml="auto" gap={0.5}>
-          <ViewSettingsButton
-            showTotal={showTotal}
-            showOpen={showOpen}
-            onToggleShowTotal={toggleShowTotal}
-            onToggleShowOpen={toggleShowOpen}
-          />
-        </Box>
-      </Stack>
-      <Box
-        display="grid"
-        gridTemplateColumns={{
-          sm: '1fr',
-          md: '1fr 1fr',
-          xl: '1fr 1fr 2fr 2fr',
+      <PageHeader
+        entityName={componentName}
+        secrets={secrets}
+        viewSettingsProps={{
+          showTotal,
+          showOpen,
+          onToggleShowTotal: toggleShowTotal,
+          onToggleShowOpen: toggleShowOpen,
         }}
-        gap={2}
-        gridAutoRows="minmax(320px, 1fr)"
-      >
+      />
+      <MetricsGrid>
         <ComponentScannerStatus scannerStatus={scannerStatus} />
         <ComponentRiscStatus riscStatus={data.riscStatus} />
         <VulnerabilityCountsOverview
@@ -95,7 +75,7 @@ export const SingleComponentPage = () => {
           showTotal={showTotal}
           showOpen={showOpen}
         />
-      </Box>
+      </MetricsGrid>
 
       {data.vulnerabilities.length > 0 && (
         <Box>

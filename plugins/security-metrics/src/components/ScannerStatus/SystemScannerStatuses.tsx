@@ -6,15 +6,16 @@ import {
   AggregatedScannerStatus,
   RepositorySummary,
 } from '../../typesFrontend';
-import { CardTitle } from '../CardTitle';
-import { StyledTableRow } from '../TableRow';
+import { CardTitle } from '../shared/CardTitle';
 import { ScannerStatusDialog } from './SystemStatusDialog';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import { ScannerInfo } from './ScannerInfo';
+import { useState } from 'react';
+import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { StatusRow } from '../shared/StatusRow';
 
 interface SystemScannerStatusProps {
   data: RepositorySummary[];
@@ -22,6 +23,8 @@ interface SystemScannerStatusProps {
 
 export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
   const repositoryScannerStatus = getScannerStatusData(data);
+
+  const [openDialogFor, setOpenDialogFor] = useState<string | null>(null);
 
   const aggregatedStatus = getAggregatedScannerStatus(repositoryScannerStatus);
 
@@ -39,22 +42,34 @@ export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
 
   return (
     <CardTitle title="Skannere">
-      <Box px={2}>
-        <Table size="small">
-          <TableBody>
-            {aggregatedStatus.map((status: AggregatedScannerStatus) => (
-              <StyledTableRow key={status.scannerName}>
-                <TableCell sx={{ pl: 0.5 }}>
-                  <ScannerInfo name={status.scannerName} />
-                </TableCell>
-                <TableCell>
-                  <ScannerStatusDialog scannerStatus={status} />
-                </TableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Box>
+      <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
+        {aggregatedStatus.map((status: AggregatedScannerStatus) => (
+          <Box
+            key={status.scannerName}
+            sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+          >
+            <StatusRow onClick={() => setOpenDialogFor(status.scannerName)}>
+              <ScannerInfo name={status.scannerName} />
+              <Box display="flex" alignItems="center" gap={0.5} flexShrink={0}>
+                <Typography variant="body2" fontWeight={500}>
+                  {status.status}
+                </Typography>
+                <ChevronRightIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              </Box>
+            </StatusRow>
+            <ScannerStatusDialog
+              scannerStatus={status}
+              isDialogOpen={openDialogFor === status.scannerName}
+              setIsDialogOpen={open =>
+                setOpenDialogFor(open ? status.scannerName : null)
+              }
+            />
+          </Box>
+        ))}
+      </Stack>
     </CardTitle>
   );
 };
