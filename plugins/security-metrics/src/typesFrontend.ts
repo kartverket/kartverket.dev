@@ -121,6 +121,16 @@ export type SikkerhetsmetrikkerTotal = {
   notPermittedComponents: string[];
 };
 
+export type SikkerhetsmetrikkerOwnerTotal = {
+  permittedTeams: OwnerSeverityCounts[];
+  notPermittedTeams: string[];
+};
+
+export type OwnerSeverityCounts = {
+  team: string;
+  severityCount: SeverityCount;
+};
+
 export type SikkerhetsmetrikkerSystemTotal = {
   systemName: string;
   metrics: SikkerhetsmetrikkerTotal;

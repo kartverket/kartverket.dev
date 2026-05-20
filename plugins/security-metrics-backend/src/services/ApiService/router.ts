@@ -188,6 +188,29 @@ export const createRouter = async (
   );
 
   router.post(
+    '/proxy/fetch-owners-metrics/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch metrics data',
+      async (req, res) => {
+        const authError = await requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
+        }
+
+        const request = req.body as FetchMetricsRequestBody;
+
+        const result = await apiService.fetchOwnerMetricsData(
+          request.componentNames,
+          request.entraIdToken,
+        );
+
+        return sendEither(res, result);
+      },
+    ),
+  );
+
+  router.post(
     '/proxy/fetch-trends/',
     withErrorHandling(
       logger,
