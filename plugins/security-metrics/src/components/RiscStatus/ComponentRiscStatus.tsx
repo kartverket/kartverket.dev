@@ -3,7 +3,6 @@ import { Check, Close } from '@mui/icons-material';
 import { calculateDaysSince, plural } from './utils';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
 import { RiscStatusData } from '../../typesFrontend';
 import Divider from '@mui/material/Divider';
 import { StatusRow } from '../shared/StatusRow';
@@ -17,7 +16,7 @@ export const ComponentRiscStatus = ({
 }: ComponentRiscStatusProps) => {
   if (!riscStatus)
     return (
-      <CardTitle title="Risiko- og sårbarhetsarbeid">
+      <CardTitle title="Operasjonell RoS">
         <Stack px={2} pb={2}>
           <Typography variant="body2" color="text.secondary" fontStyle="italic">
             Vi fant dessverre ingen status på RoS-arbeid.
@@ -30,18 +29,14 @@ export const ComponentRiscStatus = ({
   const commits = riscStatus.commitsSincePublishedRisc;
 
   return (
-    <CardTitle title="Risiko- og sårbarhetsarbeid">
+    <CardTitle title="Operasjonell RoS">
       <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
         <StatusRow>
-          <Typography variant="body2">Operasjonell RoS</Typography>
+          <Typography variant="body2">Har operasjonell RoS</Typography>
           {riscStatus.hasRisc ? (
-            <Tooltip title="Konfigurert">
-              <Check color="success" />
-            </Tooltip>
+            <Check color="success" />
           ) : (
-            <Tooltip title="Ikke konfigurert">
-              <Close color="error" />
-            </Tooltip>
+            <Close color="error" />
           )}
         </StatusRow>
 

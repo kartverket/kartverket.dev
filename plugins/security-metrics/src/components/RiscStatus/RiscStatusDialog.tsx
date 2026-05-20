@@ -33,26 +33,33 @@ export const RiscStatusDialog = ({
           RoSer som er mer enn ett år gamle regnes som utdaterte.
         </Typography>
       )}
-      <Table>
-        <TableBody>
-          {repos.map(repo => (
-            <StyledTableRow key={repo.repoName}>
-              <TableCell>
-                <Typography variant="body2">{repo.repoName}</Typography>
-              </TableCell>
-              <TableCell align="right">
-                {repo.riscStatus?.hasRisc ? (
-                  riscStatusLabel(repo.riscStatus)
-                ) : (
-                  <Tooltip title="Mangler operasjonell RoS">
-                    <CloseIcon color="error" />
-                  </Tooltip>
-                )}
-              </TableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {repos.length === 0 ? (
+        <Typography variant="body2" fontStyle="italic">
+          Ingen komponenter {categoryLabel === 'Mangler RoS' ? '' : 'har'}{' '}
+          {categoryLabel.toLowerCase()}
+        </Typography>
+      ) : (
+        <Table>
+          <TableBody>
+            {repos.map(repo => (
+              <StyledTableRow key={repo.repoName}>
+                <TableCell>
+                  <Typography variant="body2">{repo.repoName}</Typography>
+                </TableCell>
+                <TableCell align="right">
+                  {repo.riscStatus?.hasRisc ? (
+                    riscStatusLabel(repo.riscStatus)
+                  ) : (
+                    <Tooltip title="Mangler operasjonell RoS">
+                      <CloseIcon color="error" />
+                    </Tooltip>
+                  )}
+                </TableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </DialogContent>
   </Dialog>
 );

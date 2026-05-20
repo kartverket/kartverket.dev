@@ -58,7 +58,7 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
 
   if (!data || data.length === 0) {
     return (
-      <CardTitle title="Risiko- og sårbarhetsarbeid">
+      <CardTitle title="Operasjonell RoS">
         <Box px={2} pb={2}>
           <Typography data-testid="noData">
             <i>Vi fant dessverre ingen status på RoS-arbeid.</i>
@@ -73,7 +73,7 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
   ) as Record<RiscCategory, RepositorySummary[]>;
 
   return (
-    <CardTitle title="Risiko- og sårbarhetsarbeid">
+    <CardTitle title="Operasjonell RoS">
       <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
         {CATEGORIES.map(({ key, label, Icon, color }) => {
           const repos = byCategory[key];
