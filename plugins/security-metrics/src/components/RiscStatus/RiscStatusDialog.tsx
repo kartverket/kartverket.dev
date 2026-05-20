@@ -28,6 +28,11 @@ export const RiscStatusDialog = ({
       <Typography variant="h6" mb={3}>
         {categoryLabel}
       </Typography>
+      {categoryLabel === 'Utdatert RoS' && (
+        <Typography variant="body2" mb={2}>
+          RoSer som er mer enn ett år gamle regnes som utdaterte.
+        </Typography>
+      )}
       <Table>
         <TableBody>
           {repos.map(repo => (
