@@ -12,7 +12,7 @@ import { getTotalVulnerabilityCount } from '../../mapping/getSeverityCounts';
 
 import { Progress } from '@backstage/core-components';
 import Alert from '@mui/material/Alert';
-import { ErrorBanner } from '../ErrorBanner';
+import { ErrorBanner } from '../shared/ErrorBanner';
 
 export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
   const { entity } = useEntity();

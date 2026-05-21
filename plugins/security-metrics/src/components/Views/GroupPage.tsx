@@ -188,14 +188,6 @@ export const GroupPage = () => {
           }}
         />
       )}
-
-      {selectedTab === TabEnum.OWNER && (
-        <OwnerTable
-          onNavigate={() => {
-            setSelectedTab(TabEnum.COMPONENT);
-          }}
-        />
-      )}
     </Stack>
   );
 };

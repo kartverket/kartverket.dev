@@ -1,8 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
 import type { SeverityCount } from '../../typesFrontend';
-import { StyledTableRow } from '../TableRow';
-import { VulnerabilityDistribution } from '../VulnerabilityDistribution';
+import { StyledTableRow } from '../shared/StyledTableRow';
+import { VulnerabilityDistribution } from '../shared/VulnerabilityDistribution';
 import { useNavigate } from 'react-router-dom';
 import TableCell from '@mui/material/TableCell';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
