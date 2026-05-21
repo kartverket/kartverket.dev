@@ -75,7 +75,7 @@ export const RepositoriesTable = ({
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(row =>
               typeof row === 'string' ? (
-                <NoAccessRow key={row} repositoryName={row} />
+                <NoAccessRow key={row} name={row} />
               ) : (
                 <RepositoriesTableRow
                   key={row.repoName}

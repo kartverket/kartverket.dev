@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import TableCell from '@mui/material/TableCell';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useGroupInfo } from '../../hooks/useUserInfo';
+import { NoAccessRow } from '../RepositoriesTable/NoAccessRow';
 
 type Props = {
   ownerId: string;
@@ -65,5 +66,17 @@ export const OwnerTableRow = ({
         </TableCell>
       </StyledTableRow>
     </>
+  );
+};
+
+export const NoAccessOwnerRow = ({ ownerId }: { ownerId: string }) => {
+  const { data: group } = useGroupInfo(ownerId);
+
+  return (
+    <NoAccessRow
+      name={group?.metadata?.name || ownerId}
+      message="Du har ikke tilgang til metrikker for denne eieren"
+      colSpan={2}
+    />
   );
 };

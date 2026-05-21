@@ -7,8 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import { useOwnerMetrics } from '../../hooks/useOwnerMetrics';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { NoAccessRow } from '../RepositoriesTable/NoAccessRow';
-import { OwnerTableRow } from './OwnerTableRow';
+import { NoAccessOwnerRow, OwnerTableRow } from './OwnerTableRow';
 import { getTotalVulnerabilityCount } from '../../mapping/getSeverityCounts';
 
 import { Progress } from '@backstage/core-components';
@@ -72,7 +71,7 @@ export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
               );
             })}
           {data?.notPermittedOwners?.map(owner => {
-            return <NoAccessRow repositoryName={owner} />;
+            return <NoAccessOwnerRow key={owner} ownerId={owner} />;
           })}
         </TableBody>
       </Table>
