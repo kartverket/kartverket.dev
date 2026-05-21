@@ -9,21 +9,21 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useGroupInfo } from '../../hooks/useUserInfo';
 
 type Props = {
-  teamId: string;
+  ownerId: string;
   severityCount: SeverityCount;
   highestVulnerabilityCount: number;
   onNavigate: () => void;
 };
 
 export const OwnerTableRow = ({
-  teamId,
+  ownerId,
   severityCount,
   highestVulnerabilityCount,
   onNavigate,
 }: Props) => {
   const navigate = useNavigate();
 
-  const { data: team } = useGroupInfo(teamId);
+  const { data: group } = useGroupInfo(ownerId);
 
   const { critical, high, medium, low, negligible, unknown } = severityCount;
   const total = critical + high + medium + low + negligible + unknown;
@@ -31,18 +31,18 @@ export const OwnerTableRow = ({
   return (
     <>
       <StyledTableRow
-        key={teamId}
+        key={ownerId}
         hover
         sx={{ cursor: 'pointer' }}
         onClick={() => {
           navigate(
-            `/catalog/default/group/${team?.metadata?.name}/securityMetrics`,
+            `/catalog/default/group/${group?.metadata?.name}/securityMetrics`,
           );
           onNavigate();
         }}
       >
         <TableCell>
-          <Typography>{team?.metadata?.name || teamId}</Typography>
+          <Typography>{group?.metadata?.name || ownerId}</Typography>
         </TableCell>
         <TableCell>
           {total > 0 ? (

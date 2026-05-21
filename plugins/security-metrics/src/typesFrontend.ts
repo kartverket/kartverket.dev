@@ -122,12 +122,12 @@ export type SikkerhetsmetrikkerTotal = {
 };
 
 export type SikkerhetsmetrikkerOwnerTotal = {
-  permittedTeams: OwnerSeverityCounts[];
-  notPermittedTeams: string[];
+  permittedOwnerMetrics: OwnerSeverityCounts[];
+  notPermittedOwners: string[];
 };
 
 export type OwnerSeverityCounts = {
-  team: string;
+  owner: string;
   severityCount: SeverityCount;
 };
 

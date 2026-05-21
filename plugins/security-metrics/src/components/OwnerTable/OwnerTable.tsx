@@ -38,7 +38,7 @@ export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
   }
 
   const highestVulnerabilityCount =
-    data?.permittedTeams?.reduce(
+    data?.permittedOwnerMetrics?.reduce(
       (max, s) => Math.max(max, getTotalVulnerabilityCount(s.severityCount)),
       0,
     ) ?? 0;
@@ -54,25 +54,25 @@ export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.permittedTeams
+          {data?.permittedOwnerMetrics
             ?.sort(
               (a, b) =>
                 getTotalVulnerabilityCount(b.severityCount) -
                 getTotalVulnerabilityCount(a.severityCount),
             )
-            .map(teams => {
+            .map(ownerMetrics => {
               return (
                 <OwnerTableRow
-                  key={teams.team}
-                  teamId={teams.team}
-                  severityCount={teams.severityCount}
+                  key={ownerMetrics.owner}
+                  ownerId={ownerMetrics.owner}
+                  severityCount={ownerMetrics.severityCount}
                   highestVulnerabilityCount={highestVulnerabilityCount}
                   onNavigate={onNavigate}
                 />
               );
             })}
-          {data?.notPermittedTeams?.map(teams => {
-            return <NoAccessRow repositoryName={teams} />;
+          {data?.notPermittedOwners?.map(owner => {
+            return <NoAccessRow repositoryName={owner} />;
           })}
         </TableBody>
       </Table>
