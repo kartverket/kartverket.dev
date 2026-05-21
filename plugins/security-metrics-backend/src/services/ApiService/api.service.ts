@@ -11,8 +11,8 @@ import {
   SlackNotificationConfig,
   Status,
   VulnerabilitySeverityCounts,
+  SikkerhetsmetrikkerOwnerTotal,
 } from './typesBackend';
-import { SikkerhetsmetrikkerOwnerTotal } from '@kartverket/backstage-plugin-security-metrics-frontend/src/typesFrontend';
 
 export class ApiService {
   private readonly baseUrl: string;
