@@ -26,8 +26,6 @@ export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
 
   if (isLoading || !data) return <Progress />;
 
-  console.log('owner metrics', data);
-
   if (isEmpty) {
     return (
       <Alert severity="info">
