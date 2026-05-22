@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import { ApiError } from './types';
 
-enum OurOwnErrorMessages {
-  UNKNOWN_ERROR = 'Ukjent HTTP feil',
-}
+const OurOwnErrorMessages = {
+  UNKNOWN_ERROR: 'Ukjent HTTP feil',
+} as const;
 
 export function errorHandling(response: Response): ApiError {
   switch (response.status) {

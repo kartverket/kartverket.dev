@@ -15,9 +15,9 @@ export interface Secrets {
   alerts: SecretAlert[];
 }
 
-interface SecretProps {
+type SecretProps = {
   secretsOverviewData: Secrets[];
-}
+};
 
 export const SecretsAlert = ({ secretsOverviewData }: SecretProps) => {
   const [openDialog, setOpenDialog] = useState(false);

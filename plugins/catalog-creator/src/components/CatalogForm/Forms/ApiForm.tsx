@@ -75,7 +75,9 @@ export const ApiForm = ({
   const errorText = (text: FieldError | undefined) => {
     return (
       <span className={`${style.errorText} ${text ? '' : style.hidden}`}>
-        {text?.message ? t(text?.message as keyof typeof t) : '\u00A0'}
+        {text?.message
+          ? t(text?.message as unknown as keyof typeof t)
+          : '\u00A0'}
       </span>
     );
   };

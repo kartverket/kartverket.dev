@@ -15,7 +15,7 @@ type ChampionGroup = Map<
   { champ: SecurityChamp; repositoryNames: string[] }
 >;
 
-interface SecurityChampionListViewProps {
+type SecurityChampionListViewProps = {
   data: SecurityChamp[];
   groupedChampions: ChampionGroup;
   repositoryNames: string[];
@@ -25,7 +25,7 @@ interface SecurityChampionListViewProps {
   onEdit: () => void;
   onEditMissing: () => void;
   onDownloadCsv: () => void;
-}
+};
 
 export const SecurityChampionListView = ({
   data,

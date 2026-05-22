@@ -33,30 +33,39 @@ export const TrendTooltip = ({
         {format(new Date(String(label)), 'dd-MM-yyyy')}
       </div>
 
-      {payload.map((entry: Payload<ValueType, NameType>) => (
-        <div
-          key={`${entry.name ?? entry.dataKey}`}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            fontSize: 13,
-            lineHeight: 1.6,
-          }}
-        >
-          <span
+      {payload.map((entry: Payload<ValueType, NameType>) => {
+        let color: string | undefined;
+        if (typeof entry.color === 'string') {
+          color = entry.color;
+        } else if (typeof entry.stroke === 'string') {
+          color = entry.stroke;
+        }
+
+        return (
+          <div
+            key={`${entry.name ?? entry.dataKey}`}
             style={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: (entry.color as string) ?? (entry.stroke as string),
-              display: 'inline-block',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              fontSize: 13,
+              lineHeight: 1.6,
             }}
-          />
-          <span>{entry.name}:</span>
-          <strong>{entry.value}</strong>
-        </div>
-      ))}
+          >
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: color,
+                display: 'inline-block',
+              }}
+            />
+            <span>{entry.name}:</span>
+            <strong>{entry.value}</strong>
+          </div>
+        );
+      })}
     </div>
   );
 };

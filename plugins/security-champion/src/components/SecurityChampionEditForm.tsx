@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import { ErrorBanner } from './ErrorBanner';
 import { UserSearch } from './UserSearch';
 
-interface SecurityChampionEditFormProps {
+type SecurityChampionEditFormProps = {
   title: string;
   selectedUser: UserEntity | null;
   onSelect: (user: UserEntity) => void;
@@ -14,7 +14,7 @@ interface SecurityChampionEditFormProps {
   onConfirm: () => void;
   onCancel: () => void;
   onDownloadCsv: () => void;
-}
+};
 
 export const SecurityChampionEditForm = ({
   title,

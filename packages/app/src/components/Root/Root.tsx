@@ -23,9 +23,9 @@ import GroupIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import SpeedIcon from '@mui/icons-material/Speed';
 import LibraryBooks from '@mui/icons-material/LibraryBooks';
-import { PropsWithChildren } from 'react';
-import LogoFull from './LogoFull';
-import LogoIcon from './LogoIcon';
+import { ReactNode } from 'react';
+import { LogoFull } from './LogoFull';
+import { LogoIcon } from './LogoIcon';
 import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { sidebarTranslationRef } from '../../utils/translations';
@@ -58,7 +58,11 @@ const SidebarLogo = () => {
   );
 };
 
-export const Root = ({ children }: PropsWithChildren<{}>) => {
+type RootProps = {
+  children: ReactNode;
+};
+
+export const Root = ({ children }: RootProps) => {
   const { t } = useTranslationRef(sidebarTranslationRef);
   return (
     <SidebarPage>

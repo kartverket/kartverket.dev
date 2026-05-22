@@ -30,11 +30,13 @@ import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/Vulner
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
 
-enum TabEnum {
-  COMPONENT = 0,
-  SYSTEM = 1,
-  VULNERABILITIES = 2,
-}
+const TabEnum = {
+  COMPONENT: 0,
+  SYSTEM: 1,
+  VULNERABILITIES: 2,
+} as const;
+
+type TabValue = (typeof TabEnum)[keyof typeof TabEnum];
 
 export const GroupPage = () => {
   const { entity } = useEntity();
@@ -42,7 +44,7 @@ export const GroupPage = () => {
 
   const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
   const [channel, setChannel] = useState('');
-  const [selectedTab, setSelectedTab] = useState<TabEnum>(TabEnum.COMPONENT);
+  const [selectedTab, setSelectedTab] = useState<TabValue>(TabEnum.COMPONENT);
 
   const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
     useSecurityMetricsViewSettings();

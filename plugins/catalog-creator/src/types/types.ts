@@ -2,54 +2,71 @@ import { FieldErrors } from 'react-hook-form';
 import z from 'zod/v4';
 import { entitySchema } from '../schemas/formSchema';
 
-export enum AllowedEntityKinds {
-  Component = 'Component',
-  API = 'API',
-  System = 'System',
-  Domain = 'Domain',
-  Resource = 'Resource',
-}
+export const AllowedEntityKinds = {
+  Component: 'Component',
+  API: 'API',
+  System: 'System',
+  Domain: 'Domain',
+  Resource: 'Resource',
+} as const;
 
-export enum ComponentTypes {
-  website = 'website',
-  library = 'library',
-  service = 'service',
-  ops = 'ops',
-  documentation = 'documentation',
-  job = 'job',
-}
+export type AllowedEntityKind =
+  (typeof AllowedEntityKinds)[keyof typeof AllowedEntityKinds];
 
-export enum ApiTypes {
-  openapi = 'openapi',
-  asyncapi = 'asyncapi',
-  graphql = 'graphql',
-  grpc = 'grpc',
-  wsdl = 'wsdl',
-}
+export const ComponentTypes = {
+  website: 'website',
+  library: 'library',
+  service: 'service',
+  ops: 'ops',
+  documentation: 'documentation',
+  job: 'job',
+} as const;
 
-export enum SystemTypes {
-  product = 'product',
-  service = 'service',
-  featureset = 'feature-set',
-}
+export type ComponentType =
+  (typeof ComponentTypes)[keyof typeof ComponentTypes];
 
-export enum ResourceTypes {
-  database = 'database',
-  s3bucket = 's3-bucket',
-  kubernetescluster = 'kubernetes-cluster',
-}
+export const ApiTypes = {
+  openapi: 'openapi',
+  asyncapi: 'asyncapi',
+  graphql: 'graphql',
+  grpc: 'grpc',
+  wsdl: 'wsdl',
+} as const;
 
-export enum DomainTypes {
-  productarea = 'product-area',
-  productgroup = 'product-group',
-  bundle = 'bundle',
-}
+export type ApiType = (typeof ApiTypes)[keyof typeof ApiTypes];
 
-export enum FunctionCriticalityLevels {
-  low = 'Lav',
-  medium = 'Middels',
-  high = 'Høy',
-}
+export const SystemTypes = {
+  product: 'product',
+  service: 'service',
+  featureset: 'feature-set',
+} as const;
+
+export type SystemType = (typeof SystemTypes)[keyof typeof SystemTypes];
+
+export const ResourceTypes = {
+  database: 'database',
+  s3bucket: 's3-bucket',
+  kubernetescluster: 'kubernetes-cluster',
+} as const;
+
+export type ResourceType = (typeof ResourceTypes)[keyof typeof ResourceTypes];
+
+export const DomainTypes = {
+  productarea: 'product-area',
+  productgroup: 'product-group',
+  bundle: 'bundle',
+} as const;
+
+export type DomainType = (typeof DomainTypes)[keyof typeof DomainTypes];
+
+export const FunctionCriticalityLevels = {
+  low: 'Lav',
+  medium: 'Middels',
+  high: 'Høy',
+} as const;
+
+export type FunctionCriticalityLevel =
+  (typeof FunctionCriticalityLevels)[keyof typeof FunctionCriticalityLevels];
 
 export const Kinds = {
   API: 'API',
@@ -66,11 +83,14 @@ export const Kinds = {
 
 export type Kind = (typeof Kinds)[keyof typeof Kinds];
 
-export enum AllowedLifecycleStages {
-  experimental = 'experimental',
-  production = 'production',
-  deprecated = 'deprecated',
-}
+export const AllowedLifecycleStages = {
+  experimental: 'experimental',
+  production: 'production',
+  deprecated: 'deprecated',
+} as const;
+
+export type AllowedLifecycleStage =
+  (typeof AllowedLifecycleStages)[keyof typeof AllowedLifecycleStages];
 
 export type Status = {
   message: string;

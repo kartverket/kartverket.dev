@@ -1,10 +1,10 @@
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 
-interface ErrorBannerProps {
+type ErrorBannerProps = {
   errorTitle?: string;
   errorMessage?: string;
-}
+};
 
 export const ErrorBanner = ({
   errorTitle,

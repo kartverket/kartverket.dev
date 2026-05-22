@@ -42,7 +42,11 @@ const hasFieldError = (
   errors: EntityErrors<Kind> | undefined,
   field: SingleSelectAutocompleteProps['fieldname'],
 ): errors is EntityErrors<Kind> & Record<typeof field, { message: string }> => {
-  return !!errors && field in errors && !!errors[field as keyof typeof errors];
+  if (!errors || !(field in errors)) {
+    return false;
+  }
+
+  return Boolean(Reflect.get(errors, field));
 };
 
 export const SingleSelectAutocomplete = ({
@@ -67,7 +71,7 @@ export const SingleSelectAutocomplete = ({
     return `form.${fieldname}.${suffix}`;
   };
   const translateField = (key: TranslationKey) => {
-    return t(key as Parameters<typeof t>[0], {});
+    return t(key as unknown as Parameters<typeof t>[0], {});
   };
 
   const fieldNameText = translateField(getTranslationKey('fieldName'));
@@ -128,7 +132,9 @@ export const SingleSelectAutocomplete = ({
         className={`${style.errorText} ${hasFieldError(errors, fieldname) ? '' : style.hidden}`}
       >
         {hasFieldError(errors, fieldname) && errors[fieldname]?.message
-          ? translateField(errors[fieldname].message as TranslationKey)
+          ? translateField(
+              errors[fieldname].message as unknown as TranslationKey,
+            )
           : '\u00A0'}
       </span>
     </>

@@ -29,9 +29,9 @@ const CardWrapper = ({
   </Card>
 );
 
-interface SecurityChampionProps {
+type SecurityChampionProps = {
   repositoryNames: string[];
-}
+};
 
 export const SecurityChampion = ({
   repositoryNames,

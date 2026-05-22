@@ -19,10 +19,12 @@ import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
 
-enum TabEnum {
-  ALL_VULNERABILITIES = 0,
-  RUNTIME_VULNERABILITIES = 1,
-}
+const TabEnum = {
+  ALL_VULNERABILITIES: 0,
+  RUNTIME_VULNERABILITIES: 1,
+} as const;
+
+type TabValue = (typeof TabEnum)[keyof typeof TabEnum];
 
 export const SingleComponentPage = () => {
   const { entity } = useEntity();
@@ -32,8 +34,10 @@ export const SingleComponentPage = () => {
 
   const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
     useSecurityMetricsViewSettings();
-  const [selectedTab, setSelectedTab] = useState<TabEnum>(0);
-  const handleTabChange = (_: React.SyntheticEvent, newValue: TabEnum) => {
+  const [selectedTab, setSelectedTab] = useState<TabValue>(
+    TabEnum.ALL_VULNERABILITIES,
+  );
+  const handleTabChange = (_: React.SyntheticEvent, newValue: TabValue) => {
     setSelectedTab(newValue);
   };
 

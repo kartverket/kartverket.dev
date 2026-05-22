@@ -1,9 +1,11 @@
-export enum Scanner {
-  CodeQL = 'CodeQL',
-  Dependabot = 'Dependabot',
-  Pharos = 'Pharos',
-  Sysdig = 'Sysdig',
-}
+export const Scanner = {
+  CodeQL: 'CodeQL',
+  Dependabot: 'Dependabot',
+  Pharos: 'Pharos',
+  Sysdig: 'Sysdig',
+} as const;
+
+export type ScannerType = (typeof Scanner)[keyof typeof Scanner];
 
 export type ScannerAlertInfo = {
   alertId: string;
@@ -69,7 +71,7 @@ export type Vulnerability = {
   vulnerabilityId: string;
   vulnerabilityIdInfo: VulnerabilityIdInfo[];
   severity: Severity;
-  scanners: Scanner[];
+  scanners: ScannerType[];
   summary: string;
   dateFirstSeen: string;
   statusInfo: VulnerabilityStatusInfo;
@@ -177,7 +179,7 @@ export type RepositoryScannerStatusData = {
 };
 
 export type ScannerStatus = {
-  type: Scanner;
+  type: ScannerType;
   on: boolean;
 };
 
@@ -197,7 +199,7 @@ export type Severity =
   | 'critical';
 
 export type AggregatedScannerStatus = {
-  scannerName: Scanner;
+  scannerName: ScannerType;
   status: string;
   repositoryStatus: RepositoryScannerStatusData[];
 };

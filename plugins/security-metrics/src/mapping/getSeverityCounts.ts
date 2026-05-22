@@ -9,9 +9,17 @@ export const aggregateSeverityCounts = <T>(
 ): SeverityCount => {
   return items.reduce(
     (totals, item) => {
-      const counts = getSeverityObject(item) ?? {};
-      Object.keys(totals).forEach(key => {
-        const severityKey = key as keyof SeverityCount;
+      const counts = getSeverityObject(item);
+      const severityKeys = [
+        'critical',
+        'high',
+        'medium',
+        'low',
+        'negligible',
+        'unknown',
+      ] satisfies Array<keyof SeverityCount>;
+
+      severityKeys.forEach(severityKey => {
         totals[severityKey] += counts[severityKey] || 0;
       });
       return totals;

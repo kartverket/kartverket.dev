@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { StarFilterProps } from './ViewSettingsButton';
 
-interface Props {
+type Props = {
   open: boolean;
   onClose: () => void;
   starFilter?: StarFilterProps;
@@ -24,9 +24,9 @@ interface Props {
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void;
-}
+};
 
-interface SettingSwitchProps {
+type SettingSwitchProps = {
   title: string;
   description: string;
   checked: boolean;
@@ -35,7 +35,7 @@ interface SettingSwitchProps {
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void;
-}
+};
 
 const SettingSwitch = ({
   title,

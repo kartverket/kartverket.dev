@@ -51,7 +51,11 @@ const hasFieldError = (
   errors: EntityErrors<Kind> | undefined,
   field: MultipleEntitiesAutocompleteProps['fieldname'],
 ): errors is EntityErrors<Kind> & Record<typeof field, { message: string }> => {
-  return !!errors && field in errors && !!errors[field as keyof typeof errors];
+  if (!errors || !(field in errors)) {
+    return false;
+  }
+
+  return Boolean(Reflect.get(errors, field));
 };
 
 export const MultipleEntitiesAutocomplete = ({
@@ -77,7 +81,7 @@ export const MultipleEntitiesAutocomplete = ({
   };
 
   const translateField = (key: TranslationKey) => {
-    return t(key as Parameters<typeof t>[0], {});
+    return t(key as unknown as Parameters<typeof t>[0], {});
   };
 
   const formatEntityString = (entity: Entity): string => {
@@ -105,16 +109,14 @@ export const MultipleEntitiesAutocomplete = ({
             <Autocomplete
               multiple
               freeSolo={freeSolo}
-              value={
-                (value || [])
-                  .map(str => {
-                    return (entities || []).find(entity => {
-                      const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
-                      return entityStr === str;
-                    });
-                  })
-                  .filter(Boolean) as Entity[]
-              }
+              value={(value || [])
+                .map(str => {
+                  return (entities || []).find(entity => {
+                    const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
+                    return entityStr === str;
+                  });
+                })
+                .filter((entity): entity is Entity => entity !== undefined)}
               onBlur={onBlur}
               onChange={(_, newValue) => {
                 const names = newValue.map(item => {
@@ -139,12 +141,13 @@ export const MultipleEntitiesAutocomplete = ({
                 );
 
                 if (filterInput !== '' && !isExisting && freeSolo) {
-                  const newEntity = {
-                    kind: kind,
+                  const newEntity: Entity = {
+                    apiVersion: 'backstage.io/v1alpha1',
+                    kind,
                     metadata: {
                       name: filterInput,
                     },
-                  } as Entity;
+                  };
                   filtered.push(newEntity);
                 }
                 return filtered;
@@ -187,7 +190,9 @@ export const MultipleEntitiesAutocomplete = ({
         className={`${style.errorText} ${hasFieldError(errors, fieldname) ? '' : style.hidden}`}
       >
         {hasFieldError(errors, fieldname) && errors[fieldname]?.message
-          ? translateField(errors[fieldname].message as TranslationKey)
+          ? translateField(
+              errors[fieldname].message as unknown as TranslationKey,
+            )
           : '\u00A0'}
       </span>
     </>

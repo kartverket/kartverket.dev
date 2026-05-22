@@ -6,13 +6,13 @@ import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
-interface RepositoryFormProps {
+type RepositoryFormProps = {
   url: string;
   onUrlChange: (url: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   disableTextField: boolean;
   docsLink?: string;
-}
+};
 
 export const RepositoryForm = ({
   url,

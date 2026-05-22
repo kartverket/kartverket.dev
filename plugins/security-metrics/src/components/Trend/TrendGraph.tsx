@@ -21,12 +21,12 @@ import type {
 } from 'recharts/types/component/DefaultTooltipContent';
 import type { TooltipContentProps } from 'recharts';
 
-interface GraphProps {
+type GraphProps = {
   trendData: TrendSeverityCounts[];
   graphTimeline: string;
   showTotal: boolean;
   showOpen: boolean;
-}
+};
 
 export const Graph = ({
   trendData,

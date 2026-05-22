@@ -1,7 +1,7 @@
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
-import type { Scanner } from '../../typesFrontend';
+import type { ScannerType } from '../../typesFrontend';
 import { BASIC_COLORS } from '../../colors';
 import Box from '@mui/material/Box';
 
@@ -16,7 +16,7 @@ const scannerTooltips: Record<string, string> = {
 };
 
 type Props = {
-  name: Scanner;
+  name: ScannerType;
 };
 
 export const ScannerInfo = ({ name }: Props) => (

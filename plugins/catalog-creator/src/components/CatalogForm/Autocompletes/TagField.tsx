@@ -89,7 +89,7 @@ export const TagField = ({
         className={`${style.errorText} ${errors?.tags ? '' : style.hidden}`}
       >
         {errors?.tags?.message
-          ? t(errors?.tags?.message as keyof typeof t)
+          ? t(errors?.tags?.message as unknown as keyof typeof t)
           : '\u00A0'}
       </span>
     </div>

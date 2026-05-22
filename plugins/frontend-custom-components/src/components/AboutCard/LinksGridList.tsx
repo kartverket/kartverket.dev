@@ -32,10 +32,10 @@ interface LinksGridListItem {
   Icon?: IconComponent;
 }
 
-interface LinksGridListProps {
+type LinksGridListProps = {
   items: LinksGridListItem[];
   cols?: ColumnBreakpoints | number;
-}
+};
 
 export function LinksGridList(props: LinksGridListProps) {
   const { items, cols = undefined } = props;

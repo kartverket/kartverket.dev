@@ -10,7 +10,7 @@ import {
   ProfileInfoApi,
   SessionApi,
 } from '@backstage/core-plugin-api';
-import { MetricTypes } from '../utils/MetricTypes';
+import { MetricTypes, type MetricType } from '../utils/MetricTypes';
 import { Config } from '@backstage/config';
 
 type UseConfigReturn = {
@@ -25,7 +25,7 @@ type UseConfigReturn = {
   endpointUrl: URL;
 };
 
-export const useConfig = (type: MetricTypes): UseConfigReturn => {
+export const useConfig = (type: MetricType): UseConfigReturn => {
   const config = useApi(configApiRef);
   const backstageAuthApi = useApi(identityApiRef);
   const microsoftAuthApi = useApi(microsoftAuthApiRef);

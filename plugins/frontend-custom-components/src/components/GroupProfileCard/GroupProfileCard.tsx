@@ -96,11 +96,24 @@ export const GroupProfileCard = (props: GroupProfileCardProps) => {
     spec,
   } = group;
 
-  const profile = (
-    spec as {
-      profile?: { displayName?: string; email?: string; picture?: string };
-    }
-  )?.profile;
+  const rawProfile = Reflect.get(spec ?? {}, 'profile');
+  const profile =
+    rawProfile && typeof rawProfile === 'object'
+      ? {
+          displayName:
+            typeof Reflect.get(rawProfile, 'displayName') === 'string'
+              ? (Reflect.get(rawProfile, 'displayName') as unknown as string)
+              : undefined,
+          email:
+            typeof Reflect.get(rawProfile, 'email') === 'string'
+              ? (Reflect.get(rawProfile, 'email') as unknown as string)
+              : undefined,
+          picture:
+            typeof Reflect.get(rawProfile, 'picture') === 'string'
+              ? (Reflect.get(rawProfile, 'picture') as unknown as string)
+              : undefined,
+        }
+      : undefined;
   const title = group.metadata.title;
 
   const childRelations = getEntityRelations(group, RELATION_PARENT_OF, {

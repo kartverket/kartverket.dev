@@ -26,7 +26,11 @@ export const useIsGroupMember = (groupRef: string | undefined) => {
       const userGroups = identity.ownershipEntityRefs.filter(r =>
         r.startsWith('group:'),
       );
-      const normalizedTarget = groupRef!.toLowerCase();
+      if (!groupRef) {
+        return false;
+      }
+
+      const normalizedTarget = groupRef.toLowerCase();
 
       // Phase 1: direct membership — no catalog call needed
       if (userGroups.some(r => r.toLowerCase() === normalizedTarget)) {

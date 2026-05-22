@@ -14,13 +14,42 @@ import { AuthenticationError } from '@backstage/errors';
 import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
 import { jwtDecode } from 'jwt-decode';
 
-interface JWTClaims {
+type JWTClaims = {
   oid: string;
-  [key: string]: any;
-}
+  [key: string]: unknown;
+};
+
+type GroupEntityWithDisplayName = Entity & {
+  kind: 'Group';
+  spec: Entity['spec'] & {
+    parent?: string;
+    profile: {
+      displayName: string;
+    };
+  };
+};
+
+const hasDisplayName = (
+  entity: Entity | undefined,
+): entity is GroupEntityWithDisplayName => {
+  if (entity?.kind !== 'Group') {
+    return false;
+  }
+
+  const profile = Reflect.get(entity.spec ?? {}, 'profile');
+  if (!profile || typeof profile !== 'object') {
+    return false;
+  }
+
+  return typeof Reflect.get(profile, 'displayName') === 'string';
+};
+
+const getDisplayName = (entity: Entity | undefined): string | undefined => {
+  return hasDisplayName(entity) ? entity.spec.profile.displayName : undefined;
+};
 
 function getObjectIdFromToken(token: string): string {
-  const decodedToken: JWTClaims = jwtDecode<JWTClaims>(token);
+  const decodedToken = jwtDecode<JWTClaims>(token);
   return decodedToken.oid;
 }
 
@@ -101,36 +130,18 @@ async function getGroupDisplayNamesForEntity(
   );
   const groupDisplayNames: string[] = await Promise.all(
     groupEntitiesUsingDisplayName.items
-      .filter(
-        e =>
-          e !== undefined &&
-          e.spec &&
-          e.kind === 'Group' &&
-          e.spec.profile &&
-          // @ts-ignore
-          e.spec.profile.displayName,
-      )
-      .map(async e => {
-        let parentGroup: Entity | undefined;
-        if (e!.spec!.parent) {
-          parentGroup = await catalogApi.getEntityByRef(
-            e!.spec!.parent as string,
-            { token: token },
-          );
-        }
-        let groupName;
-        if (parentGroup) {
-          // @ts-ignore
-          groupName = `${parentGroup!.spec!.profile!.displayName}:${
-            // @ts-ignore
-            e!.spec!.profile!.displayName
-          }`;
-        } else {
-          // @ts-ignore
+      .filter(hasDisplayName)
+      .map(async entity => {
+        const parentRef = entity.spec.parent;
+        const parentGroup =
+          typeof parentRef === 'string'
+            ? await catalogApi.getEntityByRef(parentRef, { token })
+            : undefined;
+        const parentDisplayName = getDisplayName(parentGroup);
 
-          groupName = e!.spec!.profile!.displayName;
-        }
-        return groupName;
+        return parentDisplayName
+          ? `${parentDisplayName}:${entity.spec.profile.displayName}`
+          : entity.spec.profile.displayName;
       }),
   );
   return groupDisplayNames;

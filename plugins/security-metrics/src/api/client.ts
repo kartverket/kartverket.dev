@@ -29,11 +29,10 @@ const DEFAULT_ERROR_MESSAGE =
 const isErrorResponse = (value: unknown): value is ErrorResponse => {
   if (!value || typeof value !== 'object') return false;
 
-  const error = value as Record<string, unknown>;
   return (
-    typeof error.status === 'number' &&
-    typeof error.code === 'string' &&
-    typeof error.message === 'string'
+    typeof Reflect.get(value, 'status') === 'number' &&
+    typeof Reflect.get(value, 'code') === 'string' &&
+    typeof Reflect.get(value, 'message') === 'string'
   );
 };
 
@@ -65,7 +64,7 @@ const handleResponse = async <ResponseBody>(
     throw new ApiClientError(toFallbackError(response));
   }
 
-  return result as ResponseBody;
+  return result as unknown as ResponseBody;
 };
 
 export const post = async <RequestBody, ResponseBody>(

@@ -9,7 +9,7 @@ export async function errorHandling(
     const contentType = response.headers.get('content-type') ?? '';
 
     if (contentType.includes('application/json')) {
-      errorBody = (await response.json()) as ErrorBody;
+      errorBody = (await response.json()) as unknown as ErrorBody;
     } else {
       const text = await response.text();
       errorBody = text ? { message: text } : undefined;

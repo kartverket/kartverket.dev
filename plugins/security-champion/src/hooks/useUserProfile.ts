@@ -17,7 +17,7 @@ export const useUserProfile = (email: string) => {
         'spec.profile.email': email,
       },
     });
-    return users.items[0] as UserEntity;
+    return users.items.find((item): item is UserEntity => item.kind === 'User');
   }, [email]);
   return { user, loading, error };
 };

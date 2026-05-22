@@ -14,7 +14,7 @@ interface SelectOption {
   label: string;
 }
 
-interface CreateFormSectionProps {
+type CreateFormSectionProps = {
   /** Options for the primary select (form type) */
   formTypeOptions: SelectOption[];
   /** Optional secondary select (e.g. function selector) shown before the form type select */
@@ -33,7 +33,7 @@ interface CreateFormSectionProps {
   onSuccess: () => void;
   /** Optional custom label for the create button */
   createButtonLabel?: string;
-}
+};
 
 export function CreateFormSection({
   formTypeOptions,

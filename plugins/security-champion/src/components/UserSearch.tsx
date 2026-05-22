@@ -11,10 +11,10 @@ import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import { useUserSearch } from '../hooks/useUserSearch';
 
-interface UserSearchProps {
+type UserSearchProps = {
   selectedUser: UserEntity | null;
   onSelect: (user: UserEntity) => void;
-}
+};
 
 export const UserSearch = ({ selectedUser, onSelect }: UserSearchProps) => {
   const [query, setQuery] = useState('');

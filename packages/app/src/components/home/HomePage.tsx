@@ -10,7 +10,7 @@ import { SearchContextProvider } from '@backstage/plugin-search-react';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
-import LogoFull from '../Root/LogoFull';
+import { LogoFull } from '../Root/LogoFull';
 import grafanaLogo from './logos/Grafana.png';
 import argoLogo from './logos/Argo.png';
 import sysdigLogo from './logos/Sysdig.png';

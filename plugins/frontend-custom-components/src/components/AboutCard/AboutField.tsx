@@ -43,13 +43,13 @@ const useStyles = makeStyles()(theme => ({
  *
  * @public
  */
-export interface AboutFieldProps {
+export type AboutFieldProps = {
   label: string;
   value?: string;
   gridSizes?: Record<string, number>;
   children?: ReactNode;
   className?: string;
-}
+};
 
 /** @public */
 export function AboutField(props: AboutFieldProps) {

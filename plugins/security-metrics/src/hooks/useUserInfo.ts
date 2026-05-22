@@ -15,7 +15,9 @@ export const useUserInfo = (id: string) => {
           'metadata.annotations.graph.microsoft.com/user-id': id,
         },
       });
-      return users.items[0] as UserEntity | undefined;
+      return users.items.find(
+        (item): item is UserEntity => item.kind === 'User',
+      );
     },
     staleTime: 5 * 60 * 1000,
   });

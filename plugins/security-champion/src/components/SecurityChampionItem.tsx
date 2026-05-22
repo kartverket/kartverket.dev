@@ -23,7 +23,7 @@ const KVSecurityChampionItem = ({
   selectedUser?: UserEntity | null;
 }) => {
   const { user, loading, error } = useUserProfile(
-    champion.securityChampionEmail!,
+    champion.securityChampionEmail ?? '',
   );
 
   if (loading && !selectedUser)

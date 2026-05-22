@@ -18,7 +18,7 @@ export const useFetchEntities = (
       filter: { kind: entityKind },
     });
 
-    return results.items as Entity[];
+    return results.items.filter((item): item is Entity => item !== undefined);
   }, [catalogApi]);
 
   const formEntities = useWatch({

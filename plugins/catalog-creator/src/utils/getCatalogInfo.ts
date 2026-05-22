@@ -38,7 +38,7 @@ export async function getCatalogInfo(
     });
 
     const fileContent = Buffer.from(
-      (response.data as { content: string }).content,
+      (response.data as unknown as { content: string }).content,
       'base64',
     ).toString('utf8');
     const parsedYaml = yaml.parseAllDocuments(fileContent);

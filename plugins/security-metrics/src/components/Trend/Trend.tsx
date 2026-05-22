@@ -10,11 +10,11 @@ import { Progress } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { GraphTimeline } from '../../typesFrontend';
 
-interface TrendProps {
+type TrendProps = {
   componentNames: string[] | string;
   showTotal: boolean;
   showOpen: boolean;
-}
+};
 
 export const Trend = ({ componentNames, showTotal, showOpen }: TrendProps) => {
   const { entity } = useEntity();

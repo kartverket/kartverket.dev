@@ -207,7 +207,7 @@ const routes = (
   </FlatRoutes>
 );
 
-export default app.createRoot(
+export const App = app.createRoot(
   <>
     <AlertDisplay />
     <OAuthRequestDialog />

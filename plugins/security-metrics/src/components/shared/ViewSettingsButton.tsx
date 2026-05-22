@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { FilterEnum } from '../../typesFrontend';
 import { ViewSettingsDialog } from './ViewSettingsDialog';
 
-export interface StarFilterProps {
+export type StarFilterProps = {
   hasStarred: boolean;
   effectiveFilter: FilterEnum;
   onToggleStarFilter: (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void;
-}
+};
 
-interface Props {
+type Props = {
   showTotal: boolean;
   showOpen: boolean;
   onToggleShowTotal: (
@@ -25,7 +25,7 @@ interface Props {
     checked: boolean,
   ) => void;
   starFilter?: StarFilterProps;
-}
+};
 
 export const ViewSettingsButton = ({
   showTotal,

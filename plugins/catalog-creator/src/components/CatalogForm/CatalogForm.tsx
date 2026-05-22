@@ -1,6 +1,7 @@
 import { Button, Box, Flex, Select, Card, Text } from '@backstage/ui';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type {
+  AllowedLifecycleStage,
   EntityErrors,
   FormEntity,
   Kind,
@@ -66,7 +67,7 @@ export const CatalogForm = ({
   };
 
   const isKind = (input_kind: string): input_kind is Kind => {
-    return Object.values(Kinds).includes(input_kind as Kind);
+    return Object.values(Kinds).some(kind => kind === input_kind);
   };
 
   const getEntitiesWithInlineAPIDef = (yamlList: RequiredYamlFields[]) => {
@@ -100,11 +101,15 @@ export const CatalogForm = ({
 
             return {
               id: index,
-              kind: entry.kind as Kind,
+              kind: entry.kind,
               name: entry.metadata.name,
               owner: entry.spec.owner,
-              lifecycle: entry.spec.lifecycle as AllowedLifecycleStages,
-              entityType: entry.spec.type as string,
+              lifecycle:
+                typeof entry.spec.lifecycle === 'string'
+                  ? (entry.spec.lifecycle as unknown as AllowedLifecycleStage)
+                  : AllowedLifecycleStages.production,
+              entityType:
+                typeof entry.spec.type === 'string' ? entry.spec.type : '',
               system: entry.spec.system
                 ? toEntityRef(Kinds.System, entry.spec.system)
                 : undefined,
@@ -165,11 +170,11 @@ export const CatalogForm = ({
   const appendHandler = (entityKindToAdd: Kind, name = '') => {
     let entity: z.infer<typeof entitySchema>;
     switch (entityKindToAdd) {
-      case 'Component' as Kind:
+      case 'Component':
         entity = {
           id: indexCount,
           kind: entityKindToAdd,
-          name: name,
+          name,
           owner: '',
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
@@ -178,13 +183,13 @@ export const CatalogForm = ({
           title: '',
           description: '',
           parentFunction: '',
-        };
+        } as unknown as z.infer<typeof entitySchema>;
         break;
-      case 'API' as Kind:
+      case 'API':
         entity = {
           id: indexCount,
           kind: entityKindToAdd,
-          name: name,
+          name,
           owner: '',
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
@@ -193,9 +198,9 @@ export const CatalogForm = ({
           title: '',
           description: '',
           parentFunction: '',
-        };
+        } as unknown as z.infer<typeof entitySchema>;
         break;
-      case 'System' as Kind:
+      case 'System':
         entity = {
           id: indexCount,
           kind: addEntityKind,
@@ -208,13 +213,13 @@ export const CatalogForm = ({
           title: '',
           description: '',
           parentFunction: '',
-        };
+        } as unknown as z.infer<typeof entitySchema>;
         break;
       default:
         entity = {
           id: indexCount,
           kind: addEntityKind,
-          name: name,
+          name,
           owner: '',
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
@@ -223,10 +228,16 @@ export const CatalogForm = ({
           title: '',
           description: '',
           parentFunction: '',
-        };
+        } as unknown as z.infer<typeof entitySchema>;
     }
     setIndexCount(prev => prev + 1);
     append(entity);
+  };
+
+  const getEntityErrors = <T extends z.infer<typeof entitySchema>['kind']>(
+    index: number,
+  ) => {
+    return errors?.entities?.[index] as unknown as EntityErrors<T>;
   };
 
   const getEntityForm = (
@@ -239,7 +250,7 @@ export const CatalogForm = ({
           <ComponentForm
             index={index}
             control={control}
-            errors={errors?.entities?.[index] as EntityErrors<'Component'>}
+            errors={getEntityErrors<'Component'>(index)}
             setValue={setValue}
             systems={fetchSystems}
             groups={fetchGroups}
@@ -251,7 +262,7 @@ export const CatalogForm = ({
           <ApiForm
             index={index}
             control={control}
-            errors={errors?.entities?.[index] as EntityErrors<'API'>}
+            errors={getEntityErrors<'API'>(index)}
             systems={fetchSystems}
             groups={fetchGroups}
             inlineApiIndexes={getEntitiesWithInlineAPIDef(currentYaml || [])}
@@ -266,7 +277,7 @@ export const CatalogForm = ({
             index={index}
             control={control}
             setValue={setValue}
-            errors={errors?.entities?.[index] as EntityErrors<'System'>}
+            errors={getEntityErrors<'System'>(index)}
             groups={fetchGroups}
             domains={fetchDomains}
           />
@@ -277,7 +288,7 @@ export const CatalogForm = ({
             index={index}
             control={control}
             setValue={setValue}
-            errors={errors?.entities?.[index] as EntityErrors<'Resource'>}
+            errors={getEntityErrors<'Resource'>(index)}
             systems={fetchSystems}
             groups={fetchGroups}
             componentsAndResources={componentsAndResources}
@@ -288,7 +299,7 @@ export const CatalogForm = ({
           <DomainForm
             index={index}
             control={control}
-            errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
+            errors={getEntityErrors<'Domain'>(index)}
             groups={fetchGroups || []}
             domains={fetchDomains || []}
           />
@@ -298,7 +309,7 @@ export const CatalogForm = ({
           <FunctionForm
             index={index}
             control={control}
-            errors={errors?.entities?.[index] as EntityErrors<'Domain'>}
+            errors={getEntityErrors<'Function'>(index)}
             groups={fetchGroups || []}
             components={fetchComponents}
             functions={fetchFunctions}
@@ -318,7 +329,7 @@ export const CatalogForm = ({
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <form
         onSubmit={handleSubmit(data => {
-          onSubmit(data.entities as FormEntity[]);
+          onSubmit(data.entities);
         })}
         onKeyDown={handleKeyDown}
       >
@@ -462,10 +473,14 @@ export const CatalogForm = ({
                   label={t('form.addEntity.label')}
                   value={addEntityKind}
                   className={style.selectKind}
-                  onChange={value => setAddEntityKind(value as Kind)}
+                  onChange={value => {
+                    if (typeof value === 'string' && isKind(value)) {
+                      setAddEntityKind(value);
+                    }
+                  }}
                   options={Object.values(AllowedEntityKinds).map(
                     lifecycleStage => ({
-                      value: lifecycleStage as string,
+                      value: lifecycleStage,
                       label: lifecycleStage,
                     }),
                   )}

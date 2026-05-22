@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 import { catalogCreatorTranslationRef } from '../../utils/translations';
 import style from '../../catalog.module.css';
 
-interface StatusMessagesProps {
+type StatusMessagesProps = {
   hasUnexpectedExistingCatalogFile: boolean;
   shouldCreateNewFile: boolean;
   hasError: boolean;
@@ -16,7 +16,7 @@ interface StatusMessagesProps {
   repoStateErrorMessage?: string;
   repoInfoError?: Error;
   catalogInfoError?: Error;
-}
+};
 
 export const StatusMessages = ({
   hasUnexpectedExistingCatalogFile,
@@ -34,7 +34,7 @@ export const StatusMessages = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
 
   return (
-    <div>
+    <div aria-live="polite">
       {hasUnexpectedExistingCatalogFile &&
         !(hasError || isLoading || repoStateError) &&
         showForm && (

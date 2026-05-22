@@ -17,9 +17,9 @@ import Stack from '@mui/material/Stack';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { StatusRow } from '../shared/StatusRow';
 
-interface SystemScannerStatusProps {
+type SystemScannerStatusProps = {
   data: RepositorySummary[];
-}
+};
 
 export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {
   const repositoryScannerStatus = getScannerStatusData(data);

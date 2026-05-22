@@ -6,10 +6,10 @@ import { catalogCreatorTranslationRef } from '../../utils/translations';
 
 import style from '../../catalog.module.css';
 
-interface SuccessMessageProps {
+type SuccessMessageProps = {
   prUrl?: string;
   onReset?: () => void;
-}
+};
 
 export const SuccessMessage = ({ prUrl, onReset }: SuccessMessageProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
@@ -20,6 +20,7 @@ export const SuccessMessage = ({ prUrl, onReset }: SuccessMessageProps) => {
           direction="column"
           align={{ xs: 'start', md: 'center' }}
           py="2rem"
+          aria-live="polite"
         >
           <Alert className={style.successAlert} severity="success">
             {t('successPage.successfullyCreatedPR')}:{' '}

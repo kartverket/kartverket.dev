@@ -105,14 +105,14 @@ const useStyles = makeStyles()(theme => ({
   },
 }));
 
-interface FunctionFormsTabContentProps {
+type FunctionFormsTabContentProps = {
   forms: RegelrettForm[];
   regelrettBaseUrl: string;
   teamId: string;
   functionEntities: Entity[];
   onFormCreated: () => void;
   formTypeMap: Record<string, string>;
-}
+};
 
 export function FunctionFormsTabContent({
   forms,

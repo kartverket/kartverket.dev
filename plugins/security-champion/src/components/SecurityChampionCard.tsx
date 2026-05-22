@@ -83,7 +83,7 @@ export const SecurityChampionCard = () => {
         ?.filter(rel =>
           rel.targetRef.startsWith(COMPONENT_ENTITY_KIND.toLowerCase()),
         )
-        .map(rel => rel.targetRef.split('/')[1]) as string[];
+        .map(rel => rel.targetRef.split('/')[1]);
     } else if (entity.kind === 'Component') {
       return [entity.metadata.name];
     } else if (entity.kind === 'Group' || entity.kind === 'Domain') {

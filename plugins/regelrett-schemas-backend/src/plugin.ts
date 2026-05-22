@@ -25,7 +25,7 @@ export const RegelrettSchemaPlugin = createBackendPlugin({
             auth,
             logger,
             config,
-          })) as any,
+          })) as unknown as Parameters<typeof httpRouter.use>[0],
         );
         httpRouter.addAuthPolicy({
           path: '/proxy',

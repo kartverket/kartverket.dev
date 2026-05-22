@@ -62,14 +62,14 @@ const LastNotificationRunStatus = ({
   );
 };
 
-interface Props {
+type Props = {
   openNotificationsDialog: boolean;
   handleCloseNotificationsDialog: () => void;
   channel: string;
   setChannel: React.Dispatch<React.SetStateAction<string>>;
   permittedComponents: string[];
   notPermitted: string[];
-}
+};
 
 const SEVERITIES = [
   { value: 'critical', label: 'Kritisk' },

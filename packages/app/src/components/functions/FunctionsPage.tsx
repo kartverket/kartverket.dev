@@ -69,13 +69,16 @@ export const FunctionsPage = () => {
   const { data: expiredMap } = useAllFunctionFormsQuery(teamIds);
 
   useEffect(() => {
+    let cancelled = false;
+
     Promise.all([
       catalogApi.getEntities({ filter: { kind: 'function' } }),
       identityApi.getBackstageIdentity(),
     ])
       .then(async ([response, identity]) => {
-        const functions = response.items as FunctionEntityV1alpha1[];
-        setAllFunctions(functions);
+        const functions = response.items.filter(
+          (item): item is FunctionEntityV1alpha1 => item.kind === 'Function',
+        );
 
         // Extract group names from ownership refs (e.g. "group:default/skvis" → "skvis")
         const userGroupNames = identity.ownershipEntityRefs
@@ -90,12 +93,21 @@ export const FunctionsPage = () => {
           const { items: groupEntities } = await catalogApi.getEntitiesByRefs({
             entityRefs: groupRefs,
           });
-          const ids = groupEntities
-            .filter(Boolean)
-            .map(e => e!.metadata.annotations?.['graph.microsoft.com/group-id'])
-            .filter((id): id is string => Boolean(id));
-          setTeamIds(ids);
+          const ids = groupEntities.flatMap(entity => {
+            const groupId =
+              entity?.metadata.annotations?.['graph.microsoft.com/group-id'];
+            return typeof groupId === 'string' ? [groupId] : [];
+          });
+          if (!cancelled) {
+            setTeamIds(ids);
+          }
         }
+
+        if (cancelled) {
+          return;
+        }
+
+        setAllFunctions(functions);
 
         const funcs = functions.map(item => {
           const ns = (item.metadata.namespace || 'default').toLowerCase();
@@ -161,17 +173,24 @@ export const FunctionsPage = () => {
               : [];
             return grandchildren
               .filter(
-                gc =>
-                  gc.ref &&
+                (gc): gc is EntityData & { ref: string } =>
+                  typeof gc.ref === 'string' &&
                   hasDescendantOwnedByAny(gc.ref, groupedFuncs, userGroupNames),
               )
-              .map(gc => gc.ref!)
-              .filter(Boolean);
+              .map(gc => gc.ref);
           });
           setDefaultExpanded(expandedIds);
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [catalogApi, identityApi]);
 
   if (loading) {

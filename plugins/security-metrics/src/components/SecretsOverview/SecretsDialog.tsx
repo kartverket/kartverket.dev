@@ -15,11 +15,11 @@ export interface Secrets {
   alerts: SecretAlert[];
 }
 
-interface SecretProps {
+type SecretProps = {
   secretsOverviewData: Secrets[];
   openDialog: boolean;
   closeDialogBox: () => void;
-}
+};
 
 export const SecretsDialog = ({
   secretsOverviewData,
@@ -57,10 +57,12 @@ export const SecretsDialog = ({
                   {repo.componentName}:
                 </Typography>
                 <Stack gap={2}>
-                  {repo.alerts &&
-                    repo.alerts.map((secret, index) => (
-                      <Secret key={secret.summary + index} secret={secret} />
-                    ))}
+                  {repo.alerts.map(secret => (
+                    <Secret
+                      key={`${repo.componentName}-${secret.summary}-${secret.createdAt}`}
+                      secret={secret}
+                    />
+                  ))}
                 </Stack>
               </div>
             ))}

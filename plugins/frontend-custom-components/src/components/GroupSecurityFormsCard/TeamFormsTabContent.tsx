@@ -62,14 +62,14 @@ const useStyles = makeStyles()(theme => ({
   },
 }));
 
-interface TeamFormsTabContentProps {
+type TeamFormsTabContentProps = {
   forms: RegelrettForm[];
   regelrettBaseUrl: string;
   teamId: string;
   teamName: string;
   onFormCreated: () => void;
   formTypeMap: Record<string, string>;
-}
+};
 
 export function TeamFormsTabContent({
   forms,

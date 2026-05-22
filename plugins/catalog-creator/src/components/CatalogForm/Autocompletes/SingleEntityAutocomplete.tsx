@@ -43,7 +43,11 @@ const hasFieldError = (
   errors: EntityErrors<Kind> | undefined,
   field: SingleEntityAutocompleteProps['fieldname'],
 ): errors is EntityErrors<Kind> & Record<typeof field, { message: string }> => {
-  return !!errors && field in errors && !!errors[field as keyof typeof errors];
+  if (!errors || !(field in errors)) {
+    return false;
+  }
+
+  return Boolean(Reflect.get(errors, field));
 };
 
 export const SingleEntityAutocomplete = ({
@@ -69,7 +73,7 @@ export const SingleEntityAutocomplete = ({
   };
 
   const translateField = (key: TranslationKey) => {
-    return t(key as Parameters<typeof t>[0], {});
+    return t(key as unknown as Parameters<typeof t>[0], {});
   };
 
   const fieldNameText = translateField(getTranslationKey('fieldName'));
@@ -133,11 +137,13 @@ export const SingleEntityAutocomplete = ({
                 );
 
                 if (filterInput !== '' && !isExisting && freeSolo) {
-                  const newEntity = {
+                  const newEntity: Entity = {
+                    apiVersion: 'backstage.io/v1alpha1',
+                    kind,
                     metadata: {
                       name: filterInput,
                     },
-                  } as Entity;
+                  };
                   filtered.push(newEntity);
                 }
 
@@ -201,7 +207,9 @@ export const SingleEntityAutocomplete = ({
         className={`${style.errorText} ${hasFieldError(errors, fieldname) ? '' : style.hidden}`}
       >
         {hasFieldError(errors, fieldname) && errors[fieldname]?.message
-          ? translateField(errors[fieldname].message as TranslationKey)
+          ? translateField(
+              errors[fieldname].message as unknown as TranslationKey,
+            )
           : '\u00A0'}
       </span>
     </>

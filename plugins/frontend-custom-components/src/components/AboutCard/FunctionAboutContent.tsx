@@ -24,7 +24,6 @@ import {
   EntityRefLinks,
   getEntityRelations,
 } from '@backstage/plugin-catalog-react';
-import { JsonArray } from '@backstage/types';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from 'tss-react/mui';
@@ -45,9 +44,9 @@ const useStyles = makeStyles()({
  *
  * @public
  */
-export interface AboutContentProps {
+export type AboutContentProps = {
   entity: Entity;
-}
+};
 
 function getLocationTargetHref(
   target: string,
@@ -111,8 +110,27 @@ export function AboutContent(props: AboutContentProps) {
     | undefined;
   try {
     entitySourceLocation = getEntitySourceLocation(entity);
-  } catch (e) {
+  } catch {
     entitySourceLocation = undefined;
+  }
+
+  const entityType =
+    typeof entity.spec?.type === 'string' ? entity.spec.type : undefined;
+  const lifecycle =
+    typeof entity.spec?.lifecycle === 'string'
+      ? entity.spec.lifecycle
+      : undefined;
+  const criticality =
+    typeof entity.spec?.criticality === 'string'
+      ? entity.spec.criticality
+      : undefined;
+  let locationTargets: string[] = [];
+  if (Array.isArray(entity.spec?.targets)) {
+    locationTargets = entity.spec.targets.filter(
+      (target): target is string => typeof target === 'string',
+    );
+  } else if (typeof entity.spec?.target === 'string') {
+    locationTargets = [entity.spec.target];
   }
 
   return (
@@ -188,20 +206,18 @@ export function AboutContent(props: AboutContentProps) {
         isTemplate ||
         isGroup ||
         isLocation ||
-        typeof entity?.spec?.type === 'string') &&
+        typeof entityType === 'string') &&
         !isFunction && (
           <AboutField
             label={t('aboutCard.typeField.label')}
-            value={entity?.spec?.type as string}
+            value={entityType}
             gridSizes={{ xs: 12, sm: 6, lg: 4 }}
           />
         )}
-      {(isAPI ||
-        isComponent ||
-        typeof entity?.spec?.lifecycle === 'string') && (
+      {(isAPI || isComponent || typeof lifecycle === 'string') && (
         <AboutField
           label={t('aboutCard.lifecycleField.label')}
-          value={entity?.spec?.lifecycle as string}
+          value={lifecycle}
           gridSizes={{ xs: 12, sm: 6, lg: 4 }}
         />
       )}
@@ -217,30 +233,28 @@ export function AboutContent(props: AboutContentProps) {
         </AboutField>
       )}
 
-      {isLocation && (entity?.spec?.targets || entity?.spec?.target) && (
+      {isLocation && entitySourceLocation && locationTargets.length > 0 && (
         <AboutField
           label={t('aboutCard.targetsField.label')}
           gridSizes={{ xs: 12 }}
         >
           <LinksGridList
             cols={1}
-            items={((entity.spec.targets as JsonArray) || [entity.spec.target])
-              .map(target => target as string)
-              .map(target => ({
-                text: target,
-                href: getLocationTargetHref(
-                  target,
-                  (entity?.spec?.type || 'unknown') as string,
-                  entitySourceLocation!,
-                ),
-              }))}
+            items={locationTargets.map(target => ({
+              text: target,
+              href: getLocationTargetHref(
+                target,
+                entityType ?? 'unknown',
+                entitySourceLocation,
+              ),
+            }))}
           />
         </AboutField>
       )}
-      {isFunction && entity?.spec?.criticality && (
+      {isFunction && criticality && (
         <AboutField
           label="Criticality"
-          value={entity.spec.criticality as string}
+          value={criticality}
           gridSizes={{ xs: 12, sm: 6, lg: 4 }}
         />
       )}

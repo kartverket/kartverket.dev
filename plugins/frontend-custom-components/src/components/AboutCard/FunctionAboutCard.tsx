@@ -91,9 +91,9 @@ export type AboutCardProps = {
   variant?: InfoCardVariants;
 };
 
-interface InternalAboutCardProps extends AboutCardProps {
+type InternalAboutCardProps = AboutCardProps & {
   subheader?: JSX.Element;
-}
+};
 
 function InternalAboutCard(props: InternalAboutCardProps) {
   const { variant } = props;

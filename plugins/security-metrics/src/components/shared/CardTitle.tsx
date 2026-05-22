@@ -2,11 +2,11 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
 
-interface CardTitleProps {
+type CardTitleProps = {
   title: React.ReactNode;
   children?: ReactNode;
   marginBottom?: boolean;
-}
+};
 
 export const CardTitle = ({
   title,

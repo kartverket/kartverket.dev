@@ -19,11 +19,11 @@ import {
   withErrorHandling,
 } from './routerUtils';
 
-export interface RouterOptions {
+export type RouterOptions = {
   auth: AuthService;
   logger: LoggerService;
   config: Config;
-}
+};
 
 export const createRouter = async (
   options: RouterOptions,
@@ -82,7 +82,9 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
-        const entityName = req.query.entityName as string | undefined;
+        const entityName = req.query.entityName as unknown as
+          | string
+          | undefined;
         if (!entityName) {
           return res
             .status(400)
@@ -123,8 +125,10 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
-        const entityName = req.query.entityName as string | undefined;
-        const request = req.body as FetchMetricsRequestBody;
+        const entityName = req.query.entityName as unknown as
+          | string
+          | undefined;
+        const request = req.body as unknown as FetchMetricsRequestBody;
         if (!entityName) {
           return res
             .status(400)
@@ -159,7 +163,9 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
-        const componentName = req.query.componentName as string | undefined;
+        const componentName = req.query.componentName as unknown as
+          | string
+          | undefined;
         if (!componentName) {
           return res
             .status(400)
@@ -198,7 +204,9 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
-        const entityName = req.query.entityName as string | undefined;
+        const entityName = req.query.entityName as unknown as
+          | string
+          | undefined;
         if (!entityName) {
           return res
             .status(400)
@@ -211,7 +219,7 @@ export const createRouter = async (
             );
         }
 
-        const request = req.body as FetchTrendsRequestBody;
+        const request = req.body as unknown as FetchTrendsRequestBody;
         const result = await apiService.fetchVulnerabilityTrendsData(
           entityName,
           request.componentNames,
@@ -236,7 +244,7 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
-        const request = req.body as ChangeStatusRequestBody;
+        const request = req.body as unknown as ChangeStatusRequestBody;
 
         const result = await apiService.changeStatusVulnerability(
           request.componentName,
@@ -263,7 +271,8 @@ export const createRouter = async (
           return res.status(authError.status).send(authError);
         }
 
-        const request = req.body as ConfigureNotificationsRequestBody;
+        const request =
+          req.body as unknown as ConfigureNotificationsRequestBody;
 
         const result = await apiService.configureNotifications(
           request.teamName,

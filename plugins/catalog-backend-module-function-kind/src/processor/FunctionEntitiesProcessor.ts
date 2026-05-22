@@ -17,7 +17,6 @@ import {
 } from '@backstage/catalog-model';
 import { entityKindSchemaValidator } from '@backstage/catalog-model';
 import {
-  FunctionEntityV1alpha1,
   isFunctionEntity,
   functionEntityV1alpha1Validator,
 } from '@internal/plugin-function-kind-common';
@@ -140,38 +139,36 @@ export class FunctionEntitiesProcessor implements CatalogProcessor {
       }
     }
 
-    const functionEntity = entity as FunctionEntityV1alpha1;
-
     doEmit(
-      functionEntity.spec.owner,
+      entity.spec.owner,
       { defaultKind: 'Group', defaultNamespace: selfRef.namespace },
       RELATION_OWNED_BY,
       RELATION_OWNER_OF,
     );
 
     doEmit(
-      functionEntity.spec.dependsOnSystems,
+      entity.spec.dependsOnSystems,
       { defaultKind: 'System', defaultNamespace: selfRef.namespace },
       RELATION_DEPENDS_ON,
       RELATION_DEPENDENCY_OF,
     );
 
     doEmit(
-      functionEntity.spec.dependsOnComponents,
+      entity.spec.dependsOnComponents,
       { defaultKind: 'Component', defaultNamespace: selfRef.namespace },
       RELATION_DEPENDS_ON,
       RELATION_DEPENDENCY_OF,
     );
 
     doEmit(
-      functionEntity.spec.parentFunction,
+      entity.spec.parentFunction,
       { defaultKind: 'Function', defaultNamespace: selfRef.namespace },
       RELATION_CHILD_OF,
       RELATION_PARENT_OF,
     );
 
     doEmit(
-      functionEntity.spec.dependsOnFunctions,
+      entity.spec.dependsOnFunctions,
       { defaultKind: 'Function', defaultNamespace: selfRef.namespace },
       RELATION_DEPENDS_ON,
       RELATION_DEPENDENCY_OF,

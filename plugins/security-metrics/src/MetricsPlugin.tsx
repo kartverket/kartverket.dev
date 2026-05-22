@@ -4,11 +4,11 @@ import { SystemPage } from './components/Views/SystemPage';
 import { SingleComponentPage } from './components/Views/SingleComponentPage';
 import { GroupPage } from './components/Views/GroupPage';
 
-enum ViewType {
-  GROUP = 'Group',
-  SYSTEM = 'System',
-  COMPONENT = 'Component',
-}
+const ViewType = {
+  GROUP: 'Group',
+  SYSTEM: 'System',
+  COMPONENT: 'Component',
+} as const;
 
 export const MetricsPlugin = () => {
   const { entity } = useEntity();

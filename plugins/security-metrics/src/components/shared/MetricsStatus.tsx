@@ -28,9 +28,9 @@ const SCANNER_LABELS: Record<keyof MetricsUpdateStatus, string> = {
   riscMetrics: 'Risiko- og sårbarhetsarbeid',
 };
 
-interface MetricsStatusProps {
+type MetricsStatusProps = {
   entityName: string;
-}
+};
 
 export const MetricsStatus = ({ entityName }: MetricsStatusProps) => {
   const [open, setOpen] = useState(false);
@@ -40,7 +40,13 @@ export const MetricsStatus = ({ entityName }: MetricsStatusProps) => {
     return null;
   }
 
-  const sources = Object.keys(data) as (keyof MetricsUpdateStatus)[];
+  const sources = [
+    'dependabot',
+    'sysdig',
+    'codeScanning',
+    'secretScanning',
+    'riscMetrics',
+  ] satisfies Array<keyof MetricsUpdateStatus>;
   const outdatedCount = sources.filter(key => !data[key]).length;
 
   if (!outdatedCount) {

@@ -14,16 +14,38 @@ export function useUserSearch(query: string) {
   const catalogApi = useApi(catalogApiRef);
 
   useEffect(() => {
-    if (query.length < 2 || hasFetched.current) return;
+    let cancelled = false;
+
+    if (query.length < 2 || hasFetched.current) {
+      return () => {
+        cancelled = true;
+      };
+    }
 
     setIsLoading(true);
     catalogApi
       .getEntities({ filter: { kind: 'User' } })
       .then(results => {
-        setAllUsers(results.items as UserEntity[]);
+        if (cancelled) {
+          return;
+        }
+
+        setAllUsers(
+          results.items.filter(
+            (item): item is UserEntity => item.kind === 'User',
+          ),
+        );
         hasFetched.current = true;
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [query, catalogApi]);
 
   const users = useMemo(() => {

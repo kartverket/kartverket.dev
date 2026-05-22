@@ -1,8 +1,8 @@
 import { SEVERITY_COLORS } from '../../colors';
 
-interface LinearGradientProps {
+type LinearGradientProps = {
   id: string;
-}
+};
 
 export const LinearGradient = ({ id }: LinearGradientProps) => {
   return (

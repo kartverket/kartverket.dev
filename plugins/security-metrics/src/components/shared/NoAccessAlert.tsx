@@ -7,9 +7,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import { useState } from 'react';
 
-interface NoAccessProps {
+type NoAccessProps = {
   repos: string[];
-}
+};
 
 const NoAccessAlert = ({ repos }: NoAccessProps) => {
   const [openDialog, setOpenDialog] = useState(false);

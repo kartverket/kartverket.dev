@@ -99,10 +99,10 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 /** @public */
-export interface EntityLinksCardProps {
+export type EntityLinksCardProps = {
   cols?: ColumnBreakpoints | number;
   variant?: InfoCardVariants;
-}
+};
 
 const queryClient = new QueryClient();
 

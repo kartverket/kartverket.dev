@@ -144,4 +144,8 @@ export const filterSystemsByComponents = (
 };
 
 export const severityLegendSorter = (item: { payload?: { key?: string } }) =>
-  SEVERITY_ORDER.indexOf((item?.payload?.key ?? 'unknown') as Severity);
+  SEVERITY_ORDER.indexOf(
+    (typeof item?.payload?.key === 'string'
+      ? item.payload.key
+      : 'unknown') as unknown as Severity,
+  );

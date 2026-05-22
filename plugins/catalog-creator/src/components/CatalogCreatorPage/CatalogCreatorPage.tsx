@@ -18,14 +18,14 @@ import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import style from '../../catalog.module.css';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 
-export interface CatalogCreatorPageProps {
+export type CatalogCreatorPageProps = {
   originLocation?: string;
   docsLink?: string;
   entityKind?: string;
   entityName?: string;
   createSubFunction?: boolean;
   supportButton?: React.ReactNode;
-}
+};
 
 export const CatalogCreatorPage = ({
   originLocation,
@@ -88,8 +88,12 @@ export const CatalogCreatorPage = ({
   };
 
   const handleCatalogFormSubmit = (data: FormEntity[]) => {
+    if (analysisResult.value === undefined) {
+      return;
+    }
+
     doSubmitToGithub(
-      getSubmitUrl(analysisResult.value!),
+      getSubmitUrl(analysisResult.value),
       data,
       entityKind,
       entityName,

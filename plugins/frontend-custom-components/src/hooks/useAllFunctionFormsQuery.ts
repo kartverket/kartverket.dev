@@ -60,8 +60,10 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
                 EntraId: entraIdToken,
               },
             });
-            if (!response.ok) return [] as RegelrettForm[];
-            return (await response.json()) as RegelrettForm[];
+            if (!response.ok) {
+              return [];
+            }
+            return (await response.json()) as unknown as RegelrettForm[];
           }),
         );
 
