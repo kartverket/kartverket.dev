@@ -1,2 +1,2 @@
 export * from './services/ApiService/router';
-export { securityMetricBackendPlugin } from './plugin';
+export { securityMetricBackendPlugin as default } from './plugin';

@@ -1,1 +1,1 @@
-export { RegelrettSchemaPlugin } from './plugin';
+export { RegelrettSchemaPlugin as default } from './plugin';

@@ -52,27 +52,15 @@ backend.add(import('@backstage/plugin-search-backend-module-pg'));
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // Security metrics
-backend.add(
-  import('@kartverket/backstage-plugin-security-metrics-backend').then(m => ({
-    default: m.securityMetricBackendPlugin,
-  })),
-);
+backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
 
 // Regelrett forms
-backend.add(
-  import('@internal/backstage-plugin-regelrett-schemas-backend').then(m => ({
-    default: m.RegelrettSchemaPlugin,
-  })),
-);
+backend.add(import('@internal/backstage-plugin-regelrett-schemas-backend'));
 
 // Notifications
 backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(catalogNotificationsModule);
 backend.add(import('@backstage/plugin-signals-backend'));
-backend.add(
-  import('@internal/plugin-catalog-backend-module-function-kind').then(m => ({
-    default: m.catalogModuleFunctionEntities,
-  })),
-);
+backend.add(import('@internal/plugin-catalog-backend-module-function-kind'));
 
 backend.start();

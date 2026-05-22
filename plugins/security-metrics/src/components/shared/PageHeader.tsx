@@ -2,9 +2,9 @@ import Stack from '@mui/material/Stack';
 import { Box } from '@mui/system';
 import { MetricsStatus } from './MetricsStatus';
 import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
-import NoAccessAlert from './NoAccessAlert';
 import { ViewSettingsButton } from './ViewSettingsButton';
 import { FilterEnum } from '../../typesFrontend';
+import { NoAccessAlert } from './NoAccessAlert';
 
 interface StarFilterProps {
   hasStarred: boolean;
