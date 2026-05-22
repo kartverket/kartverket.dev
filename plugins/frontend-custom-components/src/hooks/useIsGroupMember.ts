@@ -1,6 +1,7 @@
 import { identityApiRef, useApi } from '@backstage/frontend-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useQuery } from '@tanstack/react-query';
+import { groupKeys } from './queryKeys';
 
 /**
  * Returns whether the current user is a member of the given group, or a member
@@ -19,7 +20,7 @@ export const useIsGroupMember = (groupRef: string | undefined) => {
   const catalogApi = useApi(catalogApiRef);
 
   const { data: isMember, isLoading } = useQuery({
-    queryKey: ['group-membership', groupRef],
+    queryKey: groupKeys.membership(groupRef ?? ''),
     enabled: !!groupRef,
     queryFn: async () => {
       const identity = await identityApi.getBackstageIdentity();

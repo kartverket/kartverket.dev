@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import {
   configApiRef,
@@ -7,11 +7,13 @@ import {
   useApi,
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
+import { regelrettKeys } from './queryKeys';
 
 export const useRegelrettCreateContextMutation = () => {
   const config = useApi(configApiRef);
   const backstageAuthApi = useApi(identityApiRef);
   const microsoftAuthApi = useApi(microsoftAuthApiRef);
+  const queryClient = useQueryClient();
 
   return useMutation<
     RegelrettForm,
@@ -47,6 +49,11 @@ export const useRegelrettCreateContextMutation = () => {
         return data;
       }
       throw data ?? { message: response.statusText };
+    },
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: regelrettKeys.form(variables.functionName),
+      });
     },
   });
 };

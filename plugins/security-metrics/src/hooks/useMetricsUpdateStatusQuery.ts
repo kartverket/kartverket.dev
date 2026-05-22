@@ -11,7 +11,7 @@ export const useMetricsUpdateStatusQuery = (entityName: string) => {
   );
 
   return useQuery<MetricsUpdateStatus, Error>({
-    queryKey: ['metricsUpdateStatus'],
+    queryKey: ['metricsUpdateStatus', entityName],
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,

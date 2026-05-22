@@ -6,7 +6,11 @@ import { AggregatedSikkerhetsmetrikker } from '../typesFrontend';
 import { post } from '../api/client';
 
 const metricsQueryKeys = {
-  metrics: (entityName: string) => ['metrics', entityName],
+  metrics: (entityName: string, componentNames: string[]) => [
+    'metrics',
+    entityName,
+    componentNames,
+  ],
 };
 
 export const useMetricsQuery = (
@@ -18,7 +22,7 @@ export const useMetricsQuery = (
   );
 
   return useQuery<AggregatedSikkerhetsmetrikker, Error>({
-    queryKey: metricsQueryKeys.metrics(entityName),
+    queryKey: metricsQueryKeys.metrics(entityName, componentNames),
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,

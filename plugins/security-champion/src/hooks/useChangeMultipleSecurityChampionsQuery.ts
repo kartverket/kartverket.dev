@@ -73,5 +73,16 @@ export const useSetMultipleSecurityChampionsMutation = () => {
 
       return { previousChampions, queryKey };
     },
+    onError: (_err, _vars, ctx) => {
+      if (ctx?.previousChampions !== undefined) {
+        queryClient.setQueryData<SecurityChamp[]>(
+          ctx.queryKey,
+          ctx.previousChampions,
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['security-champions'] });
+    },
   });
 };

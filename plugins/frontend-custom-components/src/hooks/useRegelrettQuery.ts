@@ -8,6 +8,7 @@ import {
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
 import { ApiError } from '../errors';
+import { regelrettKeys } from './queryKeys';
 
 export const useRegelrettQuery = (
   functionName: string,
@@ -18,7 +19,7 @@ export const useRegelrettQuery = (
   const microsoftAuthApi = useApi(microsoftAuthApiRef);
 
   return useQuery<RegelrettForm[]>({
-    queryKey: ['fetch-regelrett-forms', functionName],
+    queryKey: regelrettKeys.form(functionName),
     enabled: !!functionName && (options?.enabled ?? true),
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(

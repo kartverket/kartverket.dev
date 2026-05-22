@@ -8,6 +8,7 @@ import {
 } from '@backstage/frontend-plugin-api';
 import { FormType } from '../types';
 import { ApiError } from '../errors';
+import { regelrettKeys } from './queryKeys';
 
 export const useFormTypesQuery = () => {
   const config = useApi(configApiRef);
@@ -15,7 +16,7 @@ export const useFormTypesQuery = () => {
   const microsoftAuthApi = useApi(microsoftAuthApiRef);
 
   return useQuery<FormType[]>({
-    queryKey: ['fetch-regelrett-form-types'],
+    queryKey: regelrettKeys.formTypes(),
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
