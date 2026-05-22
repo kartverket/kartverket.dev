@@ -8,6 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useGroupInfo } from '../../hooks/useUserInfo';
 import { NoAccessRow } from '../RepositoriesTable/NoAccessRow';
+import Skeleton from '@mui/material/Skeleton';
 
 type Props = {
   ownerId: string;
@@ -24,48 +25,58 @@ export const OwnerTableRow = ({
 }: Props) => {
   const navigate = useNavigate();
 
-  const { data: group } = useGroupInfo(ownerId);
+  const { data: group, isLoading } = useGroupInfo(ownerId);
 
   const { critical, high, medium, low, negligible, unknown } = severityCount;
   const total = critical + high + medium + low + negligible + unknown;
 
-  return (
-    <>
-      <StyledTableRow
-        key={ownerId}
-        hover
-        sx={{ cursor: 'pointer' }}
-        onClick={() => {
-          navigate(
-            `/catalog/default/group/${group?.metadata?.name}/securityMetrics`,
-          );
-          onNavigate();
-        }}
-      >
+  if (isLoading)
+    return (
+      <StyledTableRow>
         <TableCell>
-          <Typography>{group?.metadata?.name || ownerId}</Typography>
+          <Skeleton variant="text" width={120} />
         </TableCell>
         <TableCell>
-          {total > 0 ? (
-            <Stack direction="row" maxWidth="500px" gap={2} alignItems="center">
-              <Typography width={50}>{total}</Typography>
-              <Box width="100%">
-                <VulnerabilityDistribution
-                  severityCount={severityCount}
-                  highestVulnerabilityCount={highestVulnerabilityCount}
-                />
-              </Box>
-            </Stack>
-          ) : (
-            <Typography>Ingen sårbarheter</Typography>
-          )}
-        </TableCell>
-
-        <TableCell align="right">
-          <ArrowForwardIosIcon fontSize="small" />
+          <Skeleton variant="rounded" width={300} height={20} />
         </TableCell>
       </StyledTableRow>
-    </>
+    );
+
+  return (
+    <StyledTableRow
+      key={ownerId}
+      hover
+      sx={{ cursor: 'pointer' }}
+      onClick={() => {
+        navigate(
+          `/catalog/default/group/${group?.metadata?.name}/securityMetrics`,
+        );
+        onNavigate();
+      }}
+    >
+      <TableCell>
+        <Typography>{group?.metadata?.name || ownerId}</Typography>
+      </TableCell>
+      <TableCell>
+        {total > 0 ? (
+          <Stack direction="row" maxWidth="500px" gap={2} alignItems="center">
+            <Typography width={50}>{total}</Typography>
+            <Box width="100%">
+              <VulnerabilityDistribution
+                severityCount={severityCount}
+                highestVulnerabilityCount={highestVulnerabilityCount}
+              />
+            </Box>
+          </Stack>
+        ) : (
+          <Typography>Ingen sårbarheter</Typography>
+        )}
+      </TableCell>
+
+      <TableCell align="right">
+        <ArrowForwardIosIcon fontSize="small" />
+      </TableCell>
+    </StyledTableRow>
   );
 };
 
