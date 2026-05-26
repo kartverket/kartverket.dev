@@ -70,6 +70,9 @@ import {
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
 
+
+
+
 const app = createApp({
   __experimentalTranslations: {
     availableLanguages: ['en', 'no'],
