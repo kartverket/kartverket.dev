@@ -20,7 +20,6 @@ export const useRegelrettCreateContextMutation = () => {
 
   return useMutation<
     RegelrettForm,
-    RegelrettApiError,
     { functionName: string; formId: string; teamId: string }
   >({
     mutationFn: async ({ functionName, formId, teamId }) => {
@@ -51,10 +50,10 @@ export const useRegelrettCreateContextMutation = () => {
       if (response.ok) {
         return data;
       }
-      throw {
-        status: response.status,
-        message: data?.message ?? response.statusText,
-      } satisfies RegelrettApiError;
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
     },
   });
 };
