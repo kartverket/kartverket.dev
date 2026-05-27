@@ -120,6 +120,14 @@ export const catalogNotificationsModule = createBackendModule({
 
             const currentScopes = new Set<string>();
 
+            // Group broken entities by owner to send one summary notification per
+            // owner instead of one notification per entity (prevents HTTP flood).
+            type EnrichedItem = {
+              entity: NonNullable<(typeof entities.items)[number]>;
+              missingRelation: MissingRelationTarget;
+            };
+            const byOwner = new Map<string, EnrichedItem[]>();
+
             for (let i = 0; i < entities.items.length; i++) {
               const entity = entities.items[i];
               const missingRelation = query[i];
@@ -132,25 +140,37 @@ export const catalogNotificationsModule = createBackendModule({
                 continue;
               }
 
-              const namespace = entity.metadata.namespace ?? 'default';
-              const entityLink = `/catalog/${namespace}/${entity.kind}/${entity.metadata.name}`;
-              const notificationScope = `${entity.metadata.name}${missingRelation.target_ref}`;
               const ownerRef =
                 missingRelation.owner_ref ?? 'group:default/skvis';
+              const group = byOwner.get(ownerRef) ?? [];
+              group.push({ entity, missingRelation });
+              byOwner.set(ownerRef, group);
+            }
 
+            for (const [ownerRef, items] of byOwner) {
+              const notificationScope = `relation-errors:${ownerRef}`;
               currentScopes.add(notificationScope);
 
-              notification.send({
+              const exampleLines = items
+                .slice(0, 5)
+                .map(
+                  ({ entity, missingRelation }) =>
+                    `• ${entity.metadata.name} → ${missingRelation.target_ref}`,
+                )
+                .join('\n');
+              const moreCount = items.length - 5;
+              const moreSuffix = moreCount > 0 ? `\n…and ${moreCount} more` : '';
+              const description = `${items.length} entity relation(s) point to non-existent catalog entries.\n\n${exampleLines}${moreSuffix}`;
+
+              await notification.send({
                 recipients: {
                   type: 'entity',
                   entityRef: ownerRef,
                 },
                 payload: {
-                  title: `Relation error: ${entity.metadata.name}`,
-                  description: `This entity has relations to other entities, which can't be found in the catalog.
-                                    Entity not found: ${missingRelation.target_ref}`,
+                  title: `${items.length} relation error(s) detected`,
+                  description,
                   severity: 'high',
-                  link: entityLink,
                   scope: notificationScope,
                 },
               });
