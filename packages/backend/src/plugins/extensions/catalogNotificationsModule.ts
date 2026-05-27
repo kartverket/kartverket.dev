@@ -3,7 +3,6 @@ import {
   createBackendModule,
 } from '@backstage/backend-plugin-api';
 import { notificationService } from '@backstage/plugin-notifications-node';
-import { CatalogClient } from '@backstage/catalog-client';
 import { DatabaseManager } from '@backstage/backend-defaults/database';
 
 type MissingRelationTarget = {
@@ -20,8 +19,6 @@ export const catalogNotificationsModule = createBackendModule({
       deps: {
         logger: coreServices.logger,
         scheduler: coreServices.scheduler,
-        discovery: coreServices.discovery,
-        auth: coreServices.auth,
         db: coreServices.database,
         config: coreServices.rootConfig,
         lifecycle: coreServices.lifecycle,
@@ -33,8 +30,6 @@ export const catalogNotificationsModule = createBackendModule({
         db,
         config,
         lifecycle,
-        discovery,
-        auth,
         notificationService: notification,
       }) {
         const database = await db.getClient();
@@ -101,51 +96,30 @@ export const catalogNotificationsModule = createBackendModule({
               return;
             }
 
-            const { token } = await auth.getPluginRequestToken({
-              onBehalfOf: await auth.getOwnServiceCredentials(),
-              targetPluginId: 'catalog',
-            });
-
-            const catalogClient = new CatalogClient({
-              discoveryApi: discovery,
-            });
-
-            const entities = await catalogClient.getEntitiesByRefs(
-              {
-                entityRefs: query.map(({ ref }) => ref),
-                fields: ['kind', 'metadata.name', 'metadata.namespace'],
-              },
-              { token },
+            logger.info(
+              `catalog-error-monitor: found ${query.length} entities with broken relations`,
             );
+
+            if (query.length === 0) {
+              return;
+            }
 
             const currentScopes = new Set<string>();
 
-            // Group broken entities by owner to send one summary notification per
-            // owner instead of one notification per entity (prevents HTTP flood).
-            type EnrichedItem = {
-              entity: NonNullable<(typeof entities.items)[number]>;
-              missingRelation: MissingRelationTarget;
-            };
-            const byOwner = new Map<string, EnrichedItem[]>();
+            // Group broken entities by owner using only data from the SQL query —
+            // no HTTP calls needed since the entity ref already encodes kind/namespace/name.
+            const byOwner = new Map<string, MissingRelationTarget[]>();
 
-            for (let i = 0; i < entities.items.length; i++) {
-              const entity = entities.items[i];
-              const missingRelation = query[i];
-              if (!entity) {
-                logger.error(`Entity not found for ref: ${query[i]?.ref}`);
-                continue;
-              }
-              if (!missingRelation) {
-                logger.error(`No missing relation found at index ${i}`);
-                continue;
-              }
-
-              const ownerRef =
-                missingRelation.owner_ref ?? 'group:default/skvis';
+            for (const row of query) {
+              const ownerRef = row.owner_ref ?? 'group:default/skvis';
               const group = byOwner.get(ownerRef) ?? [];
-              group.push({ entity, missingRelation });
+              group.push(row);
               byOwner.set(ownerRef, group);
             }
+
+            logger.info(
+              `catalog-error-monitor: ${byOwner.size} owner(s) affected`,
+            );
 
             for (const [ownerRef, items] of byOwner) {
               const notificationScope = `relation-errors:${ownerRef}`;
@@ -153,22 +127,21 @@ export const catalogNotificationsModule = createBackendModule({
 
               const exampleLines = items
                 .slice(0, 5)
-                .map(
-                  ({ entity, missingRelation }) =>
-                    `• ${entity.metadata.name} → ${missingRelation.target_ref}`,
-                )
+                .map(({ ref, target_ref }) => `• ${ref} → ${target_ref}`)
                 .join('\n');
               const moreCount = items.length - 5;
-              const moreSuffix = moreCount > 0 ? `\n…and ${moreCount} more` : '';
-              const description = `${items.length} entity relation(s) point to non-existent catalog entries.\n\n${exampleLines}${moreSuffix}`;
+              const moreSuffix =
+                moreCount > 0 ? `\n…and ${moreCount} more` : '';
+              const description = `${items.length} entity relation(s) owned by ${ownerRef} point to non-existent catalog entries.\n\n${exampleLines}${moreSuffix}`;
 
+              // Always use broadcast: sending to a group entity triggers recursive
+              // member resolution in DefaultNotificationRecipientResolver (Promise.all
+              // over the full group hierarchy), which fans out into many concurrent
+              // catalog HTTP calls and can OOM the backend for large and deeply nested group
               await notification.send({
-                recipients: {
-                  type: 'entity',
-                  entityRef: ownerRef,
-                },
+                recipients: { type: 'broadcast' },
                 payload: {
-                  title: `${items.length} relation error(s) detected`,
+                  title: `[${ownerRef}] ${items.length} relation error(s) detected`,
                   description,
                   severity: 'high',
                   scope: notificationScope,
