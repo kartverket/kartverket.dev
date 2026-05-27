@@ -66,7 +66,11 @@ export function CreateFormSection({
   } = useRegelrettCreateContextMutation();
 
   const handleSubmit = () => {
-    const params = onBuildMutationParams(selectedFormId, secondaryValue, contextName);
+    const params = onBuildMutationParams(
+      selectedFormId,
+      secondaryValue,
+      contextName,
+    );
     if (!params) return;
 
     mutate(params, {
