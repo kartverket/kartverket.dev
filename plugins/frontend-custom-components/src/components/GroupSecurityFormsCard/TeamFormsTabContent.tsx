@@ -66,7 +66,6 @@ interface TeamFormsTabContentProps {
   forms: RegelrettForm[];
   regelrettBaseUrl: string;
   teamId: string;
-  teamName: string;
   onFormCreated: () => void;
   formTypeMap: Record<string, string>;
 }
@@ -75,7 +74,6 @@ export function TeamFormsTabContent({
   forms,
   regelrettBaseUrl,
   teamId,
-  teamName,
   onFormCreated,
   formTypeMap,
 }: TeamFormsTabContentProps) {

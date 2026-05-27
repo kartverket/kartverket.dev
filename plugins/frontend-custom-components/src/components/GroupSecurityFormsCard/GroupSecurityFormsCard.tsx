@@ -209,7 +209,6 @@ function GroupSecurityFormsCardWrapper() {
             forms={teamForms}
             regelrettBaseUrl={regelrettBaseUrl}
             teamId={teamId}
-            teamName={teamName}
             onFormCreated={refetch}
             formTypeMap={formTypeMap}
           />
