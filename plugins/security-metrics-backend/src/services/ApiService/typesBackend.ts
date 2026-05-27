@@ -130,6 +130,16 @@ export type SikkerhetsmetrikkerSystemTotal = {
   metrics: SikkerhetsmetrikkerTotal;
 };
 
+export type SikkerhetsmetrikkerOwnerTotal = {
+  permittedOwnerMetrics: OwnerSeverityCounts[];
+  notPermittedOwners: string[];
+};
+
+export type OwnerSeverityCounts = {
+  owner: string;
+  severityCount: SeverityCount;
+};
+
 export type AggregatedSikkerhetsmetrikker = {
   systems: SikkerhetsmetrikkerSystemTotal[];
   vulnerabilityOverview: SystemVulnerabilityOverview;

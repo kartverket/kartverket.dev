@@ -11,6 +11,7 @@ import {
   SlackNotificationConfig,
   Status,
   VulnerabilitySeverityCounts,
+  SikkerhetsmetrikkerOwnerTotal,
 } from './typesBackend';
 
 export class ApiService {
@@ -174,6 +175,30 @@ export class ApiService {
         headers: {
           'Content-Type': 'application/json',
         },
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
+  }
+
+  async fetchOwnerMetricsData(
+    componentNames: string[],
+    entraIdToken: string,
+  ): Promise<Either<ErrorResponse, SikkerhetsmetrikkerOwnerTotal>> {
+    const endpointResult = this.buildEndpoint(`/api/scannerData/owners`);
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
+    }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentNames }),
       },
       response => response.json(),
       'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',

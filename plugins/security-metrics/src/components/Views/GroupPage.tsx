@@ -29,11 +29,13 @@ import { useGroupMetrics } from '../../hooks/useGroupMetrics';
 import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/VulnerabilityOverviewTable';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
+import { OwnerTable } from '../OwnerTable/OwnerTable';
 
 enum TabEnum {
   COMPONENT = 0,
   SYSTEM = 1,
-  VULNERABILITIES = 2,
+  OWNER = 2,
+  VULNERABILITIES = 3,
 }
 
 export const GroupPage = () => {
@@ -158,6 +160,9 @@ export const GroupPage = () => {
       >
         <Tab label="Metrikker per komponent" value={TabEnum.COMPONENT} />
         <Tab label="Metrikker per system" value={TabEnum.SYSTEM} />
+        {entity.spec?.type !== 'team' && (
+          <Tab label="Metrikker per eier" value={TabEnum.OWNER} />
+        )}
         <Tab label="Unike sårbarheter" value={TabEnum.VULNERABILITIES} />
       </Tabs>
 
@@ -174,6 +179,14 @@ export const GroupPage = () => {
       )}
       {selectedTab === TabEnum.SYSTEM && filteredSystemsData && (
         <SystemsTable data={filteredSystemsData} showOpen={showOpen} />
+      )}
+
+      {selectedTab === TabEnum.OWNER && (
+        <OwnerTable
+          onNavigate={() => {
+            setSelectedTab(TabEnum.COMPONENT);
+          }}
+        />
       )}
     </Stack>
   );

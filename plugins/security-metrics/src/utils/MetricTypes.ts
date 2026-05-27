@@ -1,5 +1,6 @@
 export enum MetricTypes {
   componentMetrics = 'component-metrics',
+  ownerMetrics = 'owners-metrics',
   metrics = 'metrics',
   trends = 'trends',
   riscStatus = 'risc-status',
