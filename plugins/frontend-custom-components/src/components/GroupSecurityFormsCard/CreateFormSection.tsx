@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Flex } from '@backstage/ui';
+import { Button, Flex, TextField } from '@backstage/ui';
 import FormControl from '@mui/material/FormControl';
 import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,6 +8,7 @@ import Alert from '@mui/material/Alert';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
 import { useRegelrettCreateContextMutation } from '../../hooks/useRegelrettCreateContextMutation';
+import type { RegelrettApiError } from '../../hooks/useRegelrettCreateContextMutation';
 
 interface SelectOption {
   value: string;
@@ -28,11 +29,13 @@ interface CreateFormSectionProps {
   onBuildMutationParams: (
     formId: string,
     secondaryValue?: string,
+    contextName?: string,
   ) => { functionName: string; formId: string; teamId: string } | undefined;
   /** Called after a successful form creation */
   onSuccess: () => void;
   /** Optional custom label for the create button */
   createButtonLabel?: string;
+  includeNameField?: boolean;
 }
 
 export function CreateFormSection({
@@ -41,11 +44,13 @@ export function CreateFormSection({
   onBuildMutationParams,
   onSuccess,
   createButtonLabel,
+  includeNameField,
 }: CreateFormSectionProps) {
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
 
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState('');
+  const [contextName, setContextName] = useState('');
   const [secondaryValue, setSecondaryValue] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const successTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -61,7 +66,7 @@ export function CreateFormSection({
   } = useRegelrettCreateContextMutation();
 
   const handleSubmit = () => {
-    const params = onBuildMutationParams(selectedFormId, secondaryValue);
+    const params = onBuildMutationParams(selectedFormId, secondaryValue, contextName);
     if (!params) return;
 
     mutate(params, {
@@ -69,6 +74,7 @@ export function CreateFormSection({
         onSuccess();
         setSelectedFormId('');
         setSecondaryValue('');
+        setContextName('');
         setShowCreateForm(false);
         setShowSuccessMessage(true);
         successTimeoutRef.current = setTimeout(
@@ -86,7 +92,10 @@ export function CreateFormSection({
   };
 
   const isSubmitDisabled =
-    !selectedFormId || isCreating || (secondarySelect && !secondaryValue);
+    !selectedFormId ||
+    isCreating ||
+    (secondarySelect && !secondaryValue) ||
+    (includeNameField && !contextName.trim());
 
   return (
     <div style={{ marginTop: '1rem' }}>
@@ -178,6 +187,19 @@ export function CreateFormSection({
                 </MuiSelect>
               </FormControl>
 
+              {includeNameField && (
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <TextField
+                    size="small"
+                    placeholder={t('groupFormCard.name')}
+                    name="contextName"
+                    value={contextName}
+                    isDisabled={isCreating}
+                    onChange={e => setContextName(e)}
+                  />
+                </div>
+              )}
+
               <Button
                 variant="primary"
                 isDisabled={!!isSubmitDisabled}
@@ -197,6 +219,7 @@ export function CreateFormSection({
               setShowCreateForm(false);
               setSelectedFormId('');
               setSecondaryValue('');
+              setContextName('');
             }}
           >
             {t('groupFormCard.cancel')}
@@ -208,7 +231,9 @@ export function CreateFormSection({
 
       {createError && (
         <Alert severity="error" style={{ margin: '1rem 0 0' }}>
-          {t('groupFormCard.createError')}
+          {(createError as RegelrettApiError).status === 409
+            ? t('groupFormCard.createConflictError')
+            : t('groupFormCard.createError')}
         </Alert>
       )}
     </div>

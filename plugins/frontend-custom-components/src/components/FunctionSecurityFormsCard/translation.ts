@@ -50,11 +50,14 @@ export const functionLinkCardTranslationRef = createTranslationRef({
     'groupFormCard.createNewFunctionForm': 'Create new form for function',
     'groupFormCard.selectForm': 'Select form',
     'groupFormCard.selectFunction': 'Select function',
+    'groupFormCard.name': 'Name',
     'groupFormCard.create': 'Create',
     'groupFormCard.creating': 'Creating...',
     'groupFormCard.cancel': 'Cancel',
     'groupFormCard.formCreatedSuccess': 'Form was created',
     'groupFormCard.createError': 'Could not create form',
+    'groupFormCard.createConflictError':
+      'A form with this name already exists for the selected form type. Please use a unique name.',
     'groupFormCard.allFormsCreated':
       'All form types already created for this function',
     'formMetrics.answered': '{{answered}}/{{total}} answered',
@@ -98,11 +101,14 @@ export const functionLinkCardNorwegianTranslation = createTranslationResource({
             'Opprett nytt skjema til funksjon',
           'groupFormCard.selectForm': 'Velg skjema',
           'groupFormCard.selectFunction': 'Velg funksjon',
+          'groupFormCard.name': 'Navn',
           'groupFormCard.create': 'Opprett',
           'groupFormCard.creating': 'Oppretter...',
           'groupFormCard.cancel': 'Avbryt',
           'groupFormCard.formCreatedSuccess': 'Skjema ble opprettet',
           'groupFormCard.createError': 'Kunne ikke opprette skjema',
+          'groupFormCard.createConflictError':
+            'Det finnes allerede et skjema med dette navnet. Navnet må være unikt for den valgte skjematypen.',
           'groupFormCard.allFormsCreated':
             'Alle skjematyper er allerede opprettet for denne funksjonen',
           'formMetrics.answered': '{{answered}}/{{total}} besvart',
