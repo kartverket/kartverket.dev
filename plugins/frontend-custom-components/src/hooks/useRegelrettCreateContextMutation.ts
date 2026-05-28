@@ -8,9 +8,8 @@ import {
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
 
-export interface RegelrettApiError {
+export interface RegelrettApiError extends Error {
   status: number;
-  message: string;
 }
 
 export const useRegelrettCreateContextMutation = () => {
@@ -20,6 +19,7 @@ export const useRegelrettCreateContextMutation = () => {
 
   return useMutation<
     RegelrettForm,
+    RegelrettApiError,
     { functionName: string; formId: string; teamId: string }
   >({
     mutationFn: async ({ functionName, formId, teamId }) => {
@@ -51,9 +51,9 @@ export const useRegelrettCreateContextMutation = () => {
         return data;
       }
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      throw Object.assign(new Error(data?.message ?? response.statusText), {
+        status: response.status,
+      });
     },
   });
 };
