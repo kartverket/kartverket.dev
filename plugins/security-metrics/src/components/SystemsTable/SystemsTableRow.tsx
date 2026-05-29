@@ -40,7 +40,7 @@ export const SystemsTableRow = ({
   const noSystem = noSystemComponents.length > 0;
 
   if (!hasPermittedMetrics) {
-    return <NoAccessRow repositoryName={systemName} />;
+    return <NoAccessRow name={systemName} />;
   }
 
   const { critical, high, medium, low, negligible, unknown } = severityCount;

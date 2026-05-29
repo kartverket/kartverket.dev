@@ -4,19 +4,23 @@ import TableCell from '@mui/material/TableCell';
 import Alert from '@mui/material/Alert';
 
 type Props = {
-  repositoryName: string;
+  name: string;
+  message?: string;
+  colSpan?: number;
 };
 
-export const NoAccessRow = ({ repositoryName }: Props) => {
+export const NoAccessRow = ({
+  name,
+  message = 'Du har ikke tilgang til metrikker for denne komponenten',
+  colSpan = 5,
+}: Props) => {
   return (
-    <StyledTableRow key={repositoryName}>
+    <StyledTableRow key={name}>
       <TableCell>
-        <Typography>{repositoryName}</Typography>
+        <Typography>{name}</Typography>
       </TableCell>
-      <TableCell colSpan={5}>
-        <Alert severity="warning">
-          Du har ikke tilgang til metrikker for denne komponenten
-        </Alert>
+      <TableCell colSpan={colSpan}>
+        <Alert severity="warning">{message}</Alert>
       </TableCell>
     </StyledTableRow>
   );
