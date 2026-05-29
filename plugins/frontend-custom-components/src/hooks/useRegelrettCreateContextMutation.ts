@@ -8,6 +8,10 @@ import {
 } from '@backstage/frontend-plugin-api';
 import { RegelrettForm } from '../types';
 
+export interface RegelrettApiError extends Error {
+  status: number;
+}
+
 export const useRegelrettCreateContextMutation = () => {
   const config = useApi(configApiRef);
   const backstageAuthApi = useApi(identityApiRef);
@@ -15,7 +19,7 @@ export const useRegelrettCreateContextMutation = () => {
 
   return useMutation<
     RegelrettForm,
-    Error,
+    RegelrettApiError,
     { functionName: string; formId: string; teamId: string }
   >({
     mutationFn: async ({ functionName, formId, teamId }) => {
@@ -46,7 +50,10 @@ export const useRegelrettCreateContextMutation = () => {
       if (response.ok) {
         return data;
       }
-      throw data ?? { message: response.statusText };
+
+      throw Object.assign(new Error(data?.message ?? response.statusText), {
+        status: response.status,
+      });
     },
   });
 };

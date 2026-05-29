@@ -66,7 +66,6 @@ interface TeamFormsTabContentProps {
   forms: RegelrettForm[];
   regelrettBaseUrl: string;
   teamId: string;
-  teamName: string;
   onFormCreated: () => void;
   formTypeMap: Record<string, string>;
 }
@@ -75,7 +74,6 @@ export function TeamFormsTabContent({
   forms,
   regelrettBaseUrl,
   teamId,
-  teamName,
   onFormCreated,
   formTypeMap,
 }: TeamFormsTabContentProps) {
@@ -83,10 +81,9 @@ export function TeamFormsTabContent({
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
   const getFormType = (formId: string) => formTypeMap[formId] || 'Unknown';
 
-  const existingFormIds = new Set(forms.map(f => f.formId));
-  const availableFormOptions = Object.entries(formTypeMap)
-    .filter(([formId]) => !existingFormIds.has(formId))
-    .map(([formId, formName]) => ({ value: formId, label: formName }));
+  const availableFormOptions = Object.entries(formTypeMap).map(
+    ([formId, formName]) => ({ value: formId, label: formName }),
+  );
 
   return (
     <>
@@ -132,8 +129,11 @@ export function TeamFormsTabContent({
         <CreateFormSection
           formTypeOptions={availableFormOptions}
           createButtonLabel={t('groupFormCard.createNewTeamForm')}
-          onBuildMutationParams={formId =>
-            teamId ? { functionName: teamName, formId, teamId } : undefined
+          includeNameField
+          onBuildMutationParams={(formId, _secondary, contextName) =>
+            teamId && contextName
+              ? { functionName: contextName, formId, teamId }
+              : undefined
           }
           onSuccess={onFormCreated}
         />
