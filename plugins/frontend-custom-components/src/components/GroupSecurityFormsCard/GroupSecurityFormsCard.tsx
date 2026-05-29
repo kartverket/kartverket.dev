@@ -101,7 +101,6 @@ function GroupSecurityFormsCardWrapper() {
 
   const teamId =
     entity.metadata.annotations?.['graph.microsoft.com/group-id'] ?? '';
-  const teamName = entity.metadata.title ?? entity.metadata.name;
 
   const groupRef = `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`;
 
@@ -209,7 +208,6 @@ function GroupSecurityFormsCardWrapper() {
             forms={teamForms}
             regelrettBaseUrl={regelrettBaseUrl}
             teamId={teamId}
-            teamName={teamName}
             onFormCreated={refetch}
             formTypeMap={formTypeMap}
           />
