@@ -89,7 +89,7 @@ export const CatalogForm = ({
     defaultValues: {
       entities: currentYaml
         ? currentYaml.flatMap((entry: RequiredYamlFields, index) => {
-            if (!isKind(entry.kind)) return [];
+            if (!entry || !isKind(entry.kind)) return [];
             const definition =
               typeof entry.spec.definition !== 'string'
                 ? (entry.spec.definition?.$text ??
