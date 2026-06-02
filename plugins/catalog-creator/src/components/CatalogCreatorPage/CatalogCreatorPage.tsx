@@ -172,6 +172,7 @@ export const CatalogCreatorPage = ({
                     repoStateError={Boolean(state.error)}
                     showForm={showForm}
                     existingPrUrl={repoInfo.value?.existingPrUrl}
+                    existingPrPath={repoInfo.value?.existingPrPath}
                     analysisError={analysisResult.error}
                     repoStateErrorMessage={state.error?.message}
                     repoInfoError={repoInfo.error}

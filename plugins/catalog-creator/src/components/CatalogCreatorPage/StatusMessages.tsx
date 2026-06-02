@@ -12,6 +12,7 @@ interface StatusMessagesProps {
   repoStateError: boolean;
   showForm: boolean;
   existingPrUrl?: string;
+  existingPrPath?: string;
   analysisError?: Error;
   repoStateErrorMessage?: string;
   repoInfoError?: Error;
@@ -26,6 +27,7 @@ export const StatusMessages = ({
   repoStateError,
   showForm,
   existingPrUrl,
+  existingPrPath,
   analysisError,
   repoStateErrorMessage,
   repoInfoError,
@@ -60,6 +62,12 @@ export const StatusMessages = ({
           >
             {existingPrUrl}
           </Link>
+          {existingPrPath ? (
+            <>
+              <br />
+              {t('form.knownErrorAlerts.PRConflictingPath')}: {existingPrPath}
+            </>
+          ) : null}
         </Alert>
       )}
 
