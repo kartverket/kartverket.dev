@@ -1,6 +1,6 @@
 import { Flex } from '@backstage/ui';
 import { Control } from 'react-hook-form';
-import { DomainTypes, EntityErrors } from '../../../types/types';
+import { DomainTypes, EntityErrors, Kinds } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
 
@@ -67,6 +67,7 @@ export const DomainForm = ({
           fieldname="subdomainOf"
           freeSolo
           entities={domains.value || []}
+          kind={Kinds.Domain}
         />
       </div>
       <TagField index={index} control={control} errors={errors} options={[]} />

@@ -108,6 +108,13 @@ export const CatalogForm = ({
               system: entry.spec.system
                 ? toEntityRef(Kinds.System, entry.spec.system)
                 : undefined,
+              domain: entry.spec.domain
+                ? toEntityRef(Kinds.Domain, entry.spec.domain)
+                : undefined,
+              subdomainOf: toEntityRefList(
+                Kinds.Domain,
+                entry.spec.subdomainOf ?? [],
+              ),
               providesApis: toEntityRefList(
                 Kinds.API,
                 entry.spec.providesApis ?? [],
