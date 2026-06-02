@@ -4,11 +4,13 @@ export function toEntityRefList(
   kind: Kind,
   entityStrings: string | string[] | undefined,
 ) {
-  const values = Array.isArray(entityStrings)
-    ? entityStrings
-    : entityStrings
-      ? [entityStrings]
-      : [];
+  let values: string[] = [];
+
+  if (Array.isArray(entityStrings)) {
+    values = entityStrings;
+  } else if (entityStrings) {
+    values = [entityStrings];
+  }
 
   return values.map(val => {
     if (val.toLowerCase().includes(`${kind}:default/`.toLowerCase())) {
