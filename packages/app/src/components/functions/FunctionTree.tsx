@@ -95,7 +95,7 @@ const useStyles = makeStyles()(theme => ({
     color: theme.palette.text.primary,
     '&:hover': {
       textDecoration: 'underline',
-      color: theme.palette.link ?? theme.palette.primary.main,
+      color: theme.palette.primary.main,
     },
   },
   // Flex column with gap so sibling cards breathe
