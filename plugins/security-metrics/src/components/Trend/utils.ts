@@ -1,4 +1,3 @@
-import { formatDate } from 'date-fns';
 import { TrendSeverityCounts } from '../../typesFrontend';
 
 type TrendSeverityCountsWithOpen = TrendSeverityCounts & {
@@ -25,11 +24,11 @@ export const getAggregatedTrends = (trends: TrendSeverityCounts[]) => {
   const aggregated: Record<string, TrendSeverityCounts> = {};
 
   trends.forEach(item => {
-    const date = formatDate(item.timestamp, 'yyyy-MM-dd');
+    const date = item.date;
 
     if (!aggregated[date]) {
       aggregated[date] = {
-        timestamp: date,
+        date: date,
         total: 0,
         unknown: 0,
         negligible: 0,
