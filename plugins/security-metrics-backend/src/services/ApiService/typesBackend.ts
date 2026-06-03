@@ -140,11 +140,6 @@ export type OwnerSeverityCounts = {
   severityCount: SeverityCount;
 };
 
-export type AggregatedSikkerhetsmetrikker = {
-  systems: SikkerhetsmetrikkerSystemTotal[];
-  vulnerabilityOverview: SystemVulnerabilityOverview;
-};
-
 export type SystemVulnerabilityOverview = {
   totalCount: number;
   vulnerabilities: AggregatedVulnerability[];

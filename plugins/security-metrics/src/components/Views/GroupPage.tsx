@@ -49,8 +49,16 @@ export const GroupPage = () => {
   const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
     useSecurityMetricsViewSettings();
 
-  const { data, isLoading, isEmpty, error, errorTitle } =
-    useGroupMetrics(entity);
+  const {
+    data,
+    vulnerabilityOverviewData,
+    isVulnerabilityOverviewLoading,
+    vulnerabilityOverviewError,
+    isLoading,
+    isEmpty,
+    error,
+    errorTitle,
+  } = useGroupMetrics(entity, selectedTab === TabEnum.VULNERABILITIES);
 
   const permitted: RepositorySummary[] = data
     ? getAllPermittedMetrics(data)
@@ -58,7 +66,7 @@ export const GroupPage = () => {
   const notPermitted: string[] = data ? getAllNotPermittedComponents(data) : [];
   const secrets: Secrets[] = data ? getAllSecrets(data) : [];
   const aggregatedVulnerabilities =
-    data?.vulnerabilityOverview?.vulnerabilities ?? [];
+    vulnerabilityOverviewData?.vulnerabilities ?? [];
 
   const allComponentRefs = permitted.flatMap(p =>
     p.componentNames.map(n => `component:default/${n}`),
@@ -75,7 +83,7 @@ export const GroupPage = () => {
   );
 
   const filteredSystemsData = filterSystemsByComponents(
-    data?.systems ?? [],
+    data ?? [],
     new Set(filteredPermitted.map(c => c.repoName)),
     effectiveFilter,
   );
@@ -166,9 +174,20 @@ export const GroupPage = () => {
         <Tab label="Unike sårbarheter" value={TabEnum.VULNERABILITIES} />
       </Tabs>
 
-      {selectedTab === TabEnum.VULNERABILITIES && (
-        <VulnerabilityOverviewTable data={aggregatedVulnerabilities} />
-      )}
+      {selectedTab === TabEnum.VULNERABILITIES &&
+        isVulnerabilityOverviewLoading && <Progress />}
+      {selectedTab === TabEnum.VULNERABILITIES &&
+        vulnerabilityOverviewError && (
+          <ErrorBanner
+            errorTitle={`Kunne ikke hente sårbarhetsoversikt for ${entity.metadata.name}`}
+            errorMessage={vulnerabilityOverviewError.message}
+          />
+        )}
+      {selectedTab === TabEnum.VULNERABILITIES &&
+        !isVulnerabilityOverviewLoading &&
+        !vulnerabilityOverviewError && (
+          <VulnerabilityOverviewTable data={aggregatedVulnerabilities} />
+        )}
 
       {selectedTab === TabEnum.COMPONENT && (
         <RepositoriesTable

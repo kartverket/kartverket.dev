@@ -1,22 +1,41 @@
 import { Entity } from '@backstage/catalog-model';
-import { AggregatedSikkerhetsmetrikker } from '../typesFrontend';
+import {
+  SikkerhetsmetrikkerSystemTotal,
+  SystemVulnerabilityOverview,
+} from '../typesFrontend';
 import { useFetchComponentNamesByGroup } from './useFetchComponentNames';
 import { useMetricsQuery } from './useMetricsQuery';
+import { useVulnerabilityOverviewQuery } from './useVulnerabilityOverviewQuery';
 
 type UseGroupMetricsResult = {
-  data: AggregatedSikkerhetsmetrikker | undefined;
+  data: SikkerhetsmetrikkerSystemTotal[] | undefined;
+  vulnerabilityOverviewData: SystemVulnerabilityOverview | undefined;
+  isVulnerabilityOverviewLoading: boolean;
+  vulnerabilityOverviewError: Error | null;
   isLoading: boolean;
   isEmpty: boolean;
   error: Error | null;
   errorTitle: string;
 };
 
-export const useGroupMetrics = (entity: Entity): UseGroupMetricsResult => {
+export const useGroupMetrics = (
+  entity: Entity,
+  fetchVulnerabilityOverview = false,
+): UseGroupMetricsResult => {
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesByGroup(entity);
   const { data, isPending, error } = useMetricsQuery(
     entity.metadata.name,
     componentNames,
+  );
+  const {
+    data: vulnerabilityOverviewData,
+    isPending: isVulnerabilityOverviewLoading,
+    error: vulnerabilityOverviewError,
+  } = useVulnerabilityOverviewQuery(
+    entity.metadata.name,
+    componentNames,
+    fetchVulnerabilityOverview,
   );
 
   const isLoading =
@@ -34,6 +53,9 @@ export const useGroupMetrics = (entity: Entity): UseGroupMetricsResult => {
 
   return {
     data,
+    vulnerabilityOverviewData,
+    isVulnerabilityOverviewLoading,
+    vulnerabilityOverviewError,
     isLoading,
     isEmpty,
     error: combinedError,

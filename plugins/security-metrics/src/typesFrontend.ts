@@ -136,11 +136,6 @@ export type SikkerhetsmetrikkerSystemTotal = {
   metrics: SikkerhetsmetrikkerTotal;
 };
 
-export type AggregatedSikkerhetsmetrikker = {
-  systems: SikkerhetsmetrikkerSystemTotal[];
-  vulnerabilityOverview: SystemVulnerabilityOverview;
-};
-
 export type SystemVulnerabilityOverview = {
   totalCount: number;
   vulnerabilities: AggregatedVulnerability[];
