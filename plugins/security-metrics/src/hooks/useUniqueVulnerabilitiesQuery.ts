@@ -2,23 +2,27 @@ import { useQuery } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import { MetricTypes } from '../utils/MetricTypes';
 import { useConfig } from './getConfig';
-import { AggregatedSikkerhetsmetrikker } from '../typesFrontend';
+import { UniqueVulnerabilitiesResponse } from '../typesFrontend';
 import { post } from '../api/client';
 
-const metricsQueryKeys = {
-  metrics: (entityName: string) => ['metrics', entityName],
+export const uniqueVulnerabilitiesQueryKeys = {
+  uniqueVulnerabilities: (entityName: string) => [
+    'uniqueVulnerabilities',
+    entityName,
+  ],
 };
 
-export const useMetricsQuery = (
+export const useUniqueVulnerabilitiesQuery = (
   entityName: string,
   componentNames: string[],
+  enabled: boolean,
 ) => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
-    MetricTypes.metrics,
+    MetricTypes.uniqueVulnerabilities,
   );
 
-  return useQuery<AggregatedSikkerhetsmetrikker, Error>({
-    queryKey: metricsQueryKeys.metrics(entityName),
+  return useQuery<UniqueVulnerabilitiesResponse, Error>({
+    queryKey: uniqueVulnerabilitiesQueryKeys.uniqueVulnerabilities(entityName),
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
@@ -28,11 +32,11 @@ export const useMetricsQuery = (
       endpointUrl.searchParams.set('entityName', entityName);
       return post<
         { componentNames: string[]; entraIdToken: string },
-        AggregatedSikkerhetsmetrikker
+        UniqueVulnerabilitiesResponse
       >(endpointUrl, backstageToken, { componentNames, entraIdToken });
     },
     retry: 1,
-    enabled: componentNames.length !== 0,
+    enabled: enabled && componentNames.length !== 0,
     staleTime: 3600000,
   });
 };

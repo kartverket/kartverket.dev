@@ -5,11 +5,13 @@ import { EntraIdService } from '../EntraIdService/auth.service';
 import {
   ErrorResponse,
   MetricsUpdateStatus,
+  MetricsResponse,
+  OverviewResponse,
   Repository,
   SeverityCounts,
-  AggregatedSikkerhetsmetrikker,
   SlackNotificationConfig,
   Status,
+  UniqueVulnerabilitiesResponse,
   VulnerabilitySeverityCounts,
   SikkerhetsmetrikkerOwnerTotal,
 } from './typesBackend';
@@ -127,14 +129,70 @@ export class ApiService {
     }
   }
 
-  async fetchMetricsData(
+  async fetchOverviewData(
     entityName: string,
     componentNames: string[],
     entraIdToken: string,
-  ): Promise<Either<ErrorResponse, AggregatedSikkerhetsmetrikker>> {
+  ): Promise<Either<ErrorResponse, OverviewResponse>> {
     const safeEntityName = encodeURIComponent(entityName);
     const endpointResult = this.buildEndpoint(
-      `/api/scannerData/${safeEntityName}`,
+      `/api/scannerData/${safeEntityName}/overview`,
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
+    }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentNames }),
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
+  }
+
+  async fetchMetricsTableData(
+    entityName: string,
+    componentNames: string[],
+    entraIdToken: string,
+  ): Promise<Either<ErrorResponse, MetricsResponse>> {
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/metrics`,
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
+    }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentNames }),
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
+  }
+
+  async fetchUniqueVulnerabilities(
+    entityName: string,
+    componentNames: string[],
+    entraIdToken: string,
+  ): Promise<Either<ErrorResponse, UniqueVulnerabilitiesResponse>> {
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/uniqueVulnerabilities`,
     );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);

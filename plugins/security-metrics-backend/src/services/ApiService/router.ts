@@ -113,10 +113,10 @@ export const createRouter = async (
   );
 
   router.post(
-    '/proxy/fetch-metrics/',
+    '/proxy/fetch-overview/',
     withErrorHandling(
       logger,
-      'Failed to fetch metrics data',
+      'Failed to fetch overview data',
       async (req, res) => {
         const authError = await requireBackstageToken(req, auth);
         if (authError) {
@@ -137,7 +137,79 @@ export const createRouter = async (
             );
         }
 
-        const result = await apiService.fetchMetricsData(
+        const result = await apiService.fetchOverviewData(
+          entityName,
+          request.componentNames,
+          request.entraIdToken,
+        );
+
+        return sendEither(res, result);
+      },
+    ),
+  );
+
+  router.post(
+    '/proxy/fetch-metrics-table/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch metrics table data',
+      async (req, res) => {
+        const authError = await requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
+        }
+
+        const entityName = req.query.entityName as string | undefined;
+        const request = req.body as FetchMetricsRequestBody;
+        if (!entityName) {
+          return res
+            .status(400)
+            .send(
+              errorResponse(
+                400,
+                'BAD_REQUEST',
+                'Mangler entityName query parameter',
+              ),
+            );
+        }
+
+        const result = await apiService.fetchMetricsTableData(
+          entityName,
+          request.componentNames,
+          request.entraIdToken,
+        );
+
+        return sendEither(res, result);
+      },
+    ),
+  );
+
+  router.post(
+    '/proxy/fetch-unique-vulnerabilities/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch unique vulnerabilities',
+      async (req, res) => {
+        const authError = await requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
+        }
+
+        const entityName = req.query.entityName as string | undefined;
+        const request = req.body as FetchMetricsRequestBody;
+        if (!entityName) {
+          return res
+            .status(400)
+            .send(
+              errorResponse(
+                400,
+                'BAD_REQUEST',
+                'Mangler entityName query parameter',
+              ),
+            );
+        }
+
+        const result = await apiService.fetchUniqueVulnerabilities(
           entityName,
           request.componentNames,
           request.entraIdToken,

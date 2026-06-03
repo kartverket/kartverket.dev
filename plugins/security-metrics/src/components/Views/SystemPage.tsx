@@ -8,7 +8,7 @@ import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/Vulnerabilit
 import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../shared/ErrorBanner';
-import { useMetricsQuery } from '../../hooks/useMetricsQuery';
+import { useMetricsTableQuery } from '../../hooks/useMetricsTableQuery';
 import {
   getAllNotPermittedComponents,
   getAllPermittedMetrics,
@@ -29,7 +29,7 @@ export const SystemPage = () => {
   const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
     useSecurityMetricsViewSettings();
 
-  const { data, isPending, error } = useMetricsQuery(
+  const { data, isPending, error } = useMetricsTableQuery(
     entity.metadata.name,
     componentNames,
   );

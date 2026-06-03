@@ -25,7 +25,11 @@ import { RepositorySummary } from '../../typesFrontend';
 import { filterSystemsByComponents } from '../../utils/utils';
 import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 import Alert from '@mui/material/Alert';
-import { useGroupMetrics } from '../../hooks/useGroupMetrics';
+import CircularProgress from '@mui/material/CircularProgress';
+import {
+  useGroupMetrics,
+  useGroupUniqueVulnerabilities,
+} from '../../hooks/useGroupMetrics';
 import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/VulnerabilityOverviewTable';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
@@ -49,16 +53,29 @@ export const GroupPage = () => {
   const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
     useSecurityMetricsViewSettings();
 
-  const { data, isLoading, isEmpty, error, errorTitle } =
+  const { metricsData, isLoading, isEmpty, error, errorTitle, componentNames } =
     useGroupMetrics(entity);
 
-  const permitted: RepositorySummary[] = data
-    ? getAllPermittedMetrics(data)
+  const vulnsTabSelected = selectedTab === TabEnum.VULNERABILITIES;
+  const {
+    data: vulnerabilitiesData,
+    isLoading: vulnsLoading,
+    error: vulnsError,
+  } = useGroupUniqueVulnerabilities(
+    entity.metadata.name,
+    componentNames,
+    vulnsTabSelected,
+  );
+
+  const permitted: RepositorySummary[] = metricsData
+    ? getAllPermittedMetrics(metricsData)
     : [];
-  const notPermitted: string[] = data ? getAllNotPermittedComponents(data) : [];
-  const secrets: Secrets[] = data ? getAllSecrets(data) : [];
-  const aggregatedVulnerabilities =
-    data?.vulnerabilityOverview?.vulnerabilities ?? [];
+  const notPermitted: string[] = metricsData
+    ? getAllNotPermittedComponents(metricsData)
+    : [];
+  const secrets: Secrets[] = metricsData ? getAllSecrets(metricsData) : [];
+
+  const aggregatedVulnerabilities = vulnerabilitiesData?.vulnerabilities ?? [];
 
   const allComponentRefs = permitted.flatMap(p =>
     p.componentNames.map(n => `component:default/${n}`),
@@ -75,7 +92,7 @@ export const GroupPage = () => {
   );
 
   const filteredSystemsData = filterSystemsByComponents(
-    data?.systems ?? [],
+    metricsData ?? [],
     new Set(filteredPermitted.map(c => c.repoName)),
     effectiveFilter,
   );
@@ -167,7 +184,22 @@ export const GroupPage = () => {
       </Tabs>
 
       {selectedTab === TabEnum.VULNERABILITIES && (
-        <VulnerabilityOverviewTable data={aggregatedVulnerabilities} />
+        <>
+          {vulnsLoading && (
+            <Stack alignItems="center" py={4}>
+              <CircularProgress />
+            </Stack>
+          )}
+          {vulnsError && (
+            <ErrorBanner
+              errorTitle="Kunne ikke hente unike sårbarheter"
+              errorMessage={vulnsError.message}
+            />
+          )}
+          {!vulnsLoading && !vulnsError && (
+            <VulnerabilityOverviewTable data={aggregatedVulnerabilities} />
+          )}
+        </>
       )}
 
       {selectedTab === TabEnum.COMPONENT && (

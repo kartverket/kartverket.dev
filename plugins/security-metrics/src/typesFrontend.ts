@@ -136,10 +136,25 @@ export type SikkerhetsmetrikkerSystemTotal = {
   metrics: SikkerhetsmetrikkerTotal;
 };
 
-export type AggregatedSikkerhetsmetrikker = {
-  systems: SikkerhetsmetrikkerSystemTotal[];
-  vulnerabilityOverview: SystemVulnerabilityOverview;
+export type OverviewResponse = {
+  scannerConfigOverview: {
+    dependabotCount: number;
+    codeQLCount: number;
+    pharosCount: number;
+    sysdigCount: number;
+  };
+  riscOverview: {
+    withRiscCount: number;
+    withoutRiscCount: number;
+  };
+  vulnerabilitySeverityCounts: SeverityCount;
+  openVulnerabilitySeverityCounts: SeverityCount;
+  secretsOverview: { totalSecrets: number };
 };
+
+export type MetricsResponse = SikkerhetsmetrikkerSystemTotal[];
+
+export type UniqueVulnerabilitiesResponse = SystemVulnerabilityOverview;
 
 export type SystemVulnerabilityOverview = {
   totalCount: number;
