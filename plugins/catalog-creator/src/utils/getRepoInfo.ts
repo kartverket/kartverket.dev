@@ -9,6 +9,11 @@ export async function getRepoInfo(
   entityName?: string,
 ) {
   const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+  const decodedUrl = decodeURI(url);
+  const targetPathMatch = decodedUrl.match(
+    /github\.com\/[^\/]+\/[^\/]+\/(?:blob|tree)\/[^\/]+\/(.+)/,
+  );
+  const targetPath = targetPathMatch?.[1];
 
   if (!match) {
     throw new Error('Invalid GitHub repository URL');
@@ -19,6 +24,7 @@ export async function getRepoInfo(
   const returnObject: {
     default_branch?: string;
     existingPrUrl?: string;
+    existingPrPath?: string;
   } = {};
 
   const octokit = new Octokit({
@@ -56,21 +62,68 @@ export async function getRepoInfo(
       },
     });
 
-    const matchingPr = response.data.find(pr => {
-      if (entityKind === 'Function') {
-        return (
+    let matchingPr;
+
+    if (entityKind === 'Function') {
+      matchingPr = response.data.find(
+        pr =>
           pr.title === `Update ${entityName} function` ||
-          pr.title === `Create ${entityName} function`
+          pr.title === `Create ${entityName} function`,
+      );
+      if (matchingPr) {
+        const changedFiles = await octokit.paginate(
+          octokit.rest.pulls.listFiles,
+          {
+            owner,
+            repo,
+            pull_number: matchingPr.number,
+            per_page: 100,
+            headers: {
+              'If-None-Match': '',
+            },
+          },
         );
+
+        const filenames = changedFiles.map(file => decodeURI(file.filename));
+        returnObject.existingPrPath = filenames.join(', ');
       }
-      if (entityKind !== 'Function') {
-        return (
+    } else {
+      const candidatePrs = response.data.filter(
+        pr =>
           pr.title === 'Create catalog-info.yaml' ||
-          pr.title === 'Update catalog-info.yaml'
-        );
+          pr.title === 'Update catalog-info.yaml',
+      );
+
+      if (!targetPath) {
+        matchingPr = candidatePrs[0];
+      } else {
+        for (const pr of candidatePrs) {
+          const changedFiles = await octokit.paginate(
+            octokit.rest.pulls.listFiles,
+            {
+              owner,
+              repo,
+              pull_number: pr.number,
+              per_page: 100,
+              headers: {
+                'If-None-Match': '',
+              },
+            },
+          );
+
+          const matchesPath = changedFiles.some(file => {
+            const filename = decodeURI(file.filename);
+            return filename === targetPath;
+          });
+
+          if (matchesPath) {
+            matchingPr = pr;
+            returnObject.existingPrPath = targetPath;
+            break;
+          }
+        }
       }
-      return false;
-    });
+    }
 
     if (matchingPr) {
       returnObject.existingPrUrl = matchingPr.html_url;

@@ -241,6 +241,7 @@ const catalogCreatorMessages = {
       apiDefinitionNotFetchable:
         'Catalog-info file was found, but it contains at least one API-definition that could not be fetched. Reach out to the developers of kartverket.dev through the support button.',
       PRExists: 'There already exists a pull request: ',
+      PRConflictingPath: 'Conflicting file path',
       couldNotCreatePR:
         'Could not create a pull request. Make sure the URL is a github repo and that a pull request does not already exist.',
       analyzeLocationError:
@@ -443,6 +444,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Kunne ikke finne GitHub-kodelager med URL: ',
           'form.knownErrorAlerts.PRExists':
             'Det finnes allerede en pull request: ',
+          'form.knownErrorAlerts.PRConflictingPath': 'Filsti i konflikt',
           'form.knownErrorAlerts.apiDefinitionNotFetchable':
             'Catalog-info filen eksisterer, men inneholder en API-definisjon som kartverket.dev ikke klarer å nå. Trykk på supportknappen for å ta kontakt med utviklerne til kartverket.dev.',
           'form.knownErrorAlerts.couldNotCheckIfPRExists':
