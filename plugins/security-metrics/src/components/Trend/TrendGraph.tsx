@@ -46,10 +46,7 @@ export const Graph = ({
 
     return aggregatedTrends
       .filter(item => !showOpen || item.openTotal !== null)
-      .sort(
-        (a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
-      );
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [trendData, showOpen]);
 
   const criticalDataKey = showOpen ? 'openCritical' : 'critical';
@@ -69,7 +66,7 @@ export const Graph = ({
         </defs>
 
         <XAxis
-          dataKey="timestamp"
+          dataKey="date"
           tickFormatter={timestamp =>
             graphTimeline === 'oneYear'
               ? format(new Date(timestamp), 'dd-MM-yyyy')

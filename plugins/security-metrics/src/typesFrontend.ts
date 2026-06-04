@@ -161,7 +161,7 @@ export type ScannerConfig = {
 };
 
 export type TrendSeverityCounts = {
-  timestamp: string;
+  date: string;
   total: number;
   openTotal: number | null;
   openNegligible: number | null;
