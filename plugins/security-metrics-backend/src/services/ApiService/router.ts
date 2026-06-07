@@ -148,6 +148,42 @@ export const createRouter = async (
     ),
   );
 
+  router.post(
+    '/proxy/fetch-vulnerability-overview/',
+    withErrorHandling(
+      logger,
+      'Failed to fetch vulnerability overview data',
+      async (req, res) => {
+        const authError = await requireBackstageToken(req, auth);
+        if (authError) {
+          return res.status(authError.status).send(authError);
+        }
+
+        const entityName = req.query.entityName as string | undefined;
+        const request = req.body as FetchMetricsRequestBody;
+        if (!entityName) {
+          return res
+            .status(400)
+            .send(
+              errorResponse(
+                400,
+                'BAD_REQUEST',
+                'Mangler entityName query parameter',
+              ),
+            );
+        }
+
+        const result = await apiService.fetchVulnerabilityOverview(
+          entityName,
+          request.componentNames,
+          request.entraIdToken,
+        );
+
+        return sendEither(res, result);
+      },
+    ),
+  );
+
   router.get(
     '/proxy/fetch-component-metrics/',
     withErrorHandling(
