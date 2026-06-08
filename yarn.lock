@@ -3627,6 +3627,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/integration@backstage:^::backstage=1.51.1&npm=2.0.2, @backstage/integration@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@backstage/integration@npm:2.0.2"
+  dependencies:
+    "@azure/identity": "npm:^4.0.0"
+    "@azure/storage-blob": "npm:^12.5.0"
+    "@backstage/config": "npm:^1.3.8"
+    "@backstage/errors": "npm:^1.3.1"
+    "@octokit/auth-app": "npm:^4.0.0"
+    "@octokit/rest": "npm:^19.0.3"
+    cross-fetch: "npm:^4.0.0"
+    git-url-parse: "npm:^15.0.0"
+    lodash: "npm:^4.17.21"
+    luxon: "npm:^3.0.0"
+    p-throttle: "npm:^4.1.1"
+  checksum: 10c0/12b736e8d97b9807f4930d202992396fd3c368bd69e1cf002f18bc03a3c5f96b5757a988b14e3527b6dc4dc4c321090c8bba09329fd3d9c19f7a42f3be5cf39c
+  languageName: node
+  linkType: hard
+
 "@backstage/integration@npm:^2.0.0, @backstage/integration@npm:^2.0.1":
   version: 2.0.1
   resolution: "@backstage/integration@npm:2.0.1"
@@ -3643,25 +3662,6 @@ __metadata:
     luxon: "npm:^3.0.0"
     p-throttle: "npm:^4.1.1"
   checksum: 10c0/ccb1809e3db6da89e4ae7faf39a7e142b8e1b841741304193bb22a6e07d1d5c0954b8c95b514b49b6f8188264313343796f6f3607084b0c4b28597d836aee50e
-  languageName: node
-  linkType: hard
-
-"@backstage/integration@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@backstage/integration@npm:2.0.2"
-  dependencies:
-    "@azure/identity": "npm:^4.0.0"
-    "@azure/storage-blob": "npm:^12.5.0"
-    "@backstage/config": "npm:^1.3.8"
-    "@backstage/errors": "npm:^1.3.1"
-    "@octokit/auth-app": "npm:^4.0.0"
-    "@octokit/rest": "npm:^19.0.3"
-    cross-fetch: "npm:^4.0.0"
-    git-url-parse: "npm:^15.0.0"
-    lodash: "npm:^4.17.21"
-    luxon: "npm:^3.0.0"
-    p-throttle: "npm:^4.1.1"
-  checksum: 10c0/12b736e8d97b9807f4930d202992396fd3c368bd69e1cf002f18bc03a3c5f96b5757a988b14e3527b6dc4dc4c321090c8bba09329fd3d9c19f7a42f3be5cf39c
   languageName: node
   linkType: hard
 
@@ -7502,9 +7502,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:6.11.0":
-  version: 6.11.0
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:6.11.0"
+"@kartverket/backstage-plugin-risk-scorecard-backend@npm:8.0.1":
+  version: 8.0.1
+  resolution: "@kartverket/backstage-plugin-risk-scorecard-backend@npm:8.0.1"
+  dependencies:
+    "@backstage/backend-plugin-api": "backstage:^"
+    "@backstage/catalog-client": "backstage:^"
+    "@backstage/catalog-model": "backstage:^"
+    "@backstage/config": "backstage:^"
+    "@backstage/integration": "backstage:^"
+    "@kartverket/ros-common": "workspace:*"
+    age-encryption: "npm:^0.3.0"
+    ajv: "npm:^8.20.0"
+    ajv-formats: "npm:^3.0.1"
+    express: "npm:^4.22.0"
+    yaml: "npm:^2.8.2"
+  checksum: 10c0/ce7404890212153eec754926c2467e45f7f7890c571437ceca9939c82f9b50cf9704cb905282c49d39143edc522299f7d74eefb0fb7550b1b03a7dcfc6d323d2
+  languageName: node
+  linkType: hard
+
+"@kartverket/backstage-plugin-risk-scorecard@npm:8.0.1":
+  version: 8.0.1
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:8.0.1"
   dependencies:
     "@backstage/catalog-model": "backstage:^"
     "@backstage/core-components": "backstage:^"
@@ -7527,12 +7546,7 @@ __metadata:
     react-markdown: "npm:^10.1.0"
     remark-breaks: "npm:^4.0.0"
     remixicon: "npm:^4.9.1"
-  peerDependencies:
-    react: ^18.0.0
-    react-dom: ^18.0.0
-    react-router: ^6.3.0
-    react-router-dom: ^6.3.0
-  checksum: 10c0/be307995ebb56cf03ab72f1fc53927d755066ed6aa46307d7a736fd7987fb786d7c4158c28398a450ce728f7707bec009856b3774bf9457bad4e01dd70187957
+  checksum: 10c0/475c8076d6d163520c00656ce7d107dd435be40ae63a718258d47a88a5c378be365caf38b2be9cd7358df31b6d9bd1b1823685d41f99d4502821b0f31b836753
   languageName: node
   linkType: hard
 
@@ -7596,6 +7610,13 @@ __metadata:
     react-router-dom: 6.30.3
   languageName: unknown
   linkType: soft
+
+"@kartverket/ros-common@npm:8.0.1":
+  version: 8.0.1
+  resolution: "@kartverket/ros-common@npm:8.0.1"
+  checksum: 10c0/aececab54d6c6980e9025865dd23ea36996fa001259dce5addd0a023dc89a26fb91ae7439c42ecab24c6f9a83036fcdb51fa57500b8107e9402eba2dba9d03df
+  languageName: node
+  linkType: hard
 
 "@keyv/memcache@npm:^2.0.1":
   version: 2.0.2
@@ -8660,10 +8681,59 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/ciphers@npm:^2.1.1":
+  version: 2.2.0
+  resolution: "@noble/ciphers@npm:2.2.0"
+  checksum: 10c0/56396fa9b2cd7863999d9d70c6cbfcc03db9644cbbac9bb9d383d18f701bee3eb09f36878d8252a763c8d1fb6f0807339e06e2d28f18b14c525133c57c14508d
+  languageName: node
+  linkType: hard
+
+"@noble/curves@npm:^2.0.1":
+  version: 2.2.0
+  resolution: "@noble/curves@npm:2.2.0"
+  dependencies:
+    "@noble/hashes": "npm:2.2.0"
+  checksum: 10c0/e545d3bb03ebedd5c04c2cab81342d64f5ce8a4c1019cfe207f3dc69174bc0ad7cfb50effc31bfa8616b8340900f445dd053da7454190428857c4eedd3b51413
+  languageName: node
+  linkType: hard
+
+"@noble/curves@npm:~2.0.0":
+  version: 2.0.1
+  resolution: "@noble/curves@npm:2.0.1"
+  dependencies:
+    "@noble/hashes": "npm:2.0.1"
+  checksum: 10c0/e0b329eb9229e862d3b7203e0444bd479e9ecf2d5990181908dad416aab69106717ca696fc7b12ad0eb19d710f58c454646b27ce517a4298ab9abc89a9bdb6ee
+  languageName: node
+  linkType: hard
+
 "@noble/hashes@npm:1.4.0":
   version: 1.4.0
   resolution: "@noble/hashes@npm:1.4.0"
   checksum: 10c0/8c3f005ee72e7b8f9cff756dfae1241485187254e3f743873e22073d63906863df5d4f13d441b7530ea614b7a093f0d889309f28b59850f33b66cb26a779a4a5
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:2.0.1, @noble/hashes@npm:~2.0.0":
+  version: 2.0.1
+  resolution: "@noble/hashes@npm:2.0.1"
+  checksum: 10c0/e81769ce21c3b1c80141a3b99bd001f17edea09879aa936692ae39525477386d696101cd573928a304806efb2b9fa751e1dd83241c67d0c84d30091e85c79bdb
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:2.2.0, @noble/hashes@npm:^2.0.1":
+  version: 2.2.0
+  resolution: "@noble/hashes@npm:2.2.0"
+  checksum: 10c0/cad8630c504d6b9271984f685cd0af9101b40988fc2dfbe17ccdf068a9941f95cc5c9957d89e9ca4b7ca94c15cb35f93510c5d53a09fbcc83ee503b93d0a1034
+  languageName: node
+  linkType: hard
+
+"@noble/post-quantum@npm:^0.5.3":
+  version: 0.5.4
+  resolution: "@noble/post-quantum@npm:0.5.4"
+  dependencies:
+    "@noble/curves": "npm:~2.0.0"
+    "@noble/hashes": "npm:~2.0.0"
+  checksum: 10c0/0fd2ecc41148796c27819fbdf3b48c4bc2fe0efb0ba6ca184192c2b1b2bf5e5a01d2b1216e8fe03ed8782374d188b7dd7906e6c42f4fefb68236470d3840d6c1
   languageName: node
   linkType: hard
 
@@ -11222,6 +11292,13 @@ __metadata:
   version: 1.4.0
   resolution: "@scarf/scarf@npm:1.4.0"
   checksum: 10c0/332118bb488e7a70eaad068fb1a33f016d30442fb0498b37a80cb425c1e741853a5de1a04dce03526ed6265481ecf744aa6e13f072178d19e6b94b19f623ae1c
+  languageName: node
+  linkType: hard
+
+"@scure/base@npm:^2.0.0":
+  version: 2.2.0
+  resolution: "@scure/base@npm:2.2.0"
+  checksum: 10c0/30158ccf5da86b0f06928f1cfe24a29fbea22824adf6f8895222910cade1ad4fe7593958aacf563287e6b4c55746f47395178e7a4763b059c22d6ee8e6f76387
   languageName: node
   linkType: hard
 
@@ -15027,6 +15104,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"age-encryption@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "age-encryption@npm:0.3.0"
+  dependencies:
+    "@noble/ciphers": "npm:^2.1.1"
+    "@noble/curves": "npm:^2.0.1"
+    "@noble/hashes": "npm:^2.0.1"
+    "@noble/post-quantum": "npm:^0.5.3"
+    "@scure/base": "npm:^2.0.0"
+  checksum: 10c0/eaeed7169162b0837d5d34cecf85d97bf487db182126ad786e06aa4020fe41bfaeb5a10e7d864f7c902229f862e4df7ba12c5b54bffd82a7f9294e1823c8ad35
+  languageName: node
+  linkType: hard
+
 "agent-base@npm:6, agent-base@npm:^6.0.2":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
@@ -15155,7 +15245,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^8.18.0":
+"ajv@npm:^8.18.0, ajv@npm:^8.20.0":
   version: 8.20.0
   resolution: "ajv@npm:8.20.0"
   dependencies:
@@ -15331,7 +15421,7 @@ __metadata:
     "@internal/plugin-function-kind-common": "workspace:^"
     "@kartverket/backstage-plugin-catalog-creator": "workspace:"
     "@kartverket/backstage-plugin-opencost": "npm:0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:6.11.0"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:8.0.1"
     "@kartverket/backstage-plugin-security-champion": "workspace:"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
     "@mui/icons-material": "npm:7.3.10"
@@ -15954,6 +16044,7 @@ __metadata:
     "@backstage/plugin-techdocs-backend": "backstage:^"
     "@internal/backstage-plugin-regelrett-schemas-backend": "workspace:^"
     "@internal/plugin-catalog-backend-module-function-kind": "workspace:^"
+    "@kartverket/backstage-plugin-risk-scorecard-backend": "npm:8.0.1"
     "@kartverket/backstage-plugin-security-metrics-backend": "workspace:"
     "@microsoft/microsoft-graph-types": "npm:2.43.1"
     app: "link:../app"
