@@ -3,6 +3,22 @@ import { Octokit } from '@octokit/rest';
 import * as yaml from 'yaml';
 import { RequiredYamlFields } from '../types/types';
 
+export function parseCatalogDocuments(
+  fileContent: string,
+): RequiredYamlFields[] {
+  const parsedYaml = yaml.parseAllDocuments(fileContent);
+
+  return parsedYaml
+    .map(document => document.toJSON())
+    .filter((document): document is RequiredYamlFields => {
+      return (
+        document !== null &&
+        typeof document === 'object' &&
+        Object.keys(document).length > 0
+      );
+    });
+}
+
 export async function getCatalogInfo(
   url: string,
   githubAuthApi: OAuthApi,
@@ -41,10 +57,7 @@ export async function getCatalogInfo(
       (response.data as { content: string }).content,
       'base64',
     ).toString('utf8');
-    const parsedYaml = yaml.parseAllDocuments(fileContent);
-    const documentList: Array<RequiredYamlFields> = parsedYaml.map(document => {
-      return document.toJSON();
-    });
+    const documentList = parseCatalogDocuments(fileContent);
     return documentList;
   } catch (error: unknown) {
     if (error instanceof Error) {

@@ -1,7 +1,18 @@
 import { Kind } from '../types/types';
 
-export function toEntityRefList(kind: Kind, entityStrings: string[]) {
-  return entityStrings.map(val => {
+export function toEntityRefList(
+  kind: Kind,
+  entityStrings: string | string[] | undefined,
+) {
+  let values: string[] = [];
+
+  if (Array.isArray(entityStrings)) {
+    values = entityStrings;
+  } else if (entityStrings) {
+    values = [entityStrings];
+  }
+
+  return values.map(val => {
     if (val.toLowerCase().includes(`${kind}:default/`.toLowerCase())) {
       return val;
     }

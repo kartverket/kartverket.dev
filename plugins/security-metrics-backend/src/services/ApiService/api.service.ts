@@ -7,11 +7,12 @@ import {
   MetricsUpdateStatus,
   Repository,
   SeverityCounts,
-  AggregatedSikkerhetsmetrikker,
   SlackNotificationConfig,
   Status,
+  SystemVulnerabilityOverview,
   VulnerabilitySeverityCounts,
   SikkerhetsmetrikkerOwnerTotal,
+  SikkerhetsmetrikkerSystemTotal,
 } from './typesBackend';
 
 export class ApiService {
@@ -131,10 +132,38 @@ export class ApiService {
     entityName: string,
     componentNames: string[],
     entraIdToken: string,
-  ): Promise<Either<ErrorResponse, AggregatedSikkerhetsmetrikker>> {
+  ): Promise<Either<ErrorResponse, SikkerhetsmetrikkerSystemTotal[]>> {
     const safeEntityName = encodeURIComponent(entityName);
     const endpointResult = this.buildEndpoint(
       `/api/scannerData/${safeEntityName}`,
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
+    }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentNames }),
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
+  }
+
+  async fetchVulnerabilityOverview(
+    entityName: string,
+    componentNames: string[],
+    entraIdToken: string,
+  ): Promise<Either<ErrorResponse, SystemVulnerabilityOverview>> {
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/vulnerabilityOverview`,
     );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);

@@ -1,15 +1,15 @@
 import { Secrets } from '../components/SecretsOverview/SecretsDialog';
 import {
-  AggregatedSikkerhetsmetrikker,
   RepositorySummary,
+  SikkerhetsmetrikkerSystemTotal,
 } from '../typesFrontend';
 
 export const getAllSecrets = (
-  data: AggregatedSikkerhetsmetrikker,
+  data: SikkerhetsmetrikkerSystemTotal[],
 ): Secrets[] => {
   const seen = new Set<string>();
 
-  return data.systems
+  return data
     .flatMap(system => system.metrics?.permittedMetrics ?? [])
     .filter(repo => {
       if (seen.has(repo.repoName)) {
@@ -27,11 +27,11 @@ export const getAllSecrets = (
 };
 
 export const getAllPermittedMetrics = (
-  data: AggregatedSikkerhetsmetrikker,
+  data: SikkerhetsmetrikkerSystemTotal[],
 ): RepositorySummary[] => {
   const repoMap = new Map<string, RepositorySummary>();
 
-  for (const item of data.systems.flatMap(
+  for (const item of data.flatMap(
     system => system.metrics?.permittedMetrics ?? [],
   )) {
     const existing = repoMap.get(item.repoName);
@@ -56,6 +56,6 @@ export const getAllPermittedMetrics = (
 };
 
 export const getAllNotPermittedComponents = (
-  data: AggregatedSikkerhetsmetrikker,
+  data: SikkerhetsmetrikkerSystemTotal[],
 ): string[] =>
-  data.systems.flatMap(system => system.metrics?.notPermittedComponents ?? []);
+  data.flatMap(system => system.metrics?.notPermittedComponents ?? []);

@@ -6,6 +6,7 @@ import {
 } from '@backstage/plugin-catalog';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
+import { CatalogCreatorContainer } from '../CatalogCreatorContainer';
 import { entityWarningContent } from './shared';
 
 export const domainPage = (
@@ -29,6 +30,9 @@ export const domainPage = (
           <EntityHasSystemsCard />
         </Grid>
       </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/edit" title="Edit">
+      <CatalogCreatorContainer />
     </EntityLayout.Route>
   </EntityLayout>
 );
