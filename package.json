@@ -56,6 +56,9 @@
     "typescript": "6.0.3"
   },
   "resolutions": {
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.7",
+    "@mui/material": "7.3.10",
     "fast-xml-parser": "5.7.0",
     "koa": "3.2.0",
     "linkifyjs": "4.3.2",
@@ -68,7 +71,7 @@
     "picomatch": "4.0.4",
     "brace-expansion": "2.0.3",
     "bn.js": "4.12.3",
-    "@protobufjs/inquire": "1.1.0"
+    "vm2": "3.11.2"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
