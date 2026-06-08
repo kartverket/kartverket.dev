@@ -121,3 +121,15 @@ regelrett:
   baseUrl: http://regelrett-backend.regelrett-main:8080
   url: ${REGELRETT_BASEURL}
   clientId: ${REGELRETT_CLIENT_ID}
+
+ros:
+  sops:
+    ageKey: dummy
+    backendPublicKey: dummy
+    securityTeamPublicKey: dummy
+    securityPlatformPublicKey: dummy
+  slack:
+    webhookUrl: dummy
+  initRiSc:
+    repoOwner: kartverket
+    repoName: initial-riscs-collection
