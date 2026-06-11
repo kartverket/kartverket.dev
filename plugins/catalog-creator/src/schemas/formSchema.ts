@@ -55,6 +55,14 @@ const componentSchema = baseEntitySchema.extend({
         message: 'form.errors.systemNoSpace',
       }),
   ),
+  domain: z.optional(
+    z
+      .string()
+      .trim()
+      .refine(s => !s.includes(' '), {
+        message: 'form.errors.domainNoSpace',
+      }),
+  ),
 
   lifecycle: z.enum(AllowedLifecycleStages, {
     message: 'form.errors.noLifecycle',

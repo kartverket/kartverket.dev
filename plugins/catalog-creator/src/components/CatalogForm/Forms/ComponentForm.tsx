@@ -26,6 +26,11 @@ type ComponentFormProps = {
     error: Error | undefined;
     value: Entity[];
   };
+  domains: {
+    loading: boolean;
+    error: Error | undefined;
+    value: Entity[];
+  };
   groups: {
     loading: boolean;
     error: Error | undefined;
@@ -44,6 +49,7 @@ export const ComponentForm = ({
   setValue,
   errors,
   systems,
+  domains,
   groups,
   componentsAndResources,
 }: ComponentFormProps) => {
@@ -57,6 +63,11 @@ export const ComponentForm = ({
   const providesApisVal = useWatch({
     control,
     name: `entities.${index}.providesApis`,
+  });
+
+  const domainVal = useWatch({
+    control,
+    name: `entities.${index}.domain`,
   });
 
   const consumesApisVal = useWatch({
@@ -81,6 +92,13 @@ export const ComponentForm = ({
     fetchAPIs,
     providesApisVal,
     `entities.${index}.providesApis`,
+    setValue,
+  );
+
+  useUpdateDependentFormFields(
+    domains,
+    domainVal ? [domainVal] : undefined,
+    `entities.${index}.domain`,
     setValue,
   );
 
@@ -143,6 +161,16 @@ export const ComponentForm = ({
           formname="componentForm"
           fieldname="system"
           entities={systems.value || []}
+        />
+      </div>
+      <div>
+        <SingleEntityAutocomplete
+          index={index}
+          control={control}
+          errors={errors}
+          formname="componentForm"
+          fieldname="domain"
+          entities={domains.value || []}
         />
       </div>
       <div>

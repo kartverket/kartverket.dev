@@ -249,6 +249,7 @@ export const CatalogForm = ({
             errors={errors?.entities?.[index] as EntityErrors<'Component'>}
             setValue={setValue}
             systems={fetchSystems}
+            domains={fetchDomains}
             groups={fetchGroups}
             componentsAndResources={componentsAndResources}
           />

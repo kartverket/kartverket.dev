@@ -36,6 +36,10 @@ export const updateYaml = (
             form.system?.length === 0
               ? undefined
               : form.system || initial.spec.system,
+          domain:
+            form.domain?.length === 0
+              ? undefined
+              : form.domain || initial.spec.domain,
           type: form.entityType! || initial.spec.type,
           providesApis:
             form.providesApis?.length === 0
