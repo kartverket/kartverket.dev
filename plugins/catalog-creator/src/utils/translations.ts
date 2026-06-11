@@ -73,6 +73,11 @@ const catalogCreatorMessages = {
         tooltipText: 'Reference to the system which the component belongs to.',
         placeholder: 'Select system',
       },
+      domain: {
+        fieldName: 'Domain',
+        tooltipText: 'Reference to the domain which the component is part of.',
+        placeholder: 'Select domain',
+      },
       providesApis: {
         fieldName: 'Provides APIs',
         tooltipText:
@@ -337,6 +342,11 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.system.tooltipText':
             'Referanse til systemet som komponenten tilhører.',
           'form.componentForm.system.placeholder': 'Velg system',
+
+          'form.componentForm.domain.fieldName': 'Domene',
+          'form.componentForm.domain.tooltipText':
+            'Referanse til domenet som komponenten tilhører.',
+          'form.componentForm.domain.placeholder': 'Velg domene',
 
           'form.componentForm.providesApis.fieldName': 'Tilbyr APIer',
           'form.componentForm.providesApis.tooltipText':
