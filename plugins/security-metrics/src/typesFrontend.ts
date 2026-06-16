@@ -226,11 +226,11 @@ export type ClusterMap = Map<string, NamespaceMap>;
 export type FilterEnum = 'all' | 'starred';
 
 export type MetricsUpdateStatus = {
-  dependabot: boolean;
-  sysdig: boolean;
-  codeScanning: boolean;
-  secretScanning: boolean;
-  riscMetrics: boolean;
+  dependabotLastUpdated: string;
+  sysdigLastUpdated: string;
+  codeScanningLastUpdated: string;
+  secretScanningLastUpdated: string;
+  riscMetricsLastUpdated: string;
 };
 
 export type ErrorResponse = {
