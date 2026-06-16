@@ -63,4 +63,5 @@ backend.add(catalogNotificationsModule);
 backend.add(import('@backstage/plugin-signals-backend'));
 backend.add(import('@internal/plugin-catalog-backend-module-function-kind'));
 
+backend.add(import('@kartverket/backstage-plugin-risk-scorecard-backend'));
 backend.start();
