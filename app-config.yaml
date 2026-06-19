@@ -101,6 +101,9 @@ scaffolder:
 
 catalog:
   orphanStrategy: delete
+  # Raising processing interval to 1 hour to reduce load on upstream APIs.
+  # Default in Backstage is 100-150s, which causes upstream API spec endpoints (e.g. /api.json) to be re-fetched far too often by the OpenAPI and URL placeholder processors.
+  processingInterval: { hours: 1 }
   rules:
     - allow:
         [
