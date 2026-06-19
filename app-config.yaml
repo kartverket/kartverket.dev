@@ -101,6 +101,7 @@ scaffolder:
 
 catalog:
   orphanStrategy: delete
+  processingInterval: { hours: 1 }
   rules:
     - allow:
         [
