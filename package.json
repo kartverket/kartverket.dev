@@ -72,7 +72,9 @@
     "brace-expansion": "2.0.3",
     "bn.js": "4.12.3",
     "@protobufjs/inquire": "1.1.0",
-    "@kartverket/ros-common": "8.0.1"
+    "@kartverket/ros-common": "8.0.1",
+    "js-cookie": "3.0.8",
+    "esbuild": "0.28.1"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
