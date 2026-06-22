@@ -1,0 +1,14 @@
+# Used in docker-compose, overrides app-config.yaml for the backend service
+
+backend:
+  database:
+    client: pg
+    connection:
+      database: ${POSTGRES_DB}
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      # For docker-compose, we don't require SSL
+      ssl: false
+    pluginDivisionMode: schema

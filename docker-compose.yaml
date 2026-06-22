@@ -20,21 +20,16 @@ services:
       context: .
       dockerfile: packages/backend/Dockerfile
     environment:
-      APP_CONFIG_app_baseUrl: 'http://localhost:7007'
-      APP_CONFIG_backend_baseUrl: 'http://localhost:7007'
-      APP_CONFIG_backend_database_client: 'pg'
-      APP_CONFIG_backend_database_connection_host: 'postgres'
-      APP_CONFIG_backend_database_connection_user: 'admin'
-      APP_CONFIG_backend_database_connection_password: 'adminpw'
-      APP_CONFIG_backend_database_connection_database: 'backstage'
-      APP_CONFIG_backend_cors_origin: 'http://localhost:3000'
-      ENTRA_ID_SP_APP_ID: 432
-      ENTRA_ID_SP_CLIENT_SECRET: 432
-      ENTRA_WEB_APP_ID: 432
-      ENTRA_WEB_CLIENT_SECRET: 432
-      ENTRA_TENANT_ID: 432
-      GOOGLE_OAUTH_CLIENT_ID: 432
-      GOOGLE_OAUTH_CLIENT_SECRET: 432
+      # Database configuration
+      POSTGRES_DB: backstage
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: '5432'
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpw
+
+      # Base URLs (app and backend)
+      BASE_URL: 'http://localhost:7007'
+      CORS_ORIGIN: 'http://localhost:7007'
     ports:
       - '7007:7007' # Expose Backstage on port 7007
     depends_on:
@@ -42,7 +37,19 @@ services:
     networks:
       - backstage-network
     volumes:
-      - ./github-secret.yaml:/app/github-secrets/github-app-backstage-skip-credentials.yaml
+      - ./github-secrets/github-app-backstage-skip-credentials.yaml:/app/github-secrets/github-app-backstage-skip-credentials.yaml:ro
+      - ./app-config.local.yaml:/app/app-config.local.yaml:ro
+    # Use local config with secrets and override database to use PostgreSQL
+    command:
+      [
+        'packages/backend',
+        '--config',
+        'app-config.yaml',
+        '--config',
+        'app-config.local.yaml',
+        '--config',
+        'app-config.docker.yaml',
+      ]
 
 volumes:
   postgres_data: {}
