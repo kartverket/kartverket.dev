@@ -1,6 +1,4 @@
-# Configuration for Docker Compose "production-like" testing
-# This file ONLY overrides the database configuration for PostgreSQL (production-like)
-# All other settings (auth, GitHub, Entra ID, Regelrett) come from app-config.local.yaml
+# Used in docker-compose, overrides app-config.yaml for the backend service
 
 backend:
   database:
