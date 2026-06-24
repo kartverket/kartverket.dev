@@ -14,7 +14,13 @@ import { Progress } from '@backstage/core-components';
 import Alert from '@mui/material/Alert';
 import { ErrorBanner } from '../shared/ErrorBanner';
 
-export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
+export const OwnerTable = ({
+  onNavigate,
+  showOpen,
+}: {
+  onNavigate: () => void;
+  showOpen: boolean;
+}) => {
   const { entity } = useEntity();
 
   const { data, isLoading, isEmpty, error, errorTitle } =
@@ -36,7 +42,13 @@ export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
 
   const highestVulnerabilityCount =
     data?.permittedOwnerMetrics?.reduce(
-      (max, s) => Math.max(max, getTotalVulnerabilityCount(s.severityCount)),
+      (max, s) =>
+        Math.max(
+          max,
+          getTotalVulnerabilityCount(
+            showOpen ? s.openSeverityCount : s.severityCount,
+          ),
+        ),
       0,
     ) ?? 0;
 
@@ -54,15 +66,23 @@ export const OwnerTable = ({ onNavigate }: { onNavigate: () => void }) => {
           {data?.permittedOwnerMetrics
             ?.sort(
               (a, b) =>
-                getTotalVulnerabilityCount(b.severityCount) -
-                getTotalVulnerabilityCount(a.severityCount),
+                getTotalVulnerabilityCount(
+                  showOpen ? b.openSeverityCount : b.severityCount,
+                ) -
+                getTotalVulnerabilityCount(
+                  showOpen ? a.openSeverityCount : a.severityCount,
+                ),
             )
             .map(ownerMetrics => {
               return (
                 <OwnerTableRow
                   key={ownerMetrics.owner}
                   ownerId={ownerMetrics.owner}
-                  severityCount={ownerMetrics.severityCount}
+                  severityCount={
+                    showOpen
+                      ? ownerMetrics.openSeverityCount
+                      : ownerMetrics.severityCount
+                  }
                   highestVulnerabilityCount={highestVulnerabilityCount}
                   onNavigate={onNavigate}
                 />

@@ -1,14 +1,14 @@
-import { RepositorySummary } from '../../typesFrontend';
+import { ScannerConfig } from '../../typesFrontend';
 
-const getScannerStatus = (repository: RepositorySummary) => [
-  { name: 'Dependabot', status: repository.scannerConfig.dependabot },
-  { name: 'CodeQL', status: repository.scannerConfig.codeQL },
-  { name: 'Pharos', status: repository.scannerConfig.pharos },
-  { name: 'Sysdig', status: repository.scannerConfig.sysdig },
+const getScannerStatus = (scannerConfig: ScannerConfig) => [
+  { name: 'Dependabot', status: scannerConfig.dependabot },
+  { name: 'CodeQL', status: scannerConfig.codeQL },
+  { name: 'Pharos', status: scannerConfig.pharos },
+  { name: 'Sysdig', status: scannerConfig.sysdig },
 ];
 
-export const getScannersGroupedByStatus = (repository: RepositorySummary) => {
-  const scannerStatus = getScannerStatus(repository);
+export const getScannersGroupedByStatus = (scannerConfig: ScannerConfig) => {
+  const scannerStatus = getScannerStatus(scannerConfig);
 
   return {
     configured: scannerStatus

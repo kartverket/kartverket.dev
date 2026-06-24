@@ -2,24 +2,20 @@ import { useQuery } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import { MetricTypes } from '../utils/MetricTypes';
 import { useConfig } from './getConfig';
-import { SystemVulnerabilityOverview } from '../typesFrontend';
+import { ComponentsResponse } from '../typesFrontend';
 import { post } from '../api/client';
 
-const vulnerabilityOverviewQueryKeys = {
-  overview: (entityName: string) => ['vulnerabilityOverview', entityName],
-};
-
-export const useVulnerabilityOverviewQuery = (
+export const useComponentsQuery = (
   entityName: string,
   componentNames: string[],
   enabled: boolean,
 ) => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
-    MetricTypes.vulnerabilityOverview,
+    MetricTypes.components,
   );
 
-  return useQuery<SystemVulnerabilityOverview, Error>({
-    queryKey: vulnerabilityOverviewQueryKeys.overview(entityName),
+  return useQuery<ComponentsResponse, Error>({
+    queryKey: ['components', entityName],
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
@@ -29,7 +25,7 @@ export const useVulnerabilityOverviewQuery = (
       endpointUrl.searchParams.set('entityName', entityName);
       return post<
         { componentNames: string[]; entraIdToken: string },
-        SystemVulnerabilityOverview
+        ComponentsResponse
       >(endpointUrl, backstageToken, { componentNames, entraIdToken });
     },
     retry: 1,

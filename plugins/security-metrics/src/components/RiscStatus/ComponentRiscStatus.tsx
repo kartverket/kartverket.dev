@@ -25,8 +25,10 @@ export const ComponentRiscStatus = ({
       </CardTitle>
     );
 
-  const days = calculateDaysSince(riscStatus.lastPublishedRisc);
-  const commits = riscStatus.commitsSincePublishedRisc;
+  const days = riscStatus.lastPublishedRisc
+    ? calculateDaysSince(riscStatus.lastPublishedRisc)
+    : null;
+  const commits = riscStatus.commitsSincePublishedRisc ?? null;
 
   return (
     <CardTitle title="Operasjonell RoS">

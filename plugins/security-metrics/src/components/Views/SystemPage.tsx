@@ -8,13 +8,8 @@ import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/Vulnerabilit
 import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../shared/ErrorBanner';
-import { useMetricsQuery } from '../../hooks/useMetricsQuery';
-import {
-  getAllNotPermittedComponents,
-  getAllPermittedMetrics,
-  getAllSecrets,
-} from '../../mapping/getGroupedData';
-import { RepositorySummary } from '../../typesFrontend';
+import { useOverviewQuery } from '../../hooks/useOverviewQuery';
+import { useComponentsQuery } from '../../hooks/useComponentsQuery';
 import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
 import { PageHeader } from '../shared/PageHeader';
@@ -29,10 +24,19 @@ export const SystemPage = () => {
   const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
     useSecurityMetricsViewSettings();
 
-  const { data, isPending, error } = useMetricsQuery(
-    entity.metadata.name,
-    componentNames,
-  );
+  const {
+    data: overviewData,
+    isPending: isOverviewPending,
+    error: overviewError,
+  } = useOverviewQuery(entity.metadata.name, componentNames);
+
+  const {
+    data: componentsData,
+    isPending: isComponentsPending,
+    error: componentsError,
+  } = useComponentsQuery(entity.metadata.name, componentNames, true);
+
+  const error = overviewError || componentsError;
 
   if (error || componentNamesError)
     return (
@@ -42,11 +46,18 @@ export const SystemPage = () => {
       />
     );
 
-  if (componentNamesIsLoading || isPending) return <Progress />;
+  if (componentNamesIsLoading || isOverviewPending || isComponentsPending)
+    return <Progress />;
 
-  const secrets: Secrets[] = getAllSecrets(data);
-  const permitted: RepositorySummary[] = getAllPermittedMetrics(data);
-  const notPermitted: string[] = getAllNotPermittedComponents(data);
+  const secrets: Secrets[] = (overviewData?.secrets ?? []).flatMap(s =>
+    s.secrets.alerts.length > 0
+      ? s.componentNames.map(name => ({
+          componentName: name,
+          alerts: s.secrets.alerts,
+        }))
+      : [],
+  );
+  const notPermitted = overviewData?.notPermittedComponents ?? [];
 
   return (
     <Stack gap={2}>
@@ -63,20 +74,24 @@ export const SystemPage = () => {
       />
 
       <MetricsGrid>
-        <SystemScannerStatuses data={permitted} />
-        <SystemRiscStatuses data={permitted} />
-        <VulnerabilityCountsOverview data={permitted} showOpen={showOpen} />
+        <SystemScannerStatuses data={overviewData?.scannerConfig ?? []} />
+        <SystemRiscStatuses data={overviewData?.riscStatus ?? []} />
+        <VulnerabilityCountsOverview
+          severityCount={overviewData?.severityCount}
+          openSeverityCount={overviewData?.openSeverityCount}
+          showOpen={showOpen}
+        />
         <Trend
-          componentNames={permitted.map(p => p.componentNames[0])}
+          componentNames={componentNames}
           showTotal={showTotal}
           showOpen={showOpen}
         />
       </MetricsGrid>
 
       <RepositoriesTable
-        data={permitted}
+        data={componentsData?.components ?? []}
         showOpen={showOpen}
-        notPermittedComponents={notPermitted}
+        notPermittedComponents={componentsData?.notPermittedComponents ?? []}
       />
     </Stack>
   );

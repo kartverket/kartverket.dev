@@ -7,26 +7,20 @@ import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import Stack from '@mui/material/Stack';
-import { useEntity, useStarredEntities } from '@backstage/plugin-catalog-react';
+import { useEntity } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../shared/ErrorBanner';
-import {
-  getAllNotPermittedComponents,
-  getAllPermittedMetrics,
-  getAllSecrets,
-} from '../../mapping/getGroupedData';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { SystemsTable } from '../SystemsTable/SystemsTable';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { SlackNotificationDialog } from '../SlackNotificationsDialog';
-import { useStarredRefFilter } from '../../hooks/useStarredRefFilter';
-import { RepositorySummary } from '../../typesFrontend';
-import { filterSystemsByComponents } from '../../utils/utils';
 import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 import Alert from '@mui/material/Alert';
 import { useGroupMetrics } from '../../hooks/useGroupMetrics';
-import { VulnerabilityOverviewTable } from '../VulnerabilityOverviewTable/VulnerabilityOverviewTable';
+import { useComponentsQuery } from '../../hooks/useComponentsQuery';
+import { useSystemsQuery } from '../../hooks/useSystemsQuery';
+import { UniqueVulnerabilitiesTable } from '../UniqueVulnerabilitiesTable/UniqueVulnerabilitiesTable.tsx';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
 import { OwnerTable } from '../OwnerTable/OwnerTable';
@@ -40,7 +34,6 @@ enum TabEnum {
 
 export const GroupPage = () => {
   const { entity } = useEntity();
-  const { starredEntities } = useStarredEntities();
 
   const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
   const [channel, setChannel] = useState('');
@@ -51,42 +44,47 @@ export const GroupPage = () => {
 
   const {
     data,
-    vulnerabilityOverviewData,
-    isVulnerabilityOverviewLoading,
-    vulnerabilityOverviewError,
+    componentNames,
+    uniqueVulnerabilitiesData,
+    isUniqueVulnerabilitiesLoading,
+    uniqueVulnerabilitiesError,
     isLoading,
     isEmpty,
     error,
     errorTitle,
   } = useGroupMetrics(entity, selectedTab === TabEnum.VULNERABILITIES);
 
-  const permitted: RepositorySummary[] = data
-    ? getAllPermittedMetrics(data)
-    : [];
-  const notPermitted: string[] = data ? getAllNotPermittedComponents(data) : [];
-  const secrets: Secrets[] = data ? getAllSecrets(data) : [];
+  const {
+    data: componentsData,
+    isPending: isComponentsLoading,
+    error: componentsError,
+  } = useComponentsQuery(
+    entity.metadata.name,
+    componentNames,
+    selectedTab === TabEnum.COMPONENT,
+  );
+
+  const {
+    data: systemsData,
+    isPending: isSystemsLoading,
+    error: systemsError,
+  } = useSystemsQuery(
+    entity.metadata.name,
+    componentNames,
+    selectedTab === TabEnum.SYSTEM,
+  );
+
+  const notPermitted = data?.notPermittedComponents ?? [];
+  const secrets: Secrets[] = (data?.secrets ?? []).flatMap(s =>
+    s.secrets.alerts.length > 0
+      ? s.componentNames.map(name => ({
+          componentName: name,
+          alerts: s.secrets.alerts,
+        }))
+      : [],
+  );
   const aggregatedVulnerabilities =
-    vulnerabilityOverviewData?.vulnerabilities ?? [];
-
-  const allComponentRefs = permitted.flatMap(p =>
-    p.componentNames.map(n => `component:default/${n}`),
-  );
-
-  const { hasStarred, effectiveFilter, visibleRefs, setFilterChoice } =
-    useStarredRefFilter({
-      allRefs: allComponentRefs,
-      starredEntities,
-    });
-
-  const filteredPermitted = permitted.filter(p =>
-    p.componentNames.some(n => visibleRefs.has(`component:default/${n}`)),
-  );
-
-  const filteredSystemsData = filterSystemsByComponents(
-    data ?? [],
-    new Set(filteredPermitted.map(c => c.repoName)),
-    effectiveFilter,
-  );
+    uniqueVulnerabilitiesData?.vulnerabilities ?? [];
 
   if (isLoading) return <Progress />;
 
@@ -113,12 +111,6 @@ export const GroupPage = () => {
           showOpen,
           onToggleShowTotal: toggleShowTotal,
           onToggleShowOpen: toggleShowOpen,
-          starFilter: {
-            hasStarred,
-            effectiveFilter,
-            onToggleStarFilter: () =>
-              setFilterChoice(prev => (prev === 'starred' ? 'all' : 'starred')),
-          },
         }}
         rightActions={
           <>
@@ -137,9 +129,7 @@ export const GroupPage = () => {
               }
               channel={channel}
               setChannel={setChannel}
-              permittedComponents={filteredPermitted.flatMap(
-                c => c.componentNames,
-              )}
+              permittedComponents={componentNames}
               notPermitted={notPermitted}
             />
             <SupportButton />
@@ -148,14 +138,15 @@ export const GroupPage = () => {
       />
 
       <MetricsGrid>
-        <SystemScannerStatuses data={filteredPermitted} />
-        <SystemRiscStatuses data={filteredPermitted} />
+        <SystemScannerStatuses data={data?.scannerConfig ?? []} />
+        <SystemRiscStatuses data={data?.riscStatus ?? []} />
         <VulnerabilityCountsOverview
-          data={filteredPermitted}
+          severityCount={data?.severityCount}
+          openSeverityCount={data?.openSeverityCount}
           showOpen={showOpen}
         />
         <Trend
-          componentNames={filteredPermitted.map(c => c.componentNames[0])}
+          componentNames={componentNames}
           showTotal={showTotal}
           showOpen={showOpen}
         />
@@ -175,29 +166,53 @@ export const GroupPage = () => {
       </Tabs>
 
       {selectedTab === TabEnum.VULNERABILITIES &&
-        isVulnerabilityOverviewLoading && <Progress />}
+        isUniqueVulnerabilitiesLoading && <Progress />}
       {selectedTab === TabEnum.VULNERABILITIES &&
-        vulnerabilityOverviewError && (
+        uniqueVulnerabilitiesError && (
           <ErrorBanner
             errorTitle={`Kunne ikke hente sårbarhetsoversikt for ${entity.metadata.name}`}
-            errorMessage={vulnerabilityOverviewError.message}
+            errorMessage={uniqueVulnerabilitiesError.message}
           />
         )}
       {selectedTab === TabEnum.VULNERABILITIES &&
-        !isVulnerabilityOverviewLoading &&
-        !vulnerabilityOverviewError && (
-          <VulnerabilityOverviewTable data={aggregatedVulnerabilities} />
+        !isUniqueVulnerabilitiesLoading &&
+        !uniqueVulnerabilitiesError && (
+          <>
+            {showOpen && (
+              <Alert severity="info">
+                Viser alle sårbarheter, ikke bare åpne
+              </Alert>
+            )}
+            <UniqueVulnerabilitiesTable data={aggregatedVulnerabilities} />
+          </>
         )}
 
-      {selectedTab === TabEnum.COMPONENT && (
-        <RepositoriesTable
-          data={filteredPermitted}
-          showOpen={showOpen}
-          notPermittedComponents={notPermitted}
+      {selectedTab === TabEnum.COMPONENT && isComponentsLoading && <Progress />}
+      {selectedTab === TabEnum.COMPONENT && componentsError && (
+        <ErrorBanner
+          errorTitle={`Kunne ikke hente komponentmetrikker for ${entity.metadata.name}`}
+          errorMessage={componentsError.message}
         />
       )}
-      {selectedTab === TabEnum.SYSTEM && filteredSystemsData && (
-        <SystemsTable data={filteredSystemsData} showOpen={showOpen} />
+      {selectedTab === TabEnum.COMPONENT &&
+        componentsData &&
+        !isComponentsLoading && (
+          <RepositoriesTable
+            data={componentsData.components}
+            showOpen={showOpen}
+            notPermittedComponents={componentsData.notPermittedComponents}
+          />
+        )}
+
+      {selectedTab === TabEnum.SYSTEM && isSystemsLoading && <Progress />}
+      {selectedTab === TabEnum.SYSTEM && systemsError && (
+        <ErrorBanner
+          errorTitle={`Kunne ikke hente systemmetrikker for ${entity.metadata.name}`}
+          errorMessage={systemsError.message}
+        />
+      )}
+      {selectedTab === TabEnum.SYSTEM && systemsData && !isSystemsLoading && (
+        <SystemsTable data={systemsData} showOpen={showOpen} />
       )}
 
       {selectedTab === TabEnum.OWNER && (
@@ -205,6 +220,7 @@ export const GroupPage = () => {
           onNavigate={() => {
             setSelectedTab(TabEnum.COMPONENT);
           }}
+          showOpen={showOpen}
         />
       )}
     </Stack>

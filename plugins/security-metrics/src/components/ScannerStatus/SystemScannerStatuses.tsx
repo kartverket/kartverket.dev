@@ -2,10 +2,7 @@ import {
   getAggregatedScannerStatus,
   getScannerStatusData,
 } from '../../mapping/getScannerData';
-import {
-  AggregatedScannerStatus,
-  RepositorySummary,
-} from '../../typesFrontend';
+import { AggregatedScannerStatus, ScannerConfig } from '../../typesFrontend';
 import { CardTitle } from '../shared/CardTitle';
 import { ScannerStatusDialog } from './SystemStatusDialog';
 import Box from '@mui/material/Box';
@@ -18,7 +15,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { StatusRow } from '../shared/StatusRow';
 
 interface SystemScannerStatusProps {
-  data: RepositorySummary[];
+  data: { componentNames: string[]; scannerConfig: ScannerConfig }[];
 }
 
 export const SystemScannerStatuses = ({ data }: SystemScannerStatusProps) => {

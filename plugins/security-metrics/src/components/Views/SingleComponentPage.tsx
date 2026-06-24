@@ -48,7 +48,9 @@ export const SingleComponentPage = () => {
   if (isPending) return <Progress />;
 
   const secrets = getSecrets(data);
-  const [scannerStatus] = getScannerStatusData(data);
+  const [scannerStatus] = getScannerStatusData([
+    { componentNames: [data.componentName], scannerConfig: data.scannerConfig },
+  ]);
 
   return (
     <Stack gap={2}>

@@ -1,35 +1,22 @@
 import {
   AggregatedScannerStatus,
-  Repository,
   RepositoryScannerStatusData,
-  RepositorySummary,
   Scanner,
+  ScannerConfig,
 } from '../typesFrontend';
 
-const getScannerBooleans = (r: Repository | RepositorySummary) => ({
-  dependabot: r.scannerConfig.dependabot,
-  codeql: r.scannerConfig.codeQL,
-  pharos: r.scannerConfig.pharos,
-  sysdig: r.scannerConfig.sysdig,
-});
-
 export const getScannerStatusData = (
-  input: Repository | RepositorySummary[],
+  input: { componentNames: string[]; scannerConfig: ScannerConfig }[],
 ): RepositoryScannerStatusData[] => {
-  const items = Array.isArray(input) ? input : [input];
-  return items.map(r => {
-    const s = getScannerBooleans(r);
-    return {
-      componentNames:
-        'componentName' in r ? [r.componentName] : r.componentNames,
-      scannerStatus: [
-        { type: Scanner.Dependabot, on: s.dependabot },
-        { type: Scanner.CodeQL, on: s.codeql },
-        { type: Scanner.Pharos, on: s.pharos },
-        { type: Scanner.Sysdig, on: s.sysdig },
-      ],
-    };
-  });
+  return input.map(item => ({
+    componentNames: item.componentNames,
+    scannerStatus: [
+      { type: Scanner.Dependabot, on: item.scannerConfig.dependabot },
+      { type: Scanner.CodeQL, on: item.scannerConfig.codeQL },
+      { type: Scanner.Pharos, on: item.scannerConfig.pharos },
+      { type: Scanner.Sysdig, on: item.scannerConfig.sysdig },
+    ],
+  }));
 };
 
 export const getAggregatedScannerStatus = (

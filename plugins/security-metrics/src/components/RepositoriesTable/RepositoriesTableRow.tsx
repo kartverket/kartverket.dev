@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
-import type { RepositorySummary } from '../../typesFrontend';
+import type { ComponentMetricsSummary } from '../../typesFrontend';
 import { StyledTableRow } from '../shared/StyledTableRow';
 import { RepositoryScannerStatus } from './RepositoryScannerStatus';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ import { riscStatusLabel } from '../RiscStatus/RiscStatusLabel';
 import { VulnerabilityDistribution } from '../shared/VulnerabilityDistribution';
 
 type Props = {
-  repository: RepositorySummary;
+  repository: ComponentMetricsSummary;
   highestVulnerabilityCount: number;
   showOpen: boolean;
 };
@@ -111,7 +111,7 @@ export const RepositoriesTableRow = ({
           )}
         </TableCell>
         <TableCell>
-          <RepositoryScannerStatus repository={repository} />
+          <RepositoryScannerStatus scannerConfig={repository.scannerConfig} />
         </TableCell>
         <TableCell>
           {total > 0 ? (

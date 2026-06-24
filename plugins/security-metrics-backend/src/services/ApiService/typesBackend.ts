@@ -109,27 +109,6 @@ export type Vulnerability = {
   scannerSpecificInfo: ScannerSpecificInfo;
 };
 
-export type RepositorySummary = {
-  repoName: string;
-  componentNames: string[];
-  severityCount: SeverityCount;
-  openSeverityCount: SeverityCount;
-  secrets: { alerts: SecretAlert[] };
-  scannerConfig: ScannerConfig;
-  riscStatus: RiscStatusData;
-  averageTimeToSolveVulnerabilityDays?: number;
-};
-
-export type SikkerhetsmetrikkerTotal = {
-  permittedMetrics: RepositorySummary[];
-  notPermittedComponents: string[];
-};
-
-export type SikkerhetsmetrikkerSystemTotal = {
-  systemName: string;
-  metrics: SikkerhetsmetrikkerTotal;
-};
-
 export type SikkerhetsmetrikkerOwnerTotal = {
   permittedOwnerMetrics: OwnerSeverityCounts[];
   notPermittedOwners: string[];
@@ -138,9 +117,10 @@ export type SikkerhetsmetrikkerOwnerTotal = {
 export type OwnerSeverityCounts = {
   owner: string;
   severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
 };
 
-export type SystemVulnerabilityOverview = {
+export type UniqueVulnerabilities = {
   totalCount: number;
   vulnerabilities: AggregatedVulnerability[];
 };
@@ -172,18 +152,45 @@ export type ScannerConfig = {
 };
 
 export interface RiscStatusData {
-  hasRisc: Boolean;
+  repositoryName?: string;
+  hasRisc?: boolean;
   lastPublishedRisc?: string;
   commitsSincePublishedRisc?: number;
 }
 
-export type VulnerabilitySeverityCounts = {
+export type OverviewResponse = {
+  notPermittedComponents: string[];
+  severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
+  secrets: { componentNames: string[]; secrets: { alerts: SecretAlert[] } }[];
+  scannerConfig: { componentNames: string[]; scannerConfig: ScannerConfig }[];
+  riscStatus: RiscStatusData[];
+};
+
+export type ComponentsResponse = {
+  notPermittedComponents: string[];
+  components: ComponentMetricsSummary[];
+};
+
+export type ComponentMetricsSummary = {
+  componentNames: string[];
   repoName: string;
-  severityCounts: SeverityCounts[];
+  riscStatus: RiscStatusData;
+  averageTimeToSolveVulnerabilityDays: number | null;
+  scannerConfig: ScannerConfig;
+  severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
+};
+
+export type SystemSeverityCounts = {
+  systemName: string;
+  severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
+  notPermittedComponents: string[];
 };
 
 export type SeverityCounts = {
-  timestamp: Date;
+  date: string;
   unknown: number;
   negligible: number;
   low: number;

@@ -116,11 +116,6 @@ export type RepositorySummary = {
   averageTimeToSolveVulnerabilityDays?: number;
 };
 
-export type SikkerhetsmetrikkerTotal = {
-  permittedMetrics: RepositorySummary[];
-  notPermittedComponents: string[];
-};
-
 export type SikkerhetsmetrikkerOwnerTotal = {
   permittedOwnerMetrics: OwnerSeverityCounts[];
   notPermittedOwners: string[];
@@ -129,14 +124,41 @@ export type SikkerhetsmetrikkerOwnerTotal = {
 export type OwnerSeverityCounts = {
   owner: string;
   severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
 };
 
-export type SikkerhetsmetrikkerSystemTotal = {
+export type OverviewResponse = {
+  notPermittedComponents: string[];
+  severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
+  secrets: { componentNames: string[]; secrets: { alerts: SecretAlert[] } }[];
+  scannerConfig: { componentNames: string[]; scannerConfig: ScannerConfig }[];
+  riscStatus: RiscStatusData[];
+};
+
+export type ComponentsResponse = {
+  notPermittedComponents: string[];
+  components: ComponentMetricsSummary[];
+};
+
+export type ComponentMetricsSummary = {
+  componentNames: string[];
+  repoName: string;
+  riscStatus: RiscStatusData;
+  averageTimeToSolveVulnerabilityDays: number | null;
+  scannerConfig: ScannerConfig;
+  severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
+};
+
+export type SystemSeverityCounts = {
   systemName: string;
-  metrics: SikkerhetsmetrikkerTotal;
+  severityCount: SeverityCount;
+  openSeverityCount: SeverityCount;
+  notPermittedComponents: string[];
 };
 
-export type SystemVulnerabilityOverview = {
+export type UniqueVulnerabilities = {
   totalCount: number;
   vulnerabilities: AggregatedVulnerability[];
 };
@@ -157,15 +179,19 @@ export type ScannerConfig = {
 
 export type TrendSeverityCounts = {
   date: string;
-  total: number;
-  openTotal: number | null;
-  openNegligible: number | null;
+  unknown: number;
+  negligible: number;
+  low: number;
+  medium: number;
+  high: number;
+  critical: number;
   openUnknown: number | null;
+  openNegligible: number | null;
   openLow: number | null;
   openMedium: number | null;
   openHigh: number | null;
   openCritical: number | null;
-} & SeverityCount;
+};
 
 export type SeverityCount = {
   unknown: number;
@@ -187,10 +213,10 @@ export type ScannerStatus = {
 };
 
 export interface RiscStatusData {
-  repositoryName: string;
-  hasRisc: Boolean;
-  lastPublishedRisc: string;
-  commitsSincePublishedRisc: number;
+  repositoryName?: string;
+  hasRisc?: boolean;
+  lastPublishedRisc?: string;
+  commitsSincePublishedRisc?: number;
 }
 
 export type Severity =

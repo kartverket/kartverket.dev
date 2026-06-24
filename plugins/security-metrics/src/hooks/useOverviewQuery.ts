@@ -2,23 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import { getAuthenticationTokens } from '../utils/authenticationUtils';
 import { MetricTypes } from '../utils/MetricTypes';
 import { useConfig } from './getConfig';
-import { SikkerhetsmetrikkerSystemTotal } from '../typesFrontend';
+import { OverviewResponse } from '../typesFrontend';
 import { post } from '../api/client';
 
-const metricsQueryKeys = {
-  metrics: (entityName: string) => ['metrics', entityName],
-};
-
-export const useMetricsQuery = (
+export const useOverviewQuery = (
   entityName: string,
   componentNames: string[],
 ) => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
-    MetricTypes.metrics,
+    MetricTypes.overview,
   );
 
-  return useQuery<SikkerhetsmetrikkerSystemTotal[], Error>({
-    queryKey: metricsQueryKeys.metrics(entityName),
+  return useQuery<OverviewResponse, Error>({
+    queryKey: ['overview', entityName],
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
@@ -28,7 +24,7 @@ export const useMetricsQuery = (
       endpointUrl.searchParams.set('entityName', entityName);
       return post<
         { componentNames: string[]; entraIdToken: string },
-        SikkerhetsmetrikkerSystemTotal[]
+        OverviewResponse
       >(endpointUrl, backstageToken, { componentNames, entraIdToken });
     },
     retry: 1,

@@ -1,9 +1,7 @@
 import {
-  FilterEnum,
   GraphTimeline,
   Scanner,
   Severity,
-  SikkerhetsmetrikkerSystemTotal,
   TrendSeverityCounts,
 } from '../typesFrontend';
 import { SCANNER_COLORS, SEVERITY_COLORS } from '../colors';
@@ -122,26 +120,6 @@ export const isExperimentalLifecycle = (value: unknown): value is string =>
 
 export const isDocumentationType = (value: unknown): value is string =>
   typeof value === 'string' && value.toLowerCase() === 'documentation';
-
-export const filterSystemsByComponents = (
-  data: SikkerhetsmetrikkerSystemTotal[] | undefined,
-  repoNames: Set<string>,
-  filter: FilterEnum,
-): SikkerhetsmetrikkerSystemTotal[] | undefined => {
-  if (!data || filter === 'all') return data;
-
-  return data
-    .map(system => ({
-      ...system,
-      metrics: {
-        ...system.metrics,
-        permittedMetrics: system.metrics.permittedMetrics.filter(pm =>
-          repoNames.has(pm.repoName),
-        ),
-      },
-    }))
-    .filter(system => system.metrics.permittedMetrics.length > 0);
-};
 
 export const severityLegendSorter = (item: any) =>
   SEVERITY_ORDER.indexOf(item?.payload?.key ?? 'unknown');
