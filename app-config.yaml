@@ -29,9 +29,6 @@ backend:
   listen:
     port: 7007
     host: 0.0.0.0
-  server:
-    # Mitigates intermittent ERR_STREAM_PREMATURE_CLOSE on internal loopback fetches in containerized runtimes.
-    maxRequestsPerSocket: 1
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     img-src: ["'self'", 'data:']
