@@ -224,7 +224,7 @@ export const createRouter = async (
     '/proxy/fetch-unique-vulnerabilities/',
     withErrorHandling(
       logger,
-      'Failed to fetch vulnerability overview data',
+      'Failed to fetch unique vulnerabilities data',
       async (req, res) => {
         const authError = await requireBackstageToken(req, auth);
         if (authError) {

@@ -15,7 +15,7 @@ export const useComponentsQuery = (
   );
 
   return useQuery<ComponentsResponse, Error>({
-    queryKey: ['components', entityName],
+    queryKey: ['components', entityName, [...componentNames]],
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,

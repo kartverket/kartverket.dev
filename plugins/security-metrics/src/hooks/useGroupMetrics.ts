@@ -2,7 +2,7 @@ import { Entity } from '@backstage/catalog-model';
 import { OverviewResponse, UniqueVulnerabilities } from '../typesFrontend';
 import { useFetchComponentNamesByGroup } from './useFetchComponentNames';
 import { useOverviewQuery } from './useOverviewQuery';
-import { useUniqueVulnerabilitiesQuery } from './useUniqueVulnerabilitiesQuery.ts';
+import { useUniqueVulnerabilitiesQuery } from './useUniqueVulnerabilitiesQuery';
 
 type UseGroupMetricsResult = {
   data: OverviewResponse | undefined;

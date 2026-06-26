@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
 import { Secret } from './Secret';
 import List from '@mui/material/List';
-import { Secrets } from './SecretsAlert.tsx';
+import { Secrets } from './SecretsAlert';
 
 interface SecretProps {
   secretsOverviewData: Secrets[];

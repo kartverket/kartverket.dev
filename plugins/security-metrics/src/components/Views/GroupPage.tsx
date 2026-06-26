@@ -20,7 +20,7 @@ import Alert from '@mui/material/Alert';
 import { useGroupMetrics } from '../../hooks/useGroupMetrics';
 import { useComponentsQuery } from '../../hooks/useComponentsQuery';
 import { useSystemsQuery } from '../../hooks/useSystemsQuery';
-import { UniqueVulnerabilitiesTable } from '../UniqueVulnerabilitiesTable/UniqueVulnerabilitiesTable.tsx';
+import { UniqueVulnerabilitiesTable } from '../UniqueVulnerabilitiesTable/UniqueVulnerabilitiesTable';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
 import { OwnerTable } from '../OwnerTable/OwnerTable';

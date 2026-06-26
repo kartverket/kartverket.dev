@@ -15,7 +15,7 @@ export const useSystemsQuery = (
   );
 
   return useQuery<SystemSeverityCounts[], Error>({
-    queryKey: ['systems', entityName],
+    queryKey: ['systems', entityName, [...componentNames]],
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
