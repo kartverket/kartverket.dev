@@ -15,19 +15,20 @@ type UseOwnerMetricsResult = {
   errorTitle: string;
 };
 
-const useOwnerQuery = (componentNames: string[]) => {
+const useOwnerQuery = (entityName: string, componentNames: string[]) => {
   const { config, backstageAuthApi, microsoftAuthApi, endpointUrl } = useConfig(
     MetricTypes.ownerMetrics,
   );
 
   return useQuery<SikkerhetsmetrikkerOwnerTotal, Error>({
-    queryKey: ['ownerMetrics', componentNames],
+    queryKey: ['ownerMetrics', entityName, componentNames],
     queryFn: async () => {
       const { entraIdToken, backstageToken } = await getAuthenticationTokens(
         config,
         backstageAuthApi,
         microsoftAuthApi,
       );
+      endpointUrl.searchParams.set('entityName', entityName);
       return post<
         { componentNames: string[]; entraIdToken: string },
         SikkerhetsmetrikkerOwnerTotal
@@ -45,7 +46,10 @@ const useOwnerQuery = (componentNames: string[]) => {
 export const useOwnerMetrics = (entity: Entity): UseOwnerMetricsResult => {
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesByGroup(entity);
-  const { data, isPending, error } = useOwnerQuery(componentNames);
+  const { data, isPending, error } = useOwnerQuery(
+    entity.metadata.name,
+    componentNames,
+  );
 
   const isLoading =
     componentNamesIsLoading || (componentNames.length > 0 && isPending);

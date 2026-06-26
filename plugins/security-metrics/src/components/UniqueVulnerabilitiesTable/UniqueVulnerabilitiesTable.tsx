@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { VulnerabilityOverviewTableRow } from './VulnerabilityOverviewTableRow';
+import { UniqueVulnerabilitiesTableRow } from './UniqueVulnerabilitiesTableRow';
 import {
   compareByAffectedComponents,
   compareBySeverity,
@@ -27,7 +27,7 @@ type Props = {
   data: AggregatedVulnerability[];
 };
 
-export const VulnerabilityOverviewTable = ({ data }: Props) => {
+export const UniqueVulnerabilitiesTable = ({ data }: Props) => {
   const [sortType, setSortType] = useState<SortType>('Alvorlighetsgrad');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [searchQuery, setSearchQuery] = useState('');
@@ -141,7 +141,7 @@ export const VulnerabilityOverviewTable = ({ data }: Props) => {
 
           <TableBody>
             {paginatedVulnerabilities.map(vulnerability => (
-              <VulnerabilityOverviewTableRow
+              <UniqueVulnerabilitiesTableRow
                 key={vulnerability.vulnerabilityId}
                 vulnerability={vulnerability}
               />

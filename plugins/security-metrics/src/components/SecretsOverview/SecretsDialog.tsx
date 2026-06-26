@@ -5,15 +5,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
-
-import { SecretAlert } from '../../typesFrontend';
 import { Secret } from './Secret';
 import List from '@mui/material/List';
-
-export interface Secrets {
-  componentName: string;
-  alerts: SecretAlert[];
-}
+import { Secrets } from './SecretsAlert';
 
 interface SecretProps {
   secretsOverviewData: Secrets[];

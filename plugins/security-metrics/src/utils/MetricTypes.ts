@@ -1,8 +1,10 @@
 export enum MetricTypes {
   componentMetrics = 'component-metrics',
   ownerMetrics = 'owners-metrics',
-  metrics = 'metrics',
-  vulnerabilityOverview = 'vulnerability-overview',
+  overview = 'overview',
+  components = 'components',
+  systems = 'systems',
+  uniqueVulnerabilities = 'unique-vulnerabilities',
   trends = 'trends',
   riscStatus = 'risc-status',
   changeStatusVulnerability = 'change-status-vulnerability',

@@ -1,6 +1,6 @@
 import { usePaginationProps } from '../../hooks/usePagination';
 import { getTotalVulnerabilityCount } from '../../mapping/getSeverityCounts';
-import type { RepositorySummary } from '../../typesFrontend';
+import type { ComponentMetricsSummary } from '../../typesFrontend';
 import { RepositoriesTableRow } from './RepositoriesTableRow';
 import InfoIcon from '@mui/icons-material/Info';
 import TableContainer from '@mui/material/TableContainer';
@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { NoAccessRow } from './NoAccessRow';
 
 type Props = {
-  data: RepositorySummary[];
+  data: ComponentMetricsSummary[];
   showOpen: boolean;
   notPermittedComponents: string[];
 };
@@ -27,18 +27,18 @@ export const RepositoriesTable = ({
   showOpen,
   notPermittedComponents,
 }: Props) => {
-  const getCombinedVulnerabilityCount = (repo: RepositorySummary): number => {
-    return getTotalVulnerabilityCount(repo.severityCount);
+  const getVulnerabilityCount = (repo: ComponentMetricsSummary): number => {
+    return getTotalVulnerabilityCount(
+      showOpen ? repo.openSeverityCount : repo.severityCount,
+    );
   };
   const sortedRepositories = [...data].sort(
-    (a, b) =>
-      getCombinedVulnerabilityCount(b) - getCombinedVulnerabilityCount(a),
+    (a, b) => getVulnerabilityCount(b) - getVulnerabilityCount(a),
   );
   const allRows = [...sortedRepositories, ...notPermittedComponents];
 
   const highestVulnerabilityCount = data.reduce((max, repo) => {
-    const severitySum = getTotalVulnerabilityCount(repo.severityCount);
-    return Math.max(max, severitySum);
+    return Math.max(max, getVulnerabilityCount(repo));
   }, 0);
 
   const paginationProps = usePaginationProps(sortedRepositories.length);

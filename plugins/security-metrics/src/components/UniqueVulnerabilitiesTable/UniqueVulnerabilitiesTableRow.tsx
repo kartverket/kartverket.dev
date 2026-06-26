@@ -17,7 +17,7 @@ type Props = {
   vulnerability: AggregatedVulnerability;
 };
 
-export const VulnerabilityOverviewTableRow = ({ vulnerability }: Props) => {
+export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
 

@@ -1,17 +1,15 @@
 import { Entity } from '@backstage/catalog-model';
-import {
-  SikkerhetsmetrikkerSystemTotal,
-  SystemVulnerabilityOverview,
-} from '../typesFrontend';
+import { OverviewResponse, UniqueVulnerabilities } from '../typesFrontend';
 import { useFetchComponentNamesByGroup } from './useFetchComponentNames';
-import { useMetricsQuery } from './useMetricsQuery';
-import { useVulnerabilityOverviewQuery } from './useVulnerabilityOverviewQuery';
+import { useOverviewQuery } from './useOverviewQuery';
+import { useUniqueVulnerabilitiesQuery } from './useUniqueVulnerabilitiesQuery';
 
 type UseGroupMetricsResult = {
-  data: SikkerhetsmetrikkerSystemTotal[] | undefined;
-  vulnerabilityOverviewData: SystemVulnerabilityOverview | undefined;
-  isVulnerabilityOverviewLoading: boolean;
-  vulnerabilityOverviewError: Error | null;
+  data: OverviewResponse | undefined;
+  componentNames: string[];
+  uniqueVulnerabilitiesData: UniqueVulnerabilities | undefined;
+  isUniqueVulnerabilitiesLoading: boolean;
+  uniqueVulnerabilitiesError: Error | null;
   isLoading: boolean;
   isEmpty: boolean;
   error: Error | null;
@@ -20,22 +18,22 @@ type UseGroupMetricsResult = {
 
 export const useGroupMetrics = (
   entity: Entity,
-  fetchVulnerabilityOverview = false,
+  fetchUniqueVulnerabilities = false,
 ): UseGroupMetricsResult => {
   const { componentNames, componentNamesIsLoading, componentNamesError } =
     useFetchComponentNamesByGroup(entity);
-  const { data, isPending, error } = useMetricsQuery(
+  const { data, isPending, error } = useOverviewQuery(
     entity.metadata.name,
     componentNames,
   );
   const {
-    data: vulnerabilityOverviewData,
-    isPending: isVulnerabilityOverviewLoading,
-    error: vulnerabilityOverviewError,
-  } = useVulnerabilityOverviewQuery(
+    data: uniqueVulnerabilitiesData,
+    isPending: isUniqueVulnerabilitiesLoading,
+    error: uniqueVulnerabilitiesError,
+  } = useUniqueVulnerabilitiesQuery(
     entity.metadata.name,
     componentNames,
-    fetchVulnerabilityOverview,
+    fetchUniqueVulnerabilities,
   );
 
   const isLoading =
@@ -53,9 +51,10 @@ export const useGroupMetrics = (
 
   return {
     data,
-    vulnerabilityOverviewData,
-    isVulnerabilityOverviewLoading,
-    vulnerabilityOverviewError,
+    componentNames,
+    uniqueVulnerabilitiesData,
+    isUniqueVulnerabilitiesLoading,
+    uniqueVulnerabilitiesError,
     isLoading,
     isEmpty,
     error: combinedError,

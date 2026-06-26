@@ -6,20 +6,20 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { RepositorySummary } from '../../typesFrontend';
+import { RiscStatusData } from '../../typesFrontend';
 import { StyledTableRow } from '../shared/StyledTableRow';
 import { riscStatusLabel } from './RiscStatusLabel';
 
 type Props = {
   categoryLabel: string;
-  repos: RepositorySummary[];
+  riscStatuses: RiscStatusData[];
   isDialogOpen: boolean;
   setIsDialogOpen: (open: boolean) => void;
 };
 
 export const RiscStatusDialog = ({
   categoryLabel,
-  repos,
+  riscStatuses,
   isDialogOpen,
   setIsDialogOpen,
 }: Props) => (
@@ -33,7 +33,7 @@ export const RiscStatusDialog = ({
           RoSer som er mer enn ett år gamle regnes som utdaterte.
         </Typography>
       )}
-      {repos.length === 0 ? (
+      {riscStatuses.length === 0 ? (
         <Typography variant="body2" fontStyle="italic">
           Ingen komponenter {categoryLabel === 'Mangler RoS' ? '' : 'har'}{' '}
           {categoryLabel.toLowerCase()}
@@ -41,14 +41,16 @@ export const RiscStatusDialog = ({
       ) : (
         <Table>
           <TableBody>
-            {repos.map(repo => (
-              <StyledTableRow key={repo.repoName}>
+            {riscStatuses.map(status => (
+              <StyledTableRow key={status.repositoryName ?? 'unknown'}>
                 <TableCell>
-                  <Typography variant="body2">{repo.repoName}</Typography>
+                  <Typography variant="body2">
+                    {status.repositoryName ?? 'Ukjent'}
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  {repo.riscStatus?.hasRisc ? (
-                    riscStatusLabel(repo.riscStatus)
+                  {status.hasRisc ? (
+                    riscStatusLabel(status)
                   ) : (
                     <Tooltip title="Mangler operasjonell RoS">
                       <CloseIcon color="error" />

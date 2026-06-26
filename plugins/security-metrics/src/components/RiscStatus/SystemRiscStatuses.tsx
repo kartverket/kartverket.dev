@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { RepositorySummary } from '../../typesFrontend';
+import { RiscStatusData } from '../../typesFrontend';
 import { CardTitle } from '../shared/CardTitle';
 import { RiscStatusDialog } from './RiscStatusDialog';
 import { calculateDaysSince } from './utils';
@@ -14,7 +14,7 @@ import { SvgIconProps } from '@mui/material/SvgIcon';
 import { StatusRow } from '../shared/StatusRow';
 
 interface SystemRiscStatusesProps {
-  data: RepositorySummary[];
+  data: RiscStatusData[];
 }
 
 type RiscCategory = 'mangler' | 'utdatert' | 'oppdatert';
@@ -47,9 +47,10 @@ const CATEGORIES: CategoryConfig[] = [
   },
 ];
 
-const categorise = (repo: RepositorySummary): RiscCategory => {
-  if (!repo.riscStatus?.hasRisc) return 'mangler';
-  const days = calculateDaysSince(repo.riscStatus.lastPublishedRisc) ?? 0;
+const categorise = (risc: RiscStatusData): RiscCategory => {
+  if (!risc.hasRisc) return 'mangler';
+  if (!risc.lastPublishedRisc) return 'mangler';
+  const days = calculateDaysSince(risc.lastPublishedRisc) ?? 0;
   return days > 365 ? 'utdatert' : 'oppdatert';
 };
 
@@ -70,13 +71,13 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
 
   const byCategory = Object.fromEntries(
     CATEGORIES.map(c => [c.key, data.filter(r => categorise(r) === c.key)]),
-  ) as Record<RiscCategory, RepositorySummary[]>;
+  ) as Record<RiscCategory, RiscStatusData[]>;
 
   return (
     <CardTitle title="Operasjonell RoS">
       <Stack mt={1} pb={1} divider={<Divider />} sx={{ flex: 1 }}>
         {CATEGORIES.map(({ key, label, Icon, color }) => {
-          const repos = byCategory[key];
+          const statuses = byCategory[key];
           return (
             <Box
               key={key}
@@ -94,7 +95,7 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
                   flexShrink={0}
                 >
                   <Typography variant="body2" fontWeight={500}>
-                    {repos.length}
+                    {statuses.length}
                   </Typography>
                   <ChevronRightIcon
                     fontSize="small"
@@ -104,7 +105,7 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
               </StatusRow>
               <RiscStatusDialog
                 categoryLabel={label}
-                repos={repos}
+                riscStatuses={statuses}
                 isDialogOpen={openDialogFor === key}
                 setIsDialogOpen={open => setOpenDialogFor(open ? key : null)}
               />

@@ -3,16 +3,17 @@ import { Either, Left, Right } from '../../Either';
 import { errorHandling } from '../../Errors';
 import { EntraIdService } from '../EntraIdService/auth.service';
 import {
+  ComponentsResponse,
   ErrorResponse,
   MetricsUpdateStatus,
+  OverviewResponse,
   Repository,
   SeverityCounts,
   SlackNotificationConfig,
   Status,
-  SystemVulnerabilityOverview,
-  VulnerabilitySeverityCounts,
+  SystemSeverityCounts,
+  UniqueVulnerabilities,
   SikkerhetsmetrikkerOwnerTotal,
-  SikkerhetsmetrikkerSystemTotal,
 } from './typesBackend';
 
 export class ApiService {
@@ -128,14 +129,14 @@ export class ApiService {
     }
   }
 
-  async fetchMetricsData(
+  async fetchOverview(
     entityName: string,
     componentNames: string[],
     entraIdToken: string,
-  ): Promise<Either<ErrorResponse, SikkerhetsmetrikkerSystemTotal[]>> {
+  ): Promise<Either<ErrorResponse, OverviewResponse>> {
     const safeEntityName = encodeURIComponent(entityName);
     const endpointResult = this.buildEndpoint(
-      `/api/scannerData/${safeEntityName}`,
+      `/api/scannerData/${safeEntityName}/overview`,
     );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);
@@ -156,14 +157,70 @@ export class ApiService {
     );
   }
 
-  async fetchVulnerabilityOverview(
+  async fetchComponents(
     entityName: string,
     componentNames: string[],
     entraIdToken: string,
-  ): Promise<Either<ErrorResponse, SystemVulnerabilityOverview>> {
+  ): Promise<Either<ErrorResponse, ComponentsResponse>> {
     const safeEntityName = encodeURIComponent(entityName);
     const endpointResult = this.buildEndpoint(
-      `/api/scannerData/${safeEntityName}/vulnerabilityOverview`,
+      `/api/scannerData/${safeEntityName}/components`,
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
+    }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentNames }),
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
+  }
+
+  async fetchSystems(
+    entityName: string,
+    componentNames: string[],
+    entraIdToken: string,
+  ): Promise<Either<ErrorResponse, SystemSeverityCounts[]>> {
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/systems`,
+    );
+    if (endpointResult.isLeft()) {
+      return Left.create(endpointResult.error);
+    }
+
+    return this.request(
+      endpointResult.value,
+      entraIdToken,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentNames }),
+      },
+      response => response.json(),
+      'Tjenesten for sikkerhetsmetrikker er utilgjengelig akkurat nå. Prøv igjen senere.',
+    );
+  }
+
+  async fetchUniqueVulnerabilities(
+    entityName: string,
+    componentNames: string[],
+    entraIdToken: string,
+  ): Promise<Either<ErrorResponse, UniqueVulnerabilities>> {
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/uniqueVulnerabilities`,
     );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);
@@ -211,10 +268,14 @@ export class ApiService {
   }
 
   async fetchOwnerMetricsData(
+    entityName: string,
     componentNames: string[],
     entraIdToken: string,
   ): Promise<Either<ErrorResponse, SikkerhetsmetrikkerOwnerTotal>> {
-    const endpointResult = this.buildEndpoint(`/api/scannerData/owners`);
+    const safeEntityName = encodeURIComponent(entityName);
+    const endpointResult = this.buildEndpoint(
+      `/api/scannerData/${safeEntityName}/owners`,
+    );
     if (endpointResult.isLeft()) {
       return Left.create(endpointResult.error);
     }
@@ -286,13 +347,7 @@ export class ApiService {
           toDate,
         }),
       },
-      async response => {
-        const severityCounts: VulnerabilitySeverityCounts[] =
-          await response.json();
-        return severityCounts.flatMap(
-          repositoryCounts => repositoryCounts.severityCounts,
-        );
-      },
+      response => response.json(),
       'Kunne ikke hente trenddata fordi tjenesten for sikkerhetsmetrikker er utilgjengelig.',
     );
   }

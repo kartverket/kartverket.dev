@@ -5,57 +5,32 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
-import {
-  getSeverityCountPerSystem,
-  getTotalVulnerabilityCount,
-} from '../../mapping/getSeverityCounts';
-import {
-  SeverityCount,
-  SikkerhetsmetrikkerSystemTotal,
-} from '../../typesFrontend';
+import { getTotalVulnerabilityCount } from '../../mapping/getSeverityCounts';
+import { SystemSeverityCounts } from '../../typesFrontend';
 import { SystemsTableRow } from './SystemsTableRow';
 
 type Props = {
-  data: SikkerhetsmetrikkerSystemTotal[];
+  data: SystemSeverityCounts[];
   showOpen: boolean;
 };
 
 export const SystemsTable = ({ data, showOpen }: Props) => {
-  const severityCountPerSystem = getSeverityCountPerSystem(data, showOpen);
-
-  const getCombinedVulnerabilityCount = (sc: SeverityCount) =>
-    getTotalVulnerabilityCount(sc);
-
-  const sortedSystems = [...severityCountPerSystem].sort(
-    (a, b) =>
-      getCombinedVulnerabilityCount(b.severityCount) -
-      getCombinedVulnerabilityCount(a.severityCount),
-  );
+  const sortedSystems = [...data]
+    .map(system => ({
+      systemName: system.systemName,
+      severityCount: showOpen ? system.openSeverityCount : system.severityCount,
+      notPermittedCount: system.notPermittedComponents.length,
+    }))
+    .sort(
+      (a, b) =>
+        getTotalVulnerabilityCount(b.severityCount) -
+        getTotalVulnerabilityCount(a.severityCount),
+    );
 
   const highestVulnerabilityCount = sortedSystems.reduce(
-    (max, s) => Math.max(max, getCombinedVulnerabilityCount(s.severityCount)),
+    (max, s) => Math.max(max, getTotalVulnerabilityCount(s.severityCount)),
     0,
   );
-
-  const notPermittedCount = new Map(
-    data.map(s => [
-      s.systemName,
-      s.metrics?.notPermittedComponents?.length ?? 0,
-    ]),
-  );
-
-  const bySystemName = new Map(data.map(s => [s.systemName, s]));
-
-  const getComponentsFor = (systemName: string): string[] => {
-    const sys = bySystemName.get(systemName);
-    if (!sys) return [];
-    const permitted =
-      sys.metrics?.permittedMetrics?.flatMap(m => m.componentNames) ?? [];
-    const notPermitted = sys.metrics?.notPermittedComponents ?? [];
-    return [...new Set([...permitted, ...notPermitted])].sort((a, b) =>
-      a.localeCompare(b),
-    );
-  };
 
   return (
     <TableContainer component={Paper}>
@@ -70,31 +45,21 @@ export const SystemsTable = ({ data, showOpen }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedSystems.map(system => {
-            const sys = bySystemName.get(system.systemName);
-            const hasPermittedMetrics =
-              (sys?.metrics?.permittedMetrics?.length ?? 0) > 0;
-
-            const noSystemComponents =
-              system.systemName === 'Mangler system'
-                ? getComponentsFor(system.systemName)
-                : [];
-
-            return (
-              <SystemsTableRow
-                key={system.systemName}
-                systemName={system.systemName}
-                hasPermittedMetrics={hasPermittedMetrics}
-                notPermittedCount={
-                  notPermittedCount.get(system.systemName) ?? 0
-                }
-                severityCount={system.severityCount}
-                highestVulnerabilityCount={highestVulnerabilityCount}
-                noSystemComponents={noSystemComponents}
-                showOpen={showOpen}
-              />
-            );
-          })}
+          {sortedSystems.map(system => (
+            <SystemsTableRow
+              key={system.systemName}
+              systemName={system.systemName}
+              hasPermittedMetrics={
+                getTotalVulnerabilityCount(system.severityCount) > 0 ||
+                system.notPermittedCount === 0
+              }
+              notPermittedCount={system.notPermittedCount}
+              severityCount={system.severityCount}
+              highestVulnerabilityCount={highestVulnerabilityCount}
+              noSystemComponents={[]}
+              showOpen={showOpen}
+            />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

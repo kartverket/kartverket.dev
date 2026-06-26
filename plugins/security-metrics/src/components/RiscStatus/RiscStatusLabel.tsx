@@ -3,6 +3,7 @@ import { RiscStatusData } from '../../typesFrontend';
 import { riscColor, riscLabelText, riscTextColor } from './utils';
 
 export const riscStatusLabel = (status: RiscStatusData) => {
+  if (!status.lastPublishedRisc) return null;
   const backgroundColor = riscColor(status.lastPublishedRisc);
   const color = riscTextColor(backgroundColor);
   return (

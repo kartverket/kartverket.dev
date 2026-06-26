@@ -1,18 +1,19 @@
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
-import { RepositorySummary } from '../../typesFrontend';
+import { ScannerConfig } from '../../typesFrontend';
 import { getScannersGroupedByStatus } from './utils';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
-  repository: RepositorySummary;
+  scannerConfig: ScannerConfig;
 };
 
-export const RepositoryScannerStatus = ({ repository }: Props) => {
+export const RepositoryScannerStatus = ({ scannerConfig }: Props) => {
   const theme = useTheme();
-  const { configured, notConfigured } = getScannersGroupedByStatus(repository);
+  const { configured, notConfigured } =
+    getScannersGroupedByStatus(scannerConfig);
   const noScannerConfigured = configured.length === 0;
 
   return (

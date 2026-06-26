@@ -1,7 +1,4 @@
-import {
-  SeverityCount,
-  SikkerhetsmetrikkerSystemTotal,
-} from '../typesFrontend';
+import { SeverityCount } from '../typesFrontend';
 
 export const aggregateSeverityCounts = <T>(
   items: T[],
@@ -37,31 +34,3 @@ export const getTotalVulnerabilityCount = (severityCount: SeverityCount) => {
     severityCount.unknown
   );
 };
-
-export const getSeverityCountPerSystem = (
-  data: SikkerhetsmetrikkerSystemTotal[],
-  showOpen: boolean,
-): { systemName: string; severityCount: SeverityCount }[] =>
-  data.map(s => {
-    const total: SeverityCount = {
-      unknown: 0,
-      negligible: 0,
-      low: 0,
-      medium: 0,
-      high: 0,
-      critical: 0,
-    };
-
-    for (const repo of s.metrics?.permittedMetrics ?? []) {
-      const sc = showOpen ? repo.openSeverityCount : repo.severityCount;
-
-      total.unknown += sc.unknown;
-      total.negligible += sc.negligible;
-      total.low += sc.low;
-      total.medium += sc.medium;
-      total.high += sc.high;
-      total.critical += sc.critical;
-    }
-
-    return { systemName: s.systemName, severityCount: total };
-  });
