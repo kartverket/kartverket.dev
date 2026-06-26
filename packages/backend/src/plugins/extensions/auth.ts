@@ -1,6 +1,7 @@
 import {
   AuthService,
   BackendModuleRegistrationPoints,
+  LoggerService,
   coreServices,
   createBackendModule,
 } from '@backstage/backend-plugin-api';
@@ -24,6 +25,14 @@ function getObjectIdFromToken(token: string): string {
   return decodedToken.oid;
 }
 
+function formatError(error: unknown): string {
+  if (error instanceof Error) {
+    return `${error.name}: ${error.message}`;
+  }
+
+  return String(error);
+}
+
 export const authModuleMicrosoftProvider = createBackendModule({
   pluginId: 'auth',
   moduleId: 'microsoftGraphProvider',
@@ -33,8 +42,9 @@ export const authModuleMicrosoftProvider = createBackendModule({
         providers: authProvidersExtensionPoint,
         discovery: coreServices.discovery,
         auth: coreServices.auth,
+        logger: coreServices.logger,
       },
-      async init({ providers, discovery, auth }) {
+      async init({ providers, discovery, auth, logger }) {
         providers.registerProvider({
           providerId: 'microsoft',
           factory: createOAuthProviderFactory({
@@ -43,39 +53,44 @@ export const authModuleMicrosoftProvider = createBackendModule({
               const catalogApi = new CatalogClient({ discoveryApi: discovery });
               const { result } = info;
 
-              if (!result.session.accessToken) {
-                throw new AuthenticationError(
-                  'Login failed, OAuth session did not contain an access token',
-                );
-              }
+              try {
+                if (!result.session.accessToken) {
+                  throw new AuthenticationError(
+                    'Login failed, OAuth session did not contain an access token',
+                  );
+                }
 
-              const oid = getObjectIdFromToken(result.session.accessToken);
-              const { entity } = await ctx.findCatalogUser({
-                annotations: {
-                  'graph.microsoft.com/user-id': oid,
-                },
-              });
-              if (!entity) {
-                throw new AuthenticationError(
-                  'Authentication failed',
-                  'No user found in catalog',
-                );
-              }
-              const ownershipRefs = (
-                await ctx.resolveOwnershipEntityRefs(entity)
-              ).ownershipEntityRefs;
+                const oid = getObjectIdFromToken(result.session.accessToken);
+                const { entity } = await ctx.findCatalogUser({
+                  annotations: {
+                    'graph.microsoft.com/user-id': oid,
+                  },
+                });
+                if (!entity) {
+                  throw new AuthenticationError(
+                    'Authentication failed',
+                    'No user found in catalog',
+                  );
+                }
+                const ownershipRefs = (
+                  await ctx.resolveOwnershipEntityRefs(entity)
+                ).ownershipEntityRefs;
 
-              return ctx.issueToken({
-                claims: {
-                  sub: stringifyEntityRef(entity),
-                  ent: ownershipRefs,
-                  groups: await getGroupDisplayNamesForEntity(
-                    ownershipRefs,
-                    catalogApi,
-                    auth,
-                  ),
-                },
-              });
+                return ctx.issueToken({
+                  claims: {
+                    sub: stringifyEntityRef(entity),
+                    ent: ownershipRefs,
+                    groups: await getGroupDisplayNamesForEntity(
+                      ownershipRefs,
+                      catalogApi,
+                      auth,
+                    ),
+                  },
+                });
+              } catch (error) {
+                logSignInFailure(logger, result.session.accessToken, error);
+                throw error;
+              }
             },
           }),
         });
@@ -134,4 +149,24 @@ async function getGroupDisplayNamesForEntity(
       }),
   );
   return groupDisplayNames;
+}
+
+function logSignInFailure(
+  logger: LoggerService,
+  accessToken: string | undefined,
+  error: unknown,
+) {
+  let oid: string | undefined;
+  if (accessToken) {
+    try {
+      oid = getObjectIdFromToken(accessToken);
+    } catch {
+      oid = undefined;
+    }
+  }
+
+  logger.error('Microsoft sign-in resolver failed', {
+    oid,
+    error: formatError(error),
+  });
 }
