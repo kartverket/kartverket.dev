@@ -1,5 +1,6 @@
 import { Progress, SupportButton } from '@backstage/core-components';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { RepositoriesTable } from '../RepositoriesTable/RepositoriesTable';
 import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
 import { Secrets } from '../SecretsOverview/SecretsAlert';
@@ -32,12 +33,42 @@ enum TabEnum {
   VULNERABILITIES = 3,
 }
 
+const TAB_SLUGS: Record<TabEnum, string> = {
+  [TabEnum.COMPONENT]: 'komponent',
+  [TabEnum.SYSTEM]: 'system',
+  [TabEnum.OWNER]: 'eier',
+  [TabEnum.VULNERABILITIES]: 'saarbarheter',
+};
+
+const SLUG_TO_TAB = new Map(
+  Object.entries(TAB_SLUGS).map(([k, v]) => [v, Number(k) as TabEnum]),
+);
+
+const slugToTab = (slug: string | null): TabEnum =>
+  SLUG_TO_TAB.get(slug ?? '') ?? TabEnum.COMPONENT;
+
 export const GroupPage = () => {
   const { entity } = useEntity();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const resolvedTab = slugToTab(searchParams.get('tab'));
+  const selectedTab =
+    resolvedTab === TabEnum.OWNER && entity.spec?.type === 'team'
+      ? TabEnum.COMPONENT
+      : resolvedTab;
+
+  const handleTabChange = (_: React.SyntheticEvent, newTab: TabEnum) => {
+    setSearchParams(
+      prev => {
+        prev.set('tab', TAB_SLUGS[newTab]);
+        return prev;
+      },
+      { replace: true },
+    );
+  };
 
   const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
   const [channel, setChannel] = useState('');
-  const [selectedTab, setSelectedTab] = useState<TabEnum>(TabEnum.COMPONENT);
 
   const { showTotal, showOpen, toggleShowTotal, toggleShowOpen } =
     useSecurityMetricsViewSettings();
@@ -152,11 +183,7 @@ export const GroupPage = () => {
         />
       </MetricsGrid>
 
-      <Tabs
-        value={selectedTab}
-        onChange={(_, v) => setSelectedTab(v)}
-        sx={{ mb: 1 }}
-      >
+      <Tabs value={selectedTab} onChange={handleTabChange} sx={{ mb: 1 }}>
         <Tab label="Metrikker per komponent" value={TabEnum.COMPONENT} />
         <Tab label="Metrikker per system" value={TabEnum.SYSTEM} />
         {entity.spec?.type !== 'team' && (
@@ -216,12 +243,7 @@ export const GroupPage = () => {
       )}
 
       {selectedTab === TabEnum.OWNER && (
-        <OwnerTable
-          onNavigate={() => {
-            setSelectedTab(TabEnum.COMPONENT);
-          }}
-          showOpen={showOpen}
-        />
+        <OwnerTable showOpen={showOpen} showTotal={showTotal} />
       )}
     </Stack>
   );

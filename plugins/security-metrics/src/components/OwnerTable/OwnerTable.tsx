@@ -1,30 +1,91 @@
-import TableContainer from '@mui/material/TableContainer';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableBody from '@mui/material/TableBody';
+import { useMemo } from 'react';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { useOwnerMetrics } from '../../hooks/useOwnerMetrics';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { NoAccessOwnerRow, OwnerTableRow } from './OwnerTableRow';
-import { getTotalVulnerabilityCount } from '../../mapping/getSeverityCounts';
-
 import { Progress } from '@backstage/core-components';
 import Alert from '@mui/material/Alert';
 import { ErrorBanner } from '../shared/ErrorBanner';
+import { OwnerMetricsSection } from './OwnerMetricsSection';
+import { getTotalVulnerabilityCount } from '../../mapping/getSeverityCounts';
+import { TrendSeverityCounts } from '../../typesFrontend';
+
+const getMaxTrendValue = (
+  trendData: TrendSeverityCounts[],
+  showOpen: boolean,
+  showTotal: boolean,
+): number => {
+  if (trendData.length === 0) return 0;
+
+  return trendData.reduce((max, count) => {
+    if (showOpen) {
+      const critical = count.openCritical ?? 0;
+      const high = count.openHigh ?? 0;
+      let pointMax = Math.max(critical, high);
+      if (showTotal) {
+        const total =
+          (count.openUnknown ?? 0) +
+          (count.openNegligible ?? 0) +
+          (count.openLow ?? 0) +
+          (count.openMedium ?? 0) +
+          (count.openHigh ?? 0) +
+          (count.openCritical ?? 0);
+        pointMax = Math.max(pointMax, total);
+      }
+      return Math.max(max, pointMax);
+    }
+
+    let pointMax = Math.max(count.critical, count.high);
+    if (showTotal) {
+      const total =
+        count.unknown +
+        count.negligible +
+        count.low +
+        count.medium +
+        count.high +
+        count.critical;
+      pointMax = Math.max(pointMax, total);
+    }
+    return Math.max(max, pointMax);
+  }, 0);
+};
 
 export const OwnerTable = ({
-  onNavigate,
   showOpen,
+  showTotal,
 }: {
-  onNavigate: () => void;
   showOpen: boolean;
+  showTotal: boolean;
 }) => {
   const { entity } = useEntity();
 
   const { data, isLoading, isEmpty, error, errorTitle } =
     useOwnerMetrics(entity);
+
+  const sortedOwners = useMemo(() => {
+    if (!data?.permittedOwnerMetrics) return [];
+    return [...data.permittedOwnerMetrics].sort((a, b) => {
+      const aCount = getTotalVulnerabilityCount(
+        showOpen ? a.overview.openSeverityCount : a.overview.severityCount,
+      );
+      const bCount = getTotalVulnerabilityCount(
+        showOpen ? b.overview.openSeverityCount : b.overview.severityCount,
+      );
+      return bCount - aCount;
+    });
+  }, [data, showOpen]);
+
+  const sharedYAxisMax = useMemo(() => {
+    if (!data?.permittedOwnerMetrics) return undefined;
+    return data.permittedOwnerMetrics.reduce((max, owner) => {
+      const ownerMax = getMaxTrendValue(
+        owner.lastMonthSeverityCount,
+        showOpen,
+        showTotal,
+      );
+      return Math.max(max, ownerMax);
+    }, 0);
+  }, [data, showOpen, showTotal]);
 
   if (error) {
     return <ErrorBanner errorTitle={errorTitle} errorMessage={error.message} />;
@@ -40,59 +101,25 @@ export const OwnerTable = ({
     );
   }
 
-  const highestVulnerabilityCount =
-    data?.permittedOwnerMetrics?.reduce(
-      (max, s) =>
-        Math.max(
-          max,
-          getTotalVulnerabilityCount(
-            showOpen ? s.openSeverityCount : s.severityCount,
-          ),
-        ),
-      0,
-    ) ?? 0;
-
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: '900px' }} size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell width="20%">Eier</TableCell>
-            <TableCell width="50%">Sårbarheter</TableCell>
-            <TableCell width="30%" />
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data?.permittedOwnerMetrics
-            ?.sort(
-              (a, b) =>
-                getTotalVulnerabilityCount(
-                  showOpen ? b.openSeverityCount : b.severityCount,
-                ) -
-                getTotalVulnerabilityCount(
-                  showOpen ? a.openSeverityCount : a.severityCount,
-                ),
-            )
-            .map(ownerMetrics => {
-              return (
-                <OwnerTableRow
-                  key={ownerMetrics.owner}
-                  ownerId={ownerMetrics.owner}
-                  severityCount={
-                    showOpen
-                      ? ownerMetrics.openSeverityCount
-                      : ownerMetrics.severityCount
-                  }
-                  highestVulnerabilityCount={highestVulnerabilityCount}
-                  onNavigate={onNavigate}
-                />
-              );
-            })}
-          {data?.notPermittedOwners?.map(owner => {
-            return <NoAccessOwnerRow key={owner} ownerId={owner} />;
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Stack gap={4}>
+      {sortedOwners.map(ownerMetrics => (
+        <OwnerMetricsSection
+          key={ownerMetrics.owner}
+          ownerMetrics={ownerMetrics}
+          showTotal={showTotal}
+          showOpen={showOpen}
+          yAxisMax={sharedYAxisMax}
+        />
+      ))}
+      {data.notPermittedOwners?.length > 0 && (
+        <Alert severity="warning">
+          <Typography variant="body2">
+            Du har ikke tilgang til metrikker for:{' '}
+            {data.notPermittedOwners.join(', ')}
+          </Typography>
+        </Alert>
+      )}
+    </Stack>
   );
 };
