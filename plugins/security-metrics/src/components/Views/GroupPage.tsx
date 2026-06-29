@@ -58,13 +58,9 @@ export const GroupPage = () => {
       : resolvedTab;
 
   const handleTabChange = (_: React.SyntheticEvent, newTab: TabEnum) => {
-    setSearchParams(
-      prev => {
-        prev.set('tab', TAB_SLUGS[newTab]);
-        return prev;
-      },
-      { replace: true },
-    );
+    const next = new URLSearchParams(searchParams);
+    next.set('tab', TAB_SLUGS[newTab]);
+    setSearchParams(next, { replace: true });
   };
 
   const [openNotificationsDialog, setOpenNotificationsDialog] = useState(false);
