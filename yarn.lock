@@ -9722,7 +9722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/exporter-prometheus@npm:0.219.0":
+"@opentelemetry/exporter-prometheus@npm:0.219.0, @opentelemetry/exporter-prometheus@npm:^0.219.0":
   version: 0.219.0
   resolution: "@opentelemetry/exporter-prometheus@npm:0.219.0"
   dependencies:
@@ -9736,7 +9736,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/exporter-trace-otlp-grpc@npm:0.219.0":
+"@opentelemetry/exporter-trace-otlp-grpc@npm:0.219.0, @opentelemetry/exporter-trace-otlp-grpc@npm:^0.219.0":
   version: 0.219.0
   resolution: "@opentelemetry/exporter-trace-otlp-grpc@npm:0.219.0"
   dependencies:
@@ -17239,6 +17239,9 @@ __metadata:
     "@microsoft/microsoft-graph-types": "npm:2.43.1"
     "@opentelemetry/api": "npm:^1.9.1"
     "@opentelemetry/auto-instrumentations-node": "npm:^0.77.0"
+    "@opentelemetry/exporter-prometheus": "npm:^0.219.0"
+    "@opentelemetry/exporter-trace-otlp-grpc": "npm:^0.219.0"
+    "@opentelemetry/sdk-node": "npm:^0.219.0"
     app: "link:../app"
     better-sqlite3: "npm:12.9.0"
     jwt-decode: "npm:4.0.0"
