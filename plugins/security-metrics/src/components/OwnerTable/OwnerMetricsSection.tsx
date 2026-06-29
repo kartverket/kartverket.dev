@@ -46,9 +46,10 @@ export const OwnerMetricsSection = ({
         <Button
           variant="text"
           endIcon={<ArrowForwardIcon />}
-          disabled={isGroupLoading}
+          disabled={isGroupLoading || !group?.metadata?.name}
           onClick={() =>
-            navigate(`/catalog/default/group/${rawName}/securityMetrics`)
+            group?.metadata?.name &&
+            navigate(`/catalog/default/group/${group?.metadata?.name}/securityMetrics`)
           }
         >
           Se detaljer
