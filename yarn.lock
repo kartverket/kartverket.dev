@@ -7502,9 +7502,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard-backend@npm:8.1.2":
-  version: 8.1.2
-  resolution: "@kartverket/backstage-plugin-risk-scorecard-backend@npm:8.1.2"
+"@kartverket/backstage-plugin-risk-scorecard-backend@npm:8.1.3":
+  version: 8.1.3
+  resolution: "@kartverket/backstage-plugin-risk-scorecard-backend@npm:8.1.3"
   dependencies:
     "@backstage/backend-plugin-api": "backstage:^"
     "@backstage/catalog-client": "backstage:^"
@@ -7517,13 +7517,13 @@ __metadata:
     ajv-formats: "npm:^3.0.1"
     express: "npm:^4.22.0"
     yaml: "npm:^2.8.2"
-  checksum: 10c0/41d338e71aa1e408ebeb5c11ff7eeabbce03b0ea0cf69dc52c29bab1a726cb8bdc962980c9168a13b4199d2eca9f93efe77f337aa80250bbcb0db0016d790f03
+  checksum: 10c0/4a61b4b2bde44b33a269762e04c6a3f3b366d8a1deaecf27070511dd87a8fe1facb391251ce2d85160e1e78085c73be479e31f97c6e30a5d7943aff8e81b5f44
   languageName: node
   linkType: hard
 
-"@kartverket/backstage-plugin-risk-scorecard@npm:8.1.2":
-  version: 8.1.2
-  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:8.1.2"
+"@kartverket/backstage-plugin-risk-scorecard@npm:8.1.3":
+  version: 8.1.3
+  resolution: "@kartverket/backstage-plugin-risk-scorecard@npm:8.1.3"
   dependencies:
     "@backstage/catalog-model": "backstage:^"
     "@backstage/core-components": "backstage:^"
@@ -7547,7 +7547,7 @@ __metadata:
     react-markdown: "npm:^10.1.0"
     remark-breaks: "npm:^4.0.0"
     remixicon: "npm:^4.9.1"
-  checksum: 10c0/cca4aed203c5d2c039c6d4c1713c22bfe8b9a9132c29299c0af032d1aee804dc460bbbb754b239ba251dab58f1f03f576e33cc6e44ca9d085390ffd658bcce6e
+  checksum: 10c0/4544ec674f9a54fe79c71822a91051b39d14bc42d8da4bfa4b9e7c050329cf4645269d56a1a7ae91d1189db82a2c0876bd47308a76dd2b71cb0bec38e03053c7
   languageName: node
   linkType: hard
 
@@ -15449,7 +15449,7 @@ __metadata:
     "@internal/plugin-function-kind-common": "workspace:^"
     "@kartverket/backstage-plugin-catalog-creator": "workspace:"
     "@kartverket/backstage-plugin-opencost": "npm:0.1.7"
-    "@kartverket/backstage-plugin-risk-scorecard": "npm:8.1.2"
+    "@kartverket/backstage-plugin-risk-scorecard": "npm:8.1.3"
     "@kartverket/backstage-plugin-security-champion": "workspace:"
     "@kartverket/backstage-plugin-security-metrics-frontend": "workspace:"
     "@mui/icons-material": "npm:7.3.10"
@@ -16073,7 +16073,7 @@ __metadata:
     "@backstage/plugin-techdocs-backend": "backstage:^"
     "@internal/backstage-plugin-regelrett-schemas-backend": "workspace:^"
     "@internal/plugin-catalog-backend-module-function-kind": "workspace:^"
-    "@kartverket/backstage-plugin-risk-scorecard-backend": "npm:8.1.2"
+    "@kartverket/backstage-plugin-risk-scorecard-backend": "npm:8.1.3"
     "@kartverket/backstage-plugin-security-metrics-backend": "workspace:"
     "@microsoft/microsoft-graph-types": "npm:2.43.1"
     app: "link:../app"
