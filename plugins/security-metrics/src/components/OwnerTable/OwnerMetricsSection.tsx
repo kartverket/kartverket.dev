@@ -1,6 +1,9 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
+import Button from '@mui/material/Button';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useNavigate } from 'react-router-dom';
 import { OwnerSeverityCounts } from '../../typesFrontend';
 import { useGroupInfo } from '../../hooks/useUserInfo';
 import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
@@ -22,6 +25,7 @@ export const OwnerMetricsSection = ({
   showOpen,
   yAxisMax,
 }: OwnerMetricsSectionProps) => {
+  const navigate = useNavigate();
   const { data: group, isLoading: isGroupLoading } = useGroupInfo(
     ownerMetrics.owner,
   );
@@ -31,13 +35,25 @@ export const OwnerMetricsSection = ({
 
   return (
     <Stack gap={2}>
-      {isGroupLoading ? (
-        <Skeleton variant="text" width={200} height={32} />
-      ) : (
-        <Typography variant="h6" fontWeight={600}>
-          {displayName}
-        </Typography>
-      )}
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        {isGroupLoading ? (
+          <Skeleton variant="text" width={200} height={32} />
+        ) : (
+          <Typography variant="h6" fontWeight={600}>
+            {displayName}
+          </Typography>
+        )}
+        <Button
+          variant="text"
+          endIcon={<ArrowForwardIcon />}
+          disabled={isGroupLoading}
+          onClick={() =>
+            navigate(`/catalog/default/group/${rawName}/securityMetrics`)
+          }
+        >
+          Se detaljer
+        </Button>
+      </Stack>
       <MetricsGrid>
         <SystemScannerStatuses data={ownerMetrics.overview.scannerConfig} />
         <SystemRiscStatuses data={ownerMetrics.overview.riscStatus} />
