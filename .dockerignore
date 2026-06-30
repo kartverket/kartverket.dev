@@ -5,4 +5,4 @@ node_modules
 packages/*/src
 packages/*/node_modules
 plugins
-*.local.yaml
+!packages/backend/src/instrumentation.js
