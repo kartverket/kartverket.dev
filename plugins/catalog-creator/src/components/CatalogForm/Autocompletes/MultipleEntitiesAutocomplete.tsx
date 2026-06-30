@@ -7,7 +7,7 @@ import z from 'zod/v4';
 import { EntityErrors, Kind, Kinds } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
-import { Entity } from '@backstage/catalog-model';
+import { Entity, parseEntityRef } from '@backstage/catalog-model';
 import style from '../../../catalog.module.css';
 
 type MultipleEntitiesAutocompleteProps = {
@@ -108,10 +108,19 @@ export const MultipleEntitiesAutocomplete = ({
               value={
                 (value || [])
                   .map(str => {
-                    return (entities || []).find(entity => {
+                    const found = (entities || []).find(entity => {
                       const entityStr = `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
                       return entityStr === str;
                     });
+                    if (found) return found;
+                    const parsed = parseEntityRef(str);
+                    return {
+                      kind: parsed.kind,
+                      metadata: {
+                        name: parsed.name,
+                        namespace: parsed.namespace,
+                      },
+                    } as Entity;
                   })
                   .filter(Boolean) as Entity[]
               }
@@ -156,13 +165,22 @@ export const MultipleEntitiesAutocomplete = ({
                 return option.metadata.title ?? option.metadata.name;
               }}
               isOptionEqualToValue={(option, selectedValue) => {
-                const optionName =
-                  typeof option === 'string' ? option : option.metadata.name;
-                const valueName =
+                if (
+                  typeof option === 'string' &&
                   typeof selectedValue === 'string'
-                    ? selectedValue
-                    : selectedValue.metadata?.name;
-                return optionName === valueName;
+                ) {
+                  return option === selectedValue;
+                }
+                if (
+                  typeof option !== 'string' &&
+                  typeof selectedValue !== 'string'
+                ) {
+                  return (
+                    formatEntityString(option) ===
+                    formatEntityString(selectedValue)
+                  );
+                }
+                return false;
               }}
               size="small"
               renderInput={params => (

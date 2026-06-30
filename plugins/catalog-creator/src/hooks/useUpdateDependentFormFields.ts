@@ -19,6 +19,11 @@ export const useUpdateDependentFormFields = (
     return `${entity.kind.toLowerCase()}:${entity.metadata.namespace?.toLowerCase() ?? 'default'}/${entity.metadata.name}`;
   };
 
+  const hasNonDefaultNamespace = (ref: string): boolean => {
+    const match = ref.match(/^[^:]+:([^/]+)\//);
+    return !!match && match[1] !== 'default';
+  };
+
   useEffect(() => {
     if (options.loading) {
       return;
@@ -38,8 +43,15 @@ export const useUpdateDependentFormFields = (
         }
         return [];
       });
+
+      const nonDefaultRefs = valueToWatch.filter(e =>
+        hasNonDefaultNamespace(e),
+      );
+
       const elementsToDelete = [
-        ...valueToWatch.filter(e => !intersection.includes(e)),
+        ...valueToWatch.filter(
+          e => !intersection.includes(e) && !nonDefaultRefs.includes(e),
+        ),
       ];
 
       if (elementsToDelete.length > 0) {
@@ -50,7 +62,9 @@ export const useUpdateDependentFormFields = (
           setValue(fieldPath, '');
         } else {
           setValue(fieldPath, [
-            ...valueToWatch.filter(e => intersection.includes(e)),
+            ...valueToWatch.filter(
+              e => intersection.includes(e) || nonDefaultRefs.includes(e),
+            ),
           ]);
         }
       }

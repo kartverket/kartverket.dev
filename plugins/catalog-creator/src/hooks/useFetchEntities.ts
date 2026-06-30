@@ -50,7 +50,9 @@ export const useFetchEntities = (
             if (
               fromFormEntities
                 .map(entity => `${entity.kind}:default/${entity.metadata.name}`)
-                .includes(`${e.kind}:default/${e.metadata.name}`)
+                .includes(
+                  `${e.kind}:${e.metadata.namespace ?? 'default'}/${e.metadata.name}`,
+                )
             ) {
               return false;
             }
@@ -64,7 +66,7 @@ export const useFetchEntities = (
         e =>
           !fromFormEntities.some(
             formEntity =>
-              `${e.kind}:default/${e.metadata.name}` ===
+              `${e.kind}:${e.metadata.namespace ?? 'default'}/${e.metadata.name}` ===
               `${formEntity.kind}:default/${formEntity.metadata.name}`,
           ),
       );
