@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -26,6 +26,7 @@ interface GraphProps {
   graphTimeline: string;
   showTotal: boolean;
   showOpen: boolean;
+  yAxisMax?: number;
 }
 
 export const Graph = ({
@@ -33,9 +34,13 @@ export const Graph = ({
   graphTimeline,
   showTotal,
   showOpen,
+  yAxisMax,
 }: GraphProps) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark';
+  const uniqueId = useId();
+  const criticalGradientId = `critical-${uniqueId}`;
+  const highGradientId = `high-${uniqueId}`;
 
   const totalStroke = isDarkMode
     ? BASIC_COLORS.PRIMARY_LIGHT
@@ -61,8 +66,8 @@ export const Graph = ({
     >
       <AreaChart data={data}>
         <defs>
-          <LinearGradient id="critical" />
-          <LinearGradient id="high" />
+          <LinearGradient id={criticalGradientId} />
+          <LinearGradient id={highGradientId} />
         </defs>
 
         <XAxis
@@ -73,7 +78,10 @@ export const Graph = ({
               : format(new Date(timestamp), 'dd-MM')
           }
         />
-        <YAxis type="number" domain={[0, yAxisAdjustment(data, showOpen)]} />
+        <YAxis
+          type="number"
+          domain={[0, yAxisMax ?? yAxisAdjustment(data, showOpen)]}
+        />
 
         <Tooltip
           content={(props: TooltipContentProps<ValueType, NameType>) => (
@@ -88,7 +96,7 @@ export const Graph = ({
           stroke={SEVERITY_COLORS.CRITICAL}
           strokeWidth={2}
           fillOpacity={1}
-          fill="url(#critical)"
+          fill={`url(#${criticalGradientId})`}
         />
 
         <Area
@@ -98,7 +106,7 @@ export const Graph = ({
           stroke={SEVERITY_COLORS.HIGH}
           strokeWidth={2}
           fillOpacity={1}
-          fill="url(#high)"
+          fill={`url(#${highGradientId})`}
         />
 
         {showTotal && (

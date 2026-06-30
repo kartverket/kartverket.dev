@@ -123,8 +123,8 @@ export type SikkerhetsmetrikkerOwnerTotal = {
 
 export type OwnerSeverityCounts = {
   owner: string;
-  severityCount: SeverityCount;
-  openSeverityCount: SeverityCount;
+  overview: OverviewResponse;
+  lastMonthSeverityCount: TrendSeverityCounts[];
 };
 
 export type OverviewResponse = {
