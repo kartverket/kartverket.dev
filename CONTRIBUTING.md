@@ -1,48 +1,53 @@
-# Contributing to Kartverket.dev
+# Bidra til Kartverket.dev
 
-You want to contribute to Kartverket.dev? Awesome! Thanks a lot for the
-support :) Here's how you can get started. <br>
-To start a local development environment, follow the instructions below.
+Under finner du alt du trenger for å komme i gang med et lokalt utviklingsmiljø.
 
+## Kom i gang lokalt
+
+```sh
+# 1. Riktig Node-versjon (se `mise.toml` – p.t. Node 24)
+mise install
+corepack enable
+corepack install
+
+# 2. Kopier eksempel-konfigurasjonen og fyll inn env-vars
+cp app-config.local.example.yaml app-config.local.yaml
+# Se «Lokal konfigurasjon»
+
+# 3. Installer og start
+yarn install
+yarn dev
+```
+
+Backstage kjører nå på `http://localhost:3000` (frontend) og
+`http://localhost:7007` (backend).
 
 <br>
 
-## Issues and roadmap
+## Forutsetninger
 
-We use GitHub issues to track bugs and feature requests. You can find the
-backlog as well as the current roadmap in the following places:
+### Node
 
-- Project backlog: https://github.com/orgs/kartverket/projects/13/views/1
-- Project board: https://github.com/orgs/kartverket/projects/13/views/2
-- All issues: https://github.com/kartverket/kartverket.dev/issues
+Prosjektet bruker Node v24, kilden er [`mise.toml`](mise.toml).
 
+#### Sett opp `mise`
 
-<br>
+[`mise`](https://mise.jdx.dev/) er en versjonshåndterer for utviklerverktøy.
+Du kan også bruke `nvm`, `nodenv` eller lignende hvis du foretrekker det.
 
-### Node (prerequisite)
+1. Installer `mise`: https://mise.jdx.dev/getting-started.html#installing-mise-cli
+2. Aktiver `mise` for shellet ditt: https://mise.jdx.dev/getting-started.html#activate-mise
+3. Installer verktøy fra `mise.toml`: `mise install`
 
-This project currently uses Node v24, see source of truth [mise.toml](mise.toml).
-
-#### Setup `mise`
-
-`mise` is a tool version manager https://mise.jdx.dev/.
-
-> `mise` is optional, you may use `nvm`, `nodenv` or any other preferred tool.
-
-
-1. Install `mise` https://mise.jdx.dev/getting-started.html#installing-mise-cli
-2. Activate for your shell https://mise.jdx.dev/getting-started.html#activate-mise
-3. Install tools within repo: `mise install` (it reads from `mise.toml`)
-
-The correct `node` should now apply locally in this project. Check with:
+Verifiser at riktig Node er aktiv i repoet:
 
 ```sh
 node -v
 >>> v24.x.x
 ```
 
-Continue by enabling `yarn` as package manager. `corepack` is used for this, it comes with `node`.
-It will read the correct version from `package.json`.
+Aktiver deretter `yarn` som pakkehåndterer via `corepack` (følger med Node).
+Versjonen leses fra `package.json`.
 
 ```sh
 corepack enable
@@ -51,138 +56,44 @@ corepack install
 
 <br>
 
-### GitHub integration
+## Lokal konfigurasjon
 
-1. Create a personal access token on GitHub with `repo` and `workflow` scopes. Authorize for Kartverket after creation.
-2. Create app-config.local.yaml:
-
-```yaml
-integrations:
-  github:
-    - host: github.com
-      token: your-token
-```
+All lokal konfigurasjon ligger i [`app-config.local.example.yaml`](app-config.local.example.yaml).
+Kopier den til `app-config.local.yaml` (gitignored via `*.local.yaml`) og
+fyll inn de aktuelle miljøvariablene.
 
 <br>
 
-### Persistent sqlite
+## Sett opp auth-providers
 
-1. mkdir db
-2. add this snippet to your app-config.local.yaml
+Backstage bruker tre OAuth-providere lokalt:
 
-```yaml
-backend:
-  database:
-    client: better-sqlite3
-    connection:
-      directory: /<absolute>/<path>/<to>/<repo>/db
-```
+| Provider  | Kreves for                                                            |
+| --------- |-----------------------------------------------------------------------|
+| Microsoft | Innlogging + Entra-avhengige plugins (kreves alltid)                  |
+| GitHub    | catalog-creator (hente catalog-info) og RiSc (lese/skrive til GitHub) |
+| Google    | RiSc (tilgangsstyring)                                                |
 
 <br>
 
-### Add local guest user
-To `app-config.local.yaml` add: 
-```yaml
-auth:
-  providers:
-    guest: {}
-```
+Mer detaljert informasjon om oppsett av spesifikke plugins finnes i deres README-er under [`plugins/`](plugins/).
 
-<br>
-
-### Getting user data and orgs
-
-#### Using the anonymized data from Kartverket
-
-```yaml
-catalog:
-  rules:
-    - allow: [Component, API, Location, Resource, Template, Group, User]
-  locations:
-    - type: file
-      target: ../../test_data/org.yaml
-```
-
-To refresh the data, delete your local sqlites and sync with microsoft provider following the instructions below.
-Then run the script `extract_entities.py` in `/test_data`
-
-#### Using AZ Cli to get org data
-
-Delete the `sqlite` files in the `db` folder before syncing.
-For this you need to have the [az cli](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt) and [microsoft intune](https://learn.microsoft.com/en-us/mem/intune/user-help/microsoft-intune-app-linux) installed.
-After setting up intune you can log in to az cli using: `az login --allow-no-subscriptions --scope https://graph.microsoft.com//.default --use-device-code`
-You might have to ask IT to enroll your device.
-Now you can use the following configuration in `app-config.local.yaml` to get user data from microsoft graph. (it might take 5-10 minutes to sync)
-
-```yaml
-catalog:
-  providers:
-  microsoftGraphOrg:
-    default:
-      tenantId: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
-      queryMode: 'advanced'
-      user:
-        filter: accountEnabled eq true and userType eq 'member'
-      group:
-        filter: >
-          startswith(displayName, 'AAD - TF - TEAM')
-      schedule:
-        frequency: PT1H
-        timeout: PT50M
-```
-
-<br>
-
-### Testing OAuth locally
-
-We run with azure on kubernetes, but for local testing create your own app registration in [Azure Portal](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) or use an existing one.    
-Set the following API permissions: `email`, `offline_access`, `openid`, `profile` `User.Read`.
-
-Also remember to configure the redirect URI to `http://localhost:7007/api/auth/github/handler/frame`
-
-Configure microsoft auth in `app-config.local.yaml`: 
-```yaml
-auth:
-  environment: development
-  providers:
-    microsoft:
-      development:
-        clientId: x
-        clientSecret: x
-        tenantId: x
-```
-
-To login you NEED to use the anonymized data from Kartverket in `test_data/org.yaml`. 
-
-Find a user in `test_data/org.yaml` and replace `annotations.graph.microsoft.com/user-id` with the object ID (OID) for your Microsoft Account found in [Azure Portal](https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/Overview).
-```yaml
-apiVersion: backstage.io/v1alpha1
-kind: User
-metadata:
-  annotations:
-    graph.microsoft.com/user-id: YOUR-OID-FOUND-IN-ENTRA-ID
-  name: Lynn.Villanueva_kartverket.dev
-  namespace: default
-  uid: 40cdf86d-90a1-44b8-830a-db920aadac82
-spec:
-  memberOf: []
-  profile:
-    displayName: Lynn Villanueva
-    email: Lynn.Villanueva@kartverket.dev
-    picture: https://i.imgur.com/zcal7OY.jpeg
-```
-
-<br>
-
-### Start the app
+## Kjøre appen
 
 ```sh
 yarn install
 yarn dev
 ```
 
-<br>
-<br>
+### Kjøre en enkelt plugin isolert
 
-## Plugins
-[Linguist](https://github.com/backstage/community-plugins/blob/main/workspaces/linguist/plugins/linguist) - Plugin to show languages in github repositories. _NB:_ currently removed, but could be reintroduced.
+Alle plugins under [`plugins/`](plugins/) eksponerer `yarn start`
+([`backstage-cli package start`](https://backstage.io/docs/local-dev/cli-commands#package-start)),
+som gir et minimalt oppsett uten resten av Backstage-appen. Praktisk når
+du utvikler på selve pluginen:
+
+```sh
+cd plugins/<plugin-navn>
+yarn start
+```
+
