@@ -79,7 +79,7 @@ sikkerhetsmetrikker:
 regelrett:
   enable: true
   baseUrl: http://localhost:8080
-  url: http://localhost:3000
+  url: http://localhost:8080
   clientId: ${REGELRETT_CLIENT_ID}
 
 # 5c. RiSc / risk-scorecard
