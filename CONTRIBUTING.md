@@ -5,8 +5,7 @@ Under finner du alt du trenger for å komme i gang med et lokalt utviklingsmilj�
 ## Kom i gang lokalt
 
 ```sh
-# 1. Riktig Node-versjon (se `mise.toml` – p.t. Node 24)
-mise install
+# 1. Aktiver yarn som pakkehåndterer (Node 24 kreves, se «Forutsetninger»)
 corepack enable
 corepack install
 
@@ -28,26 +27,16 @@ Backstage kjører nå på `http://localhost:3000` (frontend) og
 
 ### Node
 
-Prosjektet bruker Node v24, kilden er [`mise.toml`](mise.toml).
-
-#### Sett opp `mise`
-
-[`mise`](https://mise.jdx.dev/) er en versjonshåndterer for utviklerverktøy.
-Du kan også bruke `nvm`, `nodenv` eller lignende hvis du foretrekker det.
-
-1. Installer `mise`: https://mise.jdx.dev/getting-started.html#installing-mise-cli
-2. Aktiver `mise` for shellet ditt: https://mise.jdx.dev/getting-started.html#activate-mise
-3. Installer verktøy fra `mise.toml`: `mise install`
-
-Verifiser at riktig Node er aktiv i repoet:
+Prosjektet bruker Node v24 (kilden er [`mise.toml`](mise.toml)). Verifiser at riktig versjon er aktiv i repoet:
 
 ```sh
 node -v
 >>> v24.x.x
 ```
 
-Aktiver deretter `yarn` som pakkehåndterer via `corepack` (følger med Node).
-Versjonen leses fra `package.json`.
+Trenger du å håndtere flere Node-versjoner, er verktøy som [`mise`](https://mise.jdx.dev/), [`nvm`](https://github.com/nvm-sh/nvm) eller `nodenv` fine å bruke.
+
+Aktiver deretter `yarn` som pakkehåndterer via `corepack` (følger med Node). Versjonen leses fra `package.json`.
 
 ```sh
 corepack enable
