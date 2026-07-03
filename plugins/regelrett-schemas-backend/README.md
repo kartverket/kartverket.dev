@@ -1,28 +1,20 @@
 # regelrett-schemas
 
-This plugin backend was templated using the Backstage CLI. You should replace this text with a description of your plugin backend.
+Backend-plugin som eksponerer informasjon om eksisterende Regelrett-skjemaer og status på disse til Backstage-frontend.
 
-## Installation
+## Installasjon
 
-This plugin is installed via the `@internal/backstage-plugin-regelrett-schemas-backend` package. To install it to your backend package, run the following command:
-
-```bash
-# From your root directory
-yarn --cwd packages/backend add @internal/backstage-plugin-regelrett-schemas-backend
-```
-
-Then add the plugin to your backend in `packages/backend/src/index.ts`:
+Pluginen ligger som `@internal/backstage-plugin-regelrett-schemas-backend`
+i dette repoet og er allerede registrert i `packages/backend/src/index.ts`:
 
 ```ts
-const backend = createBackend();
-// ...
 backend.add(import('@internal/backstage-plugin-regelrett-schemas-backend'));
 ```
 
-## Development
+## Konfigurasjon
 
-This plugin backend can be started in a standalone mode from directly in this
-package with `yarn start`. It is a limited setup that is most convenient when
-developing the plugin backend itself.
+Pluginen leser `regelrett.*` fra `app-config.*.yaml`. Kopier blokk 5b fra
+[`app-config.local.example.yaml`](../../app-config.local.example.yaml) inn i
+din `app-config.local.yaml` og fyll inn `REGELRETT_CLIENT_ID`. Krever at
+regelrett-backend kjører lokalt (typisk på `http://localhost:8080`).
 
-If you want to run the entire project, including the frontend, run `yarn start` from the root directory.

@@ -1,24 +1,25 @@
-# Security metrics (frontend-plugin)
+# Sikkerhetsmetrikker – frontend-plugin
 
-This is a frontend plugin for the Security Metrics Backstage plugin. It gives an overview of security-metrics delivered
-by scanners on repositories owned by kartverket. The plugin is dependent on a associated backend-plugin for Backstage
-and a separate kotlin/spring-boot backend. The package should be added in the `packages/app`directory
+`@kartverket/backstage-plugin-security-metrics-frontend`
 
-> **_NOTE:_** Ensure that you have installed and configured the backend plugin as
-> well: [@kartverket/backstage-plugin-security-metrics-backend](https://www.npmjs.com/package/@kartverket)
+Frontend-plugin som legger fanen **«Sikkerhetsmetrikker»** på entiteter i Backstage-katalogen. Visualiserer sikkerhetsmetrikker-data som hentes fra det eksterne sikkerhetsmetrikker-APIet ([`kartverket/sikkerhetsmetrikker`](https://github.com/kartverket/sikkerhetsmetrikker).
 
-### kartverket.dev configuration
+> Hvorfor denne pluginen finnes og hvordan OBO-flyten (On-Behalf-Of) fungerer i detalj er dokumentert i Confluence under Produkter og *Sikkerhetsmetrikker*. Denne README-en dekker kun oppsett og kjøring.
 
-To show the tab introduced by the plugin, add the following component to the needed pages in `EntityPage.tsx`.
+## Avhengigheter
 
-```typescript
-<EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-    <SecurityMetricsPage />
-</EntityLayout.Route>
-```
+- Backend-pluginen `@kartverket/backstage-plugin-security-metrics-backend` må være konfigurert i `packages/backend`.
+- Microsoft-innlogging må være aktivert i Backstage (`auth.providers.microsoft.*`) – se root-repoets `CONTRIBUTING.md`.
+- Det eksterne sikkerhetsmetrikker-APIet ([`kartverket/sikkerhetsmetrikker`](https://github.com/kartverket/sikkerhetsmetrikker)) må være tilgjengelig for Backstage-backenden.
+## Konfigurasjon
 
-### Links
+Ingen egen konfigurasjon utover det Backstage har fra før:
 
-- [Github repository for both plugins](https://github.com/kartverket/sikkerhetsmetrikker-plugin)
+- `backend.baseUrl` brukes til å bygge URLen til proxy-endepunktene.
+- `auth.providers.microsoft.*` må være aktivert for at brukeren skal kunne hente et Entra ID-token.
+  Nøklene under `sikkerhetsmetrikker.*` leses av backend-pluginen, se [dens README](../security-metrics-backend/README.md).
 
-- [Github repository for backend](https://github.com/kartverket/sikkerhetsmetrikker-plugin-backend)
+For at fanen skal vise data må i tillegg dette være på plass:
+
+1. Sikkerhetsmetrikker-APIet kjører lokalt, som standard på `http://localhost:8080` – se `sikkerhetsmetrikker.baseUrl` i `app-config.local.yaml`. Oppstart er dekket i [kartverket/sikkerhetsmetrikker](https://github.com/kartverket/sikkerhetsmetrikker).
+2. Du er logget inn i Backstage med Microsoft-kontoen din.
