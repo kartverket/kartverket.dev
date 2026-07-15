@@ -3,28 +3,28 @@ name: Build
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches: ['main']
     # Publish semver tags as releases.
-    tags: ["v*.*.*"]
+    tags: ['v*.*.*']
     paths-ignore:
       - README.md
       - CONTRIBUTING.md
       - CODEOWNERS
-      - "docs/**"
-      - "terraform/**"
-      - ".gitignore"
-      - "mkdocs.yml"
+      - 'docs/**'
+      - 'terraform/**'
+      - '.gitignore'
+      - 'mkdocs.yml'
       - catalog-info.yaml
   pull_request:
-    branches: ["main"]
+    branches: ['main']
     paths-ignore:
       - README.md
       - CONTRIBUTING.md
       - CODEOWNERS
-      - "docs/**"
-      - "terraform/**"
-      - ".gitignore"
-      - "mkdocs.yml"
+      - 'docs/**'
+      - 'terraform/**'
+      - '.gitignore'
+      - 'mkdocs.yml'
       - catalog-info.yaml
 
 env:
@@ -55,7 +55,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 24.x # From mise.toml
-          cache: "npm"
+          cache: 'npm'
 
       - run: corepack enable
 
@@ -78,7 +78,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@v3.4.0
         with:
-          cosign-release: "v2.2.3"
+          cosign-release: 'v2.2.3'
 
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
