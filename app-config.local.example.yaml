@@ -1,0 +1,96 @@
+# Mal for lokal Backstage-konfigurasjon. Kopier til `app-config.local.yaml`
+# og fyll inn env-vars. Se CONTRIBUTING.md → «Lokal konfigurasjon» for mer info.
+
+# 1. GitHub-integrasjon
+# Personal Access Token (PAT) med `repo` og `workflow`-scope, autorisert for
+# Kartverket-orgen. Uten dette får ikke katalogen lest `catalog-info.yaml` fra GitHub.
+integrations:
+  github:
+    - host: github.com
+      token: ${GITHUB_PAT}
+
+# 2. Persistent SQLite
+# Uten dette blir SQLite-databasen slettet ved hver backend-restart.
+backend:
+  database:
+    client: better-sqlite3
+    connection:
+      directory: <absolutt sti til repoet>/db
+
+# 3. Auth-providers
+# Se CONTRIBUTING.md → «Sett opp auth-providers».
+auth:
+  environment: development
+  providers:
+    microsoft:
+      development:
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    google:
+      development:
+        clientId: ${AUTH_GOOGLE_CLIENT_ID}
+        clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
+
+# 4. Katalog-synk fra Microsoft Graph
+# Henter `User`- og `Group`-entiteter fra Entra ID.
+catalog:
+  providers:
+    microsoftGraphOrg:
+      default:
+        tenantId: ${KV_MICROSOFT_GRAPH_TENANT_ID}
+        queryMode: advanced
+        user:
+          filter: accountEnabled eq true and userType eq 'member' and startsWith(companyName, 'Staten')
+          select:
+            [
+              'accountEnabled',
+              'displayName',
+              'givenName',
+              'id',
+              'mail',
+              'mailNickname',
+              'userPrincipalName',
+              'surname',
+              'companyName',
+              'userType',
+            ]
+        group:
+          filter: >
+            startswith(displayName, 'AAD - TF - TEAM') or startswith(displayName, 'AAD - TF - BUSINESS UNIT') or startswith(displayName, 'AAD - TF - PRODUCT AREA')
+        schedule:
+          frequency: PT1H
+          timeout: PT50M
+        clientId: ${KV_MICROSOFT_GRAPH_CLIENT_ID}
+
+# 5a. Sikkerhetsmetrikker
+# Se plugins/security-metrics-backend/README.md
+sikkerhetsmetrikker:
+  enable: true
+  baseUrl: http://localhost:8080
+  clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
+
+# 5b. Regelrett
+# Se plugins/regelrett-schemas-backend/README.md.
+regelrett:
+  enable: true
+  baseUrl: http://localhost:8080
+  url: http://localhost:8080
+  clientId: ${REGELRETT_CLIENT_ID}
+
+# 5c. RiSc / risk-scorecard
+ros:
+  sops:
+    ageKey: ${ROS_SOPS_AGE_KEY}
+    backendPublicKey: ${ROS_SOPS_BACKEND_PUBLIC_KEY}
+    securityTeamPublicKey: ${ROS_SOPS_SECURITY_TEAM_PUBLIC_KEY}
+    securityPlatformPublicKey: ${ROS_SOPS_SECURITY_PLATFORM_PUBLIC_KEY}
+  slack:
+    webhookUrl: ${ROS_SLACK_WEBHOOK_URL}
+  initRiSc:
+    repoOwner: kartverket
+    repoName: initial-riscs-collection

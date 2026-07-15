@@ -10,7 +10,9 @@ export const LinearGradient = ({ id }: LinearGradientProps) => {
       <stop
         offset="0%"
         stopColor={
-          id === 'critical' ? SEVERITY_COLORS.CRITICAL : SEVERITY_COLORS.HIGH
+          id.startsWith('critical')
+            ? SEVERITY_COLORS.CRITICAL
+            : SEVERITY_COLORS.HIGH
         }
         stopOpacity={0.3}
       />

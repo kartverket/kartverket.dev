@@ -62,6 +62,7 @@ ENV NODE_OPTIONS="--no-node-snapshot"
 WORKDIR /app
 
 COPY package.json app-config*.yaml  ./
+COPY --chown=${NOT_ROOT_USER}:${NOT_ROOT_USER} packages/backend/src/instrumentation.js ./
 COPY --from=build /app /app
 
-CMD ["packages/backend","--config","app-config.yaml","--config","app-config.production.yaml", "--config","app-config.runtime.yaml"] 
+CMD ["--require","./instrumentation.js","packages/backend","--config","app-config.yaml","--config","app-config.production.yaml", "--config","app-config.runtime.yaml"]
