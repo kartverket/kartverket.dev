@@ -52,29 +52,14 @@
     "jest-environment-jsdom": "30.3.0",
     "knip": "6.4.1",
     "lint-staged": "16.4.0",
+    "pastoralist": "^1.12.8",
     "prettier": "3.8.3",
     "typescript": "6.0.3"
   },
   "resolutions": {
     "@types/react-dom": "18.3.7",
     "@mui/material": "7.3.10",
-    "fast-xml-parser": "5.7.0",
-    "linkifyjs": "4.3.2",
-    "lodash-es": "4.18.1",
-    "lodash": "4.18.1",
-    "underscore": "1.13.8",
-    "undici": "7.28.0",
-    "dompurify": "3.4.12",
-    "ws": "8.21.1",
-    "webpack-dev-server": "5.2.6",
-    "esbuild": "0.28.1",
-    "uuid": "11.1.1",
-    "prismjs": "1.30.0",
-    "picomatch": "4.0.4",
-    "brace-expansion": "2.0.3",
-    "bn.js": "4.12.3",
-    "@protobufjs/inquire": "1.1.0",
-    "@kartverket/ros-common": "8.0.1"
+    "@kartverket/ros-common": "8.3.0"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
@@ -89,5 +74,31 @@
   "dependencies": {
     "@types/react": "18.3.12"
   },
-  "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
+  "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538",
+  "pastoralist": {
+    "appendix": {
+      "@types/react-dom@18.3.7": {
+        "dependents": {
+          "root": "@types/react-dom (unused override)",
+          "app": "@types/react-dom@18.3.7"
+        },
+        "ledger": {
+          "addedDate": "2023-11-21T17:52:56+01:00"
+        }
+      },
+      "@mui/material@7.3.10": {
+        "dependents": {
+          "root": "@mui/material (unused override)",
+          "app": "@mui/material@7.3.10",
+          "@kartverket/backstage-plugin-catalog-creator": "@mui/material@7.3.10",
+          "@internal/plugin-frontend-custom-components": "@mui/material@7.3.10",
+          "@kartverket/backstage-plugin-security-champion": "@mui/material@7.3.10",
+          "@kartverket/backstage-plugin-security-metrics-frontend": "@mui/material@7.3.10"
+        },
+        "ledger": {
+          "addedDate": "2023-11-21T17:52:56+01:00"
+        }
+      }
+    }
+  }
 }
