@@ -56,7 +56,10 @@ COPY packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # --- Runtime: distroless NodeJS
-FROM gcr.io/distroless/nodejs24-debian13@sha256:ef5f3caf80da1630edd1a4df7b307a8f7d4553f8eec1dd29852b76e793593903
+# To update: docker buildx imagetools inspect gcr.io/distroless/nodejs24-debian13
+# Use the top-level "Digest:" value (Index Digest, safe for all platforms)
+FROM gcr.io/distroless/nodejs24-debian13@sha256:7a22f300e7bd7ec78f3db220fb679af4e169e5f3373f97fe432847111f9b1810
+
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
 WORKDIR /app
