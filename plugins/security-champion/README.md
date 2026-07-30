@@ -2,7 +2,7 @@
 
 A simple card for viewing and updating the security champion on Backstage entities.
 
-This security champion plugin displays the security champion of a backstage component in the Kartverket.dev developer portal and enables changing the security champion from within backstage. The plugin enables a loged in user to search through users in the catalog by email and set a user as security champion. The plugin is dependent on the [Security Champion API](https://github.com/kartverket/security-champion-api).
+This security champion plugin displays the security champion of a Backstage component in the Kartverket.dev developer portal and enables changing the security champion from within Backstage. The plugin enables a logged in user to search through users in the catalog by email and set a user as security champion. The plugin is dependent on the [Security Champion API](https://github.com/kartverket/security-champion-api).
 
 ## Run the plugin
  The security champion plugin is a frontend backstage plugin implying that react components can be imported directly into the pages they are used. In order for the frontend to connect to the Security Champion API, running locally, a local proxy address must be defined in app-config.local.yaml:
