@@ -15,8 +15,8 @@ type Props = {
 export const RiscStatusTable = ({ statuses }: Props) => (
   <Table>
     <TableBody>
-      {statuses.map(status => (
-        <StyledTableRow key={status.repositoryName ?? 'unknown'}>
+      {statuses.map((status, idx) => (
+        <StyledTableRow key={status.repositoryName ?? `unknown-${idx}`}>
           <TableCell>
             <Typography variant="body2">
               {status.repositoryName ?? 'Ukjent'}

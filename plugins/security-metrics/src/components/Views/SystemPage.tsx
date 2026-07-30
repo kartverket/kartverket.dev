@@ -13,7 +13,7 @@ import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
-import { RiscStatusCard } from '../RiscStatus/RiscStatusCard.tsx';
+import { RiscStatusCard } from '../RiscStatus/RiscStatusCard';
 
 export const SystemPage = () => {
   const { entity } = useEntity();

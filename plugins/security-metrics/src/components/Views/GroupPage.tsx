@@ -24,8 +24,8 @@ import { UniqueVulnerabilitiesTable } from '../UniqueVulnerabilitiesTable/Unique
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
 import { OwnerTable } from '../OwnerTable/OwnerTable';
-import { RiscStatusByTeamCard } from '../RiscStatus/RiscStatusByTeamCard.tsx';
-import { RiscStatusCard } from '../RiscStatus/RiscStatusCard.tsx';
+import { RiscStatusByTeamCard } from '../RiscStatus/RiscStatusByTeamCard';
+import { RiscStatusCard } from '../RiscStatus/RiscStatusCard';
 
 enum TabEnum {
   COMPONENT = 0,

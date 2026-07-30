@@ -10,7 +10,7 @@ import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import { OwnerTrendGraph } from '../Trend/OwnerTrendGraph';
 import { MetricsGrid } from '../shared/MetricsGrid';
-import { RiscStatusCard } from '../RiscStatus/RiscStatusCard.tsx';
+import { RiscStatusCard } from '../RiscStatus/RiscStatusCard';
 
 interface OwnerMetricsSectionProps {
   ownerMetrics: OwnerSeverityCounts;
