@@ -217,6 +217,7 @@ export interface RiscStatusData {
   hasRisc?: boolean;
   lastPublishedRisc?: string;
   commitsSincePublishedRisc?: number;
+  owner?: string;
 }
 
 export type Severity =

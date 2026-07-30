@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { OwnerSeverityCounts } from '../../typesFrontend';
 import { useGroupInfo } from '../../hooks/useUserInfo';
 import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
-import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
 import { OwnerTrendGraph } from '../Trend/OwnerTrendGraph';
 import { MetricsGrid } from '../shared/MetricsGrid';
+import { RiscStatusCard } from '../RiscStatus/RiscStatusCard.tsx';
 
 interface OwnerMetricsSectionProps {
   ownerMetrics: OwnerSeverityCounts;
@@ -59,7 +59,7 @@ export const OwnerMetricsSection = ({
       </Stack>
       <MetricsGrid>
         <SystemScannerStatuses data={ownerMetrics.overview.scannerConfig} />
-        <SystemRiscStatuses data={ownerMetrics.overview.riscStatus} />
+        <RiscStatusCard data={ownerMetrics.overview.riscStatus} />
         <VulnerabilityCountsOverview
           severityCount={ownerMetrics.overview.severityCount}
           openSeverityCount={ownerMetrics.overview.openSeverityCount}
