@@ -1,6 +1,6 @@
 # Security champion plugin
 
-A simple card displaying user profiles at group, system and component view.
+A simple card for viewing and updating the security champion on Backstage entities.
 
 This security champion plugin displays the security champion of a backstage component in the Kartverket.dev developer portal and enables changing the security champion from within backstage. The plugin enables a loged in user to search through users in the catalog by email and set a user as security champion. The plugin is dependent on the [Security Champion API](https://github.com/kartverket/security-champion-api).
 
