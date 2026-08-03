@@ -5,7 +5,6 @@ import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
 import { Secrets } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
-import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../shared/ErrorBanner';
 import { useOverviewQuery } from '../../hooks/useOverviewQuery';
@@ -14,6 +13,7 @@ import { useSecurityMetricsViewSettings } from '../../hooks/useShowTrendTotal';
 import { useFetchComponentNamesFromSystem } from '../../hooks/useFetchComponentNames';
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
+import { RiscStatusCard } from '../RiscStatus/RiscStatusCard';
 
 export const SystemPage = () => {
   const { entity } = useEntity();
@@ -75,7 +75,7 @@ export const SystemPage = () => {
 
       <MetricsGrid>
         <SystemScannerStatuses data={overviewData?.scannerConfig ?? []} />
-        <SystemRiscStatuses data={overviewData?.riscStatus ?? []} />
+        <RiscStatusCard data={overviewData?.riscStatus ?? []} />
         <VulnerabilityCountsOverview
           severityCount={overviewData?.severityCount}
           openSeverityCount={overviewData?.openSeverityCount}

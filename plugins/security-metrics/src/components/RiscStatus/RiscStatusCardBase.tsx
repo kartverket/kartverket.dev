@@ -1,60 +1,28 @@
 import Box from '@mui/material/Box';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { RiscStatusData } from '../../typesFrontend';
 import { CardTitle } from '../shared/CardTitle';
-import { RiscStatusDialog } from './RiscStatusDialog';
-import { calculateDaysSince } from './utils';
-import { SvgIconProps } from '@mui/material/SvgIcon';
 import { StatusRow } from '../shared/StatusRow';
+import { CATEGORIES, RiscCategory, categorise } from './categories';
 
-interface SystemRiscStatusesProps {
-  data: RiscStatusData[];
-}
-
-type RiscCategory = 'mangler' | 'utdatert' | 'oppdatert';
-
-type CategoryConfig = {
-  key: RiscCategory;
+type RenderDialogArgs = {
+  category: RiscCategory;
   label: string;
-  Icon: React.ComponentType<SvgIconProps>;
-  color: SvgIconProps['color'];
+  statuses: RiscStatusData[];
+  isOpen: boolean;
+  setOpen: (open: boolean) => void;
 };
 
-const CATEGORIES: CategoryConfig[] = [
-  {
-    key: 'mangler',
-    label: 'Mangler RoS',
-    Icon: CloseIcon,
-    color: 'error',
-  },
-  {
-    key: 'utdatert',
-    label: 'Utdatert RoS',
-    Icon: CheckIcon,
-    color: 'warning',
-  },
-  {
-    key: 'oppdatert',
-    label: 'Oppdatert RoS',
-    Icon: CheckIcon,
-    color: 'success',
-  },
-];
-
-const categorise = (risc: RiscStatusData): RiscCategory => {
-  if (!risc.hasRisc) return 'mangler';
-  if (!risc.lastPublishedRisc) return 'mangler';
-  const days = calculateDaysSince(risc.lastPublishedRisc) ?? 0;
-  return days > 365 ? 'utdatert' : 'oppdatert';
+type Props = {
+  data: RiscStatusData[];
+  renderDialog: (args: RenderDialogArgs) => ReactNode;
 };
 
-export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
+export const RiscStatusCardBase = ({ data, renderDialog }: Props) => {
   const [openDialogFor, setOpenDialogFor] = useState<RiscCategory | null>(null);
 
   if (!data || data.length === 0) {
@@ -103,12 +71,13 @@ export const SystemRiscStatuses = ({ data }: SystemRiscStatusesProps) => {
                   />
                 </Box>
               </StatusRow>
-              <RiscStatusDialog
-                categoryLabel={label}
-                riscStatuses={statuses}
-                isDialogOpen={openDialogFor === key}
-                setIsDialogOpen={open => setOpenDialogFor(open ? key : null)}
-              />
+              {renderDialog({
+                category: key,
+                label,
+                statuses,
+                isOpen: openDialogFor === key,
+                setOpen: open => setOpenDialogFor(open ? key : null),
+              })}
             </Box>
           );
         })}
