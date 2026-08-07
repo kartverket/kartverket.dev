@@ -125,13 +125,18 @@ export type UniqueVulnerabilities = {
   vulnerabilities: AggregatedVulnerability[];
 };
 
+export type AggregatedAffectedComponent = {
+  componentName: string;
+  status: Status | null;
+};
+
 export type AggregatedVulnerability = {
   vulnerabilityId: string;
   severity: Severity;
   scanners: Scanner[];
   summary: string;
   dateFirstSeen: string;
-  affectedComponents: string[];
+  affectedComponents: AggregatedAffectedComponent[];
 };
 
 export type Severity =
