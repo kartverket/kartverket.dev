@@ -25,19 +25,43 @@ import {
 
 type Props = {
   data: AggregatedVulnerability[];
+  showOpen: boolean;
 };
 
-export const UniqueVulnerabilitiesTable = ({ data }: Props) => {
+export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
   const [sortType, setSortType] = useState<SortType>('Alvorlighetsgrad');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
+  const [prevShowOpen, setPrevShowOpen] = useState(showOpen);
+  if (prevShowOpen !== showOpen) {
+    setPrevShowOpen(showOpen);
+    setPage(0);
+  }
+
+  const visibleVulnerabilities = useMemo(() => {
+    if (!showOpen) {
+      return data;
+    }
+
+    return data
+      .map(vulnerability => ({
+        ...vulnerability,
+        affectedComponents: vulnerability.affectedComponents.filter(
+          component => component.status !== 'AKSEPTERT',
+        ),
+      }))
+      .filter(vulnerability => vulnerability.affectedComponents.length > 0);
+  }, [data, showOpen]);
+
   const filteredVulnerabilities = useMemo(
     () =>
-      data.filter(vulnerability => matchesSearch(vulnerability, searchQuery)),
-    [data, searchQuery],
+      visibleVulnerabilities.filter(vulnerability =>
+        matchesSearch(vulnerability, searchQuery),
+      ),
+    [visibleVulnerabilities, searchQuery],
   );
 
   const sortedVulnerabilities = useMemo(() => {
@@ -104,7 +128,9 @@ export const UniqueVulnerabilitiesTable = ({ data }: Props) => {
 
         <Box sx={{ mt: 1 }}>
           <Typography variant="body2" sx={{ opacity: 0.7 }}>
-            Viser {sortedVulnerabilities.length} av {data.length} sårbarheter
+            Viser {sortedVulnerabilities.length} av{' '}
+            {visibleVulnerabilities.length}
+            {showOpen ? ' åpne' : ''} sårbarheter
           </Typography>
         </Box>
       </Paper>

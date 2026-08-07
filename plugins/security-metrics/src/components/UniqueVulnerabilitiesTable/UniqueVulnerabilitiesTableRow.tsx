@@ -51,15 +51,15 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
           <Typography variant="body2">
             {components.length} komponenter:{' '}
             {previewComponents.map((component, index) => (
-              <span key={component}>
+              <span key={component.componentName}>
                 {index > 0 && ', '}
                 <Link
                   component="button"
                   underline="hover"
-                  onClick={() => goToComponent(component)}
+                  onClick={() => goToComponent(component.componentName)}
                   sx={{ verticalAlign: 'baseline' }}
                 >
-                  {component}
+                  {component.componentName}
                 </Link>
               </span>
             ))}
@@ -87,13 +87,15 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                 <TableBody>
                   {components.map(component => (
                     <StyledTableRow
-                      key={component}
+                      key={component.componentName}
                       hover
                       sx={{ cursor: 'pointer' }}
-                      onClick={() => goToComponent(component)}
+                      onClick={() => goToComponent(component.componentName)}
                     >
                       <TableCell sx={{ borderBottom: 'none' }}>
-                        <Typography variant="body2">{component}</Typography>
+                        <Typography variant="body2">
+                          {component.componentName}
+                        </Typography>
                       </TableCell>
                       <TableCell
                         align="right"
