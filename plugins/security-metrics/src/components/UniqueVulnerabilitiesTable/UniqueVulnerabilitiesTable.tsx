@@ -35,12 +35,6 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
-  const [prevShowOpen, setPrevShowOpen] = useState(showOpen);
-  if (prevShowOpen !== showOpen) {
-    setPrevShowOpen(showOpen);
-    setPage(0);
-  }
-
   const visibleVulnerabilities = useMemo(() => {
     if (!showOpen) {
       return data;
@@ -86,10 +80,16 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
     });
   }, [filteredVulnerabilities, sortOrder, sortType]);
 
+  const pageCount = Math.max(
+    1,
+    Math.ceil(sortedVulnerabilities.length / rowsPerPage),
+  );
+  const safePage = Math.min(page, pageCount - 1);
+
   const paginatedVulnerabilities = useMemo(() => {
-    const start = page * rowsPerPage;
+    const start = safePage * rowsPerPage;
     return sortedVulnerabilities.slice(start, start + rowsPerPage);
-  }, [page, rowsPerPage, sortedVulnerabilities]);
+  }, [safePage, rowsPerPage, sortedVulnerabilities]);
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
@@ -191,7 +191,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
               <TablePagination
                 colSpan={3}
                 count={sortedVulnerabilities.length}
-                page={page}
+                page={safePage}
                 onPageChange={(_, newPage) => setPage(newPage)}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={event => {
