@@ -205,14 +205,10 @@ export const GroupPage = () => {
       {selectedTab === TabEnum.VULNERABILITIES &&
         !isUniqueVulnerabilitiesLoading &&
         !uniqueVulnerabilitiesError && (
-          <>
-            {showOpen && (
-              <Alert severity="info">
-                Viser alle sårbarheter, ikke bare åpne
-              </Alert>
-            )}
-            <UniqueVulnerabilitiesTable data={aggregatedVulnerabilities} />
-          </>
+          <UniqueVulnerabilitiesTable
+            data={aggregatedVulnerabilities}
+            showOpen={showOpen}
+          />
         )}
 
       {selectedTab === TabEnum.COMPONENT && isComponentsLoading && <Progress />}

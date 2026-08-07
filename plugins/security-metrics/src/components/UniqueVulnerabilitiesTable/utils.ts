@@ -37,7 +37,7 @@ export const matchesSearch = (
     vulnerability.vulnerabilityId,
     vulnerability.summary,
     vulnerability.severity,
-    ...vulnerability.affectedComponents,
+    ...vulnerability.affectedComponents.map(c => c.componentName),
   ]
     .join(' ')
     .toLowerCase()

@@ -25,19 +25,37 @@ import {
 
 type Props = {
   data: AggregatedVulnerability[];
+  showOpen: boolean;
 };
 
-export const UniqueVulnerabilitiesTable = ({ data }: Props) => {
+export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
   const [sortType, setSortType] = useState<SortType>('Alvorlighetsgrad');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
+  const visibleVulnerabilities = useMemo(() => {
+    if (!showOpen) {
+      return data;
+    }
+
+    return data
+      .map(vulnerability => ({
+        ...vulnerability,
+        affectedComponents: vulnerability.affectedComponents.filter(
+          component => component.status !== 'AKSEPTERT',
+        ),
+      }))
+      .filter(vulnerability => vulnerability.affectedComponents.length > 0);
+  }, [data, showOpen]);
+
   const filteredVulnerabilities = useMemo(
     () =>
-      data.filter(vulnerability => matchesSearch(vulnerability, searchQuery)),
-    [data, searchQuery],
+      visibleVulnerabilities.filter(vulnerability =>
+        matchesSearch(vulnerability, searchQuery),
+      ),
+    [visibleVulnerabilities, searchQuery],
   );
 
   const sortedVulnerabilities = useMemo(() => {
@@ -62,10 +80,16 @@ export const UniqueVulnerabilitiesTable = ({ data }: Props) => {
     });
   }, [filteredVulnerabilities, sortOrder, sortType]);
 
+  const pageCount = Math.max(
+    1,
+    Math.ceil(sortedVulnerabilities.length / rowsPerPage),
+  );
+  const safePage = Math.min(page, pageCount - 1);
+
   const paginatedVulnerabilities = useMemo(() => {
-    const start = page * rowsPerPage;
+    const start = safePage * rowsPerPage;
     return sortedVulnerabilities.slice(start, start + rowsPerPage);
-  }, [page, rowsPerPage, sortedVulnerabilities]);
+  }, [safePage, rowsPerPage, sortedVulnerabilities]);
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
@@ -104,7 +128,9 @@ export const UniqueVulnerabilitiesTable = ({ data }: Props) => {
 
         <Box sx={{ mt: 1 }}>
           <Typography variant="body2" sx={{ opacity: 0.7 }}>
-            Viser {sortedVulnerabilities.length} av {data.length} sårbarheter
+            Viser {sortedVulnerabilities.length} av{' '}
+            {visibleVulnerabilities.length}
+            {showOpen ? ' åpne' : ''} sårbarheter
           </Typography>
         </Box>
       </Paper>
@@ -165,7 +191,7 @@ export const UniqueVulnerabilitiesTable = ({ data }: Props) => {
               <TablePagination
                 colSpan={3}
                 count={sortedVulnerabilities.length}
-                page={page}
+                page={safePage}
                 onPageChange={(_, newPage) => setPage(newPage)}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={event => {
