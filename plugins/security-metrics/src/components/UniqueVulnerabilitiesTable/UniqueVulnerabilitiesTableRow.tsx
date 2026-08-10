@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import type { AggregatedVulnerability } from '../../typesFrontend';
+import type {
+  AggregatedAffectedComponent,
+  AggregatedVulnerability,
+} from '../../typesFrontend';
+import { Scanner } from '../../typesFrontend';
 import Typography from '@mui/material/Typography';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -8,14 +12,59 @@ import TableBody from '@mui/material/TableBody';
 import Collapse from '@mui/material/Collapse';
 import Link from '@mui/material/Link';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { SeverityTag } from '../VulnerabilityTable/SeverityTag';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import { SeverityTag } from '../shared/SeverityTag.tsx';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
 import { StyledTableRow } from '../shared/StyledTableRow';
+import { AggregatedVulnerabilityContext } from './AggregatedVulnerabilityContext';
+import { ContextTag } from '../shared/ContextTag.tsx';
 
 type Props = {
   vulnerability: AggregatedVulnerability;
 };
+
+type ComponentContextProps = {
+  component: AggregatedAffectedComponent;
+  hasDependabot: boolean;
+  hasSysdig: boolean;
+};
+
+const ComponentContextChips = ({
+  component,
+  hasDependabot,
+  hasSysdig,
+}: ComponentContextProps) => (
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    {hasSysdig && component.isRunning !== null && (
+      <ContextTag
+        variant={component.isRunning ? 'running' : 'notRunning'}
+        label={component.isRunning ? 'Kjører' : 'Kjører ikke'}
+        Icon={GpsFixedIcon}
+        tooltip={
+          component.isRunning
+            ? 'Sårbar pakke kjører i produksjon'
+            : 'Pakken kjører ikke'
+        }
+      />
+    )}
+    {hasDependabot && component.isDirect !== null && (
+      <ContextTag
+        variant={component.isDirect ? 'direct' : 'transitive'}
+        label={component.isDirect ? 'Direkte' : 'Transitiv'}
+        Icon={SubdirectoryArrowRightIcon}
+        tooltip={
+          component.isDirect
+            ? 'Direkte avhengighet'
+            : 'Indirekte avhengighet via tredjepartsbibliotek'
+        }
+      />
+    )}
+  </Box>
+);
 
 export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
   const navigate = useNavigate();
@@ -24,6 +73,11 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
   const components = vulnerability.affectedComponents;
   const previewComponents = components.slice(0, 2);
   const hiddenCount = components.length - previewComponents.length;
+
+  const hasDependabot = vulnerability.scanners.includes(Scanner.Dependabot);
+  const hasSysdig = vulnerability.scanners.includes(Scanner.Sysdig);
+  const showComponentContext = hasDependabot || hasSysdig;
+  const canExpand = components.length > 1 && showComponentContext;
 
   const goToComponent = (componentName: string) => {
     navigate(
@@ -38,7 +92,7 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
           <SeverityTag severity={vulnerability.severity} />
         </TableCell>
 
-        <TableCell width="35%">
+        <TableCell>
           <Typography variant="body2">
             {vulnerability.vulnerabilityId}
           </Typography>
@@ -48,42 +102,61 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
         </TableCell>
 
         <TableCell>
-          <Typography variant="body2">
-            {components.length} komponenter:{' '}
-            {previewComponents.map((component, index) => (
-              <span key={component.componentName}>
-                {index > 0 && ', '}
-                <Link
-                  component="button"
-                  underline="hover"
-                  onClick={() => goToComponent(component.componentName)}
-                  sx={{ verticalAlign: 'baseline' }}
+          <AggregatedVulnerabilityContext vulnerability={vulnerability} />
+        </TableCell>
+
+        <TableCell>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <Typography variant="body2" component="span">
+              {previewComponents.map((component, index) => (
+                <span key={component.componentName}>
+                  {index > 0 && ', '}
+                  <Link
+                    component="button"
+                    underline="hover"
+                    onClick={() => goToComponent(component.componentName)}
+                    sx={{ verticalAlign: 'baseline' }}
+                  >
+                    {component.componentName}
+                  </Link>
+                </span>
+              ))}
+              {hiddenCount > 0 && !expanded && (
+                <Typography
+                  component="span"
+                  variant="caption"
+                  sx={{ ml: 0.5, opacity: 0.6 }}
                 >
-                  {component.componentName}
-                </Link>
-              </span>
-            ))}
-            {hiddenCount > 0 && (
-              <Button
-                variant="text"
-                onClick={() => setExpanded(current => !current)}
+                  +{hiddenCount} til
+                </Typography>
+              )}
+            </Typography>
+            {canExpand && (
+              <IconButton
+                size="small"
+                onClick={() => setExpanded(v => !v)}
+                aria-label={expanded ? 'Vis færre' : 'Vis alle'}
                 sx={{
-                  ml: 2,
-                  verticalAlign: 'baseline',
+                  ml: 'auto',
+                  transform: expanded ? 'rotate(180deg)' : 'none',
+                  transition: 'transform 0.2s',
                 }}
               >
-                {expanded ? 'Vis færre' : `+${hiddenCount} flere`}
-              </Button>
+                <ExpandMoreIcon fontSize="small" />
+              </IconButton>
             )}
-          </Typography>
+          </Box>
         </TableCell>
       </StyledTableRow>
 
-      {components.length > 2 && (
+      {canExpand && (
         <TableRow>
-          <TableCell colSpan={3} sx={{ p: 0 }}>
+          <TableCell
+            colSpan={4}
+            sx={{ p: 0, borderBottom: expanded ? undefined : 'none' }}
+          >
             <Collapse in={expanded} unmountOnExit>
-              <Table size="small">
+              <Table size="small" sx={{ tableLayout: 'fixed' }}>
                 <TableBody>
                   {components.map(component => (
                     <StyledTableRow
@@ -92,16 +165,33 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                       sx={{ cursor: 'pointer' }}
                       onClick={() => goToComponent(component.componentName)}
                     >
-                      <TableCell sx={{ borderBottom: 'none' }}>
-                        <Typography variant="body2">
-                          {component.componentName}
-                        </Typography>
+                      <TableCell sx={{ borderBottom: 'none', width: 180 }} />
+                      <TableCell sx={{ borderBottom: 'none', width: '30%' }} />
+                      <TableCell sx={{ borderBottom: 'none', width: 300 }}>
+                        {showComponentContext && (
+                          <ComponentContextChips
+                            component={component}
+                            hasDependabot={hasDependabot}
+                            hasSysdig={hasSysdig}
+                          />
+                        )}
                       </TableCell>
-                      <TableCell
-                        align="right"
-                        sx={{ width: 40, borderBottom: 'none' }}
-                      >
-                        <ArrowForwardIosIcon fontSize="small" />
+                      <TableCell sx={{ borderBottom: 'none' }}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <Typography variant="body2">
+                            {component.componentName}
+                          </Typography>
+                          <ArrowForwardIosIcon
+                            fontSize="inherit"
+                            sx={{ ml: 'auto', opacity: 0.4 }}
+                          />
+                        </Box>
                       </TableCell>
                     </StyledTableRow>
                   ))}

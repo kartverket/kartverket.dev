@@ -128,6 +128,8 @@ export type UniqueVulnerabilities = {
 export type AggregatedAffectedComponent = {
   componentName: string;
   status: Status | null;
+  isDirect: boolean | null;
+  isRunning: boolean | null;
 };
 
 export type AggregatedVulnerability = {
@@ -136,6 +138,9 @@ export type AggregatedVulnerability = {
   scanners: Scanner[];
   summary: string;
   dateFirstSeen: string;
+  isFixable: boolean;
+  isExploitable: boolean;
+  isCisaKEV: boolean;
   affectedComponents: AggregatedAffectedComponent[];
 };
 
