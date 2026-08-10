@@ -33,7 +33,7 @@ type ComponentContextProps = {
   hasSysdig: boolean;
 };
 
-const ComponentContextChips = ({
+const ComponentContextTags = ({
   component,
   hasDependabot,
   hasSysdig,
@@ -46,8 +46,8 @@ const ComponentContextChips = ({
         Icon={GpsFixedIcon}
         tooltip={
           component.isRunning
-            ? 'Sårbar pakke kjører i produksjon'
-            : 'Pakken kjører ikke'
+            ? 'Sårbar pakke kjører'
+            : 'Sårbar pakke kjører ikke'
         }
       />
     )}
@@ -169,7 +169,7 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                       <TableCell sx={{ borderBottom: 'none', width: '30%' }} />
                       <TableCell sx={{ borderBottom: 'none', width: 300 }}>
                         {showComponentContext && (
-                          <ComponentContextChips
+                          <ComponentContextTags
                             component={component}
                             hasDependabot={hasDependabot}
                             hasSysdig={hasSysdig}

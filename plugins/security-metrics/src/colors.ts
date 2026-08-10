@@ -33,7 +33,7 @@ export const BASIC_COLORS = {
   SUCCESS: '#2e7d32',
 };
 
-export const CONTEXT_CHIP_COLORS = {
+export const CONTEXT_TAG_COLORS = {
   KEV_BG: '#910101',
   KEV_TEXT: '#FCEBEB',
   EXPLOIT_RUNNING_BG: '#FAEEDA',

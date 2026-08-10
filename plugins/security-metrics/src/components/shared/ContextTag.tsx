@@ -2,34 +2,34 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
-import { BASIC_COLORS, CONTEXT_CHIP_COLORS } from '../../colors';
+import { BASIC_COLORS, CONTEXT_TAG_COLORS } from '../../colors';
 import type { ContextSignal } from '../../typesFrontend';
 
 const variantStyles: Record<
   ContextSignal,
   { bg: string; color: string; border?: string }
 > = {
-  kev: { bg: CONTEXT_CHIP_COLORS.KEV_BG, color: CONTEXT_CHIP_COLORS.KEV_TEXT },
+  kev: { bg: CONTEXT_TAG_COLORS.KEV_BG, color: CONTEXT_TAG_COLORS.KEV_TEXT },
   exploit: {
-    bg: CONTEXT_CHIP_COLORS.EXPLOIT_RUNNING_BG,
-    color: CONTEXT_CHIP_COLORS.EXPLOIT_RUNNING_TEXT,
+    bg: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_BG,
+    color: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_TEXT,
   },
   running: {
-    bg: CONTEXT_CHIP_COLORS.EXPLOIT_RUNNING_BG,
-    color: CONTEXT_CHIP_COLORS.EXPLOIT_RUNNING_TEXT,
+    bg: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_BG,
+    color: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_TEXT,
   },
   notRunning: {
-    bg: CONTEXT_CHIP_COLORS.NEUTRAL_BG,
-    color: CONTEXT_CHIP_COLORS.NEUTRAL_TEXT,
+    bg: CONTEXT_TAG_COLORS.NEUTRAL_BG,
+    color: CONTEXT_TAG_COLORS.NEUTRAL_TEXT,
   },
-  fix: { bg: CONTEXT_CHIP_COLORS.FIX_BG, color: CONTEXT_CHIP_COLORS.FIX_TEXT },
+  fix: { bg: CONTEXT_TAG_COLORS.FIX_BG, color: CONTEXT_TAG_COLORS.FIX_TEXT },
   noFix: {
-    bg: CONTEXT_CHIP_COLORS.NO_FIX_BG,
-    color: CONTEXT_CHIP_COLORS.NO_FIX_TEXT,
+    bg: CONTEXT_TAG_COLORS.NO_FIX_BG,
+    color: CONTEXT_TAG_COLORS.NO_FIX_TEXT,
   },
   direct: {
-    bg: CONTEXT_CHIP_COLORS.DIRECT_BG,
-    color: CONTEXT_CHIP_COLORS.DIRECT_TEXT,
+    bg: CONTEXT_TAG_COLORS.DIRECT_BG,
+    color: CONTEXT_TAG_COLORS.DIRECT_TEXT,
   },
   transitive: {
     bg: 'transparent',
