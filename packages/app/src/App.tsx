@@ -69,6 +69,7 @@ import {
   groupProfileCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
+import { syntheticSignInProviders } from './syntheticAuth';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -90,19 +91,29 @@ const app = createApp({
   components: {
     SignInPage: props => {
       const configApi = useApi(configApiRef);
-      if (configApi.getOptionalString('auth.environment') !== 'production') {
+      const authEnvironment = configApi.getString('auth.environment');
+      if (authEnvironment === 'development') {
+        const microsoftClientId = configApi.getOptionalString(
+          `auth.providers.microsoft.${authEnvironment}.clientId`,
+        );
         return (
           <SignInPage
             {...props}
-            auto
             providers={[
+              ...syntheticSignInProviders,
+              ...(microsoftClientId
+                ? [
               {
                 id: 'microsoft-auth-provider',
                 title: 'Microsoft',
-                message: 'Sign in using Microsoft',
+                      message:
+                        'Sign in with Microsoft using connected non-production identity and catalog data.',
                 apiRef: microsoftAuthApiRef,
               },
+                  ]
+                : []),
             ]}
+            title="Choose a synthetic development persona"
           />
         );
       }
