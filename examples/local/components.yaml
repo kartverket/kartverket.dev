@@ -1,0 +1,80 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: map-api
+  title: Map API
+  description: Synthetic backend serving map tiles and metadata
+  tags: [local, api]
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-atlas
+  system: map-platform
+  providesApis:
+    - map-api
+  dependsOn:
+    - resource:default/map-database
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: map-web
+  title: Map Web
+  description: Synthetic web application for exploring maps
+  tags: [local, frontend]
+spec:
+  type: website
+  lifecycle: experimental
+  owner: team-atlas
+  system: map-platform
+  consumesApis:
+    - map-api
+  dependsOn:
+    - component:default/map-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: place-search-api
+  title: Place Search API
+  description: Synthetic search service owned by a different team
+  tags: [local, api]
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-compass
+  system: place-search
+  providesApis:
+    - place-search-api
+  dependsOn:
+    - resource:default/place-search-index
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: portal-frontend
+  title: Portal Frontend
+  description: Synthetic developer portal frontend
+  tags: [local, frontend]
+spec:
+  type: website
+  lifecycle: experimental
+  owner: team-portal
+  system: developer-portal
+  consumesApis:
+    - place-search-api
+  dependsOn:
+    - component:default/place-search-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: relation-warning-example
+  title: Relation Warning Example
+  description: Intentionally references a missing system to exercise warning states
+  tags: [local, edge-case]
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-portal
+  system: intentionally-missing-system

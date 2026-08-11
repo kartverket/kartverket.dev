@@ -1,0 +1,67 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: map-api
+  title: Map API
+  description: Synthetic API definition for local development
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: team-atlas
+  system: map-platform
+  definition: |
+    openapi: 3.0.3
+    info:
+      title: Local Map API
+      version: 1.0.0
+    paths:
+      /maps:
+        get:
+          responses:
+            '200':
+              description: A synthetic map response
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: place-search-api
+  title: Place Search API
+  description: Synthetic API used to exercise cross-system dependencies
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: team-compass
+  system: place-search
+  definition: |
+    openapi: 3.0.3
+    info:
+      title: Local Place Search API
+      version: 1.0.0
+    paths:
+      /places:
+        get:
+          responses:
+            '200':
+              description: Synthetic search results
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: map-database
+  title: Map Database
+  description: In-memory synthetic map storage
+spec:
+  type: database
+  owner: team-atlas
+  system: map-platform
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: place-search-index
+  title: Place Search Index
+  description: Synthetic search index
+spec:
+  type: search-index
+  owner: team-compass
+  system: place-search

@@ -1,0 +1,74 @@
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: serve-society
+  title: Serve Society
+  description: Root of the synthetic function hierarchy
+spec:
+  owner: kartverket-local
+  criticality: medium
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: provide-geospatial-data
+  title: Provide Geospatial Data
+spec:
+  owner: team-atlas
+  parentFunction: function:default/serve-society
+  dependsOnSystems:
+    - system:default/map-platform
+  criticality: high
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: publish-maps
+  title: Publish Maps
+spec:
+  owner: team-atlas
+  parentFunction: function:default/provide-geospatial-data
+  dependsOnComponents:
+    - component:default/map-api
+    - component:default/map-web
+  criticality: high
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: search-places
+  title: Search Places
+spec:
+  owner: team-compass
+  parentFunction: function:default/provide-geospatial-data
+  dependsOnSystems:
+    - system:default/place-search
+  dependsOnFunctions:
+    - function:default/publish-maps
+  criticality: medium
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: support-developers
+  title: Support Developers
+spec:
+  owner: team-portal
+  parentFunction: function:default/serve-society
+  dependsOnSystems:
+    - system:default/developer-portal
+  criticality: medium
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: operate-developer-portal
+  title: Operate Developer Portal
+spec:
+  owner: team-portal
+  parentFunction: function:default/support-developers
+  dependsOnComponents:
+    - component:default/portal-frontend
+  dependsOnFunctions:
+    - function:default/search-places
+  criticality: low

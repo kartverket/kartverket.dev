@@ -1,0 +1,244 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000001
+  name: kartverket-local
+  description: Synthetic root group used only for local development
+spec:
+  type: root
+  profile:
+    displayName: Kartverket test organization
+  children:
+    - group:default/geodata-business-unit
+    - group:default/digital-services-business-unit
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000002
+  name: geodata-business-unit
+  description: Synthetic business unit for local hierarchy testing
+spec:
+  type: business unit
+  profile:
+    displayName: Geodata Business Unit
+  children:
+    - group:default/geospatial-platform-product-area
+  parent: group:default/kartverket-local
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000003
+  name: geospatial-platform-product-area
+  description: Synthetic product area for local hierarchy testing
+spec:
+  type: product area
+  profile:
+    displayName: Geospatial Platform Product Area
+  children:
+    - group:default/team-atlas
+    - group:default/team-compass
+  parent: group:default/geodata-business-unit
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000004
+  name: team-atlas
+  description: Synthetic team that owns the local map platform examples
+spec:
+  type: team
+  profile:
+    displayName: Team Atlas
+  children: []
+  parent: group:default/geospatial-platform-product-area
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000005
+  name: team-compass
+  description: Synthetic team that owns the local place search examples
+spec:
+  type: team
+  profile:
+    displayName: Team Compass
+  children: []
+  parent: group:default/geospatial-platform-product-area
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000006
+  name: digital-services-business-unit
+  description: Synthetic business unit for local hierarchy testing
+spec:
+  type: business unit
+  profile:
+    displayName: Digital Services Business Unit
+  children:
+    - group:default/developer-experience-product-area
+  parent: group:default/kartverket-local
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000007
+  name: developer-experience-product-area
+  description: Synthetic product area for local hierarchy testing
+spec:
+  type: product area
+  profile:
+    displayName: Developer Experience Product Area
+  children:
+    - group:default/team-portal
+  parent: group:default/digital-services-business-unit
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000008
+  name: team-portal
+  description: Synthetic team that owns the local developer portal examples
+spec:
+  type: team
+  profile:
+    displayName: Team Portal
+  children: []
+  parent: group:default/developer-experience-product-area
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    kartverket.no/synthetic-user-id: 00000000-0000-4000-9000-000000000001
+    kartverket.no/synthetic-persona: team-member
+  name: ada
+  title: Ada Example
+  description: Synthetic persona representing a Team Atlas member
+spec:
+  profile:
+    displayName: Ada Example
+    email: ada@example.invalid
+  memberOf:
+    - group:default/team-atlas
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    kartverket.no/synthetic-user-id: 00000000-0000-4000-9000-000000000002
+    kartverket.no/synthetic-persona: team-member
+  name: linus
+  title: Linus Example
+  description: Synthetic persona representing a Team Compass member
+spec:
+  profile:
+    displayName: Linus Example
+    email: linus@example.invalid
+  memberOf:
+    - group:default/team-compass
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    kartverket.no/synthetic-user-id: 00000000-0000-4000-9000-000000000003
+    kartverket.no/synthetic-persona: multi-team-member
+  name: grace
+  title: Grace Example
+  description: Synthetic persona representing membership in multiple teams
+spec:
+  profile:
+    displayName: Grace Example
+    email: grace@example.invalid
+  memberOf:
+    - group:default/team-atlas
+    - group:default/team-portal
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    kartverket.no/synthetic-user-id: 00000000-0000-4000-9000-000000000004
+    kartverket.no/synthetic-persona: product-area-authority
+  name: product-area-authority
+  title: Synthetic Product-Area Authority
+  description: Synthetic persona representing authority across a product area
+spec:
+  profile:
+    displayName: Synthetic Product-Area Authority
+    email: product-area-authority@example.invalid
+  memberOf:
+    - group:default/geospatial-platform-product-area
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    kartverket.no/synthetic-user-id: 00000000-0000-4000-9000-000000000005
+    kartverket.no/synthetic-persona: business-unit-authority
+  name: business-unit-authority
+  title: Synthetic Business-Unit Authority
+  description: Synthetic persona representing authority across a business unit
+spec:
+  profile:
+    displayName: Synthetic Business-Unit Authority
+    email: business-unit-authority@example.invalid
+  memberOf:
+    - group:default/geodata-business-unit
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    kartverket.no/synthetic-user-id: 00000000-0000-4000-9000-000000000006
+    kartverket.no/synthetic-persona: no-team
+  name: unaffiliated-developer
+  title: Synthetic Unaffiliated Developer
+  description: Synthetic persona representing a user without team membership
+spec:
+  profile:
+    displayName: Synthetic Unaffiliated Developer
+    email: unaffiliated-developer@example.invalid
+  memberOf: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    kartverket.no/synthetic-user-id: 00000000-0000-4000-9000-000000000007
+    kartverket.no/synthetic-persona: administrator
+  name: synthetic-admin
+  title: Synthetic Administrator
+  description: Synthetic persona representing administrator and reporting access
+spec:
+  profile:
+    displayName: Synthetic Administrator
+    email: synthetic-admin@example.invalid
+  memberOf:
+    - group:default/kartverket-local

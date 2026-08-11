@@ -1,0 +1,47 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: geospatial-data
+  title: Geospatial Data
+  description: Synthetic domain for map and geodata capabilities
+spec:
+  owner: team-atlas
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: developer-experience
+  title: Developer Experience
+  description: Synthetic domain for internal developer tooling
+spec:
+  owner: team-portal
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: map-platform
+  title: Map Platform
+  description: Serves and renders synthetic map data
+spec:
+  owner: team-atlas
+  domain: geospatial-data
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: place-search
+  title: Place Search
+  description: Searches synthetic geographic place data
+spec:
+  owner: team-compass
+  domain: geospatial-data
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: developer-portal
+  title: Developer Portal
+  description: Local example of an internal developer portal
+spec:
+  owner: team-portal
+  domain: developer-experience
