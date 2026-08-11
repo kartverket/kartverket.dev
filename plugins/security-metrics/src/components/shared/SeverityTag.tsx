@@ -28,7 +28,7 @@ export const SeverityTag = ({
 
   return (
     <Tooltip title={tooltip}>
-      <span style={{ display: 'inline-flex' }}>
+      <span>
         <Chip
           label={getStandardSeverityFormat(severity)}
           onClick={onClick}
@@ -49,8 +49,6 @@ export const SeverityTag = ({
             m: 0,
             cursor: onClick && !disabled ? 'pointer' : 'default',
             '&:hover': { backgroundColor: selected ? color : 'transparent' },
-            '&:active': { boxShadow: 'none' },
-            '& .MuiTouchRipple-root': { display: 'none' },
           }}
         />
       </span>

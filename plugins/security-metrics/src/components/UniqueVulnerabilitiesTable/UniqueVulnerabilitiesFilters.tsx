@@ -40,9 +40,9 @@ export const UniqueVulnerabilitiesFilters = ({
   return (
     <Paper sx={{ p: 2 }}>
       <Stack
-        direction={{ sm: 'column', md: 'row' }}
-        gap={2}
-        alignItems={{ sm: 'stretch', md: 'center' }}
+        direction={{ sm: 'column', lg: 'row' }}
+        gap={3}
+        alignItems={{ sm: 'stretch', lg: 'center' }}
       >
         <TextField
           size="small"
@@ -54,14 +54,14 @@ export const UniqueVulnerabilitiesFilters = ({
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon fontSize="small" sx={{ opacity: 0.7 }} />
+                  <SearchIcon fontSize="small" sx={{ opacity: 0.8 }} />
                 </InputAdornment>
               ),
             },
           }}
         />
 
-        <Typography variant="body2" sx={{ opacity: 0.6 }}>
+        <Typography variant="body2" sx={{ opacity: 0.8 }}>
           Velg filter her:
         </Typography>
 
@@ -123,7 +123,7 @@ export const UniqueVulnerabilitiesFilters = ({
         </Stack>
       </Stack>
 
-      <Typography variant="body2" sx={{ mt: 1.5, opacity: 0.6 }}>
+      <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
         {resultsText}
       </Typography>
     </Paper>

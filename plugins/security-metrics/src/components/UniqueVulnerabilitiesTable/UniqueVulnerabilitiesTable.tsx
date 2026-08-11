@@ -186,7 +186,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
         <Table sx={{ minWidth: 1200, tableLayout: 'fixed' }} size="small">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ width: 180 }}>
+              <TableCell width="160">
                 <TableSortLabel
                   active={sortType === 'Alvorlighetsgrad'}
                   direction={
@@ -198,9 +198,9 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
                 </TableSortLabel>
               </TableCell>
 
-              <TableCell sx={{ width: '30%' }}>Beskrivelse</TableCell>
+              <TableCell width="30%">Beskrivelse</TableCell>
 
-              <TableCell sx={{ width: 300 }}>
+              <TableCell width="360">
                 <Stack direction="row" alignItems="center" gap={0.5}>
                   <TableSortLabel
                     active={sortType === 'Prioritet'}
@@ -212,13 +212,13 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
                   <Tooltip title={<ContextDescriptions />} placement="right">
                     <InfoOutlinedIcon
                       fontSize="inherit"
-                      sx={{ opacity: 0.5, cursor: 'help' }}
+                      sx={{ opacity: 0.8, cursor: 'help' }}
                     />
                   </Tooltip>
                 </Stack>
               </TableCell>
 
-              <TableCell>
+              <TableCell sx={{ width: 320 }}>
                 <TableSortLabel
                   active={sortType === 'Komponenter'}
                   direction={sortType === 'Komponenter' ? sortOrder : 'desc'}
@@ -242,7 +242,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
               <TableRow>
                 <TableCell colSpan={4}>
                   <Box sx={{ py: 3 }}>
-                    <Typography align="center" sx={{ opacity: 0.7 }}>
+                    <Typography align="center" sx={{ opacity: 0.8 }}>
                       Ingen sårbarheter matcher søk eller filtre
                     </Typography>
                   </Box>

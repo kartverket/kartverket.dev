@@ -38,7 +38,7 @@ const ComponentContextTags = ({
   hasDependabot,
   hasSysdig,
 }: ComponentContextProps) => (
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
     {hasSysdig && component.isRunning !== null && (
       <ContextTag
         variant={component.isRunning ? 'running' : 'notRunning'}
@@ -107,36 +107,22 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
 
         <TableCell>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 0.5,
-                flex: 1,
-                alignItems: 'center',
-              }}
-            >
-              <Typography variant="body2" component="span">
-                {previewComponents.map((component, index) => (
-                  <span key={component.componentName}>
-                    {index > 0 && ', '}
-                    <Link
-                      component="button"
-                      underline="hover"
-                      onClick={() => goToComponent(component.componentName)}
-                      sx={{ verticalAlign: 'baseline' }}
-                    >
-                      {component.componentName}
-                    </Link>
-                  </span>
-                ))}
-              </Typography>
-              {hiddenCount > 0 && (
-                <Typography
-                  component="span"
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              {previewComponents.map(component => (
+                <Link
+                  key={component.componentName}
+                  component="button"
                   variant="body2"
-                  sx={{ fontWeight: 600 }}
+                  underline="hover"
+                  display="block"
+                  onClick={() => goToComponent(component.componentName)}
+                  sx={{ textAlign: 'left' }}
                 >
+                  {component.componentName}
+                </Link>
+              ))}
+              {hiddenCount > 0 && (
+                <Typography variant="body2" sx={{ fontWeight: 600, mt: 0.25 }}>
                   +{hiddenCount} til
                 </Typography>
               )}
@@ -163,7 +149,12 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
         <TableRow>
           <TableCell
             colSpan={4}
-            sx={{ p: 0, borderBottom: expanded ? undefined : 'none' }}
+            sx={{
+              p: 0,
+              borderBottom: expanded
+                ? theme => `1px solid ${theme.palette.divider}`
+                : 'none',
+            }}
           >
             <Collapse in={expanded} unmountOnExit>
               <Table size="small" sx={{ tableLayout: 'fixed' }}>
@@ -175,9 +166,9 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                       sx={{ cursor: 'pointer' }}
                       onClick={() => goToComponent(component.componentName)}
                     >
-                      <TableCell sx={{ borderBottom: 'none', width: 180 }} />
+                      <TableCell sx={{ borderBottom: 'none', width: 160 }} />
                       <TableCell sx={{ borderBottom: 'none', width: '30%' }} />
-                      <TableCell sx={{ borderBottom: 'none', width: 300 }}>
+                      <TableCell sx={{ borderBottom: 'none', width: 360 }}>
                         {showComponentContext && (
                           <ComponentContextTags
                             component={component}
@@ -186,7 +177,7 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                           />
                         )}
                       </TableCell>
-                      <TableCell sx={{ borderBottom: 'none' }}>
+                      <TableCell sx={{ borderBottom: 'none', width: 320 }}>
                         <Box
                           sx={{
                             display: 'flex',
