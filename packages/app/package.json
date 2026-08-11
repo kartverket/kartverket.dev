@@ -7,7 +7,7 @@
     "role": "frontend"
   },
   "scripts": {
-    "start": "backstage-cli package start",
+    "start": "BACKSTAGE_ENV=development backstage-cli package start",
     "build": "backstage-cli package build",
     "clean": "backstage-cli package clean",
     "lint": "backstage-cli package lint",
