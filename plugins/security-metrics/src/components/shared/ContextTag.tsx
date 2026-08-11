@@ -66,7 +66,12 @@ export const ContextTag = ({
     : {};
 
   return (
-    <Tooltip title={tooltip}>
+    <Tooltip
+      title={tooltip ?? ''}
+      disableHoverListener={!tooltip}
+      disableFocusListener={!tooltip}
+      disableTouchListener={!tooltip}
+    >
       <Box
         {...interactiveProps}
         sx={{

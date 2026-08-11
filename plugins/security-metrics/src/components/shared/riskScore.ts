@@ -9,7 +9,6 @@ export type RiskInputs = {
   severity: Severity;
   isCisaKEV: boolean;
   isExploitable: boolean;
-  isFixable: boolean;
   runningFraction: number | null;
 };
 
@@ -55,14 +54,12 @@ export const aggregatedToRiskInputs = (
     severity: v.severity,
     isCisaKEV: v.isCisaKEV,
     isExploitable: v.isExploitable,
-    isFixable: v.isFixable,
     runningFraction,
   };
 };
 
 export const vulnerabilityToRiskInputs = (v: Vulnerability): RiskInputs => {
   const sysdig = v.scannerSpecificInfo.sysdigInfo;
-  const dependabot = v.scannerSpecificInfo.dependabotInfo;
   let runningFraction: number | null = null;
   if (v.scanners.includes(Scanner.Sysdig) && sysdig) {
     runningFraction = sysdig.isRunning ? 1 : 0;
@@ -71,7 +68,6 @@ export const vulnerabilityToRiskInputs = (v: Vulnerability): RiskInputs => {
     severity: v.severity,
     isCisaKEV: !!sysdig?.isCisaKEV,
     isExploitable: !!sysdig?.isExploitable,
-    isFixable: !!(sysdig?.isFixable || dependabot?.isFixable),
     runningFraction,
   };
 };

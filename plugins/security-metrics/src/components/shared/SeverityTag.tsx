@@ -27,7 +27,12 @@ export const SeverityTag = ({
     severity === 'low' || severity === 'negligible' ? 'grey.900' : 'white';
 
   return (
-    <Tooltip title={tooltip}>
+    <Tooltip
+      title={tooltip ?? ''}
+      disableHoverListener={!tooltip}
+      disableFocusListener={!tooltip}
+      disableTouchListener={!tooltip}
+    >
       <span>
         <Chip
           label={getStandardSeverityFormat(severity)}
