@@ -46,8 +46,8 @@ const ComponentContextTags = ({
         Icon={GpsFixedIcon}
         tooltip={
           component.isRunning
-            ? 'Sårbar pakke kjører'
-            : 'Sårbar pakke kjører ikke'
+            ? 'Den sårbare pakken er i bruk i en kjørende applikasjon.'
+            : 'Den sårbare pakken er ikke i bruk i en kjørende applikasjon.'
         }
       />
     )}
@@ -58,8 +58,8 @@ const ComponentContextTags = ({
         Icon={SubdirectoryArrowRightIcon}
         tooltip={
           component.isDirect
-            ? 'Direkte avhengighet'
-            : 'Indirekte avhengighet via tredjepartsbibliotek'
+            ? 'Sårbarheten finnes i en pakke prosjektet bruker direkte, ikke via en transitiv avhengighet.'
+            : 'Indirekte avhengighet via et tredjepartsbibliotek.'
         }
       />
     )}
@@ -106,38 +106,48 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
         </TableCell>
 
         <TableCell>
-          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-            <Typography variant="body2" component="span">
-              {previewComponents.map((component, index) => (
-                <span key={component.componentName}>
-                  {index > 0 && ', '}
-                  <Link
-                    component="button"
-                    underline="hover"
-                    onClick={() => goToComponent(component.componentName)}
-                    sx={{ verticalAlign: 'baseline' }}
-                  >
-                    {component.componentName}
-                  </Link>
-                </span>
-              ))}
-              {hiddenCount > 0 && !expanded && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 0.5,
+                flex: 1,
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="body2" component="span">
+                {previewComponents.map((component, index) => (
+                  <span key={component.componentName}>
+                    {index > 0 && ', '}
+                    <Link
+                      component="button"
+                      underline="hover"
+                      onClick={() => goToComponent(component.componentName)}
+                      sx={{ verticalAlign: 'baseline' }}
+                    >
+                      {component.componentName}
+                    </Link>
+                  </span>
+                ))}
+              </Typography>
+              {hiddenCount > 0 && (
                 <Typography
                   component="span"
-                  variant="caption"
-                  sx={{ ml: 0.5, opacity: 0.6 }}
+                  variant="body2"
+                  sx={{ fontWeight: 600 }}
                 >
                   +{hiddenCount} til
                 </Typography>
               )}
-            </Typography>
+            </Box>
             {canExpand && (
               <IconButton
                 size="small"
                 onClick={() => setExpanded(v => !v)}
                 aria-label={expanded ? 'Vis færre' : 'Vis alle'}
                 sx={{
-                  ml: 'auto',
+                  flexShrink: 0,
                   transform: expanded ? 'rotate(180deg)' : 'none',
                   transition: 'transform 0.2s',
                 }}

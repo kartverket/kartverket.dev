@@ -11,8 +11,6 @@ import { CONTEXT_FACETS } from '../shared/contextDescriptions';
 import { ContextTag } from '../shared/ContextTag.tsx';
 import { SeverityTag } from '../shared/SeverityTag.tsx';
 
-export const DEFAULT_SEVERITY_FILTER: Severity[] = ['critical', 'high'];
-
 type Props = {
   searchQuery: string;
   onSearchChange: (value: string) => void;

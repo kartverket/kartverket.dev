@@ -22,10 +22,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { UniqueVulnerabilitiesTableRow } from './UniqueVulnerabilitiesTableRow';
 import { ContextDescriptions } from '../VulnerabilityTable/ContextDescriptions';
 import { CONTEXT_FACETS } from '../shared/contextDescriptions';
-import {
-  DEFAULT_SEVERITY_FILTER,
-  UniqueVulnerabilitiesFilters,
-} from './UniqueVulnerabilitiesFilters';
+import { UniqueVulnerabilitiesFilters } from './UniqueVulnerabilitiesFilters';
 import {
   compareByAffectedComponents,
   compareByPriority,
@@ -44,9 +41,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
   const [sortType, setSortType] = useState<SortType>('Prioritet');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [searchQuery, setSearchQuery] = useState('');
-  const [severityFilter, setSeverityFilter] = useState<Severity[]>(
-    DEFAULT_SEVERITY_FILTER,
-  );
+  const [severityFilter, setSeverityFilter] = useState<Severity[]>([]);
   const [contextFilter, setContextFilter] = useState<ContextFacet[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);

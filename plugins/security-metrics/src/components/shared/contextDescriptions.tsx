@@ -20,29 +20,27 @@ type Descriptor = {
 export const CONTEXT_DESCRIPTIONS: Record<ContextSignal, Descriptor> = {
   kev: {
     Icon: WarningAmberIcon,
-    label: 'KEV',
+    label: 'Kjent utnyttet',
     description:
-      'Sårbarheten er kjent utnyttet og oppført i CISA Known Exploited Vulnerabilities (KEV).',
+      'Eksempler på kjent utnyttelse er oppført i CISA Known Exploited Vulnerabilities (KEV).',
     matches: v => v.isCisaKEV,
   },
   exploit: {
     Icon: BugReportIcon,
     label: 'Exploit',
-    description:
-      'Offentlig kjent kode for å utnytte sårbarheten er tilgjengelig.',
+    description: 'Metode for å utnytte sårbarheten er offentlig kjent.',
     matches: v => v.isExploitable,
   },
   running: {
     Icon: GpsFixedIcon,
     label: 'Kjører',
-    description:
-      'Den sårbare pakken er i bruk i et kjørende miljø eller container.',
+    description: 'Den sårbare pakken er i bruk i en kjørende applikasjon.',
     matches: v => v.affectedComponents.some(c => c.isRunning === true),
   },
   notRunning: {
     Icon: GpsFixedIcon,
     label: 'Kjører ikke',
-    description: 'Den sårbare pakken kjører ikke.',
+    description: 'Den sårbare pakken er ikke i bruk i en kjørende applikasjon.',
   },
   fix: {
     Icon: BuildIcon,
