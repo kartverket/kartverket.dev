@@ -16,59 +16,60 @@ type SyntheticPersona = {
 
 const syntheticPersonas: SyntheticPersona[] = [
   {
-    providerId: 'synthetic-atlas',
-    entityRef: 'user:default/ada',
+    providerId: 'synthetic-team-member-knekk',
+    entityRef: 'user:default/kari-knekk',
     profile: {
-      displayName: 'Ada Example — Team Atlas member',
-      email: 'ada@example.invalid',
+      displayName: 'Team member — Kari Knekk',
+      email: 'kari.knekk@example.invalid',
     },
   },
   {
-    providerId: 'synthetic-compass',
-    entityRef: 'user:default/linus',
+    providerId: 'synthetic-team-member-seig',
+    entityRef: 'user:default/siv-sukkerdrage',
     profile: {
-      displayName: 'Linus Example — Team Compass member',
-      email: 'linus@example.invalid',
+      displayName: 'Team member — Siv Sukkerdragé',
+      email: 'siv.sukkerdrage@example.invalid',
     },
   },
   {
-    providerId: 'synthetic-multiteam',
-    entityRef: 'user:default/grace',
+    providerId: 'synthetic-multi-team-member',
+    entityRef: 'user:default/mikkel-mellomlag',
     profile: {
-      displayName: 'Grace Example — member of multiple teams',
-      email: 'grace@example.invalid',
+      displayName: 'Multi-team member — Mikkel Mellomlag',
+      email: 'mikkel.mellomlag@example.invalid',
     },
   },
   {
-    providerId: 'synthetic-product-area',
-    entityRef: 'user:default/product-area-authority',
+    providerId: 'synthetic-product-area-authority',
+    entityRef: 'user:default/sjeflandmaler-for-sjokoladeruter',
     profile: {
-      displayName: 'Synthetic product-area authority',
-      email: 'product-area-authority@example.invalid',
+      displayName: 'Product-area authority — Sjeflandmåler for sjokoladeruter',
+      email: 'sjeflandmaler.sjokoladeruter@example.invalid',
     },
   },
   {
-    providerId: 'synthetic-business-unit',
-    entityRef: 'user:default/business-unit-authority',
+    providerId: 'synthetic-business-unit-authority',
+    entityRef: 'user:default/direktor-for-faste-sotsaker',
     profile: {
-      displayName: 'Synthetic business-unit authority',
-      email: 'business-unit-authority@example.invalid',
+      displayName:
+        'Business-unit authority — Direktør for faste og stort sett faste søtsaker',
+      email: 'direktor.faste.sotsaker@example.invalid',
     },
   },
   {
-    providerId: 'synthetic-unaffiliated',
-    entityRef: 'user:default/unaffiliated-developer',
+    providerId: 'synthetic-no-team',
+    entityRef: 'user:default/den-omvandrende-smagodtplukkeren',
     profile: {
-      displayName: 'Synthetic developer without a team',
-      email: 'unaffiliated-developer@example.invalid',
+      displayName: 'No-team user — Den omvandrende smågodtplukkeren',
+      email: 'omvandrende.smagodtplukker@example.invalid',
     },
   },
   {
-    providerId: 'synthetic-admin',
-    entityRef: 'user:default/synthetic-admin',
+    providerId: 'synthetic-administrator',
+    entityRef: 'user:default/gullpapirets-vokter',
     profile: {
-      displayName: 'Synthetic administrator and reporting user',
-      email: 'synthetic-admin@example.invalid',
+      displayName: 'Administrator — Gullpapirets vokter',
+      email: 'gullpapirets.vokter@example.invalid',
     },
   },
 ];

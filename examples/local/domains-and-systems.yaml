@@ -1,47 +1,47 @@
 apiVersion: backstage.io/v1alpha1
 kind: Domain
 metadata:
-  name: geospatial-data
-  title: Geospatial Data
-  description: Synthetic domain for map and geodata capabilities
+  name: spiselig-eiendom
+  title: Spiselig eiendom
+  description: Eierskap, grenser og autoritative registre for spiselige matrikkelenheter
 spec:
-  owner: team-atlas
+  owner: lag-knekk
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Domain
 metadata:
-  name: developer-experience
-  title: Developer Experience
-  description: Synthetic domain for internal developer tooling
+  name: godterigeografi
+  title: Godterigeografi
+  description: Kart, stedssøk og navigasjon i Lørdagsriket
 spec:
-  owner: team-portal
+  owner: lag-skum
 ---
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: map-platform
-  title: Map Platform
-  description: Serves and renders synthetic map data
+  name: sjokoladematrikkelen
+  title: Sjokoladematrikkelen
+  description: Registrerer hver sjokoladerute som en autoritativ matrikkelenhet
 spec:
-  owner: team-atlas
-  domain: geospatial-data
+  owner: lag-knekk
+  domain: spiselig-eiendom
 ---
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: place-search
-  title: Place Search
-  description: Searches synthetic geographic place data
+  name: siste-bit-soket
+  title: Siste bit-søket
+  description: Finner favorittbiter som alle hevder lå her for et øyeblikk siden
 spec:
-  owner: team-compass
-  domain: geospatial-data
+  owner: lag-seig
+  domain: spiselig-eiendom
 ---
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: developer-portal
-  title: Developer Portal
-  description: Local example of an internal developer portal
+  name: lordagsatlaset
+  title: Lørdagsatlaset
+  description: Det offisielle kartet over og oppslagsverket for Lørdagsriket
 spec:
-  owner: team-portal
-  domain: developer-experience
+  owner: lag-skum
+  domain: godterigeografi

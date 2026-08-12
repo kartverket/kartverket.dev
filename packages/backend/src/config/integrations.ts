@@ -61,13 +61,13 @@ const proxyEndpointIds = [
 ] as const;
 
 const syntheticProviderIds = [
-  'synthetic-atlas',
-  'synthetic-compass',
-  'synthetic-multiteam',
-  'synthetic-product-area',
-  'synthetic-business-unit',
-  'synthetic-unaffiliated',
-  'synthetic-admin',
+  'synthetic-team-member-knekk',
+  'synthetic-team-member-seig',
+  'synthetic-multi-team-member',
+  'synthetic-product-area-authority',
+  'synthetic-business-unit-authority',
+  'synthetic-no-team',
+  'synthetic-administrator',
 ];
 
 export function getIntegrationMode(

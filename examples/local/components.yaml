@@ -1,80 +1,80 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: map-api
-  title: Map API
-  description: Synthetic backend serving map tiles and metadata
-  tags: [local, api]
+  name: sjokoladerute-api
+  title: API for sjokoladeruter
+  description: Tilbyr autoritative grenser og metadata for sjokoladeruter
+  tags: [lokal, api]
 spec:
   type: service
   lifecycle: experimental
-  owner: team-atlas
-  system: map-platform
+  owner: lag-knekk
+  system: sjokoladematrikkelen
   providesApis:
-    - map-api
+    - sjokoladerute-api
   dependsOn:
-    - resource:default/map-database
+    - resource:default/sjokoladeregisteret
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: map-web
-  title: Map Web
-  description: Synthetic web application for exploring maps
-  tags: [local, frontend]
+  name: sjokoladematrikkel-innsyn
+  title: Innsyn i Sjokoladematrikkelen
+  description: Lar landmålere utforske sjokoladeruter, knekkgrenser og omstridte hjørner
+  tags: [lokal, brukerflate]
 spec:
   type: website
   lifecycle: experimental
-  owner: team-atlas
-  system: map-platform
+  owner: lag-knekk
+  system: sjokoladematrikkelen
   consumesApis:
-    - map-api
+    - sjokoladerute-api
   dependsOn:
-    - component:default/map-api
+    - component:default/sjokoladerute-api
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: place-search-api
-  title: Place Search API
-  description: Synthetic search service owned by a different team
-  tags: [local, api]
+  name: siste-bit-sok-api
+  title: API for Siste bit-søket
+  description: Søk på tvers av lag etter bortkommet godteri
+  tags: [lokal, api]
 spec:
   type: service
   lifecycle: experimental
-  owner: team-compass
-  system: place-search
+  owner: lag-seig
+  system: siste-bit-soket
   providesApis:
-    - place-search-api
+    - siste-bit-sok-api
   dependsOn:
-    - resource:default/place-search-index
+    - resource:default/blandingsposeindeksen
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: portal-frontend
-  title: Portal Frontend
-  description: Synthetic developer portal frontend
-  tags: [local, frontend]
+  name: lordagsatlas-innsyn
+  title: Innsyn i Lørdagsatlaset
+  description: Tilgjengeliggjør den offisielle veiviseren til Lørdagsriket
+  tags: [lokal, brukerflate]
 spec:
   type: website
   lifecycle: experimental
-  owner: team-portal
-  system: developer-portal
+  owner: lag-skum
+  system: lordagsatlaset
   consumesApis:
-    - place-search-api
+    - siste-bit-sok-api
   dependsOn:
-    - component:default/place-search-api
+    - component:default/siste-bit-sok-api
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: relation-warning-example
-  title: Relation Warning Example
-  description: Intentionally references a missing system to exercise warning states
-  tags: [local, edge-case]
+  name: den-siste-sjokoladeruten
+  title: Den siste sjokoladeruten
+  description: Ingen innrømmer å ha spist den; peker med hensikt på et manglende system for å utløse varsler
+  tags: [lokal, kanttilfelle]
 spec:
   type: service
   lifecycle: experimental
-  owner: team-portal
-  system: intentionally-missing-system
+  owner: lag-skum
+  system: den-mistenkelig-tomme-innpakningen

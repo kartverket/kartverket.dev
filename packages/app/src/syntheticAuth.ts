@@ -30,48 +30,54 @@ type ProxySessionResponse = {
 
 const definitions: SyntheticPersonaDefinition[] = [
   {
-    providerId: 'synthetic-atlas',
-    title: 'Team Atlas developer',
-    message: 'Member of Team Atlas. Owns the synthetic map platform.',
-    apiRef: createApiRef({ id: 'auth.synthetic.atlas' }),
-  },
-  {
-    providerId: 'synthetic-compass',
-    title: 'Team Compass developer',
+    providerId: 'synthetic-team-member-knekk',
+    title: 'Team member — Kari Knekk',
     message:
-      'Member of Team Compass. Useful for testing access across team boundaries.',
-    apiRef: createApiRef({ id: 'auth.synthetic.compass' }),
+      'Medlem av Lag Knekk. Tester tilgang til lagets egen Sjokoladematrikkel.',
+    apiRef: createApiRef({ id: 'auth.synthetic.teamMemberKnekk' }),
   },
   {
-    providerId: 'synthetic-multiteam',
-    title: 'Multi-team developer',
-    message: 'Member of Team Atlas and Team Portal.',
-    apiRef: createApiRef({ id: 'auth.synthetic.multiteam' }),
-  },
-  {
-    providerId: 'synthetic-product-area',
-    title: 'Product-area authority',
+    providerId: 'synthetic-team-member-seig',
+    title: 'Team member — Siv Sukkerdragé',
     message:
-      'Represents authority across the Geospatial Platform product area.',
-    apiRef: createApiRef({ id: 'auth.synthetic.product-area' }),
+      'Medlem av Lag Seig. Tester tilgang til et annet lag og på tvers av laggrenser.',
+    apiRef: createApiRef({ id: 'auth.synthetic.teamMemberSeig' }),
   },
   {
-    providerId: 'synthetic-business-unit',
-    title: 'Business-unit authority',
-    message: 'Represents authority across the Geodata business unit.',
-    apiRef: createApiRef({ id: 'auth.synthetic.business-unit' }),
+    providerId: 'synthetic-multi-team-member',
+    title: 'Multi-team member — Mikkel Mellomlag',
+    message:
+      'Medlem av både Lag Knekk og Lag Skum. Tester tilgang gjennom flere lag.',
+    apiRef: createApiRef({ id: 'auth.synthetic.multiTeamMember' }),
   },
   {
-    providerId: 'synthetic-unaffiliated',
-    title: 'Developer without a team',
-    message: 'Has no group memberships. Useful for empty and denied states.',
-    apiRef: createApiRef({ id: 'auth.synthetic.unaffiliated' }),
+    providerId: 'synthetic-product-area-authority',
+    title: 'Product-area authority — Sjeflandmåler for sjokoladeruter',
+    message:
+      'Medlem av produktområdet Spiselig eiendom. Tester myndighet på tvers av alle underliggende lag.',
+    apiRef: createApiRef({ id: 'auth.synthetic.productAreaAuthority' }),
   },
   {
-    providerId: 'synthetic-admin',
-    title: 'Synthetic administrator',
-    message: 'Represents administrator and reporting access in synthetic data.',
-    apiRef: createApiRef({ id: 'auth.synthetic.admin' }),
+    providerId: 'synthetic-business-unit-authority',
+    title:
+      'Business-unit authority — Direktør for faste og stort sett faste søtsaker',
+    message:
+      'Medlem av Avdeling for sjokolade og fast eiendom. Tester myndighet på tvers av hele avdelingen.',
+    apiRef: createApiRef({ id: 'auth.synthetic.businessUnitAuthority' }),
+  },
+  {
+    providerId: 'synthetic-no-team',
+    title: 'No-team user — Den omvandrende smågodtplukkeren',
+    message:
+      'Har ingen gruppemedlemskap. Tester tomme visninger og avvist tilgang.',
+    apiRef: createApiRef({ id: 'auth.synthetic.noTeam' }),
+  },
+  {
+    providerId: 'synthetic-administrator',
+    title: 'Administrator — Gullpapirets vokter',
+    message:
+      'Tester administrator- og rapporteringstilgang for hele Godterikverket.',
+    apiRef: createApiRef({ id: 'auth.synthetic.administrator' }),
   },
 ];
 

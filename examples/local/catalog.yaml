@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
-  name: local-development-catalog
-  description: Synthetic catalog data for credential-free local development
+  name: godterikverkets-lokale-katalog
+  description: Godterikverkets syntetiske katalog for lokal utvikling uten eksterne tilganger
 spec:
   type: file
   targets:

@@ -1,74 +1,74 @@
 apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: serve-society
-  title: Serve Society
-  description: Root of the synthetic function hierarchy
+  name: sorge-for-et-velsmakende-rike
+  title: Sørge for et velsmakende rike
+  description: Roten i Godterikverkets syntetiske funksjonshierarki
 spec:
-  owner: kartverket-local
+  owner: godterikverket
   criticality: medium
 ---
 apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: provide-geospatial-data
-  title: Provide Geospatial Data
+  name: fastsla-hva-som-er-spiselig
+  title: Fastslå hva som er spiselig
 spec:
-  owner: team-atlas
-  parentFunction: function:default/serve-society
+  owner: lag-knekk
+  parentFunction: function:default/sorge-for-et-velsmakende-rike
   dependsOnSystems:
-    - system:default/map-platform
+    - system:default/sjokoladematrikkelen
   criticality: high
 ---
 apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: publish-maps
-  title: Publish Maps
+  name: kartlegge-sjokolade-skum-og-gele
+  title: Kartlegge sjokolade, skum og gelé
 spec:
-  owner: team-atlas
-  parentFunction: function:default/provide-geospatial-data
+  owner: lag-knekk
+  parentFunction: function:default/fastsla-hva-som-er-spiselig
   dependsOnComponents:
-    - component:default/map-api
-    - component:default/map-web
+    - component:default/sjokoladerute-api
+    - component:default/sjokoladematrikkel-innsyn
   criticality: high
 ---
 apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: search-places
-  title: Search Places
+  name: finne-den-siste-favorittbiten
+  title: Finne den siste favorittbiten
 spec:
-  owner: team-compass
-  parentFunction: function:default/provide-geospatial-data
+  owner: lag-seig
+  parentFunction: function:default/fastsla-hva-som-er-spiselig
   dependsOnSystems:
-    - system:default/place-search
+    - system:default/siste-bit-soket
   dependsOnFunctions:
-    - function:default/publish-maps
+    - function:default/kartlegge-sjokolade-skum-og-gele
   criticality: medium
 ---
 apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: support-developers
-  title: Support Developers
+  name: hjelpe-innbyggerne-finne-godsakene
+  title: Hjelpe innbyggerne med å finne godsakene
 spec:
-  owner: team-portal
-  parentFunction: function:default/serve-society
+  owner: lag-skum
+  parentFunction: function:default/sorge-for-et-velsmakende-rike
   dependsOnSystems:
-    - system:default/developer-portal
+    - system:default/lordagsatlaset
   criticality: medium
 ---
 apiVersion: kartverket.dev/v1alpha1
 kind: Function
 metadata:
-  name: operate-developer-portal
-  title: Operate Developer Portal
+  name: utgi-lordagsatlaset
+  title: Utgi Lørdagsatlaset
 spec:
-  owner: team-portal
-  parentFunction: function:default/support-developers
+  owner: lag-skum
+  parentFunction: function:default/hjelpe-innbyggerne-finne-godsakene
   dependsOnComponents:
-    - component:default/portal-frontend
+    - component:default/lordagsatlas-innsyn
   dependsOnFunctions:
-    - function:default/search-places
+    - function:default/finne-den-siste-favorittbiten
   criticality: low
