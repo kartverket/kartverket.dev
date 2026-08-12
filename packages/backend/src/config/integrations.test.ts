@@ -12,13 +12,13 @@ const integrationModes = {
 };
 
 const syntheticProviders = {
-  'synthetic-atlas': {},
-  'synthetic-compass': {},
-  'synthetic-multiteam': {},
-  'synthetic-product-area': {},
-  'synthetic-business-unit': {},
-  'synthetic-unaffiliated': {},
-  'synthetic-admin': {},
+  'synthetic-team-member-knekk': {},
+  'synthetic-team-member-seig': {},
+  'synthetic-multi-team-member': {},
+  'synthetic-product-area-authority': {},
+  'synthetic-business-unit-authority': {},
+  'synthetic-no-team': {},
+  'synthetic-administrator': {},
 };
 
 describe('validateAppConfig', () => {
@@ -40,7 +40,7 @@ describe('validateAppConfig', () => {
         environment: 'production',
         providers: {
           microsoft: { production: {} },
-          'synthetic-atlas': {},
+          'synthetic-team-member-knekk': {},
         },
       },
       backend: { database: { client: 'pg' } },
@@ -55,7 +55,7 @@ describe('validateAppConfig', () => {
     });
 
     expect(() => validateAppConfig(config)).toThrow(
-      /Synthetic auth provider 'synthetic-atlas'.*Synthetic catalog location/s,
+      /Synthetic auth provider 'synthetic-team-member-knekk'.*Synthetic catalog location/s,
     );
   });
 
