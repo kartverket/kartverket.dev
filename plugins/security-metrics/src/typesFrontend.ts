@@ -163,11 +163,16 @@ export type UniqueVulnerabilities = {
   vulnerabilities: AggregatedVulnerability[];
 };
 
+export type AggregatedAffectedComponent = {
+  componentName: string;
+  status: Status | null;
+};
+
 export type AggregatedVulnerability = {
   vulnerabilityId: string;
   severity: Severity;
   summary: string;
-  affectedComponents: string[];
+  affectedComponents: AggregatedAffectedComponent[];
 };
 
 export type ScannerConfig = {
@@ -217,6 +222,7 @@ export interface RiscStatusData {
   hasRisc?: boolean;
   lastPublishedRisc?: string;
   commitsSincePublishedRisc?: number;
+  owner?: string;
 }
 
 export type Severity =
