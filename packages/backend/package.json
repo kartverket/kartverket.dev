@@ -10,6 +10,7 @@
   "scripts": {
     "start": "BACKSTAGE_ENV=development backstage-cli package start --require ./src/instrumentation.js",
     "build": "backstage-cli package build",
+    "test": "backstage-cli package test",
     "lint": "backstage-cli package lint",
     "clean": "backstage-cli package clean",
     "build-image": "docker build ../.. -f Dockerfile --tag backstage"

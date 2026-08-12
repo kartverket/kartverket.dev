@@ -68,6 +68,8 @@ jobs:
 
       - run: yarn run lint:all
 
+      - run: yarn workspace backend test
+
       # Build the backend, which bundles it all up into the packages/backend/dist folder.
       # The configuration files here should match the one you use inside the Dockerfile below.
       - run: yarn build:backend --config ../../app-config.yaml --config ../../app-config.production.yaml
