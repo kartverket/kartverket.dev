@@ -13,8 +13,20 @@ backend.add(import('@internal/backstage-plugin-regelrett-schemas-backend'));
 
 ## Konfigurasjon
 
-Pluginen leser `regelrett.*` fra `app-config.*.yaml`. Kopier blokk 5b fra
-[`app-config.local.example.yaml`](../../app-config.local.example.yaml) inn i
-din `app-config.local.yaml` og fyll inn `REGELRETT_CLIENT_ID`. Krever at
-regelrett-backend kjører lokalt (typisk på `http://localhost:8080`).
+Pluginen er deaktivert som standard. Aktiver bare Regelrett i den gitignorede
+`app-config.local.yaml`-filen:
 
+```yaml
+regelrett:
+  mode: connected
+  authentication: entra
+  baseUrl: http://localhost:8080
+  url: http://localhost:8080
+  clientId: ${REGELRETT_CLIENT_ID}
+```
+
+Dette krever at Regelrett-backend kjører lokalt, typisk på
+`http://localhost:8080`. Endepunkter som bruker Entra ID-token krever i tillegg
+en Microsoft-provider under `auth.providers.microsoft.development` og en
+Microsoft Graph-katalog-provider; se
+[`CONTRIBUTING.md`](../../CONTRIBUTING.md#koble-til-én-ekstern-tjeneste).
