@@ -8,7 +8,11 @@ import {
   Progress,
 } from '@backstage/core-components';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { configApiRef, identityApiRef, useApi } from '@backstage/core-plugin-api';
+import {
+  configApiRef,
+  identityApiRef,
+  useApi,
+} from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
