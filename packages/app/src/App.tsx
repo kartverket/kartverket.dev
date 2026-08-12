@@ -70,6 +70,7 @@ import {
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
 import { syntheticSignInProviders } from './syntheticAuth';
+import { IntegrationBoundary } from './components/IntegrationBoundary';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -103,13 +104,13 @@ const app = createApp({
               ...syntheticSignInProviders,
               ...(microsoftClientId
                 ? [
-              {
-                id: 'microsoft-auth-provider',
-                title: 'Microsoft',
+                    {
+                      id: 'microsoft-auth-provider',
+                      title: 'Microsoft',
                       message:
                         'Sign in with Microsoft using connected non-production identity and catalog data.',
-                apiRef: microsoftAuthApiRef,
-              },
+                      apiRef: microsoftAuthApiRef,
+                    },
                   ]
                 : []),
             ]}
@@ -182,9 +183,11 @@ const routes = (
     <Route
       path="/catalog-import"
       element={
-        <RequirePermission permission={catalogEntityCreatePermission}>
-          <CatalogImportPage />
-        </RequirePermission>
+        <IntegrationBoundary configKey="catalogCreator" title="Catalog Creator">
+          <RequirePermission permission={catalogEntityCreatePermission}>
+            <CatalogImportPage />
+          </RequirePermission>
+        </IntegrationBoundary>
       }
     />
     <Route path="/search" element={<SearchPage />}>
@@ -202,16 +205,32 @@ const routes = (
       }
     />
     <Route path="/explore" element={<ExplorePage />} />
-    <Route path="/lighthouse" element={<LighthousePage />} />
+    <Route
+      path="/lighthouse"
+      element={
+        <IntegrationBoundary configKey="lighthouse" title="Lighthouse">
+          <LighthousePage />
+        </IntegrationBoundary>
+      }
+    />
     <Route path="/devtools" element={<DevToolsPage />} />
-    <Route path="/opencost" element={<OpencostPage />} />
+    <Route
+      path="/opencost"
+      element={
+        <IntegrationBoundary configKey="opencost" title="SKIPcost">
+          <OpencostPage />
+        </IntegrationBoundary>
+      }
+    />
     <Route
       path="/catalog-creator"
       element={
-        <CatalogCreatorPage
-          docsLink="/docs/default/Component/kartverket.dev"
-          supportButton={<SupportButton />}
-        />
+        <IntegrationBoundary configKey="catalogCreator" title="Catalog Creator">
+          <CatalogCreatorPage
+            docsLink="/docs/default/Component/kartverket.dev"
+            supportButton={<SupportButton />}
+          />
+        </IntegrationBoundary>
       }
     />
     <Route path="/notifications" element={<NotificationsPage />} />

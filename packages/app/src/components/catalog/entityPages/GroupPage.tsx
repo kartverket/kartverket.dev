@@ -12,6 +12,7 @@ import {
   GroupProfileCard,
 } from '@internal/plugin-frontend-custom-components';
 import { entityWarningContent } from './shared';
+import { IntegrationBoundary } from '../../IntegrationBoundary';
 
 export const groupPage = (
   <EntityLayout>
@@ -36,11 +37,18 @@ export const groupPage = (
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <SecurityChampionCard />
+          <IntegrationBoundary
+            configKey="securityChampion"
+            title="Security Champion"
+          >
+            <SecurityChampionCard />
+          </IntegrationBoundary>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <Flex direction="column" gap="24px">
-            <GroupSecurityFormsCard />
+            <IntegrationBoundary configKey="regelrett" title="Regelrett">
+              <GroupSecurityFormsCard />
+            </IntegrationBoundary>
           </Flex>
         </Grid>
         <Grid size={12}>
@@ -49,7 +57,12 @@ export const groupPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
+      <IntegrationBoundary
+        configKey="sikkerhetsmetrikker"
+        title="Security Metrics"
+      >
+        <SecurityMetricsPage />
+      </IntegrationBoundary>
     </EntityLayout.Route>
   </EntityLayout>
 );

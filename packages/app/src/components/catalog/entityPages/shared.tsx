@@ -32,6 +32,7 @@ import {
 } from '@backstage-community/plugin-grafana';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
 import { EntityFunctionsCard } from '@internal/plugin-frontend-custom-components';
+import { IntegrationBoundary } from '../../IntegrationBoundary';
 
 export const techdocsContent = (
   <EntityTechdocsContent>
@@ -135,7 +136,12 @@ export const defaultComponentContent = (
       <EntityCatalogGraphCard height={400} />
     </Grid>
     <Grid size={{ xs: 12, md: 4 }}>
-      <SecurityChampionCard />
+      <IntegrationBoundary
+        configKey="securityChampion"
+        title="Security Champion"
+      >
+        <SecurityChampionCard />
+      </IntegrationBoundary>
     </Grid>
     <Grid size={{ xs: 12, md: 8 }}>
       <EntityLinksCard />
