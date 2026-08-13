@@ -1,0 +1,74 @@
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: sorge-for-et-velsmakende-rike
+  title: Sørge for et velsmakende rike
+  description: Roten i Godteriverkets syntetiske funksjonshierarki
+spec:
+  owner: godteriverket
+  criticality: medium
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: fastsla-hva-som-er-spiselig
+  title: Fastslå hva som er spiselig
+spec:
+  owner: lag-knekk
+  parentFunction: function:default/sorge-for-et-velsmakende-rike
+  dependsOnSystems:
+    - system:default/sjokoladematrikkelen
+  criticality: high
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: kartlegge-sjokolade-skum-og-gele
+  title: Kartlegge sjokolade, skum og gelé
+spec:
+  owner: lag-knekk
+  parentFunction: function:default/fastsla-hva-som-er-spiselig
+  dependsOnComponents:
+    - component:default/sjokoladerute-api
+    - component:default/sjokoladematrikkel-innsyn
+  criticality: high
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: finne-den-siste-favorittbiten
+  title: Finne den siste favorittbiten
+spec:
+  owner: lag-seig
+  parentFunction: function:default/fastsla-hva-som-er-spiselig
+  dependsOnSystems:
+    - system:default/siste-bit-soket
+  dependsOnFunctions:
+    - function:default/kartlegge-sjokolade-skum-og-gele
+  criticality: medium
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: hjelpe-innbyggerne-finne-godsakene
+  title: Hjelpe innbyggerne med å finne godsakene
+spec:
+  owner: lag-skum
+  parentFunction: function:default/sorge-for-et-velsmakende-rike
+  dependsOnSystems:
+    - system:default/lordagsatlaset
+  criticality: medium
+---
+apiVersion: kartverket.dev/v1alpha1
+kind: Function
+metadata:
+  name: utgi-lordagsatlaset
+  title: Utgi Lørdagsatlaset
+spec:
+  owner: lag-skum
+  parentFunction: function:default/hjelpe-innbyggerne-finne-godsakene
+  dependsOnComponents:
+    - component:default/lordagsatlas-innsyn
+  dependsOnFunctions:
+    - function:default/finne-den-siste-favorittbiten
+  criticality: low

@@ -26,6 +26,7 @@ import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { EntityFunctionsCard } from '@internal/plugin-frontend-custom-components';
 import { entityWarningContent } from './shared';
+import { IntegrationBoundary } from '../../IntegrationBoundary';
 
 export const systemPage = (
   <EntityLayout>
@@ -43,7 +44,12 @@ export const systemPage = (
           />
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
-          <SecurityChampionCard />
+          <IntegrationBoundary
+            configKey="securityChampion"
+            title="Security Champion"
+          >
+            <SecurityChampionCard />
+          </IntegrationBoundary>
         </Grid>
         <Grid size={{ md: 8 }}>
           <EntityHasComponentsCard />
@@ -84,11 +90,18 @@ export const systemPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Operasjonell RoS">
-      <RiScPage />
+      <IntegrationBoundary configKey="ros" title="Operational risk assessment">
+        <RiScPage />
+      </IntegrationBoundary>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      <SecurityMetricsPage />
+      <IntegrationBoundary
+        configKey="sikkerhetsmetrikker"
+        title="Security Metrics"
+      >
+        <SecurityMetricsPage />
+      </IntegrationBoundary>
     </EntityLayout.Route>
   </EntityLayout>
 );

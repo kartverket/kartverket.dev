@@ -44,8 +44,14 @@ integrations:
 
 proxy:
   endpoints:
+    '/opencost':
+      target: https://opencost.dev.skip.statkart.no
     '/lighthouse':
       target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
+    '/grafana/api':
+      target: https://monitoring.kartverket.cloud
+      headers:
+        Authorization: Bearer ${GRAFANA_TOKEN}
     '/risc-proxy':
       target: http://ros-plugin-backend.ros-plugin-main:8080
       allowedHeaders:
@@ -59,10 +65,25 @@ proxy:
       changeOrigin: true
 
 lighthouse:
+  mode: connected
   baseUrl: /api/proxy/lighthouse
 
+grafana:
+  domain: https://monitoring.kartverket.cloud
+
 catalog:
+  locations: []
   providers:
+    github:
+      providerId:
+        organization: 'Kartverket'
+        catalogPath: '/catalog-info.yaml'
+        validateLocationsExist: true
+        filters:
+          repository: '.*'
+        schedule:
+          frequency: { minutes: 30 }
+          timeout: { minutes: 3 }
     microsoftGraphOrg:
       default:
         tenantId: 7f74c8a2-43ce-46b2-b0e8-b6306cba73a3
@@ -94,6 +115,7 @@ catalog:
 auth:
   environment: production
   providers:
+    guest: null
     google:
       production:
         clientId: ${GOOGLE_OAUTH_CLIENT_ID}
@@ -112,17 +134,20 @@ cors:
   origin: ${BASE_URL}
 
 sikkerhetsmetrikker:
-  enable: true
+  mode: connected
+  authentication: entra
   baseUrl: http://sikkerhetsmetrikker.sikkerhetsmetrikker-main:8080
   clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
 
 regelrett:
-  enable: true
+  mode: connected
+  authentication: entra
   baseUrl: http://regelrett-backend.regelrett-main:8080
   url: ${REGELRETT_BASEURL}
   clientId: ${REGELRETT_CLIENT_ID}
 
 ros:
+  mode: connected
   sops:
     ageKey: dummy
     backendPublicKey: dummy
@@ -133,3 +158,12 @@ ros:
   initRiSc:
     repoOwner: kartverket
     repoName: initial-riscs-collection
+
+catalogCreator:
+  mode: connected
+
+securityChampion:
+  mode: connected
+
+opencost:
+  mode: connected

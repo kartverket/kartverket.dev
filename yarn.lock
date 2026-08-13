@@ -3958,19 +3958,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-auth-backend-module-guest-provider@backstage:^::backstage=1.53.1&npm=0.2.21, @backstage/plugin-auth-backend-module-guest-provider@npm:^0.2.21":
-  version: 0.2.21
-  resolution: "@backstage/plugin-auth-backend-module-guest-provider@npm:0.2.21"
-  dependencies:
-    "@backstage/backend-plugin-api": "npm:^1.9.3"
-    "@backstage/catalog-model": "npm:^1.9.0"
-    "@backstage/errors": "npm:^1.3.1"
-    "@backstage/plugin-auth-node": "npm:^0.7.3"
-    passport-oauth2: "npm:^1.7.0"
-  checksum: 10c0/c680b3a43e115fe3847aba46e438408f7aedb8755121aef1aaa91c4894e2247f98c9da33e05b3e42f50ee02bff54ad55ea2c59e1656fb370d405ee3e0e0b20c9
-  languageName: node
-  linkType: hard
-
 "@backstage/plugin-auth-backend-module-microsoft-provider@backstage:^::backstage=1.53.1&npm=0.3.17, @backstage/plugin-auth-backend-module-microsoft-provider@npm:^0.3.17":
   version: 0.3.17
   resolution: "@backstage/plugin-auth-backend-module-microsoft-provider@npm:0.3.17"
@@ -17292,12 +17279,12 @@ __metadata:
     "@backstage/catalog-client": "backstage:^"
     "@backstage/catalog-model": "backstage:^"
     "@backstage/cli": "backstage:^"
+    "@backstage/config": "backstage:^"
     "@backstage/errors": "backstage:^"
     "@backstage/plugin-app-backend": "backstage:^"
     "@backstage/plugin-auth-backend": "backstage:^"
     "@backstage/plugin-auth-backend-module-github-provider": "backstage:^"
     "@backstage/plugin-auth-backend-module-google-provider": "backstage:^"
-    "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^"
     "@backstage/plugin-auth-backend-module-microsoft-provider": "backstage:^"
     "@backstage/plugin-auth-node": "backstage:^"
     "@backstage/plugin-catalog-backend": "backstage:^"
@@ -30111,7 +30098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-oauth2@npm:1.8.0, passport-oauth2@npm:1.x.x, passport-oauth2@npm:^1.7.0":
+"passport-oauth2@npm:1.8.0, passport-oauth2@npm:1.x.x":
   version: 1.8.0
   resolution: "passport-oauth2@npm:1.8.0"
   dependencies:
