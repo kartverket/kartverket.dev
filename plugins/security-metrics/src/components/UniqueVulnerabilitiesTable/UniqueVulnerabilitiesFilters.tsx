@@ -33,7 +33,7 @@ type Props = {
 type FilterSectionProps = {
   heading: string;
   children: React.ReactNode;
-  sx?: object;
+  sx?: React.ComponentProps<typeof Box>['sx'];
 };
 
 const FilterSection = ({ heading, children, sx }: FilterSectionProps) => (
@@ -152,7 +152,7 @@ export const UniqueVulnerabilitiesFilters = ({
                   tooltip={
                     disabled
                       ? `Ingen ${noun} kjører i ${cluster}`
-                      : `Vis bare sårbarheter som kjører i ${cluster}`
+                      : `Vis sårbarheter som kjører i ${cluster} (inkl. ukjent miljø)`
                   }
                 />
               );

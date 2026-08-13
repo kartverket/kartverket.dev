@@ -288,10 +288,16 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
                     title="Info om miljøer vises bare for sårbarheter som rapporteres fra Sysdig"
                     placement="right"
                   >
-                    <InfoOutlinedIcon
-                      fontSize="inherit"
-                      sx={{ opacity: 0.8, cursor: 'help' }}
-                    />
+                    <Box
+                      component="span"
+                      tabIndex={0}
+                      aria-label="Info om miljøer"
+                    >
+                      <InfoOutlinedIcon
+                        fontSize="inherit"
+                        sx={{ opacity: 0.8, cursor: 'help' }}
+                      />
+                    </Box>
                   </Tooltip>
                 </Stack>
               </TableCell>
