@@ -1,5 +1,3 @@
-import { blue, grey, purple } from '@mui/material/colors';
-
 export const SEVERITY_COLORS = {
   CRITICAL: '#910101',
   HIGH: '#d1081e',
@@ -11,7 +9,7 @@ export const SEVERITY_COLORS = {
 
 export const SCANNER_COLORS = {
   DEPENDABOT: '#0363CF',
-  PHAROS: purple[300],
+  PHAROS: '#ba68c8',
   SYSDIG: '#BDF78B',
   CODEQL: '#0f305f',
   TENABLE: '#4B0082',
@@ -26,11 +24,26 @@ export const SCANNER_CARD = {
 export const BASIC_COLORS = {
   BLACK: '#000000',
   WHITE: '#FFFFFF',
-  DARK_GREY: grey[800],
-  GREY: grey[700],
-  LIGHT_GREY: grey[400],
-  LIGHTER_GREY: grey[300],
-  PRIMARY_LIGHT: blue[200],
-  PRIMARY_DARK: blue[900],
+  DARK_GREY: '#424242',
+  GREY: '#616161',
+  LIGHT_GREY: '#bdbdbd',
+  LIGHTER_GREY: '#e0e0e0',
+  PRIMARY_LIGHT: '#90caf9',
+  PRIMARY_DARK: '#0d47a1',
   SUCCESS: '#2e7d32',
+};
+
+export const CONTEXT_TAG_COLORS = {
+  KEV_BG: '#910101',
+  KEV_TEXT: '#FCEBEB',
+  EXPLOIT_RUNNING_BG: '#FAEEDA',
+  EXPLOIT_RUNNING_TEXT: '#633806',
+  FIX_BG: '#e8f5e9',
+  FIX_TEXT: '#1b5e20',
+  NO_FIX_BG: '#ffebee',
+  NO_FIX_TEXT: '#b71c1c',
+  DIRECT_BG: '#e3f2fd',
+  DIRECT_TEXT: '#0d47a1',
+  NEUTRAL_BG: '#f5f5f5',
+  NEUTRAL_TEXT: '#424242',
 };

@@ -65,6 +65,16 @@ export type VulnerabilityIdInfo = {
 
 export type Status = 'IKKE_STARTET' | 'PABEGYNT' | 'AKSEPTERT';
 
+export type ContextSignal =
+  | 'kev'
+  | 'exploit'
+  | 'running'
+  | 'notRunning'
+  | 'fix'
+  | 'noFix'
+  | 'direct'
+  | 'transitive';
+
 export type Vulnerability = {
   vulnerabilityId: string;
   vulnerabilityIdInfo: VulnerabilityIdInfo[];
@@ -166,12 +176,18 @@ export type UniqueVulnerabilities = {
 export type AggregatedAffectedComponent = {
   componentName: string;
   status: Status | null;
+  isDirect: boolean | null;
+  isRunning: boolean | null;
 };
 
 export type AggregatedVulnerability = {
   vulnerabilityId: string;
   severity: Severity;
   summary: string;
+  scanners: Scanner[];
+  isFixable: boolean;
+  isExploitable: boolean;
+  isCisaKEV: boolean;
   affectedComponents: AggregatedAffectedComponent[];
 };
 
@@ -277,3 +293,17 @@ export type GraphTimeline =
   | 'threeMonths'
   | 'sixMonths'
   | 'oneYear';
+
+export type ContextFacet = Exclude<
+  ContextSignal,
+  'notRunning' | 'noFix' | 'transitive'
+>;
+
+export const SEVERITY_OPTIONS: Severity[] = [
+  'critical',
+  'high',
+  'medium',
+  'low',
+  'negligible',
+  'unknown',
+];

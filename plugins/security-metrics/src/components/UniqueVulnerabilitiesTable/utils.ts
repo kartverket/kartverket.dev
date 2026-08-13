@@ -1,6 +1,7 @@
 import type { AggregatedVulnerability } from '../../typesFrontend';
+import { aggregatedToRiskInputs, computeRiskScore } from '../shared/riskScore';
 
-export type SortType = 'Komponenter' | 'Alvorlighetsgrad';
+export type SortType = 'Komponenter' | 'Alvorlighetsgrad' | 'Prioritet';
 export type SortOrder = 'asc' | 'desc';
 
 export const severityRank: Record<AggregatedVulnerability['severity'], number> =
@@ -22,6 +23,13 @@ export const compareByAffectedComponents = (
   a: AggregatedVulnerability,
   b: AggregatedVulnerability,
 ) => b.affectedComponents.length - a.affectedComponents.length;
+
+export const compareByPriority = (
+  a: AggregatedVulnerability,
+  b: AggregatedVulnerability,
+) =>
+  computeRiskScore(aggregatedToRiskInputs(b)) -
+  computeRiskScore(aggregatedToRiskInputs(a));
 
 export const matchesSearch = (
   vulnerability: AggregatedVulnerability,
