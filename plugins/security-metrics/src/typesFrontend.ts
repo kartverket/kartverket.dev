@@ -178,6 +178,7 @@ export type AggregatedAffectedComponent = {
   status: Status | null;
   isDirect: boolean | null;
   isRunning: boolean | null;
+  sysdigClusters?: string[];
 };
 
 export type AggregatedVulnerability = {

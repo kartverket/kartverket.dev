@@ -19,8 +19,8 @@ const variantStyles: Record<
     color: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_TEXT,
   },
   notRunning: {
-    bg: CONTEXT_TAG_COLORS.NEUTRAL_BG,
-    color: CONTEXT_TAG_COLORS.NEUTRAL_TEXT,
+    bg: BASIC_COLORS.TAG_NEUTRAL_BG,
+    color: BASIC_COLORS.TAG_NEUTRAL_TEXT,
   },
   fix: { bg: CONTEXT_TAG_COLORS.FIX_BG, color: CONTEXT_TAG_COLORS.FIX_TEXT },
   noFix: {

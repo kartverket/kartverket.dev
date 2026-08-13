@@ -31,6 +31,20 @@ export const compareByPriority = (
   computeRiskScore(aggregatedToRiskInputs(b)) -
   computeRiskScore(aggregatedToRiskInputs(a));
 
+export const formatClusterLabel = (cluster: string): string => {
+  const suffix = cluster.split('_').pop();
+  return suffix ? suffix.toLowerCase() : cluster.toLowerCase();
+};
+
+export const sortClusters = (clusters: string[]): string[] =>
+  [...clusters].sort((a, b) => {
+    const labelA = formatClusterLabel(a);
+    const labelB = formatClusterLabel(b);
+    if (labelA === 'prod' && labelB !== 'prod') return -1;
+    if (labelB === 'prod' && labelA !== 'prod') return 1;
+    return labelA.localeCompare(labelB);
+  });
+
 export const matchesSearch = (
   vulnerability: AggregatedVulnerability,
   query: string,
