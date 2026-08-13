@@ -4,12 +4,12 @@ metadata:
   namespace: default
   annotations:
     graph.microsoft.com/group-id: 00000000-0000-4000-8000-000000000001
-  name: godterikverket
+  name: godteriverket
   description: Norges syntetiske etat for kartlegging av Lørdagsrikets spiselige geografi
 spec:
   type: root
   profile:
-    displayName: Godterikverket
+    displayName: Godteriverket
   children:
     - group:default/sjokolade-og-fast-eiendom
     - group:default/myke-salte-og-luftige-omrader
@@ -28,7 +28,7 @@ spec:
     displayName: Avdeling for sjokolade og fast eiendom
   children:
     - group:default/spiselig-eiendom
-  parent: group:default/godterikverket
+  parent: group:default/godteriverket
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Group
@@ -91,7 +91,7 @@ spec:
     displayName: Avdeling for myke, salte og luftige områder
   children:
     - group:default/godterigeografi
-  parent: group:default/godterikverket
+  parent: group:default/godteriverket
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Group
@@ -235,10 +235,10 @@ metadata:
     kartverket.no/synthetic-persona: administrator
   name: gullpapirets-vokter
   title: Gullpapirets vokter
-  description: Administrator og vokter av Godterikverkets hovedregister
+  description: Administrator og vokter av godteriverkets hovedregister
 spec:
   profile:
     displayName: Gullpapirets vokter
     email: gullpapirets.vokter@example.invalid
   memberOf:
-    - group:default/godterikverket
+    - group:default/godteriverket

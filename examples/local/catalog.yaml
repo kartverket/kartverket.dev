@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
-  name: godterikverkets-lokale-katalog
-  description: Godterikverkets syntetiske katalog for lokal utvikling uten eksterne tilganger
+  name: godteriverkets-lokale-katalog
+  description: Godteriverkets syntetiske katalog for lokal utvikling uten eksterne tilganger
 spec:
   type: file
   targets:

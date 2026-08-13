@@ -1,10 +1,10 @@
-# Godterikverkets syntetiske lokalkatalog
+# godteriverkets syntetiske lokalkatalog
 
 Disse testdataene inneholder oppdiktede entiteter for lokal utvikling uten
 eksterne tilganger. De skal ikke inneholde navn, identifikatorer, e-postadresser,
 medlemskap eller eierskapsdata fra produksjon.
 
-Testdataene beskriver **Godterikverket**, Norges fullstendig oppdiktede etat for
+Testdataene beskriver **godteriverket**, Norges fullstendig oppdiktede etat for
 kartlegging av spiselig geografi. Etatens lag forvalter Lørdagsrikets
 sjokoladeruter, bevegelige grenser, skumgodtluftrom og savnede
 favorittbiter. De lekne navnene gjør syntetiske entiteter lette å kjenne igjen,
