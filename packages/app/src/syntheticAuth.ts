@@ -34,28 +34,28 @@ const definitions: SyntheticPersonaDefinition[] = [
     title: 'Team member — Kari Knekk',
     message:
       'Medlem av Lag Knekk. Tester tilgang til lagets egen Sjokoladematrikkel.',
-    apiRef: createApiRef({ id: 'auth.synthetic.teamMemberKnekk' }),
+    apiRef: createApiRef({ id: 'auth.synthetic.team-member-knekk' }),
   },
   {
     providerId: 'synthetic-team-member-seig',
     title: 'Team member — Siv Sukkerdragé',
     message:
       'Medlem av Lag Seig. Tester tilgang til et annet lag og på tvers av laggrenser.',
-    apiRef: createApiRef({ id: 'auth.synthetic.teamMemberSeig' }),
+    apiRef: createApiRef({ id: 'auth.synthetic.team-member-seig' }),
   },
   {
     providerId: 'synthetic-multi-team-member',
     title: 'Multi-team member — Mikkel Mellomlag',
     message:
       'Medlem av både Lag Knekk og Lag Skum. Tester tilgang gjennom flere lag.',
-    apiRef: createApiRef({ id: 'auth.synthetic.multiTeamMember' }),
+    apiRef: createApiRef({ id: 'auth.synthetic.multi-team-member' }),
   },
   {
     providerId: 'synthetic-product-area-authority',
     title: 'Product-area authority — Sjeflandmåler for sjokoladeruter',
     message:
       'Medlem av produktområdet Spiselig eiendom. Tester myndighet på tvers av alle underliggende lag.',
-    apiRef: createApiRef({ id: 'auth.synthetic.productAreaAuthority' }),
+    apiRef: createApiRef({ id: 'auth.synthetic.product-area-authority' }),
   },
   {
     providerId: 'synthetic-business-unit-authority',
@@ -63,20 +63,20 @@ const definitions: SyntheticPersonaDefinition[] = [
       'Business-unit authority — Direktør for faste og stort sett faste søtsaker',
     message:
       'Medlem av Avdeling for sjokolade og fast eiendom. Tester myndighet på tvers av hele avdelingen.',
-    apiRef: createApiRef({ id: 'auth.synthetic.businessUnitAuthority' }),
+    apiRef: createApiRef({ id: 'auth.synthetic.business-unit-authority' }),
   },
   {
     providerId: 'synthetic-no-team',
     title: 'No-team user — Den omvandrende smågodtplukkeren',
     message:
       'Har ingen gruppemedlemskap. Tester tomme visninger og avvist tilgang.',
-    apiRef: createApiRef({ id: 'auth.synthetic.noTeam' }),
+    apiRef: createApiRef({ id: 'auth.synthetic.no-team' }),
   },
   {
     providerId: 'synthetic-administrator',
     title: 'Administrator — Gullpapirets vokter',
     message:
-      'Tester administrator- og rapporteringstilgang for hele Godterikverket.',
+      'Tester administrator- og rapporteringstilgang for hele Godteriverket.',
     apiRef: createApiRef({ id: 'auth.synthetic.administrator' }),
   },
 ];
