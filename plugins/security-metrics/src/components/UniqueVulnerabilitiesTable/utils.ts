@@ -1,4 +1,7 @@
-import type { AggregatedVulnerability } from '../../typesFrontend';
+import type {
+  AggregatedAffectedComponent,
+  AggregatedVulnerability,
+} from '../../typesFrontend';
 import { aggregatedToRiskInputs, computeRiskScore } from '../shared/riskScore';
 
 export type SortType = 'Komponenter' | 'Alvorlighetsgrad' | 'Prioritet';
@@ -44,6 +47,29 @@ export const sortClusters = (clusters: string[]): string[] =>
     if (labelB === 'prod' && labelA !== 'prod') return 1;
     return labelA.localeCompare(labelB);
   });
+
+export const groupClustersByLabel = (
+  clusters: string[],
+): Map<string, string[]> => {
+  const groups = new Map<string, string[]>();
+  clusters.forEach(cluster => {
+    const label = formatClusterLabel(cluster);
+    const raws = groups.get(label) ?? [];
+    if (!raws.includes(cluster)) raws.push(cluster);
+    groups.set(label, raws);
+  });
+  return groups;
+};
+
+export const componentMatchesClusters = (
+  component: AggregatedAffectedComponent,
+  clusterLabels: string[],
+): boolean => {
+  if (clusterLabels.length === 0) return true;
+  const clusters = component.sysdigClusters;
+  if (!clusters?.length) return true;
+  return clusters.some(cl => clusterLabels.includes(formatClusterLabel(cl)));
+};
 
 export const matchesSearch = (
   vulnerability: AggregatedVulnerability,

@@ -27,8 +27,10 @@ import {
   compareByAffectedComponents,
   compareByPriority,
   compareBySeverity,
+  componentMatchesClusters,
   formatClusterLabel,
   matchesSearch,
+  sortClusters,
   SortOrder,
   SortType,
 } from './utils';
@@ -69,13 +71,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
         .map(vulnerability => {
           if (clusterFilter.length === 0) return vulnerability;
           const filteredComponents = vulnerability.affectedComponents.filter(
-            c => {
-              const clusters = c.sysdigClusters;
-              if (!clusters || clusters.length === 0) return true;
-              return clusters.some(cl =>
-                clusterFilter.includes(formatClusterLabel(cl)),
-              );
-            },
+            c => componentMatchesClusters(c, clusterFilter),
           );
           return { ...vulnerability, affectedComponents: filteredComponents };
         })
@@ -131,20 +127,14 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
         c.sysdigClusters?.forEach(cl => labels.add(formatClusterLabel(cl))),
       ),
     );
-    return [...labels].sort((a, b) => {
-      if (a === 'prod') return -1;
-      if (b === 'prod') return 1;
-      return a.localeCompare(b);
-    });
+    return sortClusters([...labels]);
   }, [visibleVulnerabilities]);
 
   const clusterCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     availableClusters.forEach(label => {
       counts[label] = visibleVulnerabilities.filter(v =>
-        v.affectedComponents.some(c =>
-          c.sysdigClusters?.some(cl => formatClusterLabel(cl) === label),
-        ),
+        v.affectedComponents.some(c => componentMatchesClusters(c, [label])),
       ).length;
     });
     return counts;

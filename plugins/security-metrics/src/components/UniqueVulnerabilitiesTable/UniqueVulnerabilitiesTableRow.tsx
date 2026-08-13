@@ -21,9 +21,9 @@ import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import { StyledTableRow } from '../shared/StyledTableRow';
 import { AggregatedVulnerabilityContext } from './AggregatedVulnerabilityContext';
-import { ContextTag } from '../shared/ContextTag.tsx';
-import { ClusterTag } from '../shared/ClusterTag.tsx';
-import { sortClusters } from './utils';
+import { ContextTag } from './ContextTag.tsx';
+import { ClusterTag } from './ClusterTag.tsx';
+import { groupClustersByLabel, sortClusters } from './utils';
 
 type Props = {
   vulnerability: AggregatedVulnerability;
@@ -35,13 +35,21 @@ type ComponentContextProps = {
   hasSysdig: boolean;
 };
 
-const ComponentClusters = ({ clusters }: { clusters: string[] }) => (
-  <Box sx={{ display: 'flex', gap: 0.5 }}>
-    {sortClusters(clusters).map(cluster => (
-      <ClusterTag key={cluster} cluster={cluster} />
-    ))}
-  </Box>
-);
+const ComponentClusters = ({ clusters }: { clusters: string[] }) => {
+  const grouped = groupClustersByLabel(clusters);
+  const labels = sortClusters([...grouped.keys()]);
+  return (
+    <Box sx={{ display: 'flex', gap: 0.5 }}>
+      {labels.map(label => (
+        <ClusterTag
+          key={label}
+          cluster={label}
+          tooltip={grouped.get(label)!.join(', ')}
+        />
+      ))}
+    </Box>
+  );
+};
 
 const ComponentContextTags = ({
   component,
@@ -90,9 +98,7 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
   const showComponentContext = hasDependabot || hasSysdig;
   const canExpand = components.length > 1;
 
-  const aggregatedClusters = hasSysdig
-    ? Array.from(new Set(components.flatMap(c => c.sysdigClusters ?? [])))
-    : [];
+  const aggregatedClusters = components.flatMap(c => c.sysdigClusters ?? []);
 
   const goToComponent = (componentName: string) => {
     navigate(
@@ -214,13 +220,11 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                             {component.componentName}
                           </Typography>
 
-                          {hasSysdig &&
-                            component.sysdigClusters &&
-                            component.sysdigClusters.length > 0 && (
-                              <ComponentClusters
-                                clusters={component.sysdigClusters}
-                              />
-                            )}
+                          {!!component.sysdigClusters?.length && (
+                            <ComponentClusters
+                              clusters={component.sysdigClusters}
+                            />
+                          )}
 
                           <ArrowForwardIosIcon
                             fontSize="inherit"

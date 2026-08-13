@@ -9,9 +9,9 @@ import type { ContextFacet, Severity } from '../../typesFrontend';
 import { SEVERITY_OPTIONS } from '../../typesFrontend';
 import { getStandardSeverityFormat } from '../../utils/utils';
 import { CONTEXT_FACETS } from '../shared/contextDescriptions';
-import { ContextTag } from '../shared/ContextTag.tsx';
+import { ContextTag } from './ContextTag.tsx';
 import { SeverityTag } from '../shared/SeverityTag.tsx';
-import { ClusterTag } from '../shared/ClusterTag.tsx';
+import { ClusterTag } from './ClusterTag.tsx';
 
 type Props = {
   searchQuery: string;
@@ -30,6 +30,25 @@ type Props = {
   showOpen: boolean;
 };
 
+type FilterSectionProps = {
+  heading: string;
+  children: React.ReactNode;
+  sx?: object;
+};
+
+const FilterSection = ({ heading, children, sx }: FilterSectionProps) => (
+  <Box sx={{ flexShrink: 0, ...sx }}>
+    <Typography variant="body2" sx={{ mb: 0.5, opacity: 0.7, fontWeight: 500 }}>
+      {heading}
+    </Typography>
+    <Box
+      sx={{ display: 'flex', alignItems: 'center', gap: 0.5, minHeight: 40 }}
+    >
+      {children}
+    </Box>
+  </Box>
+);
+
 export const UniqueVulnerabilitiesFilters = ({
   searchQuery,
   onSearchChange,
@@ -47,12 +66,6 @@ export const UniqueVulnerabilitiesFilters = ({
   showOpen,
 }: Props) => {
   const noun = showOpen ? 'åpne sårbarheter' : 'sårbarheter';
-  const contentRowSx = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 0.5,
-    minHeight: 40,
-  };
   return (
     <Paper sx={{ p: 2 }}>
       <Stack
@@ -62,13 +75,7 @@ export const UniqueVulnerabilitiesFilters = ({
         flexWrap="wrap"
         mr={1}
       >
-        <Box sx={{ flexGrow: 1, minWidth: 220 }}>
-          <Typography
-            variant="body2"
-            sx={{ mb: 0.5, opacity: 0.7, fontWeight: 500 }}
-          >
-            Søk
-          </Typography>
+        <FilterSection heading="Søk" sx={{ flexGrow: 1, minWidth: 220 }}>
           <TextField
             fullWidth
             size="small"
@@ -85,98 +92,72 @@ export const UniqueVulnerabilitiesFilters = ({
               },
             }}
           />
-        </Box>
+        </FilterSection>
 
-        <Box sx={{ flexShrink: 0 }}>
-          <Typography
-            variant="body2"
-            sx={{ mb: 0.5, opacity: 0.7, fontWeight: 500 }}
-          >
-            Alvorlighetsgrad
-          </Typography>
-          <Box sx={contentRowSx}>
-            {SEVERITY_OPTIONS.map(severity => {
-              const count = severityCounts[severity] ?? 0;
-              const disabled = count === 0;
-              const selected = severityFilter.includes(severity);
-              const label = getStandardSeverityFormat(severity);
-              return (
-                <SeverityTag
-                  key={severity}
-                  severity={severity}
-                  onClick={() => onToggleSeverity(severity)}
-                  selected={selected}
-                  disabled={disabled}
-                  tooltip={
-                    disabled
-                      ? `Ingen ${noun} har alvorlighetsgrad "${label}"`
-                      : undefined
-                  }
-                />
-              );
-            })}
-          </Box>
-        </Box>
+        <FilterSection heading="Alvorlighetsgrad">
+          {SEVERITY_OPTIONS.map(severity => {
+            const count = severityCounts[severity] ?? 0;
+            const disabled = count === 0;
+            const label = getStandardSeverityFormat(severity);
+            return (
+              <SeverityTag
+                key={severity}
+                severity={severity}
+                onClick={() => onToggleSeverity(severity)}
+                selected={severityFilter.includes(severity)}
+                disabled={disabled}
+                tooltip={
+                  disabled
+                    ? `Ingen ${noun} har alvorlighetsgrad "${label}"`
+                    : undefined
+                }
+              />
+            );
+          })}
+        </FilterSection>
 
-        <Box sx={{ flexShrink: 0 }}>
-          <Typography
-            variant="body2"
-            sx={{ mb: 0.5, opacity: 0.7, fontWeight: 500 }}
-          >
-            Kontekst
-          </Typography>
-          <Box sx={contentRowSx}>
-            {CONTEXT_FACETS.map(([key, { Icon, label, description }]) => {
-              const count = contextCounts[key as ContextFacet] ?? 0;
-              const disabled = count === 0;
-              const selected = contextFilter.includes(key as ContextFacet);
-              return (
-                <ContextTag
-                  key={key}
-                  variant={key}
-                  label={label}
-                  Icon={Icon}
-                  tooltip={
-                    disabled ? `Ingen ${noun} matcher "${label}"` : description
-                  }
-                  onClick={() => onToggleContext(key as ContextFacet)}
-                  selected={selected}
-                  disabled={disabled}
-                />
-              );
-            })}
-          </Box>
-        </Box>
+        <FilterSection heading="Kontekst">
+          {CONTEXT_FACETS.map(([key, { Icon, label, description }]) => {
+            const count = contextCounts[key as ContextFacet] ?? 0;
+            const disabled = count === 0;
+            return (
+              <ContextTag
+                key={key}
+                variant={key}
+                label={label}
+                Icon={Icon}
+                tooltip={
+                  disabled ? `Ingen ${noun} matcher "${label}"` : description
+                }
+                onClick={() => onToggleContext(key as ContextFacet)}
+                selected={contextFilter.includes(key as ContextFacet)}
+                disabled={disabled}
+              />
+            );
+          })}
+        </FilterSection>
 
         {availableClusters.length > 0 && (
-          <Box sx={{ flexShrink: 0 }}>
-            <Typography
-              variant="body2"
-              sx={{ mb: 0.5, opacity: 0.7, fontWeight: 500 }}
-            >
-              Miljø
-            </Typography>
-            <Box sx={contentRowSx}>
-              {availableClusters.map(cluster => {
-                const count = clusterCounts[cluster] ?? 0;
-                const disabled = count === 0;
-                return (
-                  <ClusterTag
-                    key={cluster}
-                    cluster={cluster}
-                    selected={clusterFilter.includes(cluster)}
-                    disabled={disabled}
-                    onClick={() => onToggleCluster(cluster)}
-                    tooltip={
-                      disabled
-                        ? `Ingen ${noun} kjører i ${cluster}`
-                        : `Vis bare sårbarheter som kjører i ${cluster}`
-                    }
-                  />
-                );
-              })}
-            </Box>
-          </Box>
+          <FilterSection heading="Miljø">
+            {availableClusters.map(cluster => {
+              const count = clusterCounts[cluster] ?? 0;
+              const disabled = count === 0;
+              return (
+                <ClusterTag
+                  key={cluster}
+                  cluster={cluster}
+                  selected={clusterFilter.includes(cluster)}
+                  disabled={disabled}
+                  onClick={() => onToggleCluster(cluster)}
+                  tooltip={
+                    disabled
+                      ? `Ingen ${noun} kjører i ${cluster}`
+                      : `Vis bare sårbarheter som kjører i ${cluster}`
+                  }
+                />
+              );
+            })}
+          </FilterSection>
         )}
       </Stack>
 
