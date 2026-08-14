@@ -10,7 +10,7 @@ import { useTeamRegelrettQuery } from '../../hooks/useTeamRegelrettQuery';
 import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
 import { useIsGroupMember } from '../../hooks/useIsGroupMember';
 import Alert from '@mui/material/Alert';
-import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
+import { useApi } from '@backstage/frontend-plugin-api';
 import { makeStyles } from 'tss-react/mui';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
@@ -94,11 +94,8 @@ export const GroupSecurityFormsCard = () => {
 function GroupSecurityFormsCardWrapper() {
   const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
-  const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);
   const { entity } = useEntity();
-  const regelrettBaseUrl = config.getString(`regelrett.url`);
-
   const teamId =
     entity.metadata.annotations?.['graph.microsoft.com/group-id'] ?? '';
 
@@ -206,7 +203,6 @@ function GroupSecurityFormsCardWrapper() {
         {activeTab === 'team' ? (
           <TeamFormsTabContent
             forms={teamForms}
-            regelrettBaseUrl={regelrettBaseUrl}
             teamId={teamId}
             onFormCreated={refetch}
             formTypeMap={formTypeMap}
@@ -214,7 +210,6 @@ function GroupSecurityFormsCardWrapper() {
         ) : (
           <FunctionFormsTabContent
             forms={functionForms}
-            regelrettBaseUrl={regelrettBaseUrl}
             teamId={teamId}
             functionEntities={functionEntities?.items ?? []}
             onFormCreated={refetch}

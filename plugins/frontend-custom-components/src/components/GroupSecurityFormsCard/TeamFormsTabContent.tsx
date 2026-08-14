@@ -1,12 +1,11 @@
 import { makeStyles } from 'tss-react/mui';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
-import { Link } from '@backstage/core-components';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
-import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
+import { RegelrettFormLink } from '../RegelrettFormLink';
 
 const useStyles = makeStyles()(theme => ({
   formList: {
@@ -64,7 +63,6 @@ const useStyles = makeStyles()(theme => ({
 
 interface TeamFormsTabContentProps {
   forms: RegelrettForm[];
-  regelrettBaseUrl: string;
   teamId: string;
   onFormCreated: () => void;
   formTypeMap: Record<string, string>;
@@ -72,7 +70,6 @@ interface TeamFormsTabContentProps {
 
 export function TeamFormsTabContent({
   forms,
-  regelrettBaseUrl,
   teamId,
   onFormCreated,
   formTypeMap,
@@ -94,13 +91,9 @@ export function TeamFormsTabContent({
           {forms.map(form => (
             <div key={form.id} className={classes.formRow}>
               <DescriptionOutlinedIcon className={classes.formIcon} />
-              <Link
-                to={buildFormUrl(regelrettBaseUrl, form.id)}
-                target="_blank"
-                rel="noopener"
-              >
+              <RegelrettFormLink contextId={form.id}>
                 {`${form.name} – ${getFormType(form.formId)}`}
-              </Link>
+              </RegelrettFormLink>
               {form.answeredCount !== undefined &&
                 form.totalCount !== undefined && (
                   <div className={classes.metricsContainer}>

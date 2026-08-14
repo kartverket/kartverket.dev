@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { getAuthenticationTokens } from '../utils/authenticationUtils';
+import { getRegelrettRequestHeaders } from '../utils/authenticationUtils';
 import {
   configApiRef,
   identityApiRef,
@@ -40,7 +40,7 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
 
     (async () => {
       try {
-        const { entraIdToken, backstageToken } = await getAuthenticationTokens(
+        const headers = await getRegelrettRequestHeaders(
           config,
           backstageAuthApi,
           microsoftAuthApi,
@@ -55,10 +55,7 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
             url.searchParams.set('teamId', teamId);
             const response = await fetch(url, {
               method: 'GET',
-              headers: {
-                Authorization: `Bearer ${backstageToken}`,
-                EntraId: entraIdToken,
-              },
+              headers,
             });
             if (!response.ok) return [] as RegelrettForm[];
             return (await response.json()) as RegelrettForm[];

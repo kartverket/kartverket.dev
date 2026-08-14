@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAuthenticationTokens } from '../utils/authenticationUtils';
+import { getRegelrettRequestHeaders } from '../utils/authenticationUtils';
 import {
   configApiRef,
   identityApiRef,
@@ -25,7 +25,7 @@ export const useTeamRegelrettQuery = (
       if (!groupEntity.metadata.annotations) {
         throw new Error('Group entity does not have annotations');
       }
-      const { entraIdToken, backstageToken } = await getAuthenticationTokens(
+      const headers = await getRegelrettRequestHeaders(
         config,
         backstageAuthApi,
         microsoftAuthApi,
@@ -41,10 +41,7 @@ export const useTeamRegelrettQuery = (
       );
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          Authorization: `Bearer ${backstageToken}`,
-          EntraId: entraIdToken,
-        },
+        headers,
       });
 
       const data = await response.json();

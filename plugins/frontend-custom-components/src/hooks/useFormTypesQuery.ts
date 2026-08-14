@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAuthenticationTokens } from '../utils/authenticationUtils';
+import { getRegelrettRequestHeaders } from '../utils/authenticationUtils';
 import {
   configApiRef,
   identityApiRef,
@@ -17,7 +17,7 @@ export const useFormTypesQuery = () => {
   return useQuery<FormType[]>({
     queryKey: ['fetch-regelrett-form-types'],
     queryFn: async () => {
-      const { entraIdToken, backstageToken } = await getAuthenticationTokens(
+      const headers = await getRegelrettRequestHeaders(
         config,
         backstageAuthApi,
         microsoftAuthApi,
@@ -29,10 +29,7 @@ export const useFormTypesQuery = () => {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          Authorization: `Bearer ${backstageToken}`,
-          EntraId: entraIdToken,
-        },
+        headers,
       });
 
       const data = await response.json();

@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { getAuthenticationTokens } from '../utils/authenticationUtils';
+import { getRegelrettRequestHeaders } from '../utils/authenticationUtils';
 import {
   configApiRef,
   identityApiRef,
@@ -23,7 +23,7 @@ export const useRegelrettCreateContextMutation = () => {
     { functionName: string; formId: string; teamId: string }
   >({
     mutationFn: async ({ functionName, formId, teamId }) => {
-      const { entraIdToken, backstageToken } = await getAuthenticationTokens(
+      const headers = await getRegelrettRequestHeaders(
         config,
         backstageAuthApi,
         microsoftAuthApi,
@@ -39,10 +39,7 @@ export const useRegelrettCreateContextMutation = () => {
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${backstageToken}`,
-          EntraId: entraIdToken,
-        },
+        headers,
       });
 
       const data = await response.json();

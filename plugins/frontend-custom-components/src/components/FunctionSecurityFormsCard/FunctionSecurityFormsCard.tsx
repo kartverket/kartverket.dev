@@ -20,7 +20,6 @@ import {
   InfoCard,
   InfoCardVariants,
   Progress,
-  Link,
 } from '@backstage/core-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRegelrettQuery } from '../../hooks/useRegelrettQuery';
@@ -31,7 +30,7 @@ import { makeStyles } from 'tss-react/mui';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import { useState, useEffect } from 'react';
-import { configApiRef, useApi } from '@backstage/frontend-plugin-api';
+import { useApi } from '@backstage/frontend-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { Button, Flex } from '@backstage/ui';
 import FormControl from '@mui/material/FormControl';
@@ -40,9 +39,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from './translation';
 import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
-import { buildFormUrl } from '../../utils/formUrl';
 import Typography from '@mui/material/Typography';
 import { isUnauthorizedError } from '../../errors';
+import { RegelrettFormLink } from '../RegelrettFormLink';
 
 const useStyles = makeStyles()(theme => ({
   formList: {
@@ -118,12 +117,9 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
   const { variant } = props;
   const { classes } = useStyles();
   const { t } = useTranslationRef(functionLinkCardTranslationRef);
-  const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);
   const { entity } = useEntity();
   const functionName = entity.metadata.title || entity.metadata.name;
-  const regelrettBaseUrl = config.getString(`regelrett.url`);
-
   const ownerRef = entity.relations?.find(
     rel => rel.type === 'ownedBy',
   )?.targetRef;
@@ -211,13 +207,9 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
             ({ id, formId, answeredCount, expiredCount, totalCount }) => (
               <div key={id} className={classes.formRow}>
                 <DescriptionOutlinedIcon className={classes.formIcon} />
-                <Link
-                  to={buildFormUrl(regelrettBaseUrl, id)}
-                  target="_blank"
-                  rel="noopener"
-                >
+                <RegelrettFormLink contextId={id}>
                   {getFormType(formId)}
-                </Link>
+                </RegelrettFormLink>
                 {answeredCount !== undefined && totalCount !== undefined && (
                   <div className={classes.metricsContainer}>
                     <span className={classes.metricsLabel}>

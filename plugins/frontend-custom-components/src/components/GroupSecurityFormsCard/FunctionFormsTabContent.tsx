@@ -3,13 +3,12 @@ import { makeStyles } from 'tss-react/mui';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import { Link } from '@backstage/core-components';
 import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/translation';
-import { buildFormUrl } from '../../utils/formUrl';
 import { RegelrettForm } from '../../types';
 import { CreateFormSection } from './CreateFormSection';
+import { RegelrettFormLink } from '../RegelrettFormLink';
 import { Entity } from '@backstage/catalog-model';
 
 const useStyles = makeStyles()(theme => ({
@@ -107,7 +106,6 @@ const useStyles = makeStyles()(theme => ({
 
 interface FunctionFormsTabContentProps {
   forms: RegelrettForm[];
-  regelrettBaseUrl: string;
   teamId: string;
   functionEntities: Entity[];
   onFormCreated: () => void;
@@ -116,7 +114,6 @@ interface FunctionFormsTabContentProps {
 
 export function FunctionFormsTabContent({
   forms,
-  regelrettBaseUrl,
   teamId,
   functionEntities,
   onFormCreated,
@@ -181,13 +178,9 @@ export function FunctionFormsTabContent({
                 {funcForms.map(form => (
                   <div key={form.id} className={classes.formRow}>
                     <DescriptionOutlinedIcon className={classes.formIcon} />
-                    <Link
-                      to={buildFormUrl(regelrettBaseUrl, form.id)}
-                      target="_blank"
-                      rel="noopener"
-                    >
+                    <RegelrettFormLink contextId={form.id}>
                       {getFormType(form.formId)}
-                    </Link>
+                    </RegelrettFormLink>
                     {form.answeredCount !== undefined &&
                       form.totalCount !== undefined && (
                         <div className={classes.metricsContainer}>
