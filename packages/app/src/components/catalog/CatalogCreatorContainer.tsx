@@ -2,7 +2,6 @@ import { EntityRelationWarning } from '@backstage/plugin-catalog';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { SupportButton } from '@internal/plugin-frontend-custom-components';
 import { CatalogCreatorPage } from '@kartverket/backstage-plugin-catalog-creator';
-import { IntegrationBoundary } from '../IntegrationBoundary';
 
 export const CatalogCreatorContainer = () => {
   const { entity } = useEntity();
@@ -18,7 +17,7 @@ export const CatalogCreatorContainer = () => {
   }
 
   return (
-    <IntegrationBoundary configKey="catalogCreator" title="Catalog Creator">
+    <>
       <EntityRelationWarning />
       <CatalogCreatorPage
         docsLink="/docs/default/Component/kartverket.dev"
@@ -27,6 +26,6 @@ export const CatalogCreatorContainer = () => {
         entityName={entity.metadata.name}
         supportButton={<SupportButton />}
       />
-    </IntegrationBoundary>
+    </>
   );
 };

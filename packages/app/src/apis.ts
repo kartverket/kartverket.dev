@@ -23,7 +23,6 @@ import {
   type ToastApiMessage,
   type ToastApiPostResult,
 } from '@backstage/frontend-plugin-api';
-import { syntheticAuthApiFactories } from './syntheticAuth';
 
 const createToastApi = (): ToastApi => ({
   post(_message: ToastApiMessage): ToastApiPostResult {
@@ -34,7 +33,6 @@ const createToastApi = (): ToastApi => ({
 });
 
 export const apis: AnyApiFactory[] = [
-  ...syntheticAuthApiFactories,
   createApiFactory({
     api: scmIntegrationsApiRef,
     deps: { configApi: configApiRef },

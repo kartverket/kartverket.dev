@@ -19,25 +19,6 @@ import {
   EntityConsumedApisCard,
   EntityProvidedApisCard,
 } from '@backstage/plugin-api-docs';
-import { IntegrationBoundary } from '../../IntegrationBoundary';
-
-const riskScorecardContent = (
-  <IntegrationBoundary configKey="ros" title="Operational risk assessment">
-    <RiScPage />
-  </IntegrationBoundary>
-);
-
-const securityMetricsContent = (
-  <IntegrationBoundary configKey="sikkerhetsmetrikker" title="Security Metrics">
-    <SecurityMetricsPage />
-  </IntegrationBoundary>
-);
-
-const lighthouseContent = (
-  <IntegrationBoundary configKey="lighthouse" title="Lighthouse">
-    <EntityLighthouseContent />
-  </IntegrationBoundary>
-);
 
 const serviceEntityPage = (
   <EntityLayout>
@@ -78,11 +59,11 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Operasjonell RoS">
-      {riskScorecardContent}
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      {securityMetricsContent}
+      <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -116,15 +97,15 @@ const websiteEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/lighthouse" title="Lighthouse">
-      {lighthouseContent}
+      <EntityLighthouseContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Operasjonell RoS">
-      {riskScorecardContent}
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      {securityMetricsContent}
+      <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -139,11 +120,11 @@ const opsEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Operasjonell RoS">
-      {riskScorecardContent}
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      {securityMetricsContent}
+      <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -157,10 +138,10 @@ const libraryEntityPage = (
       <CatalogCreatorContainer />
     </EntityLayout.Route>
     <EntityLayout.Route path="/risc" title="Operasjonell RoS">
-      {riskScorecardContent}
+      <RiScPage />
     </EntityLayout.Route>
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      {securityMetricsContent}
+      <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -190,11 +171,11 @@ const defaultComponentPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/risc" title="Operasjonell RoS">
-      {riskScorecardContent}
+      <RiScPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/securityMetrics" title="Sikkerhetsmetrikker">
-      {securityMetricsContent}
+      <SecurityMetricsPage />
     </EntityLayout.Route>
   </EntityLayout>
 );

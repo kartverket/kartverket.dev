@@ -13,6 +13,7 @@ backend:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
   baseUrl: http://localhost:7007
+
   reading:
     allow:
       - host: matrikkel.no
@@ -54,8 +55,43 @@ backend:
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
 
+integrations:
+  github:
+    - host: github.com
+      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+      # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+      token: ${GITHUB_TOKEN}
+
 permission:
   enabled: false
+
+### Add a proxy endpoint for the frontend.
+### A typical reason to do this is to handle HTTPS and CORS for internal services.
+proxy:
+  endpoints:
+    '/opencost':
+      # Uses cluster-local service in a kubernetes environment
+      target: https://opencost.dev.skip.statkart.no
+    '/lighthouse':
+      target: http://lighthouse-audit-service.lighthouse-audit-service.svc.cluster.local:3003
+    '/grafana/api':
+      # May be a public or an internal DNS
+      target: https://monitoring.kartverket.cloud
+      headers:
+        Authorization: Bearer ${GRAFANA_TOKEN}
+    '/risc-proxy':
+      target: http://localhost:8080
+      allowedHeaders:
+        ['Authorization', 'GCP-Access-Token', 'GitHub-Access-Token']
+    '/opencost-cacher':
+      target: http://localhost:8080
+      credentials: forward
+      changeOrigin: true
+    '/security-champion-proxy':
+      target: http://localhost:8080
+      changeOrigin: true
+lighthouse:
+  baseUrl: http://localhost:7007/api/proxy/lighthouse
 
 scaffolder:
   defaultAuthor:
@@ -81,10 +117,27 @@ catalog:
           Domain,
           Function,
         ]
+  providers:
+    github:
+      providerId:
+        organization: 'Kartverket'
+        catalogPath: '/catalog-info.yaml' # string
+        validateLocationsExist: true
+        filters:
+          repository: '.*' # Regex
+        schedule: # same options as in TaskScheduleDefinition
+          # supports cron, ISO duration, "human duration" as used in code
+          frequency: { minutes: 30 }
+          # supports ISO duration, "human duration" as used in code
+          timeout: { minutes: 3 }
+
 techdocs:
   builder: local
 
 grafana:
+  # Publicly accessible domain
+  domain: https://monitoring.kartverket.cloud
+
   # Is unified alerting enabled in Grafana?
   # See: https://grafana.com/blog/2021/06/14/the-new-unified-alerting-system-for-grafana-everything-you-need-to-know/
   # Optional. Default: false

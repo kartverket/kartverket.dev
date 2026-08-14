@@ -9,15 +9,17 @@ Under finner du alt du trenger for å komme i gang med et lokalt utviklingsmilj�
 corepack enable
 corepack install
 
-# 2. Installer og start
-yarn install --immutable
+# 2. Kopier eksempel-konfigurasjonen og fyll inn env-vars
+cp app-config.local.example.yaml app-config.local.yaml
+# Se «Lokal konfigurasjon»
+
+# 3. Installer og start
+yarn install
 yarn dev
 ```
 
 Backstage kjører nå på `http://localhost:3000` (frontend) og
-`http://localhost:7007` (backend). Velg en tydelig beskrevet syntetisk persona
-på innloggingssiden. Ingen Entra ID-tenant, app-registrering,
-GitHub-organisasjon eller andre hemmeligheter er nødvendig.
+`http://localhost:7007` (backend).
 
 <br>
 
@@ -43,111 +45,23 @@ corepack install
 
 <br>
 
-## Lokal utvikling
+## Lokal konfigurasjon
 
-Den vanlige utviklingskommandoen laster [`app-config.yaml`](app-config.yaml),
-den innsjekkede syntetiske profilen i
-[`app-config.development.yaml`](app-config.development.yaml), og til slutt den
-gitignorede `app-config.local.yaml` dersom den finnes. Den lokale filen er den
-eneste konfigurasjonsfilen en utvikler skal redigere.
-
-Filen kan mangle eller være tom. Standardoppsettet gir:
-
-- Valg mellom sju syntetiske personas som dekker teammedlemskap,
-  multiteammedlemskap, produktområde, forretningsenhet, manglende team og
-  administrator-/rapporteringstilgang.
-- En midlertidig SQLite-database kjører i minnet.
-- Katalogen leses fra syntetiske YAML-filer under
-  [`examples/local/`](examples/local/).
-- Eksterne integrasjoner og backend-plugins som krever Entra ID, GitHub,
-  Google eller interne Kartverket-tjenester er deaktivert.
-
-Frontend-rutene er de samme som i produksjon. En deaktivert integrasjon viser en
-forklaring og hvilken lokal konfigurasjon som mangler, i stedet for å kalle en
-utilgjengelig tjeneste.
-
-Katalogen inneholder representative hierarkier for domener, systemer,
-komponenter, API-er, ressurser, funksjoner, grupper og brukere. Dataene er
-syntetiske og blir resatt ved omstart.
+All lokal konfigurasjon ligger i [`app-config.local.example.yaml`](app-config.local.example.yaml).
+Kopier den til `app-config.local.yaml` (gitignored via `*.local.yaml`) og
+fyll inn de aktuelle miljøvariablene.
 
 <br>
 
-## Koble til én ekstern tjeneste
+## Sett opp auth-providers
 
-Legg bare konfigurasjonen for tjenesten du trenger i
-`app-config.local.yaml`. Integrasjoner som støtter syntetiske svar har en
-eksplisitt modus: `disabled`, `synthetic` eller `connected`. Manglende
-konfigurasjon velger aldri automatisk syntetiske data.
+Backstage bruker tre OAuth-providere lokalt:
 
-| Funksjon                | Lokal konfigurasjon                                      |
-| ----------------------- | -------------------------------------------------------- |
-| Microsoft OAuth         | `auth.providers.microsoft.development` og MSGraph-katalog |
-| Google OAuth            | `auth.providers.google.development`                      |
-| GitHub OAuth            | `auth.providers.github.development`                      |
-| GitHub-integrasjon      | `integrations.github`                                    |
-| GitHub-katalog          | `catalog.providers.github`                              |
-| Microsoft Graph-katalog | `catalog.providers.microsoftGraphOrg`                   |
-| Regelrett               | `regelrett.mode: connected`                             |
-| Sikkerhetsmetrikker     | `sikkerhetsmetrikker.mode: connected`                   |
-| RiSc                    | `ros.mode: connected`                                   |
-| Lighthouse-backend      | `lighthouse.mode: connected`                            |
-
-Microsoft-innlogging krever også Microsoft Graph-katalogen fordi den eksisterende
-resolveren må finne den virkelige brukeren i katalogen. Den kan legges til uten
-å konfigurere Google eller GitHub:
-
-```yaml
-# app-config.local.yaml
-auth:
-  providers:
-    microsoft:
-      development:
-        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
-        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-
-catalog:
-  providers:
-    microsoftGraphOrg:
-      default:
-        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-        clientId: ${MSGRAPH_CLIENT_ID}
-        clientSecret: ${MSGRAPH_CLIENT_SECRET}
-        schedule:
-          frequency: PT1H
-          timeout: PT10M
-```
-
-Da viser innloggingssiden både de syntetiske personaene og Microsoft. Fjern de
-to Microsoft-seksjonene for å gå tilbake til bare syntetiske personas.
-
-En Entra-autentisert Regelrett-tilkobling er for eksempel eksplisitt:
-
-```yaml
-regelrett:
-  mode: connected
-  authentication: entra
-  baseUrl: http://localhost:8080
-  url: http://localhost:8080
-  clientId: ${REGELRETT_CLIENT_ID}
-```
-
-`synthetic` er reservert for integrasjoner som har en implementert syntetisk
-adapter. Inntil adapteren finnes, viser frontend at integrasjonen ikke er
-tilgjengelig.
-
-Den syntetiske katalogen forblir aktiv når en ekstern tjeneste kobles til. Hvis
-en ekstern katalog-provider skal erstatte dummydataene, legg også dette i den
-lokale filen:
-
-```yaml
-catalog:
-  locations: []
-```
-
-Bare miljøvariabler som refereres fra `app-config.local.yaml` må være satt.
-Start eller restart deretter med `yarn dev`. Ikke bruk produksjonsdata eller
-produksjonstilganger når syntetiske data eller en testtjeneste er tilstrekkelig.
+| Provider  | Kreves for                                                            |
+| --------- |-----------------------------------------------------------------------|
+| Microsoft | Innlogging + Entra-avhengige plugins (kreves alltid)                  |
+| GitHub    | catalog-creator (hente catalog-info) og RiSc (lese/skrive til GitHub) |
+| Google    | RiSc (tilgangsstyring)                                                |
 
 <br>
 
@@ -160,15 +74,15 @@ yarn install
 yarn dev
 ```
 
-### Utvikle en plugin
+### Kjøre en enkelt plugin isolert
 
-Den komplette portalen er foreløpig den autoritative utviklingsverten:
+Alle plugins under [`plugins/`](plugins/) eksponerer `yarn start`
+([`backstage-cli package start`](https://backstage.io/docs/local-dev/cli-commands#package-start)),
+som gir et minimalt oppsett uten resten av Backstage-appen. Praktisk når
+du utvikler på selve pluginen:
 
 ```sh
-yarn dev
+cd plugins/<plugin-navn>
+yarn start
 ```
 
-Ikke alle pakker har en fungerende frittstående utviklingsvert selv om de har et
-`start`-script. Se
-[`docs/architecture/plugin-development-support.md`](docs/architecture/plugin-development-support.md)
-før du bruker `yarn start` i en pluginmappe.
