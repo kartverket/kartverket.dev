@@ -5,7 +5,7 @@ export const teamIdsForRegelrettFormsQuery = ({
   regelrettMode?: string;
   teamIds: string[];
 }): string[] => {
-  if (regelrettMode !== 'connected') {
+  if (regelrettMode !== 'connected' && regelrettMode !== 'synthetic') {
     return [];
   }
 

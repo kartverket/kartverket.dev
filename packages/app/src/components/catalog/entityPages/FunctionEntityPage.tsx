@@ -40,7 +40,11 @@ export const FunctionEntityPage = () => {
             <FunctionDependenciesCard />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <IntegrationBoundary configKey="regelrett" title="Regelrett">
+            <IntegrationBoundary
+              configKey="regelrett"
+              title="Regelrett"
+              syntheticAvailable
+            >
               <FunctionSecurityFormsCard />
             </IntegrationBoundary>
           </Grid>

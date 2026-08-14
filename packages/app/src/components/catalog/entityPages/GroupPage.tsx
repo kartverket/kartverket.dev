@@ -46,7 +46,11 @@ export const groupPage = (
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <Flex direction="column" gap="24px">
-            <IntegrationBoundary configKey="regelrett" title="Regelrett">
+            <IntegrationBoundary
+              configKey="regelrett"
+              title="Regelrett"
+              syntheticAvailable
+            >
               <GroupSecurityFormsCard />
             </IntegrationBoundary>
           </Flex>
