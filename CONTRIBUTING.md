@@ -59,8 +59,9 @@ Filen kan mangle eller være tom. Standardoppsettet gir:
 - En midlertidig SQLite-database kjører i minnet.
 - Katalogen leses fra syntetiske YAML-filer under
   [`examples/local/`](examples/local/).
-- Eksterne integrasjoner og backend-plugins som krever Entra ID, GitHub,
-  Google eller interne Kartverket-tjenester er deaktivert.
+- Regelrett bruker en lokal, syntetisk adapter uten Microsoft eller en kjørende
+  Regelrett-tjeneste. Andre eksterne integrasjoner og backend-plugins som krever
+  Entra ID, GitHub, Google eller interne Kartverket-tjenester er deaktivert.
 
 Frontend-rutene er de samme som i produksjon. En deaktivert integrasjon viser en
 forklaring og hvilken lokal konfigurasjon som mangler, i stedet for å kalle en
@@ -132,9 +133,22 @@ regelrett:
   clientId: ${REGELRETT_CLIENT_ID}
 ```
 
-`synthetic` er reservert for integrasjoner som har en implementert syntetisk
-adapter. Inntil adapteren finnes, viser frontend at integrasjonen ikke er
-tilgjengelig.
+Regelrett står på `synthetic` i utviklingsprofilen. Adapteren tilbyr de samme fire
+operasjonene som portalen bruker: skjematyper, oppslag per funksjon, oppslag per
+lag og opprettelse. Opprettede skjemaer lever i minnet frem til backend startes
+på nytt.
+
+| Tilstand | Slik testes den |
+| -------- | --------------- |
+| Populert | Logg inn som Kari Knekk og åpne «Fastslå hva som er spiselig» eller Lag Knekk. |
+| Tom | Logg inn som Mikkel Mellomlag og åpne «Hjelpe innbyggerne med å finne godsakene». |
+| Avvist | Logg inn som Kari Knekk og åpne en funksjon eid av Lag Seig. |
+| Tjenestefeil | Logg inn som Mikkel Mellomlag og åpne «Utgi Lørdagsatlaset» eller Lag Skum. |
+
+Skjemalenker er med hensikt ikke klikkbare i syntetisk modus fordi adapteren
+simulerer API-kontrakten, ikke Regelretts egen brukerflate. Bytt eksplisitt til
+`connected` for å teste den virkelige tjenesten. For andre integrasjoner er
+`synthetic` bare tilgjengelig når en tilsvarende adapter er implementert.
 
 Den syntetiske katalogen forblir aktiv når en ekstern tjeneste kobles til. Hvis
 en ekstern katalog-provider skal erstatte dummydataene, legg også dette i den
