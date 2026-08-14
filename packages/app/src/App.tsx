@@ -69,8 +69,6 @@ import {
   groupProfileCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
-import { syntheticSignInProviders } from './syntheticAuth';
-import { IntegrationBoundary } from './components/IntegrationBoundary';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -92,29 +90,19 @@ const app = createApp({
   components: {
     SignInPage: props => {
       const configApi = useApi(configApiRef);
-      const authEnvironment = configApi.getString('auth.environment');
-      if (authEnvironment === 'development') {
-        const microsoftClientId = configApi.getOptionalString(
-          `auth.providers.microsoft.${authEnvironment}.clientId`,
-        );
+      if (configApi.getOptionalString('auth.environment') !== 'production') {
         return (
           <SignInPage
             {...props}
+            auto
             providers={[
-              ...syntheticSignInProviders,
-              ...(microsoftClientId
-                ? [
-                    {
-                      id: 'microsoft-auth-provider',
-                      title: 'Microsoft',
-                      message:
-                        'Sign in with Microsoft using connected non-production identity and catalog data.',
-                      apiRef: microsoftAuthApiRef,
-                    },
-                  ]
-                : []),
+              {
+                id: 'microsoft-auth-provider',
+                title: 'Microsoft',
+                message: 'Sign in using Microsoft',
+                apiRef: microsoftAuthApiRef,
+              },
             ]}
-            title="Choose a synthetic development persona"
           />
         );
       }
@@ -183,11 +171,9 @@ const routes = (
     <Route
       path="/catalog-import"
       element={
-        <IntegrationBoundary configKey="catalogCreator" title="Catalog Creator">
-          <RequirePermission permission={catalogEntityCreatePermission}>
-            <CatalogImportPage />
-          </RequirePermission>
-        </IntegrationBoundary>
+        <RequirePermission permission={catalogEntityCreatePermission}>
+          <CatalogImportPage />
+        </RequirePermission>
       }
     />
     <Route path="/search" element={<SearchPage />}>
@@ -205,32 +191,16 @@ const routes = (
       }
     />
     <Route path="/explore" element={<ExplorePage />} />
-    <Route
-      path="/lighthouse"
-      element={
-        <IntegrationBoundary configKey="lighthouse" title="Lighthouse">
-          <LighthousePage />
-        </IntegrationBoundary>
-      }
-    />
+    <Route path="/lighthouse" element={<LighthousePage />} />
     <Route path="/devtools" element={<DevToolsPage />} />
-    <Route
-      path="/opencost"
-      element={
-        <IntegrationBoundary configKey="opencost" title="SKIPcost">
-          <OpencostPage />
-        </IntegrationBoundary>
-      }
-    />
+    <Route path="/opencost" element={<OpencostPage />} />
     <Route
       path="/catalog-creator"
       element={
-        <IntegrationBoundary configKey="catalogCreator" title="Catalog Creator">
-          <CatalogCreatorPage
-            docsLink="/docs/default/Component/kartverket.dev"
-            supportButton={<SupportButton />}
-          />
-        </IntegrationBoundary>
+        <CatalogCreatorPage
+          docsLink="/docs/default/Component/kartverket.dev"
+          supportButton={<SupportButton />}
+        />
       }
     />
     <Route path="/notifications" element={<NotificationsPage />} />

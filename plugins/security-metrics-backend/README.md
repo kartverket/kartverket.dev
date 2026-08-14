@@ -41,27 +41,10 @@ Alle feil normaliseres til `{ status: number, code: string, message: string }`:
 
 ## Konfigurasjon
 
-Pluginen er deaktivert som standard. Legg Microsoft-provider og
-Sikkerhetsmetrikker i den gitignorede `app-config.local.yaml`-filen når du
-trenger dem:
-
-```yaml
-auth:
-  providers:
-    microsoft:
-      development:
-        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
-        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-
-sikkerhetsmetrikker:
-  mode: connected
-  authentication: entra
-  baseUrl: http://localhost:8080
-  clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
-```
-
-Fyll inn disse env-vars:
+Pluginen leser `auth.providers.microsoft.*` og `sikkerhetsmetrikker.*` fra
+`app-config.*.yaml`. Kopier blokk 3 og 5a fra
+[`app-config.local.example.yaml`](../../app-config.local.example.yaml) inn i
+din `app-config.local.yaml` og fyll inn env-vars:
 
 - `AUTH_MICROSOFT_TENANT_ID`, `AUTH_MICROSOFT_CLIENT_ID`,
   `AUTH_MICROSOFT_CLIENT_SECRET` – Backstages Microsoft-app-registrering.

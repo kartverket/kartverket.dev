@@ -12,7 +12,6 @@ import { CatalogCreatorPageComponent } from '@kartverket/backstage-plugin-catalo
 import { entityWarningContent } from './shared';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { functionEntityPageTranslationRef } from '../../../utils/translations';
-import { IntegrationBoundary } from '../../IntegrationBoundary';
 
 export const FunctionEntityPage = () => {
   const { entity } = useEntity();
@@ -40,9 +39,7 @@ export const FunctionEntityPage = () => {
             <FunctionDependenciesCard />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <IntegrationBoundary configKey="regelrett" title="Regelrett">
-              <FunctionSecurityFormsCard />
-            </IntegrationBoundary>
+            <FunctionSecurityFormsCard />
           </Grid>
         </Grid>
       </EntityLayout.Route>
@@ -56,12 +53,10 @@ export const FunctionEntityPage = () => {
         path="/create-subfunction"
         title={t('functionEntityPage.createSubFunctionTitle')}
       >
-        <IntegrationBoundary configKey="catalogCreator" title="Catalog Creator">
-          <CatalogCreatorPageComponent
-            createSubFunction
-            entityName={entity.metadata.title}
-          />
-        </IntegrationBoundary>
+        <CatalogCreatorPageComponent
+          createSubFunction
+          entityName={entity.metadata.title}
+        />
       </EntityLayout.Route>
     </EntityLayout>
   );

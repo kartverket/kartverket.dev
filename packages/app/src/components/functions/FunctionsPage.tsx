@@ -8,11 +8,7 @@ import {
   Progress,
 } from '@backstage/core-components';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import {
-  configApiRef,
-  identityApiRef,
-  useApi,
-} from '@backstage/core-plugin-api';
+import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
 import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { functionPageTranslationRef } from '../../utils/translations';
@@ -24,7 +20,6 @@ import { hasDescendantOwnedByAny } from './hasDescendantOwnedByAny';
 import { EntityData } from './types';
 import { useAllFunctionFormsQuery } from '@internal/plugin-frontend-custom-components';
 import { exportFunctionsToCsv } from './exportCsv';
-import { teamIdsForRegelrettFormsQuery } from './regelrettQueryGate';
 
 const findParent = (entity: FunctionEntityV1alpha1): string => {
   const childOfRelation = entity.relations?.find(
@@ -69,13 +64,9 @@ export const FunctionsPage = () => {
   );
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
-  const configApi = useApi(configApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
-  const regelrettMode = configApi.getOptionalString('regelrett.mode');
 
-  const { data: expiredMap } = useAllFunctionFormsQuery(
-    teamIdsForRegelrettFormsQuery({ regelrettMode, teamIds }),
-  );
+  const { data: expiredMap } = useAllFunctionFormsQuery(teamIds);
 
   useEffect(() => {
     Promise.all([
