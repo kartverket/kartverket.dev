@@ -53,7 +53,7 @@ sikkerhetsmetrikker:
   mode: disabled
 
 regelrett:
-  mode: disabled
+  mode: synthetic
 
 # The RiSc package requires these fields through its own config schema even
 # while the integration is disabled. They are visibly inert local values.

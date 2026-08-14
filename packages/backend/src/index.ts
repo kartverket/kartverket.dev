@@ -50,7 +50,7 @@ const optionalIntegrations = createBackendFeatureLoader({
     if (getIntegrationMode(config, 'sikkerhetsmetrikker') === 'connected') {
       yield import('@kartverket/backstage-plugin-security-metrics-backend');
     }
-    if (getIntegrationMode(config, 'regelrett') === 'connected') {
+    if (getIntegrationMode(config, 'regelrett') !== 'disabled') {
       yield import('@internal/backstage-plugin-regelrett-schemas-backend');
     }
     if (getIntegrationMode(config, 'ros') === 'connected') {
