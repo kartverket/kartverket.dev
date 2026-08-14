@@ -27,7 +27,10 @@ import {
   compareByAffectedComponents,
   compareByPriority,
   compareBySeverity,
+  componentMatchesClusters,
+  formatClusterLabel,
   matchesSearch,
+  sortClusters,
   SortOrder,
   SortType,
 } from './utils';
@@ -43,6 +46,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [severityFilter, setSeverityFilter] = useState<Severity[]>([]);
   const [contextFilter, setContextFilter] = useState<ContextFacet[]>([]);
+  const [clusterFilter, setClusterFilter] = useState<string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
@@ -63,20 +67,40 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
 
   const filteredVulnerabilities = useMemo(
     () =>
-      visibleVulnerabilities.filter(vulnerability => {
-        if (!matchesSearch(vulnerability, searchQuery)) return false;
-        if (
-          severityFilter.length > 0 &&
-          !severityFilter.includes(vulnerability.severity)
-        ) {
-          return false;
-        }
-        return CONTEXT_FACETS.every(([key, { matches }]) => {
-          if (!contextFilter.includes(key as ContextFacet)) return true;
-          return matches(vulnerability);
-        });
-      }),
-    [visibleVulnerabilities, searchQuery, severityFilter, contextFilter],
+      visibleVulnerabilities
+        .map(vulnerability => {
+          if (clusterFilter.length === 0) return vulnerability;
+          const filteredComponents = vulnerability.affectedComponents.filter(
+            c => componentMatchesClusters(c, clusterFilter),
+          );
+          return { ...vulnerability, affectedComponents: filteredComponents };
+        })
+        .filter(vulnerability => {
+          if (
+            clusterFilter.length > 0 &&
+            vulnerability.affectedComponents.length === 0
+          ) {
+            return false;
+          }
+          if (!matchesSearch(vulnerability, searchQuery)) return false;
+          if (
+            severityFilter.length > 0 &&
+            !severityFilter.includes(vulnerability.severity)
+          ) {
+            return false;
+          }
+          return CONTEXT_FACETS.every(([key, { matches }]) => {
+            if (!contextFilter.includes(key as ContextFacet)) return true;
+            return matches(vulnerability);
+          });
+        }),
+    [
+      visibleVulnerabilities,
+      searchQuery,
+      severityFilter,
+      contextFilter,
+      clusterFilter,
+    ],
   );
 
   const severityCounts = useMemo(() => {
@@ -95,6 +119,26 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
     });
     return counts;
   }, [visibleVulnerabilities]);
+
+  const availableClusters = useMemo(() => {
+    const labels = new Set<string>();
+    visibleVulnerabilities.forEach(v =>
+      v.affectedComponents.forEach(c =>
+        c.sysdigClusters?.forEach(cl => labels.add(formatClusterLabel(cl))),
+      ),
+    );
+    return sortClusters([...labels]);
+  }, [visibleVulnerabilities]);
+
+  const clusterCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    availableClusters.forEach(label => {
+      counts[label] = visibleVulnerabilities.filter(v =>
+        v.affectedComponents.some(c => componentMatchesClusters(c, [label])),
+      ).length;
+    });
+    return counts;
+  }, [availableClusters, visibleVulnerabilities]);
 
   const sortedVulnerabilities = useMemo(() => {
     return [...filteredVulnerabilities].sort((a, b) => {
@@ -153,6 +197,15 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
     );
   };
 
+  const toggleCluster = (cluster: string) => {
+    setPage(0);
+    setClusterFilter(current =>
+      current.includes(cluster)
+        ? current.filter(c => c !== cluster)
+        : [...current, cluster],
+    );
+  };
+
   const handleSortChange = (nextSortType: SortType) => {
     setPage(0);
     if (sortType === nextSortType) {
@@ -178,6 +231,10 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
         contextFilter={contextFilter}
         onToggleContext={toggleContext}
         contextCounts={contextCounts}
+        clusterFilter={clusterFilter}
+        onToggleCluster={toggleCluster}
+        clusterCounts={clusterCounts}
+        availableClusters={availableClusters}
         resultsText={resultsText}
         showOpen={showOpen}
       />
@@ -186,7 +243,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
         <Table sx={{ minWidth: 1200, tableLayout: 'fixed' }} size="small">
           <TableHead>
             <TableRow>
-              <TableCell width="160">
+              <TableCell width="190">
                 <TableSortLabel
                   active={sortType === 'Alvorlighetsgrad'}
                   direction={
@@ -218,14 +275,31 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
                 </Stack>
               </TableCell>
 
-              <TableCell sx={{ width: 320 }}>
-                <TableSortLabel
-                  active={sortType === 'Komponenter'}
-                  direction={sortType === 'Komponenter' ? sortOrder : 'desc'}
-                  onClick={() => handleSortChange('Komponenter')}
-                >
-                  Komponenter
-                </TableSortLabel>
+              <TableCell>
+                <Stack direction="row" alignItems="center">
+                  <TableSortLabel
+                    active={sortType === 'Komponenter'}
+                    direction={sortType === 'Komponenter' ? sortOrder : 'desc'}
+                    onClick={() => handleSortChange('Komponenter')}
+                  >
+                    Komponenter og miljøer
+                  </TableSortLabel>
+                  <Tooltip
+                    title="Info om miljøer vises bare for sårbarheter som rapporteres fra Sysdig"
+                    placement="right"
+                  >
+                    <Box
+                      component="span"
+                      tabIndex={0}
+                      aria-label="Info om miljøer"
+                    >
+                      <InfoOutlinedIcon
+                        fontSize="inherit"
+                        sx={{ opacity: 0.8, cursor: 'help' }}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Stack>
               </TableCell>
             </TableRow>
           </TableHead>

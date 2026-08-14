@@ -31,6 +31,8 @@ export const BASIC_COLORS = {
   PRIMARY_LIGHT: '#90caf9',
   PRIMARY_DARK: '#0d47a1',
   SUCCESS: '#2e7d32',
+  TAG_NEUTRAL_BG: '#f5f5f5',
+  TAG_NEUTRAL_TEXT: '#424242',
 };
 
 export const CONTEXT_TAG_COLORS = {
@@ -44,6 +46,13 @@ export const CONTEXT_TAG_COLORS = {
   NO_FIX_TEXT: '#b71c1c',
   DIRECT_BG: '#e3f2fd',
   DIRECT_TEXT: '#0d47a1',
-  NEUTRAL_BG: '#f5f5f5',
-  NEUTRAL_TEXT: '#424242',
+};
+
+export const CLUSTER_TAG_COLORS = {
+  PROD_TEXT: '#57534e',
+  PROD_BG: '#e6e8eb',
+  PROD_BORDER: '#a8a29e',
+  DEV_TEXT: '#475569',
+  DEV_BG: '#e1eaf2',
+  DEV_BORDER: '#94a3b8',
 };

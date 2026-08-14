@@ -21,7 +21,9 @@ import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import { StyledTableRow } from '../shared/StyledTableRow';
 import { AggregatedVulnerabilityContext } from './AggregatedVulnerabilityContext';
-import { ContextTag } from '../shared/ContextTag.tsx';
+import { ContextTag } from './ContextTag.tsx';
+import { ClusterTag } from './ClusterTag.tsx';
+import { groupClustersByLabel, sortClusters } from './utils';
 
 type Props = {
   vulnerability: AggregatedVulnerability;
@@ -33,12 +35,30 @@ type ComponentContextProps = {
   hasSysdig: boolean;
 };
 
+const ComponentClusters = ({ clusters }: { clusters: string[] }) => {
+  const grouped = groupClustersByLabel(clusters);
+  const labels = sortClusters([...grouped.keys()]);
+  return (
+    <Box sx={{ display: 'flex', gap: 0.5 }}>
+      {labels.map(label => (
+        <ClusterTag
+          key={label}
+          cluster={label}
+          tooltip={grouped.get(label)!.join(', ')}
+        />
+      ))}
+    </Box>
+  );
+};
+
 const ComponentContextTags = ({
   component,
   hasDependabot,
   hasSysdig,
 }: ComponentContextProps) => (
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+  <Box
+    sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap' }}
+  >
     {hasSysdig && component.isRunning !== null && (
       <ContextTag
         variant={component.isRunning ? 'running' : 'notRunning'}
@@ -71,13 +91,14 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   const components = vulnerability.affectedComponents;
-  const previewComponents = components.slice(0, 2);
-  const hiddenCount = components.length - previewComponents.length;
+  const singleComponent = components.length === 1 ? components[0] : null;
 
   const hasDependabot = vulnerability.scanners.includes(Scanner.Dependabot);
   const hasSysdig = vulnerability.scanners.includes(Scanner.Sysdig);
   const showComponentContext = hasDependabot || hasSysdig;
-  const canExpand = components.length > 1 && showComponentContext;
+  const canExpand = components.length > 1;
+
+  const aggregatedClusters = components.flatMap(c => c.sysdigClusters ?? []);
 
   const goToComponent = (componentName: string) => {
     navigate(
@@ -107,24 +128,33 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
 
         <TableCell>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Box sx={{ flex: 1, minWidth: 0 }}>
-              {previewComponents.map(component => (
+            <Box
+              sx={{
+                flex: 1,
+                minWidth: 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                flexWrap: 'wrap',
+              }}
+            >
+              {singleComponent ? (
                 <Link
-                  key={component.componentName}
                   component="button"
                   variant="body2"
                   underline="hover"
-                  display="block"
-                  onClick={() => goToComponent(component.componentName)}
+                  onClick={() => goToComponent(singleComponent.componentName)}
                   sx={{ textAlign: 'left' }}
                 >
-                  {component.componentName}
+                  {singleComponent.componentName}
                 </Link>
-              ))}
-              {hiddenCount > 0 && (
-                <Typography variant="body2" sx={{ fontWeight: 600, mt: 0.25 }}>
-                  +{hiddenCount} til
+              ) : (
+                <Typography variant="body2">
+                  {components.length} komponenter
                 </Typography>
+              )}
+              {aggregatedClusters.length > 0 && (
+                <ComponentClusters clusters={aggregatedClusters} />
               )}
             </Box>
             {canExpand && (
@@ -166,7 +196,7 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                       sx={{ cursor: 'pointer' }}
                       onClick={() => goToComponent(component.componentName)}
                     >
-                      <TableCell sx={{ borderBottom: 'none', width: 160 }} />
+                      <TableCell sx={{ borderBottom: 'none', width: 190 }} />
                       <TableCell sx={{ borderBottom: 'none', width: '30%' }} />
                       <TableCell sx={{ borderBottom: 'none', width: 360 }}>
                         {showComponentContext && (
@@ -177,20 +207,28 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                           />
                         )}
                       </TableCell>
-                      <TableCell sx={{ borderBottom: 'none', width: 320 }}>
+                      <TableCell sx={{ borderBottom: 'none' }}>
                         <Box
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
                             width: '100%',
+                            gap: 1,
                           }}
                         >
                           <Typography variant="body2">
                             {component.componentName}
                           </Typography>
+
+                          {!!component.sysdigClusters?.length && (
+                            <ComponentClusters
+                              clusters={component.sysdigClusters}
+                            />
+                          )}
+
                           <ArrowForwardIosIcon
                             fontSize="inherit"
-                            sx={{ ml: 'auto', opacity: 0.4 }}
+                            sx={{ ml: 'auto', opacity: 0.4, flexShrink: 0 }}
                           />
                         </Box>
                       </TableCell>
