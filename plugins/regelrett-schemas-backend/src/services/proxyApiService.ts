@@ -1,9 +1,17 @@
 import { LoggerService } from '@backstage/backend-plugin-api';
 import { EntraIdService } from './entraIdService';
-import { ApiError, Context, ContextWithMetrics, Result, Form } from '../types';
+import {
+  ApiError,
+  Context,
+  ContextWithMetrics,
+  Result,
+  Form,
+  RegelrettRequestIdentity,
+  RegelrettService,
+} from '../types';
 import { errorHandling } from '../Errors';
 
-export class ProxyApiService {
+export class ProxyApiService implements RegelrettService {
   private readonly regelrettBaseUrl: string;
   private entraIdService: EntraIdService;
   private logger: LoggerService;
@@ -19,10 +27,10 @@ export class ProxyApiService {
   }
 
   async fetchContextByFunctionName(
-    clientToken: string,
+    identity: RegelrettRequestIdentity,
     name: string,
-  ): Promise<Result<ApiError, ContextWithMetrics>> {
-    const token = await this.entraIdService.getOboToken(clientToken);
+  ): Promise<Result<ApiError, ContextWithMetrics[]>> {
+    const token = await this.getOboToken(identity);
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
@@ -41,7 +49,7 @@ export class ProxyApiService {
       });
 
       if (response.ok) {
-        const context: ContextWithMetrics = await response.json();
+        const context: ContextWithMetrics[] = await response.json();
         return { ok: true, data: context };
       }
       return { ok: false, error: errorHandling(response) };
@@ -61,12 +69,12 @@ export class ProxyApiService {
   }
 
   async createRegelrettContext(
-    clientToken: string,
+    identity: RegelrettRequestIdentity,
     name: string,
     formId: string,
     teamId: string,
   ): Promise<Result<ApiError, Context>> {
-    const token = await this.entraIdService.getOboToken(clientToken);
+    const token = await this.getOboToken(identity);
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
@@ -108,8 +116,10 @@ export class ProxyApiService {
     }
   }
 
-  async fetchForms(clientToken: string): Promise<Result<ApiError, Form[]>> {
-    const token = await this.entraIdService.getOboToken(clientToken);
+  async fetchForms(
+    identity: RegelrettRequestIdentity,
+  ): Promise<Result<ApiError, Form[]>> {
+    const token = await this.getOboToken(identity);
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
@@ -146,10 +156,10 @@ export class ProxyApiService {
   }
 
   async fetchContextByTeamId(
-    clientToken: string,
+    identity: RegelrettRequestIdentity,
     teamId: string,
   ): Promise<Result<ApiError, ContextWithMetrics[]>> {
-    const token = await this.entraIdService.getOboToken(clientToken);
+    const token = await this.getOboToken(identity);
     if (!token) throw new Error(`Failed to fetch token for Regelrett API`);
 
     try {
@@ -185,5 +195,12 @@ export class ProxyApiService {
         `Failed to fetch context by team id from Regelrett API with an unkown error: ${error}`,
       );
     }
+  }
+
+  private async getOboToken(identity: RegelrettRequestIdentity) {
+    if (!identity.entraIdToken) {
+      throw new Error('No Entra ID token provided for connected Regelrett');
+    }
+    return this.entraIdService.getOboToken(identity.entraIdToken);
   }
 }

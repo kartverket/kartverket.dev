@@ -16,13 +16,15 @@ export const RegelrettSchemaPlugin = createBackendPlugin({
       deps: {
         httpRouter: coreServices.httpRouter,
         auth: coreServices.auth,
+        userInfo: coreServices.userInfo,
         logger: coreServices.logger,
         config: coreServices.rootConfig,
       },
-      async init({ httpRouter, auth, logger, config }) {
+      async init({ httpRouter, auth, userInfo, logger, config }) {
         httpRouter.use(
           (await createRouter({
             auth,
+            userInfo,
             logger,
             config,
           })) as any,

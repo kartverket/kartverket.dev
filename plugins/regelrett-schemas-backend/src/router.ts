@@ -1,256 +1,152 @@
-import express from 'express';
+import express, { Request } from 'express';
+import {
+  AuthService,
+  LoggerService,
+  UserInfoService,
+} from '@backstage/backend-plugin-api';
+import { Config } from '@backstage/config';
 import {
   ApiError,
-  Context,
-  ContextWithMetrics,
-  EntraIdConfiguration,
+  RegelrettRequestIdentity,
+  RegelrettService,
   Result,
-  Form,
 } from './types';
-import { AuthService, LoggerService } from '@backstage/backend-plugin-api';
-import { Config } from '@backstage/config';
-import { EntraIdService } from './services/entraIdService';
-import { ProxyApiService } from './services/proxyApiService';
+import { createRegelrettService } from './services/createRegelrettService';
 
 interface RouterOptions {
   auth: AuthService;
+  userInfo: UserInfoService;
   logger: LoggerService;
   config: Config;
+  service?: RegelrettService;
 }
 
-const formatToken = (token: string | undefined): string | null => {
-  if (!token || !token.startsWith('Bearer')) {
-    return null;
+const formatToken = (authorization: string | undefined): string | undefined => {
+  if (!authorization?.startsWith('Bearer ')) {
+    return undefined;
   }
-  return token.substring(7).trim();
+  return authorization.substring(7).trim();
 };
 
-const validateToken = (
-  token: string | undefined,
+async function getRequestIdentity(
+  req: Request,
   auth: AuthService,
-): string | null => {
-  const formattedToken = formatToken(token);
-  if (!formattedToken) {
-    return null;
+  userInfo: UserInfoService,
+): Promise<RegelrettRequestIdentity | undefined> {
+  const token = formatToken(req.header('Authorization'));
+  if (!token) {
+    return undefined;
   }
-  const credentials = auth.authenticate(formattedToken);
-  if (!credentials) {
-    return null;
+
+  try {
+    const credentials = await auth.authenticate(token);
+    if (!auth.isPrincipal(credentials, 'user')) {
+      return undefined;
+    }
+    const identity = await userInfo.getUserInfo(credentials);
+    return {
+      ...identity,
+      entraIdToken: req.header('Entraid'),
+    };
+  } catch {
+    return undefined;
   }
-  return formattedToken;
-};
+}
+
+function sendResult<Data>(
+  res: express.Response,
+  result: Result<ApiError, Data>,
+) {
+  if (result.ok) {
+    res.status(200).send(result.data);
+    return;
+  }
+  res.status(result.error.statusCode).send({
+    message: result.error.message,
+    frontendMessage: result.error.message,
+  });
+}
+
+function queryString(value: unknown, name: string): string {
+  if (typeof value !== 'string' || value.length === 0) {
+    throw new Error(`No ${name} parameter provided`);
+  }
+  return value;
+}
 
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { auth, logger, config } = options;
-  const externalAPI = 'regelrett';
-  const backendBaseUrl = config.getString(`${externalAPI}.baseUrl`);
-  const environment = config.getString('auth.environment');
-  const clientId = config.getString(
-    `auth.providers.microsoft.${environment}.clientId`,
-  );
-  const clientSecret = config.getString(
-    `auth.providers.microsoft.${environment}.clientSecret`,
-  );
-  const tenantId = config.getString(
-    `auth.providers.microsoft.${environment}.tenantId`,
-  );
-  const scope = `${config.getString(`${externalAPI}.clientId`)}/.default`;
-
-  const entraIdConfiguration: EntraIdConfiguration = {
-    tenantId: tenantId,
-    clientId: clientId,
-    clientSecret: clientSecret,
-    scope: scope,
-  };
-
-  logger.info('[Router] Creating router with config:', {
-    hasAuth: !!auth,
-    hasLogger: !!logger,
-    hasConfig: !!config,
-  });
-
-  const entraIdService = new EntraIdService(entraIdConfiguration, logger);
-  const proxyService = new ProxyApiService(
-    backendBaseUrl,
-    entraIdService,
-    logger,
-  );
-
+  const { auth, userInfo, logger, config } = options;
+  const service = options.service ?? createRegelrettService(config, logger);
   const router = express.Router();
   router.use(express.json());
 
-  router.get(
-    '/proxy/fetch-regelrett-form',
-    async (req, res) => {
-      try {
-        const validToken = validateToken(req.header('Authorization'), auth);
-        if (!validToken) {
-          res.status(401).send({
-            frontendMessage: 'Token is not valid',
-          });
-          return;
-        }
-        const eidToken = req.header('Entraid');
-        const name = req.query.name;
-        if (typeof name !== 'string')
-          throw new Error('No name parameter provided');
-        if (!eidToken) throw new Error('No token');
-        const response: Result<ApiError, ContextWithMetrics> =
-          await proxyService.fetchContextByFunctionName(eidToken, name);
-        if (response.ok) {
-          res.status(200).send(response.data);
-        } else {
-          res
-            .status(response.error.statusCode)
-            .send({ frontendMessage: response.error.message });
-          logger.error(
-            `Recieved a ${response.error.statusCode} status code when trying to fetch context by name from Regelrett API.`,
-          );
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          logger.error(`Failed to fetch context by name: ${error.message}`);
-          res.status(500).send({
-            message: `Failed to fetch context by name: ${error.message}`,
-          });
-        } else {
-          logger.error(`Failed to fetch context by name: ${error}`);
-          res
-            .status(500)
-            .send({ message: `Failed to fetch context by name: ${error}` });
-        }
-      }
-    },
-
-    router.post('/proxy/create-regelrett-form', async (req, res) => {
-      try {
-        const validToken = validateToken(req.header('Authorization'), auth);
-        if (!validToken) {
-          res.status(401).send({
-            frontendMessage: 'Token is not valid',
-          });
-          return;
-        }
-        const eidToken = req.header('Entraid');
-        const name = req.query.name;
-        const formId = req.query.formId;
-        const teamId = req.query.teamId;
-
-        if (typeof name !== 'string')
-          throw new Error('No name parameter provided');
-        if (!eidToken) throw new Error('No token');
-        if (typeof formId !== 'string')
-          throw new Error('No formId parameter provided');
-        if (typeof teamId !== 'string')
-          throw new Error('No teamId parameter provided');
-
-        const response: Result<ApiError, Context> =
-          await proxyService.createRegelrettContext(
-            eidToken,
-            name,
-            formId,
-            teamId,
-          );
-        if (response.ok) {
-          res.status(200).send(response.data);
-        } else {
-          res
-            .status(response.error.statusCode)
-            .send({ frontendMessage: response.error.message });
-          logger.error(
-            `Recieved a ${response.error.statusCode} status code when trying to fetch context by name from Regelrett API.`,
-          );
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          logger.error(`Failed to fetch context by name: ${error.message}`);
-          res.status(500).send({
-            message: `Failed to fetch context by name: ${error.message}`,
-          });
-        } else {
-          logger.error(`Failed to fetch context by name: ${error}`);
-          res
-            .status(500)
-            .send({ message: `Failed to fetch context by name: ${error}` });
-        }
-      }
-    }),
-  );
-
-  router.get('/proxy/fetch-regelrett-forms-by-team-id', async (req, res) => {
-    try {
-      const validToken = validateToken(req.header('Authorization'), auth);
-      if (!validToken) {
+  const withIdentity =
+    (
+      handler: (
+        req: Request,
+        res: express.Response,
+        identity: RegelrettRequestIdentity,
+      ) => Promise<void>,
+    ) =>
+    async (req: Request, res: express.Response) => {
+      const identity = await getRequestIdentity(req, auth, userInfo);
+      if (!identity) {
         res.status(401).send({
+          message: 'Token is not valid',
           frontendMessage: 'Token is not valid',
         });
         return;
       }
-      const eidToken = req.header('Entraid');
-      const teamId = req.query.teamId;
-      if (typeof teamId !== 'string')
-        throw new Error('No name parameter provided');
-      if (!eidToken) throw new Error('No token');
-      const response: Result<ApiError, ContextWithMetrics[]> =
-        await proxyService.fetchContextByTeamId(eidToken, teamId);
-      if (response.ok) {
-        res.status(200).send(response.data);
-      } else {
-        res
-          .status(response.error.statusCode)
-          .send({ frontendMessage: response.error.message });
-        logger.error(
-          `Recieved a ${response.error.statusCode} status code when trying to fetch context by team id from Regelrett API.`,
-        );
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        logger.error(`Failed to fetch context by team id: ${error.message}`);
-        res.status(500).send({
-          message: `Failed to fetch context by team id: ${error.message}`,
-        });
-      } else {
-        logger.error(`Failed to fetch context by team id: ${error}`);
-        res
-          .status(500)
-          .send({ message: `Failed to fetch context by team id: ${error}` });
-      }
-    }
-  });
 
-  router.get('/proxy/fetch-regelrett-form-types', async (req, res) => {
-    try {
-      const validToken = validateToken(req.header('Authorization'), auth);
-      if (!validToken) {
-        res.status(401).send({
-          message: 'Token is not valid',
+      try {
+        await handler(req, res, identity);
+      } catch (caught) {
+        const message =
+          caught instanceof Error ? caught.message : String(caught);
+        logger.error(`Regelrett adapter request failed: ${message}`);
+        res.status(500).send({
+          message: `Regelrett adapter request failed: ${message}`,
         });
-        return;
       }
-      const eidToken = req.header('Entraid');
-      if (!eidToken) throw new Error('No token');
-      const response: Result<ApiError, Form[]> =
-        await proxyService.fetchForms(eidToken);
-      if (response.ok) {
-        res.status(200).send(response.data);
-      } else {
-        res
-          .status(response.error.statusCode)
-          .send({ message: response.error.message });
-        logger.error(
-          `Received a ${response.error.statusCode} status code when trying to fetch forms from Regelrett API.`,
-        );
-      }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : error;
-      logger.error(`Failed to fetch forms: ${errorMessage}`);
-      res
-        .status(500)
-        .send({ message: `Failed to fetch forms: ${errorMessage}` });
-    }
-  });
+    };
+
+  router.get(
+    '/proxy/fetch-regelrett-form',
+    withIdentity(async (req, res, identity) => {
+      const name = queryString(req.query.name, 'name');
+      sendResult(res, await service.fetchContextByFunctionName(identity, name));
+    }),
+  );
+
+  router.post(
+    '/proxy/create-regelrett-form',
+    withIdentity(async (req, res, identity) => {
+      const name = queryString(req.query.name, 'name');
+      const formId = queryString(req.query.formId, 'formId');
+      const teamId = queryString(req.query.teamId, 'teamId');
+      sendResult(
+        res,
+        await service.createRegelrettContext(identity, name, formId, teamId),
+      );
+    }),
+  );
+
+  router.get(
+    '/proxy/fetch-regelrett-forms-by-team-id',
+    withIdentity(async (req, res, identity) => {
+      const teamId = queryString(req.query.teamId, 'teamId');
+      sendResult(res, await service.fetchContextByTeamId(identity, teamId));
+    }),
+  );
+
+  router.get(
+    '/proxy/fetch-regelrett-form-types',
+    withIdentity(async (_req, res, identity) => {
+      sendResult(res, await service.fetchForms(identity));
+    }),
+  );
 
   return router;
 }
