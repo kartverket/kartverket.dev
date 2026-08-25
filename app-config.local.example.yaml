@@ -82,8 +82,9 @@ regelrett:
   url: http://localhost:8080
   clientId: ${REGELRETT_CLIENT_ID}
 
-# 5c. RiSc / risk-scorecard
+# 5c. RiSc / risk-scorecard. Set enable to false if you dont have access to required keys.
 ros:
+  enable: true
   sops:
     ageKey: ${ROS_SOPS_AGE_KEY}
     backendPublicKey: ${ROS_SOPS_BACKEND_PUBLIC_KEY}

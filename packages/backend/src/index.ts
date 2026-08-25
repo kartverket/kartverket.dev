@@ -1,4 +1,8 @@
 import { createBackend } from '@backstage/backend-defaults';
+import {
+  coreServices,
+  createBackendFeatureLoader,
+} from '@backstage/backend-plugin-api';
 import { authModuleMicrosoftProvider } from './plugins/extensions/auth';
 import { msGroupTransformerCatalogModule } from './plugins/extensions/catalog';
 import { catalogNotificationsModule } from './plugins/extensions/catalogNotificationsModule';
@@ -63,5 +67,14 @@ backend.add(catalogNotificationsModule);
 backend.add(import('@backstage/plugin-signals-backend'));
 backend.add(import('@internal/plugin-catalog-backend-module-function-kind'));
 
-backend.add(import('@kartverket/backstage-plugin-risk-scorecard-backend'));
+backend.add(
+  createBackendFeatureLoader({
+    deps: { config: coreServices.rootConfig },
+    *loader({ config }) {
+      if (config.getOptionalBoolean('ros.enable')) {
+        yield import('@kartverket/backstage-plugin-risk-scorecard-backend');
+      }
+    },
+  }),
+);
 backend.start();
