@@ -125,13 +125,23 @@ export type UniqueVulnerabilities = {
   vulnerabilities: AggregatedVulnerability[];
 };
 
+export type AggregatedAffectedComponent = {
+  componentName: string;
+  status: Status | null;
+  isDirect: boolean | null;
+  isRunning: boolean | null;
+};
+
 export type AggregatedVulnerability = {
   vulnerabilityId: string;
   severity: Severity;
   scanners: Scanner[];
   summary: string;
   dateFirstSeen: string;
-  affectedComponents: string[];
+  isFixable: boolean;
+  isExploitable: boolean;
+  isCisaKEV: boolean;
+  affectedComponents: AggregatedAffectedComponent[];
 };
 
 export type Severity =
@@ -156,6 +166,7 @@ export interface RiscStatusData {
   hasRisc?: boolean;
   lastPublishedRisc?: string;
   commitsSincePublishedRisc?: number;
+  owner?: string;
 }
 
 export type OverviewResponse = {

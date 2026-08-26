@@ -81,16 +81,3 @@ regelrett:
   baseUrl: http://localhost:8080
   url: http://localhost:8080
   clientId: ${REGELRETT_CLIENT_ID}
-
-# 5c. RiSc / risk-scorecard
-ros:
-  sops:
-    ageKey: ${ROS_SOPS_AGE_KEY}
-    backendPublicKey: ${ROS_SOPS_BACKEND_PUBLIC_KEY}
-    securityTeamPublicKey: ${ROS_SOPS_SECURITY_TEAM_PUBLIC_KEY}
-    securityPlatformPublicKey: ${ROS_SOPS_SECURITY_PLATFORM_PUBLIC_KEY}
-  slack:
-    webhookUrl: ${ROS_SLACK_WEBHOOK_URL}
-  initRiSc:
-    repoOwner: kartverket
-    repoName: initial-riscs-collection

@@ -36,5 +36,6 @@ export const useGroupInfo = (groupId: string) => {
       return groups.items[0] as GroupEntity | undefined;
     },
     staleTime: 5 * 60 * 1000,
+    enabled: !!groupId,
   });
 };

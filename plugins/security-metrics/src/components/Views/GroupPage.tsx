@@ -6,7 +6,6 @@ import { SystemScannerStatuses } from '../ScannerStatus/SystemScannerStatuses';
 import { Secrets } from '../SecretsOverview/SecretsAlert';
 import { Trend } from '../Trend/Trend';
 import { VulnerabilityCountsOverview } from '../VulnerabilityCounts/VulnerabilityCountsOverview';
-import { SystemRiscStatuses } from '../RiscStatus/SystemRiscStatuses';
 import Stack from '@mui/material/Stack';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ErrorBanner } from '../shared/ErrorBanner';
@@ -25,6 +24,8 @@ import { UniqueVulnerabilitiesTable } from '../UniqueVulnerabilitiesTable/Unique
 import { PageHeader } from '../shared/PageHeader';
 import { MetricsGrid } from '../shared/MetricsGrid';
 import { OwnerTable } from '../OwnerTable/OwnerTable';
+import { RiscStatusByTeamCard } from '../RiscStatus/RiscStatusByTeamCard';
+import { RiscStatusCard } from '../RiscStatus/RiscStatusCard';
 
 enum TabEnum {
   COMPONENT = 0,
@@ -166,7 +167,11 @@ export const GroupPage = () => {
 
       <MetricsGrid>
         <SystemScannerStatuses data={data?.scannerConfig ?? []} />
-        <SystemRiscStatuses data={data?.riscStatus ?? []} />
+        {entity.spec?.type !== 'team' ? (
+          <RiscStatusByTeamCard data={data?.riscStatus ?? []} />
+        ) : (
+          <RiscStatusCard data={data?.riscStatus ?? []} />
+        )}
         <VulnerabilityCountsOverview
           severityCount={data?.severityCount}
           openSeverityCount={data?.openSeverityCount}
@@ -200,14 +205,10 @@ export const GroupPage = () => {
       {selectedTab === TabEnum.VULNERABILITIES &&
         !isUniqueVulnerabilitiesLoading &&
         !uniqueVulnerabilitiesError && (
-          <>
-            {showOpen && (
-              <Alert severity="info">
-                Viser alle sårbarheter, ikke bare åpne
-              </Alert>
-            )}
-            <UniqueVulnerabilitiesTable data={aggregatedVulnerabilities} />
-          </>
+          <UniqueVulnerabilitiesTable
+            data={aggregatedVulnerabilities}
+            showOpen={showOpen}
+          />
         )}
 
       {selectedTab === TabEnum.COMPONENT && isComponentsLoading && <Progress />}
