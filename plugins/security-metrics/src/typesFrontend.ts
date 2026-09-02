@@ -243,12 +243,7 @@ export interface RiscStatusData {
 }
 
 export type Severity =
-  | 'unknown'
-  | 'negligible'
-  | 'low'
-  | 'medium'
-  | 'high'
-  | 'critical';
+  'unknown' | 'negligible' | 'low' | 'medium' | 'high' | 'critical';
 
 export type AggregatedScannerStatus = {
   scannerName: Scanner;
@@ -289,11 +284,7 @@ export type ErrorResponse = {
 };
 
 export type GraphTimeline =
-  | 'fourteenDays'
-  | 'oneMonth'
-  | 'threeMonths'
-  | 'sixMonths'
-  | 'oneYear';
+  'fourteenDays' | 'oneMonth' | 'threeMonths' | 'sixMonths' | 'oneYear';
 
 export type ContextFacet = Exclude<
   ContextSignal,
