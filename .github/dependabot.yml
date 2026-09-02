@@ -20,3 +20,13 @@ updates:
     directory: '/terraform'
     schedule:
       interval: 'weekly'
+
+  # Maintain docker images
+  - package-ecosystem: 'docker'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    groups:
+      all-docker-dependencies:
+        patterns:
+          - '*'
