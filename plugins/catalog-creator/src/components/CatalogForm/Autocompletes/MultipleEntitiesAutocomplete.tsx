@@ -44,8 +44,7 @@ type TranslationKeyWithoutFormName =
   `form.${MultipleEntitiesAutocompleteProps['fieldname']}.${'fieldName' | 'tooltipText' | 'placeholder'}`;
 
 type TranslationKey =
-  | TranslationKeyWithFormName
-  | TranslationKeyWithoutFormName;
+  TranslationKeyWithFormName | TranslationKeyWithoutFormName;
 
 const hasFieldError = (
   errors: EntityErrors<Kind> | undefined,

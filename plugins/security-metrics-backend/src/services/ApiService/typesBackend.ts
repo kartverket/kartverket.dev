@@ -145,12 +145,7 @@ export type AggregatedVulnerability = {
 };
 
 export type Severity =
-  | 'unknown'
-  | 'negligible'
-  | 'low'
-  | 'medium'
-  | 'high'
-  | 'critical';
+  'unknown' | 'negligible' | 'low' | 'medium' | 'high' | 'critical';
 
 export type Scanner = 'Dependabot' | 'CodeQL' | 'Pharos' | 'Sysdig';
 
