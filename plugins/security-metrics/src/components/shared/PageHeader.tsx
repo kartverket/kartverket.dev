@@ -6,8 +6,9 @@ import NoAccessAlert from './NoAccessAlert';
 import { ViewSettingsButton } from './ViewSettingsButton';
 import { FilterEnum } from '../../typesFrontend';
 import Alert from '@mui/material/Alert';
-import { Error, LocalFireDepartment } from '@mui/icons-material';
+import { Error } from '@mui/icons-material';
 import AlertTitle from '@mui/material/AlertTitle';
+import Link from '@mui/material/Link';
 
 interface StarFilterProps {
   hasStarred: boolean;
@@ -75,8 +76,8 @@ export const PageHeader = ({
         <AlertTitle fontSize={25} paddingTop={2}>
           Sikkerhetsmetrikker vil derfor <strong>ikke</strong> gi et riktig
           oversiktsbilde over sårbarheter. Vi jobber med saken. I mellomtiden er
-          dere nødt til å benytte <strong>GitHub Security</strong> og{' '}
-          <strong>sysdig</strong> for å se sårbarheter.
+          dere nødt til å benytte GitHub Security og{' '}
+          <Link href="https://eu1.app.sysdig.com/">sysdig</Link>
         </AlertTitle>
       </Alert>
     </>
