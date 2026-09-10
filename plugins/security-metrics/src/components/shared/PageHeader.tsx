@@ -1,10 +1,10 @@
-import Stack from "@mui/material/Stack";
-import { Box } from "@mui/system";
-import { MetricsStatus } from "./MetricsStatus";
-import { Secrets, SecretsAlert } from "../SecretsOverview/SecretsAlert";
-import NoAccessAlert from "./NoAccessAlert";
-import { ViewSettingsButton } from "./ViewSettingsButton";
-import { FilterEnum } from "../../typesFrontend";
+import Stack from '@mui/material/Stack';
+import { Box } from '@mui/system';
+import { MetricsStatus } from './MetricsStatus';
+import { Secrets, SecretsAlert } from '../SecretsOverview/SecretsAlert';
+import NoAccessAlert from './NoAccessAlert';
+import { ViewSettingsButton } from './ViewSettingsButton';
+import { FilterEnum } from '../../typesFrontend';
 
 interface StarFilterProps {
   hasStarred: boolean;
@@ -52,7 +52,7 @@ export const PageHeader = ({
         gap={2}
         flex={1}
         flexWrap="wrap"
-        sx={{ "& > *": { flex: 1 } }}
+        sx={{ '& > *': { flex: 1 } }}
       >
         <SecretsAlert secretsOverviewData={secrets} />
         {notPermitted && notPermitted.length > 0 && (
