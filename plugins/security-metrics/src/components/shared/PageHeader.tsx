@@ -45,24 +45,24 @@ export const PageHeader = ({
   rightActions,
 }: Props) => {
   return (
-      <Stack flexDirection="row" alignItems="center" flexWrap="wrap" gap={2}>
-        <MetricsStatus entityName={entityName} />
-        <Stack
-          flexDirection="row"
-          gap={2}
-          flex={1}
-          flexWrap="wrap"
-          sx={{ "& > *": { flex: 1 } }}
-        >
-          <SecretsAlert secretsOverviewData={secrets} />      
-          {notPermitted && notPermitted.length > 0 && (
-        <NoAccessAlert repos={notPermitted} />
-      )}
-        </Stack>
-        <Box display="flex" alignItems="center" flexWrap="wrap" gap={0.5}>
-          <ViewSettingsButton {...viewSettingsProps} />
-          {rightActions}
-        </Box>
+    <Stack flexDirection="row" alignItems="center" flexWrap="wrap" gap={2}>
+      <MetricsStatus entityName={entityName} />
+      <Stack
+        flexDirection="row"
+        gap={2}
+        flex={1}
+        flexWrap="wrap"
+        sx={{ "& > *": { flex: 1 } }}
+      >
+        <SecretsAlert secretsOverviewData={secrets} />
+        {notPermitted && notPermitted.length > 0 && (
+          <NoAccessAlert repos={notPermitted} />
+        )}
       </Stack>
+      <Box display="flex" alignItems="center" flexWrap="wrap" gap={0.5}>
+        <ViewSettingsButton {...viewSettingsProps} />
+        {rightActions}
+      </Box>
+    </Stack>
   );
 };
