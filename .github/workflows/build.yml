@@ -152,7 +152,7 @@ jobs:
       security-events: write
     runs-on: ubuntu-latest
     steps:
-      - name: "Run Pharos"
+      - name: 'Run Pharos'
         uses: kartverket/pharos@v0.7.0 #v0.7.0
         with:
           image_url: ${{ env.REGISTRY }}/${{ steps.build-and-push.outputs.digest }}
@@ -239,4 +239,3 @@ jobs:
           git fetch origin
           git rebase origin/main
           git push
-
