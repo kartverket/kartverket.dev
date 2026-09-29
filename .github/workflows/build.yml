@@ -142,6 +142,22 @@ jobs:
     outputs:
       image_digest: ${{ steps.build-and-push.outputs.digest }}
 
+  pharos:
+    name: Run Pharos on docker image
+    needs: build
+    permissions:
+      actions: read
+      packages: read
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Run Pharos"
+        uses: kartverket/pharos@v0.7.0 #v0.7.0
+        with:
+          image_url: ${{ env.REGISTRY }}/${{ steps.build-and-push.outputs.digest }}
+          trivy_vex: 'true'
+
   dev-deploy-argo:
     needs: build
     runs-on: ubuntu-latest
@@ -223,3 +239,4 @@ jobs:
           git fetch origin
           git rebase origin/main
           git push
+
