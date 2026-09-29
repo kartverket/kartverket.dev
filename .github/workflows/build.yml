@@ -155,7 +155,7 @@ jobs:
       - name: 'Run Pharos'
         uses: kartverket/pharos@v0.7.0 #v0.7.0
         with:
-          image_url: ${{ env.REGISTRY }}/${{ steps.build-and-push.outputs.digest }}
+          image_url: ${{ steps.build-and-push.outputs.digest }}
           trivy_vex: 'true'
 
   dev-deploy-argo:
