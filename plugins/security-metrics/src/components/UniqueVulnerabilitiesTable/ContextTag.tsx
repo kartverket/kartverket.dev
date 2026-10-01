@@ -30,10 +30,10 @@ export const ContextTag = ({
       ? CONTEXT_TAG_COLORS.DARK
       : CONTEXT_TAG_COLORS.LIGHT;
   const variantStyles: Record<ContextSignal, TagStyle> = {
-    kev: { 
-      text: colors.KEV_TEXT, 
-      bg: colors.KEV_BG, 
-      border: colors.KEV_TEXT 
+    kev: {
+      text: colors.KEV_TEXT,
+      bg: colors.KEV_BG,
+      border: colors.KEV_TEXT,
     },
     exploit: {
       text: colors.EXPLOIT_RUNNING_TEXT,
@@ -50,10 +50,10 @@ export const ContextTag = ({
       bg: BASIC_COLORS.TAG_NEUTRAL_BG,
       border: BASIC_COLORS.TAG_NEUTRAL_TEXT,
     },
-    fix: { 
-      text: colors.FIX_TEXT, 
-      bg: colors.FIX_BG, 
-      border: colors.FIX_TEXT 
+    fix: {
+      text: colors.FIX_TEXT,
+      bg: colors.FIX_BG,
+      border: colors.FIX_TEXT,
     },
     noFix: {
       text: colors.NO_FIX_TEXT,
