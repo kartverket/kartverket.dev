@@ -36,16 +36,30 @@ export const BASIC_COLORS = {
 };
 
 export const CONTEXT_TAG_COLORS = {
-  KEV_BG: '#910101',
-  KEV_TEXT: '#FCEBEB',
-  EXPLOIT_RUNNING_BG: '#FAEEDA',
-  EXPLOIT_RUNNING_TEXT: '#633806',
-  FIX_BG: '#e8f5e9',
-  FIX_TEXT: '#1b5e20',
-  NO_FIX_BG: '#ffebee',
-  NO_FIX_TEXT: '#b71c1c',
-  DIRECT_BG: '#e3f2fd',
-  DIRECT_TEXT: '#0d47a1',
+  LIGHT: {
+    KEV_BG: '#FCEBEB',
+    KEV_TEXT: '#910101',
+    EXPLOIT_RUNNING_BG: '#FAEEDA',
+    EXPLOIT_RUNNING_TEXT: '#633806',
+    FIX_BG: '#e8f5e9',
+    FIX_TEXT: '#1b5e20',
+    NO_FIX_BG: '#ffebee',
+    NO_FIX_TEXT: '#b71c1c',
+    DIRECT_BG: '#e3f2fd',
+    DIRECT_TEXT: '#0d47a1',
+  },
+  DARK: {
+    KEV_BG: '#7f1d1d',
+    KEV_TEXT: '#fecaca',
+    EXPLOIT_RUNNING_BG: '#5c3b00',
+    EXPLOIT_RUNNING_TEXT: '#fde68a',
+    FIX_BG: '#14532d',
+    FIX_TEXT: '#bbf7d0',
+    NO_FIX_BG: '#7f1d1d',
+    NO_FIX_TEXT: '#fecaca',
+    DIRECT_BG: '#0c4a6e',
+    DIRECT_TEXT: '#bae6fd',
+  },
 };
 
 export const CLUSTER_TAG_COLORS = {

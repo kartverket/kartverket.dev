@@ -1,24 +1,27 @@
 import Typography from '@mui/material/Typography';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
+import { useTheme } from '@mui/material/styles';
 import { BASIC_COLORS, CONTEXT_TAG_COLORS } from '../../colors';
 import type { ContextSignal } from '../../typesFrontend';
 import { Tag, type TagStyle } from '../shared/Tag';
 
-const variantStyles: Record<ContextSignal, TagStyle> = {
+const variantStyles = (
+  colors: typeof CONTEXT_TAG_COLORS.LIGHT,
+): Record<ContextSignal, TagStyle> => ({
   kev: {
-    text: CONTEXT_TAG_COLORS.KEV_TEXT,
-    bg: CONTEXT_TAG_COLORS.KEV_BG,
-    border: CONTEXT_TAG_COLORS.KEV_TEXT,
+    text: colors.KEV_TEXT,
+    bg: colors.KEV_BG,
+    border: colors.KEV_TEXT,
   },
   exploit: {
-    text: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_TEXT,
-    bg: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_BG,
-    border: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_TEXT,
+    text: colors.EXPLOIT_RUNNING_TEXT,
+    bg: colors.EXPLOIT_RUNNING_BG,
+    border: colors.EXPLOIT_RUNNING_TEXT,
   },
   running: {
-    text: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_TEXT,
-    bg: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_BG,
-    border: CONTEXT_TAG_COLORS.EXPLOIT_RUNNING_TEXT,
+    text: colors.EXPLOIT_RUNNING_TEXT,
+    bg: colors.EXPLOIT_RUNNING_BG,
+    border: colors.EXPLOIT_RUNNING_TEXT,
   },
   notRunning: {
     text: BASIC_COLORS.TAG_NEUTRAL_TEXT,
@@ -26,26 +29,26 @@ const variantStyles: Record<ContextSignal, TagStyle> = {
     border: BASIC_COLORS.TAG_NEUTRAL_TEXT,
   },
   fix: {
-    text: CONTEXT_TAG_COLORS.FIX_TEXT,
-    bg: CONTEXT_TAG_COLORS.FIX_BG,
-    border: CONTEXT_TAG_COLORS.FIX_TEXT,
+    text: colors.FIX_TEXT,
+    bg: colors.FIX_BG,
+    border: colors.FIX_TEXT,
   },
   noFix: {
-    text: CONTEXT_TAG_COLORS.NO_FIX_TEXT,
-    bg: CONTEXT_TAG_COLORS.NO_FIX_BG,
-    border: CONTEXT_TAG_COLORS.NO_FIX_TEXT,
+    text: colors.NO_FIX_TEXT,
+    bg: colors.NO_FIX_BG,
+    border: colors.NO_FIX_TEXT,
   },
   direct: {
-    text: CONTEXT_TAG_COLORS.DIRECT_TEXT,
-    bg: CONTEXT_TAG_COLORS.DIRECT_BG,
-    border: CONTEXT_TAG_COLORS.DIRECT_TEXT,
+    text: colors.DIRECT_TEXT,
+    bg: colors.DIRECT_BG,
+    border: colors.DIRECT_TEXT,
   },
   transitive: {
     text: BASIC_COLORS.GREY,
     bg: 'transparent',
     border: BASIC_COLORS.GREY,
   },
-};
+});
 
 type Props = {
   variant: ContextSignal;
@@ -65,32 +68,39 @@ export const ContextTag = ({
   onClick,
   selected = true,
   disabled = false,
-}: Props) => (
-  <Tag
-    selectedStyle={variantStyles[variant]}
-    selected={selected}
-    disabled={disabled}
-    onClick={onClick}
-    tooltip={tooltip}
-    sx={{
-      gap: 0.5,
-      p: 0.5,
-      whiteSpace: 'nowrap',
-    }}
-  >
-    <Icon sx={{ fontSize: '1rem' }} />
-    {label && (
-      <Typography
-        variant="caption"
-        sx={{
-          color: 'inherit',
-          fontWeight: 500,
-          fontSize: '0.8rem',
-          lineHeight: 1,
-        }}
-      >
-        {label}
-      </Typography>
-    )}
-  </Tag>
-);
+}: Props) => {
+  const theme = useTheme();
+  const colors =
+    theme.palette.mode === 'dark'
+      ? CONTEXT_TAG_COLORS.DARK
+      : CONTEXT_TAG_COLORS.LIGHT;
+  return (
+    <Tag
+      selectedStyle={variantStyles(colors)[variant]}
+      selected={selected}
+      disabled={disabled}
+      onClick={onClick}
+      tooltip={tooltip}
+      sx={{
+        gap: 0.5,
+        p: 0.5,
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <Icon sx={{ fontSize: '1rem' }} />
+      {label && (
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'inherit',
+            fontWeight: 500,
+            fontSize: '0.8rem',
+            lineHeight: 1,
+          }}
+        >
+          {label}
+        </Typography>
+      )}
+    </Tag>
+  );
+};
