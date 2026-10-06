@@ -55,7 +55,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 24.x # From mise.toml
-          cache: 'npm'
+          cache: yarn
 
       - run: corepack enable
 
@@ -86,7 +86,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
-      # Login against a Docker registry except on PR
+      # Docker Hardened Images requires authentication to pull the build and runtime base images.
+      # DHI_USERNAME and DHI_TOKEN must be repository or organization Actions secrets.
+      - name: Log into Docker Hardened Images
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: dhi.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Login against the publishing registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
@@ -120,8 +129,8 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=backstage-image
+          cache-to: type=gha,mode=max,scope=backstage-image
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
