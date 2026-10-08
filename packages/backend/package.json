@@ -29,7 +29,7 @@
     "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^",
     "@backstage/plugin-auth-backend-module-microsoft-provider": "backstage:^",
     "@backstage/plugin-auth-node": "backstage:^",
-    "@backstage/plugin-catalog-backend": "backstage:^",
+    "@backstage/plugin-catalog-backend": "patch:@backstage/plugin-catalog-backend@npm%3A3.9.1#~/.yarn/patches/@backstage-plugin-catalog-backend-npm-3.9.1-1f4c81aa2c.patch",
     "@backstage/plugin-catalog-backend-module-github": "backstage:^",
     "@backstage/plugin-catalog-backend-module-logs": "backstage:^",
     "@backstage/plugin-catalog-backend-module-msgraph": "backstage:^",
