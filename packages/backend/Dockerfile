@@ -11,9 +11,8 @@
 # Once the commands have been run, you can build the image using `yarn build-image`
 
 # --- Builder: install prod deps and unpack the bundle
-FROM node:24-bookworm-slim AS build
+FROM dhi.io/node:24-debian13-dev@sha256:2e51e8397b85c3771c554834fb55d7fd5825e7d57a993e00153db42c584b7e58 AS build
 
-ENV PYTHON=/usr/bin/python3
 RUN corepack enable
 
 # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
@@ -21,8 +20,7 @@ RUN corepack enable
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends python3 g++ build-essential libsqlite3-dev && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends python3 build-essential gzip libsqlite3-dev
 
 RUN mkdir -p /home/node/.cache
 
@@ -55,17 +53,15 @@ RUN --mount=type=cache,target=/home/node/.cache,sharing=locked,uid=1000,gid=1000
 COPY packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
-# --- Runtime: distroless NodeJS
-# To update: docker buildx imagetools inspect gcr.io/distroless/nodejs24-debian13
-# Use the top-level "Digest:" value (Index Digest, safe for all platforms)
-FROM gcr.io/distroless/nodejs24-debian13@sha256:7a22f300e7bd7ec78f3db220fb679af4e169e5f3373f97fe432847111f9b1810
+# --- Runtime
+FROM dhi.io/node:24-debian13@sha256:f3575cf1e68ffe163703b691c465af833fd2d94cccc1e825d052c943018f2aa3
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
 WORKDIR /app
 
-COPY package.json app-config*.yaml  ./
-COPY --chown=${NOT_ROOT_USER}:${NOT_ROOT_USER} packages/backend/src/instrumentation.js ./
+COPY packages/backend/src/instrumentation.js ./
 COPY --from=build /app /app
 
+ENTRYPOINT ["node"]
 CMD ["--require","./instrumentation.js","packages/backend","--config","app-config.yaml","--config","app-config.production.yaml", "--config","app-config.runtime.yaml"]
