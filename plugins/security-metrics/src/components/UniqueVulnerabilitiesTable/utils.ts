@@ -4,7 +4,8 @@ import type {
 } from '../../typesFrontend';
 import { aggregatedToRiskInputs, computeRiskScore } from '../shared/riskScore';
 
-export type SortType = 'Komponenter' | 'Alvorlighetsgrad' | 'Dato' | 'Prioritet';
+export type SortType =
+  'Komponenter' | 'Alvorlighetsgrad' | 'Dato' | 'Prioritet';
 export type SortOrder = 'asc' | 'desc';
 
 export const severityRank: Record<AggregatedVulnerability['severity'], number> =
