@@ -1,0 +1,15 @@
+diff --git a/dist/processors/PlaceholderProcessor.cjs.js b/dist/processors/PlaceholderProcessor.cjs.js
+index 04466ea9320a095ed07f5309cf386f8d21aa4546..aff5459d4367e2e32f5231aec83b08c486853aa2 100644
+--- a/dist/processors/PlaceholderProcessor.cjs.js
++++ b/dist/processors/PlaceholderProcessor.cjs.js
+@@ -151,9 +151,7 @@ function relativeUrl({
+     );
+   }
+   try {
+-    const resolved = resolveUrl(value, baseUrl);
+-    assertSameRepository(resolved, baseUrl);
+-    return resolved;
++    return resolveUrl(value, baseUrl);
+   } catch (e) {
+     throw new Error(
+       `Placeholder $${key} could not form a URL out of ${baseUrl} and ${value}, ${e}`
