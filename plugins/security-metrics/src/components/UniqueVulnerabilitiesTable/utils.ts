@@ -4,7 +4,8 @@ import type {
 } from '../../typesFrontend';
 import { aggregatedToRiskInputs, computeRiskScore } from '../shared/riskScore';
 
-export type SortType = 'Komponenter' | 'Alvorlighetsgrad' | 'Prioritet';
+export type SortType =
+  'Komponenter' | 'Alvorlighetsgrad' | 'Dato' | 'Prioritet';
 export type SortOrder = 'asc' | 'desc';
 
 export const severityRank: Record<AggregatedVulnerability['severity'], number> =
@@ -33,6 +34,18 @@ export const compareByPriority = (
 ) =>
   computeRiskScore(aggregatedToRiskInputs(b)) -
   computeRiskScore(aggregatedToRiskInputs(a));
+
+export const compareByDate = (
+  a: AggregatedVulnerability,
+  b: AggregatedVulnerability,
+) => {
+  const timestamp = (date: string) => {
+    const value = new Date(date).getTime();
+    return Number.isNaN(value) ? 0 : value;
+  };
+
+  return timestamp(b.dateFirstSeen) - timestamp(a.dateFirstSeen);
+};
 
 export const formatClusterLabel = (cluster: string): string => {
   const suffix = cluster.split('_').pop();
