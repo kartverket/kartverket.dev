@@ -4365,7 +4365,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-backend@npm:4.0.0, @backstage/plugin-catalog-backend@npm:^4.0.0":
+"@backstage/plugin-catalog-backend@npm:4.0.0":
   version: 4.0.0
   resolution: "@backstage/plugin-catalog-backend@npm:4.0.0"
   dependencies:
@@ -4406,9 +4406,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-backend@patch:@backstage/plugin-catalog-backend@npm%3A4.0.0#~/.yarn/patches/@backstage-plugin-catalog-backend-npm-4.0.0-1f4c81aa2c.patch":
+"@backstage/plugin-catalog-backend@patch:@backstage/plugin-catalog-backend@npm%3A4.0.0#~/.yarn/patches/@backstage-plugin-catalog-backend-npm-4.0.0-2e6fefa1a7.patch":
   version: 4.0.0
-  resolution: "@backstage/plugin-catalog-backend@patch:@backstage/plugin-catalog-backend@npm%3A4.0.0#~/.yarn/patches/@backstage-plugin-catalog-backend-npm-4.0.0-1f4c81aa2c.patch::version=4.0.0&hash=8b85c2"
+  resolution: "@backstage/plugin-catalog-backend@patch:@backstage/plugin-catalog-backend@npm%3A4.0.0#~/.yarn/patches/@backstage-plugin-catalog-backend-npm-4.0.0-2e6fefa1a7.patch::version=4.0.0&hash=74c66f"
   dependencies:
     "@backstage/backend-openapi-utils": "npm:^0.7.2"
     "@backstage/backend-plugin-api": "npm:^1.10.1"
@@ -4443,7 +4443,7 @@ __metadata:
     yn: "npm:^4.0.0"
     zod: "npm:^3.25.76 || ^4.0.0"
     zod-validation-error: "npm:^5.0.0"
-  checksum: 10c0/1c0a4e88f2eb67621c420afd20ff62631b1b3e2a0147cc0299c817f7ce475c67042b2c549af735e2128badd6e312df5505b11b108338af8b5c7eb733e9d4e76e
+  checksum: 10c0/509866eaac4d85e09b227400f0737b17deffb769c1f94354094bc2d1bc8d5990494fc1c672abebcac2a754313879e91b74e0a82ffe4c055d823c0064922d67dc
   languageName: node
   linkType: hard
 
@@ -18739,7 +18739,7 @@ __metadata:
     "@backstage/plugin-auth-backend-module-guest-provider": "backstage:^"
     "@backstage/plugin-auth-backend-module-microsoft-provider": "backstage:^"
     "@backstage/plugin-auth-node": "backstage:^"
-    "@backstage/plugin-catalog-backend": "patch:@backstage/plugin-catalog-backend@npm%3A4.0.0#~/.yarn/patches/@backstage-plugin-catalog-backend-npm-4.0.0-1f4c81aa2c.patch"
+    "@backstage/plugin-catalog-backend": "patch:@backstage/plugin-catalog-backend@npm%3A4.0.0#~/.yarn/patches/@backstage-plugin-catalog-backend-npm-4.0.0-2e6fefa1a7.patch"
     "@backstage/plugin-catalog-backend-module-github": "backstage:^"
     "@backstage/plugin-catalog-backend-module-logs": "backstage:^"
     "@backstage/plugin-catalog-backend-module-msgraph": "backstage:^"

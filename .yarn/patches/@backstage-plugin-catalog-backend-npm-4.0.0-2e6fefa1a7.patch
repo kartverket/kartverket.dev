@@ -1,0 +1,12 @@
+diff --git a/dist/processors/PlaceholderProcessor.cjs.js b/dist/processors/PlaceholderProcessor.cjs.js
+index 04466ea9320a095ed07f5309cf386f8d21aa4546..b278861343fd0e8b3fa0bf3a6c7b3cf757fec630 100644
+--- a/dist/processors/PlaceholderProcessor.cjs.js
++++ b/dist/processors/PlaceholderProcessor.cjs.js
+@@ -152,7 +152,6 @@ function relativeUrl({
+   }
+   try {
+     const resolved = resolveUrl(value, baseUrl);
+-    assertSameRepository(resolved, baseUrl);
+     return resolved;
+   } catch (e) {
+     throw new Error(
