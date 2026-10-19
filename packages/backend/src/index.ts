@@ -51,6 +51,9 @@ backend.add(import('@backstage/plugin-search-backend-module-pg'));
 // TechDocs
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
+// Tech Radar
+backend.add(import('@backstage-community/plugin-tech-radar-backend'));
+
 // Security metrics
 backend.add(import('@kartverket/backstage-plugin-security-metrics-backend'));
 

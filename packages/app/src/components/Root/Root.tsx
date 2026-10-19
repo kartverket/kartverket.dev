@@ -22,6 +22,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import GroupIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import SpeedIcon from '@mui/icons-material/Speed';
+import RadarIcon from '@mui/icons-material/Radar';
 import LibraryBooks from '@mui/icons-material/LibraryBooks';
 import { PropsWithChildren } from 'react';
 import LogoFull from './LogoFull';
@@ -96,6 +97,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             icon={LibraryBooks}
             to="docs"
             text={t('sidebar.docsTitle')}
+          />
+          <SidebarItem
+            icon={RadarIcon}
+            to="tech-radar"
+            text={t('sidebar.techRadarTitle')}
           />
 
           {/* End global nav */}

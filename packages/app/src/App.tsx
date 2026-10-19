@@ -2,6 +2,7 @@ import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -149,6 +150,7 @@ const routes = (
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route path="/functions" element={<FunctionsPage />} />
+    <Route path="/tech-radar" element={<TechRadarPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
