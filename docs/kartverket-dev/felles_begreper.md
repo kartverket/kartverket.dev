@@ -115,4 +115,3 @@ Security champion er et system som Kartverket.dev avhenger av. Security champion
 
 
 ![modelleringseksempel1](../assets/modelleringseksempel1.png)
-

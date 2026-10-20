@@ -8,11 +8,7 @@ import {
 } from '@backstage/plugin-catalog';
 import Grid from '@mui/material/Grid';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
-import {
-  entityWarningContent,
-  grafanaContent,
-  techdocsContent,
-} from './entityPages/shared';
+import { entityWarningContent, grafanaContent } from './entityPages/shared';
 import { componentPage } from './entityPages/ComponentPages';
 import { FunctionEntityPage } from './entityPages/FunctionEntityPage';
 import { apiPage } from './entityPages/ApiPage';
@@ -55,9 +51,6 @@ const defaultEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
     </EntityLayout.Route>
   </EntityLayout>
 );

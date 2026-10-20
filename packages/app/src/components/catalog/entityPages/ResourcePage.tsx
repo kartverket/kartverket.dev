@@ -5,7 +5,7 @@ import {
   EntityLinksCard,
 } from '@backstage/plugin-catalog';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
-import { entityWarningContent, techdocsContent } from './shared';
+import { entityWarningContent } from './shared';
 
 export const resourcePage = (
   <EntityLayout>
@@ -25,9 +25,6 @@ export const resourcePage = (
           <EntityLinksCard />
         </Grid>
       </Grid>
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
     </EntityLayout.Route>
   </EntityLayout>
 );

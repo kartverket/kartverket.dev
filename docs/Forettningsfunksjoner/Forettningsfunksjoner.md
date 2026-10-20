@@ -34,4 +34,4 @@ Når endringen er merget inn i funksjonsregisteret, vil funksjonen bli synlig i 
 Der kan du senere legge til relevante skjemaer som f.eks. tjenestenivåskjema.
 
 ## Skjemaer
-Funksjoner har tilhørende skjemaer om f.eks. tjenestenivå. For å lese mer om skjemaer kan du søke opp regelrettskjemaer på confluence 
+Funksjoner har tilhørende skjemaer om f.eks. tjenestenivå. For å lese mer om skjemaer kan du søke opp regelrettskjemaer på confluence

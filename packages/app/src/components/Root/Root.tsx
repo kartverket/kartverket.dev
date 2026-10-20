@@ -22,7 +22,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import GroupIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import SpeedIcon from '@mui/icons-material/Speed';
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
 import { PropsWithChildren } from 'react';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -92,12 +91,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             to="catalog-creator"
             text={t('sidebar.editOrCreateTitle')}
           />
-          <SidebarItem
-            icon={LibraryBooks}
-            to="docs"
-            text={t('sidebar.docsTitle')}
-          />
-
           {/* End global nav */}
           <SidebarDivider />
           <SidebarScrollWrapper>

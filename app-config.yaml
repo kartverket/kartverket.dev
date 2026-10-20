@@ -131,9 +131,6 @@ catalog:
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
 
-techdocs:
-  builder: local
-
 grafana:
   # Publicly accessible domain
   domain: https://monitoring.kartverket.cloud
