@@ -1,0 +1,71 @@
+{
+  "title": "Kartverket Teknologiradar",
+  "quadrants": [
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure"
+    },
+    {
+      "id": "frameworks",
+      "name": "Frameworks"
+    },
+    {
+      "id": "languages",
+      "name": "Languages"
+    },
+    {
+      "id": "process",
+      "name": "Process"
+    }
+  ],
+  "rings": [
+    {
+      "id": "adopt",
+      "name": "ADOPT",
+      "color": "#93c47d",
+      "description": "TODO"
+    },
+    {
+      "id": "trial",
+      "name": "TRIAL",
+      "color": "#93d2c2",
+      "description": "TODO"
+    },
+    {
+      "id": "assess",
+      "name": "ASSESS",
+      "color": "#fbdb84",
+      "description": "TODO"
+    },
+    {
+      "id": "hold",
+      "name": "HOLD",
+      "color": "#efafa9",
+      "description": "TODO"
+    }
+  ],
+  "entries": [
+    {
+      "id": "typescript",
+      "title": "Typescript",
+      "description": "Long description for Typescript",
+      "key": "typescript",
+      "url": "#",
+      "quadrant": "languages",
+      "timeline": [
+        {
+          "moved": 1,
+          "ringId": "adopt",
+          "date": "2022-02-08",
+          "description": "Long description for adopt"
+        },
+        {
+          "moved": 0,
+          "ringId": "trial",
+          "date": "2022-02-06",
+          "description": "Long description for trial"
+        }
+      ]
+    }
+  ]
+}
