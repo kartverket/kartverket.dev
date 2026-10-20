@@ -141,11 +141,15 @@ function GroupSecurityFormsCardWrapper() {
       item => item.metadata.title ?? item.metadata.name,
     ) ?? [];
 
-  const teamForms = (data ?? []).filter(
+  const contextsWithProvisionedFormTypes = (data ?? []).filter(context =>
+    (formTypes ?? []).some(formType => formType.id === context.formId),
+  );
+
+  const teamForms = contextsWithProvisionedFormTypes.filter(
     item => !functionNames.includes(item.name),
   );
 
-  const functionForms = (data ?? []).filter(item =>
+  const functionForms = contextsWithProvisionedFormTypes.filter(item =>
     functionNames.includes(item.name),
   );
 
