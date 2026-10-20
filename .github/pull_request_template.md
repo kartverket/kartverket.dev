@@ -1,4 +1,4 @@
-## 🔒 Bakgrunn
+## Bakgrunn 🔒
 
 Lenke til Jira-kort
 
@@ -10,7 +10,7 @@ Lenke til Jira-kort
 
 - [ ] Jeg har testet mine endringer
 
-## 📸 Bilder
+## Bilder 📸
 
 | Før   | Etter |
 | ----- | ----- |
