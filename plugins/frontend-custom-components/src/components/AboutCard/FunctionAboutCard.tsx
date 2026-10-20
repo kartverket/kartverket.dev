@@ -55,9 +55,6 @@ const createFromTemplateRouteRef = createExternalRouteRef({
   defaultTarget: 'scaffolder.selectedTemplate',
 });
 
-// TODO: This hook is duplicated from the TechDocs plugin for backwards compatibility
-// Remove it when the the legacy frontend system support is dropped.
-
 // TODO: This hook is duplicated from the Scaffolder plugin for backwards compatibility
 // Remove it when the the legacy frontend system support is dropped.
 

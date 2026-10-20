@@ -32,7 +32,6 @@ export const catalogTranslationRef = createTranslationRef({
       createSimilarButtonTitle: 'Create something similar',
       refreshScheduledMessage: 'Refresh scheduled',
       launchTemplate: 'Launch Template',
-      viewTechdocs: 'View TechDocs',
       viewSource: 'View Source',
       descriptionField: {
         label: 'Description',

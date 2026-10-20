@@ -30,14 +30,6 @@ import { orgPlugin } from '@backstage/plugin-org';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { SearchPage } from '@backstage/plugin-search';
-import {
-  DefaultTechDocsHome,
-  TechDocsIndexPage,
-  techdocsPlugin,
-  TechDocsReaderPage,
-} from '@backstage/plugin-techdocs';
-import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
@@ -124,7 +116,6 @@ const app = createApp({
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: catalogCreatorPlugin.routes.root,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
       createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
     });
     bind(apiDocsPlugin.externalRoutes, {
@@ -133,7 +124,6 @@ const app = createApp({
     bind(scaffolderPlugin.externalRoutes, {
       // registerComponent: catalogImportPlugin.routes.importPage,
       registerComponent: catalogCreatorPlugin.routes.root,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
     });
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
@@ -154,17 +144,6 @@ const routes = (
       element={<CatalogEntityPage />}
     >
       {entityPage}
-    </Route>
-    <Route path="/docs" element={<TechDocsIndexPage />}>
-      <DefaultTechDocsHome />
-    </Route>
-    <Route
-      path="/docs/:namespace/:kind/:name/*"
-      element={<TechDocsReaderPage />}
-    >
-      <TechDocsAddons>
-        <ReportIssue />
-      </TechDocsAddons>
     </Route>
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
@@ -196,12 +175,7 @@ const routes = (
     <Route path="/opencost" element={<OpencostPage />} />
     <Route
       path="/catalog-creator"
-      element={
-        <CatalogCreatorPage
-          docsLink="/docs/default/Component/kartverket.dev"
-          supportButton={<SupportButton />}
-        />
-      }
+      element={<CatalogCreatorPage supportButton={<SupportButton />} />}
     />
     <Route path="/notifications" element={<NotificationsPage />} />
   </FlatRoutes>

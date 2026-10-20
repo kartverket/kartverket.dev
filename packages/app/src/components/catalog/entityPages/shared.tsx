@@ -16,12 +16,8 @@ import {
   isGithubActionsAvailable,
   EntityGithubActionsContent,
 } from '@backstage-community/plugin-github-actions';
-import { EntityTechdocsContent } from '@backstage/plugin-techdocs';
 import { EmptyState } from '@backstage/core-components';
 import { EntityCatalogGraphCard } from '@backstage/plugin-catalog-graph';
-import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
-import { Mermaid } from 'backstage-plugin-techdocs-addon-mermaid';
-import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import {
   EntityGrafanaAlertsCard,
   EntityGrafanaDashboardsCard,
@@ -32,17 +28,6 @@ import {
 } from '@backstage-community/plugin-grafana';
 import { SecurityChampionCard } from '@kartverket/backstage-plugin-security-champion';
 import { EntityFunctionsCard } from '@internal/plugin-frontend-custom-components';
-
-export const techdocsContent = (
-  <EntityTechdocsContent>
-    <TechDocsAddons>
-      <ReportIssue />
-      <Mermaid
-        config={{ theme: 'forest', themeVariables: { lineColor: '#000000' } }}
-      />
-    </TechDocsAddons>
-  </EntityTechdocsContent>
-);
 
 export const grafanaContent = (
   <>
