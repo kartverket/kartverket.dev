@@ -1,7 +1,7 @@
 import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FeatureFlagged, FlatRoutes } from '@backstage/core-app-api';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -9,7 +9,6 @@ import {
 } from '@backstage/core-components';
 import {
   configApiRef,
-  featureFlagsApiRef,
   microsoftAuthApiRef,
   useApi,
 } from '@backstage/core-plugin-api';
@@ -42,7 +41,7 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { HomePage } from './components/home/HomePage';
@@ -73,16 +72,6 @@ import { FunctionsPage } from './components/functions/FunctionsPage';
 import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 
 const TECH_RADAR_FEATURE_FLAG = 'tech-radar';
-
-const TechRadarRoute = () => {
-  const featureFlagsApi = useApi(featureFlagsApiRef);
-
-  return featureFlagsApi.isActive(TECH_RADAR_FEATURE_FLAG) ? (
-    <TechRadarPage />
-  ) : (
-    <Navigate to="/" replace />
-  );
-};
 
 const app = createApp({
   __experimentalTranslations: {
@@ -169,7 +158,14 @@ const routes = (
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route path="/functions" element={<FunctionsPage />} />
-    <Route path="/tech-radar" element={<TechRadarRoute />} />
+    <Route
+      path="/tech-radar"
+      element={
+        <FeatureFlagged with={TECH_RADAR_FEATURE_FLAG}>
+          <TechRadarPage />
+        </FeatureFlagged>
+      }
+    />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
