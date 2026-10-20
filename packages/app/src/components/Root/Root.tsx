@@ -11,25 +11,29 @@ import {
   useSidebarOpenState,
   WarningIcon,
 } from '@backstage/core-components';
+import { featureFlagsApiRef, useApi } from '@backstage/core-plugin-api';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import { UserSettingsSignInAvatar } from '@backstage/plugin-user-settings';
-import Box from '@mui/material/Box';
-import EditIcon from '@mui/icons-material/Edit';
-import AppsIcon from '@mui/icons-material/Apps';
 import TreeIcon from '@mui/icons-material/AccountTree';
+import AppsIcon from '@mui/icons-material/Apps';
+import EditIcon from '@mui/icons-material/Edit';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import GroupIcon from '@mui/icons-material/People';
+import RadarIcon from '@mui/icons-material/Radar';
 import SearchIcon from '@mui/icons-material/Search';
+import SettingsIcon from '@mui/icons-material/Settings';
 import SpeedIcon from '@mui/icons-material/Speed';
+import Box from '@mui/material/Box';
 import { PropsWithChildren } from 'react';
-import LogoFull from './LogoFull';
-import LogoIcon from './LogoIcon';
-import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
-import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { sidebarTranslationRef } from '../../utils/translations';
 import { SidebarSearchModal } from '../search/SidebarSearchModal';
-import SettingsIcon from '@mui/icons-material/Settings';
+import LogoFull from './LogoFull';
+import LogoIcon from './LogoIcon';
+
+const TECH_RADAR_FEATURE_FLAG = 'tech-radar';
 
 const SidebarLogo = () => {
   const { isOpen } = useSidebarOpenState();
@@ -59,6 +63,9 @@ const SidebarLogo = () => {
 
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { t } = useTranslationRef(sidebarTranslationRef);
+  const featureFlagsApi = useApi(featureFlagsApiRef);
+  const isTechRadarEnabled = featureFlagsApi.isActive(TECH_RADAR_FEATURE_FLAG);
+
   return (
     <SidebarPage>
       <Sidebar>
@@ -91,6 +98,13 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             to="catalog-creator"
             text={t('sidebar.editOrCreateTitle')}
           />
+          {isTechRadarEnabled && (
+            <SidebarItem
+              icon={RadarIcon}
+              to="tech-radar"
+              text={t('sidebar.techRadarTitle')}
+            />
+          )}
           {/* End global nav */}
           <SidebarDivider />
           <SidebarScrollWrapper>

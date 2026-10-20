@@ -1,7 +1,7 @@
 import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import { AppRouter, FeatureFlagged, FlatRoutes } from '@backstage/core-app-api';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -61,6 +61,9 @@ import {
   groupProfileCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
+import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
+
+const TECH_RADAR_FEATURE_FLAG = 'tech-radar';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -129,7 +132,13 @@ const app = createApp({
       catalogIndex: catalogPlugin.routes.catalogIndex,
     });
   },
-  featureFlags: [],
+  featureFlags: [
+    {
+      name: TECH_RADAR_FEATURE_FLAG,
+      pluginId: 'app',
+      description: 'Enable the technology radar',
+    },
+  ],
 });
 
 const routes = (
@@ -139,6 +148,14 @@ const routes = (
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route path="/functions" element={<FunctionsPage />} />
+    <Route
+      path="/tech-radar"
+      element={
+        <FeatureFlagged with={TECH_RADAR_FEATURE_FLAG}>
+          <TechRadarPage />
+        </FeatureFlagged>
+      }
+    />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
