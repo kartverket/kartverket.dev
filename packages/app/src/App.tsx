@@ -9,6 +9,7 @@ import {
 } from '@backstage/core-components';
 import {
   configApiRef,
+  featureFlagsApiRef,
   microsoftAuthApiRef,
   useApi,
 } from '@backstage/core-plugin-api';
@@ -41,7 +42,7 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { OpencostPage } from '@kartverket/backstage-plugin-opencost';
 import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-risk-scorecard';
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { HomePage } from './components/home/HomePage';
@@ -69,6 +70,19 @@ import {
   groupProfileCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
+import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
+
+const TECH_RADAR_FEATURE_FLAG = 'tech-radar';
+
+const TechRadarRoute = () => {
+  const featureFlagsApi = useApi(featureFlagsApiRef);
+
+  return featureFlagsApi.isActive(TECH_RADAR_FEATURE_FLAG) ? (
+    <TechRadarPage />
+  ) : (
+    <Navigate to="/" replace />
+  );
+};
 
 const app = createApp({
   __experimentalTranslations: {
@@ -139,7 +153,13 @@ const app = createApp({
       catalogIndex: catalogPlugin.routes.catalogIndex,
     });
   },
-  featureFlags: [],
+  featureFlags: [
+    {
+      name: TECH_RADAR_FEATURE_FLAG,
+      pluginId: 'app',
+      description: 'Enable the technology radar',
+    },
+  ],
 });
 
 const routes = (
@@ -149,6 +169,7 @@ const routes = (
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route path="/functions" element={<FunctionsPage />} />
+    <Route path="/tech-radar" element={<TechRadarRoute />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}

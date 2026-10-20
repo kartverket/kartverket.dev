@@ -22,15 +22,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import GroupIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import SpeedIcon from '@mui/icons-material/Speed';
+import RadarIcon from '@mui/icons-material/Radar';
 import LibraryBooks from '@mui/icons-material/LibraryBooks';
 import { PropsWithChildren } from 'react';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { featureFlagsApiRef, useApi } from '@backstage/core-plugin-api';
 import { sidebarTranslationRef } from '../../utils/translations';
 import { SidebarSearchModal } from '../search/SidebarSearchModal';
 import SettingsIcon from '@mui/icons-material/Settings';
+
+const TECH_RADAR_FEATURE_FLAG = 'tech-radar';
 
 const SidebarLogo = () => {
   const { isOpen } = useSidebarOpenState();
@@ -60,6 +64,9 @@ const SidebarLogo = () => {
 
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const { t } = useTranslationRef(sidebarTranslationRef);
+  const featureFlagsApi = useApi(featureFlagsApiRef);
+  const isTechRadarEnabled = featureFlagsApi.isActive(TECH_RADAR_FEATURE_FLAG);
+
   return (
     <SidebarPage>
       <Sidebar>
@@ -97,6 +104,13 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             to="docs"
             text={t('sidebar.docsTitle')}
           />
+          {isTechRadarEnabled && (
+            <SidebarItem
+              icon={RadarIcon}
+              to="tech-radar"
+              text={t('sidebar.techRadarTitle')}
+            />
+          )}
 
           {/* End global nav */}
           <SidebarDivider />

@@ -2,44 +2,44 @@
   "title": "Kartverket Teknologiradar",
   "quadrants": [
     {
-      "id": "infrastructure",
-      "name": "Infrastructure"
+      "id": "infrastruktur",
+      "name": "Infrastruktur"
     },
     {
-      "id": "frameworks",
-      "name": "Frameworks"
+      "id": "rammeverk",
+      "name": "Rammeverk"
     },
     {
-      "id": "languages",
-      "name": "Languages"
+      "id": "språk",
+      "name": "Språk"
     },
     {
-      "id": "process",
-      "name": "Process"
+      "id": "prosess",
+      "name": "Prosess"
     }
   ],
   "rings": [
     {
-      "id": "adopt",
-      "name": "ADOPT",
+      "id": "bruk",
+      "name": "Bruk",
       "color": "#93c47d",
       "description": "TODO"
     },
     {
-      "id": "trial",
-      "name": "TRIAL",
+      "id": "prøve",
+      "name": "Prøve",
       "color": "#93d2c2",
       "description": "TODO"
     },
     {
-      "id": "assess",
-      "name": "ASSESS",
+      "id": "vurdere",
+      "name": "Vurdere",
       "color": "#fbdb84",
       "description": "TODO"
     },
     {
-      "id": "hold",
-      "name": "HOLD",
+      "id": "avvente",
+      "name": "Avvente",
       "color": "#efafa9",
       "description": "TODO"
     }
@@ -48,22 +48,22 @@
     {
       "id": "typescript",
       "title": "Typescript",
-      "description": "Long description for Typescript",
+      "description": "Lang beskrivelse for Typescript",
       "key": "typescript",
       "url": "#",
-      "quadrant": "languages",
+      "quadrant": "språk",
       "timeline": [
         {
           "moved": 1,
-          "ringId": "adopt",
+          "ringId": "bruk",
           "date": "2022-02-08",
-          "description": "Long description for adopt"
+          "description": "Lang beskrivelse for bruk"
         },
         {
           "moved": 0,
-          "ringId": "trial",
+          "ringId": "prøve",
           "date": "2022-02-06",
-          "description": "Long description for trial"
+          "description": "Lang beskrivelse for prøve"
         }
       ]
     }

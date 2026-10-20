@@ -134,6 +134,9 @@ catalog:
 techdocs:
   builder: local
 
+techRadar:
+  url: https://github.com/kartverket/kartverket.dev/blob/main/radar/techRadarResponse.json
+
 grafana:
   # Publicly accessible domain
   domain: https://monitoring.kartverket.cloud
