@@ -167,7 +167,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Run Pharos'
-        uses: kartverket/pharos@v0.7.0 #v0.7.0
+        uses: kartverket/pharos@v0.7.1 #v0.7.0
         with:
           image_url: ${{ steps.build-and-push.outputs.digest }}
           trivy_vex: 'true'
