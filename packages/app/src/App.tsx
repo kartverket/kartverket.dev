@@ -2,7 +2,6 @@ import { ExplorePage } from '@backstage-community/plugin-explore';
 import { LighthousePage } from '@backstage-community/plugin-lighthouse';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
-import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -70,6 +69,7 @@ import {
   groupProfileCardNorwegianTranslation,
 } from '@internal/plugin-frontend-custom-components';
 import { FunctionsPage } from './components/functions/FunctionsPage';
+import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 
 const app = createApp({
   __experimentalTranslations: {
