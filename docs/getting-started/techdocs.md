@@ -95,4 +95,3 @@ If it doesn't start, debug with --verbose.
 For inspiration you can look at how Backstage does it on their [demo site](https://demo.backstage.io/docs/default/component/backstage) and [github](https://github.com/backstage/backstage/blob/master/mkdocs.yml)
 
 After pushing to main, your documentation will be available at https://kartverket.dev/docs.
-

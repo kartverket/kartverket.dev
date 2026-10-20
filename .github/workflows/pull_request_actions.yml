@@ -23,5 +23,3 @@ jobs:
         with:
           comment-summary-in-pr: always
           fail-on-severity: moderate
-          allow-dependencies-licenses: |
-            pkg:github/kartverket/backstage-techdocs-action

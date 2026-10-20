@@ -131,9 +131,6 @@ catalog:
           # supports ISO duration, "human duration" as used in code
           timeout: { minutes: 3 }
 
-techdocs:
-  builder: local
-
 techRadar:
   url: https://github.com/kartverket/kartverket.dev/blob/main/radar/sampleTechRadarResponse.json
 

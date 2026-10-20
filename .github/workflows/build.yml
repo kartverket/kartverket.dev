@@ -10,10 +10,8 @@ on:
       - README.md
       - CONTRIBUTING.md
       - CODEOWNERS
-      - 'docs/**'
       - 'terraform/**'
       - '.gitignore'
-      - 'mkdocs.yml'
       - catalog-info.yaml
   pull_request:
     branches: ['main']
@@ -21,10 +19,8 @@ on:
       - README.md
       - CONTRIBUTING.md
       - CODEOWNERS
-      - 'docs/**'
       - 'terraform/**'
       - '.gitignore'
-      - 'mkdocs.yml'
       - catalog-info.yaml
 
 env:

@@ -116,5 +116,3 @@ This example is inspired by the Developer Portal, Kartverket.dev. The Developer 
 Security Champion is a system that Kartverket.dev depends on. Security Champion consists of a backend component that provides an API consumed by a frontend Backstage plugin.
 
 ![modelleringseksempel1](../assets/modelleringseksempel1.png)
-
-

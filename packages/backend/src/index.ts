@@ -45,11 +45,7 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 // Search
 backend.add(import('@backstage/plugin-search-backend'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog'));
-backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 backend.add(import('@backstage/plugin-search-backend-module-pg'));
-
-// TechDocs
-backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // Tech Radar
 backend.add(import('@backstage-community/plugin-tech-radar-backend'));

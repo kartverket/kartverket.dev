@@ -10,11 +10,7 @@ import { EntityLighthouseContent } from '@backstage-community/plugin-lighthouse'
 import { RiScPage } from '@kartverket/backstage-plugin-risk-scorecard';
 import { SecurityMetricsPage } from '@kartverket/backstage-plugin-security-metrics-frontend';
 import { CatalogCreatorContainer } from '../CatalogCreatorContainer';
-import {
-  techdocsContent,
-  cicdContent,
-  defaultComponentContent,
-} from './shared';
+import { cicdContent, defaultComponentContent } from './shared';
 import {
   EntityConsumedApisCard,
   EntityProvidedApisCard,
@@ -54,10 +50,6 @@ const serviceEntityPage = (
       </Grid>
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
-    </EntityLayout.Route>
-
     <EntityLayout.Route path="/risc" title="Operasjonell RoS">
       <RiScPage />
     </EntityLayout.Route>
@@ -90,10 +82,6 @@ const websiteEntityPage = (
           <EntityDependsOnResourcesCard />
         </Grid>
       </Grid>
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/lighthouse" title="Lighthouse">
@@ -153,10 +141,6 @@ const simpleComponentPage = (
     </EntityLayout.Route>
     <EntityLayout.Route path="/edit" title="Edit">
       <CatalogCreatorContainer />
-    </EntityLayout.Route>
-
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
     </EntityLayout.Route>
   </EntityLayout>
 );

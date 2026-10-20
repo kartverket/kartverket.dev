@@ -1,10 +1,16 @@
-## 🔒 Bakgrunn
+## Bakgrunn 🔒
 
+Lenke til Jira-kort
 
-## 🔑 Løsning
+## Løsning 🔑
 
+- [ ] 🤖 KI har bidratt til utvikling av denne endringen
 
-## 📸 Bilder
+## Testing 🧪
+
+- [ ] Jeg har testet mine endringer
+
+## Bilder 📸
 
 | Før   | Etter |
 | ----- | ----- |

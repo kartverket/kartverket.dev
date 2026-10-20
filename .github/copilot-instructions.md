@@ -40,9 +40,6 @@
   - Microsoft, Google, and GitHub OAuth supported (see `app-config.local.yaml`)
 - **CI/CD**
   - GitHub Actions workflows in `.github/workflows/`
-- **Documentation**
-  - TechDocs/MkDocs for service documentation (`mkdocs.yml`, `docs/`)
-
 ## Key Conventions
 
 - **Plugin Development**
