@@ -1,69 +1,647 @@
 {
-  "title": "Kartverket Teknologiradar",
+  "title": "Eiendom Teknologiradar",
   "quadrants": [
     {
-      "id": "infrastruktur",
-      "name": "Infrastruktur"
+      "id": "sprak-og-rammeverk",
+      "name": "Språk og rammeverk"
     },
     {
-      "id": "rammeverk",
-      "name": "Rammeverk"
+      "id": "plattform",
+      "name": "Plattform"
     },
     {
-      "id": "språk",
-      "name": "Språk"
+      "id": "teknikker",
+      "name": "Teknikker"
     },
     {
-      "id": "prosess",
-      "name": "Prosess"
+      "id": "verktoy",
+      "name": "Verktøy"
     }
   ],
   "rings": [
     {
-      "id": "bruk",
-      "name": "Bruk",
+      "id": "ta-i-bruk",
+      "name": "Ta i bruk",
       "color": "#93c47d",
-      "description": "TODO"
+      "description": "Tas i bruk på nye produkter."
     },
     {
-      "id": "prøve",
-      "name": "Prøve",
+      "id": "onsker-a-teste",
+      "name": "Ønsker å teste",
       "color": "#93d2c2",
-      "description": "TODO"
+      "description": "Vi ønsker å teste ut dette."
     },
     {
-      "id": "vurdere",
-      "name": "Vurdere",
+      "id": "slutt-a-bruke",
+      "name": "Slutt å bruke",
       "color": "#fbdb84",
-      "description": "TODO"
+      "description": "Slutt å bruke dette ved nyutvikling."
     },
     {
-      "id": "avvente",
-      "name": "Avvente",
+      "id": "jobber-bort-fra",
+      "name": "Jobber bort fra",
       "color": "#efafa9",
-      "description": "TODO"
+      "description": "Vi jobber oss aktivt bort fra dette."
     }
   ],
   "entries": [
     {
-      "id": "typescript",
-      "title": "Typescript",
-      "description": "Lang beskrivelse for Typescript",
-      "key": "typescript",
+      "id": "kotlin",
+      "title": "Kotlin",
+      "key": "kotlin",
       "url": "#",
-      "quadrant": "språk",
+      "quadrant": "sprak-og-rammeverk",
       "timeline": [
         {
-          "moved": 1,
-          "ringId": "bruk",
-          "date": "2022-02-08",
-          "description": "Lang beskrivelse for bruk"
-        },
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "Kan brukes sammen med eksisterende Java-kode. Gir færre feil og kode som er enklere å lese og vedlikeholde."
+        }
+      ]
+    },
+    {
+      "id": "ktor",
+      "title": "Ktor",
+      "key": "ktor",
+      "url": "#",
+      "quadrant": "sprak-og-rammeverk",
+      "timeline": [
         {
           "moved": 0,
-          "ringId": "prøve",
-          "date": "2022-02-06",
-          "description": "Lang beskrivelse for prøve"
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "Rammeverk for API-er i Kotlin. Passer godt med container i SKIP og kan erstatte applikasjonsserver som TomEE."
+        }
+      ]
+    },
+    {
+      "id": "kartverkets-designsystem",
+      "title": "Kartverkets designsystem (React-komponentbibliotek)",
+      "key": "kartverkets-designsystem",
+      "url": "#",
+      "quadrant": "sprak-og-rammeverk",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Ferdige komponenter for brukerflater, med dokumentasjon i Storybook og tilhørende Figma-bibliotek. Gir felles uttrykk og universell utforming som standard. Se P8."
+        }
+      ]
+    },
+    {
+      "id": "react-med-typescript-og-vite",
+      "title": "React med TypeScript og Vite",
+      "key": "react-med-typescript-og-vite",
+      "url": "#",
+      "quadrant": "sprak-og-rammeverk",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Standardstack for frontend."
+        }
+      ]
+    },
+    {
+      "id": "vite-plus-og-pnpm",
+      "title": "Vite+ og pnpm",
+      "key": "vite-plus-og-pnpm",
+      "url": "#",
+      "quadrant": "sprak-og-rammeverk",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "onsker-a-teste",
+          "date": "2026-10-21",
+          "description": "[ny] Kandidater for raskere bygg og pakkehåndtering i frontend."
+        }
+      ]
+    },
+    {
+      "id": "java",
+      "title": "Java",
+      "key": "java",
+      "url": "#",
+      "quadrant": "sprak-og-rammeverk",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "Kotlin gir samme økosystem, men gir et mer moderne språk. Eksisterende Java-kode vedlikeholdes, men nye produkter skrives i Kotlin."
+        }
+      ]
+    },
+    {
+      "id": "python",
+      "title": "Python",
+      "key": "python",
+      "url": "#",
+      "quadrant": "sprak-og-rammeverk",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "[ny] Uavklart hvilken type utvikling dette gjelder for."
+        }
+      ]
+    },
+    {
+      "id": "skip",
+      "title": "SKIP",
+      "key": "skip",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "KV felles plattform. Sikrer felles skalering, drift og sikkerhet."
+        }
+      ]
+    },
+    {
+      "id": "postgis",
+      "title": "PostGIS",
+      "key": "postgis",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "Erstatter Oracle, sterk støtte for geodata."
+        }
+      ]
+    },
+    {
+      "id": "entra-id",
+      "title": "Entra ID",
+      "key": "entra-id",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Standard for autentisering av interne brukere og for maskin-til-maskin-kommunikasjon mellom interne tjenester. Konfigureres via plattformen, ikke kodes i hver app."
+        }
+      ]
+    },
+    {
+      "id": "maskinporten",
+      "title": "Maskinporten",
+      "key": "maskinporten",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Nasjonal fellestjeneste for API-er som brukes av eksterne konsumenter, som virksomheter og andre etater. Brukes i tråd med kravene i digitaliseringsrundskrivet (P3)."
+        }
+      ]
+    },
+    {
+      "id": "posthog",
+      "title": "PostHog",
+      "key": "posthog",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Brukes allerede til feature toggles og brukeranalyse. Retningslinjer finnes (P6)."
+        }
+      ]
+    },
+    {
+      "id": "felles-standard-for-docker-image",
+      "title": "Felles standard for docker image",
+      "key": "felles-standard-for-docker-image",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Uavklart om vi skal bruke DHI eller egne minimale KV-images."
+        }
+      ]
+    },
+    {
+      "id": "kafka",
+      "title": "Kafka",
+      "key": "kafka",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "onsker-a-teste",
+          "date": "2026-10-21",
+          "description": "Kandidat som plattform for hendelsesstrømmer."
+        }
+      ]
+    },
+    {
+      "id": "oracle",
+      "title": "Oracle",
+      "key": "oracle",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "Gå over til PostGIS."
+        }
+      ]
+    },
+    {
+      "id": "tomee",
+      "title": "TomEE",
+      "key": "tomee",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "Passer dårlig med container og SKIP. Nye tjenester lages som selvstendige apper."
+        }
+      ]
+    },
+    {
+      "id": "ztoperator",
+      "title": "Ztoperator",
+      "key": "ztoperator",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "Uavklart status."
+        }
+      ]
+    },
+    {
+      "id": "kjore-on-prem",
+      "title": "Kjøre on-prem",
+      "key": "kjore-on-prem",
+      "url": "#",
+      "quadrant": "plattform",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "jobber-bort-fra",
+          "date": "2026-10-21",
+          "description": "Flytter til SKIP."
+        }
+      ]
+    },
+    {
+      "id": "json-baserte-apier",
+      "title": "JSON-baserte APIer",
+      "key": "json-baserte-apier",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "Standard for integrasjoner, enkelt å konsumere for interne og eksterne, god verktøystøtte."
+        }
+      ]
+    },
+    {
+      "id": "domain-driven-design",
+      "title": "Domain Driven Design",
+      "key": "domain-driven-design",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "Vi deler opp løsninger etter fagdomener, med felles språk mellom fag og utvikling og tydelige grenser for ansvar og data. Se P5."
+        }
+      ]
+    },
+    {
+      "id": "expand-contract",
+      "title": "Expand/contract",
+      "key": "expand-contract",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Sikrer at det ikke er nedetid, gjøres med Flyway. Endringer i databaser og API-er gjøres i steg, slik at gammel og ny versjon fungerer samtidig. Gir utrulling uten nedetid."
+        }
+      ]
+    },
+    {
+      "id": "zero-trust",
+      "title": "Zero-trust",
+      "key": "zero-trust",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Alle kall autentiseres og autoriseres, også mellom interne tjenester (Entra ID for maskin-til-maskin), og tjenester får bare tilgang til det de trenger."
+        }
+      ]
+    },
+    {
+      "id": "trunk-based-utvikling",
+      "title": "Trunk-based utvikling",
+      "key": "trunk-based-utvikling",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Små endringer som integreres ofte. Gir raskere tilbakemelding og færre konflikter ved sammenslåing."
+        }
+      ]
+    },
+    {
+      "id": "feature-toggles",
+      "title": "Feature toggles",
+      "key": "feature-toggles",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Skiller utrulling av kode fra lansering av funksjonalitet, slik at kode kan rulles ut trygt og ofte (P9)."
+        }
+      ]
+    },
+    {
+      "id": "kontinuerlig-utrulling",
+      "title": "Kontinuerlig utrulling",
+      "key": "kontinuerlig-utrulling",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Automatisk utrulling helt til prod uten manuelle steg. Feil rettes raskt i stedet for gjennom lange testløp."
+        }
+      ]
+    },
+    {
+      "id": "open-api-spec-pa-alle-apier",
+      "title": "Open API-spec på alle API-er",
+      "key": "open-api-spec-pa-alle-apier",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Felles, maskinlesbar dokumentasjon av API-er. Gjør dem enklere å bruke og mulig å teste for endringer."
+        }
+      ]
+    },
+    {
+      "id": "korrelasjons-id",
+      "title": "Korrelasjons-ID",
+      "key": "korrelasjons-id",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Gjør det mulig å følge et kall på tvers av tjenester ved feilsøking (P6)."
+        }
+      ]
+    },
+    {
+      "id": "hendelsesorientert-arkitektur",
+      "title": "Hendelsesorientert arkitektur og databasesynkronisering",
+      "key": "hendelsesorientert-arkitektur",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "onsker-a-teste",
+          "date": "2026-10-21",
+          "description": "Tjeneste sier ifra om endring istedenfor å bli spurt, gir løsere koblinger og mer oppdatert data."
+        }
+      ]
+    },
+    {
+      "id": "adr-er",
+      "title": "ADR-er",
+      "key": "adr-er",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "onsker-a-teste",
+          "date": "2026-10-21",
+          "description": "[ny] Korte, faste notater om viktige arkitekturbeslutninger, slik at det er lett å forstå senere hvorfor noe ble valgt."
+        }
+      ]
+    },
+    {
+      "id": "dora-metrikker",
+      "title": "DORA-metrikker",
+      "key": "dora-metrikker",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "onsker-a-teste",
+          "date": "2026-10-21",
+          "description": "[ny] Måler hvor raskt og trygt vi leverer (utrullingsfrekvens, ledetid, feilrate, tid til gjenoppretting)."
+        }
+      ]
+    },
+    {
+      "id": "soap",
+      "title": "SOAP",
+      "key": "soap",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "Nye API-er lages som JSON. Eksisterende SOAP-tjenester lever så lenge brukere er avhengige av dem."
+        }
+      ]
+    },
+    {
+      "id": "basic-auth",
+      "title": "Basic auth",
+      "key": "basic-auth",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "[ny]"
+        }
+      ]
+    },
+    {
+      "id": "env-filer-med-hemmeligheter",
+      "title": ".env-filer med hemmeligheter",
+      "key": "env-filer-med-hemmeligheter",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "[ny]"
+        }
+      ]
+    },
+    {
+      "id": "feature-brancher-som-lever-lenge",
+      "title": "Feature-brancher som lever lenge",
+      "key": "feature-brancher-som-lever-lenge",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "[ny]"
+        }
+      ]
+    },
+    {
+      "id": "e2e-tester-som-hovedstrategi",
+      "title": "E2E-tester som hovedstrategi",
+      "key": "e2e-tester-som-hovedstrategi",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "slutt-a-bruke",
+          "date": "2026-10-21",
+          "description": "[ny]"
+        }
+      ]
+    },
+    {
+      "id": "tilgang-til-produksjonsdatabaser-fra-egen-maskin",
+      "title": "Tilgang til produksjonsdatabaser fra egen maskin",
+      "key": "tilgang-til-produksjonsdatabaser-fra-egen-maskin",
+      "url": "#",
+      "quadrant": "teknikker",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "jobber-bort-fra",
+          "date": "2026-10-21",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "copilot",
+      "title": "Copilot",
+      "key": "copilot",
+      "url": "#",
+      "quadrant": "verktoy",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "gradle",
+      "title": "Gradle",
+      "key": "gradle",
+      "url": "#",
+      "quadrant": "verktoy",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "God støtte for Kotlin, felles byggeverktøy gjør det enklere å bytte mellom kodebaser og dele oppsett."
+        }
+      ]
+    },
+    {
+      "id": "flyway",
+      "title": "Flyway",
+      "key": "flyway",
+      "url": "#",
+      "quadrant": "verktoy",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "ta-i-bruk",
+          "date": "2026-10-21",
+          "description": "[ny] Versjonerer endringer i databaseskjemaer og kjører dem automatisk som en del av utrullingen i alle miljøer. Det gir like databaser i alle miljøer og gjør endringer sporbare."
+        }
+      ]
+    },
+    {
+      "id": "agentisk-ai",
+      "title": "Agentisk AI",
+      "key": "agentisk-ai",
+      "url": "#",
+      "quadrant": "verktoy",
+      "timeline": [
+        {
+          "moved": 0,
+          "ringId": "onsker-a-teste",
+          "date": "2026-10-21",
+          "description": ""
         }
       ]
     }

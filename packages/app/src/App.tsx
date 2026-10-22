@@ -152,7 +152,7 @@ const routes = (
       path="/tech-radar"
       element={
         <FeatureFlagged with={TECH_RADAR_FEATURE_FLAG}>
-          <TechRadarPage pageTitle="Kartverket Teknologiradar" />
+          <TechRadarPage pageTitle="Eiendom Teknologiradar" />
         </FeatureFlagged>
       }
     />
