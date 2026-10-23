@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatDate } from 'date-fns';
 import type {
   AggregatedAffectedComponent,
   AggregatedVulnerability,
@@ -127,6 +128,12 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
         </TableCell>
 
         <TableCell>
+          {vulnerability.dateFirstSeen
+            ? formatDate(vulnerability.dateFirstSeen, 'dd.MM.yyyy')
+            : '–'}
+        </TableCell>
+
+        <TableCell>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Box
               sx={{
@@ -178,7 +185,7 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
       {canExpand && (
         <TableRow>
           <TableCell
-            colSpan={4}
+            colSpan={5}
             sx={{
               p: 0,
               borderBottom: expanded
@@ -206,6 +213,11 @@ export const UniqueVulnerabilitiesTableRow = ({ vulnerability }: Props) => {
                             hasSysdig={hasSysdig}
                           />
                         )}
+                      </TableCell>
+                      <TableCell sx={{ borderBottom: 'none', width: 130 }}>
+                        {component.dateFirstSeen
+                          ? formatDate(component.dateFirstSeen, 'dd.MM.yyyy')
+                          : '–'}
                       </TableCell>
                       <TableCell sx={{ borderBottom: 'none' }}>
                         <Box
