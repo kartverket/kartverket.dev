@@ -43,6 +43,7 @@ import { useFormTypesQuery } from '../../hooks/useFormTypesQuery';
 import { buildFormUrl } from '../../utils/formUrl';
 import Typography from '@mui/material/Typography';
 import { isUnauthorizedError } from '../../errors';
+import { filterContextsWithProvisionedFormTypes } from '../../utils/filterContextsWithProvisionedFormTypes';
 
 const useStyles = makeStyles()(theme => ({
   formList: {
@@ -175,6 +176,9 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
     (formTypes ?? []).map(f => [f.id, f.name]),
   );
 
+  const contextsWithProvisionedFormTypes =
+    filterContextsWithProvisionedFormTypes(data ?? [], formTypes ?? []);
+
   const [selectedFormId, setSelectedFormId] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -204,10 +208,20 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
   );
 
   const showData = () => {
-    if (data && data.length !== 0 && !error) {
+    if (error || formTypesError) {
+      const isUnauthorized = error ? isUnauthorizedError(error) : false;
+      return (
+        <Alert severity={isUnauthorized ? 'info' : 'error'}>
+          {isUnauthorized
+            ? t('functionLinkCard.fetchUnauthorized')
+            : t('functionLinkCard.fetchError')}
+        </Alert>
+      );
+    }
+    if (contextsWithProvisionedFormTypes.length > 0) {
       return (
         <div className={classes.formList}>
-          {data.map(
+          {contextsWithProvisionedFormTypes.map(
             ({ id, formId, answeredCount, expiredCount, totalCount }) => (
               <div key={id} className={classes.formRow}>
                 <DescriptionOutlinedIcon className={classes.formIcon} />
@@ -240,15 +254,6 @@ function FunctionSecurityFormsCardItem(props: EntityLinksCardProps) {
             ),
           )}
         </div>
-      );
-    } else if (error || formTypesError) {
-      const isUnauthorized = error ? isUnauthorizedError(error) : false;
-      return (
-        <Alert severity={isUnauthorized ? 'info' : 'error'}>
-          {isUnauthorized
-            ? t('functionLinkCard.fetchUnauthorized')
-            : t('functionLinkCard.fetchError')}
-        </Alert>
       );
     }
     return <p>{t('functionLinkCard.noFormsYet')}</p>;
