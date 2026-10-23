@@ -11,16 +11,13 @@
 # Once the commands have been run, you can build the image using `yarn build-image`
 
 # --- Builder: install prod deps and unpack the bundle
-FROM dhi.io/node:24-debian13-dev@sha256:2e51e8397b85c3771c554834fb55d7fd5825e7d57a993e00153db42c584b7e58 AS build
+FROM dhi.io/node:24-alpine3.24-dev@sha256:2d8f1aad285e6e12830cdf672179af18b900ed22246502fb413893f7beab980d AS build
 
 RUN corepack enable
 
 # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
 # If sqlite3 is not needed anymore, remove libsqlite3-dev and better-sqlite3.
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && \
-    apt-get install -y --no-install-recommends python3 build-essential gzip libsqlite3-dev
+RUN apk add --no-cache python3 make g++ gzip sqlite-dev
 
 RUN mkdir -p /home/node/.cache
 
@@ -54,7 +51,7 @@ COPY packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # --- Runtime
-FROM dhi.io/node:24-debian13@sha256:f3575cf1e68ffe163703b691c465af833fd2d94cccc1e825d052c943018f2aa3
+FROM dhi.io/node:24-alpine3.24@sha256:afdcfd74e29d97493079a3de30282a1c829ad6959390d574201b399796c26607
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
