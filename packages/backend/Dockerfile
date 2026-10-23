@@ -11,7 +11,7 @@
 # Once the commands have been run, you can build the image using `yarn build-image`
 
 # --- Builder: install prod deps and unpack the bundle
-FROM dhi.io/node:26-alpine3.24-dev@sha256:393f63498dc3739e4a1cc9e618261927d74663ab023b96b38d29c57199702dc6 AS build
+FROM dhi.io/node:24-alpine3.24-dev@sha256:2d8f1aad285e6e12830cdf672179af18b900ed22246502fb413893f7beab980d AS build
 
 RUN corepack enable
 
@@ -51,7 +51,7 @@ COPY packages/backend/dist/bundle.tar.gz app-config*.yaml ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 
 # --- Runtime
-FROM dhi.io/node:26-alpine3.24@sha256:7414bc798500cef3c2300e34a5582a775fc46d29569527dd62a216c15b12c60f
+FROM dhi.io/node:24-alpine3.24@sha256:afdcfd74e29d97493079a3de30282a1c829ad6959390d574201b399796c26607
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--no-node-snapshot"
