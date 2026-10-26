@@ -85,6 +85,7 @@ const functionPageMessages = {
     noRootDescription:
       'The root function or its children could not be found. Please check that function entities are registered in the catalog.',
     expiredSecurityForm: 'Expired security form',
+    formsStatusError: 'Could not check security forms for expired answers.',
     noSubFunctionsTitle: 'No sub-functions',
     noSubFunctionsDescription:
       'This function does not have any sub-functions registered yet.',
@@ -116,6 +117,8 @@ export const functionPageNorwegianTranslation = createTranslationResource({
           'functionpage.noRootDescription':
             'Rotfunksjonen eller dens barn ble ikke funnet. Sjekk at funksjonsentiteter er registrert i katalogen.',
           'functionpage.expiredSecurityForm': 'Utgått sikkerhetsskjema',
+          'functionpage.formsStatusError':
+            'Kunne ikke sjekke sikkerhetsskjemaer for utgåtte svar.',
           'functionpage.noSubFunctionsTitle': 'Ingen delfunksjoner',
           'functionpage.noSubFunctionsDescription':
             'Denne funksjonen har ingen delfunksjoner registrert ennå.',

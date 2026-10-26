@@ -6,7 +6,9 @@ import {
   microsoftAuthApiRef,
   useApi,
 } from '@backstage/frontend-plugin-api';
-import { RegelrettForm } from '../types';
+import { FormType, RegelrettForm } from '../types';
+import { ApiError } from '../errors';
+import { filterContextsWithProvisionedFormTypes } from '../utils/filterContextsWithProvisionedFormTypes';
 
 /**
  * Fetches regelrett forms for all of the user's teams in parallel using the
@@ -37,6 +39,7 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
     const ids = key.split(',');
     setIsLoading(true);
     setError(undefined);
+    setData(undefined);
 
     (async () => {
       try {
@@ -46,6 +49,24 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
           microsoftAuthApi,
         );
         const baseUrl = config.getString('backend.baseUrl');
+
+        const formTypesResponse = await fetch(
+          `${baseUrl}/api/regelrett-schemas/proxy/fetch-regelrett-form-types`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${backstageToken}`,
+              EntraId: entraIdToken,
+            },
+          },
+        );
+        if (!formTypesResponse.ok) {
+          throw new ApiError(
+            `Failed to fetch Regelrett form types: ${formTypesResponse.statusText}`,
+            formTypesResponse.status,
+          );
+        }
+        const formTypes: FormType[] = await formTypesResponse.json();
 
         const results = await Promise.all(
           ids.map(async teamId => {
@@ -66,7 +87,10 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
         );
 
         const expiredMap = new Map<string, boolean>();
-        for (const form of results.flat()) {
+        for (const form of filterContextsWithProvisionedFormTypes(
+          results.flat(),
+          formTypes,
+        )) {
           if (form.expiredCount && form.expiredCount > 0) {
             expiredMap.set(form.name, true);
           } else if (!expiredMap.has(form.name)) {
