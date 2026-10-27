@@ -61,13 +61,14 @@ export const useAllFunctionFormsQuery = (teamIds: string[]) => {
           },
         );
         if (!formTypesResponse.ok) {
+          const errorData = await formTypesResponse.json();
           throw new ApiError(
-            `Failed to fetch Regelrett form types: ${formTypesResponse.statusText}`,
+            errorData?.message ?? formTypesResponse.statusText,
             formTypesResponse.status,
           );
         }
-        const formTypes: FormType[] = await formTypesResponse.json();
 
+        const formTypes: FormType[] = await formTypesResponse.json();
         const results = await Promise.all(
           ids.map(async teamId => {
             const url = new URL(
