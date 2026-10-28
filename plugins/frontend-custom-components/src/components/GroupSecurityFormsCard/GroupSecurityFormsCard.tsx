@@ -19,6 +19,7 @@ import { functionLinkCardTranslationRef } from '../FunctionSecurityFormsCard/tra
 import { TeamFormsTabContent } from './TeamFormsTabContent';
 import { FunctionFormsTabContent } from './FunctionFormsTabContent';
 import { isUnauthorizedError } from '../../errors';
+import { filterContextsWithProvisionedFormTypes } from '../../utils/filterContextsWithProvisionedFormTypes';
 
 const useStyles = makeStyles()(theme => ({
   tabContainer: {
@@ -141,9 +142,8 @@ function GroupSecurityFormsCardWrapper() {
       item => item.metadata.title ?? item.metadata.name,
     ) ?? [];
 
-  const contextsWithProvisionedFormTypes = (data ?? []).filter(context =>
-    (formTypes ?? []).some(formType => formType.id === context.formId),
-  );
+  const contextsWithProvisionedFormTypes =
+    filterContextsWithProvisionedFormTypes(data ?? [], formTypes ?? []);
 
   const teamForms = contextsWithProvisionedFormTypes.filter(
     item => !functionNames.includes(item.name),

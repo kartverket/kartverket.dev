@@ -20,6 +20,7 @@ import { hasDescendantOwnedByAny } from './hasDescendantOwnedByAny';
 import { EntityData } from './types';
 import { useAllFunctionFormsQuery } from '@internal/plugin-frontend-custom-components';
 import { exportFunctionsToCsv } from './exportCsv';
+import Alert from '@mui/material/Alert';
 
 const findParent = (entity: FunctionEntityV1alpha1): string => {
   const childOfRelation = entity.relations?.find(
@@ -66,7 +67,8 @@ export const FunctionsPage = () => {
   const identityApi = useApi(identityApiRef);
   const { t } = useTranslationRef(functionPageTranslationRef);
 
-  const { data: expiredMap } = useAllFunctionFormsQuery(teamIds);
+  const { data: expiredMap, error: formsError } =
+    useAllFunctionFormsQuery(teamIds);
 
   useEffect(() => {
     Promise.all([
@@ -244,6 +246,9 @@ export const FunctionsPage = () => {
         onChange={index => setSelectedTab(index)}
       />
       <Content>
+        {formsError && (
+          <Alert severity="error">{t('functionpage.formsStatusError')}</Alert>
+        )}
         <Flex justify="end" style={{ marginBottom: '16px' }}>
           <ExportCsvButton functions={allFunctions} />
         </Flex>
