@@ -1835,20 +1835,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:16.13.0":
-  version: 16.13.0
-  resolution: "@azure/msal-common@npm:16.13.0"
-  checksum: 10c0/cc2857f24bae5ac9693760a9b23c5c6f19a86ae5df16d236e85616a545e6bb15a8b7a587df9c024b43a5386485a84b662574c42cffafef9746e56135f61f654c
+"@azure/msal-common@npm:16.14.2":
+  version: 16.14.2
+  resolution: "@azure/msal-common@npm:16.14.2"
+  checksum: 10c0/7861c6ef3eea5cfa67ad8d8cabc79e9d27ba4f6d5d8cdf4ae950e2739abea3d8f80fffb1440a1840a3ff1655c90da8d3bf3be2c4d3898cab1e62bd610da5d971
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:5.6.0":
-  version: 5.6.0
-  resolution: "@azure/msal-node@npm:5.6.0"
+"@azure/msal-node@npm:7.1.0":
+  version: 7.1.0
+  resolution: "@azure/msal-node@npm:7.1.0"
   dependencies:
-    "@azure/msal-common": "npm:16.13.0"
+    "@azure/msal-common": "npm:16.14.2"
     jsonwebtoken: "npm:^9.0.0"
-  checksum: 10c0/57e788bb884aa032b66ecfa339c4660b20e63ec91f25774db47b2e043ba6d5f969d66cd80c24bd4f2735388cef6acc2aba79a9b86da18aed2dbe856c88f49df2
+  checksum: 10c0/165f829f7cefebadead0b47c1be66e83d5e0e9ba0f15779ffcdc55653ab10fa533dbcc11082c8ff1ac3f9ed3ef264c19b3d8f78530e3e1d5af18e8ddb4249ee6
   languageName: node
   linkType: hard
 
@@ -7090,7 +7090,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@internal/backstage-plugin-regelrett-schemas-backend@workspace:plugins/regelrett-schemas-backend"
   dependencies:
-    "@azure/msal-node": "npm:5.6.0"
+    "@azure/msal-node": "npm:7.1.0"
     "@backstage/backend-plugin-api": "backstage:^"
     "@backstage/cli": "backstage:^"
     "@backstage/config": "backstage:^"
@@ -7998,7 +7998,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@kartverket/backstage-plugin-security-metrics-backend@workspace:plugins/security-metrics-backend"
   dependencies:
-    "@azure/msal-node": "npm:5.6.0"
+    "@azure/msal-node": "npm:7.1.0"
     "@backstage/backend-plugin-api": "backstage:^"
     "@backstage/cli": "backstage:^"
     "@backstage/config": "backstage:^"
@@ -17716,7 +17716,7 @@ __metadata:
     react-router: "npm:6.30.6"
     react-router-dom: "npm:6.30.6"
     tss-react: "npm:4.9.21"
-    zod: "npm:4.6.5"
+    zod: "npm:4.6.6"
   languageName: unknown
   linkType: soft
 
@@ -18601,8 +18601,8 @@ __metadata:
   linkType: hard
 
 "body-parser@npm:^1.15.2, body-parser@npm:~1.20.3, body-parser@npm:~1.20.5":
-  version: 1.20.6
-  resolution: "body-parser@npm:1.20.6"
+  version: 1.20.9
+  resolution: "body-parser@npm:1.20.9"
   dependencies:
     bytes: "npm:~3.1.2"
     content-type: "npm:~1.0.5"
@@ -18612,11 +18612,11 @@ __metadata:
     http-errors: "npm:~2.0.1"
     iconv-lite: "npm:~0.4.24"
     on-finished: "npm:~2.4.1"
-    qs: "npm:~6.15.1"
+    qs: "npm:~6.16.0"
     raw-body: "npm:~2.5.3"
     type-is: "npm:~1.6.18"
     unpipe: "npm:~1.0.0"
-  checksum: 10c0/ad477209f1e714c41fa892a7d2fe22e10b23262103cc25cc6492dd3e6f7869cd2d8b00928b543a1a14d3c3663432452a192efd00422fad6f3687b0e38f7e3b07
+  checksum: 10c0/685d3208335377a3dfc6d7bc8b2af6d40d38b9a72e25bab4d9f7aff19d059729d5b1b3a9f5561274f460020bb9166c211d5302abe0b45452665420ca5e16013b
   languageName: node
   linkType: hard
 
@@ -22677,9 +22677,9 @@ __metadata:
   linkType: hard
 
 "fast-uri@npm:^3.0.1":
-  version: 3.1.8
-  resolution: "fast-uri@npm:3.1.8"
-  checksum: 10c0/c9c47860a7f9110176d94bb30a02942182f0bfc8d6780e9702f320336dc2dadb83b1d9879cceaf8d4b439642d1ec6d78c317cb808ab155455551bd5d9d7c22d8
+  version: 3.1.9
+  resolution: "fast-uri@npm:3.1.9"
+  checksum: 10c0/052757540d8c0bbc16bb124a45b8f5cb5d0932f9b89f019221ee41cdb3cafc1db44b2e809d6b888b87922af3e5560a863124454e9d9193e1fc955887357b5add
   languageName: node
   linkType: hard
 
@@ -29620,13 +29620,13 @@ __metadata:
   linkType: hard
 
 "multer@npm:^2.0.2":
-  version: 2.4.0
-  resolution: "multer@npm:2.4.0"
+  version: 2.5.0
+  resolution: "multer@npm:2.5.0"
   dependencies:
     append-field: "npm:^1.0.0"
     busboy: "npm:^1.6.0"
     type-is: "npm:^1.6.18"
-  checksum: 10c0/4e271959ba4c9184f26dbd98a06eeb2ee8008e8ca2d1d30cb7856f642678648c085ed064627e9db01ae07442adfd275a7124fb409335a8f754ec41df51f1f1d0
+  checksum: 10c0/a89df3eae74ec2e9bfcbf272c8ce7e7f18597bd855ac193568103d83fbd8cb26d4539025a19df1bd52dc05aa0090745949f0ec90aecf479ca0fdc8a1d80121ee
   languageName: node
   linkType: hard
 
@@ -32266,16 +32266,6 @@ __metadata:
   dependencies:
     side-channel: "npm:^1.1.0"
   checksum: 10c0/646110124476fc9acf3c80994c8c3a0600cbad06a4ede1c9e93341006e8426d64e85e048baf8f0c4995f0f1bf0f37d1f3acc5ec1455850b81978792969a60ef6
-  languageName: node
-  linkType: hard
-
-"qs@npm:~6.15.1":
-  version: 6.15.3
-  resolution: "qs@npm:6.15.3"
-  dependencies:
-    es-define-property: "npm:^1.0.1"
-    side-channel: "npm:^1.1.1"
-  checksum: 10c0/8f3f6e45ece255347d57696628401cde29e9ec649fff698b53bd3150dea7cefdf33036e1bc1826b9f110bfa7cb0ec4ab9f5297eca628ce216c55af82c304e08e
   languageName: node
   linkType: hard
 
@@ -38726,10 +38716,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.6.5":
-  version: 4.6.5
-  resolution: "zod@npm:4.6.5"
-  checksum: 10c0/32eb6c5e98becbe045675b2141c3611451c16ba567f9779231d79af41c4d651ca1c22f154aef7e6c6e77b929f23e43f1154ca05b82e119e922353725d6776af5
+"zod@npm:4.6.6":
+  version: 4.6.6
+  resolution: "zod@npm:4.6.6"
+  checksum: 10c0/447a3113bb743c54ab839213ff95e9e8c197cc1206f65270c18aac35aa70c47a5c8cab753be911b574df9a8a9801ea74ed6be776575232cae0084e51dab3e970
   languageName: node
   linkType: hard
 
