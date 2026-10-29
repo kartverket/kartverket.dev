@@ -5,6 +5,7 @@ import {
   ComponentTypes,
   EntityErrors,
   Kinds,
+  RoleInSystemSuggestions,
 } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
@@ -161,6 +162,17 @@ export const ComponentForm = ({
           formname="componentForm"
           fieldname="system"
           entities={systems.value || []}
+        />
+      </div>
+      <div>
+        <SingleSelectAutocomplete
+          index={index}
+          control={control}
+          errors={errors}
+          formname="componentForm"
+          fieldname="roleInSystem"
+          options={RoleInSystemSuggestions}
+          selectionOnly
         />
       </div>
       <div>

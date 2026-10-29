@@ -28,6 +28,7 @@ spec:
   lifecycle: production | experimental | deprecated | ...  # REQUIRED*
   type: service | website | library | ... # REQUIRED*
   system: <system_ref>                   # Valgfritt – referanse til System
+  roleInSystem: <value>                  # Valgfritt for Component – én rolle
   domain: <domain_ref>                   # Valgfritt – referanse til Domain
   providesApis:
     - <api_ref>                          # Valgfritt – eksponerte API‑er

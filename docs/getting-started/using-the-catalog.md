@@ -16,6 +16,22 @@ After merging the pull request your service will be added to the catalog within 
 
 ![onboarding-template](../assets/onboarding-template.png)
 
+## Role in system
+
+A component can optionally describe its single role within its system using
+`spec.roleInSystem`. For example:
+
+```yaml
+spec:
+  system: system:default/example
+  roleInSystem: database
+```
+
+In the component's **Edit** tab, choose a role. Additional options can be added to
+`RoleInSystemSuggestions` in the catalog-creator plugin. The
+form proposes a pull request to update that repository's `catalog-info.yaml`;
+the catalog picks up the value after the pull request is merged.
+
 ## Customizing components
 
 Once your component is added to the catalog, you may want to add optional features to the detail view of the component. Currently we support the following features:

@@ -1,5 +1,8 @@
 import * as z from 'zod/v4';
-import { AllowedLifecycleStages } from '../types/types';
+import {
+  AllowedLifecycleStages,
+  RoleInSystemSuggestions,
+} from '../types/types';
 
 const baseEntitySchema = z.object({
   id: z.number(),
@@ -55,6 +58,16 @@ const componentSchema = baseEntitySchema.extend({
         message: 'form.errors.systemNoSpace',
       }),
   ),
+  roleInSystem: z
+    .string()
+    .trim()
+    .refine(
+      value =>
+        !value ||
+        RoleInSystemSuggestions.some(suggestion => suggestion === value),
+      { message: 'form.errors.invalidRoleInSystem' },
+    )
+    .optional(),
   domain: z.optional(
     z
       .string()
