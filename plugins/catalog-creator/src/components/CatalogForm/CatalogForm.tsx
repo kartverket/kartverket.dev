@@ -108,6 +108,7 @@ export const CatalogForm = ({
               system: entry.spec.system
                 ? toEntityRef(Kinds.System, entry.spec.system)
                 : undefined,
+              roleInSystem: entry.spec.roleInSystem,
               domain: entry.spec.domain
                 ? toEntityRef(Kinds.Domain, entry.spec.domain)
                 : undefined,
@@ -181,6 +182,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
+          roleInSystem: '',
           definition: '',
           title: '',
           description: '',
