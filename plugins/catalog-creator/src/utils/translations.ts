@@ -353,8 +353,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
           'form.componentForm.roleInSystem.fieldName': 'Rolle i systemet',
           'form.componentForm.roleInSystem.tooltipText':
             'Rollen komponenten har i systemet, for eksempel database. Velg en rolle fra listen.',
-          'form.componentForm.roleInSystem.placeholder':
-            'Velg en rolle',
+          'form.componentForm.roleInSystem.placeholder': 'Velg en rolle',
 
           'form.componentForm.domain.fieldName': 'Domene',
           'form.componentForm.domain.tooltipText':
