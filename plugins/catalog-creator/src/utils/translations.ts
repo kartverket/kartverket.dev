@@ -76,7 +76,7 @@ const catalogCreatorMessages = {
       roleInSystem: {
         fieldName: 'Role in system',
         tooltipText:
-          'The role this component has in its system, for example database. Select a role from the list.',
+          'The role this component has in its system. Select a role from the list.',
         placeholder: 'Select a role',
       },
       domain: {
@@ -352,7 +352,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
 
           'form.componentForm.roleInSystem.fieldName': 'Rolle i systemet',
           'form.componentForm.roleInSystem.tooltipText':
-            'Rollen komponenten har i systemet, for eksempel database. Velg en rolle fra listen.',
+            'Rollen komponenten har i systemet. Velg en rolle fra listen.',
           'form.componentForm.roleInSystem.placeholder': 'Velg en rolle',
 
           'form.componentForm.domain.fieldName': 'Domene',
