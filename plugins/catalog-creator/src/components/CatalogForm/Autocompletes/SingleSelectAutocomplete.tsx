@@ -17,7 +17,6 @@ type SingleSelectAutocompleteProps = {
   errors: EntityErrors<Kind>;
   options: string[];
   freeSolo?: boolean;
-  selectionOnly?: boolean;
   formname?:
     | 'componentForm'
     | 'APIForm'
@@ -51,7 +50,6 @@ export const SingleSelectAutocomplete = ({
   errors,
   options,
   freeSolo,
-  selectionOnly,
   formname,
   fieldname,
   required,
@@ -100,9 +98,7 @@ export const SingleSelectAutocomplete = ({
               }}
               onInputChange={(_, newInputValue) => {
                 setInputValue(newInputValue);
-                if (!selectionOnly) {
-                  onChange(newInputValue);
-                }
+                onChange(newInputValue);
               }}
               onBlur={onBlur}
               freeSolo={freeSolo}

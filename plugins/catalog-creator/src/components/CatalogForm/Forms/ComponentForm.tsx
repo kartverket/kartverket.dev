@@ -172,7 +172,6 @@ export const ComponentForm = ({
           formname="componentForm"
           fieldname="roleInSystem"
           options={RoleInSystemSuggestions}
-          selectionOnly
         />
       </div>
       <div>
