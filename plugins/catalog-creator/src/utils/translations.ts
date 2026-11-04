@@ -76,7 +76,7 @@ const catalogCreatorMessages = {
       roleInSystem: {
         fieldName: 'Role in system',
         tooltipText:
-          'The role this component has in its system. Select a role from the list.',
+          'The role this component has in its system. Select a role from the list or enter a custom role.',
         placeholder: 'Select a role',
       },
       domain: {
@@ -215,7 +215,7 @@ const catalogCreatorMessages = {
       ownerNoSpace: 'Name cannot contain space',
 
       systemNoSpace: 'System cannot contain space',
-      invalidRoleInSystem: 'Select a role from the list',
+      blankRoleInSystem: 'Role cannot be blank',
       noLifecycle: 'Choose a lifecycle',
 
       noType: 'Add a type',
@@ -352,7 +352,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
 
           'form.componentForm.roleInSystem.fieldName': 'Rolle i systemet',
           'form.componentForm.roleInSystem.tooltipText':
-            'Rollen komponenten har i systemet. Velg en rolle fra listen.',
+            'Rollen komponenten har i systemet. Velg en rolle fra listen eller skriv inn en rolle.',
           'form.componentForm.roleInSystem.placeholder': 'Velg en rolle',
 
           'form.componentForm.domain.fieldName': 'Domene',
@@ -490,7 +490,7 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Forelderfunksjon kan ikke inneholde mellomrom',
 
           'form.errors.systemNoSpace': 'System kan ikke inneholde mellomrom',
-          'form.errors.invalidRoleInSystem': 'Velg en rolle fra listen',
+          'form.errors.blankRoleInSystem': 'Rollen kan ikke være tom',
 
           'form.errors.noLifecycle': 'Velg et livsyklusstadie',
 

@@ -24,7 +24,7 @@ type SingleSelectAutocompleteProps = {
     | 'resourceForm'
     | 'domainForm'
     | 'functionForm';
-  fieldname: 'lifecycle' | 'entityType' | 'criticality' | 'roleInSystem';
+  fieldname: 'lifecycle' | 'entityType' | 'criticality';
   required?: boolean;
 };
 

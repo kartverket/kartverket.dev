@@ -182,7 +182,7 @@ export const CatalogForm = ({
           lifecycle: AllowedLifecycleStages.production,
           entityType: '',
           system: '',
-          roleInSystem: '',
+          roleInSystem: [],
           definition: '',
           title: '',
           description: '',

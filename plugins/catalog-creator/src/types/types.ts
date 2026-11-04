@@ -111,7 +111,7 @@ export type RequiredYamlFields = {
     lifecycle?: string;
     type?: string;
     system?: string;
-    roleInSystem?: string;
+    roleInSystem?: string[];
     domain?: string;
     providesApis?: string[];
     consumesApis?: string[];
