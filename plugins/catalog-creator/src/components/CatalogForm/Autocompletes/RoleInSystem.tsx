@@ -37,7 +37,7 @@ export const RoleInSystem = ({
       <Controller
         name={`entities.${index}.roleInSystem`}
         control={control}
-        render={({ field }) => (
+        render={({ field: { ref, ...field } }) => (
           <div>
             <Autocomplete
               {...field}
@@ -75,6 +75,7 @@ export const RoleInSystem = ({
               renderInput={params => (
                 <TextField
                   {...params}
+                  inputRef={ref}
                   placeholder={t('form.componentForm.roleInSystem.placeholder')}
                   InputProps={{
                     ...params.InputProps,
