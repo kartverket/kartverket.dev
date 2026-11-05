@@ -169,7 +169,6 @@ export const ComponentForm = ({
         <RoleInSystem
           index={index}
           control={control}
-          errors={errors}
           options={RoleInSystemSuggestions}
         />
       </div>

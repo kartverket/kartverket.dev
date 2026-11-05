@@ -4,7 +4,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
-import { EntityErrors } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { useState } from 'react';
@@ -15,19 +14,16 @@ import style from '../../../catalog.module.css';
 type RoleInSystemProps = {
   index: number;
   control: Control<z.infer<typeof formSchema>>;
-  errors: EntityErrors<'Component'>;
   options: string[];
 };
 
 export const RoleInSystem = ({
   index,
   control,
-  errors,
   options,
 }: RoleInSystemProps) => {
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const [inputValue, setInputValue] = useState<string>('');
-  const roleError = errors?.roleInSystem?.message;
   return (
     <div>
       <FieldHeader
@@ -37,60 +33,69 @@ export const RoleInSystem = ({
       <Controller
         name={`entities.${index}.roleInSystem`}
         control={control}
-        render={({ field: { ref, ...field } }) => (
-          <div>
-            <Autocomplete
-              {...field}
-              onChange={(_, value) => {
-                field.onChange([...new Set(value.map(toLowerUnderscore))]);
-                field.onBlur();
-              }}
-              onBlur={() => {
-                if (inputValue !== '') {
-                  const role = toLowerUnderscore(inputValue);
-                  const currentRoles = field.value ?? [];
+        render={({ field: { ref, ...field }, fieldState }) => (
+          <>
+            <div>
+              <Autocomplete
+                {...field}
+                onChange={(_, value) => {
+                  field.onChange([...new Set(value.map(toLowerUnderscore))]);
+                  field.onBlur();
+                }}
+                onBlur={() => {
+                  if (inputValue !== '') {
+                    const role = toLowerUnderscore(inputValue);
+                    const currentRoles = field.value ?? [];
 
-                  if (
-                    !currentRoles.some(
-                      existing => toLowerUnderscore(existing) === role,
-                    )
-                  ) {
-                    field.onChange([...currentRoles, role]);
+                    if (
+                      !currentRoles.some(
+                        existing => toLowerUnderscore(existing) === role,
+                      )
+                    ) {
+                      field.onChange([...currentRoles, role]);
+                    }
+                    setInputValue('');
                   }
-                  setInputValue('');
-                }
 
-                field.onBlur();
-              }}
-              inputValue={inputValue}
-              onInputChange={(_, newInputValue) => {
-                setInputValue(newInputValue);
-              }}
-              value={field.value || []}
-              multiple
-              freeSolo
-              filterSelectedOptions
-              options={options}
-              size="small"
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  inputRef={ref}
-                  placeholder={t('form.componentForm.roleInSystem.placeholder')}
-                  InputProps={{
-                    ...params.InputProps,
-                    className: `${params.InputProps.className ?? ''} ${style.textField}`,
-                  }}
-                />
-              )}
-            />
-          </div>
+                  field.onBlur();
+                }}
+                inputValue={inputValue}
+                onInputChange={(_, newInputValue) => {
+                  setInputValue(newInputValue);
+                }}
+                value={field.value || []}
+                multiple
+                freeSolo
+                filterSelectedOptions
+                options={options}
+                size="small"
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    inputRef={ref}
+                    placeholder={t(
+                      'form.componentForm.roleInSystem.placeholder',
+                    )}
+                    InputProps={{
+                      ...params.InputProps,
+                      className: `${params.InputProps.className ?? ''} ${style.textField}`,
+                    }}
+                  />
+                )}
+              />
+            </div>
+            <span
+              className={`${style.errorText} ${
+                fieldState.error?.message ? '' : style.hidden
+              }`}
+            >
+              {fieldState.error?.message
+                ? t(fieldState.error.message as Parameters<typeof t>[0])
+                : '\u00A0'}
+            </span>
+          </>
         )}
       />
-
-      <span className={`${style.errorText} ${roleError ? '' : style.hidden}`}>
-        {roleError ? t(roleError as Parameters<typeof t>[0]) : '\u00A0'}
-      </span>
     </div>
   );
 };
