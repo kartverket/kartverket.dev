@@ -74,10 +74,10 @@ const catalogCreatorMessages = {
         placeholder: 'Select system',
       },
       roleInSystem: {
-        fieldName: 'Role in system',
+        fieldName: 'Roles in system',
         tooltipText:
-          'The role this component has in its system. Select a role from the list or enter a custom role.',
-        placeholder: 'Select a role',
+          'Choose one or more roles from the list, or enter your own.',
+        placeholder: 'Select or type a role',
       },
       domain: {
         fieldName: 'Domain',
@@ -350,10 +350,11 @@ export const catalogCreatorNorwegianTranslation = createTranslationResource({
             'Referanse til systemet som komponenten tilhører.',
           'form.componentForm.system.placeholder': 'Velg system',
 
-          'form.componentForm.roleInSystem.fieldName': 'Rolle i systemet',
+          'form.componentForm.roleInSystem.fieldName': 'Roller i systemet',
           'form.componentForm.roleInSystem.tooltipText':
-            'Rollen komponenten har i systemet. Velg en rolle fra listen eller skriv inn en rolle.',
-          'form.componentForm.roleInSystem.placeholder': 'Velg en rolle',
+            'Velg én eller flere roller fra listen, eller skriv inn egne roller.',
+          'form.componentForm.roleInSystem.placeholder':
+            'Velg eller skriv inn en rolle',
 
           'form.componentForm.domain.fieldName': 'Domene',
           'form.componentForm.domain.tooltipText':

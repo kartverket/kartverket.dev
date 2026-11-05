@@ -28,7 +28,6 @@ spec:
   lifecycle: production | experimental | deprecated | ...  # REQUIRED*
   type: service | website | library | ... # REQUIRED*
   system: <system_ref>                   # Valgfritt – referanse til System
-  roleInSystem: [<value>, <value>]       # Valgfritt for Component
   domain: <domain_ref>                   # Valgfritt – referanse til Domain
   providesApis:
     - <api_ref>                          # Valgfritt – eksponerte API‑er
@@ -38,6 +37,7 @@ spec:
     - <entity_ref>                       # Valgfritt – avhengigheter
 
   # ---- SPESIFIKT FOR ulike Kinds ---------------------------------
+  roleInSystem: [example_role, another_role] # Valgfritt – roller for Component
   implementsApis:
     - <api_ref>                          # Valgfritt – alias for providesApis når kind == Component
   definition: $text: <path_or_url>       # PÅKREVD når kind == API
