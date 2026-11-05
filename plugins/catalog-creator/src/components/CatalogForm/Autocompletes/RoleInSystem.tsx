@@ -8,6 +8,7 @@ import { EntityErrors } from '../../../types/types';
 import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { catalogCreatorTranslationRef } from '../../../utils/translations';
 import { useState } from 'react';
+import { toLowerUnderscore } from '../../../utils/toLowerUnderscore';
 
 import style from '../../../catalog.module.css';
 
@@ -27,8 +28,6 @@ export const RoleInSystem = ({
   const { t } = useTranslationRef(catalogCreatorTranslationRef);
   const [inputValue, setInputValue] = useState<string>('');
   const roleError = errors?.roleInSystem?.message;
-  const normalizeRole = (role: string) =>
-    role.trim().toLowerCase().replace(/\s+/g, '_');
   return (
     <div>
       <FieldHeader
@@ -43,15 +42,21 @@ export const RoleInSystem = ({
             <Autocomplete
               {...field}
               onChange={(_, value) => {
-                field.onChange(value.map(normalizeRole));
-                setInputValue('');
+                field.onChange([...new Set(value.map(toLowerUnderscore))]);
                 field.onBlur();
               }}
               onBlur={() => {
-                const role = normalizeRole(inputValue);
+                if (inputValue !== '') {
+                  const role = toLowerUnderscore(inputValue);
+                  const currentRoles = field.value ?? [];
 
-                if (role) {
-                  field.onChange([...(field.value || []), role]);
+                  if (
+                    !currentRoles.some(
+                      existing => toLowerUnderscore(existing) === role,
+                    )
+                  ) {
+                    field.onChange([...currentRoles, role]);
+                  }
                   setInputValue('');
                 }
 
@@ -64,6 +69,7 @@ export const RoleInSystem = ({
               value={field.value || []}
               multiple
               freeSolo
+              filterSelectedOptions
               options={options}
               size="small"
               renderInput={params => (
@@ -72,7 +78,7 @@ export const RoleInSystem = ({
                   placeholder={t('form.componentForm.roleInSystem.placeholder')}
                   InputProps={{
                     ...params.InputProps,
-                    className: style.textField,
+                    className: `${params.InputProps.className ?? ''} ${style.textField}`,
                   }}
                 />
               )}

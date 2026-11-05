@@ -1,4 +1,5 @@
 import * as z from 'zod/v4';
+import { toLowerUnderscore } from '../utils/toLowerUnderscore';
 import { AllowedLifecycleStages } from '../types/types';
 
 const baseEntitySchema = z.object({
@@ -56,7 +57,7 @@ const componentSchema = baseEntitySchema.extend({
       }),
   ),
   roleInSystem: z
-    .array(z.string().trim())
+    .array(z.string().transform(toLowerUnderscore))
     .refine(roles => roles.every(role => role.length > 0), {
       message: 'form.errors.blankRoleInSystem',
     })
