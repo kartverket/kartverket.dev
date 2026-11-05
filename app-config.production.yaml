@@ -34,6 +34,12 @@ backend:
           url: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/discovery/v2.0/keys
           issuer: https://login.microsoftonline.com/${ENTRA_TENANT_ID}/v2.0
           audience: ${ENTRA_WEB_APP_ID}
+      - type: static
+        options:
+          token: ${BACKSTAGE_CATALOG_API_TOKEN}
+          subject: catalog-integration-client
+        accessRestrictions:
+          - plugin: catalog-integration
 
 integrations:
   github:
