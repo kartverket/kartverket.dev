@@ -2,6 +2,7 @@ import { createBackend } from '@backstage/backend-defaults';
 import { authModuleMicrosoftProvider } from './plugins/extensions/auth';
 import { msGroupTransformerCatalogModule } from './plugins/extensions/catalog';
 import { catalogNotificationsModule } from './plugins/extensions/catalogNotificationsModule';
+import { catalogIntegrationPlugin } from './plugins/catalogIntegration';
 
 const backend = createBackend();
 
@@ -59,6 +60,7 @@ backend.add(import('@internal/backstage-plugin-regelrett-schemas-backend'));
 // Notifications
 backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(catalogNotificationsModule);
+backend.add(catalogIntegrationPlugin);
 backend.add(import('@backstage/plugin-signals-backend'));
 backend.add(import('@internal/plugin-catalog-backend-module-function-kind'));
 

@@ -18319,8 +18319,10 @@ __metadata:
     "@opentelemetry/exporter-prometheus": "npm:^0.219.0"
     "@opentelemetry/exporter-trace-otlp-grpc": "npm:^0.219.0"
     "@opentelemetry/sdk-node": "npm:^0.219.0"
+    "@types/express": "npm:4.17.25"
     app: "link:../app"
     better-sqlite3: "npm:12.11.1"
+    express: "npm:4.22.3"
     jwt-decode: "npm:4.0.0"
   languageName: unknown
   linkType: soft

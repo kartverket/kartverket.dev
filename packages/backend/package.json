@@ -57,10 +57,12 @@
     "@opentelemetry/sdk-node": "^0.219.0",
     "app": "link:../app",
     "better-sqlite3": "12.11.1",
+    "express": "4.22.3",
     "jwt-decode": "4.0.0"
   },
   "devDependencies": {
-    "@backstage/cli": "backstage:^"
+    "@backstage/cli": "backstage:^",
+    "@types/express": "4.17.25"
   },
   "files": [
     "dist"
