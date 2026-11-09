@@ -7,6 +7,27 @@ import express from 'express';
 
 const CATALOG_BATCH_SIZE = 500;
 
+function getRepository(annotations: Record<string, string> | undefined) {
+  const projectSlug = annotations?.['github.com/project-slug'];
+  if (projectSlug) {
+    return projectSlug;
+  }
+
+  const location = annotations?.['backstage.io/managed-by-location'];
+  if (!location?.startsWith('url:')) {
+    return null;
+  }
+
+  const target = location.slice('url:'.length);
+  if (!URL.canParse(target)) {
+    return null;
+  }
+
+  const url = new URL(target);
+  const [, owner, repo] = url.pathname.split('/');
+  return owner && repo ? `${owner}/${repo}` : null;
+}
+
 export const catalogIntegrationPlugin = createBackendPlugin({
   pluginId: 'catalog-integration',
   register(env) {
@@ -31,8 +52,8 @@ export const catalogIntegrationPlugin = createBackendPlugin({
             const items: {
               repository: string | null;
               componentName: string;
-              owner: unknown;
-              namespace: string;
+              owner: string;
+              type: string;
             }[] = [];
             let offset = 0;
             let hasMore = true;
@@ -43,8 +64,8 @@ export const catalogIntegrationPlugin = createBackendPlugin({
                   filter: { kind: 'Component' },
                   fields: [
                     'metadata.name',
-                    'metadata.namespace',
-                    'metadata.annotations.github.com/project-slug',
+                    'spec.type',
+                    'metadata.annotations',
                     'spec.owner',
                   ],
                   limit: CATALOG_BATCH_SIZE,
@@ -55,12 +76,16 @@ export const catalogIntegrationPlugin = createBackendPlugin({
 
               items.push(
                 ...result.items.map(entity => ({
-                  repository:
-                    entity.metadata.annotations?.['github.com/project-slug'] ??
-                    null,
+                  repository: getRepository(entity.metadata.annotations),
                   componentName: entity.metadata.name,
-                  owner: entity.spec?.owner ?? null,
-                  namespace: entity.metadata.namespace ?? 'default',
+                  type:
+                    typeof entity.spec?.type === 'string'
+                      ? entity.spec.type
+                      : 'unknown',
+                  owner:
+                    typeof entity.spec?.owner === 'string'
+                      ? entity.spec.owner
+                      : 'unknown',
                 })),
               );
 
@@ -68,7 +93,10 @@ export const catalogIntegrationPlugin = createBackendPlugin({
               offset += result.items.length;
             }
 
-            response.json({ items });
+            response.json({
+              componentCount: items.length,
+              items,
+            });
           } catch (error) {
             const message =
               error instanceof Error ? error.message : String(error);
