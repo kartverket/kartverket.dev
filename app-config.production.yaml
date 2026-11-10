@@ -40,6 +40,9 @@ backend:
           subject: catalog-integration-client
         accessRestrictions:
           - plugin: catalog-integration
+            permission: catalog.entity.read
+            permissionAttribute:
+              action: read
 
 integrations:
   github:
