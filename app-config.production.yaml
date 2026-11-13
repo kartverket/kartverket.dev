@@ -37,7 +37,7 @@ backend:
       - type: static
         options:
           token: ${BACKSTAGE_CATALOG_API_TOKEN}
-          subject: catalog-integration-client
+          subject: catalog-caller
         accessRestrictions:
           - plugin: catalog
             permission: catalog.entity.read
