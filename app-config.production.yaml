@@ -39,7 +39,7 @@ backend:
           token: ${BACKSTAGE_CATALOG_API_TOKEN}
           subject: catalog-integration-client
         accessRestrictions:
-          - plugin: catalog-integration
+          - plugin: catalog
             permission: catalog.entity.read
             permissionAttribute:
               action: read
