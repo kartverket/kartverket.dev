@@ -44,15 +44,15 @@
   "devDependencies": {
     "@backstage/cli": "backstage:^",
     "@backstage/cli-defaults": "backstage:^",
-    "@jest/environment-jsdom-abstract": "30.5.1",
+    "@jest/environment-jsdom-abstract": "30.5.2",
     "@types/jest": "30.0.0",
-    "@types/node": "25.9.6",
+    "@types/node": "25.9.9",
     "husky": "9.1.7",
-    "jest": "30.5.1",
-    "jest-environment-jsdom": "30.5.1",
-    "knip": "6.35.1",
+    "jest": "30.5.2",
+    "jest-environment-jsdom": "30.5.2",
+    "knip": "6.45.1",
     "lint-staged": "16.4.0",
-    "prettier": "3.9.6",
+    "prettier": "3.10.1",
     "typescript": "6.0.3"
   },
   "resolutions": {
