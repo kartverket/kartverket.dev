@@ -5,6 +5,7 @@ import {
   ComponentTypes,
   EntityErrors,
   Kinds,
+  RoleInSystemSuggestions,
 } from '../../../types/types';
 import { formSchema } from '../../../schemas/formSchema';
 import z from 'zod/v4';
@@ -12,6 +13,7 @@ import { Entity } from '@backstage/catalog-model';
 import { useFetchEntities } from '../../../hooks/useFetchEntities';
 import { useUpdateDependentFormFields } from '../../../hooks/useUpdateDependentFormFields';
 import { TagField } from '../Autocompletes/TagField';
+import { RoleInSystem } from '../Autocompletes/RoleInSystem';
 import { SingleSelectAutocomplete } from '../Autocompletes/SingleSelectAutocomplete';
 import { SingleEntityAutocomplete } from '../Autocompletes/SingleEntityAutocomplete';
 import { MultipleEntitiesAutocomplete } from '../Autocompletes/MultipleEntitiesAutocomplete';
@@ -161,6 +163,13 @@ export const ComponentForm = ({
           formname="componentForm"
           fieldname="system"
           entities={systems.value || []}
+        />
+      </div>
+      <div>
+        <RoleInSystem
+          index={index}
+          control={control}
+          options={RoleInSystemSuggestions}
         />
       </div>
       <div>

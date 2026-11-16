@@ -19,6 +19,22 @@ export enum ComponentTypes {
   job = 'job',
 }
 
+export const RoleInSystemSuggestions = [
+  'api',
+  'app',
+  'appserver',
+  'backend',
+  'database',
+  'frontend',
+  'haproxy',
+  'jumphost',
+  'kibana',
+  'logserver',
+  'nps',
+  'proxy',
+  'webserver',
+];
+
 export enum ApiTypes {
   openapi = 'openapi',
   asyncapi = 'asyncapi',
@@ -104,6 +120,7 @@ export type RequiredYamlFields = {
     lifecycle?: string;
     type?: string;
     system?: string;
+    roleInSystem?: string[];
     domain?: string;
     providesApis?: string[];
     consumesApis?: string[];

@@ -36,6 +36,8 @@ export const updateYaml = (
             form.system?.length === 0
               ? undefined
               : form.system || initial.spec.system,
+          roleInSystem:
+            form.roleInSystem?.length === 0 ? undefined : form.roleInSystem,
           domain:
             form.domain?.length === 0
               ? undefined

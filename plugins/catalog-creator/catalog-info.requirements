@@ -37,6 +37,7 @@ spec:
     - <entity_ref>                       # Valgfritt – avhengigheter
 
   # ---- SPESIFIKT FOR ulike Kinds ---------------------------------
+  roleInSystem: [example_role, another_role] # Valgfritt – roller for Component
   implementsApis:
     - <api_ref>                          # Valgfritt – alias for providesApis når kind == Component
   definition: $text: <path_or_url>       # PÅKREVD når kind == API
