@@ -20,10 +20,19 @@ export enum ComponentTypes {
 }
 
 export const RoleInSystemSuggestions = [
-  'database',
-  'backend',
-  'frontend',
   'api',
+  'app',
+  'appserver',
+  'backend',
+  'database',
+  'frontend',
+  'haproxy',
+  'jumphost',
+  'kibana',
+  'logserver',
+  'nps',
+  'proxy',
+  'webserver',
 ];
 
 export enum ApiTypes {
