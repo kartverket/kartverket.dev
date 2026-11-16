@@ -11,7 +11,7 @@ import {
 import { BASIC_COLORS, SEVERITY_COLORS } from '../../colors';
 import { yAxisAdjustment } from '../../utils/utils';
 import { LinearGradient } from './LinearGradient';
-import { TrendSeverityCounts } from '../../typesFrontend';
+import { TrendSeverityCounts, GraphData } from '../../typesFrontend';
 import { getAggregatedTrends } from './utils';
 import { useTheme } from '@mui/material/styles';
 import { TrendTooltip } from './TrendTooltip';
@@ -24,6 +24,7 @@ import type { TooltipContentProps } from 'recharts';
 interface GraphProps {
   trendData: TrendSeverityCounts[];
   graphTimeline: string;
+  graphData: GraphData;
   showTotal: boolean;
   showOpen: boolean;
   yAxisMax?: number;
@@ -32,6 +33,7 @@ interface GraphProps {
 export const Graph = ({
   trendData,
   graphTimeline,
+  graphData,
   showTotal,
   showOpen,
   yAxisMax,

@@ -6,9 +6,10 @@ import Typography from '@mui/material/Typography';
 import { CardTitle } from '../shared/CardTitle';
 import { Graph } from './TrendGraph';
 import { GraphLabels } from './GraphLabels';
+import { GraphChoices } from './GraphChoices';
 import { Progress } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { GraphTimeline } from '../../typesFrontend';
+import { GraphTimeline, GraphData } from '../../typesFrontend';
 
 interface TrendProps {
   componentNames: string[] | string;
@@ -21,6 +22,8 @@ export const Trend = ({ componentNames, showTotal, showOpen }: TrendProps) => {
   const toDate = useRef(new Date()).current;
 
   const [graphTimeline, setGraphTimeline] = useState<GraphTimeline>('oneMonth');
+
+  const [graphData, setGraphData] = useState<GraphData>('open');
 
   const [fromDate, setFromDate] = useState<Date>(() =>
     getFromDate('oneMonth', toDate),
@@ -50,9 +53,11 @@ export const Trend = ({ componentNames, showTotal, showOpen }: TrendProps) => {
       )}
       {data && (
         <>
+          <GraphChoices graphData={graphData} setGraphData={setGraphData} />
           <Graph
             trendData={data}
             graphTimeline={graphTimeline}
+            graphData={graphData}
             showTotal={showTotal}
             showOpen={showOpen}
           />

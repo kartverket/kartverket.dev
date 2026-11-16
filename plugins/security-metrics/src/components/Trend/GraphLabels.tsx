@@ -47,7 +47,6 @@ const timelineOptions: { label: string; value: GraphTimeline }[] = [
   { label: '1 mnd', value: 'oneMonth' },
   { label: '14 dager', value: 'fourteenDays' },
 ];
-
 export const GraphLabels = ({
   graphTimeline,
   setGraphTimeline,

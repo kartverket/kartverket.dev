@@ -286,6 +286,8 @@ export type ErrorResponse = {
 export type GraphTimeline =
   'fourteenDays' | 'oneMonth' | 'threeMonths' | 'sixMonths' | 'oneYear';
 
+export type GraphData = 'open' | 'solved';
+
 export type ContextFacet = Exclude<
   ContextSignal,
   'notRunning' | 'noFix' | 'transitive'
