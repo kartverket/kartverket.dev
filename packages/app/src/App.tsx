@@ -36,6 +36,7 @@ import { pluginRiScNorwegianTranslation } from '@kartverket/backstage-plugin-ris
 import { Route } from 'react-router-dom';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
+import { CatalogExportFilters } from './components/catalog/CatalogExportFilters';
 import { HomePage } from './components/home/HomePage';
 import { Root } from './components/Root';
 import { searchPage } from './components/search/SearchPage';
@@ -64,6 +65,7 @@ import { FunctionsPage } from './components/functions/FunctionsPage';
 import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 
 const TECH_RADAR_FEATURE_FLAG = 'tech-radar';
+const CATALOG_EXPORT_FEATURE_FLAG = 'catalog-export';
 
 const app = createApp({
   __experimentalTranslations: {
@@ -138,6 +140,11 @@ const app = createApp({
       pluginId: 'app',
       description: 'Enable the technology radar',
     },
+    {
+      name: CATALOG_EXPORT_FEATURE_FLAG,
+      pluginId: 'app',
+      description: 'Enable exporting all catalog components as JSON',
+    },
   ],
 });
 
@@ -146,7 +153,10 @@ const routes = (
     <Route path="/" element={<HomepageCompositionRoot />}>
       <HomePage />
     </Route>
-    <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route
+      path="/catalog"
+      element={<CatalogIndexPage filters={<CatalogExportFilters />} />}
+    />
     <Route path="/functions" element={<FunctionsPage />} />
     <Route
       path="/tech-radar"
