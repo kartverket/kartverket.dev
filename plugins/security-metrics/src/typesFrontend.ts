@@ -175,6 +175,7 @@ export type UniqueVulnerabilities = {
 
 export type AggregatedAffectedComponent = {
   componentName: string;
+  dateFirstSeen: string;
   status: Status | null;
   isDirect: boolean | null;
   isRunning: boolean | null;
@@ -185,6 +186,7 @@ export type AggregatedVulnerability = {
   vulnerabilityId: string;
   severity: Severity;
   summary: string;
+  dateFirstSeen: string;
   scanners: Scanner[];
   isFixable: boolean;
   isExploitable: boolean;

@@ -25,6 +25,7 @@ import { CONTEXT_FACETS } from '../shared/contextDescriptions';
 import { UniqueVulnerabilitiesFilters } from './UniqueVulnerabilitiesFilters';
 import {
   compareByAffectedComponents,
+  compareByDate,
   compareByPriority,
   compareBySeverity,
   componentMatchesClusters,
@@ -155,6 +156,14 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
         return compareBySeverity(a, b);
       }
 
+      if (sortType === 'Dato') {
+        const dateDiff = compareByDate(a, b);
+        if (dateDiff !== 0) {
+          return sortOrder === 'desc' ? dateDiff : -dateDiff;
+        }
+        return compareBySeverity(a, b);
+      }
+
       const severityDiff = compareBySeverity(a, b);
       if (severityDiff !== 0) {
         return sortOrder === 'desc' ? severityDiff : -severityDiff;
@@ -275,6 +284,16 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
                 </Stack>
               </TableCell>
 
+              <TableCell width="130">
+                <TableSortLabel
+                  active={sortType === 'Dato'}
+                  direction={sortType === 'Dato' ? sortOrder : 'desc'}
+                  onClick={() => handleSortChange('Dato')}
+                >
+                  Dato
+                </TableSortLabel>
+              </TableCell>
+
               <TableCell>
                 <Stack direction="row" alignItems="center">
                   <TableSortLabel
@@ -314,7 +333,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
 
             {paginatedVulnerabilities.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4}>
+                <TableCell colSpan={5}>
                   <Box sx={{ py: 3 }}>
                     <Typography align="center" sx={{ opacity: 0.8 }}>
                       Ingen sårbarheter matcher søk eller filtre
@@ -328,7 +347,7 @@ export const UniqueVulnerabilitiesTable = ({ data, showOpen }: Props) => {
           <TableFooter>
             <TableRow>
               <TablePagination
-                colSpan={4}
+                colSpan={5}
                 count={sortedVulnerabilities.length}
                 page={safePage}
                 onPageChange={(_, newPage) => setPage(newPage)}
