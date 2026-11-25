@@ -5,7 +5,7 @@ Under finner du alt du trenger for å komme i gang med et lokalt utviklingsmilj�
 ## Kom i gang lokalt
 
 ```sh
-# 1. Aktiver yarn som pakkehåndterer (Node 24 kreves, se «Forutsetninger»)
+# 1. Aktiver yarn som pakkehåndterer (Node 26 kreves, se «Forutsetninger»)
 corepack enable
 corepack install
 
@@ -27,11 +27,11 @@ Backstage kjører nå på `http://localhost:3000` (frontend) og
 
 ### Node
 
-Prosjektet bruker Node v24 (kilden er [`mise.toml`](mise.toml)). Verifiser at riktig versjon er aktiv i repoet:
+Prosjektet bruker Node v26 (kilden er [`mise.toml`](mise.toml)). Verifiser at riktig versjon er aktiv i repoet:
 
 ```sh
 node -v
->>> v24.x.x
+>>> v26.x.x
 ```
 
 Trenger du å håndtere flere Node-versjoner, er verktøy som [`mise`](https://mise.jdx.dev/), [`nvm`](https://github.com/nvm-sh/nvm) eller `nodenv` fine å bruke.
