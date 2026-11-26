@@ -50,7 +50,7 @@ jobs:
       - name: Use Node.js >=26.13.1
         uses: actions/setup-node@v7
         with:
-          node-version: ">=26.13.1" # Minimum version from mise.toml
+          node-version: '>=26.13.1' # Minimum version from mise.toml
 
       - name: Enable Corepack
         run: corepack enable
@@ -58,7 +58,7 @@ jobs:
       - name: Cache Yarn dependencies
         uses: actions/setup-node@v7
         with:
-          node-version: ">=26.13.1" # Minimum version from mise.toml
+          node-version: '>=26.13.1' # Minimum version from mise.toml
           cache: yarn
 
       - run: yarn install --immutable
