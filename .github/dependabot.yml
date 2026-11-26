@@ -21,9 +21,40 @@ updates:
     schedule:
       interval: 'weekly'
 
+    # Maintain Yarn workspace dependencies
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    groups:
+      backstage-dependencies:
+        patterns:
+          - '@backstage/*'
+      other-dependencies:
+        patterns:
+          - '*'
+        exclude-patterns:
+          - '@backstage/*'
+    ignore:
+      # Stay on the major versions Backstage currently supports
+      - dependency-name: '@mui/icons-material'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@mui/material'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-dom'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-router'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-router-dom'
+        update-types: ['version-update:semver-major']
+
   # Maintain docker images
   - package-ecosystem: 'docker'
-    directory: '/'
+    directory: '/packages/backend'
     schedule:
       interval: 'daily'
     groups:
